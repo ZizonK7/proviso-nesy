@@ -60,7 +60,19 @@ text = "실제 기록(5/19~9/14, 3,559건) 재생: 두 번째 이상 쓰는 제�
 source = "replay"
 date = 2026-10-14
 
+[[observation]]
+id = "O_replay_ranks"
+text = "실제 기록 재생: 두 번째 이상 쓴 제목의 현재 앱 순위는 1위 80%, 2위 10%, 3위 4%, 4~5위 3%, 6~8위 합쳐 1%. 칸을 5개에서 8개로 늘려도 얻는 건 약 1%p"
+source = "replay"
+date = 2026-10-14
+
 # ---------- 가설 ----------
+[[hypothesis]]
+id = "H_slot_count"
+text = "후보 칸이 적으면(5개 안팎) 자리와 순서를 고정하는 게 맞고, 플레이리스트처럼 후보가 많으면 랜덤으로 섞는 의미가 크다"
+source = "user"
+note = "본체 실험 v0 질문 1에서 사용자가 판정하며 낸 원리. R_P1a·R_P1b의 적용 범위를 정하는 근거 — 적용 범위 칸이 생기면 연결 (2026-10-14)"
+
 [[hypothesis]]
 id = "H_alternate"
 text = "새 활동 2개 이상을 번갈아 하면 5번째 칸엔 하나만 들어가서 나머지는 계속 직접 입력해야 한다"
@@ -98,6 +110,7 @@ method = "1~4칸은 여러 번(2회 이상) 쓴 제목을 점수 순으로"
 reason = "여러 번 쓴 제목은 또 쓴다"
 serves = ["G_fast"]
 conditions = ["S_repeat", "F_stored", "S_slots5"]
+evidence = ["O_replay_ranks"]
 note = "빈도 순서 부분은 v1 실사용에서 '좋다'는 평가"
 
 [[rule]]
