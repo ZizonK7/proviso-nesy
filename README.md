@@ -49,5 +49,6 @@ python -m experiments.run_body_v0    # 논리집 유무에 따른 Claude 답 비
 | `proviso/` | 코어. 지식 파일 읽기·검사, 그래프, 조회, MCP 서버 |
 | `domains/<분야>/` | 분야별 지식 파일(`knowledge.toml`)과 검사·시뮬레이션 |
 | `experiments/` | 본체 실험 스크립트 |
-| `docs/` | 원안 논문, 설계 기록, 실험 보고서 |
+| `docs/` | 원안 논문, 설계 기록, 실험 보고서, 하위 에이전트 작업 기록 |
+| `scripts/` | 운영 도구 (하위 에이전트 사용량 집계) |
 | `tests/` | 테스트 |
