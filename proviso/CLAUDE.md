@@ -3,6 +3,7 @@
 지식 파일을 읽고(`schema.py`), 검사하고, 그래프로 그린다(`graph.py`). 명령은 `__main__.py`.
 - `query.py`: LLM용 조회 (분야 목록, 목표 나무, 낱말 검색, 노드와 연결 설명). 원안의 `query_logic_graph`.
 - `mcp_server.py`: `query.py`를 MCP 도구 4개(list_domains, goal_tree, search, explain)로 내놓는 stdio 서버. 표준 라이브러리로 JSON-RPC 직접 구현. 읽기 전용 — 규칙 기록(원안의 `commit_logic_and_alignment`)은 다음 단계.
+- `audit.py`: 엔진 점검(LLM 없이 그래프만으로 판단). 지금은 "목표를 해치는데 대가로 받아들인 기록이 없는 것". 사실의 해침은 항상 문제, 상태·가설의 해침은 그걸 낳는 규칙이 전부 이전 버전이면 지난 일로 본다. CLI `audit`, MCP 도구 `audit`.
 - `search`는 단순 낱말 겹침이라 한국어 조사·활용형에 약하다. 질문 번역(원안의 로컬 통역기)이 붙으면 개선.
 
 ## 규칙
@@ -14,8 +15,8 @@
 | 종류 | 필수 | 선택 (→ 가리키는 종류) |
 |---|---|---|
 | goal 목표 | text | parent → goal |
-| state 상태 | text | serves → goal |
-| fact 사실 | text, checked(날짜), source | |
+| state 상태 | text | serves → goal, harms → goal, accepted_for → goal |
+| fact 사실 | text, checked(날짜), source | harms → goal, accepted_for → goal, note |
 | observation 관찰 | text, source("user" 등) | date |
 | hypothesis 가설 | text, source | harms → goal, accepted_for → goal, check(분야 검사 함수 이름) |
 | rule 규칙 | method, reason, status(hypothesis/verified/retired), version | serves → goal, conditions → state/fact/observation, results → state, evidence → observation/fact, side_effects → hypothesis/state, exceptions → state, replaced_by → rule, note |

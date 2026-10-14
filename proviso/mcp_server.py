@@ -11,7 +11,7 @@ import json
 import sys
 from pathlib import Path
 
-from . import query
+from . import audit, query
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -40,6 +40,11 @@ TOOLS = [
             "required": ["domain", "id"],
         },
     },
+    {
+        "name": "audit",
+        "description": "점검: 목표를 해치는데 사용자가 대가로 받아들인 기록이 없는 것(의도와 실제가 어긋난 곳)을 찾는다.",
+        "inputSchema": {"type": "object", "properties": {"domain": {"type": "string"}}, "required": ["domain"]},
+    },
 ]
 
 
@@ -56,6 +61,8 @@ def call_tool(name: str, args: dict) -> str:
         return f"분야 '{args.get('domain')}' 없음. list_domains로 확인하세요."
     if name == "goal_tree":
         return query.goal_tree(kn)
+    if name == "audit":
+        return audit.report(kn)
     return query.explain(kn, args.get("id", ""))
 
 

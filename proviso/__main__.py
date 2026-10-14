@@ -3,6 +3,7 @@
   python -m proviso validate flowlog   지식 파일 검사
   python -m proviso graph flowlog      out/flowlog-graph.html, .md 생성
   python -m proviso check flowlog      가설을 분야별 검사 함수로 확인
+  python -m proviso audit flowlog      점검: 목표를 해치는데 받아들인 기록이 없는 것
 """
 from __future__ import annotations
 
@@ -10,7 +11,7 @@ import importlib
 import sys
 from pathlib import Path
 
-from . import graph, schema
+from . import audit, graph, schema
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -64,8 +65,14 @@ def cmd_check(domain: str) -> int:
     return 0
 
 
+def cmd_audit(domain: str) -> int:
+    kn = _load(domain)
+    print(f"[{domain}] {audit.report(kn)}")
+    return 1 if audit.unaccepted_harms(kn) else 0
+
+
 def main(argv: list[str]) -> int:
-    commands = {"validate": cmd_validate, "graph": cmd_graph, "check": cmd_check}
+    commands = {"validate": cmd_validate, "graph": cmd_graph, "check": cmd_check, "audit": cmd_audit}
     if len(argv) != 2 or argv[0] not in commands:
         print(__doc__)
         return 2

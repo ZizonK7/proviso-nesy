@@ -18,6 +18,7 @@
 - 사람이 쓴 경험 규칙을 파일로 저장하고 검사합니다. 첫 분야는 Flowlog 앱의 제목 추천입니다.
 - 규칙을 그래프로 자동으로 그립니다. 아래가 근거, 가운데가 규칙, 위가 목표입니다.
 - 가설을 시뮬레이션이나 실제 사용 기록 재생으로 확인합니다.
+- 의도와 실제가 어긋난 곳을 찾습니다. 목표를 해치는 동작인데 "대가로 받아들인다"는 기록이 없으면 문제로 표시합니다. 첫 발견: 뮤직 플레이어의 알아서 틀기에서 같은 곡이 다시 나올 수 있음.
 - 논리집을 LLM 도구(MCP)로 내놓습니다. 첫 실험에서는 논리집을 쓴 Claude가 세 질문 중 둘에서 사용자 판단에 더 가까웠습니다. → [실험 보고서](docs/experiments/2026-10-14-body-v0.md)
 
 아직 로컬 모델과 자동 학습은 없습니다.
@@ -30,6 +31,7 @@ Python 3.11 이상이 필요하고, 추가 패키지는 필요 없습니다. 저
 python -m proviso validate flowlog   # 지식 파일 검사
 python -m proviso graph flowlog      # out/flowlog-graph.html 생성 (브라우저로 열기)
 python -m proviso check flowlog      # 가설 확인
+python -m proviso audit music_player # 점검: 목표를 해치는데 받아들인 기록이 없는 것
 python -m unittest discover -s tests -t .
 python -m experiments.run_body_v0    # 논리집 유무에 따른 Claude 답 비교 (Claude Code 필요)
 ```

@@ -44,6 +44,10 @@ REFS = {
     ("rule", "replaced_by"): {"rule"},
     ("hypothesis", "harms"): {"goal"},
     ("hypothesis", "accepted_for"): {"goal"},
+    ("state", "harms"): {"goal"},
+    ("state", "accepted_for"): {"goal"},
+    ("fact", "harms"): {"goal"},
+    ("fact", "accepted_for"): {"goal"},
 }
 
 

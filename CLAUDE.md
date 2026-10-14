@@ -16,12 +16,12 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 | 폴더 | 역할 |
 |---|---|
 | `proviso/` | 코어(분야 모름): 지식 파일 읽기·검사(`schema`), 그래프(`graph`), 조회(`query`), MCP 서버(`mcp_server`, 읽기 전용) |
-| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드. 현재 `flowlog` 하나 |
+| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드. 현재 `flowlog`, `music_player` |
 | `experiments/` | 본체 실험 (논리집 유무에 따른 Claude 답 비교) |
 | `docs/` | 원안, 설계 기록, 실험 보고서 |
 | `tests/` | 표준 라이브러리 unittest |
 
-명령 (저장소 루트): `python -m proviso validate|graph|check <분야>` · `python -m unittest discover -s tests -t .` · `python -m experiments.run_body_v0` · `python -m domains.flowlog.replay <백업>`. Git Bash에서 한글이 깨지면 `PYTHONIOENCODING=utf-8`. 외부 패키지 없음(Python 3.11+).
+명령 (저장소 루트): `python -m proviso validate|graph|check|audit <분야>` · `python -m unittest discover -s tests -t .` · `python -m experiments.run_body_v0` · `python -m domains.flowlog.replay <백업>`. Git Bash에서 한글이 깨지면 `PYTHONIOENCODING=utf-8`. 외부 패키지 없음(Python 3.11+).
 
 ## 확정된 설계 결정 (원안 대비 변경 포함)
 상세와 경위: [docs/knowledge-format-v0.md](docs/knowledge-format-v0.md)
@@ -33,9 +33,13 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 - **결과 피드백은 결정 단위**(원안은 프로젝트 전체 성공/실패 하나).
 - **선택 편향 경계**: 기록에서 규칙을 뽑을 때, 그 방법을 고른 이유가 조건과 겹치면 능력이 아니라 사용 습관일 수 있다.
 - **코어는 분야를 모른다**, 분야는 플러그인. 규칙은 같은 낱말을 써야 그래프에서 이어진다.
+- **논리를 세우는 것 자체가 점검이다** (사용자 발견). 의도(목표)·말(규칙)·실제(사실, 코드)를 한 양식에 놓으면 어긋남이 실패 전에 드러난다. 엔진의 `audit`이 이걸 자동으로: 목표를 해치는데 대가로 받아들인 기록이 없으면 문제. 앱 동작(사실)은 사용자에게 묻지 말고 코드에서 확인, 사용자에게는 의도·판단만.
+
+## 방향: 논리 조각화 (2026-10-14 사용자 제시, 세부 합의 대기)
+규칙을 앱 이름 없는 작은 **조각**으로 쪼개고, 새 상황을 각 조각에 **대 보고**(예/아니오/일부/모름), 켜진 조각의 **조합**으로 결론을 낸다 → 다른 상황으로 유추. 메인은 상용 LLM(쪼개기·대 보기), 논리집은 조각 기억, 엔진은 조합 계산, 로컬 AI는 익숙한 대 보기를 나중에 넘겨받음. 조각 P1~P6(사용자 검토 반영)과 상황별 대 보기: [docs/pieces-v0.md](docs/pieces-v0.md) — 본체 실험 질문 1·2의 사용자 판정을 재현(사후 설명, 예측 시험은 아직). 조각은 아직 스키마에 없다. 아래 2·3번(적용 범위, 공통 분야)은 이 조각 층으로 합쳐질 예정.
 
 ## 다음 할 일 (사용자 합의 순서)
-1. **보완할 지식 찾기** ← 지금
+1. **보완할 지식 찾기** ← 지금 (조각 P1~P6 문장 사용자 확인부터)
 2. 정리: 규칙·상태에 **적용 범위** 칸(본체 실험 질문 1 실패), 가설 검사 결과를 지식에 저장, knowledge-format을 확정 양식 문서로 정리 + 원안 대비 변경점 문서
 3. **일반 지식 넣기**(사용자 제안): 통념 · 사용자 생각 · 연구·실험 근거. 출처 종류·근거 강도 칸, "공통" 분야(앱 규칙의 이유를 뒷받침 → 분야 간 다리), 출처 실재 확인 필수, 필요한 것만. 충돌 시 개인 경험 > 일반 원리. 사용자 생각 출처 후보: 각 저장소 DECISIONS.md.
 4. 학습 고리 자동화: Episode 로그(질문·조회·답·판정·이유) + 지식 추가 제안 → 사용자 승인 → 저장(원안 commit 도구)
