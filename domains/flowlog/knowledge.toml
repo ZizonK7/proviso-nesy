@@ -1,0 +1,113 @@
+# Flowlog 활동 기록 앱 — 경험 지식
+# 출처: 2026-10-14 사용자와의 대화 (docs/knowledge-format-v0.md 3-2 ~ 3-4절)
+# 칸 설명은 proviso/CLAUDE.md 참고.
+
+[domain]
+id = "flowlog"
+name = "Flowlog 제목 추천"
+
+# ---------- 목표 ----------
+[[goal]]
+id = "G_record"
+text = "기록을 꾸준히 한다"
+
+[[goal]]
+id = "G_fast"
+text = "자주 하는 활동은 빨리 고른다"
+parent = "G_record"
+
+[[goal]]
+id = "G_new"
+text = "새 활동도 부담 없이 추가한다"
+parent = "G_record"
+
+[[goal]]
+id = "G_simple"
+text = "화면은 간결하게"
+parent = "G_record"
+
+# ---------- 상태 / 사실 / 관찰 ----------
+[[state]]
+id = "S_repeat"
+text = "같은 제목을 반복해서 쓰는 일이 많다"
+
+[[state]]
+id = "S_slots5"
+text = "추천은 5칸만 보인다"
+serves = ["G_simple"]
+
+[[fact]]
+id = "F_stored"
+text = "제목마다 쓴 횟수와 마지막으로 쓴 날짜가 저장돼 있다"
+checked = 2026-10-14
+source = "Flowlog README (Title Suggestion Scoring)"
+
+[[observation]]
+id = "O_slow_recent"
+text = "최근 활동이 추천에 늦게 반영되자 반복 입력이 귀찮아 기록을 안 하게 됐다"
+source = "user"
+date = 2026-10-14
+
+[[observation]]
+id = "O_first_jumps"
+text = "처음 쓴 제목이 바로 1등으로 올라온다 (아쉬움)"
+source = "user"
+date = 2026-10-14
+
+[[observation]]
+id = "O_replay_0914"
+text = "실제 기록(5/19~9/14, 3,559건) 재생: 두 번째 이상 쓰는 제목의 98%가 v1·v2 모두 추천 5칸 안. 새 제목(이전 1~3회)은 v1 84%, v2 82%. v1에서 처음 쓴 제목이 다음 기회에 1등인 경우 13%"
+source = "replay"
+date = 2026-10-14
+
+# ---------- 가설 ----------
+[[hypothesis]]
+id = "H_alternate"
+text = "새 활동 2개 이상을 번갈아 하면 5번째 칸엔 하나만 들어가서 나머지는 계속 직접 입력해야 한다"
+source = "user"
+harms = ["G_new"]
+accepted_for = ["G_simple"]
+check = "alternate_two_new"
+
+[[hypothesis]]
+id = "H_routine_pushed"
+text = "평소 활동이 5개보다 많으면, 5번째 칸을 새 활동에 내주는 만큼 덜 자주 하는 평소 활동을 직접 입력하는 일이 조금 늘어난다"
+source = "simulation"
+harms = ["G_fast"]
+accepted_for = ["G_simple"]
+check = "routine_pushed_out"
+note = "시뮬레이션에서 발견, 사용자가 '간결한 디자인 때문에 어쩔 수 없다'며 대가로 수용 (2026-10-14)"
+
+# ---------- 규칙 ----------
+[[rule]]
+id = "R_P1"
+version = 1
+status = "retired"
+method = "최근 날짜 + 횟수 점수로 상위 5개를 보여준다"
+reason = "자주 썼거나 최근에 쓴 제목을 또 쓴다"
+conditions = ["S_repeat", "F_stored"]
+evidence = ["O_first_jumps"]
+replaced_by = ["R_P1a", "R_P1b"]
+note = "목표 b를 너무 세게 챙겨 a를 해침 → 둘로 나눠 고침"
+
+[[rule]]
+id = "R_P1a"
+version = 2
+status = "verified"
+method = "1~4칸은 여러 번(2회 이상) 쓴 제목을 점수 순으로"
+reason = "여러 번 쓴 제목은 또 쓴다"
+serves = ["G_fast"]
+conditions = ["S_repeat", "F_stored", "S_slots5"]
+note = "빈도 순서 부분은 v1 실사용에서 '좋다'는 평가"
+
+[[rule]]
+id = "R_P1b"
+version = 2
+status = "hypothesis"
+method = "5번째 칸에는 1~4칸에 없는 제목 중 가장 최근에 쓴 것 하나"
+reason = "두 번째 쓸 때 다시 타이핑하지 않게. 한 번 쓴 건 순위를 차지할 명분이 없으니 마지막 한 칸만"
+serves = ["G_new"]
+conditions = ["F_stored", "S_slots5"]
+evidence = ["O_slow_recent", "O_replay_0914"]
+side_effects = ["H_alternate", "H_routine_pushed"]
+note = "방법 문구를 '처음 쓴 제목' → '1~4칸에 없는 가장 최근 제목'으로 구체화 (코드로 옮기며 빈틈 발견, 사용자 확인 2026-10-14)"
