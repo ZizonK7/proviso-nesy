@@ -16,13 +16,13 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 | 폴더 | 역할 |
 |---|---|
 | `proviso/` | 코어(분야 모름): 지식 파일 읽기·검사(`schema`), 그래프(`graph`), 조회(`query`), MCP 서버(`mcp_server`, 읽기 전용) |
-| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드. 현재 `flowlog`, `music_player` |
+| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드. 현재 `flowlog`, `music_player`, `agent_usage` |
 | `experiments/` | 본체 실험 (논리집 유무에 따른 Claude 답 비교) |
 | `docs/` | 원안, 설계 기록, 실험 보고서, 하위 에이전트 기록(`AGENT-LOG.md`, `worklog/`) |
 | `scripts/` | 운영 도구 (하위 에이전트 사용량 집계) |
 | `tests/` | 표준 라이브러리 unittest |
 
-명령 (저장소 루트): `python -m proviso validate|graph|check|audit <분야>` · `python -m unittest discover -s tests -t .` · `python -m experiments.run_body_v0` · `python -m domains.flowlog.replay <백업>`. Git Bash에서 한글이 깨지면 `PYTHONIOENCODING=utf-8`. 외부 패키지 없음(Python 3.11+).
+명령 (저장소 루트): `python -m proviso validate|graph|check|audit <분야>` · `python -m unittest discover -s tests -t .` · `python -m experiments.run_body_v0` · `python -m domains.flowlog.replay <백업>` · `python -m domains.agent_usage.dispatches`. Git Bash에서 한글이 깨지면 `PYTHONIOENCODING=utf-8`. 외부 패키지 없음(Python 3.11+).
 
 ## 확정된 설계 결정 (원안 대비 변경 포함)
 상세와 경위: [docs/knowledge-format-v0.md](docs/knowledge-format-v0.md)
@@ -39,6 +39,13 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 ## 방향: 논리 조각화 (2026-10-14 사용자 제시)
 규칙을 앱 이름 없는 작은 **조각**으로 쪼개고, 새 상황을 각 조각에 **대 보고**(예/아니오/일부/모름 또는 값), 켜진 조각의 **조합**으로 결론을 낸다 → 다른 상황으로 유추. 메인은 상용 LLM(쪼개기·대 보기), 논리집은 조각 기억, 엔진은 조합 계산, 로컬 AI는 익숙한 대 보기를 나중에 넘겨받음. 결론마다 근거 → 조각 → 조합 → 결론으로 잇되, **빼면 결론이 바뀌는 조각만** 붙인다.
 - 조각 P1~P6과 상황별 대 보기: [docs/pieces-v0.md](docs/pieces-v0.md). P2·P3·P5·P6은 사용자 검토 반영, P1·P4는 명시 확인 없음. 본체 실험 질문 1·2의 판정을 재현했지만 **사후 설명**이다 — 예측 시험은 아직. 조각은 아직 스키마에 없다.
+
+## AI가 스스로 쌓는 논리집: agent_usage (2026-10-16 사용자 결정)
+- 목표(사용자): **AI가 하위 에이전트의 시간과 사용량을 예측해서 이유와 함께 말해 준다.**
+- 고리: 이유를 붙여 예측 → 실측 → 맞음/틀림 이유를 가설로 → 다음 기록으로 확인 → 틀리면 더 잘게 쪼갠다(새 버전).
+- 사용자는 이 분야를 판단하지 않는다("잘 모르겠다"). 대신 **AI가 사용자가 자기 논리집을 쌓는 방식을 보고 따라 해서 스스로 쌓고 스스로 쓴다.** 따라 할 방식 9가지와 절차: [domains/agent_usage/CLAUDE.md](domains/agent_usage/CLAUDE.md).
+- 코어 변경: 규칙·가설에 `against`(반대 근거), 가설에 `evidence`.
+- 이 저장소에서 하위 에이전트를 보낼 때도 이 고리를 쓴다(아래 "하위 에이전트 운영"의 사용량 기록과 함께).
 
 ## 지금 상태 (2026-10-14 마감)
 - 분야 2개: `flowlog`(제목 추천, 실제 기록 재생 근거 포함), `music_player`(알아서 틀기).

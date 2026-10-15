@@ -50,6 +50,24 @@ class Validation(unittest.TestCase):
         kn = load_text('[[goal]]\nid="A"\ntext="a"\nparent="B"\n[[goal]]\nid="B"\ntext="b"\nparent="A"\n')
         self.assertTrue(any("돌고 돎" in e for e in schema.validate(kn)))
 
+    def test_against_points_to_observation_and_draws_into_the_rule(self):
+        kn = load_text(
+            '[[observation]]\nid="O"\ntext="o"\nsource="measured"\n'
+            '[[hypothesis]]\nid="H"\ntext="h"\nsource="ai"\nevidence=["O"]\n'
+            '[[rule]]\nid="R"\nversion=1\nstatus="hypothesis"\nmethod="m"\nreason="r"\nagainst=["O"]\n'
+        )
+        self.assertEqual(schema.validate(kn), [])
+        text = graph.to_mermaid(kn)
+        self.assertIn("O -.-x|반대| R", text)
+        self.assertIn("O -->|근거| H", text)
+
+    def test_against_rejects_a_goal(self):
+        kn = load_text(
+            '[[goal]]\nid="G"\ntext="g"\n'
+            '[[rule]]\nid="R"\nversion=1\nstatus="hypothesis"\nmethod="m"\nreason="r"\nagainst=["G"]\n'
+        )
+        self.assertTrue(any("R.against" in e for e in schema.validate(kn)))
+
     def test_duplicate_id(self):
         kn = load_text('[[goal]]\nid="A"\ntext="a"\n[[state]]\nid="A"\ntext="s"\n')
         self.assertIn("id 중복: A", schema.validate(kn))

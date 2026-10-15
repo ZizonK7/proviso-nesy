@@ -18,8 +18,10 @@
 | state 상태 | text | serves → goal, harms → goal, accepted_for → goal |
 | fact 사실 | text, checked(날짜), source | harms → goal, accepted_for → goal, note |
 | observation 관찰 | text, source("user" 등) | date |
-| hypothesis 가설 | text, source | harms → goal, accepted_for → goal, check(분야 검사 함수 이름) |
-| rule 규칙 | method, reason, status(hypothesis/verified/retired), version | serves → goal, conditions → state/fact/observation, results → state, evidence → observation/fact, side_effects → hypothesis/state, exceptions → state, replaced_by → rule, note |
+| hypothesis 가설 | text, source | evidence → observation/fact, against → observation/fact, harms → goal, accepted_for → goal, check(분야 검사 함수 이름) |
+| rule 규칙 | method, reason, status(hypothesis/verified/retired), version | serves → goal, conditions → state/fact/observation, results → state, evidence → observation/fact, against → observation/fact, side_effects → hypothesis/state, exceptions → state, replaced_by → rule, note |
+
+- `against`(반대 근거): 그 규칙·가설과 어긋난 관찰. 지우지 않고 남겨서, 예외로 둘지 고칠지(새 버전) 쪼갤지의 근거로 쓴다 (2026-10-16, agent_usage 분야에서 추가).
 
 - 규칙을 고칠 때: 이전 규칙은 지우지 않고 `status="retired"` + `replaced_by`로 새 규칙을 가리킨다.
 - 그래프 방향: 아래(조건·근거) → 규칙 → 위(목표). 조건·근거·예외는 그 노드에서 규칙으로 들어가는 선.

@@ -11,6 +11,7 @@ EDGE = {
     "serves": ("==>", "", "#2b7a4b"),
     "conditions": ("-->", "", "#7a8494"),
     "evidence": ("-->", "근거", "#7a8494"),
+    "against": ("-.-x", "반대", "#c0432e"),
     "results": ("==>", "", "#2d5cae"),
     "side_effects": ("-.->", "부작용", "#b07300"),
     "harms": ("-.-x", "해침", "#c0432e"),
@@ -89,8 +90,8 @@ def to_mermaid(kn: Knowledge) -> str:
             for ref in node.refs(field):
                 if ref not in kn.nodes:
                     continue
-                # 조건·근거·예외는 그 노드에서 규칙으로 들어가는 방향
-                src, dst = (ref, node.id) if field in ("conditions", "evidence", "exceptions") else (node.id, ref)
+                # 조건·근거·반대 근거·예외는 그 노드에서 규칙(가설)으로 들어가는 방향
+                src, dst = (ref, node.id) if field in ("conditions", "evidence", "against", "exceptions") else (node.id, ref)
                 mid = f"|{label}|" if label else ""
                 out.append(f"  {src} {arrow}{mid} {dst}")
                 colors.append(color)

@@ -1,0 +1,418 @@
+# 하위 에이전트 시간·사용량 예측 — AI가 스스로 쌓는 논리집
+# 출처: batman docs/AGENT-LOG.md (배치 1–11)의 예측·실측·보정 메모·교훈 L-1~L-6. 작업별 기록은 dispatches.toml.
+# 이 분야는 사용자가 판단하지 않는다 (사용자 결정 2026-10-16). 판정은 실측, 쌓는 방식은 사용자가 자기 논리집을 쌓는 방식을 따른다 (CLAUDE.md).
+# 관찰의 source: "measured" = 실측(scripts/agent_usage.py), "director" = 지휘 모델이 남긴 메모, "conversation" = 사용자와의 대화에서.
+# 가설의 source: "director" = 지휘 모델, "ai" = 이 논리집을 정리한 AI (날짜와 함께).
+
+[domain]
+id = "agent_usage"
+name = "하위 에이전트 시간·사용량 예측"
+
+# ---------- 목표 ----------
+[[goal]]
+id = "G_tell"
+text = "작업의 시간과 사용량을 예측해 이유와 함께 사용자에게 말한다"
+
+[[goal]]
+id = "G_time"
+text = "시간 예측이 맞는다"
+parent = "G_tell"
+
+[[goal]]
+id = "G_tokens"
+text = "토큰 예측이 맞는다"
+parent = "G_tell"
+
+# ---------- 사실 ----------
+[[fact]]
+id = "F_reread"
+text = "토큰 합계는 대부분 캐시 읽기다. 에이전트는 매 턴 맥락 전체를 다시 읽는다"
+checked = 2026-10-13
+source = "d02 실측: 357턴, 쓴 글 ~4.5만 토큰, 캐시 읽기 ~8,900만 토큰"
+
+[[fact]]
+id = "F_setup"
+text = "하위 에이전트는 Opus 5.5, effort high로 돈다 (사용자 기본값). 숫자 범위는 이 설정에서만 확인됨"
+checked = 2026-10-16
+source = "batman·proviso CLAUDE.md, AGENT-LOG 배치 2–11"
+
+# ---------- 상태 (작업마다 대 보는 상황) ----------
+[[state]]
+id = "S_turns"
+text = "예상 턴 수가 있다"
+
+[[state]]
+id = "S_short"
+text = "150턴 안쪽으로 끝날 작업이다"
+
+[[state]]
+id = "S_similar_past"
+text = "비슷한 크기의 과거 작업이 있다"
+
+[[state]]
+id = "S_external_check"
+text = "외부 시스템 확인(CI·다운로드·임포트·렌더)이 들어간다"
+
+[[state]]
+id = "S_ci_warm"
+text = "지켜볼 CI의 캐시가 따뜻하다"
+
+[[state]]
+id = "S_ci_cold"
+text = "CI 캐시가 차갑거나 실패 라운드가 예상된다"
+
+[[state]]
+id = "S_check_loop"
+text = "확인 → 고침 → 다시 확인을 여러 번 반복한다 (렌더·캡처·반복 실행)"
+
+[[state]]
+id = "S_root_cause"
+text = "원인 찾기가 들어 있다 (끝 조건이 '원인을 찾을 때까지')"
+
+[[state]]
+id = "S_long_doc"
+text = "긴 글을 쓴다"
+
+[[state]]
+id = "S_unsaved_doc"
+text = "긴 글을 저장 없이 한 덩어리로 쓴다"
+
+[[state]]
+id = "S_impl_hour"
+text = "약 1시간짜리 구현이다"
+
+[[state]]
+id = "S_full_brief"
+text = "지시서와 약속 문서가 완전하다"
+
+[[state]]
+id = "S_research"
+text = "엄격한 출력 양식이 있고 코드가 없는 조사다"
+
+[[state]]
+id = "S_mid_notes"
+text = "작업 도중에 추가 지시를 받는다"
+
+# ---------- 관찰 ----------
+[[observation]]
+id = "O_b1_tokens_low"
+text = "배치 1 여섯 건(d01–d06)은 모두 토큰을 1–3등급 낮게 잡았다. 쓸 글의 양으로 잡았다"
+source = "measured"
+date = 2026-10-13
+
+[[observation]]
+id = "O_ctx_big"
+text = "큰 작업 세 건(d07·d12·d13)의 턴당 맥락은 36·39·38만"
+source = "measured"
+date = 2026-10-15
+
+[[observation]]
+id = "O_ctx_long"
+text = "150턴 넘게 돈 작업 14건의 턴당 맥락은 24–46만. 큰 작업이거나 이어서 한 작업일수록 크다"
+source = "measured"
+date = 2026-10-16
+
+[[observation]]
+id = "O_ctx_short"
+text = "150턴 안쪽에서 끝난 작업 다섯 건(d08·dR1–dR4)의 턴당 맥락은 8–16만"
+source = "measured"
+date = 2026-10-16
+
+[[observation]]
+id = "O_tok_rate_short"
+text = "150턴 안쪽 작업 다섯 건의 분당 토큰은 0.77–1.14M. 150턴 넘는 작업은 긴 글 한 덩어리(d03 0.53M) 하나를 빼면 1.19–2.56M"
+source = "measured"
+date = 2026-10-16
+
+[[observation]]
+id = "O_turns_overest"
+text = "큰 작업의 예상 턴 vs 실제: d07 1,000+ → 753, d12 800–1,200 → 446, d13 800–1,200 → 388"
+source = "measured"
+date = 2026-10-15
+
+[[observation]]
+id = "O_turn_rate"
+text = "분당 턴은 1.7–14.6으로 흔들린다. 30분 안쪽에 끝난 작업(d08·dR1–dR4·d14)은 6.8–14.6, 긴 글·렌더 반복·재현 루프(d03·d04·d12b·d12c)는 1.7–3.4. CI를 지켜본 d02는 8.0"
+source = "measured"
+date = 2026-10-16
+
+[[observation]]
+id = "O_ci7"
+text = "d02: CI 7회 지켜보기와 템플릿 받기로 예상의 1.5배"
+source = "director"
+date = 2026-10-13
+
+[[observation]]
+id = "O_warm_ci"
+text = "d08: 캐시 적중으로 CI 1회 2분, M 예상 → 5.7분"
+source = "director"
+date = 2026-10-14
+
+[[observation]]
+id = "O_render_fast"
+text = "d09: 렌더가 걱정보다 빨라 XL 예상 → 55분"
+source = "director"
+date = 2026-10-14
+
+[[observation]]
+id = "O_loop_long"
+text = "확인 → 고침을 반복한 작업(d02·d11b·d12b)은 예상 범위 위쪽 끝을 넘었다"
+source = "director"
+date = 2026-10-15
+
+[[observation]]
+id = "O_hour"
+text = "d09·d10이 각 50–55분, 400–470턴"
+source = "measured"
+date = 2026-10-14
+
+[[observation]]
+id = "O_hour_against"
+text = "'1시간짜리'로 잡은 d11은 41.6분(M), d11b는 45.4분(L)"
+source = "measured"
+date = 2026-10-15
+
+[[observation]]
+id = "O_full_brief"
+text = "완전한 지시서와 약속 문서로 보낸 d12·d13이 각 ~95분"
+source = "director"
+date = 2026-10-15
+
+[[observation]]
+id = "O_long_doc"
+text = "d03: 긴 글을 80분 동안 저장 없이 한 덩어리로 써서 시간 2.2배, 분당 토큰 0.53M"
+source = "director"
+date = 2026-10-13
+
+[[observation]]
+id = "O_said_hours"
+text = "d12·d13 때 대화에서 '각 3–5시간'이라 했는데 실제 ~95분"
+source = "director"
+date = 2026-10-15
+
+[[observation]]
+id = "O_research"
+text = "조사 네 건(dR1–dR4)이 M/T2 예상보다 훨씬 짧았다: 7.7–20.3분, 83–138턴, 7–22M"
+source = "measured"
+date = 2026-10-16
+
+[[observation]]
+id = "O_mid_notes"
+text = "도중에 지휘 메모를 받은 d01(3번)·dR3(2번)이 같은 배치의 다른 작업보다 길었다"
+source = "director"
+date = 2026-10-16
+
+# ---------- 가설 ----------
+[[hypothesis]]
+id = "H_turns_over"
+text = "비슷한 큰 작업에 빗대면 턴 수를 크게 잡는다 (실제는 예상의 절반 안팎)"
+source = "ai (2026-10-16, 배치 2–7 기록에서)"
+evidence = ["O_turns_overest"]
+harms = ["G_time"]
+check = "turns_overestimated"
+
+[[hypothesis]]
+id = "H_cancel"
+text = "큰 작업에서 토큰 등급이 맞은 건 턴 수를 크게 잡은 것과 턴당 맥락을 작게 잡은 것이 서로 상쇄된 결과다"
+source = "ai (2026-10-16, d12·d13에서)"
+evidence = ["O_turns_overest", "O_ctx_big"]
+check = "turns_vs_context"
+note = "지휘 모델은 같은 결과를 '턴 기반 추정이 통한다'로 적었다. 맞았을 때의 이유가 틀렸을 수 있다"
+
+[[hypothesis]]
+id = "H_check_loop"
+text = "외부 확인이 들어가느냐가 아니라 확인 → 고침을 몇 번 반복하느냐가 시간을 늘린다"
+source = "ai (2026-10-16, d09와 d12b가 갈린 데서)"
+evidence = ["O_loop_long", "O_render_fast"]
+check = "check_loop_time"
+
+[[hypothesis]]
+id = "H_tok_per_min"
+text = "분당 토큰은 작업 종류와 상관없이 1.2–2.6M 안에 든다"
+source = "ai (2026-10-16, 배치 1–9 실측에서, 배치 10 실측을 보기 전에 세움)"
+evidence = ["O_ctx_big"]
+against = ["O_tok_rate_short"]
+check = "tokens_per_minute"
+note = "2026-10-16 사용량 조각 초안(저장소 밖)의 U2. 배치 10에서 반박됨(다섯 건 중 짧은 조사 네 건이 범위 밖) → 작업 길이로 나눠 H_tok_per_min_long으로 다시 세움"
+
+[[hypothesis]]
+id = "H_tok_per_min_long"
+text = "150턴 넘는 작업은 분당 토큰이 1.1–2.6M, 150턴 안쪽은 0.7–1.2M이다 (긴 글을 한 덩어리로 쓴 경우는 뺀다)"
+source = "ai (2026-10-16, 배치 1–10 실측에서)"
+evidence = ["O_tok_rate_short"]
+check = "tokens_per_minute_by_length"
+
+[[hypothesis]]
+id = "H_turn_rate"
+text = "분당 턴은 4–5로 일정하지 않다. 30분 안쪽에 끝나는 작업은 분당 6.5턴 이상이다"
+source = "ai (2026-10-16, 배치 1–10 실측에서)"
+evidence = ["O_turn_rate"]
+check = "turn_rate_by_kind"
+
+[[hypothesis]]
+id = "H_mid_notes"
+text = "작업 도중에 추가 지시를 받으면 같은 종류 작업보다 길어진다"
+source = "director (d01, dR3 메모)"
+evidence = ["O_mid_notes"]
+check = "mid_notes_longer"
+
+# ---------- 규칙 (예측 방법) ----------
+[[rule]]
+id = "R_tok_v1"
+version = 1
+status = "retired"
+method = "쓸 글의 양(출력)으로 토큰을 잡는다"
+reason = "기록 없음 (지휘 모델이 이유를 적지 않음)"
+evidence = ["O_b1_tokens_low"]
+replaced_by = ["R_tok_v2"]
+note = "배치 1 여섯 건 모두 1–3등급 낮음 → 이유가 틀림(토큰은 쓴 글이 아니라 다시 읽는 맥락) → 고침 (L-2)"
+
+[[rule]]
+id = "R_tok_v2"
+version = 2
+status = "retired"
+method = "예상 턴 수 × 턴당 25만"
+reason = "토큰은 매 턴 맥락을 다시 읽어서 턴 수에 비례한다 (L-2)"
+conditions = ["S_turns", "F_reread"]
+against = ["O_ctx_big"]
+replaced_by = ["R_tok_v3"]
+note = "배치 7 끝: 실제 턴당 35–39만 → 숫자를 고침 (L-5)"
+
+[[rule]]
+id = "R_tok_v3"
+version = 3
+status = "retired"
+method = "예상 턴 수 × 턴당 35–39만"
+reason = "큰 작업 세 건의 실측 (L-5)"
+conditions = ["S_turns", "F_reread"]
+evidence = ["O_ctx_big"]
+against = ["O_ctx_short", "O_ctx_long"]
+replaced_by = ["R_tok_long", "R_tok_short"]
+note = "배치 10: 짧은 작업은 턴당 8–16만, d14는 24만. 근거가 큰 작업 세 건뿐이었다(쓰던 범위만 본 것). 맥락은 작업이 길수록 쌓이므로 '작업 길이'라는 빠진 조건이 이유 안에 있었다 → 둘로 나눠 고침 (2026-10-16, ai)"
+
+[[rule]]
+id = "R_tok_long"
+version = 4
+status = "hypothesis"
+method = "150턴 넘게 돌 작업은 예상 턴 수 × 턴당 24–46만 (큰 작업·이어서 하는 작업은 위쪽)"
+reason = "맥락은 작업이 길수록 쌓인다. 150턴 넘는 실측 14건이 24–46만"
+serves = ["G_tokens"]
+conditions = ["S_turns", "F_reread", "F_setup"]
+evidence = ["O_ctx_long", "O_ctx_big"]
+
+[[rule]]
+id = "R_tok_short"
+version = 4
+status = "hypothesis"
+method = "150턴 안쪽으로 끝날 작업은 예상 턴 수 × 턴당 8–16만"
+reason = "짧게 끝나는 작업은 맥락이 덜 쌓인다. 실측 다섯 건"
+serves = ["G_tokens"]
+conditions = ["S_turns", "S_short", "F_reread", "F_setup"]
+evidence = ["O_ctx_short"]
+
+[[rule]]
+id = "R_turns_analogy"
+version = 1
+status = "hypothesis"
+method = "비슷한 크기의 과거 작업에 빗대 턴 수를 잡는다"
+reason = "기록 없음 (d11 'd09·d10처럼', d12·d13 'd07 크기', d15 '배치 1 크기')"
+serves = ["G_time", "G_tokens"]
+conditions = ["S_similar_past"]
+results = ["S_turns"]
+side_effects = ["H_turns_over"]
+against = ["O_turns_overest"]
+
+[[rule]]
+id = "R_research"
+version = 1
+status = "hypothesis"
+method = "엄격한 양식이 있고 코드가 없는 조사 하나는 80–140턴, 대개 S, T1으로 잡는다"
+reason = "배치 10 조사 네 건 실측 (지휘 모델 보정)"
+serves = ["G_time", "G_tokens"]
+conditions = ["S_research"]
+results = ["S_turns", "S_short"]
+evidence = ["O_research"]
+
+[[rule]]
+id = "R_time_turns"
+version = 1
+status = "hypothesis"
+method = "예상 턴 수 ÷ 분당 4–5턴으로 시간을 잡는다"
+reason = "배치 1 실측 (effort high)"
+serves = ["G_time"]
+conditions = ["S_turns", "F_setup"]
+against = ["O_turn_rate"]
+note = "반대 근거가 쌓였지만 아직 고치지 않음. H_turn_rate가 시험을 통과하면 작업 종류로 나눈다"
+
+[[rule]]
+id = "R_verify_v1"
+version = 1
+status = "retired"
+method = "외부 시스템 확인(CI·다운로드·임포트·렌더)이 들어가면 쓰는 시간의 2배, 난이도 +1"
+reason = "비용은 쓰기가 아니라 확인에서 나온다 (L-1)"
+conditions = ["S_external_check"]
+evidence = ["O_ci7"]
+replaced_by = ["R_verify_ci", "R_verify_other"]
+note = "배치 3: d08에서 CI가 캐시 덕에 2분 → 지휘 모델이 CI 부분만 쪼갬. 나머지 부분은 기록에 따로 적힌 적이 없지만 d09·d12c 예측에 그대로 쓰여서 R_verify_other로 나눠 적음 (2026-10-16, ai)"
+
+[[rule]]
+id = "R_verify_ci"
+version = 2
+status = "hypothesis"
+method = "캐시가 따뜻한 CI 지켜보기는 S, T1. 캐시가 차갑거나 실패 라운드가 예상되면 M, T2"
+reason = "캐시 덕에 CI 1회가 2분"
+serves = ["G_time"]
+conditions = ["S_ci_warm", "S_ci_cold"]
+evidence = ["O_warm_ci"]
+
+[[rule]]
+id = "R_verify_other"
+version = 2
+status = "hypothesis"
+method = "CI 밖의 외부 확인(다운로드·임포트·렌더·반복 실행)이 들어가면 쓰는 시간의 2배"
+reason = "비용은 쓰기가 아니라 확인에서 나온다 (L-1 그대로)"
+serves = ["G_time"]
+conditions = ["S_external_check"]
+evidence = ["O_loop_long"]
+against = ["O_render_fast"]
+note = "d09(렌더 1회씩)는 빨랐고 d12b(렌더 보며 고치기)는 길었다 → H_check_loop가 시험을 통과하면 '반복 횟수'로 쪼갠다"
+
+[[rule]]
+id = "R_impl_hour"
+version = 1
+status = "hypothesis"
+method = "약 1시간짜리 구현 에이전트는 L, T4로 잡는다"
+reason = "d09·d10이 50–55분, 400–470턴"
+serves = ["G_time", "G_tokens"]
+conditions = ["S_impl_hour"]
+evidence = ["O_hour"]
+against = ["O_hour_against"]
+
+[[rule]]
+id = "R_full_brief"
+version = 1
+status = "hypothesis"
+method = "지시서와 약속 문서가 완전하면 큰 작업도 90–120분으로 잡는다"
+reason = "d12·d13 각 ~95분 (L-5)"
+serves = ["G_time"]
+conditions = ["S_full_brief"]
+evidence = ["O_full_brief"]
+
+[[rule]]
+id = "R_long_doc_save"
+version = 1
+status = "hypothesis"
+method = "긴 글을 맡길 때는 지시서에 '섹션마다 파일에 이어 쓰기'를 적는다"
+reason = "한 덩어리로 쓰면 시간이 2.2배로 튀고, 실패하면 다 잃는다 (L-4)"
+serves = ["G_time"]
+conditions = ["S_long_doc"]
+evidence = ["O_long_doc"]
+
+[[rule]]
+id = "R_say_numbers"
+version = 1
+status = "hypothesis"
+method = "사용자에게는 등급만 말하지 않고 분·토큰 숫자와 그렇게 본 이유를 말한다"
+reason = "등급은 맞았는데 대화에서 말한 시간이 2–3배 틀렸다 (L-5)"
+serves = ["G_tell"]
+evidence = ["O_said_hours"]

@@ -1,0 +1,539 @@
+# 하위 에이전트 작업 기록 — 예측 → 실측 → 돌아보기
+# 출처: batman docs/AGENT-LOG.md (배치 1–11). 배치 11의 16번만 이 PC의 대화 기록에서 scripts/agent_usage.py로 숫자를 뽑았다.
+# 공개 저장소: 작업 설명은 종류만 적는다 (게임 내용·코드는 적지 않음).
+#
+# 칸:
+#   predicted.time_class / tokens_class  등급 목록. 범위 예측("M–L")은 두 등급을 다 적는다
+#   predicted.minutes  [하한, 상한] 분. 하나만 있으면 "이상"
+#   predicted.turns    [하한, 상한] 턴. 하나만 있으면 "이상"
+#   predicted.rules    예측에 쓴 규칙 id (knowledge.toml)
+#   predicted.written_before  보내기 전에 적었는가 (배치 1은 실행 중에 적음)
+#   situation          상황 대 보기: 상태 id = "예" / "아니오" / "일부" / "모름". 적지 않은 상태는 모름
+#   actual.status      done / stopped(중간에 멈춤) / unknown(끝났는지 모름). done만 판정에 쓴다
+#   actual.tokens_m    합계 토큰(백만). 캐시 생성 + 캐시 읽기 + 입력 + 출력
+#   review.reason      맞음/틀림 이유 (기록 그대로). 맞았을 때도 적는다
+#   review.hypotheses  이 기록과 이어진 가설 id
+
+[[dispatch]]
+id = "d01"
+project = "batman"
+batch = 1
+date = 2026-10-13
+task = "기술 설계 문서 + 엔진 프로젝트 뼈대 + 자동 검사"
+[dispatch.situation]
+S_external_check = "예"
+S_mid_notes = "예"
+[dispatch.predicted]
+written_before = false
+time_class = ["L"]
+minutes = [40, 60]
+tokens_class = ["T1"]
+rules = ["R_tok_v1"]
+reason = "기록 없음 (실행 중에 적음, 토큰 ~15M)"
+[dispatch.actual]
+minutes = 130.8
+turns = 809
+tokens_m = 287.7
+[dispatch.review]
+reason = "지휘 모델 메모 3번으로 길어짐. 턴당 맥락 ~35만. 토큰을 출력 기준으로 잡음"
+
+[[dispatch]]
+id = "d02"
+project = "batman"
+batch = 1
+date = 2026-10-13
+task = "CI 빌드·릴리스 파이프라인 만들고 실제로 돌려 확인"
+[dispatch.situation]
+S_external_check = "예"
+S_ci_cold = "예"
+S_check_loop = "예"
+[dispatch.predicted]
+written_before = false
+time_class = ["M"]
+minutes = [20, 30]
+tokens_class = ["T1"]
+rules = ["R_tok_v1"]
+reason = "워크플로 쓰기 (토큰 ~10M)"
+[dispatch.actual]
+minutes = 44.8
+turns = 357
+tokens_m = 90.3
+[dispatch.review]
+reason = "외부 확인(템플릿 ~1GB 받기, CI 7회 지켜보기)이 비용 → L-1"
+
+[[dispatch]]
+id = "d03"
+project = "batman"
+batch = 1
+date = 2026-10-13
+task = "긴 원고 전체 쓰기 (~2,700줄) + 생성 파일"
+[dispatch.situation]
+S_long_doc = "예"
+S_unsaved_doc = "예"
+[dispatch.predicted]
+written_before = false
+time_class = ["M"]
+minutes = [30, 45]
+tokens_class = ["T1"]
+rules = ["R_tok_v1"]
+reason = "기록 없음 (토큰 ~3M)"
+[dispatch.actual]
+minutes = 100.4
+turns = 171
+tokens_m = 52.9
+[dispatch.review]
+reason = "처음 80분 동안 저장 없이 한 덩어리로 씀, 시간 2.2배 → L-4"
+
+[[dispatch]]
+id = "d04"
+project = "batman"
+batch = 1
+date = 2026-10-13
+task = "설계 문서 2개 + 수치 데이터 파일"
+[dispatch.situation]
+S_long_doc = "예"
+[dispatch.predicted]
+written_before = false
+time_class = ["M"]
+minutes = [30, 45]
+tokens_class = ["T1"]
+rules = ["R_tok_v1"]
+reason = "기록 없음 (토큰 ~3M)"
+[dispatch.actual]
+minutes = 67.5
+turns = 189
+tokens_m = 87.4
+[dispatch.review]
+reason = "토큰 30배: 캐시 읽기가 턴 수에 비례 → L-2. 실행 중에 다른 에이전트의 코드를 읽음"
+
+[[dispatch]]
+id = "d05"
+project = "batman"
+batch = 1
+date = 2026-10-13
+task = "아트 문서 + 에셋 가져오기 + 캐릭터 파이프라인"
+[dispatch.situation]
+S_external_check = "예"
+[dispatch.predicted]
+written_before = false
+time_class = ["L"]
+minutes = [45, 75]
+tokens_class = ["T2"]
+rules = ["R_tok_v1"]
+reason = "기록 없음 (토큰 ~20M)"
+[dispatch.actual]
+minutes = 73.6
+turns = 364
+tokens_m = 125.7
+[dispatch.review]
+reason = "시간은 맞음, 토큰 6배 (364턴)"
+
+[[dispatch]]
+id = "d06"
+project = "batman"
+batch = 1
+date = 2026-10-13
+task = "오디오 문서 + 음악·효과음·음성 생성 파이프라인"
+[dispatch.situation]
+S_external_check = "예"
+[dispatch.predicted]
+written_before = false
+time_class = ["L"]
+minutes = [45, 75]
+tokens_class = ["T1"]
+rules = ["R_tok_v1"]
+reason = "기록 없음 (토큰 ~10M)"
+[dispatch.actual]
+minutes = 78.0
+turns = 307
+tokens_m = 92.7
+[dispatch.review]
+reason = "시간은 맞음 (맞은 이유 기록 없음)"
+
+[[dispatch]]
+id = "d07"
+project = "batman"
+batch = 2
+date = 2026-10-13
+task = "첫 플레이 가능판 전체: 전투·레벨 2개·장면 조립·음성·플레이 기록·빌드 확인"
+[dispatch.situation]
+S_external_check = "예"
+S_similar_past = "아니오"
+[dispatch.predicted]
+time_class = ["XL"]
+minutes = [180, 300]
+turns = [1000]
+tokens_class = ["T4"]
+rules = ["R_tok_v2", "R_time_turns"]
+reason = "1,000턴 넘고 맥락 압축이 생길 것 (토큰 300M+)"
+[dispatch.actual]
+minutes = 153.4
+turns = 753
+tokens_m = 271.3
+[dispatch.review]
+reason = "처음으로 시간·토큰 둘 다 맞음. 지휘 모델: 턴 기반 추정이 통한다 (753턴, 턴당 ~36만)"
+hypotheses = ["H_turns_over"]
+
+[[dispatch]]
+id = "d08"
+project = "batman"
+batch = 3
+date = 2026-10-14
+task = "CI 트리거 바꾸기 + 릴리스 1회 + 문서"
+[dispatch.situation]
+S_external_check = "예"
+S_ci_warm = "예"
+S_check_loop = "아니오"
+[dispatch.predicted]
+time_class = ["M"]
+minutes = [20, 45]
+turns = [100, 150]
+tokens_class = ["T2"]
+rules = ["R_tok_v2", "R_verify_v1"]
+reason = "CI 2번 지켜보기, L-1 적용"
+[dispatch.actual]
+minutes = 5.7
+turns = 83
+tokens_m = 6.5
+[dispatch.review]
+reason = "Godot 캐시 적중으로 CI 1회 2분, 백그라운드로 기다림 → 지휘 모델이 CI 부분을 캐시 조건으로 쪼갬 (R_verify_ci)"
+
+[[dispatch]]
+id = "d09"
+project = "batman"
+batch = 4
+date = 2026-10-14
+task = "조작감 수정 3건 (애니메이션 다시 만들기 포함) + 렌더로 검토 자료"
+[dispatch.situation]
+S_external_check = "예"
+S_check_loop = "아니오"
+[dispatch.predicted]
+time_class = ["XL"]
+minutes = [90]
+turns = [400]
+tokens_class = ["T4"]
+rules = ["R_tok_v2", "R_verify_other"]
+reason = "클립마다 소프트웨어 렌더"
+[dispatch.actual]
+minutes = 55.2
+turns = 396
+tokens_m = 123.5
+[dispatch.review]
+reason = "렌더가 걱정보다 빨랐다"
+hypotheses = ["H_check_loop"]
+
+[[dispatch]]
+id = "d10"
+project = "batman"
+batch = 4
+date = 2026-10-14
+task = "퍼즐 논리 다시 쓰기 + 음성 몇 줄 + 시각 수정 2건 (전후 렌더)"
+[dispatch.situation]
+S_external_check = "예"
+S_check_loop = "아니오"
+[dispatch.predicted]
+time_class = ["L"]
+minutes = [45, 90]
+turns = [200, 400]
+tokens_class = ["T3"]
+rules = ["R_tok_v2", "R_verify_other"]
+reason = "두 에이전트 모두 프레임 렌더 필요 (L-1)"
+[dispatch.actual]
+minutes = 50.6
+turns = 467
+tokens_m = 129.7
+[dispatch.review]
+reason = "시간 맞음. 토큰은 467턴 × 턴당 ~28만으로 한 등급 위 (턴이 예상보다 많음)"
+
+[[dispatch]]
+id = "d11"
+project = "batman"
+batch = 5
+date = 2026-10-15
+task = "조작감 수정 2차 (경고 표시·동작 다시 만들기·연출) + 실제 GPU 렌더"
+[dispatch.situation]
+S_external_check = "예"
+S_check_loop = "아니오"
+S_impl_hour = "예"
+S_similar_past = "예"
+[dispatch.predicted]
+time_class = ["L"]
+minutes = [45, 90]
+turns = [300, 450]
+tokens_class = ["T4"]
+rules = ["R_turns_analogy", "R_impl_hour"]
+reason = "클립 다시 만들기 + 로컬 GPU 렌더, d09·d10처럼"
+[dispatch.actual]
+minutes = 41.6
+[dispatch.review]
+reason = "시간 한 등급 아래. 대화 기록 파일이 비어 턴·토큰 모름"
+
+[[dispatch]]
+id = "d11b"
+project = "batman"
+batch = 6
+date = 2026-10-15
+task = "d11 이어서: 버그 1건 원인 찾기(캡처) + 소품·이름 수정 2건"
+[dispatch.situation]
+S_check_loop = "예"
+S_root_cause = "예"
+[dispatch.predicted]
+time_class = ["M"]
+minutes = [20, 45]
+tokens_class = ["T2", "T3"]
+rules = ["R_verify_other"]
+reason = "캡처로 잡는 버그 하나"
+[dispatch.actual]
+minutes = 45.4
+[dispatch.review]
+reason = "캡처 + 반복 실행 10회로 한 등급 넘음. 턴·토큰 모름"
+hypotheses = ["H_check_loop"]
+
+[[dispatch]]
+id = "d12"
+project = "batman"
+batch = 7
+date = 2026-10-15
+task = "큰 구현: 새 시스템 묶음 한 분야 전체 + 시험용 장면 (병렬, 약속 문서)"
+[dispatch.situation]
+S_similar_past = "예"
+S_full_brief = "예"
+S_external_check = "예"
+S_check_loop = "아니오"
+[dispatch.predicted]
+time_class = ["XL"]
+minutes = [180, 300]
+turns = [800, 1200]
+tokens_class = ["T4"]
+rules = ["R_turns_analogy", "R_tok_v2"]
+reason = "d07 크기 (753턴/271M), 맥락 압축 예상"
+[dispatch.actual]
+minutes = 94.3
+turns = 446
+tokens_m = 175.0
+[dispatch.review]
+reason = "등급은 맞음(XL 하단, T4). 대화에서 '3–5시간'이라 했는데 ~95분 → L-5. 턴당 35–39만으로 고침"
+hypotheses = ["H_turns_over", "H_cancel"]
+
+[[dispatch]]
+id = "d13"
+project = "batman"
+batch = 7
+date = 2026-10-15
+task = "큰 구현: 새 콘텐츠 한 분야 전체 (레벨·캐릭터 모델·연출·데이터) (병렬, 약속 문서)"
+[dispatch.situation]
+S_similar_past = "예"
+S_full_brief = "예"
+S_external_check = "예"
+S_check_loop = "아니오"
+[dispatch.predicted]
+time_class = ["XL"]
+minutes = [180, 300]
+turns = [800, 1200]
+tokens_class = ["T4"]
+rules = ["R_turns_analogy", "R_tok_v2"]
+reason = "d07 크기"
+[dispatch.actual]
+minutes = 95.4
+turns = 388
+tokens_m = 147.2
+[dispatch.review]
+reason = "d12와 같음"
+hypotheses = ["H_turns_over", "H_cancel"]
+
+[[dispatch]]
+id = "d12b"
+project = "batman"
+batch = 8
+date = 2026-10-15
+task = "d12 이어서: 두 갈래 합친 뒤 실패 수정 + 한 장 전체 자동 플레이 + 가독성 손보기(렌더)"
+[dispatch.situation]
+S_check_loop = "예"
+S_root_cause = "예"
+S_external_check = "예"
+[dispatch.predicted]
+time_class = ["L", "XL"]
+minutes = [60, 120]
+tokens_class = ["T3", "T4"]
+rules = ["R_verify_other"]
+reason = "간헐 실패 2건 원인 찾기, 긴 흐름 테스트, 누적 맥락"
+[dispatch.actual]
+minutes = 149.1
+turns = 512
+tokens_m = 177.7
+[dispatch.review]
+reason = "렌더로 한 가독성 작업이 길었다 (L-1 again)"
+hypotheses = ["H_check_loop"]
+
+[[dispatch]]
+id = "d12c"
+project = "batman"
+batch = 9
+date = 2026-10-15
+task = "d12 이어서: 간헐 실패 원인 찾기 + 수정 + 반복 검증"
+[dispatch.situation]
+S_root_cause = "예"
+S_check_loop = "예"
+S_external_check = "예"
+[dispatch.predicted]
+time_class = ["M", "L"]
+minutes = [30, 90]
+tokens_class = ["T3"]
+rules = ["R_verify_other"]
+reason = "간헐 멈춤은 재현 루프가 먼저 (L-1), 맥락이 큼"
+[dispatch.actual]
+minutes = 61.0
+turns = 170
+tokens_m = 73.3
+[dispatch.review]
+reason = "맞음 (맞은 이유 기록 없음)"
+
+[[dispatch]]
+id = "dR1"
+project = "batman"
+batch = 10
+date = 2026-10-16
+task = "조사: 다른 작품의 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음)"
+[dispatch.situation]
+S_research = "예"
+[dispatch.predicted]
+time_class = ["M"]
+tokens_class = ["T2"]
+rules = ["R_tok_v2"]
+reason = "웹 위주, 파일은 적음"
+[dispatch.actual]
+minutes = 8.4
+turns = 83
+tokens_m = 7.0
+[dispatch.review]
+reason = "지휘 모델 보정: 엄격한 양식에 코드 없는 조사는 ~80–140턴"
+hypotheses = ["H_tok_per_min"]
+
+[[dispatch]]
+id = "dR2"
+project = "batman"
+batch = 10
+date = 2026-10-16
+task = "조사: 다른 작품의 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음)"
+[dispatch.situation]
+S_research = "예"
+[dispatch.predicted]
+time_class = ["M"]
+tokens_class = ["T2"]
+rules = ["R_tok_v2"]
+reason = "웹 위주, 파일은 적음"
+[dispatch.actual]
+minutes = 9.7
+turns = 87
+tokens_m = 7.5
+[dispatch.review]
+reason = "dR1과 같음"
+hypotheses = ["H_tok_per_min"]
+
+[[dispatch]]
+id = "dR3"
+project = "batman"
+batch = 10
+date = 2026-10-16
+task = "조사: 글쓰기 원칙 조사 + 후보안 → 보고서 1개 (엄격한 양식, 코드 없음)"
+[dispatch.situation]
+S_research = "예"
+S_mid_notes = "예"
+[dispatch.predicted]
+time_class = ["M", "L"]
+tokens_class = ["T2"]
+rules = ["R_tok_v2"]
+reason = "웹 위주, 파일은 적음 (난이도 4)"
+[dispatch.actual]
+minutes = 20.3
+turns = 138
+tokens_m = 22.3
+[dispatch.review]
+reason = "지휘 모델 메모 2번을 받음. 시간은 맞음, 조사 넷 중 가장 김"
+hypotheses = ["H_tok_per_min"]
+
+[[dispatch]]
+id = "dR4"
+project = "batman"
+batch = 10
+date = 2026-10-16
+task = "조사: 다른 작품의 표현 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음)"
+[dispatch.situation]
+S_research = "예"
+[dispatch.predicted]
+time_class = ["M"]
+tokens_class = ["T2"]
+rules = ["R_tok_v2"]
+reason = "웹 위주, 파일은 적음"
+[dispatch.actual]
+minutes = 7.7
+turns = 84
+tokens_m = 7.3
+[dispatch.review]
+reason = "dR1과 같음"
+hypotheses = ["H_tok_per_min"]
+
+[[dispatch]]
+id = "d14"
+project = "batman"
+batch = 10
+date = 2026-10-16
+task = "규칙 수정 + 캐릭터 자세·가독성 수정 (전후 캡처) + 자동 검사"
+[dispatch.situation]
+S_external_check = "예"
+S_check_loop = "일부"
+[dispatch.predicted]
+time_class = ["M", "L"]
+tokens_class = ["T2", "T3"]
+rules = ["R_tok_v2", "R_verify_other"]
+reason = "캐릭터 캡처"
+[dispatch.actual]
+minutes = 30.3
+turns = 287
+tokens_m = 68.1
+[dispatch.review]
+reason = "시간은 범위 아래쪽, 토큰은 범위 위쪽(T3). 이 세션의 조각 v0 예측(40–55분, 50–145M)은 시간 ✗, 토큰 ○"
+hypotheses = ["H_tok_per_min"]
+
+[[dispatch]]
+id = "d15"
+project = "batman"
+batch = 11
+date = 2026-10-16
+task = "큰 문서 재설계 (여러 문서 한꺼번에)"
+[dispatch.situation]
+S_long_doc = "예"
+S_similar_past = "예"
+[dispatch.predicted]
+time_class = ["XL"]
+tokens_class = ["T4"]
+rules = ["R_turns_analogy"]
+reason = "배치 1 크기의 글쓰기 작업"
+[dispatch.actual]
+status = "stopped"
+minutes = 1.1
+turns = 39
+tokens_m = 6.0
+[dispatch.review]
+reason = "사용자 PC에서 ~1분 만에 멈춤 (작업 장소를 클라우드로 옮김). 판정에서 뺀다"
+
+[[dispatch]]
+id = "d16"
+project = "batman"
+batch = 11
+date = 2026-10-16
+task = "로컬 GPU 이미지 생성 시안 + 화면 시안 1장"
+[dispatch.situation]
+S_external_check = "예"
+[dispatch.predicted]
+time_class = ["M", "L"]
+tokens_class = ["T2", "T3"]
+rules = ["R_verify_other"]
+reason = "로컬 GPU로 이미지 생성, 시안 렌더"
+[dispatch.actual]
+status = "unknown"
+minutes = 9.5
+turns = 71
+tokens_m = 6.9
+[dispatch.review]
+reason = "숫자는 이 PC 기록에서 뽑음. d15와 같은 때 작업 장소를 옮겨서 끝까지 했는지 모름. 지휘 모델 기록 전이라 판정에서 뺀다"

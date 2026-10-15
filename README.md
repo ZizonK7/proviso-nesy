@@ -21,7 +21,9 @@
 - 의도와 실제가 어긋난 곳을 찾습니다. 목표를 해치는 동작인데 "대가로 받아들인다"는 기록이 없으면 문제로 표시합니다. 첫 발견은 뮤직 플레이어의 알아서 틀기에서 같은 곡이 다시 나오는 문제였고, 앱을 고친 뒤 점검을 통과했습니다.
 - 논리집을 LLM 도구(MCP)로 내놓습니다. 첫 실험에서는 논리집을 쓴 Claude가 세 질문 중 둘에서 사용자 판단에 더 가까웠습니다. → [실험 보고서](docs/experiments/2026-10-14-body-v0.md)
 
-아직 로컬 모델과 자동 학습은 없습니다.
+- AI가 스스로 쌓는 논리집도 있습니다. 하위 에이전트(AI가 일을 나눠 맡기는 다른 AI)가 얼마나 걸리고 얼마나 쓸지를 예측하고, 실측과 비교해 틀린 이유를 가설로 세웁니다. 그 가설은 다음 기록으로만 시험합니다. 사용자가 자기 논리집을 쌓는 방식을 AI가 따라 합니다. → [agent_usage](domains/agent_usage/CLAUDE.md)
+
+아직 로컬 모델은 없습니다. 자동 학습은 agent_usage에서 처음 시작했습니다.
 
 ## 다음 방향: 논리 조각
 
@@ -36,6 +38,8 @@ python -m proviso validate flowlog   # 지식 파일 검사
 python -m proviso graph flowlog      # out/flowlog-graph.html 생성 (브라우저로 열기)
 python -m proviso check flowlog      # 가설 확인
 python -m proviso audit music_player # 점검: 목표를 해치는데 받아들인 기록이 없는 것
+python -m domains.agent_usage.dispatches  # 하위 에이전트 예측과 실측 비교
+python -m proviso check agent_usage  # 예측 가설을 그 뒤 기록으로 시험
 python -m unittest discover -s tests -t .
 python -m experiments.run_body_v0    # 논리집 유무에 따른 Claude 답 비교 (Claude Code 필요)
 ```
