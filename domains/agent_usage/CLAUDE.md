@@ -50,4 +50,5 @@
 - **첫 고리**: H_tok_per_min은 배치 10 실측을 보기 전에 세웠다. 배치 10에서 시험 5건 중 1건만 맞아 반박됐다 → 작업 길이로 나눠 H_tok_per_min_long. 같은 반대 근거로 R_tok_v3를 R_tok_long / R_tok_short로 나눴다.
 - `audit` 1건: H_turns_over(빗대어 잡은 턴 수가 실제의 0.4–0.5배)가 G_time을 해친다. 다음 큰 작업에서 턴 수를 따로 예측해 시험한다.
 - 나머지 가설 6개는 "시험 전". batman 배치 12부터 시험된다.
-- 아직 batman 지휘 모델은 이 논리집을 모른다. batman CLAUDE.md에 고리를 넣을지는 사용자 결정.
+- batman 지휘 모델이 배치 12부터 이 논리집으로 예측한다(batman CLAUDE.md §7과 AGENT-LOG 정의, batman `3b886a9`). batman AGENT-LOG의 에이전트별 예측 줄(rules · situation · 분과 턴 범위 · reason · review)을 여기 기록으로 옮긴다. 클라우드 세션은 proviso에 push하지 못할 수 있어서, batman STATUS에 "proviso sync pending: batch N"이 있으면 PC 세션이 옮긴다.
+- d16은 끝났는지 모른다. batman 지휘 모델이 실측을 기록하면 `status`를 고친다.
