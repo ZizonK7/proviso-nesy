@@ -1155,3 +1155,35 @@ tokens_m = 44.1
 [dispatch.review]
 reason = "시간·턴은 아래, 토큰은 하한 바로 아래(등급 T2는 맞음). 턴당 맥락 22.7만과 분당 6.1턴은 예측대로. 틀린 건 턴 배수: d16의 222턴에는 로컬 이미지 생성 실행과 레시피 스크립트가 들어 있었고, 시안 넷은 데이터 읽기·캡처 스크립트를 함께 써서 d16의 0.9배였다. 여러 개를 만드는 일은 공통 부분을 한 번만 센다"
 hypotheses = ["H_turn_rate_shape", "H_tok_rate_long", "H_check_loop2"]
+[[dispatch]]
+id = "d30b"
+project = "batman"
+batch = 14
+date = 2026-10-16
+task = "같은 에이전트 이어서: 고정된 화면 구성 하나에 생김새 시안 4개 + 물건별 아이콘 + GPU 캡처 + 비교 그림"
+[dispatch.situation]
+S_resumed = "예"
+S_full_brief = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_similar_past = "예"
+S_turns = "예"
+S_spec_fixed = "일부"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_short = "일부"
+[dispatch.predicted]
+time_class = ["S", "M"]
+minutes = [18, 35]
+turns = [110, 200]
+tokens_class = ["T2", "T3"]
+rules = ["R_resume_ctx_v2", "R_time_turns_v2", "R_verify_loop"]
+reason = "구성 하나에 생김새 넷, 앞 회차의 데이터 읽기·캡처·구성을 다시 씀 → d30 턴의 0.6–1.0배. 분당 ~6턴. R_resume_ctx_v2: d30 평균 22.7만 × 1.6–1.8 → 36–41만"
+[dispatch.actual]
+minutes = 14.9
+turns = 64
+tokens_m = 26.0
+[dispatch.review]
+reason = "셋 다 아래(등급 T2는 맞음). 턴당 맥락 40.6만은 R_resume_ctx_v2 범위 안(맞음). 턴은 d30의 0.33배: 에이전트가 구성을 파일 하나로 빼고 생김새를 칠하는 층으로만 써서, 공통 부분이 한 번만 들었다. d30에 이어 '같은 것의 변형 여럿은 공통 부분을 한 번만 센다' 두 번째 사례"
+hypotheses = ["H_turn_rate_shape"]

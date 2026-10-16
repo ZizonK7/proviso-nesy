@@ -283,6 +283,12 @@ source = "measured"
 date = 2026-10-16
 
 [[observation]]
+id = "O_variants"
+text = "같은 것의 변형 여럿을 만든 작업은 변형 수만큼 늘지 않았다: d30 시안 넷이 시안 하나짜리 d16의 0.87배 턴, d30b 생김새 넷이 d30의 0.33배 턴. 데이터 읽기·캡처·구성을 함께 썼다"
+source = "measured"
+date = 2026-10-16
+
+[[observation]]
 id = "O_verify_once"
 text = "한 번에 끝나는 외부 단계는 쌌다: d27 모델 받기 + 153줄 CPU 일괄 렌더가 몇 분, d16 GPU 생성 일곱 장 + 엔진 렌더 두 장(고치기 한 번). 스모크를 반복한 d26b는 그 부분이 쓰기의 약 1.5배"
 source = "director"
@@ -591,6 +597,17 @@ conditions = ["S_full_brief"]
 evidence = ["O_full_brief"]
 against = ["O_m3_fast"]
 note = "90–120분은 지시서가 완전해도 에이전트가 설계를 해야 했던 작업의 값이다. 설계 문서가 동작·데이터·검사까지 정해 두면 R_spec_fixed가 먼저 (2026-10-16, ai)"
+
+[[rule]]
+id = "R_variants"
+version = 1
+status = "hypothesis"
+method = "같은 것의 변형 N개를 만드는 일은 공통 부분(데이터 읽기·구성·캡처)을 한 번만 세고, 변형마다 그 위에 칠하는 몫만 더한다: 하나짜리 과거 작업의 0.8–1.2배(새로 만들 때), 구성이 이미 있으면 앞 회차의 0.3–0.5배"
+reason = "에이전트는 공통 부분을 먼저 빼서 한 번 쓰고 변형은 얇은 층으로 쓴다. 실측 둘(d30, d30b)"
+serves = ["G_time", "G_tokens"]
+conditions = ["S_similar_past"]
+evidence = ["O_variants"]
+note = "변형 수로 곱한 예측(d30 ×1.1–1.7, d30b ×0.6–1.0)이 둘 다 높았다. '변형을 만든다'를 대 볼 상태가 아직 없어 지휘 모델이 직접 판단한다"
 
 [[rule]]
 id = "R_third_pass"
