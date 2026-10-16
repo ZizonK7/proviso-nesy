@@ -223,9 +223,10 @@ def research_cap() -> tuple[str, str]:
 
 
 def sonnet_max_rate() -> tuple[str, str]:
-    """H_sonnet_max_rate: Sonnet max로 도는 비조사 작업은 분당 6.5–9.5턴(Opus high 2.5–6.5보다 빠르다)."""
+    """H_sonnet_max_rate: Sonnet max로 도는 도구 작업(외부 확인이 있는 파일 편집; 순수 추론 풀이는 뺌)은 분당 6.5–9.5턴(Opus high 2.5–6.5보다 빠르다)."""
     def applies(d: dict) -> bool:
         return (dp.situation(d, "S_other_model") == "예" and "Sonnet" in str(d.get("task", ""))
+                and dp.situation(d, "S_external_check") == "예"
                 and _m(d, "minutes") is not None and _m(d, "turns") is not None)
 
     def ok(d: dict) -> bool:
