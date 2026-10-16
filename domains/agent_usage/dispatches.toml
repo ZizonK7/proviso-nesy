@@ -1252,3 +1252,36 @@ tokens_m = 100.9
 [dispatch.review]
 reason = "시간은 범위 안, 턴은 아래(d29의 0.54배), 토큰은 하한 바로 아래(등급 T3 맞음). 턴당 맥락 65.5만으로 예상 위: 네 번째 회차가 시제품 위에 출하 코드까지 읽어 계속 커진다. R_third_pass가 말하는 0.4–0.6배가 그대로 맞았는데 ×0.7만 적용했다: 시제품이 출하 코드와 가까워 '모든 쪽을 다시 만든다'가 아는 일처럼 굴었다"
 hypotheses = ["H_turn_rate_shape", "H_tok_rate_long"]
+[[dispatch]]
+id = "d30e"
+project = "batman"
+batch = 14
+date = 2026-10-16
+task = "같은 에이전트 다섯 번째: UI 사용성 작은 수정 셋(필터·묶음·스크롤 유지) + 도중 추가 1건(화면 위 자막) + 자동 검사 + GPU 캡처"
+[dispatch.situation]
+S_resumed = "예"
+S_full_brief = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_similar_past = "예"
+S_short = "예"
+S_turns = "예"
+S_spec_fixed = "예"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_mid_notes = "예"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [8, 20]
+turns = [40, 100]
+tokens_class = ["T2", "T3"]
+rules = ["R_third_pass", "R_resume_ctx_v2", "R_time_turns_v2"]
+reason = "한 시간 전 자기 코드의 작은 동작 변경 셋. R_third_pass로 직전(154턴)의 0.4–0.6배보다 작게 40–100. 분당 ~5.5턴. 맥락 68–72만"
+[dispatch.actual]
+minutes = 15.2
+turns = 52
+tokens_m = 35.5
+[dispatch.review]
+reason = "셋 다 범위 안, 턴당 맥락 68.3만도 범위 안. 다섯 번째 회차의 작은 일에서도 R_third_pass와 R_resume_ctx_v2가 맞았다. 도중 추가 1건(자막)이 들어갔지만 범위를 넘기지 않았다"
+hypotheses = ["H_turn_rate_shape", "H_mid_notes"]
