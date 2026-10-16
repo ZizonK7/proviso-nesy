@@ -1910,7 +1910,12 @@ tokens_class = ["T2", "T3"]
 rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_once"]
 reason = "d27(세 사건 + 153줄 음성, 176턴·~37분·~56M)에 빗대어 ×0.55–0.95: 사건 하나와 82줄이지만 검사 스크립트 수정·확장과 벽 데이터가 더해짐. 분당 ~4.5턴, 턴당 28–35만"
 [dispatch.actual]
-status = "unknown"
+minutes = 30.2
+turns = 216
+tokens_m = 74.1
+[dispatch.review]
+reason = "시간은 범위 안, 턴·토큰은 위(등급 T3는 범위 안). 분당 7.2턴(작은 데이터 편집과 검사 실행), 턴당 맥락 34.3만은 범위 안. 빗나간 건 턴 수: 검사 스크립트 고치기·규칙 여덟 개·깨진 복사본 시험과 설계서에 없던 데이터 모양 열두 개가 사건 데이터만큼 턴을 먹었다. 사건 수에 비례해 깎은 것이 틀렸다: 도구 일은 사건 수와 무관하다"
+hypotheses = ["H_turn_rate_shape", "H_tok_rate_long"]
 
 [[dispatch]]
 id = "d41"
