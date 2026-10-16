@@ -1122,3 +1122,36 @@ turns = 33
 tokens_m = 16.8
 [dispatch.review]
 reason = "셋 다 아래. 턴당 맥락 50.9만은 R_resume_ctx_v2 범위 안(맞음). 틀린 건 턴 수: 세 번째 회차의 에이전트는 코드를 알아서 패널을 큰 수정 몇 번으로 썼다(도구 21회). d15d(같은 작가 세 번째, 직전의 0.49배 턴)와 같은 모양 → R_third_pass(가설)로 세움"
+[[dispatch]]
+id = "d30"
+project = "batman"
+batch = 14
+date = 2026-10-16
+task = "UI 디자인 시안 4개(시험용 데이터로 그리는 엔진 안 시제품) + GPU 캡처 + 비교 그림 + 사람용 설명"
+[dispatch.situation]
+S_full_brief = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_similar_past = "예"
+S_turns = "예"
+S_spec_fixed = "아니오"
+S_resumed = "아니오"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_short = "아니오"
+S_long_doc = "아니오"
+[dispatch.predicted]
+time_class = ["M", "L"]
+minutes = [40, 75]
+turns = [230, 380]
+tokens_class = ["T2", "T3"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_verify_loop", "R_tok_long"]
+reason = "d16(시안 1개 + 로컬 이미지 생성: 36분, 222턴, 40.4M)에 빗대 시안 넷이라 턴 ×1.1–1.7. 분당 5–6턴. 새 에이전트라 턴당 20–30만"
+[dispatch.actual]
+minutes = 32.0
+turns = 194
+tokens_m = 44.1
+[dispatch.review]
+reason = "시간·턴은 아래, 토큰은 하한 바로 아래(등급 T2는 맞음). 턴당 맥락 22.7만과 분당 6.1턴은 예측대로. 틀린 건 턴 배수: d16의 222턴에는 로컬 이미지 생성 실행과 레시피 스크립트가 들어 있었고, 시안 넷은 데이터 읽기·캡처 스크립트를 함께 써서 d16의 0.9배였다. 여러 개를 만드는 일은 공통 부분을 한 번만 센다"
+hypotheses = ["H_turn_rate_shape", "H_tok_rate_long", "H_check_loop2"]
