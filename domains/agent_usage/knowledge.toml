@@ -254,7 +254,7 @@ date = 2026-10-16
 
 [[observation]]
 id = "O_resume_ctx"
-text = "이어서 보낸 에이전트의 턴당 맥락은 회차마다 커졌다: d15b 41.7 → d15c 37.4 → d15d 62.7만, d17 24.7 → d17b 52만, d26 38.1 → d26b 43.1만"
+text = "이어서 보낸 에이전트의 턴당 맥락은 회차마다 커졌다: d15b 41.7 → d15c 37.4 → d15d 62.7만, d17 24.7 → d17b 52만, d26 38.1 → d26b 43.1만, d29 24.9 → d29b 45.2만"
 source = "measured"
 date = 2026-10-16
 
@@ -434,9 +434,20 @@ evidence = ["O_ctx_short", "O_ctx_read_short", "O_fixed_input"]
 [[rule]]
 id = "R_resume_ctx"
 version = 1
-status = "hypothesis"
+status = "retired"
 method = "이어서 보내는 에이전트는 턴당 맥락을 마지막 회차의 턴당 맥락 + 새로 읽을 양으로 잡고 예상 턴을 곱한다. 첫 회차 규칙(R_tok_short_v5·R_tok_long)의 범위를 쓰지 않는다"
 reason = "앞 회차의 맥락이 그대로 남아서 회차마다 커진다 (실측 세 줄)"
+conditions = ["S_resumed", "S_turns", "F_reread"]
+evidence = ["O_resume_ctx"]
+replaced_by = ["R_resume_ctx_v2"]
+note = "d29b: 범위 안에 맞았지만 '마지막 회차의 턴당 맥락'을 앞 회차 평균(24.9만)으로 읽어 실제(45.2만)의 절반으로 잡았다. 평균은 맥락이 작던 초반 턴을 포함한다. 문장이 실제 이유(끝에 남은 맥락이 이어진다)와 달라 고침 (2026-10-16, ai)"
+
+[[rule]]
+id = "R_resume_ctx_v2"
+version = 2
+status = "hypothesis"
+method = "이어서 보내는 에이전트는 턴당 맥락을 앞 회차 **끝 무렵 턴**의 맥락(평균의 약 1.6–1.8배) + 새로 읽을 양으로 잡고 예상 턴을 곱한다. 첫 회차 규칙의 범위를 쓰지 않는다"
+reason = "다음 회차는 앞 회차가 끝났을 때의 맥락에서 시작한다. 실측 넷: 41.7 → 37.4 → 62.7만, 24.7 → 52만, 38.1 → 43.1만, 24.9 → 45.2만"
 serves = ["G_tokens"]
 conditions = ["S_resumed", "S_turns", "F_reread"]
 evidence = ["O_resume_ctx"]

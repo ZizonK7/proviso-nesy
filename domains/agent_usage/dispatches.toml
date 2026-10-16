@@ -1059,3 +1059,35 @@ tokens_m = 70.9
 [dispatch.review]
 reason = "시간·턴은 범위 안(50.3분, 285턴), 토큰은 하한 바로 아래(70.9M, 등급 T3는 맞음). 분당 5.7턴으로 R_time_turns_v2의 예상(5–7) 안. 토큰이 빗나간 건 턴당 맥락 24.9만: 새 worktree의 첫 회차 에이전트가 필요한 스크립트만 읽어서 R_tok_long의 하한(24만)이 맞았고 '큰 작업이면 위쪽'이라는 버릇이 틀렸다. 캡처 → 고침 반복이 분당 턴을 낮추지 않았다(캡처 스크립트 하나를 제자리에서 다시 돌림): H_check_loop2 반대. 도중 지시 1회"
 hypotheses = ["H_turn_rate_shape", "H_tok_rate_long", "H_check_loop2", "H_mid_notes"]
+[[dispatch]]
+id = "d29b"
+project = "batman"
+batch = 14
+date = 2026-10-16
+task = "같은 에이전트 이어서: 바닥 흔적 조준 범위 고침 + 확인 표시 바꿈 + 자동 검사 + GPU 캡처 2장"
+[dispatch.situation]
+S_resumed = "예"
+S_full_brief = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_similar_past = "예"
+S_short = "예"
+S_turns = "예"
+S_spec_fixed = "일부"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+time_class = ["S", "M"]
+minutes = [12, 30]
+turns = [50, 120]
+tokens_class = ["T1", "T2"]
+rules = ["R_resume_ctx", "R_time_turns_v2", "R_verify_loop"]
+reason = "한 시간 전 자기가 쓴 코드의 작은 수정 둘 + 검사 줄 + 캡처. 분당 ~5턴(d29 5.7). R_resume_ctx: 마지막 턴당 맥락 ~25만 + 새로 읽을 양 → 28–33만 × 50–120턴"
+[dispatch.actual]
+minutes = 12.4
+turns = 71
+tokens_m = 32.1
+[dispatch.review]
+reason = "셋 다 범위 안(시간은 하한). 분당 5.7턴으로 d29와 같음. 턴당 맥락 45.2만: R_resume_ctx의 방향(앞 회차보다 큼)은 맞았지만 '마지막 턴당 맥락'을 앞 회차 평균(24.9만)으로 읽은 것이 작았다. 앞 회차 끝 무렵 턴의 맥락은 40만 가까이였다 → 규칙 문장의 '마지막'은 평균이 아니라 끝 무렵 턴"
+hypotheses = ["H_turn_rate_shape", "H_check_loop2"]
