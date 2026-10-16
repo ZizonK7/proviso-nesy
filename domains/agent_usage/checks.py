@@ -23,6 +23,7 @@ SEEN_UNTIL = {
     "tokens_per_minute_long_only": "d26b",  # 배치 1–13으로 세움
     "turn_rate_non_web": "d26b",
     "check_loop_turn_rate": "d26b",
+    "research_cap": "dR5D",  # 배치 10·15 조사 여덟 건으로 세움
 }
 NEED = 0.8
 
@@ -205,6 +206,21 @@ def check_loop_turn_rate() -> tuple[str, str]:
                             f"분당 {_m(d, 'turns_per_min'):.1f}턴")
 
 
+def research_cap() -> tuple[str, str]:
+    """H_research_cap: 양식·상한이 있는 조사 조각은 넓이와 상관없이 7–14분, 80–140턴 (도중 지시·고정 입력 작업은 뺌)."""
+    def applies(d: dict) -> bool:
+        return (_default_setup(d) and dp.situation(d, "S_research") == "예"
+                and dp.situation(d, "S_mid_notes") != "예"
+                and dp.situation(d, "S_fixed_input") != "예"
+                and _m(d, "minutes") is not None and _m(d, "turns") is not None)
+
+    def ok(d: dict) -> bool:
+        return 7.0 <= _m(d, "minutes") <= 14.0 and 80 <= _m(d, "turns") <= 140
+
+    return _judge("research_cap", applies, ok,
+                  lambda d: f"{_m(d, 'minutes'):.1f}분 {int(_m(d, 'turns'))}턴")
+
+
 CHECKS = {
     "tokens_per_minute": tokens_per_minute,
     "tokens_per_minute_by_length": tokens_per_minute_by_length,
@@ -216,4 +232,5 @@ CHECKS = {
     "tokens_per_minute_long_only": tokens_per_minute_long_only,
     "turn_rate_non_web": turn_rate_non_web,
     "check_loop_turn_rate": check_loop_turn_rate,
+    "research_cap": research_cap,
 }

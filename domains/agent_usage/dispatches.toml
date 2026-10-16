@@ -1285,3 +1285,146 @@ tokens_m = 35.5
 [dispatch.review]
 reason = "셋 다 범위 안, 턴당 맥락 68.3만도 범위 안. 다섯 번째 회차의 작은 일에서도 R_third_pass와 R_resume_ctx_v2가 맞았다. 도중 추가 1건(자막)이 들어갔지만 범위를 넘기지 않았다"
 hypotheses = ["H_turn_rate_shape", "H_mid_notes"]
+[[dispatch]]
+id = "dR5A"
+project = "batman"
+batch = 15
+date = 2026-10-16
+task = "조사: 다른 작품의 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장)"
+[dispatch.situation]
+S_web = "예"
+S_research = "예"
+S_full_brief = "예"
+S_short = "예"
+S_turns = "예"
+S_similar_past = "예"
+S_spec_fixed = "일부"
+S_long_doc = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "모름"
+[dispatch.predicted]
+time_class = ["S", "M"]
+minutes = [12, 22]
+turns = [100, 160]
+tokens_class = ["T1", "T2"]
+rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save"]
+reason = "R_research의 80–140턴에서 위쪽. 다룰 작품이 가장 많고(아홉 편 + 영화 + 만화 둘) 사용자 질문에 직접 답해야 해 dR3(138턴)처럼 조금 넘는다. 웹 조사 분당 7–11턴, 턴당 8–16만"
+[dispatch.actual]
+minutes = 11.3
+turns = 125
+tokens_m = 16.7
+[dispatch.review]
+reason = "턴·토큰은 범위 안, 시간은 하한 바로 아래. 분당 11.1턴(웹 범위 상단), 턴당 맥락 13.3만. 네트워크 정책이 페이지 열기를 전부 막아 검색 요약으로만 일해 턴이 빨리 돌았고, 범위가 넓은 조각도 요약 깊이에 갇혀 턴이 더 들지 않았다"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "dR5B"
+project = "batman"
+batch = 15
+date = 2026-10-16
+task = "조사: 다른 작품의 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장)"
+[dispatch.situation]
+S_web = "예"
+S_research = "예"
+S_full_brief = "예"
+S_short = "예"
+S_turns = "예"
+S_similar_past = "예"
+S_spec_fixed = "일부"
+S_long_doc = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "모름"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [9, 18]
+turns = [80, 140]
+tokens_class = ["T1", "T2"]
+rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save"]
+reason = "R_research 범위 그대로(작품 일곱, 질문 한 묶음). 분당 7–11턴, 턴당 8–16만"
+[dispatch.actual]
+minutes = 11.7
+turns = 116
+tokens_m = 14.7
+[dispatch.review]
+reason = "셋 다 범위 안. 분당 9.9턴, 턴당 맥락 12.7만. R_research와 웹 속도가 그대로 맞았다"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "dR5C"
+project = "batman"
+batch = 15
+date = 2026-10-16
+task = "조사: 다른 작품의 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장)"
+[dispatch.situation]
+S_web = "예"
+S_research = "예"
+S_full_brief = "예"
+S_short = "예"
+S_turns = "예"
+S_similar_past = "예"
+S_spec_fixed = "일부"
+S_long_doc = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "모름"
+[dispatch.predicted]
+time_class = ["S", "M"]
+minutes = [10, 20]
+turns = [90, 150]
+tokens_class = ["T1", "T2"]
+rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save"]
+reason = "출처가 많고(게임 열한, 영화·드라마 여덟) 종합(단계 문법)이 생각 턴을 먹어 R_research 가운데보다 조금 위. 웹 속도의 느린 쪽"
+[dispatch.actual]
+minutes = 9.8
+turns = 102
+tokens_m = 12.6
+[dispatch.review]
+reason = "턴·토큰은 범위 안, 시간은 하한 바로 아래. 분당 10.4턴: 종합(문법 만들기)이 속도를 늦출 거라는 이유가 틀렸다. 조사 에이전트는 요약에서 바로 긴 턴 몇 번으로 종합을 썼고 웹 속도가 끝까지 적용됐다"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "dR5D"
+project = "batman"
+batch = 15
+date = 2026-10-16
+task = "조사: 다른 작품의 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장)"
+[dispatch.situation]
+S_web = "예"
+S_research = "예"
+S_full_brief = "예"
+S_short = "예"
+S_turns = "예"
+S_similar_past = "예"
+S_spec_fixed = "일부"
+S_long_doc = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "모름"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [9, 18]
+turns = [80, 140]
+tokens_class = ["T1", "T2"]
+rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save"]
+reason = "참고작 열둘이지만 질문이 하나로 좁고, 우리 설계서를 읽어 배치안을 글로 쓰는 일. R_research 범위"
+[dispatch.actual]
+minutes = 11.0
+turns = 123
+tokens_m = 17.6
+[dispatch.review]
+reason = "셋 다 범위 안. 분당 11.2턴, 턴당 맥락 14.3만(넷 중 최고): 우리 설계서와 UI 코드를 더 읽는 조각이라 예상대로"
+hypotheses = ["H_turn_rate_shape"]
