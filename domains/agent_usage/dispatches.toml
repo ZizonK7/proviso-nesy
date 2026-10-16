@@ -2012,4 +2012,9 @@ tokens_class = ["T1", "T2"]
 rules = ["R_resume_ctx_v2", "R_third_pass", "R_time_turns_v2", "R_verify_once"]
 reason = "캐스팅과 명령이 이미 자기 워크로그에 있음. 모델 내려받기(~350MB), 104줄 한 번 렌더(CPU, 줄당 몇 초), 목록·크기로 확인, 커밋 하나. 렌더 도는 동안 분당 ~3턴. 맥락 40–45만"
 [dispatch.actual]
-status = "unknown"
+minutes = 18.0
+turns = 36
+tokens_m = 19.2
+[dispatch.review]
+reason = "셋 다 범위 안(18 vs 12–30, 36 vs 30–80, 19.2M vs 15–40M). 렌더는 백그라운드로 돌고 턴은 확인 작업(목록·길이·Whisper)에 쓰였다는 이유가 맞았다"
+hypotheses = ["H_turn_rate_shape"]
