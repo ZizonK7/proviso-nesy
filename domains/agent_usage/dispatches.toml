@@ -1984,3 +1984,32 @@ rules = ["R_resume_ctx_v2", "R_turns_analogy_v2", "R_time_turns_v2", "R_verify_l
 reason = "d26b(두 장 배선 283턴·~76분·~123M)에 빗대어 ×0.8–1.3: 한 장이지만 다른 에이전트 둘의 데이터 모양과 169개 노드를 맞추고 끝까지 플레이하는 검사 행과 안내서까지. 긴 스모크로 분당 3.7–4.5턴. 맥락은 첫 회차 끝 무렵 45–52만 → 48–56만"
 [dispatch.actual]
 status = "unknown"
+
+[[dispatch]]
+id = "d40b"
+project = "batman"
+batch = 18
+date = 2026-10-16
+task = "같은 에이전트 두 번째: 준비된 도구로 음성 104줄 렌더 + 목록 확인 + 커밋"
+[dispatch.situation]
+S_resumed = "예"
+S_full_brief = "예"
+S_spec_fixed = "예"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "일부"
+S_short = "예"
+S_turns = "예"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+time_class = ["S", "M"]
+minutes = [12, 30]
+turns = [30, 80]
+tokens_class = ["T1", "T2"]
+rules = ["R_resume_ctx_v2", "R_third_pass", "R_time_turns_v2", "R_verify_once"]
+reason = "캐스팅과 명령이 이미 자기 워크로그에 있음. 모델 내려받기(~350MB), 104줄 한 번 렌더(CPU, 줄당 몇 초), 목록·크기로 확인, 커밋 하나. 렌더 도는 동안 분당 ~3턴. 맥락 40–45만"
+[dispatch.actual]
+status = "unknown"
