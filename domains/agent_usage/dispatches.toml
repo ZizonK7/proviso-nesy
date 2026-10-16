@@ -1,5 +1,7 @@
 # 하위 에이전트 작업 기록 — 예측 → 실측 → 돌아보기
-# 출처: batman docs/AGENT-LOG.md (배치 1–11). 배치 11의 16번만 이 PC의 대화 기록에서 scripts/agent_usage.py로 숫자를 뽑았다.
+# 출처: batman docs/AGENT-LOG.md (배치 1–13). d15b 이후는 batman 클라우드 세션이 적어 둔 기록(docs/proviso-sync/)을 PC 세션이 옮겼다.
+# 2026-10-16 PC 세션: 작업 모양 상태(S_web, S_fixed_input, S_other_model, S_resumed, S_spec_fixed)와 d28의 S_mid_notes를
+# 사후에 채웠다. 보내기 전에 알 수 있던 작업의 성질(d28의 도중 지시만 실행 중 사실)이고, 예측 칸은 고치지 않았다.
 # 공개 저장소: 작업 설명은 종류만 적는다 (게임 내용·코드는 적지 않음).
 #
 # 칸:
@@ -395,6 +397,7 @@ batch = 10
 date = 2026-10-16
 task = "조사: 다른 작품의 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음)"
 [dispatch.situation]
+S_web = "예"
 S_research = "예"
 [dispatch.predicted]
 time_class = ["M"]
@@ -416,6 +419,7 @@ batch = 10
 date = 2026-10-16
 task = "조사: 다른 작품의 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음)"
 [dispatch.situation]
+S_web = "예"
 S_research = "예"
 [dispatch.predicted]
 time_class = ["M"]
@@ -437,6 +441,7 @@ batch = 10
 date = 2026-10-16
 task = "조사: 글쓰기 원칙 조사 + 후보안 → 보고서 1개 (엄격한 양식, 코드 없음)"
 [dispatch.situation]
+S_web = "예"
 S_research = "예"
 S_mid_notes = "예"
 [dispatch.predicted]
@@ -459,6 +464,7 @@ batch = 10
 date = 2026-10-16
 task = "조사: 다른 작품의 표현 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음)"
 [dispatch.situation]
+S_web = "예"
 S_research = "예"
 [dispatch.predicted]
 time_class = ["M"]
@@ -531,9 +537,490 @@ tokens_class = ["T2", "T3"]
 rules = ["R_verify_other"]
 reason = "로컬 GPU로 이미지 생성, 시안 렌더"
 [dispatch.actual]
-status = "unknown"
-minutes = 9.5
-turns = 71
-tokens_m = 6.9
+minutes = 36.0
+turns = 222
+tokens_m = 40.4
 [dispatch.review]
-reason = "숫자는 이 PC 기록에서 뽑음. d15와 같은 때 작업 장소를 옮겨서 끝까지 했는지 모름. 지휘 모델 기록 전이라 판정에서 뺀다"
+reason = "끝까지 했다(batman AGENT-LOG 16번, 2026-10-16 기록). 앞서 적은 9.5분·71턴은 도중 숫자였다. 시간 M, 토큰 T2로 둘 다 범위 안. GPU 생성 일곱 장 + 엔진 렌더 두 장이 한 번씩 돌고 고치기는 한 장뿐이라 반복이 적었다. 분당 6.2턴, 턴당 맥락 18.2만. 가설들을 세울 때 이 실측은 없었지만 SEEN_UNTIL 기준 안쪽이라 '맞춰 본 것'으로 둔다(보수적)"
+
+[[dispatch]]
+id = "d15b"
+project = "batman"
+batch = 11
+date = 2026-10-16
+task = "큰 문서 재설계 (여러 문서 한꺼번에) — 클라우드에서 다시 시작"
+[dispatch.situation]
+S_long_doc = "예"
+S_unsaved_doc = "아니오"
+S_full_brief = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_research = "아니오"
+S_short = "아니오"
+S_mid_notes = "아니오"
+S_turns = "예"
+[dispatch.predicted]
+written_before = false
+time_class = ["XL"]
+minutes = [80, 125]
+turns = [300, 500]
+tokens_class = ["T3", "T4"]
+rules = ["R_turns_analogy", "R_time_turns", "R_full_brief", "R_tok_long", "R_long_doc_save"]
+reason = "글 양이 d03+d04 합친 정도(360턴, 168분, 단 d03은 80분 저장 없이 씀). 지시서가 완전하고 산출물마다 커밋하므로 R_full_brief의 90–120분. 26분 시점에 7개 중 3개 커밋(빠른 쪽). 150턴 넘을 것이라 R_tok_long"
+[dispatch.actual]
+minutes = 58.6
+turns = 163
+tokens_m = 68.0
+[dispatch.review]
+reason = "시간·턴을 높게 잡음(실제/예상 턴 0.41 → H_turns_over 지지). 빗댄 d03에는 80분 저장 없는 정체가 들어 있었고, R_full_brief의 90–120분은 임포트·렌더를 기다린 구현 작업에서 나온 것. 기다릴 게 없는 문서 작업은 큰 덩어리로 써서 분당 2.8턴, 턴당 맥락 41.7만(R_tok_long 범위 안) → 토큰 등급 T3는 맞음. 후보 규칙: 완전한 지시서 + 외부 확인 없는 문서 작업은 50–70분, 150–200턴, T3"
+hypotheses = ["H_turns_over", "H_tok_per_min_long"]
+
+[[dispatch]]
+id = "d17"
+project = "batman"
+batch = 12
+date = 2026-10-16
+task = "검토용 자료 묶음 만들기 (정답 제거, 엄격한 양식, 코드 없음)"
+[dispatch.situation]
+S_research = "일부"
+S_short = "일부"
+S_turns = "예"
+S_full_brief = "예"
+S_external_check = "아니오"
+[dispatch.predicted]
+time_class = ["S", "M"]
+minutes = [20, 35]
+turns = [100, 180]
+tokens_class = ["T1", "T2"]
+rules = ["R_research", "R_tok_short", "R_time_turns"]
+reason = "조사 모양(엄격한 양식, 코드 없음)이지만 새 설계 문서 전체를 읽고 파일 여섯 개와 누출 검사를 쓴다 → 조사 범위보다 위"
+[dispatch.actual]
+minutes = 19.4
+turns = 73
+tokens_m = 18.0
+[dispatch.review]
+reason = "시간은 범위 바로 아래(등급 S는 맞음), 턴은 아래, 토큰은 안. 긴 파일 일곱 개를 몇 번에 써서 분당 3.8턴(문서 작업과 같음, H_turn_rate 미달); 턴당 맥락 24.7만. 읽기 추가와 낮은 턴 속도가 상쇄되어 시간은 맞았다"
+hypotheses = ["H_turn_rate"]
+
+[[dispatch]]
+id = "d18"
+project = "batman"
+batch = 12
+date = 2026-10-16
+task = "블라인드 풀이 1 (자료 묶음만 보고 추론, 엄격한 양식) — Opus 5.5 high"
+[dispatch.situation]
+S_fixed_input = "예"
+S_research = "예"
+S_short = "예"
+S_turns = "예"
+S_external_check = "아니오"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [10, 25]
+turns = [60, 120]
+tokens_class = ["T1"]
+rules = ["R_research", "R_tok_short", "R_time_turns"]
+reason = "조사보다 입력이 작고(묶음 여섯 개) 추론과 사건별 출력 파일만"
+[dispatch.actual]
+minutes = 6.7
+turns = 20
+tokens_m = 1.9
+[dispatch.review]
+reason = "셋 다 아래로 빗나감. 파일 일곱 개를 열두 번에 읽고 보고서 하나를 한 번에 씀: 입력이 고정된 순수 추론 작업은 도구 고리가 거의 없어 턴이 파일 수 + 몇 개로 줄어든다. 분당 3.0턴, 턴당 맥락 9.3만(R_tok_short 안). 새 상태 후보: 고정된 작은 입력 + 출력 하나 + 확인 없음 → 15–30턴, 5–10분, 3M 미만"
+hypotheses = ["H_turn_rate", "H_tok_per_min_long"]
+
+[[dispatch]]
+id = "d19"
+project = "batman"
+batch = 12
+date = 2026-10-16
+task = "블라인드 풀이 2 (같은 일) — Sonnet 5.5 max (F_setup 밖: 첫 실측)"
+[dispatch.situation]
+S_fixed_input = "예"
+S_other_model = "예"
+S_research = "예"
+S_short = "예"
+S_turns = "예"
+S_external_check = "아니오"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [10, 25]
+turns = [60, 120]
+tokens_class = ["T1"]
+rules = ["R_research", "R_tok_short", "R_time_turns"]
+reason = "모름: 숫자 범위는 Opus 5.5 high에서만 확인됨(F_setup). Opus 범위를 자리표시로 적음. 실측이 이 설정의 첫 관찰이 된다"
+[dispatch.actual]
+minutes = 25.3
+turns = 44
+tokens_m = 8.3
+[dispatch.review]
+reason = "이 설정의 첫 실측. 같은 일이 S1(Opus high)의 3.8배 시간(25.3 vs 6.7분), 2.2배 턴(44 vs 20), 2.6배 도구(31 vs 12), 4.4배 토큰(8.3 vs 1.9M). Sonnet max는 더 잘게(다시 읽기, 나눠 쓰기) 일해서 턴과 분이 늘고 매 턴 커지는 맥락을 다시 읽는다. 관찰 후보 O_sonnet_max: 고정된 작은 입력에서 Opus high의 턴·도구 2–3배, 분 3–4배, 토큰 4배"
+
+[[dispatch]]
+id = "d20"
+project = "batman"
+batch = 12
+date = 2026-10-16
+task = "블라인드 풀이 3 (같은 일) — Fable 5.1 xhigh (F_setup 밖: 첫 실측)"
+[dispatch.situation]
+S_fixed_input = "예"
+S_other_model = "예"
+S_research = "예"
+S_short = "예"
+S_turns = "예"
+S_external_check = "아니오"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [10, 25]
+turns = [60, 120]
+tokens_class = ["T1"]
+rules = ["R_research", "R_tok_short", "R_time_turns"]
+reason = "모름: F_setup 밖. Opus 범위를 자리표시로 적음. 실측이 이 설정의 첫 관찰이 된다"
+[dispatch.actual]
+minutes = 14.8
+turns = 23
+tokens_m = 2.3
+[dispatch.review]
+reason = "이 설정의 첫 실측. 같은 일을 S1(Opus high)과 같은 도구 12회·비슷한 턴(23 vs 20)으로 했으나 시간은 2.2배(14.8 vs 6.7분), 토큰은 비슷(2.3 vs 1.9M, 캐시 생성은 3배). Fable xhigh는 추가 시간을 도구가 아니라 생각에 쓴다. 관찰 후보 O_fable_xhigh: 고정된 작은 입력에서 Opus high와 턴·도구 같음, 분은 약 2배, 토큰 비슷"
+
+[[dispatch]]
+id = "d21"
+project = "batman"
+batch = 12
+date = 2026-10-16
+task = "퍼즐 논리 비평 (체크리스트 기반, 엄격한 양식, 코드 없음)"
+[dispatch.situation]
+S_research = "일부"
+S_short = "아니오"
+S_turns = "예"
+S_full_brief = "예"
+S_external_check = "아니오"
+[dispatch.predicted]
+time_class = ["M"]
+minutes = [25, 45]
+turns = [120, 200]
+tokens_class = ["T2", "T3"]
+rules = ["R_research", "R_time_turns", "R_tok_long"]
+reason = "조사 모양이지만 읽는 양이 조사 한 건의 약 3배. 가장 무거웠던 조사 dR3(138턴, 20분, 22M)보다 더 읽는다. 150턴 넘으면 R_tok_long"
+[dispatch.actual]
+minutes = 20.3
+turns = 60
+tokens_m = 12.2
+[dispatch.review]
+reason = "시간 등급은 맞음(M 하한), 턴 60(예상의 0.3배), 토큰 T1. d22와 같은 모양: 양식이 엄격한 비평은 파일을 통째로 읽고 긴 보고서 하나를 써서 턴은 조사 범위, 턴당 맥락(19.2만)이 읽기를 담는다. 분당 3.0턴. 읽는 양으로 턴을 늘린 것이 오류; R_research의 80–140턴이 더 가까웠다"
+hypotheses = ["H_tok_per_min_long"]
+
+[[dispatch]]
+id = "d22"
+project = "batman"
+batch = 12
+date = 2026-10-16
+task = "이야기·인물 비평 (원고 기반, 엄격한 양식, 코드 없음)"
+[dispatch.situation]
+S_research = "일부"
+S_short = "아니오"
+S_turns = "예"
+S_full_brief = "예"
+S_external_check = "아니오"
+[dispatch.predicted]
+time_class = ["M"]
+minutes = [25, 45]
+turns = [120, 200]
+tokens_class = ["T2", "T3"]
+rules = ["R_research", "R_time_turns", "R_tok_long"]
+reason = "d21과 같은 모양, 주 입력이 원고"
+[dispatch.actual]
+minutes = 13.5
+turns = 81
+tokens_m = 17.6
+[dispatch.review]
+reason = "셋 다 높게 잡음. 읽는 양이 세 배여도 턴은 늘지 않았다(파일을 통째로 몇 번에 읽음): 턴당 맥락만 21.7만으로 커짐. 비평도 조사와 같은 모양(R_research)으로 잡아야 한다. 분당 턴 6.0(H_turn_rate 6.5에 살짝 미달), 분당 토큰 1.30M(짧은 작업 0.7–1.2 살짝 초과)"
+hypotheses = ["H_tok_per_min_long"]
+
+[[dispatch]]
+id = "d15c"
+project = "batman"
+batch = 12
+date = 2026-10-16
+task = "큰 문서 재설계의 고쳐 쓰기 (같은 작가 이어서; 비평 노트 ~70항목, 문서 7개)"
+[dispatch.situation]
+S_resumed = "예"
+S_long_doc = "예"
+S_unsaved_doc = "아니오"
+S_full_brief = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_research = "아니오"
+S_short = "아니오"
+S_mid_notes = "아니오"
+S_turns = "예"
+[dispatch.predicted]
+time_class = ["L"]
+minutes = [50, 80]
+turns = [150, 220]
+tokens_class = ["T3"]
+rules = ["R_long_doc_save", "R_time_turns", "R_tok_long"]
+reason = "같은 작가의 같은 종류 작업(d15b 58.6분, 163턴)이되 새로 쓰기가 아니라 파일 전체에 걸친 수정 + 새 장면 둘 + 힌트 사다리 전부. 맥락이 이미 커서(끝 무렵 턴당 41.7만) 턴당 토큰은 R_tok_long 위쪽. 후보 규칙(완전한 지시서 + 외부 확인 없는 문서 작업 50–70분, 150–200턴)을 시험"
+[dispatch.actual]
+minutes = 43.1
+turns = 206
+tokens_m = 77.0
+[dispatch.review]
+reason = "턴(206)과 토큰(77.0M, T3)은 범위 안, 시간은 7분 아래(43.1분). 파일 일곱 개에 걸친 수정은 새로 쓰기보다 턴이 짧다(분당 4.8턴 vs 2.8턴). 턴당 맥락 37.4만(R_tok_long 안), 분당 토큰 1.79M(H_tok_per_min_long 긴 작업 가지 지지). 후보 규칙은 턴에서 맞았다; 시간은 40–70분으로 고치고 새로 쓰기(느림)/수정(빠름)으로 나눈다"
+hypotheses = ["H_tok_per_min_long"]
+
+[[dispatch]]
+id = "d17b"
+project = "batman"
+batch = 12
+date = 2026-10-16
+task = "검토용 자료 묶음 다시 만들기 (같은 에이전트 이어서, 개정된 문서에서)"
+[dispatch.situation]
+S_resumed = "예"
+S_research = "일부"
+S_short = "예"
+S_turns = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [12, 20]
+turns = [40, 70]
+tokens_class = ["T1", "T2"]
+rules = ["R_research", "R_time_turns"]
+reason = "양식과 누출 검사를 이미 알아 1차(19.4분, 73턴)보다 턴이 적지만 개정 문서를 다시 읽어야 한다. 이어서 하는 에이전트는 맥락 크기를 유지하므로 턴당 토큰은 R_tok_short(8–16만)가 아니라 25만 근처"
+[dispatch.actual]
+minutes = 13.8
+turns = 63
+tokens_m = 32.8
+[dispatch.review]
+reason = "시간·턴은 범위 안, 토큰은 상한의 1.6배(32.8M). 이어서 한 에이전트의 턴당 맥락이 24.7만 → 52만으로 커졌다(1차 맥락 위에 개정 문서를 다시 읽음). 후보 규칙: 이어서 하는 에이전트는 첫 실행의 턴당 맥락이 아니라 마지막 턴당 맥락 + 새로 읽을 양으로 잡는다"
+
+[[dispatch]]
+id = "d23"
+project = "batman"
+batch = 12
+date = 2026-10-16
+task = "블라인드 풀이 2차-1 (고정된 작은 입력, 출력 하나, 확인 없음) — Opus 5.5 high"
+[dispatch.situation]
+S_fixed_input = "예"
+S_research = "예"
+S_short = "예"
+S_turns = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [6, 10]
+turns = [15, 30]
+tokens_class = ["T1"]
+rules = ["R_research", "R_tok_short"]
+reason = "d18과 같은 일(6.7분, 20턴, 1.9M). d18의 돌아보기에서 나온 후보 상태(고정된 작은 입력 + 출력 하나 + 확인 없음 → 15–30턴, 5–10분, 3M 미만)를 처음 적용"
+[dispatch.actual]
+minutes = 5.5
+turns = 20
+tokens_m = 1.8
+[dispatch.review]
+reason = "셋 다 범위 안(시간은 하한보다 0.5분 아래). 후보 규칙(고정된 작은 입력 + 출력 하나 + 확인 없음 → 15–30턴, 5–10분, 3M 미만)이 첫 시험에서 맞았다"
+
+[[dispatch]]
+id = "d24"
+project = "batman"
+batch = 12
+date = 2026-10-16
+task = "블라인드 풀이 2차-2 (같은 일) — Sonnet 5.5 max"
+[dispatch.situation]
+S_fixed_input = "예"
+S_other_model = "예"
+S_research = "예"
+S_short = "예"
+S_turns = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+[dispatch.predicted]
+time_class = ["M"]
+minutes = [20, 32]
+turns = [35, 55]
+tokens_class = ["T1"]
+rules = ["R_research"]
+reason = "d19의 첫 실측(25.3분, 44턴, 8.3M)을 그대로 빗댐: 관찰 후보 O_sonnet_max(Opus high의 턴·도구 2–3배, 분 3–4배, 토큰 4배)의 첫 시험"
+[dispatch.actual]
+minutes = 27.4
+turns = 40
+tokens_m = 7.8
+[dispatch.review]
+reason = "셋 다 범위 안(27.4분, 40턴, 7.8M). O_sonnet_max가 첫 시험에서 맞음: d23(Opus)의 분 5.0배, 턴 2.0배, 토큰 4.3배. 실측 둘이 되었으니 관찰로 올린다"
+
+[[dispatch]]
+id = "d25"
+project = "batman"
+batch = 12
+date = 2026-10-16
+task = "블라인드 풀이 2차-3 (같은 일) — Fable 5.1 xhigh"
+[dispatch.situation]
+S_fixed_input = "예"
+S_other_model = "예"
+S_research = "예"
+S_short = "예"
+S_turns = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [12, 18]
+turns = [15, 30]
+tokens_class = ["T1"]
+rules = ["R_research"]
+reason = "d20의 첫 실측(14.8분, 23턴, 2.3M)을 그대로 빗댐: 관찰 후보 O_fable_xhigh(Opus high와 턴·도구 같음, 분 약 2배, 토큰 비슷)의 첫 시험"
+[dispatch.actual]
+minutes = 16.1
+turns = 25
+tokens_m = 2.7
+[dispatch.review]
+reason = "셋 다 범위 안(16.1분, 25턴, 2.7M). O_fable_xhigh가 첫 시험에서 맞음: 같은 도구 수에 d23(Opus)의 2.9배 시간"
+
+[[dispatch]]
+id = "d15d"
+project = "batman"
+batch = 12
+date = 2026-10-16
+task = "큰 문서 재설계의 3차 다듬기 (같은 작가 이어서; 작은 항목 ~33개)"
+[dispatch.situation]
+S_resumed = "예"
+S_long_doc = "예"
+S_unsaved_doc = "아니오"
+S_full_brief = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_research = "아니오"
+S_short = "일부"
+S_mid_notes = "아니오"
+S_turns = "예"
+[dispatch.predicted]
+time_class = ["M"]
+minutes = [25, 40]
+turns = [100, 160]
+tokens_class = ["T2", "T3"]
+rules = ["R_tok_long", "R_time_turns"]
+reason = "d15c(43분, 206턴, 턴당 37.4만)의 절반 분량, 전부 수정, 새 장면 없음. 후보 규칙(완전한 노트의 문서 수정 → 40–70분)의 수정 가지를 절반 크기에 적용. 턴당 맥락은 40만 근처 유지. 보내기 직전에 쓰고 1분 뒤 저장(스크립트 오류)"
+[dispatch.actual]
+minutes = 16.4
+turns = 101
+tokens_m = 63.4
+[dispatch.review]
+reason = "턴은 하한(101 vs 100–160), 토큰은 안(63.4M), 시간은 크게 아래(16.4 vs 25–40분): 분당 6.2턴, 손질 항목은 한 줄 수정이라서. 턴당 맥락 62.7만: 이어서 하는 에이전트의 맥락은 회차마다 커진다(41.7 → 37.4 → 62.7만). 후보 규칙: 같은 에이전트의 세 번째 회차는 분을 다시 절반으로, 토큰은 마지막 회차 턴당 맥락 × 1.5"
+
+[[dispatch]]
+id = "d26"
+project = "batman"
+batch = 13
+date = 2026-10-16
+task = "게임 시스템 구현 (데이터 주도 UI·규칙 묶음 + 코드로 만든 시험용 방 + 자동 검사)"
+[dispatch.situation]
+S_spec_fixed = "예"
+S_full_brief = "예"
+S_external_check = "예"
+S_check_loop = "일부"
+S_similar_past = "예"
+S_turns = "예"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+time_class = ["XL"]
+minutes = [90, 130]
+turns = [350, 500]
+tokens_class = ["T4"]
+rules = ["R_full_brief", "R_tok_long", "R_time_turns", "R_long_doc_save"]
+reason = "M2의 시스템 구현(d12: 94분, 446턴, 175M)과 같은 모양(완전한 규격, 시험용 방, 검사 절)에 UI 면적이 더 크다. R_full_brief의 90–120분이 d12·d13에서 맞았다. 턴당 맥락 37–40만"
+[dispatch.actual]
+minutes = 51.9
+turns = 237
+tokens_m = 91.7
+[dispatch.review]
+reason = "셋 다 아래(51.9분, 237턴, 91.7M=T3). M3 세 에이전트 모두 M2 빗댐의 0.4–0.6배. 차이는 규격: 시스템 설계 문서가 동작·데이터·검사 줄까지 미리 정해 두어 에이전트가 설계 대신 쓰기만 했다(분당 4.6턴, 턴당 맥락 38.1만은 예측대로). 후보 규칙: 동작·데이터·검사를 고정한 규격이 있으면 지시서 수준 빗댐의 0.5–0.6배; R_full_brief의 90–120분은 지시서 기준"
+hypotheses = ["H_check_loop"]
+
+[[dispatch]]
+id = "d27"
+project = "batman"
+batch = 13
+date = 2026-10-16
+task = "데이터 파일 옮겨 쓰기(설계 문서 → JSON ~1,500줄) + 대사 표 갱신 + 음성 캐스팅과 렌더(외부 모델 받기, CPU 합성)"
+[dispatch.situation]
+S_spec_fixed = "예"
+S_full_brief = "예"
+S_external_check = "예"
+S_check_loop = "일부"
+S_long_doc = "예"
+S_similar_past = "일부"
+S_turns = "예"
+[dispatch.predicted]
+time_class = ["L", "XL"]
+minutes = [60, 95]
+turns = [220, 380]
+tokens_class = ["T3", "T4"]
+rules = ["R_verify_other", "R_tok_long", "R_time_turns"]
+reason = "옮겨 쓰기는 줄당 빠르지만 길고, 음성 단계가 다운로드(325MB)와 50–70줄 CPU 렌더 + 검사 실행을 더한다(R_verify_other: 그 부분 쓰기 시간의 2배). 비슷한 과거: d06 오디오 파이프라인(78분, 307턴, 93M)"
+[dispatch.actual]
+minutes = 36.6
+turns = 176
+tokens_m = 56.1
+[dispatch.review]
+reason = "셋 다 아래로 빗나감(36.6분, 176턴, 56.1M=T2). 음성 단계가 R_verify_other의 가정보다 훨씬 싸다: 다운로드 문제 없음, 153줄 CPU 렌더가 몇 분, 반복 고리 없음. 옮겨 쓰기는 큰 파일 쓰기로 분당 4.8턴. R_verify_other의 2배는 확인→고침 반복에 맞고 한 번에 끝나는 일괄 렌더에는 안 맞는다: 외부 단계가 반복되는지로 규칙을 나눈다"
+
+[[dispatch]]
+id = "d28"
+project = "batman"
+batch = 13
+date = 2026-10-16
+task = "기존 레벨 두 곳에 방·소품·마커 추가 + 장면 하나 + 컷신 JSON ~12개 + 챕터 흐름 데이터"
+[dispatch.situation]
+S_spec_fixed = "예"
+S_mid_notes = "예"
+S_full_brief = "예"
+S_external_check = "예"
+S_check_loop = "일부"
+S_similar_past = "예"
+S_turns = "예"
+[dispatch.predicted]
+time_class = ["L", "XL"]
+minutes = [80, 120]
+turns = [300, 450]
+tokens_class = ["T4"]
+rules = ["R_full_brief", "R_tok_long", "R_time_turns", "R_verify_other"]
+reason = "d13(실내 레벨 전체 + 컷신: 95분, 388턴, 147M)보다 조금 작다: 기존 레벨에 방과 소품을 더하고 장면 하나와 컷신 ~12개"
+[dispatch.actual]
+minutes = 42.9
+turns = 272
+tokens_m = 103.8
+[dispatch.review]
+reason = "셋 다 아래(42.9분 vs 80–120, 272턴 vs 300–450, 103.8M=T3 vs T4). 결정적 빌더 코드라 방 하나를 몇 번의 수정으로 쓴다(분당 6.5턴); d13의 95분에는 실내 전체와 캐릭터 모델 제작이 들어 있었다. 턴당 맥락 38만은 예측대로. 도중 지시 1회(S_mid_notes=예, 사후)가 4.8분·25턴을 더함: H_mid_notes 방향은 맞고 크기는 작다"
+
+[[dispatch]]
+id = "d26b"
+project = "batman"
+batch = 13
+date = 2026-10-16
+task = "세 브랜치 통합: 시스템을 실제 챕터에 연결, 자동 플레이 검사 두 장, 옛 코드 제거, CI 빌드 (같은 에이전트 이어서)"
+[dispatch.situation]
+S_resumed = "예"
+S_full_brief = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_root_cause = "일부"
+S_similar_past = "예"
+S_turns = "예"
+[dispatch.predicted]
+time_class = ["L", "XL"]
+minutes = [60, 100]
+turns = [250, 400]
+tokens_class = ["T3", "T4"]
+rules = ["R_verify_other", "R_tok_long", "R_time_turns"]
+reason = "d12b(통합 149분, 512턴, 178M, 버그 추적 포함)를 출발 상태가 좋아서(시스템 스모크 통과, 데이터 검증, 세계 노드 확인, 합치기 무충돌) 절반으로. 다만 통합은 두 장의 스모크 드라이버에서 반복 고리를 돌고 옛 코드를 걷어내야 한다. 에이전트 맥락은 이미 턴당 38만이고 커진다"
+[dispatch.actual]
+minutes = 75.7
+turns = 283
+tokens_m = 122.0
+[dispatch.review]
+reason = "셋 다 범위 안(75.7분 vs 60–100, 283턴 vs 250–400, 122.0M vs 100–170M). d12b를 좋은 출발 상태 때문에 절반으로 잡은 것이 맞았다. 스모크 반복(S_check_loop=예)이 쓰기의 약 1.5배 시간: H_check_loop 방향 지지. 이어서 한 에이전트의 턴당 맥락 43.1만(38.1만에서 커짐)"
+hypotheses = ["H_check_loop"]

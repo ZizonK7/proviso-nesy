@@ -1,5 +1,5 @@
 # 하위 에이전트 시간·사용량 예측 — AI가 스스로 쌓는 논리집
-# 출처: batman docs/AGENT-LOG.md (배치 1–11)의 예측·실측·보정 메모·교훈 L-1~L-6. 작업별 기록은 dispatches.toml.
+# 출처: batman docs/AGENT-LOG.md (배치 1–13)의 예측·실측·보정 메모·교훈 L-1~L-6. 작업별 기록은 dispatches.toml.
 # 이 분야는 사용자가 판단하지 않는다 (사용자 결정 2026-10-16). 판정은 실측, 쌓는 방식은 사용자가 자기 논리집을 쌓는 방식을 따른다 (CLAUDE.md).
 # 관찰의 source: "measured" = 실측(scripts/agent_usage.py), "director" = 지휘 모델이 남긴 메모, "conversation" = 사용자와의 대화에서.
 # 가설의 source: "director" = 지휘 모델, "ai" = 이 논리집을 정리한 AI (날짜와 함께).
@@ -32,9 +32,9 @@ source = "d02 실측: 357턴, 쓴 글 ~4.5만 토큰, 캐시 읽기 ~8,900만 �
 
 [[fact]]
 id = "F_setup"
-text = "하위 에이전트는 Opus 5.5, effort high로 돈다 (사용자 기본값). 숫자 범위는 이 설정에서만 확인됨"
+text = "하위 에이전트는 Opus 5.5, effort high로 돈다 (사용자 기본값). 숫자 범위는 이 설정에서 확인됨. 다른 설정은 Sonnet 5.5 max와 Fable 5.1 xhigh를 고정 입력 작업 한 종류에서 두 번씩 쟀을 뿐이다 (R_other_models)"
 checked = 2026-10-16
-source = "batman·proviso CLAUDE.md, AGENT-LOG 배치 2–11"
+source = "batman·proviso CLAUDE.md, AGENT-LOG 배치 2–13 (배치 12 블라인드 풀이 d19·d20·d24·d25)"
 
 # ---------- 상태 (작업마다 대 보는 상황) ----------
 [[state]]
@@ -92,6 +92,26 @@ text = "엄격한 출력 양식이 있고 코드가 없는 조사다"
 [[state]]
 id = "S_mid_notes"
 text = "작업 도중에 추가 지시를 받는다"
+
+[[state]]
+id = "S_web"
+text = "웹 검색·페이지 읽기가 주된 일이다"
+
+[[state]]
+id = "S_fixed_input"
+text = "입력이 정해진 작은 파일 묶음이고, 출력이 하나이고, 확인 실행이 없다 (순수 추론)"
+
+[[state]]
+id = "S_other_model"
+text = "Opus 5.5 high가 아닌 모델·effort로 돈다"
+
+[[state]]
+id = "S_resumed"
+text = "앞 회차를 마친 같은 에이전트에게 이어서 보낸다"
+
+[[state]]
+id = "S_spec_fixed"
+text = "설계 문서가 동작·데이터·검사 줄까지 미리 정해 두었다 (에이전트는 설계하지 않고 쓰기만 한다)"
 
 # ---------- 관찰 ----------
 [[observation]]
@@ -202,14 +222,75 @@ text = "도중에 지휘 메모를 받은 d01(3번)·dR3(2번)이 같은 배치�
 source = "director"
 date = 2026-10-16
 
+[[observation]]
+id = "O_turns_overest2"
+text = "배치 11–13: d15b 300–500턴 예상 → 163 (0.41배). M3 구현 셋(M2 작업에 빗댐) d26 0.56, d27 0.59, d28 0.73배. 같은 종류 직전 실측에 빗댄 d15c·d23–d25는 범위 안"
+source = "measured"
+date = 2026-10-16
+
+[[observation]]
+id = "O_m3_fast"
+text = "동작·데이터·검사를 고정한 설계 문서로 보낸 M3 셋(d26·d27·d28)의 시간이 예측 가운데 값의 0.43–0.47배"
+source = "measured"
+date = 2026-10-16
+
+[[observation]]
+id = "O_fixed_input"
+text = "고정된 작은 입력 + 출력 하나 + 확인 없음, Opus high: d18 6.7분 20턴 1.9M, d23 5.5분 20턴 1.8M"
+source = "measured"
+date = 2026-10-16
+
+[[observation]]
+id = "O_sonnet_max"
+text = "같은 고정 입력 작업을 Sonnet 5.5 max로: d19 25.3분 44턴 8.3M, d24 27.4분 40턴 7.8M. Opus high 대비 턴 2배, 분 4–5배, 토큰 4배"
+source = "measured"
+date = 2026-10-16
+
+[[observation]]
+id = "O_fable_xhigh"
+text = "같은 고정 입력 작업을 Fable 5.1 xhigh로: d20 14.8분 23턴 2.3M, d25 16.1분 25턴 2.7M. Opus high 대비 턴·도구 같고, 분 2–3배, 토큰 비슷"
+source = "measured"
+date = 2026-10-16
+
+[[observation]]
+id = "O_resume_ctx"
+text = "이어서 보낸 에이전트의 턴당 맥락은 회차마다 커졌다: d15b 41.7 → d15c 37.4 → d15d 62.7만, d17 24.7 → d17b 52만, d26 38.1 → d26b 43.1만"
+source = "measured"
+date = 2026-10-16
+
+[[observation]]
+id = "O_doc_rates"
+text = "외부 확인 없는 문서 작업(같은 작가): 새로 쓰기 d15b 분당 2.8턴 58.6분, 파일 전반 수정 d15c 4.8턴 43.1분, 한 줄 손질 위주 d15d 6.2턴 16.4분"
+source = "measured"
+date = 2026-10-16
+
+[[observation]]
+id = "O_turn_rate_b12"
+text = "배치 12–13 Opus high, 웹이 아닌 작업의 분당 턴은 3.0–6.5 (파일을 통째로 읽는 비평·자료 묶음 3.0–6.0, 구현 3.7–6.3). 다른 모델은 1.5–1.7"
+source = "measured"
+date = 2026-10-16
+
+[[observation]]
+id = "O_ctx_read_short"
+text = "150턴 안쪽이어도 큰 파일을 통째로 읽고 보고서 하나를 쓴 작업(d17·d21·d22)의 턴당 맥락은 20–25만"
+source = "measured"
+date = 2026-10-16
+
+[[observation]]
+id = "O_verify_once"
+text = "한 번에 끝나는 외부 단계는 쌌다: d27 모델 받기 + 153줄 CPU 일괄 렌더가 몇 분, d16 GPU 생성 일곱 장 + 엔진 렌더 두 장(고치기 한 번). 스모크를 반복한 d26b는 그 부분이 쓰기의 약 1.5배"
+source = "director"
+date = 2026-10-16
+
 # ---------- 가설 ----------
 [[hypothesis]]
 id = "H_turns_over"
 text = "비슷한 큰 작업에 빗대면 턴 수를 크게 잡는다 (실제는 예상의 절반 안팎)"
 source = "ai (2026-10-16, 배치 2–7 기록에서)"
-evidence = ["O_turns_overest"]
+evidence = ["O_turns_overest", "O_turns_overest2"]
 harms = ["G_time"]
 check = "turns_overestimated"
+note = "배치 11–13에서 시험 1건(d15b 0.41) 맞음. R_turns_analogy를 v2로 고쳐 빗댈 때 배수를 곱하게 했다. 이 가설은 v1의 버릇을 기록으로 남긴다"
 
 [[hypothesis]]
 id = "H_cancel"
@@ -225,6 +306,7 @@ text = "외부 확인이 들어가느냐가 아니라 확인 → 고침을 몇 �
 source = "ai (2026-10-16, d09와 d12b가 갈린 데서)"
 evidence = ["O_loop_long", "O_render_fast"]
 check = "check_loop_time"
+note = "배치 13에서 시험 1건(d26b 0.95) 틀림 → 반박. 다만 틀린 건 검사의 잣대다: d26b의 예측은 이미 반복이 든 d12b에 빗대 반복 값을 넣었으니 '예측보다 길다'가 나올 수 없었다. 예측에 기대지 않는 잣대(분당 턴)로 H_check_loop2를 다시 세웠다 (2026-10-16, ai)"
 
 [[hypothesis]]
 id = "H_tok_per_min"
@@ -241,13 +323,16 @@ text = "150턴 넘는 작업은 분당 토큰이 1.1–2.6M, 150턴 안쪽은 0.
 source = "ai (2026-10-16, 배치 1–10 실측에서)"
 evidence = ["O_tok_rate_short"]
 check = "tokens_per_minute_by_length"
+note = "배치 11–13에서 반박(시험 17건 중 7건). 긴 쪽(150턴 넘음)은 6건 모두 맞았고 짧은 쪽이 11건 중 1건만 맞았다: 0.16–3.87M. 짧은 쪽에는 빠진 조건이 셋 있었다 — 다른 모델(F_setup 밖), 고정 입력 순수 추론(턴이 적고 생각이 길다), 이어서 보낸 에이전트(맥락이 크다). 긴 쪽만 H_tok_rate_long으로 다시 세웠다 (2026-10-16, ai)"
 
 [[hypothesis]]
 id = "H_turn_rate"
 text = "분당 턴은 4–5로 일정하지 않다. 30분 안쪽에 끝나는 작업은 분당 6.5턴 이상이다"
 source = "ai (2026-10-16, 배치 1–10 실측에서)"
 evidence = ["O_turn_rate"]
+against = ["O_turn_rate_b12"]
 check = "turn_rate_by_kind"
+note = "배치 12에서 반박(시험 11건 중 0건). 이유가 틀렸다: 분당 턴을 정한 건 작업 길이가 아니라 모양이었다. 세울 때 본 짧은 작업은 웹 조사와 CI 지켜보기(작은 도구 호출이 많음)였고, 배치 12의 짧은 작업은 파일을 통째로 읽고 보고서 하나를 쓰는 일이었다. 작업 모양으로 나눈 H_turn_rate_shape로 다시 세웠다 (2026-10-16, ai)"
 
 [[hypothesis]]
 id = "H_mid_notes"
@@ -255,6 +340,29 @@ text = "작업 도중에 추가 지시를 받으면 같은 종류 작업보다 �
 source = "director (d01, dR3 메모)"
 evidence = ["O_mid_notes"]
 check = "mid_notes_longer"
+note = "배치 13의 d28(도중 지시 1번, 사후에 상태를 채움)이 첫 시험. 지휘 모델은 그 지시가 4.8분·25턴을 더했다고 쟀다(전체의 11%). '같은 배치 가운데 값'은 종류가 다른 작업끼리 비교라 잣대가 거칠다. 다음 기록부터 지시 횟수와 그 처리에 든 분을 따로 적는다"
+
+[[hypothesis]]
+id = "H_tok_rate_long"
+text = "Opus high로 150턴 넘게 도는 작업은 분당 토큰이 1.1–2.6M이다 (긴 글을 한 덩어리로 쓴 경우는 뺀다)"
+source = "ai (2026-10-16, H_tok_per_min_long의 긴 쪽: 세운 뒤 시험 6건 모두 맞음)"
+evidence = ["O_tok_rate_short"]
+check = "tokens_per_minute_long_only"
+
+[[hypothesis]]
+id = "H_turn_rate_shape"
+text = "Opus high로 도는 웹이 아닌 작업(구현·문서·파일 읽는 비평·순수 추론)은 분당 2.5–6.5턴이다. 웹 조사, CI 지켜보기, 렌더·캡처를 여러 장 찍는 작업은 그보다 빠르다(7–10). 긴 글을 저장 없이 한 덩어리로 쓰면 더 느리다"
+source = "ai (2026-10-16, 배치 1–13 실측에서. 처음 3–6.5로 적었다가 맞춰 본 기록 27건 중 10건이 밖이라 하한을 2.5로 넓히고 캡처 작업(d09·d10·d14)과 저장 없는 긴 글(d03)을 빼는 조건을 넣음)"
+note = "맞춰 본 기록에서 캡처 작업 셋은 여전히 밖(✗)이다: 아직 상태가 없어 검사가 뺄 수 없다. 캡처가 주된 작업에는 다음부터 S_web 대신 새 상태를 세운다"
+evidence = ["O_turn_rate_b12", "O_doc_rates"]
+check = "turn_rate_non_web"
+
+[[hypothesis]]
+id = "H_check_loop2"
+text = "확인 → 고침을 반복하는 작업은 기다리는 시간이 끼어 분당 턴이 4 아래로 떨어진다. 외부 확인이 한 번씩이거나 없으면 4 이상이다 (CI 지켜보기는 뺀다)"
+source = "ai (2026-10-16, H_check_loop의 잣대를 예측에 기대지 않게 바꿈)"
+evidence = ["O_verify_once", "O_loop_long"]
+check = "check_loop_turn_rate"
 
 # ---------- 규칙 (예측 방법) ----------
 [[rule]]
@@ -303,24 +411,58 @@ evidence = ["O_ctx_long", "O_ctx_big"]
 [[rule]]
 id = "R_tok_short"
 version = 4
-status = "hypothesis"
+status = "retired"
 method = "150턴 안쪽으로 끝날 작업은 예상 턴 수 × 턴당 8–16만"
 reason = "짧게 끝나는 작업은 맥락이 덜 쌓인다. 실측 다섯 건"
-serves = ["G_tokens"]
 conditions = ["S_turns", "S_short", "F_reread", "F_setup"]
 evidence = ["O_ctx_short"]
+against = ["O_ctx_read_short", "O_resume_ctx"]
+replaced_by = ["R_tok_short_v5", "R_resume_ctx"]
+note = "근거 다섯 건이 모두 웹 조사·CI(작은 페이지를 조금씩 읽음)였다(쓰던 범위만 본 것). 큰 파일을 통째로 읽는 짧은 작업은 20–25만, 이어서 보낸 에이전트는 52–63만 → 읽는 방식으로 나누고 이어서 보내는 경우를 따로 뺐다 (2026-10-16, ai)"
+
+[[rule]]
+id = "R_tok_short_v5"
+version = 5
+status = "hypothesis"
+method = "150턴 안쪽으로 끝날 첫 회차 작업: 웹 조사·고정된 작은 입력은 예상 턴 × 턴당 8–16만, 큰 파일을 통째로 읽고 보고서를 쓰는 일은 × 20–25만"
+reason = "턴당 맥락은 한 번에 읽어 들이는 양만큼 커진다. 웹·작은 입력 실측 일곱 건 8–16만(d23·d18 9만대 포함), 파일 통째 읽기 세 건 20–25만"
+serves = ["G_tokens"]
+conditions = ["S_turns", "S_short", "F_reread", "F_setup"]
+evidence = ["O_ctx_short", "O_ctx_read_short", "O_fixed_input"]
+
+[[rule]]
+id = "R_resume_ctx"
+version = 1
+status = "hypothesis"
+method = "이어서 보내는 에이전트는 턴당 맥락을 마지막 회차의 턴당 맥락 + 새로 읽을 양으로 잡고 예상 턴을 곱한다. 첫 회차 규칙(R_tok_short_v5·R_tok_long)의 범위를 쓰지 않는다"
+reason = "앞 회차의 맥락이 그대로 남아서 회차마다 커진다 (실측 세 줄)"
+serves = ["G_tokens"]
+conditions = ["S_resumed", "S_turns", "F_reread"]
+evidence = ["O_resume_ctx"]
 
 [[rule]]
 id = "R_turns_analogy"
 version = 1
-status = "hypothesis"
+status = "retired"
 method = "비슷한 크기의 과거 작업에 빗대 턴 수를 잡는다"
 reason = "기록 없음 (d11 'd09·d10처럼', d12·d13 'd07 크기', d15 '배치 1 크기')"
-serves = ["G_time", "G_tokens"]
 conditions = ["S_similar_past"]
 results = ["S_turns"]
 side_effects = ["H_turns_over"]
-against = ["O_turns_overest"]
+against = ["O_turns_overest", "O_turns_overest2"]
+replaced_by = ["R_turns_analogy_v2"]
+note = "자주 일어났고(빗댄 큰 작업 여섯 건이 0.39–0.73배) 이유 안의 가정('비슷한 크기면 턴도 비슷')이 틀렸다 → 개정. 빗댄 과거 작업은 지시서가 덜 정해졌거나 정체(저장 없는 긴 글, 버그 추적)를 품고 있었다 (2026-10-16, ai)"
+
+[[rule]]
+id = "R_turns_analogy_v2"
+version = 2
+status = "hypothesis"
+method = "과거 작업에 빗대 턴 수를 잡되, 빗댄 작업이 지금보다 덜 정해진 지시서로 돌았거나 정체를 품은 큰 작업이면 그 턴의 0.4–0.7배로 잡는다. 같은 종류·같은 지시서 수준의 직전 실측에 빗대면 그대로 쓴다"
+reason = "큰 작업 턴은 '얼마나 쓰나'보다 '얼마나 헤매나'에서 나온다. 덜 정해진 과거 작업의 턴에는 헤맨 몫이 들어 있다. 직전 실측에 빗댄 d15c·d23·d24·d25는 범위 안"
+serves = ["G_time", "G_tokens"]
+conditions = ["S_similar_past"]
+results = ["S_turns"]
+evidence = ["O_turns_overest", "O_turns_overest2"]
 
 [[rule]]
 id = "R_research"
@@ -332,17 +474,29 @@ serves = ["G_time", "G_tokens"]
 conditions = ["S_research"]
 results = ["S_turns", "S_short"]
 evidence = ["O_research"]
+note = "배치 12: 파일을 통째로 읽는 비평·자료 묶음(d17·d21·d22)도 같은 모양이었다(60–81턴). 읽는 양이 세 배여도 턴은 늘지 않고 턴당 맥락만 커진다(R_tok_short_v5). 시간은 분당 3–6턴이라 웹 조사보다 길다(R_time_turns_v2)"
 
 [[rule]]
 id = "R_time_turns"
 version = 1
-status = "hypothesis"
+status = "retired"
 method = "예상 턴 수 ÷ 분당 4–5턴으로 시간을 잡는다"
 reason = "배치 1 실측 (effort high)"
+conditions = ["S_turns", "F_setup"]
+against = ["O_turn_rate", "O_turn_rate_b12"]
+replaced_by = ["R_time_turns_v2"]
+note = "H_turn_rate(길이로 나누기)는 반박됐지만 반대 근거는 작업 모양으로 갈렸다 → 모양으로 나눠 개정 (2026-10-16, ai)"
+
+[[rule]]
+id = "R_time_turns_v2"
+version = 2
+status = "hypothesis"
+method = "예상 턴 수 ÷ 분당 턴으로 시간을 잡는다. 분당 턴: 웹 조사·CI 지켜보기·렌더 캡처 여러 장 7–11, 그 밖(구현·문서·비평·순수 추론) 2.5–6.5 — 새로 쓰기·반복 확인·순수 추론은 2.5–4, 수정·빌더 코드·한 줄 손질은 5–6.5"
+reason = "작은 도구 호출이 잦은 일은 턴이 빨리 돌고, 큰 덩어리를 쓰거나 기다리거나 오래 생각하는 일은 턴이 느리다. Opus high 실측 (O_turn_rate, O_turn_rate_b12, O_doc_rates)"
 serves = ["G_time"]
 conditions = ["S_turns", "F_setup"]
-against = ["O_turn_rate"]
-note = "반대 근거가 쌓였지만 아직 고치지 않음. H_turn_rate가 시험을 통과하면 작업 종류로 나눈다"
+evidence = ["O_turn_rate", "O_turn_rate_b12", "O_doc_rates"]
+note = "H_turn_rate_shape가 세운 뒤 기록으로 시험한다. 다른 모델은 R_other_models"
 
 [[rule]]
 id = "R_verify_v1"
@@ -368,14 +522,34 @@ evidence = ["O_warm_ci"]
 [[rule]]
 id = "R_verify_other"
 version = 2
-status = "hypothesis"
+status = "retired"
 method = "CI 밖의 외부 확인(다운로드·임포트·렌더·반복 실행)이 들어가면 쓰는 시간의 2배"
 reason = "비용은 쓰기가 아니라 확인에서 나온다 (L-1 그대로)"
-serves = ["G_time"]
 conditions = ["S_external_check"]
 evidence = ["O_loop_long"]
-against = ["O_render_fast"]
-note = "d09(렌더 1회씩)는 빨랐고 d12b(렌더 보며 고치기)는 길었다 → H_check_loop가 시험을 통과하면 '반복 횟수'로 쪼갠다"
+against = ["O_render_fast", "O_verify_once"]
+replaced_by = ["R_verify_loop", "R_verify_once"]
+note = "d09·d16·d27(한 번씩 도는 렌더·생성·다운로드)은 빨랐고 d12b·d26b(보며 고치기, 스모크 반복)는 길었다. H_check_loop는 검사 잣대 탓에 반박으로 나왔지만(그쪽 note) 반대 근거가 세 건으로 쌓여 '반복하나'로 쪼갰다. 쪼갠 규칙의 시험은 H_check_loop2 (2026-10-16, ai)"
+
+[[rule]]
+id = "R_verify_loop"
+version = 3
+status = "hypothesis"
+method = "CI 밖의 외부 확인을 보며 고치기를 반복하면(S_check_loop=예) 그 부분은 쓰기 시간의 1.5–2배로 잡는다"
+reason = "반복마다 실행을 기다리고 결과를 다시 읽는다 (d02·d11b·d12b·d26b)"
+serves = ["G_time"]
+conditions = ["S_external_check", "S_check_loop"]
+evidence = ["O_loop_long", "O_verify_once"]
+
+[[rule]]
+id = "R_verify_once"
+version = 3
+status = "hypothesis"
+method = "한 번씩 도는 외부 단계(다운로드·일괄 렌더·생성·임포트)는 실행에 걸릴 분만 더한다. 쓰기 시간을 곱하지 않는다"
+reason = "기다리는 시간이 한 번뿐이고 고침 고리가 없다 (d09·d16·d27)"
+serves = ["G_time"]
+conditions = ["S_external_check"]
+evidence = ["O_render_fast", "O_verify_once"]
 
 [[rule]]
 id = "R_impl_hour"
@@ -397,6 +571,49 @@ reason = "d12·d13 각 ~95분 (L-5)"
 serves = ["G_time"]
 conditions = ["S_full_brief"]
 evidence = ["O_full_brief"]
+against = ["O_m3_fast"]
+note = "90–120분은 지시서가 완전해도 에이전트가 설계를 해야 했던 작업의 값이다. 설계 문서가 동작·데이터·검사까지 정해 두면 R_spec_fixed가 먼저 (2026-10-16, ai)"
+
+[[rule]]
+id = "R_spec_fixed"
+version = 1
+status = "hypothesis"
+method = "설계 문서가 동작·데이터·검사 줄까지 정해 둔 구현은, 지시서만 완전했던 과거 작업에 빗댄 시간·턴의 0.4–0.6배로 잡는다"
+reason = "에이전트가 설계 대신 옮겨 쓰기만 한다. M3 셋이 M2 빗댐의 0.43–0.47배 (턴당 맥락은 예측대로였다)"
+serves = ["G_time", "G_tokens"]
+conditions = ["S_spec_fixed", "S_similar_past"]
+evidence = ["O_m3_fast"]
+
+[[rule]]
+id = "R_doc_work"
+version = 1
+status = "hypothesis"
+method = "완전한 지시서로 외부 확인 없이 문서만 다루는 작업: 새로 쓰기는 50–70분·150–200턴·T3, 파일 전반 수정은 40–50분·~200턴, 한 줄 손질 위주는 분당 ~6턴으로 잡는다"
+reason = "기다릴 것이 없어 큰 덩어리로 쓴다. 새로 쓰기는 생각이 길어 턴이 느리고, 수정은 짧은 편집을 이어 붙여 빠르다 (같은 작가 세 회차)"
+serves = ["G_time", "G_tokens"]
+conditions = ["S_long_doc", "S_full_brief"]
+evidence = ["O_doc_rates"]
+
+[[rule]]
+id = "R_fixed_input"
+version = 1
+status = "hypothesis"
+method = "고정된 작은 입력 + 출력 하나 + 확인 없음(Opus high)은 15–30턴, 5–10분, 3M 미만으로 잡는다"
+reason = "읽을 파일 수 + 몇 턴이면 끝나고 도구 고리가 없다. d18에서 세우고 d23에서 첫 시험 맞음"
+serves = ["G_time", "G_tokens"]
+conditions = ["S_fixed_input", "F_setup"]
+evidence = ["O_fixed_input"]
+
+[[rule]]
+id = "R_other_models"
+version = 1
+status = "hypothesis"
+method = "Opus 5.5 high가 아닌 설정은 같은 일을 Opus high로 잡은 뒤 곱한다: Sonnet 5.5 max는 턴 ×2, 분 ×4–5, 토큰 ×4. Fable 5.1 xhigh는 턴·도구 ×1, 분 ×2–3, 토큰 ×1–1.5"
+reason = "Sonnet max는 더 잘게 나눠 읽고 쓰고, Fable xhigh는 같은 도구 수에서 생각에 시간을 쓴다. 각 두 번 쟀고 두 번째는 첫 실측으로 맞혔다"
+serves = ["G_time", "G_tokens"]
+conditions = ["S_other_model"]
+evidence = ["O_sonnet_max", "O_fable_xhigh"]
+note = "고정 입력 작업 한 종류에서만 쟀다(사용 습관과 능력 구분). 구현처럼 도구 고리가 긴 일에서 배수가 같은지는 모른다"
 
 [[rule]]
 id = "R_long_doc_save"

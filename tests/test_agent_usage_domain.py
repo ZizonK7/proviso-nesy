@@ -20,11 +20,13 @@ class Knowledge(unittest.TestCase):
             self.assertIn(hyp.data["check"], checks.CHECKS)
             self.assertIn(hyp.data["check"], checks.SEEN_UNTIL)
 
-    def test_audit_flags_turn_overestimate(self):
-        # 빗대어 잡은 턴 수가 시간 예측을 해치는데, 대가로 받아들인 기록이 없다
-        issues = audit.unaccepted_harms(schema.load(KN))
-        self.assertEqual(len(issues), 1)
-        self.assertIn("H_turns_over", issues[0])
+    def test_audit_passes_after_turn_analogy_revision(self):
+        # 빗대어 잡은 턴 수(H_turns_over)를 R_turns_analogy v2가 배수로 고쳤다. v1은 부작용과 함께 보존된다
+        kn = schema.load(KN)
+        self.assertEqual(audit.unaccepted_harms(kn), [])
+        v1 = kn.nodes["R_turns_analogy"].data
+        self.assertEqual(v1["status"], "retired")
+        self.assertIn("H_turns_over", v1["side_effects"])
 
 
 class Classes(unittest.TestCase):
@@ -46,17 +48,34 @@ class Classes(unittest.TestCase):
 class Loop(unittest.TestCase):
     def test_stopped_and_unknown_are_not_judged(self):
         ids = {d["id"] for d in dp.load() if not dp.done(d)}
-        self.assertEqual(ids, {"d15", "d16"})
+        self.assertEqual(ids, {"d15"})
 
     def test_hypothesis_is_tested_only_on_later_records(self):
-        # H_tok_per_min은 d12c까지 보고 세웠다 → 배치 10 다섯 건으로만 시험, 네 건이 범위 밖
+        # H_tok_per_min은 d12c까지 보고 세웠다 → 배치 10 이후로만 시험한다. d12c 자신은 맞춰 본 쪽
         verdict, detail = checks.tokens_per_minute()
-        self.assertTrue(verdict.startswith("반박됨 (시험 5건 중 1건"))
-        self.assertIn("dR1 0.83M ✗", detail.split("시험 기록")[1])
+        self.assertTrue(verdict.startswith("반박됨"))
+        fit, test = detail.split("시험 기록")
+        test = test.split(":", 1)[1]  # "(d12c 다음부터)" 머리말은 뺀다
+        self.assertIn("dR1 0.83M ✗", test)
+        self.assertIn("d12c", fit)
+        self.assertNotIn("d12c ", test)
 
-    def test_new_hypotheses_wait_for_new_records(self):
-        for name in ("tokens_per_minute_by_length", "turns_overestimated", "check_loop_time"):
-            self.assertEqual(checks.CHECKS[name]()[0], "시험 전")
+    def test_every_check_splits_at_its_cut(self):
+        order = [d["id"] for d in dp.load()]
+        for name, cut in checks.SEEN_UNTIL.items():
+            fit, test = checks._split(name, lambda d: True)
+            limit = order.index(cut)
+            self.assertTrue(all(order.index(d["id"]) <= limit for d in fit), name)
+            self.assertTrue(all(order.index(d["id"]) > limit for d in test), name)
+
+    def test_hypotheses_set_from_batch_13_wait_for_new_records(self):
+        for name in ("tokens_per_minute_long_only", "turn_rate_non_web", "check_loop_turn_rate"):
+            if order_last_is(checks.SEEN_UNTIL[name]):
+                self.assertEqual(checks.CHECKS[name]()[0], "시험 전")
+
+
+def order_last_is(record_id: str) -> bool:
+    return dp.load()[-1]["id"] == record_id
 
 
 if __name__ == "__main__":

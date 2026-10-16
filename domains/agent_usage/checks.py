@@ -20,11 +20,19 @@ SEEN_UNTIL = {
     "check_loop_time": "d16",
     "turn_rate_by_kind": "d16",
     "mid_notes_longer": "d16",
+    "tokens_per_minute_long_only": "d26b",  # 배치 1–13으로 세움
+    "turn_rate_non_web": "d26b",
+    "check_loop_turn_rate": "d26b",
 }
 NEED = 0.8
 
 # 토큰 규칙이 가정한 턴당 맥락(천 토큰). turns_vs_context가 '맥락을 작게 잡았는지' 볼 때 쓴다.
-ASSUMED_CTX_K = {"R_tok_v2": 250, "R_tok_v3": 370, "R_tok_long": 350, "R_tok_short": 120}
+ASSUMED_CTX_K = {"R_tok_v2": 250, "R_tok_v3": 370, "R_tok_long": 350, "R_tok_short": 120, "R_tok_short_v5": 160}
+
+
+def _default_setup(d: dict) -> bool:
+    """F_setup(Opus 5.5 high) 안의 기록인가. 숫자 범위 가설은 이 설정에서만 시험한다."""
+    return dp.situation(d, "S_other_model") != "예"
 
 
 def _split(name: str, applies: Callable[[dict], bool]) -> tuple[list[dict], list[dict]]:
@@ -158,6 +166,45 @@ def mid_notes_longer() -> tuple[str, str]:
                   lambda d: f"같은 배치 가운데 값의 {ratio(d):.2f}배")
 
 
+def tokens_per_minute_long_only() -> tuple[str, str]:
+    """H_tok_rate_long: Opus high로 150턴 넘게 돈 작업은 분당 토큰 1.1–2.6M (긴 글 한 덩어리는 뺌)."""
+    return _judge("tokens_per_minute_long_only",
+                  lambda d: _m(d, "tokens_per_min") is not None and _m(d, "turns") is not None
+                  and _m(d, "turns") > 150 and _default_setup(d)
+                  and dp.situation(d, "S_unsaved_doc") != "예",
+                  lambda d: 1.1 <= _m(d, "tokens_per_min") <= 2.6,
+                  lambda d: f"{_m(d, 'turns')}턴 {_m(d, 'tokens_per_min'):.2f}M")
+
+
+def turn_rate_non_web() -> tuple[str, str]:
+    """H_turn_rate_shape: Opus high, 웹 조사·CI 지켜보기·저장 없는 긴 글이 아닌 작업은 분당 2.5–6.5턴."""
+    def applies(d: dict) -> bool:
+        return (_m(d, "turns_per_min") is not None and _default_setup(d)
+                and dp.situation(d, "S_web") != "예" and dp.situation(d, "S_ci_warm") != "예"
+                and dp.situation(d, "S_ci_cold") != "예" and dp.situation(d, "S_unsaved_doc") != "예")
+
+    return _judge("turn_rate_non_web", applies,
+                  lambda d: 2.5 <= _m(d, "turns_per_min") <= 6.5,
+                  lambda d: f"분당 {_m(d, 'turns_per_min'):.1f}턴")
+
+
+def check_loop_turn_rate() -> tuple[str, str]:
+    """H_check_loop2: 외부 확인이 있는 작업에서 반복하면 분당 턴 < 4, 반복이 없거나 일부면 ≥ 4 (CI 지켜보기는 뺌)."""
+    def applies(d: dict) -> bool:
+        return (_m(d, "turns_per_min") is not None and _default_setup(d)
+                and dp.situation(d, "S_external_check") == "예"
+                and dp.situation(d, "S_check_loop") in ("예", "아니오", "일부")
+                and dp.situation(d, "S_ci_warm") != "예" and dp.situation(d, "S_ci_cold") != "예")
+
+    def ok(d: dict) -> bool:
+        slow = _m(d, "turns_per_min") < 4.0
+        return slow if dp.situation(d, "S_check_loop") == "예" else not slow
+
+    return _judge("check_loop_turn_rate", applies, ok,
+                  lambda d: f"{'반복' if dp.situation(d, 'S_check_loop') == '예' else '반복 없음/일부'} "
+                            f"분당 {_m(d, 'turns_per_min'):.1f}턴")
+
+
 CHECKS = {
     "tokens_per_minute": tokens_per_minute,
     "tokens_per_minute_by_length": tokens_per_minute_by_length,
@@ -166,4 +213,7 @@ CHECKS = {
     "check_loop_time": check_loop_time,
     "turn_rate_by_kind": turn_rate_by_kind,
     "mid_notes_longer": mid_notes_longer,
+    "tokens_per_minute_long_only": tokens_per_minute_long_only,
+    "turn_rate_non_web": turn_rate_non_web,
+    "check_loop_turn_rate": check_loop_turn_rate,
 }

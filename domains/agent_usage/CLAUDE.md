@@ -45,10 +45,12 @@
 - 숫자 범위는 Opus 5.5, effort high에서만 확인된 것이다(F_setup). 모델이나 effort가 바뀌면 사실부터 다시 확인한다.
 - 대화 기록에서는 숫자만 뽑는다(`scripts/agent_usage.py`). 대화 내용은 옮기지 않는다.
 
-## 현재 상태 (2026-10-16)
-- 기록 23건(batman 배치 1–11). 판정 21건, 판정에서 뺀 것 2건(d15 멈춤, d16 끝났는지 모름).
-- **첫 고리**: H_tok_per_min은 배치 10 실측을 보기 전에 세웠다. 배치 10에서 시험 5건 중 1건만 맞아 반박됐다 → 작업 길이로 나눠 H_tok_per_min_long. 같은 반대 근거로 R_tok_v3를 R_tok_long / R_tok_short로 나눴다.
-- `audit` 1건: H_turns_over(빗대어 잡은 턴 수가 실제의 0.4–0.5배)가 G_time을 해친다. 다음 큰 작업에서 턴 수를 따로 예측해 시험한다.
-- 나머지 가설 6개는 "시험 전". batman 배치 12부터 시험된다.
-- batman 지휘 모델이 배치 12부터 이 논리집으로 예측한다(batman CLAUDE.md §7과 AGENT-LOG 정의, batman `3b886a9`). batman AGENT-LOG의 에이전트별 예측 줄(rules · situation · 분과 턴 범위 · reason · review)을 여기 기록으로 옮긴다. 클라우드 세션은 proviso에 push하지 못할 수 있어서, batman STATUS에 "proviso sync pending: batch N"이 있으면 PC 세션이 옮긴다.
-- d16은 끝났는지 모른다. batman 지휘 모델이 실측을 기록하면 `status`를 고친다.
+## 현재 상태 (2026-10-16, batman 배치 13까지)
+- 기록 40건(batman 배치 1–13). 판정 39건, 판정에서 뺀 것 1건(d15 멈춤). d16은 batman 기록으로 끝난 것이 확인됐다.
+- **두 번째 고리 (배치 11–13 시험)**:
+  - 지지: H_turns_over(1건). → R_turns_analogy v2(덜 정해진 과거 작업에 빗대면 0.4–0.7배)로 고쳐서 `audit`이 통과한다.
+  - 반박: H_turn_rate(길이가 아니라 작업 모양이 분당 턴을 정함 → H_turn_rate_shape, R_time_turns v2), H_tok_per_min_long(긴 쪽 6건은 다 맞고 짧은 쪽이 틀림 → 긴 쪽만 H_tok_rate_long), H_check_loop(검사 잣대가 이미 반복을 넣은 예측과 비교해서 틀림 → 분당 턴 잣대의 H_check_loop2. 반대 근거가 쌓여 R_verify_other를 R_verify_loop / R_verify_once로 나눔), H_mid_notes(1건, 잣대가 거침 → 다음부터 지시 횟수와 처리 분을 적는다).
+  - 새 규칙(모두 가설): R_tok_short_v5(읽는 방식으로 나눔), R_resume_ctx(이어서 보내는 에이전트), R_spec_fixed(동작·데이터·검사까지 정한 설계 문서 → 0.4–0.6배), R_doc_work(문서만 다루는 작업), R_fixed_input(고정 입력 순수 추론), R_other_models(Sonnet 5.5 max, Fable 5.1 xhigh 배수).
+  - 작업 모양 상태 5개(S_web, S_fixed_input, S_other_model, S_resumed, S_spec_fixed)를 더했다. 숫자 범위 검사는 S_other_model=예를 뺀다(F_setup).
+- 새 가설 셋(H_tok_rate_long, H_turn_rate_shape, H_check_loop2)은 `SEEN_UNTIL = d26b`, batman 배치 14부터 시험된다. H_cancel은 예상 800턴 이상 작업이 나와야 시험된다.
+- batman 지휘 모델이 이 논리집으로 예측한다(batman CLAUDE.md §7). batman AGENT-LOG의 에이전트별 예측 줄을 여기 기록으로 옮기고, 클라우드 세션이 push하지 못하면 batman STATUS에 "proviso sync pending: batch N"이 남는다(PC 세션이 옮긴다). 보낼 때 새 상태 5개도 대 본다.
