@@ -1091,3 +1091,34 @@ tokens_m = 32.1
 [dispatch.review]
 reason = "셋 다 범위 안(시간은 하한). 분당 5.7턴으로 d29와 같음. 턴당 맥락 45.2만: R_resume_ctx의 방향(앞 회차보다 큼)은 맞았지만 '마지막 턴당 맥락'을 앞 회차 평균(24.9만)으로 읽은 것이 작았다. 앞 회차 끝 무렵 턴의 맥락은 40만 가까이였다 → 규칙 문장의 '마지막'은 평균이 아니라 끝 무렵 턴"
 hypotheses = ["H_turn_rate_shape", "H_check_loop2"]
+[[dispatch]]
+id = "d29c"
+project = "batman"
+batch = 14
+date = 2026-10-16
+task = "같은 에이전트 세 번째: 대화 패널 마우스 입력 + 증거 고르기 창 개편 + 자동 검사 + GPU 캡처 2장"
+[dispatch.situation]
+S_resumed = "예"
+S_full_brief = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_similar_past = "예"
+S_short = "예"
+S_turns = "예"
+S_spec_fixed = "일부"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+time_class = ["S", "M"]
+minutes = [15, 35]
+turns = [70, 150]
+tokens_class = ["T2", "T3"]
+rules = ["R_resume_ctx_v2", "R_time_turns_v2", "R_verify_loop"]
+reason = "d29b(71턴, 12.4분)보다 조금 큰 UI 수정. 분당 ~5.7턴. R_resume_ctx_v2: d29b 끝 무렵 턴당 ~50만 → 48–55만 × 70–150턴"
+[dispatch.actual]
+minutes = 10.4
+turns = 33
+tokens_m = 16.8
+[dispatch.review]
+reason = "셋 다 아래. 턴당 맥락 50.9만은 R_resume_ctx_v2 범위 안(맞음). 틀린 건 턴 수: 세 번째 회차의 에이전트는 코드를 알아서 패널을 큰 수정 몇 번으로 썼다(도구 21회). d15d(같은 작가 세 번째, 직전의 0.49배 턴)와 같은 모양 → R_third_pass(가설)로 세움"

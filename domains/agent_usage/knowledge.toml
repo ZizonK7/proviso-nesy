@@ -277,6 +277,12 @@ source = "measured"
 date = 2026-10-16
 
 [[observation]]
+id = "O_third_pass"
+text = "같은 에이전트의 세 번째 회차는 직전 회차의 절반 안팎 턴으로 끝났다: d15d 101턴(d15c 206의 0.49배), d29c 33턴(d29b 71의 0.46배). 둘 다 직전과 비슷하거나 조금 큰 일이었다"
+source = "measured"
+date = 2026-10-16
+
+[[observation]]
 id = "O_verify_once"
 text = "한 번에 끝나는 외부 단계는 쌌다: d27 모델 받기 + 153줄 CPU 일괄 렌더가 몇 분, d16 GPU 생성 일곱 장 + 엔진 렌더 두 장(고치기 한 번). 스모크를 반복한 d26b는 그 부분이 쓰기의 약 1.5배"
 source = "director"
@@ -585,6 +591,17 @@ conditions = ["S_full_brief"]
 evidence = ["O_full_brief"]
 against = ["O_m3_fast"]
 note = "90–120분은 지시서가 완전해도 에이전트가 설계를 해야 했던 작업의 값이다. 설계 문서가 동작·데이터·검사까지 정해 두면 R_spec_fixed가 먼저 (2026-10-16, ai)"
+
+[[rule]]
+id = "R_third_pass"
+version = 1
+status = "hypothesis"
+method = "같은 에이전트를 세 번째 이상 이어서 보내면, 비슷한 크기 일이라도 턴과 분을 직전 회차의 0.4–0.6배로 잡는다. 턴당 맥락은 R_resume_ctx_v2대로(커진다)"
+reason = "회차가 쌓일수록 에이전트가 코드와 규칙을 알아서 읽기·탐색 턴이 빠지고 큰 수정 몇 번으로 끝낸다. 실측 둘(d15d, d29c)"
+serves = ["G_time", "G_tokens"]
+conditions = ["S_resumed", "S_similar_past"]
+evidence = ["O_third_pass"]
+note = "두 번째 회차(d15c, d17b, d26b, d29b)에는 이런 감소가 뚜렷하지 않았다. 몇 번째 회차인지 세는 상태가 없어서 지금은 지휘 모델이 직접 센다"
 
 [[rule]]
 id = "R_spec_fixed"
