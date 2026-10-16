@@ -1428,3 +1428,510 @@ tokens_m = 17.6
 [dispatch.review]
 reason = "셋 다 범위 안. 분당 11.2턴, 턴당 맥락 14.3만(넷 중 최고): 우리 설계서와 UI 코드를 더 읽는 조각이라 예상대로"
 hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d31"
+project = "batman"
+batch = 16
+date = 2026-10-16
+task = "설계 문서 갱신: 결정된 계약을 설계서 네 편에 쓰기 (새 절 여럿 + 기존 절 수정, 코드 없음)"
+[dispatch.situation]
+S_full_brief = "예"
+S_spec_fixed = "일부"
+S_long_doc = "예"
+S_similar_past = "예"
+S_turns = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_mid_notes = "모름"
+[dispatch.predicted]
+time_class = ["M", "L"]
+minutes = [35, 65]
+turns = [150, 220]
+tokens_class = ["T2", "T3"]
+rules = ["R_doc_work", "R_time_turns_v2", "R_tok_long", "R_full_brief", "R_long_doc_save"]
+reason = "R_doc_work: 새 절은 새로 쓰기(분당 2.5–4턴), 네 문서의 손질은 수정(5–6.5)이라 전체 ~3.5–5턴/분. 계약이 내용을 정해 둬 d15c(206턴)보다 조금 아래 150–220. 큰 설계서 둘을 통째로 읽어 턴당 30–40만"
+[dispatch.actual]
+minutes = 19.9
+turns = 138
+tokens_m = 27.0
+[dispatch.review]
+reason = "셋 다 아래(시간 19.9 vs 35–65, 턴 138 vs 150–220, 토큰 27.0M vs 45–90M; 등급 T2는 범위 안). 분당 6.9턴: 계약이 동작을 다 정해 둬 새 절도 한두 번의 긴 편집으로 썼고(새로 쓰기가 아니라 수정의 속도), 턴당 맥락 19.5만은 예상의 절반(편집할 절만 읽고 문서 전체를 읽지 않음). 화면과 칸 이름까지 적힌 계약은 S_spec_fixed=예로 봐야 했다(R_spec_fixed ×0.4–0.6이 맞았을 것)"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d32"
+project = "batman"
+batch = 16
+date = 2026-10-16
+task = "한 장의 사건 설계와 대본을 새 틀로 다시 쓰기 (문서만, 코드 없음)"
+[dispatch.situation]
+S_full_brief = "예"
+S_spec_fixed = "일부"
+S_long_doc = "예"
+S_similar_past = "예"
+S_turns = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_mid_notes = "모름"
+[dispatch.predicted]
+time_class = ["M", "L"]
+minutes = [40, 70]
+turns = [140, 220]
+tokens_class = ["T2", "T3"]
+rules = ["R_doc_work", "R_time_turns_v2", "R_tok_long", "R_full_brief", "R_long_doc_save"]
+reason = "d15b(비평 뒤 사건집 다시 쓰기 163턴)에 빗댐. 한 장의 사건 절과 대본 장을 새 구조(실마리·카드·증언·마무리 줄·검증표)로 새로 쓰기라 분당 2.5–4턴, 140–220턴. 사건집과 대본을 통째로 읽어 턴당 35–45만"
+[dispatch.actual]
+minutes = 32.3
+turns = 134
+tokens_m = 35.8
+[dispatch.review]
+reason = "시간·턴은 하한 바로 아래(32.3 vs 40–70, 134 vs 140–220), 토큰은 아래(35.8M vs 50–100M, 등급 T2는 범위 안). 분당 4.1턴은 새로 쓰기 범위의 위쪽, 턴당 맥락 26.7만은 예상(35–45만)보다 작음: 자기 절과 장만 읽고 문서 전체를 읽지 않았다. d31과 같은 교훈: 모양을 이름까지 정한 계약은 S_spec_fixed=예"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d33"
+project = "batman"
+batch = 17
+date = 2026-10-16
+task = "풀이용 문제지 만들기: 한 장의 플레이어 가시 정보만 추려 문서 하나 + 누설 검사"
+[dispatch.situation]
+S_full_brief = "예"
+S_short = "예"
+S_turns = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "모름"
+S_fixed_input = "일부"
+S_spec_fixed = "예"
+S_other_model = "아니오"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [8, 15]
+turns = [35, 70]
+tokens_class = ["T1"]
+rules = ["R_tok_short_v5", "R_time_turns_v2", "R_fixed_input"]
+reason = "d17b(문제지 일곱 개, 13.8분·63턴)의 절반쯤: 한 장이지만 새 장치 넷을 내용 없이 설명하고 누설 검사를 넓힘. 분당 ~5턴, 턴당 ~20만"
+[dispatch.actual]
+minutes = 9.2
+turns = 66
+tokens_m = 9.5
+[dispatch.review]
+reason = "셋 다 범위 안(9.2 vs 8–15, 66 vs 35–70, 9.5M vs 6–14M). 분당 7.2턴, 턴당 맥락 14.4만. 문제지 하나라도 읽기·누설 검사의 고정 비용이 있어 d17b의 절반쯤이라는 이유가 맞았다"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d34"
+project = "batman"
+batch = 17
+date = 2026-10-16
+task = "비평: 한 장의 사건 설계를 규칙 목록에 대 보기 (문서 읽기, 코드 없음)"
+[dispatch.situation]
+S_full_brief = "예"
+S_short = "예"
+S_turns = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "모름"
+S_fixed_input = "일부"
+S_spec_fixed = "예"
+S_other_model = "아니오"
+[dispatch.predicted]
+time_class = ["S", "M"]
+minutes = [12, 22]
+turns = [45, 80]
+tokens_class = ["T1"]
+rules = ["R_tok_short_v5", "R_time_turns_v2"]
+reason = "d21(여섯 사건, 20.3분·60턴·12.2M)에 빗댐: 한 장이지만 규칙 하나하나 대 보기와 검증표 재실행이 있어 턴은 비슷하거나 조금 많음. 비평은 분당 3–4턴, 턴당 20–23만"
+[dispatch.actual]
+minutes = 13.8
+turns = 48
+tokens_m = 7.5
+[dispatch.review]
+reason = "시간·턴은 범위 안, 토큰은 하한 바로 아래(등급 T1 맞음). 분당 3.5턴(d21의 3/분이 맞음), 턴당 맥락 15.6만: 한 장의 파일만 읽어 맥락이 작다"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d35"
+project = "batman"
+batch = 17
+date = 2026-10-16
+task = "비평: 한 장의 이야기·대사·한국어 자연스러움 (문서 읽기, 코드 없음)"
+[dispatch.situation]
+S_full_brief = "예"
+S_short = "예"
+S_turns = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "모름"
+S_fixed_input = "일부"
+S_spec_fixed = "예"
+S_other_model = "아니오"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [10, 20]
+turns = [50, 90]
+tokens_class = ["T1"]
+rules = ["R_tok_short_v5", "R_time_turns_v2"]
+reason = "d22(13.5분·81턴·17.6M)에 빗댐: 한 장이지만 새 대사 71줄과 이름 후보 검토. 분당 ~6턴, 파일은 더 적음"
+[dispatch.actual]
+minutes = 13.4
+turns = 49
+tokens_m = 7.2
+[dispatch.review]
+reason = "시간은 범위 안, 턴·토큰은 하한 바로 아래. 분당 3.7턴: 두 언어로 대체 대사를 쓰는 비평은 목록만 적는 비평(d22 6/분)보다 턴이 느리다. 턴당 맥락 14.6만"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d36"
+project = "batman"
+batch = 17
+date = 2026-10-16
+task = "답을 모르는 풀이: 문제지 하나로 사건 한 건 풀기 + 이름 후보 인상 (고정 입력, 출력 하나)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_short = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [4, 8]
+turns = [12, 25]
+tokens_class = ["T1"]
+rules = ["R_fixed_input"]
+reason = "d18(여섯 사건 6.7분·20턴)보다 사건이 하나라 아래지만 문제지 읽기와 양식 쓰기의 고정 비용이 있어 1/6은 아님"
+[dispatch.actual]
+minutes = 3.0
+turns = 8
+tokens_m = 0.5
+[dispatch.review]
+reason = "셋 다 아래(3.0 vs 4–8, 8 vs 12–25, 0.5M vs 1–3M). 사건 하나는 한 턴에 읽고 몇 턴에 답한다. 내가 가정한 고정 비용 12턴은 d18의 여섯 사건 비용이지 바닥이 아니었다"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d37"
+project = "batman"
+batch = 17
+date = 2026-10-16
+task = "답을 모르는 풀이: 같은 일 (Sonnet 5.5 max)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_short = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+time_class = ["S", "M"]
+minutes = [15, 30]
+turns = [25, 50]
+tokens_class = ["T1"]
+rules = ["R_fixed_input", "R_other_models"]
+reason = "d36을 기준으로 R_other_models: Sonnet max는 턴 ×2, 분 ×4–5, 토큰 ×4 (d19 25.3분·44턴이 그 예)"
+[dispatch.actual]
+minutes = 13.6
+turns = 10
+tokens_m = 1.1
+[dispatch.review]
+reason = "시간은 하한 바로 아래, 턴·토큰은 아래. 고정 입력 하나에서는 Sonnet max가 턴을 더 쪼개지 않았다(10 vs Opus 8). 대신 턴당 1.4분으로 Opus의 4.5배를 생각에 썼다: R_other_models의 분 배수는 맞고 턴 배수는 파일이 많은 일에만 적용된다"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d38"
+project = "batman"
+batch = 17
+date = 2026-10-16
+task = "답을 모르는 풀이: 같은 일 (Fable 5.1 xhigh)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_short = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [8, 18]
+turns = [12, 28]
+tokens_class = ["T1"]
+rules = ["R_fixed_input", "R_other_models"]
+reason = "d36을 기준으로 R_other_models: Fable xhigh는 턴 ×1, 분 ×2–3, 토큰 ×1–1.5 (d20 14.8분·23턴)"
+[dispatch.actual]
+minutes = 6.4
+turns = 12
+tokens_m = 0.9
+[dispatch.review]
+reason = "시간·토큰은 아래, 턴은 하한. Fable xhigh 배수(분 ×2–3)는 S1 실측(3.0분)에 대해 맞았으나(×2.1) 기준으로 삼은 S1 예측(4–8분)이 높아 범위가 빗나갔다"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d32b"
+project = "batman"
+batch = 17
+date = 2026-10-16
+task = "같은 에이전트 두 번째: 비평 통합 노트대로 한 장의 사건 설계·대본 고치기 (문서만)"
+[dispatch.situation]
+S_resumed = "예"
+S_full_brief = "예"
+S_spec_fixed = "예"
+S_similar_past = "예"
+S_short = "일부"
+S_turns = "예"
+S_external_check = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_fixed_input = "아니오"
+S_mid_notes = "모름"
+[dispatch.predicted]
+time_class = ["S", "M"]
+minutes = [15, 30]
+turns = [50, 110]
+tokens_class = ["T2"]
+rules = ["R_resume_ctx_v2", "R_third_pass", "R_time_turns_v2"]
+reason = "자기 글의 두 번째 회차, 고칠 곳이 다 적힌 노트: R_third_pass로 첫 회차(134턴)의 0.4–0.6배 → 55–80, 새 장면과 검증표 재실행으로 넓혀 50–110. 분당 ~4턴. 맥락은 첫 회차 끝 무렵 35–45만 → 40–45만"
+written_before = false
+[dispatch.actual]
+minutes = 13.1
+turns = 81
+tokens_m = 39.0
+[dispatch.review]
+reason = "시간은 하한 바로 아래, 턴·토큰은 범위 안. 턴당 맥락 48.1만(예상 40–45만보다 조금 위: 비평 파일 둘을 자기 글 위에 더 읽음). 분당 6.2턴: 아는 글의 수정 속도, R_third_pass대로"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d33b"
+project = "batman"
+batch = 17
+date = 2026-10-16
+task = "같은 에이전트 두 번째: 고친 사건으로 풀이용 문제지 다시 만들기 + 누설 검사"
+[dispatch.situation]
+S_resumed = "예"
+S_full_brief = "예"
+S_spec_fixed = "예"
+S_similar_past = "예"
+S_short = "예"
+S_turns = "예"
+S_fixed_input = "일부"
+S_external_check = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [5, 10]
+turns = [25, 50]
+tokens_class = ["T1"]
+rules = ["R_third_pass", "R_resume_ctx_v2", "R_time_turns_v2"]
+reason = "첫 회차(9.2분·66턴)의 0.4–0.6배: 같은 문서의 바뀐 절만 다시 읽고 문제지를 고친다. 분당 ~6턴. 맥락 15–20만"
+[dispatch.actual]
+minutes = 4.1
+turns = 24
+tokens_m = 6.1
+[dispatch.review]
+reason = "시간·턴은 하한 바로 아래, 토큰은 범위 안. 첫 회차의 0.36배로 R_third_pass(0.4–0.6)의 아래쪽: 문제지를 새로 만들지 않고 제자리에서 고쳤다"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d36b"
+project = "batman"
+batch = 17
+date = 2026-10-16
+task = "답을 모르는 풀이 재실행: 고친 문제지로 사건 한 건 (고정 입력, 출력 하나)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_short = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [2, 5]
+turns = [6, 12]
+tokens_class = ["T1"]
+rules = ["R_fixed_input", "R_other_models"]
+reason = "같은 고정 입력의 첫 실측(d36 3.0분·8턴)을 기준으로 잡음"
+[dispatch.actual]
+minutes = 2.2
+turns = 11
+tokens_m = 0.7
+[dispatch.review]
+reason = "셋 다 범위 안: 같은 고정 입력의 첫 실측이 올바른 기준이었다"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d37b"
+project = "batman"
+batch = 17
+date = 2026-10-16
+task = "답을 모르는 풀이 재실행: 같은 일 (Sonnet 5.5 max)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_short = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [8, 16]
+turns = [8, 14]
+tokens_class = ["T1"]
+rules = ["R_fixed_input", "R_other_models"]
+reason = "d37 실측(13.6분·10턴): Sonnet max는 분 배수(×4.5)만 적용, 고정 입력 하나에서는 턴을 쪼개지 않는다"
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "d38b"
+project = "batman"
+batch = 17
+date = 2026-10-16
+task = "답을 모르는 풀이 재실행: 같은 일 (Fable 5.1 xhigh)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_short = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+time_class = ["S"]
+minutes = [4, 9]
+turns = [8, 16]
+tokens_class = ["T1"]
+rules = ["R_fixed_input", "R_other_models"]
+reason = "d38 실측(6.4분·12턴): Fable xhigh는 분 ×2, 턴 ×1"
+[dispatch.actual]
+minutes = 6.3
+turns = 16
+tokens_m = 1.1
+[dispatch.review]
+reason = "셋 다 범위 안: Fable xhigh의 분 ×2가 다시 맞았다"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d39"
+project = "batman"
+batch = 18
+date = 2026-10-16
+task = "구현: 설계서가 화면·칸·신호·검사 행까지 정한 시스템 다섯 개를 기존 UI 위에 만들고 시험실·자동 검사까지 (Godot, 스모크 반복)"
+[dispatch.situation]
+S_full_brief = "예"
+S_spec_fixed = "예"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_turns = "예"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_short = "아니오"
+S_long_doc = "아니오"
+S_mid_notes = "모름"
+[dispatch.predicted]
+time_class = ["L"]
+minutes = [45, 80]
+turns = [200, 330]
+tokens_class = ["T3", "T4"]
+rules = ["R_turns_analogy_v2", "R_full_brief", "R_time_turns_v2", "R_verify_loop", "R_tok_long"]
+reason = "d26(같은 지시서 수준의 시스템 구현 237턴·~52분)에 빗대어 ×0.85–1.4: 바탕이 이미 있어 범위는 작지만 UI 폭(띠·카드·벽·레일)과 검사 행이 많다. 스모크 반복 포함 분당 4–6턴. 새 에이전트가 큰 스크립트 셋을 읽어 턴당 30–42만"
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "d40"
+project = "batman"
+batch = 18
+date = 2026-10-16
+task = "데이터: 한 장의 사건 데이터·대사 행·음성 생성 + 검사 스크립트 고치고 넓히기"
+[dispatch.situation]
+S_full_brief = "예"
+S_spec_fixed = "예"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "일부"
+S_turns = "예"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_short = "아니오"
+S_mid_notes = "모름"
+[dispatch.predicted]
+time_class = ["M"]
+minutes = [25, 45]
+turns = [100, 170]
+tokens_class = ["T2", "T3"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_once"]
+reason = "d27(세 사건 + 153줄 음성, 176턴·~37분·~56M)에 빗대어 ×0.55–0.95: 사건 하나와 82줄이지만 검사 스크립트 수정·확장과 벽 데이터가 더해짐. 분당 ~4.5턴, 턴당 28–35만"
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "d41"
+project = "batman"
+batch = 18
+date = 2026-10-16
+task = "월드: 새 구역(거리·현장 다섯·검문소·정지 장면·컷신 열한 개·전투 넷)을 빌더 코드로 짓고 장 흐름 데이터까지"
+[dispatch.situation]
+S_full_brief = "예"
+S_spec_fixed = "일부"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_turns = "예"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_short = "아니오"
+S_mid_notes = "모름"
+[dispatch.predicted]
+time_class = ["L"]
+minutes = [45, 80]
+turns = [260, 400]
+tokens_class = ["T3", "T4"]
+rules = ["R_turns_analogy_v2", "R_full_brief", "R_time_turns_v2", "R_verify_loop", "R_tok_long"]
+reason = "d28(기존 레벨에 더하기, 272턴·~43분·~104M)에 빗대어 ×1.0–1.5: 새 구역이라 더 큼. 빌더 코드의 작은 편집이 많아 분당 ~6턴, 긴 빌더를 읽어 턴당 35–45만"
+[dispatch.actual]
+status = "unknown"
