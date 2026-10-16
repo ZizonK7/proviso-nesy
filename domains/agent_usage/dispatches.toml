@@ -1815,7 +1815,12 @@ tokens_class = ["T1"]
 rules = ["R_fixed_input", "R_other_models"]
 reason = "d37 실측(13.6분·10턴): Sonnet max는 분 배수(×4.5)만 적용, 고정 입력 하나에서는 턴을 쪼개지 않는다"
 [dispatch.actual]
-status = "unknown"
+minutes = 13.9
+turns = 29
+tokens_m = 3.6
+[dispatch.review]
+reason = "시간은 범위 안(13.9 vs 8–16), 턴은 위(29 vs 8–14), 토큰도 위(3.6M vs 0.8–1.6M). 이번에는 Sonnet max가 읽기를 잘게 쪼갰다(도구 16회): 같은 입력이라도 턴 쪼개기는 회차마다 다르다. 분 배수만 믿고 턴은 넓게 잡아야 한다"
+hypotheses = ["H_turn_rate_shape"]
 
 [[dispatch]]
 id = "d38b"
