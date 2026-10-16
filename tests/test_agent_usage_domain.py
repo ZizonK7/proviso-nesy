@@ -47,8 +47,13 @@ class Classes(unittest.TestCase):
 
 class Loop(unittest.TestCase):
     def test_stopped_and_unknown_are_not_judged(self):
-        ids = {d["id"] for d in dp.load() if not dp.done(d)}
-        self.assertEqual(ids, {"d15"})
+        # d15 멈춤은 늘 빠진다; 그 밖에 빠진 기록은 아직 끝나지 않은(unknown) 것뿐이어야 한다
+        not_done = [d for d in dp.load() if not dp.done(d)]
+        ids = {d["id"] for d in not_done}
+        self.assertIn("d15", ids)
+        for d in not_done:
+            if d["id"] != "d15":
+                self.assertEqual(d["actual"].get("status"), "unknown", d["id"])
 
     def test_hypothesis_is_tested_only_on_later_records(self):
         # H_tok_per_min은 d12c까지 보고 세웠다 → 배치 10 이후로만 시험한다. d12c 자신은 맞춰 본 쪽
