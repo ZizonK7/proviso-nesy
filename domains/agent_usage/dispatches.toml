@@ -2023,3 +2023,71 @@ tokens_m = 19.2
 [dispatch.review]
 reason = "셋 다 범위 안(18 vs 12–30, 36 vs 30–80, 19.2M vs 15–40M). 렌더는 백그라운드로 돌고 턴은 확인 작업(목록·길이·Whisper)에 쓰였다는 이유가 맞았다"
 hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d42"
+project = "batman"
+batch = 19
+date = 2026-10-17
+task = "데이터 파일 세 개의 한국어 글 다듬기(규칙 문서 기준) + 검사 하나 + 스모크 2회. Sonnet 5.5 max"
+[dispatch.situation]
+S_resumed = "아니오"
+S_full_brief = "예"
+S_spec_fixed = "일부"
+S_similar_past = "일부"
+S_external_check = "예"
+S_check_loop = "일부"
+S_short = "아니오"
+S_turns = "모름"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "예"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+time_class = ["M"]
+minutes = [20, 40]
+turns = [60, 120]
+tokens_class = ["T2"]
+rules = ["H_turns_over"]
+reason = "고칠 항목 ~25개, 큰 JSON 세 개 읽기, 스모크 두 번(PC 8분씩). 직감 200턴을 H_turns_over로 절반. Sonnet 속도는 측정 없음"
+[dispatch.actual]
+minutes = 49.5
+turns = 379
+tokens_m = 185.9
+[dispatch.review]
+reason = "셋 다 크게 넘음. Opus high에 맞춘 비유를 절반으로 줄인 것이 틀림: Sonnet max는 Opus보다 턴이 많고, 규칙 안에서 범위를 스스로 넓혔다(자막 전체, 설계 문서, 원본과 수정본 비교 풀이). 다른 모델의 max 작업은 Opus 비유의 턴 ×3 정도로 잡아야 했다"
+hypotheses = ["H_turns_over"]
+
+[[dispatch]]
+id = "d43"
+project = "batman"
+batch = 19
+date = 2026-10-17
+task = "UI 기능 두 개(키보드 탐색, 인물 소개 표시) + 안내 카드 + 컷신 구도 렌더 고치기, 이어서 합친 뒤 후속 한 번. Opus high"
+[dispatch.situation]
+S_resumed = "아니오"
+S_full_brief = "예"
+S_spec_fixed = "일부"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_turns = "모름"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_mid_notes = "예"
+[dispatch.predicted]
+time_class = ["M", "L"]
+minutes = [30, 55]
+turns = [140, 260]
+tokens_class = ["T3"]
+rules = ["H_turns_over", "H_turn_rate_shape", "H_tok_rate_long"]
+reason = "기존 패널 두 곳 기능 + 컷신 하나 렌더 반복. 렌더가 낀 구현 작업(d40: 30분 216턴)의 ×0.7–1.2"
+[dispatch.actual]
+minutes = 36.3
+turns = 289
+tokens_m = 73.2
+[dispatch.review]
+reason = "시간·토큰은 범위 안, 턴은 살짝 넘음(289). 첫 번은 22.7분으로 빨랐고(렌더 두 번에 원인 찾음) 합친 뒤 후속(13.6분)이 남은 몫을 채웠다. 합계는 맞았지만 모양은 이유와 달랐다"
+hypotheses = ["H_turn_rate_shape", "H_tok_rate_long", "H_mid_notes"]

@@ -24,6 +24,7 @@ SEEN_UNTIL = {
     "turn_rate_non_web": "d26b",
     "check_loop_turn_rate": "d26b",
     "research_cap": "dR5D",  # 배치 10·15 조사 여덟 건으로 세움
+    "sonnet_max_rate": "d43",  # 배치 19 d42 한 건으로 세움
 }
 NEED = 0.8
 
@@ -221,6 +222,19 @@ def research_cap() -> tuple[str, str]:
                   lambda d: f"{_m(d, 'minutes'):.1f}분 {int(_m(d, 'turns'))}턴")
 
 
+def sonnet_max_rate() -> tuple[str, str]:
+    """H_sonnet_max_rate: Sonnet max로 도는 비조사 작업은 분당 6.5–9.5턴(Opus high 2.5–6.5보다 빠르다)."""
+    def applies(d: dict) -> bool:
+        return (dp.situation(d, "S_other_model") == "예" and "Sonnet" in str(d.get("task", ""))
+                and _m(d, "minutes") is not None and _m(d, "turns") is not None)
+
+    def ok(d: dict) -> bool:
+        return 6.5 <= _m(d, "turns_per_min") <= 9.5
+
+    return _judge("sonnet_max_rate", applies, ok,
+                  lambda d: f"분당 {_m(d, 'turns_per_min'):.1f}턴")
+
+
 CHECKS = {
     "tokens_per_minute": tokens_per_minute,
     "tokens_per_minute_by_length": tokens_per_minute_by_length,
@@ -233,4 +247,5 @@ CHECKS = {
     "turn_rate_non_web": turn_rate_non_web,
     "check_loop_turn_rate": check_loop_turn_rate,
     "research_cap": research_cap,
+    "sonnet_max_rate": sonnet_max_rate,
 }

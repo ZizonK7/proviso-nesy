@@ -306,6 +306,12 @@ text = "조사 dR3는 20.3분·138턴으로 같은 배치의 다른 조사(7.7�
 source = "measured"
 date = 2026-10-16
 
+[[observation]]
+id = "O_sonnet_max_b19"
+text = "Sonnet 5.5 max로 돈 데이터 글 다듬기(d42)는 49.5분·379턴(분당 7.7턴)으로, Opus high 비유를 절반으로 줄인 예측(60–120턴)의 3배를 넘었다. 규칙 안에서 범위를 스스로 넓혔다"
+source = "measured"
+date = 2026-10-17
+
 # ---------- 가설 ----------
 [[hypothesis]]
 id = "H_turns_over"
@@ -397,6 +403,15 @@ evidence = ["O_research", "O_research_b15"]
 against = ["O_research_mid"]
 check = "research_cap"
 note = "맞으면 R_research의 이유를 '출력 상한이 일의 크기를 정한다'로 고치고 넓이에 따른 윗쪽 보정을 뺀다"
+
+[[hypothesis]]
+id = "H_sonnet_max_rate"
+text = "Sonnet max로 도는 비조사 작업은 분당 6.5–9.5턴으로 Opus high보다 빠르게 턴을 쓴다. 그래서 Opus 비유로 잡은 턴을 줄이면 안 되고 2–3배로 잡는다"
+source = "ai (2026-10-17, 배치 19 돌아보기: d42가 예측의 3배)"
+evidence = ["O_sonnet_max_b19"]
+against = []
+check = "sonnet_max_rate"
+note = "다음 Sonnet/Fable 디스패치부터 시험. 맞으면 다른 모델용 규칙을 따로 세운다"
 
 # ---------- 규칙 (예측 방법) ----------
 [[rule]]
