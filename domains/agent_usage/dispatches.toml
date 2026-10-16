@@ -1024,3 +1024,38 @@ tokens_m = 122.0
 [dispatch.review]
 reason = "셋 다 범위 안(75.7분 vs 60–100, 283턴 vs 250–400, 122.0M vs 100–170M). d12b를 좋은 출발 상태 때문에 절반으로 잡은 것이 맞았다. 스모크 반복(S_check_loop=예)이 쓰기의 약 1.5배 시간: H_check_loop 방향 지지. 이어서 한 에이전트의 턴당 맥락 43.1만(38.1만에서 커짐)"
 hypotheses = ["H_check_loop"]
+
+[[dispatch]]
+id = "d29"
+project = "batman"
+batch = 14
+date = 2026-10-16
+task = "베타 피드백 수정: UI 배치 버그 + 보드 개편, 월드 표시, 탐정 모드 대비, 조준 대상 고르기, GPU 캡처 확인 + 자동 검사"
+[dispatch.situation]
+S_full_brief = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_similar_past = "예"
+S_turns = "예"
+S_spec_fixed = "일부"
+S_resumed = "아니오"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_short = "아니오"
+S_long_doc = "아니오"
+S_mid_notes = "예"
+[dispatch.predicted]
+time_class = ["M", "L"]
+minutes = [40, 75]
+turns = [250, 400]
+tokens_class = ["T3", "T4"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_verify_loop", "R_tok_long"]
+reason = "d14(규칙 수정 + 전후 캡처 + 자동 검사: 30.3분, 287턴, 68M)와 같은 지시서 수준이라 R_turns_analogy_v2로 그대로 빗대고 갈래 셋 + 문서·검사 절로 턴 ×1–1.4. R_time_turns_v2: 캡처 작업 7–10, 구현 4.5–6.5 → 분당 5–7턴. 턴당 맥락 30–38만(S_mid_notes는 보낼 때 모름, 실행 중 1회)"
+[dispatch.actual]
+minutes = 50.3
+turns = 285
+tokens_m = 70.9
+[dispatch.review]
+reason = "시간·턴은 범위 안(50.3분, 285턴), 토큰은 하한 바로 아래(70.9M, 등급 T3는 맞음). 분당 5.7턴으로 R_time_turns_v2의 예상(5–7) 안. 토큰이 빗나간 건 턴당 맥락 24.9만: 새 worktree의 첫 회차 에이전트가 필요한 스크립트만 읽어서 R_tok_long의 하한(24만)이 맞았고 '큰 작업이면 위쪽'이라는 버릇이 틀렸다. 캡처 → 고침 반복이 분당 턴을 낮추지 않았다(캡처 스크립트 하나를 제자리에서 다시 돌림): H_check_loop2 반대. 도중 지시 1회"
+hypotheses = ["H_turn_rate_shape", "H_tok_rate_long", "H_check_loop2", "H_mid_notes"]
