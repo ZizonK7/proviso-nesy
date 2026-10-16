@@ -1944,4 +1944,9 @@ tokens_class = ["T3", "T4"]
 rules = ["R_turns_analogy_v2", "R_full_brief", "R_time_turns_v2", "R_verify_loop", "R_tok_long"]
 reason = "d28(기존 레벨에 더하기, 272턴·~43분·~104M)에 빗대어 ×1.0–1.5: 새 구역이라 더 큼. 빌더 코드의 작은 편집이 많아 분당 ~6턴, 긴 빌더를 읽어 턴당 35–45만"
 [dispatch.actual]
-status = "unknown"
+minutes = 46.1
+turns = 276
+tokens_m = 107.0
+[dispatch.review]
+reason = "셋 다 범위 안, 모두 하한 쪽. 분당 6.0턴(d28과 같음), 턴당 맥락 38.8만 범위 안. d28의 ×1.0–1.5가 ×1.0에 떨어졌다: 같은 빌더 패턴이면 새 구역도 기존 레벨 더하기와 비용이 같다. 턴을 정하는 건 노드 수지 구역의 새로움이 아니다"
+hypotheses = ["H_turn_rate_shape", "H_tok_rate_long"]
