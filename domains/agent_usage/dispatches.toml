@@ -2707,7 +2707,12 @@ tokens_class = ["T3", "T4"]
 rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_once"]
 reason = "d28(기존 레벨 추가, 42.9분·272턴)의 모양; 경로의 주행 가능성이 열린 부분"
 [dispatch.actual]
-status = "unknown"
+minutes = 57.5
+turns = 221
+tokens_m = 80.1
+[dispatch.review]
+reason = "시간은 범위 안(57.5 vs 40–75). d28/d41 의 0.8–1.2배가 맞았다. 같은 배치의 새 빌더(d61)보다 19분 더 걸린 몫은 기존 레벨을 확장할 때만 필요한 경로 검사 도구와 장 전환 시험(1장→5장→3장)이었다"
+hypotheses = ["H_turn_rate_shape"]
 
 [[dispatch]]
 id = "d63"
