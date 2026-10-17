@@ -2984,3 +2984,35 @@ tokens_m = 31.8
 [dispatch.review]
 reason = "분은 범위 안(14 vs 12–30), 턴·토큰은 아래(57 vs 80–160, 31.8M vs 50–110M). 턴당 맥락은 R_resume_ctx_v2대로(약 560K)라 틀린 것은 턴 수: 에이전트가 시안 열두 장을 한 번의 실행으로 찍고 함께 판정해서 렌더 바퀴가 하나였다. 정해진 시안 목록을 찍는 일은 장 수가 아니라 실행 수로 센다(실행마다 15–25턴 + 코드 변경)"
 hypotheses = ["H_render_rate"]
+
+[[dispatch]]
+id = "d69c"
+project = "batman"
+batch = 27
+date = 2026-10-18
+task = "같은 에이전트 세 번째: (A) 시안 다시 렌더(밝은 조명, 한 번 실행) (B) 장 여섯의 흐름을 머리 없이 돌려 규칙을 어기는 카메라 목록을 뽑는 검사 도구 + 해당 카메라 고치고 다시 렌더 (C) 앞 회차 남은 것 셋(화면 밝기 둘, 효과음 하나)"
+[dispatch.situation]
+S_resumed = "예"
+S_render = "예"
+S_full_brief = "예"
+S_spec_fixed = "일부"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_long_lap = "예"
+S_web = "아니오"
+S_other_model = "아니오"
+S_mid_notes = "아니오"
+S_turns = "모름"
+[dispatch.predicted]
+written_before = true
+time_class = ["L", "XL"]
+minutes = [50, 100]
+turns = [225, 450]
+tokens_class = ["T4"]
+tokens_m = [125, 250]
+rules = ["R_resume_ctx_v2", "R_third_pass", "R_time_turns_v2", "R_verify_loop", "R_say_numbers"]
+reason = "A는 렌더 실행 한 번(d69b 교훈: 실행 수로 셈) 6–12분; B가 모르는 부분: 장 여섯의 흐름 검사(각 약 3분) + 어긴 카메라마다 고치고 다시 찍는 한 바퀴(d69 교훈: 찾은 것마다 한 바퀴) 35–70분; C는 한 장 다시 찍기 + 작은 수정 셋 10–20분. 턴당 맥락 약 550K(d69b 실측)"
+[dispatch.actual]
+status = "unknown"
