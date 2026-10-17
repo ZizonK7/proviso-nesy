@@ -2911,3 +2911,35 @@ tokens_m = 206.0
 [dispatch.review]
 reason = "시간 초과(128 vs 65–100; 후속 4건 13분 포함), 턴 초과(588 vs 300–420), 토큰 범위 안. 전례 배수는 브랜치·장 수를 셌지만, 통합의 비용은 머지에서 처음 만나는 새 런타임 면의 수(여기선 셋)에 따라 늘었다: 각각 합친 뒤에만 드러나는 버그 하나와 봇 실행을 동반한 디버그 주기 하나를 낳아, 여섯 주기가 15분·130턴을 더 썼다. 교훈: 통합 턴 ≈ 전례 × (1 + 새 런타임 면당 0.4); 토큰은 재개된 맥락이 이미 따뜻해 범위 안(턴당 325K)"
 hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d69"
+project = "batman"
+batch = 27
+date = 2026-10-18
+task = "GPU 렌더 점검: 이전 캡처 도구를 본떠 두 장의 캡처 도구 만들기, 새 카메라 약 80개 렌더하고 이미지 판정, 묶음 그림, 봇으로 차량 구간 속도 맞추기, 소리 크기와 프레임 시간 재기, 작은 수정, 자동 검사"
+[dispatch.situation]
+S_render = "예"
+S_full_brief = "예"
+S_spec_fixed = "일부"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_long_lap = "일부"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_turns = "모름"
+[dispatch.predicted]
+written_before = true
+time_class = ["L", "XL"]
+minutes = [60, 100]
+turns = [350, 550]
+tokens_class = ["T4"]
+tokens_m = [110, 220]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_loop", "R_say_numbers"]
+reason = "d47(44분·292턴·69M: 수정 하나 + 렌더 재현 경로 셋)의 1.3–2.0배: 장 둘의 캡처 실행, 카메라 약 80개, 속도 맞추기 반복, 측정. 캡처 도구 본보기가 있어 비용은 장면 수와 고침 바퀴 수가 정한다. 분당 턴은 H_render_rate(5.5–8.5)로 나눔. 이미지 읽기가 많아 턴당 토큰은 R_tok_long 위쪽"
+[dispatch.actual]
+status = "unknown"
