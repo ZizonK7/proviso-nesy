@@ -2159,3 +2159,37 @@ tokens_m = 36.9
 [dispatch.review]
 reason = "셋 다 범위 안. 시험은 13회로 예상보다 많았지만 렌더 한 회가 1.5분 정도라 합계에 크게 영향 없음"
 hypotheses = ["H_turn_rate_shape", "H_tok_rate_long"]
+
+[[dispatch]]
+id = "d46"
+project = "batman"
+batch = 21
+date = 2026-10-17
+task = "보스전 진행 막힘 원인 찾기와 고치기 + 재현 스모크, 도중에 연출 버그 두 건 추가(렌더 확인). Opus high"
+[dispatch.situation]
+S_resumed = "아니오"
+S_full_brief = "예"
+S_spec_fixed = "일부"
+S_similar_past = "일부"
+S_external_check = "예"
+S_check_loop = "일부"
+S_short = "아니오"
+S_turns = "모름"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_mid_notes = "예"
+[dispatch.predicted]
+time_class = ["M"]
+minutes = [20, 45]
+turns = [80, 200]
+tokens_class = ["T1", "T2"]
+rules = ["H_turn_rate_shape", "H_turns_over"]
+reason = "원인 절반은 알려짐(전투 중 입력). 보스 코드와 입력 코드를 읽고 길 하나 추가, 단계 전환 스모크"
+[dispatch.actual]
+minutes = 26.0
+turns = 209
+tokens_m = 40.6
+[dispatch.review]
+reason = "시간·토큰은 범위 안, 턴은 위로 살짝 넘음. 도중 추가 지시(연출 두 건, 렌더 확인)가 턴을 늘렸다. 분당 8.0턴은 렌더가 낀 작업의 빠른 쪽과 맞다"
+hypotheses = ["H_turn_rate_shape", "H_mid_notes"]
