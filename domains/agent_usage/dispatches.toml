@@ -2031,6 +2031,7 @@ batch = 19
 date = 2026-10-17
 task = "데이터 파일 세 개의 한국어 글 다듬기(규칙 문서 기준) + 검사 하나 + 스모크 2회. Sonnet 5.5 max"
 [dispatch.situation]
+S_render = "아니오"
 S_resumed = "아니오"
 S_full_brief = "예"
 S_spec_fixed = "일부"
@@ -2048,14 +2049,14 @@ time_class = ["M"]
 minutes = [20, 40]
 turns = [60, 120]
 tokens_class = ["T2"]
-rules = ["H_turns_over"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2"]
 reason = "고칠 항목 ~25개, 큰 JSON 세 개 읽기, 스모크 두 번(PC 8분씩). 직감 200턴을 H_turns_over로 절반. Sonnet 속도는 측정 없음"
 [dispatch.actual]
 minutes = 49.5
 turns = 379
 tokens_m = 185.9
 [dispatch.review]
-reason = "셋 다 크게 넘음. Opus high에 맞춘 비유를 절반으로 줄인 것이 틀림: Sonnet max는 Opus보다 턴이 많고, 규칙 안에서 범위를 스스로 넓혔다(자막 전체, 설계 문서, 원본과 수정본 비교 풀이). 다른 모델의 max 작업은 Opus 비유의 턴 ×3 정도로 잡아야 했다"
+reason = "셋 다 크게 넘음. 지휘 모델이 가설 목록만 보고 규칙 R_other_models(Sonnet max는 턴 ×2, 분 ×4–5, 토큰 ×4)를 쓰지 않았다. 그 규칙대로면 Opus 예측(20–40분, 60–120턴)이 80–200분, 120–240턴이 되어 턴은 위로 넘고 시간은 아래로 맞았을 것. 또 Opus high에 맞춘 비유를 절반으로 줄인 것도 틀림: Sonnet max는 Opus보다 턴이 많고, 규칙 안에서 범위를 스스로 넓혔다(자막 전체, 설계 문서, 원본과 수정본 비교 풀이). 다른 모델의 max 작업은 Opus 비유의 턴 ×3 정도로 잡아야 했다"
 hypotheses = ["H_turns_over"]
 
 [[dispatch]]
@@ -2065,6 +2066,7 @@ batch = 19
 date = 2026-10-17
 task = "UI 기능 두 개(키보드 탐색, 인물 소개 표시) + 안내 카드 + 컷신 구도 렌더 고치기, 이어서 합친 뒤 후속 한 번. Opus high"
 [dispatch.situation]
+S_render = "예"
 S_resumed = "아니오"
 S_full_brief = "예"
 S_spec_fixed = "일부"
@@ -2082,7 +2084,7 @@ time_class = ["M", "L"]
 minutes = [30, 55]
 turns = [140, 260]
 tokens_class = ["T3"]
-rules = ["H_turns_over", "H_turn_rate_shape", "H_tok_rate_long"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long"]
 reason = "기존 패널 두 곳 기능 + 컷신 하나 렌더 반복. 렌더가 낀 구현 작업(d40: 30분 216턴)의 ×0.7–1.2"
 [dispatch.actual]
 minutes = 36.3
@@ -2099,6 +2101,7 @@ batch = 20
 date = 2026-10-17
 task = "원인을 넘겨받은 작은 버그 고치기(두 곳) + 재현 스모크, 이어서 지휘 모델이 범위를 넓힌 후속 한 번. Opus high"
 [dispatch.situation]
+S_render = "아니오"
 S_resumed = "아니오"
 S_full_brief = "예"
 S_spec_fixed = "예"
@@ -2116,7 +2119,7 @@ time_class = ["S", "M"]
 minutes = [15, 35]
 turns = [50, 140]
 tokens_class = ["T1", "T2"]
-rules = ["H_turns_over", "H_turn_rate_shape"]
+rules = ["R_spec_fixed", "R_time_turns_v2"]
 reason = "원인이 넘겨졌고 두 곳만 고침. 시간은 스모크 한두 번이 차지"
 [dispatch.actual]
 minutes = 36.7
@@ -2133,6 +2136,7 @@ batch = 20
 date = 2026-10-17
 task = "컷신 한 장면 구도를 렌더로 찾기(취향 시험 반복), 기존 렌더 도구 있음. Opus high"
 [dispatch.situation]
+S_render = "예"
 S_resumed = "아니오"
 S_full_brief = "예"
 S_spec_fixed = "아니오"
@@ -2150,7 +2154,7 @@ time_class = ["M"]
 minutes = [20, 45]
 turns = [120, 260]
 tokens_class = ["T2", "T3"]
-rules = ["H_turn_rate_shape", "H_tok_rate_long"]
+rules = ["R_time_turns_v2", "R_tok_long", "R_verify_loop"]
 reason = "컷신 하나, 렌더 도구와 앞 에이전트 기록이 있음. 열린 부분은 구도 시험 3–6회와 스모크 한 번"
 [dispatch.actual]
 minutes = 32.4
@@ -2167,6 +2171,7 @@ batch = 21
 date = 2026-10-17
 task = "보스전 진행 막힘 원인 찾기와 고치기 + 재현 스모크, 도중에 연출 버그 두 건 추가(렌더 확인). Opus high"
 [dispatch.situation]
+S_render = "예"
 S_resumed = "아니오"
 S_full_brief = "예"
 S_spec_fixed = "일부"
@@ -2184,7 +2189,7 @@ time_class = ["M"]
 minutes = [20, 45]
 turns = [80, 200]
 tokens_class = ["T1", "T2"]
-rules = ["H_turn_rate_shape", "H_turns_over"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2"]
 reason = "원인 절반은 알려짐(전투 중 입력). 보스 코드와 입력 코드를 읽고 길 하나 추가, 단계 전환 스모크"
 [dispatch.actual]
 minutes = 26.0
@@ -2201,6 +2206,7 @@ batch = 22
 date = 2026-10-17
 task = "UI 배치 고치기 하나 + 장면 경로 버그 찾기(재현 경로 셋, 렌더) + 스모크 확장. Opus high"
 [dispatch.situation]
+S_render = "예"
 S_resumed = "아니오"
 S_full_brief = "예"
 S_spec_fixed = "일부"
@@ -2218,7 +2224,7 @@ time_class = ["M"]
 minutes = [20, 45]
 turns = [100, 220]
 tokens_class = ["T2"]
-rules = ["H_turn_rate_shape", "H_tok_rate_long"]
+rules = ["R_time_turns_v2", "R_tok_long", "R_verify_loop"]
 reason = "배치 하나와 장면 경로 하나, 렌더 도구가 이미 있음"
 [dispatch.actual]
 minutes = 44.0

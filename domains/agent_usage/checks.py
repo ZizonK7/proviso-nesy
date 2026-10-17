@@ -25,6 +25,7 @@ SEEN_UNTIL = {
     "check_loop_turn_rate": "d26b",
     "research_cap": "dR5D",  # 배치 10·15 조사 여덟 건으로 세움
     "sonnet_max_rate": "d43",  # 배치 19 d42 한 건으로 세움
+    "render_turn_rate": "d47",  # 배치 19–22 렌더 작업 네 건(d43·d45·d46·d47)으로 세움
 }
 NEED = 0.8
 
@@ -183,10 +184,22 @@ def turn_rate_non_web() -> tuple[str, str]:
     def applies(d: dict) -> bool:
         return (_m(d, "turns_per_min") is not None and _default_setup(d)
                 and dp.situation(d, "S_web") != "예" and dp.situation(d, "S_ci_warm") != "예"
-                and dp.situation(d, "S_ci_cold") != "예" and dp.situation(d, "S_unsaved_doc") != "예")
+                and dp.situation(d, "S_ci_cold") != "예" and dp.situation(d, "S_unsaved_doc") != "예"
+                and dp.situation(d, "S_render") != "예")
 
     return _judge("turn_rate_non_web", applies,
                   lambda d: 2.5 <= _m(d, "turns_per_min") <= 6.5,
+                  lambda d: f"분당 {_m(d, 'turns_per_min'):.1f}턴")
+
+
+def render_turn_rate() -> tuple[str, str]:
+    """H_render_rate: Opus high로 렌더를 찍고 보며 고치는 반복이 있는 구현 작업은 분당 5.5–8.5턴."""
+    def applies(d: dict) -> bool:
+        return (_m(d, "turns_per_min") is not None and _default_setup(d)
+                and dp.situation(d, "S_render") == "예")
+
+    return _judge("render_turn_rate", applies,
+                  lambda d: 5.5 <= _m(d, "turns_per_min") <= 8.5,
                   lambda d: f"분당 {_m(d, 'turns_per_min'):.1f}턴")
 
 
@@ -249,4 +262,5 @@ CHECKS = {
     "check_loop_turn_rate": check_loop_turn_rate,
     "research_cap": research_cap,
     "sonnet_max_rate": sonnet_max_rate,
+    "render_turn_rate": render_turn_rate,
 }

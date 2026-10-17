@@ -98,6 +98,10 @@ id = "S_web"
 text = "웹 검색·페이지 읽기가 주된 일이다"
 
 [[state]]
+id = "S_render"
+text = "게임 화면을 렌더해 보고 고치는 반복이 일의 중심이다 (배치 19부터 기록)"
+
+[[state]]
 id = "S_fixed_input"
 text = "입력이 정해진 작은 파일 묶음이고, 출력이 하나이고, 확인 실행이 없다 (순수 추론)"
 
@@ -312,6 +316,12 @@ text = "Sonnet 5.5 max로 돈 데이터 글 다듬기(d42)는 49.5분·379턴(�
 source = "measured"
 date = 2026-10-17
 
+[[observation]]
+id = "O_render_b19_22"
+text = "배치 19–22의 렌더 반복 구현 작업 네 건은 분당 5.8–8.0턴(d43 8.0, d45 5.8, d46 8.0, d47 6.6)으로 일반 구현 작업(2.5–6.5)보다 빨랐다"
+source = "measured"
+date = 2026-10-17
+
 # ---------- 가설 ----------
 [[hypothesis]]
 id = "H_turns_over"
@@ -386,6 +396,7 @@ source = "ai (2026-10-16, 배치 1–13 실측에서. 처음 3–6.5로 적었�
 note = "맞춰 본 기록에서 캡처 작업 셋은 여전히 밖(✗)이다: 아직 상태가 없어 검사가 뺄 수 없다. 캡처가 주된 작업에는 다음부터 S_web 대신 새 상태를 세운다"
 evidence = ["O_turn_rate_b12", "O_doc_rates"]
 check = "turn_rate_non_web"
+revision = "배치 19–22에서 반박(27건 중 20건)됐지만 틀린 것은 잣대였다: 문장은 렌더 작업을 빠른 쪽으로 뺐는데 검사는 렌더 작업(d43 8.0, d46 8.0, d47 6.6)도 2.5–6.5로 쟀다. 상황 S_render를 새로 두고(배치 19부터 기록) 검사에서 렌더 작업을 빼고, 렌더 작업은 H_render_rate로 따로 시험한다. 남은 반례 d31·d33(문서 작업 6.9–7.2)과 d40b(렌더를 백그라운드로 기다림 2.0)는 그대로 둔다 (2026-10-17, ai)"
 
 [[hypothesis]]
 id = "H_check_loop2"
@@ -411,7 +422,16 @@ source = "ai (2026-10-17, 배치 19 돌아보기: d42가 예측의 3배)"
 evidence = ["O_sonnet_max_b19"]
 against = []
 check = "sonnet_max_rate"
-note = "다음 Sonnet/Fable 디스패치부터 시험. 맞으면 다른 모델용 규칙을 따로 세운다"
+note = "다음 Sonnet/Fable 디스패치부터 시험. 규칙 R_other_models(Sonnet max 턴 ×2, 분 ×4–5)가 이미 있었다: d42는 분당 턴이 Opus의 약 2배라 '턴 ×2'보다 '턴 ×3, 분 ×1.5–2'에 가까웠다. 맞으면 R_other_models를 개정한다"
+
+[[hypothesis]]
+id = "H_render_rate"
+text = "Opus high로 렌더를 찍어 보고 고치는 반복이 있는 구현 작업은 분당 5.5–8.5턴이다(렌더 한 회가 1–2분이라 짧은 도구 호출이 많다). 렌더를 백그라운드로 오래 기다리기만 하는 작업은 여기에 넣지 않는다"
+source = "ai (2026-10-17, 배치 19–22 돌아보기: H_turn_rate_shape의 반례가 모두 렌더 작업)"
+evidence = ["O_render_b19_22"]
+against = []
+check = "render_turn_rate"
+note = "세울 때 본 기록 d43 8.0, d45 5.8, d46 8.0, d47 6.6. 다음 렌더 작업부터 시험"
 
 # ---------- 규칙 (예측 방법) ----------
 [[rule]]
