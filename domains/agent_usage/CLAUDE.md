@@ -45,7 +45,17 @@
 - 숫자 범위는 Opus 5.5, effort high에서만 확인된 것이다(F_setup). 모델이나 effort가 바뀌면 사실부터 다시 확인한다.
 - 대화 기록에서는 숫자만 뽑는다(`scripts/agent_usage.py`). 대화 내용은 옮기지 않는다.
 
-## 현재 상태 (2026-10-17, batman 배치 22까지)
+## 현재 상태 (2026-10-17 저녁, batman 배치 23까지)
+- 기록 50건 + 진행 중 1건(d51, `actual.status = "unknown"`로 두어 판정에서 뺌; 끝나면 실측을 넣는다).
+- **네 번째 고리 (배치 23)**: 같은 설계 문서 쓰기를 세 모델이 했다(d48 Opus, d49 Sonnet max, d50 Fable xhigh). R_other_models의
+  분 배수가 둘 다 빗나갔다(Sonnet ×2.05, Fable ×1.0; 턴·토큰 배수는 맞음). 이유 안의 가정("모델이 속도를 정한다")이 틀렸고 근거가
+  고정 입력 한 종류였으므로 **개정**: R_other_models → retired, R_other_models_v2(작업 모양 셋 — 순수 추론·도구 고리·문서 — 별 배수).
+  새 관찰 O_models_doc_b23, 새 가설 H_model_mult_shape(문서 작업에서는 다른 모델도 Opus와 같은 분당 2.5–5.5턴; 검사 `model_mult_shape`,
+  SEEN_UNTIL d50). H_sonnet_max_rate는 도구 작업(S_external_check=예)에만 걸리므로 d49는 그 시험에 들어가지 않는다(가설 그대로).
+- 배치 23 돌아보기에서 더 배운 것: 컨테이너 재시작으로 날아간 디스패치(d51 첫 실행, 14분 읽기만)는 예측이 볼 수 없는 바깥 상황이라
+  기록하지 않고 batman AGENT-LOG에만 적었다. 재시작이 반복되면 상태 S_restart를 둔다.
+
+## 이전 상태 (2026-10-17, batman 배치 22까지)
 - 기록 46건(batman 배치 1–22). 배치 19–22는 소유자가 베타를 하는 동안 바로 고친 작업 6건(d42–d47).
 - **세 번째 고리 (배치 19–22)**: d42(Sonnet max)가 예측의 3배 턴 → 새 가설 H_sonnet_max_rate(도구 작업만, 순수 추론 풀이는 뺌).
   H_turn_rate_shape가 27건 중 20건으로 반박됐는데 틀린 것은 잣대였다: 렌더 반복 작업까지 일반 작업 범위로 쟀다 →

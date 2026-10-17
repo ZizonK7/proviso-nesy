@@ -26,6 +26,7 @@ SEEN_UNTIL = {
     "research_cap": "dR5D",  # 배치 10·15 조사 여덟 건으로 세움
     "sonnet_max_rate": "d43",  # 배치 19 d42 한 건으로 세움
     "render_turn_rate": "d47",
+    "model_mult_shape": "d50",  # 배치 23 d49·d50 두 건으로 세움
     "long_lap_turn_rate": "d47",  # 긴 반복 네 건(d12b·d12c·d26b·d44)으로 세움  # 배치 19–22 렌더 작업 네 건(d43·d45·d46·d47)으로 세움
 }
 NEED = 0.8
@@ -261,6 +262,21 @@ def sonnet_max_rate() -> tuple[str, str]:
                   lambda d: f"분당 {_m(d, 'turns_per_min'):.1f}턴")
 
 
+def model_mult_shape() -> tuple[str, str]:
+    """H_model_mult_shape: Opus가 아닌 모델의 읽고 쓰는 문서 작업(확인 실행 없음, 고정 입력 아님)은 분당 2.5–5.5턴으로 Opus와 같은 속도다."""
+    def applies(d: dict) -> bool:
+        return (dp.situation(d, "S_other_model") == "예"
+                and dp.situation(d, "S_external_check") == "아니오"
+                and dp.situation(d, "S_fixed_input") != "예"
+                and _m(d, "minutes") is not None and _m(d, "turns") is not None)
+
+    def ok(d: dict) -> bool:
+        return 2.5 <= _m(d, "turns_per_min") <= 5.5
+
+    return _judge("model_mult_shape", applies, ok,
+                  lambda d: f"분당 {_m(d, 'turns_per_min'):.1f}턴")
+
+
 CHECKS = {
     "tokens_per_minute": tokens_per_minute,
     "tokens_per_minute_by_length": tokens_per_minute_by_length,
@@ -274,6 +290,7 @@ CHECKS = {
     "check_loop_turn_rate": check_loop_turn_rate,
     "research_cap": research_cap,
     "sonnet_max_rate": sonnet_max_rate,
+    "model_mult_shape": model_mult_shape,
     "render_turn_rate": render_turn_rate,
     "long_lap_turn_rate": long_lap_turn_rate,
 }
