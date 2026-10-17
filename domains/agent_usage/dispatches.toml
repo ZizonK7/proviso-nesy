@@ -2616,7 +2616,12 @@ tokens_class = ["T3", "T4"]
 rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_loop"]
 reason = "d39(시스템 다섯, 57.5분·258턴)의 1.1–1.5배: 보스·떼·후처리 셋은 참고 구현이 없는 시각 요소"
 [dispatch.actual]
-status = "unknown"
+minutes = 76.1
+turns = 397
+tokens_m = 179.6
+[dispatch.review]
+reason = "셋 모두 범위 안, 턴·토큰은 상한 근처(76분 vs 60–100, 397턴 vs 260–400, 180M vs 110–180M). d39 의 1.2–1.6배가 분에는 정중앙. 턴이 높았던 까닭: 시험 도구(흐름·프레이밍 도우미, 스모크 세 절, 풀이기 규칙)까지 함께 만들고 흔들리는 행 하나를 열 번 돌렸다. 시험 도우미까지 맡은 시스템 에이전트는 범위의 윗끝에 닿는다"
+hypotheses = ["H_turn_rate_shape"]
 
 [[dispatch]]
 id = "d60"
