@@ -2783,7 +2783,12 @@ tokens_class = ["T1"]
 rules = ["R_resume_ctx_v2", "R_turns_analogy_v2", "R_other_models_v2"]
 reason = "d36b(2.2분·11턴)의 1.3배"
 [dispatch.actual]
-status = "unknown"
+minutes = 2.5
+turns = 8
+tokens_m = 0.97
+[dispatch.review]
+reason = "시간 하한 아래, 턴 하한, 토큰 범위 안. 같은 일을 두 장으로 반복한 재개 풀이는 전 회차의 1.1배(1.3배로 잡았음). 재개된 Opus 풀이자는 다섯 번의 도구 호출로 읽고 한 번에 쓴다"
+hypotheses = ["H_model_mult_shape"]
 
 [[dispatch]]
 id = "d66"
@@ -2810,7 +2815,12 @@ tokens_class = ["T1"]
 rules = ["R_resume_ctx_v2", "R_turns_analogy_v2", "R_other_models_v2"]
 reason = "d37b(13.9분·29턴)의 1.3배"
 [dispatch.actual]
-status = "unknown"
+minutes = 9.3
+turns = 20
+tokens_m = 5.85
+[dispatch.review]
+reason = "시간 하한 아래, 턴 하한, 토큰 범위 안. Sonnet max 의 재읽기 배수는 첫 회차의 0.7배로 셋 중 가장 낮았다. 두 장 계수는 다시 약 1.1배"
+hypotheses = ["H_model_mult_shape"]
 
 [[dispatch]]
 id = "d67"
@@ -2837,4 +2847,9 @@ tokens_class = ["T1"]
 rules = ["R_resume_ctx_v2", "R_turns_analogy_v2", "R_other_models_v2"]
 reason = "d38b(6.3분·16턴)의 1.3배"
 [dispatch.actual]
-status = "unknown"
+minutes = 7.5
+turns = 11
+tokens_m = 1.64
+[dispatch.review]
+reason = "셋 모두 범위 안. Fable xhigh 의 재실행은 전 회차의 1.2배이고 근거도 맞았다(읽기보다 추론이 많은 모델은 두 번째 회차도 첫 회차와 비슷한 비용). 교훈: 반복 풀이 라운드는 장 수와 무관하게 전 회차의 1.0–1.2배; R_other_models_v2 의 모델 배수는 이 과제 모양에서 유지된다"
+hypotheses = ["H_model_mult_shape"]
