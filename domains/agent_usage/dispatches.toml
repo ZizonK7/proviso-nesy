@@ -2978,4 +2978,9 @@ tokens_m = [50, 110]
 rules = ["R_resume_ctx_v2", "R_turns_analogy_v2", "R_time_turns_v2", "R_variants", "R_say_numbers"]
 reason = "d45(32분·187턴: 기존 도구로 렌더하며 구도 찾기)의 0.4–0.8배: 생김새는 정해져 있고 도구는 에이전트 자신의 것. 바퀴는 한 장짜리 렌더(약 1분)라 d69의 긴 바퀴 교훈은 해당 없음. 이어서 보내 턴당 맥락이 커서(앞 회차 끝 무렵 0.6M 이상) 토큰은 턴에 비해 큼"
 [dispatch.actual]
-status = "unknown"
+minutes = 14.1
+turns = 57
+tokens_m = 31.8
+[dispatch.review]
+reason = "분은 범위 안(14 vs 12–30), 턴·토큰은 아래(57 vs 80–160, 31.8M vs 50–110M). 턴당 맥락은 R_resume_ctx_v2대로(약 560K)라 틀린 것은 턴 수: 에이전트가 시안 열두 장을 한 번의 실행으로 찍고 함께 판정해서 렌더 바퀴가 하나였다. 정해진 시안 목록을 찍는 일은 장 수가 아니라 실행 수로 센다(실행마다 15–25턴 + 코드 변경)"
+hypotheses = ["H_render_rate"]
