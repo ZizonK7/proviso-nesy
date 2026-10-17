@@ -2193,3 +2193,37 @@ tokens_m = 40.6
 [dispatch.review]
 reason = "시간·토큰은 범위 안, 턴은 위로 살짝 넘음. 도중 추가 지시(연출 두 건, 렌더 확인)가 턴을 늘렸다. 분당 8.0턴은 렌더가 낀 작업의 빠른 쪽과 맞다"
 hypotheses = ["H_turn_rate_shape", "H_mid_notes"]
+
+[[dispatch]]
+id = "d47"
+project = "batman"
+batch = 22
+date = 2026-10-17
+task = "UI 배치 고치기 하나 + 장면 경로 버그 찾기(재현 경로 셋, 렌더) + 스모크 확장. Opus high"
+[dispatch.situation]
+S_resumed = "아니오"
+S_full_brief = "예"
+S_spec_fixed = "일부"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_turns = "모름"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+time_class = ["M"]
+minutes = [20, 45]
+turns = [100, 220]
+tokens_class = ["T2"]
+rules = ["H_turn_rate_shape", "H_tok_rate_long"]
+reason = "배치 하나와 장면 경로 하나, 렌더 도구가 이미 있음"
+[dispatch.actual]
+minutes = 44.0
+turns = 292
+tokens_m = 69.4
+[dispatch.review]
+reason = "시간은 위쪽 끝, 턴·토큰은 넘음. 두 번째 일을 '경로 하나 찾기'로 잡았지만 실제로는 경로 셋을 재현하고 스모크를 이어 붙이는 두 번째 렌더 반복이었다. 재현할 경로 수만큼 렌더 반복을 세야 했다"
+hypotheses = ["H_turn_rate_shape", "H_tok_rate_long"]
