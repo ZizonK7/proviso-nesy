@@ -2675,7 +2675,12 @@ tokens_class = ["T3", "T4"]
 rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_once"]
 reason = "d41(새 구역 월드, 46.1분·276턴)의 0.9–1.3배: 별도 씬, 시스템은 적고 장식은 많음"
 [dispatch.actual]
-status = "unknown"
+minutes = 38.4
+turns = 252
+tokens_m = 86.3
+[dispatch.review]
+reason = "시간 하한 아래(38 vs 45–80), 턴 범위 안(252 vs 240–380), 토큰 하한 바로 아래(86M vs 90–160M). 턴은 d41 의 모양대로였고, 분은 0.83배: 읽을 기존 씬이 없는 새 빌더였다. 토큰은 턴당 340K(빌더 소스를 매 턴 다시 읽음). 새 빌더를 시작하는 월드 에이전트는 d41 의 턴·0.8배의 분"
+hypotheses = ["H_turn_rate_shape"]
 
 [[dispatch]]
 id = "d62"
