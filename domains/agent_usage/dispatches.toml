@@ -2739,7 +2739,12 @@ tokens_class = ["T3", "T4"]
 rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_once", "R_spec_fixed"]
 reason = "d40(한 장 데이터+음성, 30.2분·216턴·74M)의 1.6–2.2배: 두 장, 음성 1.5배, 컷신 15개"
 [dispatch.actual]
-status = "unknown"
+minutes = 55.6
+turns = 358
+tokens_m = 162.0
+[dispatch.review]
+reason = "셋 모두 범위 안(55.6 vs 50–80분, 358 vs 320–460턴, 162M vs 110–180M). 전례(d40)의 1.5배(두 장, 154줄)가 맞았다. 토큰은 범위 윗쪽(턴당 450K): 두 사건 파일과 검증기를 맥락에 둔 채 중간에 온 지시 두 건에 맞춰 데이터를 고쳤다. 검증기와 음성 렌더까지 맡은 데이터 에이전트가 배치에서 가장 비싼 모양"
+hypotheses = ["H_turn_rate_shape"]
 
 [[dispatch]]
 id = "d64"
