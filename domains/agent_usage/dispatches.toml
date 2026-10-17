@@ -2942,4 +2942,40 @@ tokens_m = [110, 220]
 rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_loop", "R_say_numbers"]
 reason = "d47(44분·292턴·69M: 수정 하나 + 렌더 재현 경로 셋)의 1.3–2.0배: 장 둘의 캡처 실행, 카메라 약 80개, 속도 맞추기 반복, 측정. 캡처 도구 본보기가 있어 비용은 장면 수와 고침 바퀴 수가 정한다. 분당 턴은 H_render_rate(5.5–8.5)로 나눔. 이미지 읽기가 많아 턴당 토큰은 R_tok_long 위쪽"
 [dispatch.actual]
+minutes = 133.4
+turns = 586
+tokens_m = 223.1
+[dispatch.review]
+reason = "셋 다 넘음(133 vs 60–100분, 586 vs 350–550턴, 223M vs 110–220M). 큰 순서로 이유 셋: (1) 캡처 한 바퀴가 장 하나를 끝까지 도는 흐름(4–6분)이라 S_long_lap=예였는데 일부로 잡았다. 분당 4.4턴은 H_check_loop3의 긴 바퀴 범위(2.5–4.5)에 들고 H_render_rate(5.5–8.5)는 한 장짜리 렌더에만 맞다. (2) 렌더에서 진짜 버그 여섯이 나와 각각 고침과 다시 찍기 한 바퀴를 더했다(d68의 교훈과 같음: 비용은 카메라 수가 아니라 찾은 것의 수로 는다). (3) 곁길 약 30분: 소리 녹화 시도(포기)와 도중 추가 지시(목록 만들기 약 20분). 턴당 토큰 380K는 R_tok_long 안. 다음 렌더 점검: 분 = 바퀴 수 × 바퀴 길이, 바퀴 ≈ 장마다 2 + 찾은 버그마다 1"
+hypotheses = ["H_render_rate", "H_check_loop3"]
+
+[[dispatch]]
+id = "d69b"
+project = "batman"
+batch = 27
+date = 2026-10-18
+task = "같은 에이전트 이어서: 캐릭터 얼굴 표현 시안 비교(작은 무대 하나, 각도 셋 × 생김새 넷, 비교 그림 한 장)"
+[dispatch.situation]
+S_resumed = "예"
+S_render = "예"
+S_full_brief = "예"
+S_spec_fixed = "일부"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_long_lap = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["S", "M"]
+minutes = [12, 30]
+turns = [80, 160]
+tokens_class = ["T3"]
+tokens_m = [50, 110]
+rules = ["R_resume_ctx_v2", "R_turns_analogy_v2", "R_time_turns_v2", "R_variants", "R_say_numbers"]
+reason = "d45(32분·187턴: 기존 도구로 렌더하며 구도 찾기)의 0.4–0.8배: 생김새는 정해져 있고 도구는 에이전트 자신의 것. 바퀴는 한 장짜리 렌더(약 1분)라 d69의 긴 바퀴 교훈은 해당 없음. 이어서 보내 턴당 맥락이 커서(앞 회차 끝 무렵 0.6M 이상) 토큰은 턴에 비해 큼"
+[dispatch.actual]
 status = "unknown"
