@@ -2091,3 +2091,71 @@ tokens_m = 73.2
 [dispatch.review]
 reason = "시간·토큰은 범위 안, 턴은 살짝 넘음(289). 첫 번은 22.7분으로 빨랐고(렌더 두 번에 원인 찾음) 합친 뒤 후속(13.6분)이 남은 몫을 채웠다. 합계는 맞았지만 모양은 이유와 달랐다"
 hypotheses = ["H_turn_rate_shape", "H_tok_rate_long", "H_mid_notes"]
+
+[[dispatch]]
+id = "d44"
+project = "batman"
+batch = 20
+date = 2026-10-17
+task = "원인을 넘겨받은 작은 버그 고치기(두 곳) + 재현 스모크, 이어서 지휘 모델이 범위를 넓힌 후속 한 번. Opus high"
+[dispatch.situation]
+S_resumed = "아니오"
+S_full_brief = "예"
+S_spec_fixed = "예"
+S_similar_past = "일부"
+S_external_check = "예"
+S_check_loop = "일부"
+S_short = "예"
+S_turns = "모름"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_mid_notes = "예"
+[dispatch.predicted]
+time_class = ["S", "M"]
+minutes = [15, 35]
+turns = [50, 140]
+tokens_class = ["T1", "T2"]
+rules = ["H_turns_over", "H_turn_rate_shape"]
+reason = "원인이 넘겨졌고 두 곳만 고침. 시간은 스모크 한두 번이 차지"
+[dispatch.actual]
+minutes = 36.7
+turns = 153
+tokens_m = 20.3
+[dispatch.review]
+reason = "시간·턴은 살짝 넘음. 첫 번만 보면 13.2분으로 아래쪽이 맞았고, 넘친 몫은 지휘 모델이 얹은 후속(23.5분)이다. 토큰은 범위 안"
+hypotheses = ["H_turn_rate_shape", "H_mid_notes"]
+
+[[dispatch]]
+id = "d45"
+project = "batman"
+batch = 20
+date = 2026-10-17
+task = "컷신 한 장면 구도를 렌더로 찾기(취향 시험 반복), 기존 렌더 도구 있음. Opus high"
+[dispatch.situation]
+S_resumed = "아니오"
+S_full_brief = "예"
+S_spec_fixed = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_turns = "모름"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+time_class = ["M"]
+minutes = [20, 45]
+turns = [120, 260]
+tokens_class = ["T2", "T3"]
+rules = ["H_turn_rate_shape", "H_tok_rate_long"]
+reason = "컷신 하나, 렌더 도구와 앞 에이전트 기록이 있음. 열린 부분은 구도 시험 3–6회와 스모크 한 번"
+[dispatch.actual]
+minutes = 32.4
+turns = 187
+tokens_m = 36.9
+[dispatch.review]
+reason = "셋 다 범위 안. 시험은 13회로 예상보다 많았지만 렌더 한 회가 1.5분 정도라 합계에 크게 영향 없음"
+hypotheses = ["H_turn_rate_shape", "H_tok_rate_long"]
