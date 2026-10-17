@@ -47,6 +47,7 @@ REFS = {
     ("hypothesis", "against"): {"observation", "fact"},
     ("hypothesis", "harms"): {"goal"},
     ("hypothesis", "accepted_for"): {"goal"},
+    ("hypothesis", "superseded_by"): {"hypothesis"},
     ("state", "harms"): {"goal"},
     ("state", "accepted_for"): {"goal"},
     ("fact", "harms"): {"goal"},

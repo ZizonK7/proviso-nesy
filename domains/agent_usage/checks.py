@@ -25,7 +25,8 @@ SEEN_UNTIL = {
     "check_loop_turn_rate": "d26b",
     "research_cap": "dR5D",  # 배치 10·15 조사 여덟 건으로 세움
     "sonnet_max_rate": "d43",  # 배치 19 d42 한 건으로 세움
-    "render_turn_rate": "d47",  # 배치 19–22 렌더 작업 네 건(d43·d45·d46·d47)으로 세움
+    "render_turn_rate": "d47",
+    "long_lap_turn_rate": "d47",  # 긴 반복 네 건(d12b·d12c·d26b·d44)으로 세움  # 배치 19–22 렌더 작업 네 건(d43·d45·d46·d47)으로 세움
 }
 NEED = 0.8
 
@@ -203,6 +204,17 @@ def render_turn_rate() -> tuple[str, str]:
                   lambda d: f"분당 {_m(d, 'turns_per_min'):.1f}턴")
 
 
+def long_lap_turn_rate() -> tuple[str, str]:
+    """H_check_loop3: 한 바퀴가 긴 확인 반복(S_long_lap=예)은 분당 2.5–4.5턴."""
+    def applies(d: dict) -> bool:
+        return (_m(d, "turns_per_min") is not None and _default_setup(d)
+                and dp.situation(d, "S_check_loop") == "예" and dp.situation(d, "S_long_lap") == "예")
+
+    return _judge("long_lap_turn_rate", applies,
+                  lambda d: 2.5 <= _m(d, "turns_per_min") <= 4.5,
+                  lambda d: f"분당 {_m(d, 'turns_per_min'):.1f}턴")
+
+
 def check_loop_turn_rate() -> tuple[str, str]:
     """H_check_loop2: 외부 확인이 있는 작업에서 반복하면 분당 턴 < 4, 반복이 없거나 일부면 ≥ 4 (CI 지켜보기는 뺌)."""
     def applies(d: dict) -> bool:
@@ -263,4 +275,5 @@ CHECKS = {
     "research_cap": research_cap,
     "sonnet_max_rate": sonnet_max_rate,
     "render_turn_rate": render_turn_rate,
+    "long_lap_turn_rate": long_lap_turn_rate,
 }

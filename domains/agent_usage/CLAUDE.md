@@ -51,6 +51,7 @@
   H_turn_rate_shape가 27건 중 20건으로 반박됐는데 틀린 것은 잣대였다: 렌더 반복 작업까지 일반 작업 범위로 쟀다 →
   상황 S_render를 새로 두고 검사에서 빼서 다시 지지(23건 중 19건), 렌더 작업은 새 가설 H_render_rate(분당 5.5–8.5턴)로 시험.
   validate·audit 통과.
+- 같은 돌아보기에서: 반박된 가설을 쪼개 다시 세우면 옛 가설에 `superseded_by`를 단다(지우지 않음, `check`는 '대체됨'으로 보여 준다). 오래 미뤄 둔 H_check_loop2를 한 바퀴 길이(S_long_lap)와 렌더(S_render)로 갈라 H_check_loop3·H_render_rate로 넘겼다. H_mid_notes는 측정이 없어 보류: 도중 지시를 보낼 때 처리 분을 보고하게 하고 `[dispatch.mid_notes]`에 count·minutes를 적는다.
 - 배운 것: `python -m proviso check`는 가설만 보여 준다. 보내기 전에는 `knowledge.toml`의 규칙(`[[rule]]`, retired 아닌 것)도 읽는다. 배치 19에서 R_other_models를 놓쳐 d42 예측이 크게 빗나갔다. `predicted.rules`에는 규칙 id만 적는다(가설 id를 적으면 테스트가 실패한다).
 
 ## 이전 상태 (2026-10-16, batman 배치 13까지)

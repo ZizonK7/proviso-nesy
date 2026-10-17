@@ -98,6 +98,10 @@ id = "S_web"
 text = "웹 검색·페이지 읽기가 주된 일이다"
 
 [[state]]
+id = "S_long_lap"
+text = "확인 → 고침 반복의 한 바퀴가 5분 이상이다(스모크 전체, 재현 루프). 렌더 한 장처럼 1–2분이면 아니오"
+
+[[state]]
 id = "S_render"
 text = "게임 화면을 렌더해 보고 고치는 반복이 일의 중심이다 (배치 19부터 기록)"
 
@@ -342,6 +346,7 @@ note = "지휘 모델은 같은 결과를 '턴 기반 추정이 통한다'로 �
 
 [[hypothesis]]
 id = "H_check_loop"
+superseded_by = ["H_check_loop2"]
 text = "외부 확인이 들어가느냐가 아니라 확인 → 고침을 몇 번 반복하느냐가 시간을 늘린다"
 source = "ai (2026-10-16, d09와 d12b가 갈린 데서)"
 evidence = ["O_loop_long", "O_render_fast"]
@@ -350,6 +355,7 @@ note = "배치 13에서 시험 1건(d26b 0.95) 틀림 → 반박. 다만 틀린 
 
 [[hypothesis]]
 id = "H_tok_per_min"
+superseded_by = ["H_tok_per_min_long"]
 text = "분당 토큰은 작업 종류와 상관없이 1.2–2.6M 안에 든다"
 source = "ai (2026-10-16, 배치 1–9 실측에서, 배치 10 실측을 보기 전에 세움)"
 evidence = ["O_ctx_big"]
@@ -359,6 +365,7 @@ note = "2026-10-16 사용량 조각 초안(저장소 밖)의 U2. 배치 10에서
 
 [[hypothesis]]
 id = "H_tok_per_min_long"
+superseded_by = ["H_tok_rate_long"]
 text = "150턴 넘는 작업은 분당 토큰이 1.1–2.6M, 150턴 안쪽은 0.7–1.2M이다 (긴 글을 한 덩어리로 쓴 경우는 뺀다)"
 source = "ai (2026-10-16, 배치 1–10 실측에서)"
 evidence = ["O_tok_rate_short"]
@@ -367,6 +374,7 @@ note = "배치 11–13에서 반박(시험 17건 중 7건). 긴 쪽(150턴 넘�
 
 [[hypothesis]]
 id = "H_turn_rate"
+superseded_by = ["H_turn_rate_shape"]
 text = "분당 턴은 4–5로 일정하지 않다. 30분 안쪽에 끝나는 작업은 분당 6.5턴 이상이다"
 source = "ai (2026-10-16, 배치 1–10 실측에서)"
 evidence = ["O_turn_rate"]
@@ -380,7 +388,7 @@ text = "작업 도중에 추가 지시를 받으면 같은 종류 작업보다 �
 source = "director (d01, dR3 메모)"
 evidence = ["O_mid_notes"]
 check = "mid_notes_longer"
-note = "배치 13의 d28(도중 지시 1번, 사후에 상태를 채움)이 첫 시험. 지휘 모델은 그 지시가 4.8분·25턴을 더했다고 쟀다(전체의 11%). '같은 배치 가운데 값'은 종류가 다른 작업끼리 비교라 잣대가 거칠다. 다음 기록부터 지시 횟수와 그 처리에 든 분을 따로 적는다"
+note = "배치 13의 d28(도중 지시 1번, 사후에 상태를 채움)이 첫 시험. 지휘 모델은 그 지시가 4.8분·25턴을 더했다고 쟀다(전체의 11%). '같은 배치 가운데 값'은 종류가 다른 작업끼리 비교라 잣대가 거칠다. 다음 기록부터 지시 횟수와 그 처리에 든 분을 따로 적는다. 2026-10-17 돌아보기: 배치 19–22에서도 적지 않았다(d46 도중 지시 1건, 처리 분 모름; d43·d44의 후속은 끝난 뒤 이어서 보낸 것이라 도중 지시가 아님). 잣대를 고칠 데이터가 없어 판정은 보류한다. 앞으로는 도중 지시를 보낼 때 에이전트에게 '이 지시를 처리하는 데 든 분'을 보고에 적게 하고, 기록에 [dispatch.mid_notes] count·minutes를 넣는다 (ai)"
 
 [[hypothesis]]
 id = "H_tok_rate_long"
@@ -400,6 +408,7 @@ revision = "배치 19–22에서 반박(27건 중 20건)됐지만 틀린 것은 
 
 [[hypothesis]]
 id = "H_check_loop2"
+superseded_by = ["H_check_loop3", "H_render_rate"]
 text = "확인 → 고침을 반복하는 작업은 기다리는 시간이 끼어 분당 턴이 4 아래로 떨어진다. 외부 확인이 한 번씩이거나 없으면 4 이상이다 (CI 지켜보기는 뺀다)"
 source = "ai (2026-10-16, H_check_loop의 잣대를 예측에 기대지 않게 바꿈)"
 evidence = ["O_verify_once", "O_loop_long"]
@@ -432,6 +441,15 @@ evidence = ["O_render_b19_22"]
 against = []
 check = "render_turn_rate"
 note = "세울 때 본 기록 d43 8.0, d45 5.8, d46 8.0, d47 6.6. 다음 렌더 작업부터 시험"
+
+[[hypothesis]]
+id = "H_check_loop3"
+text = "확인 → 고침 반복은 한 바퀴가 길 때(S_long_lap=예: 스모크 전체·재현 루프)만 분당 턴을 2.5–4.5로 낮춘다. 한 바퀴가 짧은 반복(렌더 한 장)은 낮추지 않는다(H_render_rate)"
+source = "ai (2026-10-17, H_check_loop2 반박 뒤 미뤄 둔 쪼개기: 한 바퀴 길이를 상태로 적음)"
+evidence = ["O_render_b19_22"]
+against = []
+check = "long_lap_turn_rate"
+note = "세울 때 본 기록: d12b 3.4, d12c 2.8, d26b 3.7(긴 반복, 예전 메모로 상태를 채움). d44(스모크 한 번 실패→고침, 4.2)는 반복이 일부라 빠진다. 다음 긴 반복 작업부터 시험"
 
 # ---------- 규칙 (예측 방법) ----------
 [[rule]]

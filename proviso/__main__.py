@@ -61,6 +61,10 @@ def cmd_check(domain: str) -> int:
             print(f"{hyp.id}: 검사 방법 없음 (사용자 확인 필요)")
             continue
         verdict, detail = checks[name]()
+        after = hyp.data.get("superseded_by")
+        if after:
+            # 반박된 뒤 쪼개거나 고쳐 다시 세운 가설: 지우지 않고 역사로 남기되 판정은 대체한 가설로 넘긴다
+            verdict = f"대체됨 → {', '.join(after)} (옛 판정: {verdict})"
         print(f"{hyp.id}: {verdict}\n  가설: {hyp.text}\n{detail}")
     return 0
 

@@ -350,6 +350,7 @@ batch = 8
 date = 2026-10-15
 task = "d12 이어서: 두 갈래 합친 뒤 실패 수정 + 한 장 전체 자동 플레이 + 가독성 손보기(렌더)"
 [dispatch.situation]
+S_long_lap = "예"
 S_check_loop = "예"
 S_root_cause = "예"
 S_external_check = "예"
@@ -374,6 +375,7 @@ batch = 9
 date = 2026-10-15
 task = "d12 이어서: 간헐 실패 원인 찾기 + 수정 + 반복 검증"
 [dispatch.situation]
+S_long_lap = "예"
 S_root_cause = "예"
 S_check_loop = "예"
 S_external_check = "예"
@@ -1003,6 +1005,7 @@ batch = 13
 date = 2026-10-16
 task = "세 브랜치 통합: 시스템을 실제 챕터에 연결, 자동 플레이 검사 두 장, 옛 코드 제거, CI 빌드 (같은 에이전트 이어서)"
 [dispatch.situation]
+S_long_lap = "예"
 S_resumed = "예"
 S_full_brief = "예"
 S_external_check = "예"
@@ -1032,6 +1035,7 @@ batch = 14
 date = 2026-10-16
 task = "베타 피드백 수정: UI 배치 버그 + 보드 개편, 월드 표시, 탐정 모드 대비, 조준 대상 고르기, GPU 캡처 확인 + 자동 검사"
 [dispatch.situation]
+S_long_lap = "아니오"
 S_full_brief = "예"
 S_external_check = "예"
 S_check_loop = "예"
@@ -1066,6 +1070,7 @@ batch = 14
 date = 2026-10-16
 task = "같은 에이전트 이어서: 바닥 흔적 조준 범위 고침 + 확인 표시 바꿈 + 자동 검사 + GPU 캡처 2장"
 [dispatch.situation]
+S_long_lap = "아니오"
 S_resumed = "예"
 S_full_brief = "예"
 S_external_check = "예"
@@ -1098,6 +1103,7 @@ batch = 14
 date = 2026-10-16
 task = "같은 에이전트 세 번째: 대화 패널 마우스 입력 + 증거 고르기 창 개편 + 자동 검사 + GPU 캡처 2장"
 [dispatch.situation]
+S_long_lap = "아니오"
 S_resumed = "예"
 S_full_brief = "예"
 S_external_check = "예"
@@ -1129,6 +1135,7 @@ batch = 14
 date = 2026-10-16
 task = "UI 디자인 시안 4개(시험용 데이터로 그리는 엔진 안 시제품) + GPU 캡처 + 비교 그림 + 사람용 설명"
 [dispatch.situation]
+S_long_lap = "아니오"
 S_full_brief = "예"
 S_external_check = "예"
 S_check_loop = "예"
@@ -2066,6 +2073,7 @@ batch = 19
 date = 2026-10-17
 task = "UI 기능 두 개(키보드 탐색, 인물 소개 표시) + 안내 카드 + 컷신 구도 렌더 고치기, 이어서 합친 뒤 후속 한 번. Opus high"
 [dispatch.situation]
+S_long_lap = "아니오"
 S_render = "예"
 S_resumed = "아니오"
 S_full_brief = "예"
@@ -2101,6 +2109,7 @@ batch = 20
 date = 2026-10-17
 task = "원인을 넘겨받은 작은 버그 고치기(두 곳) + 재현 스모크, 이어서 지휘 모델이 범위를 넓힌 후속 한 번. Opus high"
 [dispatch.situation]
+S_long_lap = "예"
 S_render = "아니오"
 S_resumed = "아니오"
 S_full_brief = "예"
@@ -2136,6 +2145,7 @@ batch = 20
 date = 2026-10-17
 task = "컷신 한 장면 구도를 렌더로 찾기(취향 시험 반복), 기존 렌더 도구 있음. Opus high"
 [dispatch.situation]
+S_long_lap = "아니오"
 S_render = "예"
 S_resumed = "아니오"
 S_full_brief = "예"
@@ -2171,6 +2181,7 @@ batch = 21
 date = 2026-10-17
 task = "보스전 진행 막힘 원인 찾기와 고치기 + 재현 스모크, 도중에 연출 버그 두 건 추가(렌더 확인). Opus high"
 [dispatch.situation]
+S_long_lap = "아니오"
 S_render = "예"
 S_resumed = "아니오"
 S_full_brief = "예"
@@ -2206,6 +2217,7 @@ batch = 22
 date = 2026-10-17
 task = "UI 배치 고치기 하나 + 장면 경로 버그 찾기(재현 경로 셋, 렌더) + 스모크 확장. Opus high"
 [dispatch.situation]
+S_long_lap = "일부"
 S_render = "예"
 S_resumed = "아니오"
 S_full_brief = "예"
