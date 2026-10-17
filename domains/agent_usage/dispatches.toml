@@ -2643,7 +2643,12 @@ tokens_class = ["T3", "T4"]
 rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_loop"]
 reason = "d26(새 시스템 묶음, 51.9분·237턴)의 0.9–1.4배: 전례 없는 모드지만 수치 설계가 문서에 있음"
 [dispatch.actual]
-status = "unknown"
+minutes = 33.3
+turns = 197
+tokens_m = 52.0
+[dispatch.review]
+reason = "셋 모두 하한 아래(33 vs 50–90분, 197 vs 220–360턴, 52M vs 90–160M). 설계서에 수치가 이미 있는 새 플레이 모드는 d26 의 0.65배(분)·0.55배(토큰). 네 스크립트가 한 스모크를 공유하고 씬을 읽는 대신 봇으로 시험해 턴당 맥락이 작게 유지됐다(260K/턴)"
+hypotheses = ["H_turn_rate_shape"]
 
 [[dispatch]]
 id = "d61"
