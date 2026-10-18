@@ -28,7 +28,8 @@ SEEN_UNTIL = {
     "render_turn_rate": "d47",
     "model_mult_shape": "d50",  # 배치 23 d49·d50 두 건으로 세움
     "long_lap_turn_rate": "d47",
-    "given_design_rate": "d71",  # 배치 28 d70·d71 두 건으로 세움  # 긴 반복 네 건(d12b·d12c·d26b·d44)으로 세움  # 배치 19–22 렌더 작업 네 건(d43·d45·d46·d47)으로 세움
+    "given_design_rate": "d71",
+    "given_design_rate2": "d73",  # 배치 29 돌아보기: d70·d71·d72(예)로 세움, d73(일부)을 뺀 근거  # 배치 28 d70·d71 두 건으로 세움  # 긴 반복 네 건(d12b·d12c·d26b·d44)으로 세움  # 배치 19–22 렌더 작업 네 건(d43·d45·d46·d47)으로 세움
 }
 NEED = 0.8
 
@@ -295,6 +296,23 @@ def given_design_rate() -> tuple[str, str]:
                   lambda d: f"분당 {_m(d, 'turns_per_min'):.1f}턴")
 
 
+def given_design_rate2() -> tuple[str, str]:
+    """H_given_design_rate2: 원인·설계·글이 전부 적힌 작은 고침(S_short=예, S_spec_fixed=예, 외부 확인, 짧은 바퀴, 렌더 없음, 첫 회차)은 분당 5.5–8.5턴. 말을 쓰는 작업(일부)은 뺀다."""
+    def applies(d: dict) -> bool:
+        return (_m(d, "turns_per_min") is not None and _default_setup(d)
+                and dp.situation(d, "S_spec_fixed") == "예"
+                and dp.situation(d, "S_short") == "예"
+                and dp.situation(d, "S_external_check") == "예"
+                and dp.situation(d, "S_long_lap") != "예"
+                and dp.situation(d, "S_render") != "예"
+                and dp.situation(d, "S_resumed") != "예"
+                and dp.situation(d, "S_web") != "예")
+
+    return _judge("given_design_rate2", applies,
+                  lambda d: 5.5 <= _m(d, "turns_per_min") <= 8.5,
+                  lambda d: f"분당 {_m(d, 'turns_per_min'):.1f}턴")
+
+
 CHECKS = {
     "tokens_per_minute": tokens_per_minute,
     "tokens_per_minute_by_length": tokens_per_minute_by_length,
@@ -312,4 +330,5 @@ CHECKS = {
     "render_turn_rate": render_turn_rate,
     "long_lap_turn_rate": long_lap_turn_rate,
     "given_design_rate": given_design_rate,
+    "given_design_rate2": given_design_rate2,
 }

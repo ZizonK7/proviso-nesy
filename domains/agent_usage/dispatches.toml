@@ -3097,3 +3097,79 @@ tokens_m = 23.3
 [dispatch.review]
 reason = "분은 아래(22 vs 30–50), 턴은 바닥 가장자리(135 vs 130–230), 토큰은 아래(23M vs 30–65M). 설계가 다 적혀 있어 코드는 적은 턴으로 들어갔고, 에이전트가 새 검사 절을 따로 돌릴 수 있게 만들어 전체 스모크를 한 번만 돌렸다(예측은 한~세 번). 분당 6.1턴(코드 수정, R_time_turns_v2 범위 안), 턴당 맥락 17만(큰 스크립트를 나눠 읽음). 이 배치에서 두 번 본 교훈: 원인과 설계가 적힌 고침은 '찾아서 고치기' 비유의 0.6–0.8배 분이고, 새 검사 절을 따로 돌릴 수 있으면 전체 바퀴는 한 번으로 센다"
 hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d72"
+project = "batman"
+batch = 29
+date = 2026-10-18
+task = "코드 고침 넷(한 줄짜리 둘: 카메라 부호, 운전 중 안내 끄기; 라디오 대사 훅 하나; 심문 열기 조건 하나: UI + 자동로드 + 검사기 둘 + 풀이기에 새 id 형식, 데이터 키 둘) + 스모크 행 일곱 + 기술 문서 두 절. 원인과 설계는 지시서가 줌. Opus high"
+[dispatch.situation]
+S_long_lap = "일부"
+S_render = "아니오"
+S_resumed = "아니오"
+S_full_brief = "예"
+S_spec_fixed = "예"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_turns = "모름"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["M"]
+minutes = [30, 50]
+turns = [150, 280]
+tokens_class = ["T2", "T3"]
+tokens_m = [30, 65]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_verify_loop", "R_tok_short_v5", "R_say_numbers"]
+reason = "d71(원인과 설계가 적힌 코드 세 곳 + 도구 + 데이터 14 + 스모크 행 넷, 22분·135턴·23M)의 1.2–1.8배: 자리는 더 많지만(코드·검사 파일 여덟, 검사기 둘은 옛 데이터에서 실패하고 새 데이터에서 통과해야 함) 하나하나는 작고 적혀 있음. 시간은 스모크 바퀴(전체 한 번 + 절 단위 몇 번)와 검사기 두 번 돌리기. H_given_design_rate(분당 5.5–8.5턴) 시험"
+hypotheses = ["H_given_design_rate", "H_turn_rate_shape"]
+[dispatch.actual]
+minutes = 35.9
+turns = 213
+tokens_m = 44.5
+[dispatch.review]
+reason = "셋 다 안(36분 vs 30–50, 213턴 vs 150–280, 44.5M vs 30–65M). 분당 5.9턴: H_given_design_rate의 5.5–8.5 안(첫 시험; d71은 6.1). 시간은 예측대로 전체 스모크 한 번(560초)과 절 단위 바퀴, 검사기 두 번에 들어갔고, 에이전트가 지시서에 없던 변이 확인(고침을 되돌려 새 검사 행이 잡는지)을 더 돌렸다. 턴당 맥락 21만(큰 자동로드 파일을 나눠 읽음), R_tok_short_v5의 윗가장자리. d71의 1.2–1.8배로 잡은 모양이 맞았다(실제 분 1.6배, 턴 1.6배)"
+
+[[dispatch]]
+id = "d73"
+project = "batman"
+batch = 29
+date = 2026-10-18
+task = "대사 열 줄(다시 쓰기 넷·새 줄 여섯; 뜻은 지시서가, 말은 에이전트가 씀) + 사건 데이터 필드 약 열여섯 + 설계 문서 두 절 + 음성 생성 열 줄 + 스모크. Opus high"
+[dispatch.situation]
+S_long_lap = "일부"
+S_render = "아니오"
+S_resumed = "아니오"
+S_full_brief = "예"
+S_spec_fixed = "일부"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_turns = "모름"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["M"]
+minutes = [30, 50]
+turns = [150, 260]
+tokens_class = ["T2"]
+tokens_m = [30, 60]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_verify_once", "R_verify_loop", "R_tok_short_v5", "R_say_numbers"]
+reason = "d70(글이 전부 주어진 여섯 줄 + 데이터 열두 곳 + 음성 여섯, 19분·148턴·22M)의 1.4–2.2배: 줄이 열이고 말을 에이전트가 써야 해서(S_spec_fixed=일부) 줄마다 다듬는 턴이 붙고, 반영 표가 길다. 음성 준비는 이 컨테이너에서 1–3분(d70의 교훈), 생성 열 줄 약 2분, 전체 스모크 한 번 8분"
+hypotheses = ["H_turn_rate_shape"]
+[dispatch.actual]
+minutes = 36.6
+turns = 200
+tokens_m = 36.7
+[dispatch.review]
+reason = "셋 다 안(37분 vs 30–50, 200턴 vs 150–260, 36.7M vs 30–60M)인데 이유가 예측과 다르다: 전체 스모크를 한 번으로 셌는데 두 번 돌았다(첫 바퀴가 지시서에 없던 자막 길이 규칙 넷에서 실패 → 줄 넷을 줄이고 다시, 약 10분). 그리고 한 번 도는 바깥 단계가 하나 더 있었다(컨테이너에 sox가 없어 설치, 약 2분). 이 둘이 없었으면 d70처럼 범위 아래로 끝났을 것. 분당 5.5턴(편집 범위 안), 턴당 맥락 18만. 교훈: (1) 에이전트가 글을 '쓰는' 작업은 검사의 글 규칙을 지시서에 적거나 전체 바퀴를 둘로 센다, (2) 한 번 도는 바깥 단계에는 컨테이너에 없는 도구 설치도 든다: 예측 전에 도구 유무를 확인하고 없는 것마다 2분을 더한다 (O_text_two_laps_b29)"
