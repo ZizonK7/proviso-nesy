@@ -3464,7 +3464,11 @@ rules = ["R_fixed_input", "R_turns_analogy_v2", "R_say_numbers"]
 reason = "d55(3.7분·6턴·0.4M): 한 번 읽고 한 번 쓰는 모양은 꾸러미 길이와 무관"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 3.8
+turns = 11
+tokens_m = 0.91
+[dispatch.review]
+reason = "셋 다 안(3.8분 vs 3–8, 11턴 vs 6–20, 0.9M vs 0.5–3M). d55의 분 ×1.03·턴 ×1.8·토큰 ×2.1: 두 장 꾸러미를 두 번에 나눠 읽어 턴이 늘었지만 분은 그대로. 고정 입력의 Opus는 세 번째로 한 번 읽고 한 번 썼다(R_fixed_input 지지)"
 
 [[dispatch]]
 id = "d82"
@@ -3498,7 +3502,11 @@ rules = ["R_fixed_input", "R_turns_analogy_v2", "R_other_models_v3", "R_say_numb
 reason = "d56(18.9분·48턴·8.4M): 순수 추론 Sonnet 배수(분 ×4–5)와 인용 검사 스크립트 습관(턴이 많음)"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 17.9
+turns = 30
+tokens_m = 4.29
+[dispatch.review]
+reason = "분·토큰 안(17.9 vs 15–35, 4.3M vs 4–10M), 턴은 바닥(30 vs 30–60). d56의 분 ×0.95·턴 ×0.6: Sonnet max가 지난 라운드보다 인용 확인을 덜 했다(장마다 한 번 저장). 고정 입력에서 Sonnet 분 배수 ×4.7(Opus 3.8분 대비)로 R_other_models_v3의 ×4–5 안"
 
 [[dispatch]]
 id = "d83"
@@ -3532,4 +3540,8 @@ rules = ["R_fixed_input", "R_turns_analogy_v2", "R_other_models_v3", "R_say_numb
 reason = "d57(11.6분·12턴·1.0M): 순수 추론 Fable 배수(분 ×2–3), 턴은 Opus와 비슷"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 6.9
+turns = 14
+tokens_m = 1.22
+[dispatch.review]
+reason = "분은 조금 아래(6.9 vs 8–20), 턴·토큰 안(14 vs 10–25, 1.2M vs 1–3M). d57의 분 ×0.6·턴 ×1.2. 고정 입력에서 Fable xhigh는 Opus의 ×1.8분으로 R_other_models_v3의 ×2–3 아래: 장마다 한 번만 읽고 인용을 다시 확인하지 않았다. 배수 가설의 아래 끝은 더 낮을 수 있다"
