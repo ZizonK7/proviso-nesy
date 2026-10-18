@@ -3681,3 +3681,177 @@ reason = "d61의 ×1.0–1.4; 길 하나의 주행 확인이 d62처럼 분을 �
 hypotheses = []
 [dispatch.actual]
 status = "unknown"
+
+[[dispatch]]
+id = "d88"
+project = "batman"
+batch = 32
+date = 2026-10-18
+task = "수석 작가 이어서: 통합 노트(머스트 23·슈드 17·컨시더 8)로 두 장 고쳐 쓰기(문서만). Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_turns = "모름"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "예"
+[dispatch.predicted]
+written_before = false
+time_class = ["S", "M"]
+minutes = [0, 0]
+turns = [0, 0]
+tokens_class = ["T2"]
+tokens_m = [0, 0]
+rules = []
+reason = "예측 없이 보냄(노트를 끝내자마자 보낸 절차 실수)"
+hypotheses = []
+[dispatch.actual]
+minutes = 24.7
+turns = 145
+tokens_m = 47.4
+[dispatch.review]
+reason = "d51b(17.7분·80턴·56.8M, 15개 판정)의 분 ×1.4·턴 ×1.8·토큰 ×0.83: 항목 48개짜리 노트. 이어 쓰는 수석 작가는 항목당 약 0.5분 + 10분이고 토큰은 첫 패스 아래(바꾼 절만 다시 읽음)"
+
+[[dispatch]]
+id = "d89"
+project = "batman"
+batch = 34
+date = 2026-10-18
+task = "꾸러미 작성 이어서: 고쳐 쓴 원고에서 두 장 꾸러미 재생성(기존 스크립트), 바뀐 점 요약, 누출 검사. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_turns = "모름"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["S"]
+minutes = [5, 12]
+turns = [35, 70]
+tokens_class = ["T1", "T2"]
+tokens_m = [8, 18]
+rules = ["R_turns_analogy_v2", "R_resume_ctx_v2", "R_say_numbers"]
+reason = "d52b(6.2분·50턴·15.6M)의 ×0.8–1.5: 스크립트가 있고 꾸러미가 더 길다"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "d90"
+project = "batman"
+batch = 34
+date = 2026-10-18
+task = "블라인드 풀이 S1(새 에이전트): 한 장 꾸러미 재풀이. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_turns = "모름"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["S"]
+minutes = [2, 5]
+turns = [5, 12]
+tokens_class = ["T1"]
+tokens_m = [0.4, 1.5]
+rules = ["R_fixed_input", "R_turns_analogy_v2", "R_say_numbers"]
+reason = "d81(3.8분·11턴·0.9M, 두 장)의 ×0.5–0.7: 한 장"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "d91"
+project = "batman"
+batch = 34
+date = 2026-10-18
+task = "블라인드 풀이 S2(새 에이전트): 같은 일. Sonnet max"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_turns = "모름"
+S_web = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["S"]
+minutes = [8, 18]
+turns = [15, 35]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_fixed_input", "R_turns_analogy_v2", "R_other_models_v3", "R_say_numbers"]
+reason = "d82(17.9분·30턴·4.3M)의 ×0.5–0.7; Sonnet 분 배수 ×4–5"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "d92"
+project = "batman"
+batch = 34
+date = 2026-10-18
+task = "블라인드 풀이 S3(새 에이전트): 같은 일. Fable xhigh"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_turns = "모름"
+S_web = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["S"]
+minutes = [4, 10]
+turns = [8, 16]
+tokens_class = ["T1"]
+tokens_m = [0.6, 2]
+rules = ["R_fixed_input", "R_turns_analogy_v2", "R_other_models_v3", "R_say_numbers"]
+reason = "d83(6.9분·14턴·1.2M)의 ×0.5–0.7; Fable 분 배수 ×1.5–3(배치 32의 ×1.8 반영)"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
