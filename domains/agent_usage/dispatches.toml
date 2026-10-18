@@ -3545,3 +3545,139 @@ turns = 14
 tokens_m = 1.22
 [dispatch.review]
 reason = "분은 조금 아래(6.9 vs 8–20), 턴·토큰 안(14 vs 10–25, 1.2M vs 1–3M). d57의 분 ×0.6·턴 ×1.2. 고정 입력에서 Fable xhigh는 Opus의 ×1.8분으로 R_other_models_v3의 ×2–3 아래: 장마다 한 번만 읽고 인용을 다시 확인하지 않았다. 배수 가설의 아래 끝은 더 낮을 수 있다"
+
+[[dispatch]]
+id = "d84"
+project = "batman"
+batch = 33
+date = 2026-10-18
+task = "구현 A1: 사건 시스템과 연출 명령(새 조건 형식, 기록 테이프 종류, 카드 반응, 명령 셋, UI 둘, 검사기, 스모크 행). Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_turns = "모름"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "예"
+[dispatch.predicted]
+written_before = true
+time_class = ["L"]
+minutes = [55, 90]
+turns = [250, 400]
+tokens_class = ["T3", "T4"]
+tokens_m = [100, 170]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_loop", "R_spec_fixed"]
+reason = "d59(76분·397턴·180M)의 모양에서 렌더 맹목 VFX가 빠지고 UI 둘이 들어옴 → ×0.75–1.2"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "d85"
+project = "batman"
+batch = 33
+date = 2026-10-18
+task = "구현 A2: 플레이어·차량 모드 셋(오르기, 부상, 자동 운전)과 색 남기기 API, 시험대 위 스모크. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_turns = "모름"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "일부"
+[dispatch.predicted]
+written_before = true
+time_class = ["M", "L"]
+minutes = [40, 65]
+turns = [220, 350]
+tokens_class = ["T3"]
+tokens_m = [60, 110]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_loop"]
+reason = "d60(33분·197턴·52M, 설계 숫자가 있는 새 모드)의 ×1.2–1.8: 모드 셋"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "d86"
+project = "batman"
+batch = 33
+date = 2026-10-18
+task = "구현 C: 새 레벨 빌더(공원: 다섯 구역, 놀이기구 셋, 멈춘 방, 화면들). Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "일부"
+S_short = "아니오"
+S_turns = "모름"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "예"
+[dispatch.predicted]
+written_before = true
+time_class = ["L"]
+minutes = [45, 70]
+turns = [260, 400]
+tokens_class = ["T3", "T4"]
+tokens_m = [90, 150]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_once"]
+reason = "d61(38분·252턴·86M, 새 빌더)의 ×1.2–1.6: 더 큰 장면과 하위 장면 둘"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "d87"
+project = "batman"
+batch = 33
+date = 2026-10-18
+task = "구현 D: 새 레벨 빌더(공장 내부와 짧은 강변 길). Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "일부"
+S_short = "아니오"
+S_turns = "모름"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "예"
+[dispatch.predicted]
+written_before = true
+time_class = ["M", "L"]
+minutes = [40, 65]
+turns = [250, 380]
+tokens_class = ["T3", "T4"]
+tokens_m = [85, 140]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_once"]
+reason = "d61의 ×1.0–1.4; 길 하나의 주행 확인이 d62처럼 분을 더함"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
