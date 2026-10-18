@@ -3173,3 +3173,102 @@ turns = 200
 tokens_m = 36.7
 [dispatch.review]
 reason = "셋 다 안(37분 vs 30–50, 200턴 vs 150–260, 36.7M vs 30–60M)인데 이유가 예측과 다르다: 전체 스모크를 한 번으로 셌는데 두 번 돌았다(첫 바퀴가 지시서에 없던 자막 길이 규칙 넷에서 실패 → 줄 넷을 줄이고 다시, 약 10분). 그리고 한 번 도는 바깥 단계가 하나 더 있었다(컨테이너에 sox가 없어 설치, 약 2분). 이 둘이 없었으면 d70처럼 범위 아래로 끝났을 것. 분당 5.5턴(편집 범위 안), 턴당 맥락 18만. 교훈: (1) 에이전트가 글을 '쓰는' 작업은 검사의 글 규칙을 지시서에 적거나 전체 바퀴를 둘로 센다, (2) 한 번 도는 바깥 단계에는 컨테이너에 없는 도구 설치도 든다: 예측 전에 도구 유무를 확인하고 없는 것마다 2분을 더한다 (O_text_two_laps_b29)"
+
+[[dispatch]]
+id = "d74"
+project = "batman"
+batch = 30
+date = 2026-10-18
+task = "두 장 분량 설계 피치 문서 하나 쓰기(≤350줄; 문서 열두 절쯤 읽고 한 문서 작성; 실행 없음). 같은 일을 세 모델이 병렬. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "일부"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_long_doc = "일부"
+S_short = "예"
+S_turns = "모름"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["M"]
+minutes = [20, 35]
+turns = [70, 120]
+tokens_class = ["T1", "T2"]
+tokens_m = [15, 30]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers"]
+reason = "d48(같은 일, 22분·93턴·20M)의 1.0–1.5배: 읽을 것이 회고 둘과 사건 절 둘만큼 더 많고 양식이 한 절 길다. 비평가 모양(읽고 한 문서 쓰기)에 새 글 쓰기 속도(분당 2.5–4.5턴)"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d75"
+project = "batman"
+batch = 30
+date = 2026-10-18
+task = "두 장 분량 설계 피치 문서 하나 쓰기(≤350줄; 같은 지시서). Sonnet 5.5 max"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "일부"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_long_doc = "일부"
+S_short = "예"
+S_turns = "모름"
+S_web = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["M", "L"]
+minutes = [35, 55]
+turns = [140, 230]
+tokens_class = ["T2", "T3"]
+tokens_m = [45, 90]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_other_models_v2", "R_say_numbers"]
+reason = "d74 범위에 R_other_models_v2의 문서 작업 배수(턴 ×2, 분 ×2, 토큰 ×3–4; d49가 d48의 ×2.0·×2.05·×3.4)를 적용. H_model_mult_shape(문서 작업에서 Sonnet max도 분당 2.5–5.5턴) 시험"
+hypotheses = ["H_model_mult_shape"]
+
+[[dispatch]]
+id = "d76"
+project = "batman"
+batch = 30
+date = 2026-10-18
+task = "두 장 분량 설계 피치 문서 하나 쓰기(≤350줄; 같은 지시서). Fable 5.1 xhigh"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "일부"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_long_doc = "일부"
+S_short = "예"
+S_turns = "모름"
+S_web = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["M"]
+minutes = [20, 35]
+turns = [60, 110]
+tokens_class = ["T1", "T2"]
+tokens_m = [12, 30]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_other_models_v2", "R_say_numbers"]
+reason = "d74 범위에 R_other_models_v2의 문서 작업 배수(분 같음, 턴 같거나 적음, 토큰 ×0.7–1.5; d50이 d48과 같은 시간에 75턴·14M)를 적용. H_model_mult_shape 시험"
+hypotheses = ["H_model_mult_shape"]
