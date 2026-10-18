@@ -3245,6 +3245,12 @@ tokens_m = [45, 90]
 rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_other_models_v2", "R_say_numbers"]
 reason = "d74 범위에 R_other_models_v2의 문서 작업 배수(턴 ×2, 분 ×2, 토큰 ×3–4; d49가 d48의 ×2.0·×2.05·×3.4)를 적용. H_model_mult_shape(문서 작업에서 Sonnet max도 분당 2.5–5.5턴) 시험"
 hypotheses = ["H_model_mult_shape"]
+[dispatch.actual]
+minutes = 61.4
+turns = 201
+tokens_m = 86.4
+[dispatch.review]
+reason = "분은 위(61 vs 35–55), 턴 안(201 vs 140–230), 토큰 안 윗가장자리(86M vs 45–90M). H_model_mult_shape는 속도에서 지지(분당 3.3턴, 2.5–5.5 안)지만 배수가 낮았다: Sonnet max가 Opus의 분 ×3.1(예측 ×2), 턴 ×2.4(×2), 토큰 ×4.4(×3–4); d49는 ×2.05/×2.0/×3.4. 문서 작업 두 건으로 R_other_models_v2의 Sonnet 줄은 분 ×2.5–3.5, 턴 ×2–2.5, 토큰 ×3.5–4.5로 고칠 후보. 같은 일 세 모델 라운드에서 Sonnet이 40분 늦게 끝나 라운드가 기다렸다: 줄 수 상한을 낮게 주거나 기다림을 받아들인다"
 
 [[dispatch]]
 id = "d76"
@@ -3284,3 +3290,36 @@ turns = 101
 tokens_m = 20.7
 [dispatch.review]
 reason = "분은 바로 아래(19.6 vs 20–35), 턴 안 윗가장자리(101 vs 60–110), 토큰 안(20.7M vs 12–30M). H_model_mult_shape 지지: Fable xhigh 문서 작업은 분당 5.2턴(2.5–5.5 안)에 Opus와 같은 시간. 이번엔 Opus보다 턴이 많았다(101 vs 84; d50은 75 vs 93로 적었음) → R_other_models_v2의 Fable 줄 '같거나 적은 턴'은 '비슷한 턴(×0.8–1.2)'으로 고칠 후보. 토큰은 Opus의 ×1.05"
+
+[[dispatch]]
+id = "d77"
+project = "batman"
+batch = 31
+date = 2026-10-18
+task = "수석 작가: 앞 라운드가 설계를 정한 뒤 두 장의 사건 설계 절 둘(하나는 구조 바꾸기, 하나는 다시 쓰기)과 대본 두 장을 전부 쓰기(문서만; 실행 없음; 자기 점검 grep). Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_spec_fixed = "일부"
+S_similar_past = "예"
+S_long_doc = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_turns = "모름"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_fixed_input = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["M", "L"]
+minutes = [35, 60]
+turns = [140, 230]
+tokens_class = ["T2", "T3"]
+tokens_m = [45, 90]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_long_doc_save", "R_spec_fixed", "R_say_numbers"]
+reason = "d51(같은 모양: 피치 셋을 손에 쥔 수석 작가, 38분·151턴·54M)의 0.9–1.5배. d51의 교훈대로 '두 장'을 ×1.6–2.2로 잡지 않는다(앞 라운드가 설계와 글을 많이 정함). 사건 절 하나를 구조부터 바꾸고 목록 둘을 새로 쓰는 만큼 d51보다 조금 위. 턴당 맥락이 큼(피치 셋·회고 둘·사건 절 둘을 통째로 읽음)"
+hypotheses = ["H_turn_rate_shape", "H_tok_rate_long"]
