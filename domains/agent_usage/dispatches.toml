@@ -3612,7 +3612,11 @@ rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_loop"]
 reason = "d60(33분·197턴·52M, 설계 숫자가 있는 새 모드)의 ×1.2–1.8: 모드 셋"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 43.8
+turns = 223
+tokens_m = 67.4
+[dispatch.review]
+reason = "셋 다 안(43.8 vs 40–65, 223 vs 220–350 바닥, 67M vs 60–110M). d60의 분 ×1.3: 모드 셋이 플레이어 스크립트 하나와 시험대 하나를 나눠 써서 ×1.2–1.8의 아래 끝. 분당 5.1턴(구현 범위 위쪽: 시험대가 스모크 고리를 짧게 유지)"
 
 [[dispatch]]
 id = "d86"
