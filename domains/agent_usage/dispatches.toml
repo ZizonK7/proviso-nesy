@@ -3206,6 +3206,12 @@ tokens_m = [15, 30]
 rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers"]
 reason = "d48(같은 일, 22분·93턴·20M)의 1.0–1.5배: 읽을 것이 회고 둘과 사건 절 둘만큼 더 많고 양식이 한 절 길다. 비평가 모양(읽고 한 문서 쓰기)에 새 글 쓰기 속도(분당 2.5–4.5턴)"
 hypotheses = ["H_turn_rate_shape"]
+[dispatch.actual]
+minutes = 19.9
+turns = 84
+tokens_m = 19.8
+[dispatch.review]
+reason = "분은 바로 아래(19.9 vs 20–35), 턴 안(84 vs 70–120), 토큰 안(19.8M vs 15–30M). 읽을 것이 1/3 더 많아도 분은 d48과 같았다(22분 → 20분): 분당 4.2턴(새 글 쓰기 범위)이고 긴 읽기를 적은 턴으로 했다(턴당 맥락 24만, d48은 22만). 교훈: 읽고 쓰는 작업에서 입력이 늘면 턴당 토큰이 늘지 분이 늘지 않는다. 비유의 분은 ×1.0으로 둔다"
 
 [[dispatch]]
 id = "d75"
@@ -3272,3 +3278,9 @@ tokens_m = [12, 30]
 rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_other_models_v2", "R_say_numbers"]
 reason = "d74 범위에 R_other_models_v2의 문서 작업 배수(분 같음, 턴 같거나 적음, 토큰 ×0.7–1.5; d50이 d48과 같은 시간에 75턴·14M)를 적용. H_model_mult_shape 시험"
 hypotheses = ["H_model_mult_shape"]
+[dispatch.actual]
+minutes = 19.6
+turns = 101
+tokens_m = 20.7
+[dispatch.review]
+reason = "분은 바로 아래(19.6 vs 20–35), 턴 안 윗가장자리(101 vs 60–110), 토큰 안(20.7M vs 12–30M). H_model_mult_shape 지지: Fable xhigh 문서 작업은 분당 5.2턴(2.5–5.5 안)에 Opus와 같은 시간. 이번엔 Opus보다 턴이 많았다(101 vs 84; d50은 75 vs 93로 적었음) → R_other_models_v2의 Fable 줄 '같거나 적은 턴'은 '비슷한 턴(×0.8–1.2)'으로 고칠 후보. 토큰은 Opus의 ×1.05"
