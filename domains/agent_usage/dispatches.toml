@@ -3021,3 +3021,79 @@ tokens_m = 147.7
 [dispatch.review]
 reason = "분 넘음(126 vs 50–100), 턴 바로 아래(218 vs 225–450), 토큰 안(148M). A는 맞음(6분). B가 약 100분(예상 35–70): 검사 도구에 출처가 둘 필요했고(자동 검사가 연출 대부분을 건너뛰어 정적 계산을 더함), 찾은 것이 예상보다 많아(고칠 카메라 7개, 각각 고치고 다시 찍기 한 바퀴) 분당 1.7턴으로 느렸다(바퀴마다 장 흐름이나 렌더를 기다림). d69와 같은 교훈이 두 번째로 맞음: 모르는 것은 찾을 것의 수다. 기본 몫 + 찾은 것마다 한 바퀴로 나눠 예측하고 둘을 따로 말한다"
 hypotheses = ["H_check_loop3"]
+
+[[dispatch]]
+id = "d70"
+project = "batman"
+batch = 28
+date = 2026-10-18
+task = "대사 여섯 줄(다시 녹음 셋·새 줄 셋)과 사건 데이터 필드 약 열두 곳 고치기(글은 지시서가 전부 줌) + 설계 문서 두 절 반영 + 음성 생성(모델 내려받기 포함, CPU) + 스모크. Opus high"
+[dispatch.situation]
+S_long_lap = "일부"
+S_render = "아니오"
+S_resumed = "아니오"
+S_full_brief = "예"
+S_spec_fixed = "예"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_turns = "모름"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["M"]
+minutes = [25, 45]
+turns = [100, 180]
+tokens_class = ["T2"]
+tokens_m = [25, 55]
+rules = ["R_turns_analogy_v2", "R_spec_fixed", "R_time_turns_v2", "R_verify_once", "R_verify_loop", "R_tok_short_v5", "R_say_numbers"]
+reason = "d44(원인을 넘겨받은 작은 고침 + 스모크, 153턴·37분)의 모양에 파일이 더 많고 찾을 원인은 없음. 글이 전부 주어져 설계 턴이 없고(R_spec_fixed), 음성은 한 번 도는 바깥 단계(가상 환경 + 모델 내려받기 5–10분, 생성 자체는 1분; R_verify_once), 스모크 한두 번(5–8분씩)이 시간을 차지. 큰 데이터 파일과 문서를 통째로 읽어 턴당 20–25만"
+[dispatch.actual]
+minutes = 19.3
+turns = 148
+tokens_m = 22.2
+[dispatch.review]
+reason = "분은 아래(19 vs 25–45), 턴은 안(148 vs 100–180), 토큰은 바로 아래(22M vs 25–55M). 한 번 도는 바깥 단계를 5–10분으로 잡았는데 2.5분이었다(이 컨테이너의 프록시가 모델 350MB를 19초에 받음); 전체 스모크는 예상대로 8분. 글이 전부 주어져 찾는 턴이 없었고 분당 7.7턴으로 빨랐다(짧은 편집과 확인). 턴당 맥락 15만: 큰 파일을 나눠 읽어 R_tok_short_v5의 20–25만 아래. 교훈: 한 번 도는 바깥 단계의 분은 환경(PC/클라우드)마다 재서 더한다"
+hypotheses = ["H_turn_rate_shape"]
+
+[[dispatch]]
+id = "d71"
+project = "batman"
+batch = 28
+date = 2026-10-18
+task = "컷신 대사 사이 간격 줄이기: 재생 코드 두 파일에 선택적 꼬리 값, 음성 목록에 말 끝 시각을 재는 파이썬 도구와 백필(842개), 컷신 데이터 14개에 필드 하나, 스모크 행 넷, 기술 문서. 원인과 설계는 지시서가 줌. Opus high"
+[dispatch.situation]
+S_long_lap = "일부"
+S_render = "아니오"
+S_resumed = "아니오"
+S_full_brief = "예"
+S_spec_fixed = "일부"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_turns = "모름"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "아니오"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["M"]
+minutes = [30, 50]
+turns = [130, 230]
+tokens_class = ["T2", "T3"]
+tokens_m = [30, 65]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_verify_loop", "R_tok_short_v5", "R_say_numbers"]
+reason = "d46(원인 찾아 고치기 + 스모크, 26분·209턴·41M)의 0.8–1.2배: 원인은 주어졌지만 코드 세 곳, 파일 842개를 한 번 훑는 도구, 데이터 14개, 스모크 행 넷이 있음. 시간은 스모크(한 번 5–8분, 한 번에서 세 번)가 차지. 큰 스크립트를 나눠 읽어 턴당 20–25만"
+[dispatch.actual]
+minutes = 22.2
+turns = 135
+tokens_m = 23.3
+[dispatch.review]
+reason = "분은 아래(22 vs 30–50), 턴은 바닥 가장자리(135 vs 130–230), 토큰은 아래(23M vs 30–65M). 설계가 다 적혀 있어 코드는 적은 턴으로 들어갔고, 에이전트가 새 검사 절을 따로 돌릴 수 있게 만들어 전체 스모크를 한 번만 돌렸다(예측은 한~세 번). 분당 6.1턴(코드 수정, R_time_turns_v2 범위 안), 턴당 맥락 17만(큰 스크립트를 나눠 읽음). 이 배치에서 두 번 본 교훈: 원인과 설계가 적힌 고침은 '찾아서 고치기' 비유의 0.6–0.8배 분이고, 새 검사 절을 따로 돌릴 수 있으면 전체 바퀴는 한 번으로 센다"
+hypotheses = ["H_turn_rate_shape"]
