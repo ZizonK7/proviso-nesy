@@ -3832,7 +3832,11 @@ rules = ["R_fixed_input", "R_turns_analogy_v2", "R_other_models_v3", "R_say_numb
 reason = "d82(17.9분·30턴·4.3M)의 ×0.5–0.7; Sonnet 분 배수 ×4–5"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 19.2
+turns = 12
+tokens_m = 1.35
+[dispatch.review]
+reason = "분 조금 위(19.2 vs 8–18), 턴·토큰 아래(12 vs 15–35, 1.35M vs 2–6M). Sonnet max는 고정 입력에서 오래 생각하고 한 번 썼다(분당 0.6턴): 한 장이 두 장(d82)의 분 ×1.07 → 입력 크기와 무관. Opus 대비 ×12.8(Opus 1.5분): 배수 규칙은 Opus의 바닥이 낮아지면 깨진다 → 배수가 아니라 Sonnet 최소 분(약 15–20)으로 적는 편이 맞을 수 있다(다음 기록으로 시험)"
 
 [[dispatch]]
 id = "d92"
@@ -3871,3 +3875,37 @@ turns = 13
 tokens_m = 1.17
 [dispatch.review]
 reason = "셋 다 안(7.1 vs 4–10, 13 vs 8–16, 1.2M vs 0.6–2M; 기록된 재시도 기준). 입력이 반인데 d83의 분 ×1.0: 안전장치 우회로 보고서를 세 번에 나눠 써서. 첫 실행(3.4분·1.0M)과 이어 보내기는 안전장치(reasoning_extraction)에 거절됨: \"첫 읽기 vs 최종\"을 요구하는 풀이 지시문이 Opus·Fable에서 걸릴 수 있다 → 플레이테스트 보고서 말투로 바꾸면 통과"
+
+[[dispatch]]
+id = "d93"
+project = "batman"
+batch = 35
+date = 2026-10-18
+task = "구현 B: 두 장의 사건·챕터·대사 데이터와 음성 렌더(계약서에 모양이 다 적힘; 새 키의 검사기는 통합 때). Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_turns = "모름"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "일부"
+[dispatch.predicted]
+written_before = true
+time_class = ["L"]
+minutes = [50, 75]
+turns = [300, 450]
+tokens_class = ["T4"]
+tokens_m = [120, 190]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_loop", "R_spec_fixed"]
+reason = "d63(55.6분·358턴·162M, 두 장 데이터+음성 154줄)의 ×0.9–1.2: 줄은 적고 기록 데이터는 많다"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
