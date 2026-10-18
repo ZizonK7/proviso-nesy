@@ -3578,7 +3578,11 @@ rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_loop",
 reason = "d59(76분·397턴·180M)의 모양에서 렌더 맹목 VFX가 빠지고 UI 둘이 들어옴 → ×0.75–1.2"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 72.3
+turns = 315
+tokens_m = 113.1
+[dispatch.review]
+reason = "셋 다 안(72.3 vs 55–90, 315 vs 250–400, 113M vs 100–170M): d59의 분 ×0.95·턴 ×0.8·토큰 ×0.63, ×0.75–1.2 띠 안. 토큰이 낮은 이유: 실제 사건 파일 대신 덧씌우기 픽스처로 시험해 턴당 맥락이 345K(d59 450K). 덧씌우기로 시험하는 시스템 에이전트는 d59의 분에 토큰 2/3"
 
 [[dispatch]]
 id = "d85"
