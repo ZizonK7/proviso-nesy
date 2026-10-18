@@ -3323,3 +3323,5 @@ tokens_m = [45, 90]
 rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_long_doc_save", "R_spec_fixed", "R_say_numbers"]
 reason = "d51(같은 모양: 피치 셋을 손에 쥔 수석 작가, 38분·151턴·54M)의 0.9–1.5배. d51의 교훈대로 '두 장'을 ×1.6–2.2로 잡지 않는다(앞 라운드가 설계와 글을 많이 정함). 사건 절 하나를 구조부터 바꾸고 목록 둘을 새로 쓰는 만큼 d51보다 조금 위. 턴당 맥락이 큼(피치 셋·회고 둘·사건 절 둘을 통째로 읽음)"
 hypotheses = ["H_turn_rate_shape", "H_tok_rate_long"]
+[dispatch.actual]
+status = "unknown"
