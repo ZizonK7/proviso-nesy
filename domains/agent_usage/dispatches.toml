@@ -3654,7 +3654,11 @@ rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_once"]
 reason = "d61(38분·252턴·86M, 새 빌더)의 ×1.2–1.6: 더 큰 장면과 하위 장면 둘"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 81.5
+turns = 325
+tokens_m = 128.6
+[dispatch.review]
+reason = "분 위(81.5 vs 45–70), 턴·토큰 안(325 vs 260–400, 129M vs 90–150M): d61의 분 ×2.1·턴 ×1.3(예측 ×1.2–1.6). 분이 늘어난 곳: 클라우드에서 lavapipe로 카메라를 전부 렌더해 구도를 확인(GPU 없는 렌더 고리가 가장 긴 랩)하고 D를 위해 공용 키트를 먼저 만듦. 교훈: 자기 레벨을 클라우드에서 렌더하는 월드 에이전트는 d61의 턴에 분은 두 배"
 
 [[dispatch]]
 id = "d87"
