@@ -3725,7 +3725,7 @@ id = "d89"
 project = "batman"
 batch = 34
 date = 2026-10-18
-task = "꾸러미 작성 이어서: 고쳐 쓴 원고에서 두 장 꾸러미 재생성(기존 스크립트), 바뀐 점 요약, 누출 검사. Opus high"
+task = "꾸러미 작성 이어서: 고쳐 쓴 원고에서 두 장 꾸러미 재생성(기존 스크립트), 바뀐 점 요약, 누출 검사. 예측은 Opus high였으나 감독 실수로 Fable xhigh(피치 작가)를 이어 보냄"
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -3735,7 +3735,7 @@ S_check_loop = "아니오"
 S_short = "예"
 S_turns = "모름"
 S_web = "아니오"
-S_other_model = "아니오"
+S_other_model = "예"
 S_resumed = "예"
 S_mid_notes = "아니오"
 S_spec_fixed = "예"
@@ -3752,7 +3752,11 @@ rules = ["R_turns_analogy_v2", "R_resume_ctx_v2", "R_say_numbers"]
 reason = "d52b(6.2분·50턴·15.6M)의 ×0.8–1.5: 스크립트가 있고 꾸러미가 더 길다"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 13.9
+turns = 61
+tokens_m = 29.9
+[dispatch.review]
+reason = "분 위(13.9 vs 5–12), 턴 안(61 vs 35–70), 토큰 위(29.9M vs 8–18M). 엉뚱한 에이전트(Fable 피치 작가)를 이어 보냈다: 예측은 스크립트를 맥락에 가진 Opus 기준. Fable xhigh는 도구를 스크래치패드에서 다시 익혀 d52b의 분 ×2.2, 피치 맥락을 턴마다 실어 토큰 ×1.9. 교훈: 이어 보내기 전에 에이전트 id를 로그와 대조; 이어 보낸 에이전트의 토큰은 새 일과 무관하게 옛 맥락을 포함한다"
 
 [[dispatch]]
 id = "d90"
