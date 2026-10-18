@@ -3958,4 +3958,8 @@ rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_loop",
 reason = "d64(128분·588턴·206M, 브랜치 다섯·두 장)의 ×0.9–1.3: 이음새가 더 많고(키트 재빌드, ui 키 둘, 운전 명령의 두 주인) 스모크가 더 길다"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 90.6
+turns = 426
+tokens_m = 175.3
+[dispatch.review]
+reason = "분·턴 아래(90.6 vs 100–160, 426 vs 500–750), 토큰 바닥(175M vs 170–260M): d64의 분 ×0.7·턴 ×0.72(예측 ×0.9–1.3). 브리프가 인계 전부와 B의 결정에 대한 판정을 실어 에이전트가 다른 에이전트에게 물을 턴이 없었고, 예측한 이음새 셋은 이음새가 아니었다. 교훈: 빌더들의 열린 결정을 브리프에서 다 판정한 통합은 찾아야 했던 통합의 ×0.7"
