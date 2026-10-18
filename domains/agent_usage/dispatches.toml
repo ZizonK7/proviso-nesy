@@ -3684,7 +3684,11 @@ rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long", "R_verify_once"]
 reason = "d61의 ×1.0–1.4; 길 하나의 주행 확인이 d62처럼 분을 더함"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 57.7
+turns = 234
+tokens_m = 78.3
+[dispatch.review]
+reason = "분 안 위쪽(57.7 vs 40–65), 턴·토큰 아래(234 vs 250–380, 78M vs 85–140M). d62의 교훈 그대로: 길 쓸기 도구와 레벨 스크립트 구동기를 직접 써서 분은 늘고 턴은 줄었다(분당 4.1턴). 자기 레벨을 자기 도구로 증명하는 월드 에이전트는 분 범위의 위, 토큰 범위의 아래"
 
 [[dispatch]]
 id = "d88"
