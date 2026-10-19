@@ -3,7 +3,7 @@
 
 [domain]
 id = "music_player"
-name = "뮤직 플레이어 알아서 틀기"
+name = "뮤직 플레이어 (알아서 틀기, 재생 순서)"
 
 # ---------- 목표 ----------
 [[goal]]
@@ -14,6 +14,12 @@ text = "알아서 틀기는 내 재생 기록에 맞는 흐름을 만든다"
 id = "G_diversity"
 text = "알아서 틀기에서는 같은 곡이 다시 나오지 않아 다양성이 유지된다"
 parent = "G_flow"
+
+[[goal]]
+id = "G_mode_visible"
+text = "곡 순서를 바꾸는 재생 방식(셔플)이 켜져 있으면 화면에서 알 수 있다"
+source = "user"
+note = "2026-10-19: 폰에서 순서가 갑자기 무작위로 나오는데 표시가 없다는 경험 → '셔플은 계속 켜 두되 표시'를 고름(셔플을 한 번만 적용하는 안 대신)"
 
 # ---------- 사실 (코드에서 확인) ----------
 [[fact]]
@@ -29,6 +35,13 @@ text = "같은 곡은 한 바퀴 안에서 다시 나오지 않는다. 바퀴가
 checked = 2026-10-14
 source = "music_player @b401048 + 대기열 흐름 시뮬레이션(곡 12·30·31·75개, 무한히 듣기 켬/끔). 실제 앱 확인 전"
 note = "이전(@71f7460): 직전 10곡만 막아서 같은 곡이 다시 나왔고 G_diversity를 해쳤음 → audit이 잡았고 b401048에서 고침"
+
+[[fact]]
+id = "F_shuffle_sticky"
+text = "폴더 화면의 셔플을 누르면 셔플이 켜진 채로 저장되어, 다른 폴더에서 곡을 탭해도 섞여서 나온다. 재생 버튼을 누르면 꺼진다. 알아서 틀기는 셔플을 쓰지 않는다. 폰 재생 막대의 셔플 버튼은 셔플이 켜져 있을 때만(알아서 틀기 제외) 보이고, 누르면 꺼진다"
+checked = 2026-10-19
+source = "music_player src/js/app.js(playList, buildOrder, syncModeButtons), src/css/style.css @25d6b74"
+note = "이전(@b401048): 폰 재생 막대에서 셔플 버튼을 늘 숨겨서, 켜져 있어도 표시가 없었다 → G_mode_visible을 해침. 사용자 결정대로 @25d6b74에서 고침(DECISIONS.md 25번). 실제 폰 확인 전"
 
 # ---------- 상태 ----------
 [[state]]
@@ -50,6 +63,12 @@ id = "O_no_expectation"
 text = "알아서 틀기에서 나오기를 바라면서 노래를 트는 건 자연스럽지 않다"
 source = "user"
 date = 2026-10-14
+
+[[observation]]
+id = "O_shuffle_surprise"
+text = "폰에서 가끔 곡 순서가 갑자기 무작위로 나온다. 셔플을 누르면 그러는 것 같은데 화면에 표시가 없다"
+source = "user"
+date = 2026-10-19
 
 # ---------- 규칙 ----------
 [[rule]]
@@ -75,3 +94,14 @@ serves = ["G_flow", "G_diversity"]
 conditions = ["S_many_slots", "F_smart_impl"]
 evidence = ["O_decision13", "O_no_expectation"]
 note = "사용자 결정 2026-10-14: '최대 30개로 제한하고 한 번씩만' + '30개 이상이면 안 나온 것들 중에 다시 최대 30개, 무한히 듣기(기본)에서 끝나면 처음부터 다시'. music_player @b401048에 반영(DECISIONS.md 24번). 실제로 써 본 사용자 평가 전이라 가설"
+
+[[rule]]
+id = "R_S1"
+version = 1
+status = "hypothesis"
+method = "셔플은 한 번 켜면 끌 때까지 유지한다. 대신 켜져 있는 동안은 폰 재생 막대에도 셔플 버튼을 보여 켜진 줄 알게 하고, 거기서 바로 끌 수 있게 한다"
+reason = "켜진 상태가 이어지는 건 괜찮지만, 모르는 사이에 순서가 바뀌면 고장처럼 느껴진다"
+serves = ["G_mode_visible"]
+conditions = ["F_shuffle_sticky"]
+evidence = ["O_shuffle_surprise"]
+note = "사용자 결정 2026-10-19, music_player @25d6b74(DECISIONS.md 25번). 실제 폰에서 써 본 평가 전이라 가설"
