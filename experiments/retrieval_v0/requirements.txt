@@ -1,0 +1,2 @@
+sentence-transformers>=3.0
+# torch는 CPU판 권장: pip install torch --index-url https://download.pytorch.org/whl/cpu
