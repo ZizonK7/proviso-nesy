@@ -1,0 +1,444 @@
+# 게임 기록 — 게임마다 대 보기(상황 값)와 반응 한 묶음
+# 상황 값: knowledge.toml의 상태 id = "예" / "아니오" / "일부" / "모름". 출처(fact)에서 확인 못 한 것은 "모름"으로 둔다.
+# 반응 판정(outcome.judgment): 크게 성공 / 성공 / 보통 / 실패 / 모름. judged_by: user(사용자가 해 봄) / public(대중·전반 평가, 판정은 AI)
+# 순서가 뜻을 가진다: 가설 검사(checks.py)는 SEEN_UNTIL 다음 기록부터를 시험으로 쓴다.
+# 2026-10-19: 성공 쪽 사례로 세운 첫 묶음(사용자 결정: 성공 사례로 먼저 세우고, 망한 게임을 덧붙여 시험한다).
+
+[[game]]
+id = "g_simcity"
+name = "SimCity (1989)"
+basis = "Jay Forrester 『Urban Dynamics』(1969), 시스템 다이내믹스"
+basis_kind = "비문학"
+facts = ["F_g_simcity"]
+[game.situation]
+S_src_model = "예"
+S_src_story = "아니오"
+S_src_record = "아니오"
+S_named = "아니오"
+S_people_play = "아니오"
+S_no_win = "일부"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "크게 성공"
+judged_by = "public"
+basis = "처음엔 안 팔리다가 언론 호평으로 베스트셀러, 가정용 컴퓨터 50만·SNES 198만 장. 평론: 도시 계획·정치·경제 이해에 도움"
+
+[[game]]
+id = "g_simearth"
+name = "SimEarth (1990)"
+basis = "James Lovelock의 가이아 가설"
+basis_kind = "비문학"
+facts = ["F_g_simearth"]
+[game.situation]
+S_src_model = "예"
+S_src_story = "아니오"
+S_named = "아니오"
+S_expert = "예"
+S_people_play = "아니오"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "모름"
+judged_by = "public"
+basis = "판매 수치를 원문에서 못 찾음. Entertainment Weekly A−(변수가 많아 복잡하다는 평과 함께)"
+
+[[game]]
+id = "g_simant"
+name = "SimAnt (1991)"
+basis = "E. O. Wilson의 개미 연구(『The Ants』)"
+basis_kind = "비문학"
+facts = ["F_g_simant"]
+[game.situation]
+S_src_model = "예"
+S_src_data = "예"
+S_src_story = "아니오"
+S_named = "아니오"
+S_expert = "아니오"
+S_people_play = "아니오"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "보통"
+judged_by = "public"
+basis = "1992년 2월까지 5만 장. Wilson: '개미 군락 삶의 미묘함을 잡아냈다'"
+
+[[game]]
+id = "g_sims"
+name = "The Sims (2000)"
+basis = "Christopher Alexander 『A Pattern Language』 + 매슬로 욕구 이론 + 『Maps of the Mind』 + 『Understanding Comics』"
+basis_kind = "비문학"
+facts = ["F_sims_origin", "F_apl_book", "F_sims_ai_sources", "F_sims_pivot", "F_sims_rules", "F_sims_player_designer", "F_sims_reception", "F_sims_personal"]
+[game.situation]
+S_src_model = "예"
+S_src_purpose = "예"
+S_src_story = "아니오"
+S_src_record = "일부"
+S_named = "아니오"
+S_many_sources = "예"
+S_expert = "아니오"
+S_people_play = "예"
+S_no_win = "예"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "크게 성공"
+judged_by = "public"
+basis = "2002년 당시 PC 최다 판매(630만 장), 2004년 확장팩 포함 4,100만. 사용자가 해 본 게임 — 사용자 경험은 아직 받지 않음"
+
+[[game]]
+id = "g_trust"
+name = "The Evolution of Trust (2017, 웹)"
+basis = "Robert Axelrod 『The Evolution of Cooperation』(1984)"
+basis_kind = "비문학"
+facts = ["F_g_trust"]
+[game.situation]
+S_src_model = "예"
+S_src_story = "아니오"
+S_named = "일부"
+S_people_play = "아니오"
+S_one_rule = "아니오"
+S_free_short = "예"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "모름"
+judged_by = "public"
+basis = "플레이 수 등 원문 수치 없음"
+
+[[game]]
+id = "g_polygons"
+name = "Parable of the Polygons (2014, 웹)"
+basis = "Thomas Schelling 분리 모형(1971 논문)"
+basis_kind = "비문학"
+facts = ["F_g_polygons"]
+[game.situation]
+S_src_model = "예"
+S_src_story = "아니오"
+S_named = "일부"
+S_people_play = "아니오"
+S_one_rule = "예"
+S_free_short = "예"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "모름"
+judged_by = "public"
+basis = "원문 수치 없음"
+
+[[game]]
+id = "g_paperclips"
+name = "Universal Paperclips (2017, 웹)"
+basis = "Nick Bostrom '종이 클립 최대화기' 사고실험(2003)"
+basis_kind = "비문학"
+facts = ["F_g_paperclips"]
+[game.situation]
+S_src_model = "예"
+S_src_story = "아니오"
+S_named = "아니오"
+S_people_play = "아니오"
+S_one_rule = "아니오"
+S_free_short = "일부"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "성공"
+judged_by = "public"
+basis = "공개 직후 몰려 사이트가 끊길 정도, 첫 11일 45만 명(대부분 끝까지, Wired)"
+
+[[game]]
+id = "g_landlord"
+name = "The Landlord's Game (1903, 보드)"
+basis = "Henry George의 지대 이론(조지주의)"
+basis_kind = "비문학"
+facts = ["F_g_landlord"]
+[game.situation]
+S_src_model = "예"
+S_src_story = "아니오"
+S_people_play = "아니오"
+S_one_rule = "예"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "모름"
+judged_by = "public"
+basis = "원형 자체의 판매는 모름. 후손인 모노폴리는 크게 성공했지만 원형의 주장(지대 비판)은 빠졌다"
+
+[[game]]
+id = "g_plague"
+name = "Plague Inc. (2012)"
+basis = "감염병 전파 모형(특정 책·논문 아님). 영감은 영화 『Contagion』과 웹게임 Pandemic 2"
+basis_kind = "비문학"
+facts = ["F_g_plague"]
+[game.situation]
+S_src_model = "예"
+S_src_story = "아니오"
+S_named = "아니오"
+S_simplified = "아니오"
+S_people_play = "아니오"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "크게 성공"
+judged_by = "public"
+basis = "다운로드 1.6억(2021), Metacritic 80, 미국 유료 앱 1위. Steam(Evolved) 긍정 94% / 6.6만"
+
+[[game]]
+id = "g_kerbal"
+name = "Kerbal Space Program (2015)"
+basis = "궤도역학(뉴턴 역학)"
+basis_kind = "비문학"
+facts = ["F_g_kerbal"]
+[game.situation]
+S_src_model = "예"
+S_src_story = "아니오"
+S_named = "아니오"
+S_simplified = "예"
+S_people_play = "아니오"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "크게 성공"
+judged_by = "public"
+basis = "Steam 긍정 96% / 14.8만"
+
+[[game]]
+id = "g_wingspan"
+name = "Wingspan (2019, 보드)"
+basis = "실제 조류 데이터(설계자가 여러 생물 데이터베이스로 도표를 만듦)"
+basis_kind = "비문학"
+facts = ["F_g_wingspan"]
+[game.situation]
+S_src_model = "모름"
+S_src_data = "예"
+S_src_story = "아니오"
+S_named = "아니오"
+S_expert = "아니오"
+S_people_play = "아니오"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "크게 성공"
+judged_by = "public"
+basis = "260만 장 이상, 27개 언어, 2019 Kennerspiel des Jahres. 디지털판 Steam 94% / 1.2만"
+
+[[game]]
+id = "g_pandemic"
+name = "Pandemic (2008, 보드)"
+basis = "2002–04 SARS 유행"
+basis_kind = "비문학"
+facts = ["F_g_pandemic"]
+[game.situation]
+S_src_record = "일부"
+S_src_story = "아니오"
+S_named = "아니오"
+S_people_play = "아니오"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "크게 성공"
+judged_by = "public"
+basis = "약 200만 장, 2009 Golden Geek 가족 게임상, Spiel des Jahres 후보"
+
+[[game]]
+id = "g_twilight"
+name = "Twilight Struggle (2005, 보드)"
+basis = "냉전사(실제 사건)"
+basis_kind = "비문학"
+facts = ["F_g_twilight"]
+[game.situation]
+S_src_data = "예"
+S_src_story = "아니오"
+S_named = "아니오"
+S_people_play = "아니오"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "크게 성공"
+judged_by = "public"
+basis = "BoardGameGeek 1위(2010.12–2016.1). 디지털판 Steam 86% / 3천"
+
+[[game]]
+id = "g_twom"
+name = "This War of Mine (2014)"
+basis = "사라예보 포위 등 민간인 전쟁 기록"
+basis_kind = "비문학"
+facts = ["F_g_twom"]
+[game.situation]
+S_src_record = "예"
+S_src_story = "아니오"
+S_named = "아니오"
+S_people_play = "예"
+S_dilemma = "예"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "크게 성공"
+judged_by = "public"
+basis = "900만 장 이상. Steam 긍정 94% / 9.8만"
+
+[[game]]
+id = "g_valiant"
+name = "Valiant Hearts: The Great War (2014)"
+basis = "1차대전 병사 편지·증언, 참호 답사"
+basis_kind = "비문학"
+facts = ["F_g_valiant"]
+[game.situation]
+S_src_record = "예"
+S_src_story = "아니오"
+S_named = "아니오"
+S_people_play = "예"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "성공"
+judged_by = "public"
+basis = "Steam 긍정 96% / 2.8만 (판매 수치는 원문에서 못 찾음)"
+
+[[game]]
+id = "g_burymelove"
+name = "Bury Me, My Love (2017)"
+basis = "Le Monde 기자 Lucie Soullier의 시리아 난민 기사"
+basis_kind = "비문학"
+facts = ["F_g_burymelove"]
+[game.situation]
+S_src_record = "예"
+S_src_story = "아니오"
+S_named = "아니오"
+S_people_play = "예"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "성공"
+judged_by = "public"
+basis = "BAFTA 후보 둘, The Game Awards 후보, International Mobile Game Awards 수상. 모바일이 본무대(Steam 69% / 184)"
+
+[[game]]
+id = "g_foldit"
+name = "Foldit (2008)"
+basis = "단백질 접힘 연구(베이커 연구실)"
+basis_kind = "비문학"
+facts = ["F_g_foldit"]
+[game.situation]
+S_src_data = "예"
+S_src_story = "아니오"
+S_named = "아니오"
+S_expert = "예"
+S_people_play = "아니오"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "예"
+[game.outcome]
+judgment = "성공"
+judged_by = "public"
+basis = "베타 등록 24만 명, 플레이어가 15년 못 푼 단백질 구조를 3주 만에 풂(2011 논문)"
+
+[[game]]
+id = "g_eterna"
+name = "EteRNA (2011)"
+basis = "RNA 설계 연구"
+basis_kind = "비문학"
+facts = ["F_g_eterna"]
+[game.situation]
+S_src_data = "예"
+S_src_story = "아니오"
+S_named = "아니오"
+S_expert = "예"
+S_people_play = "아니오"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "예"
+[game.outcome]
+judgment = "성공"
+judged_by = "public"
+basis = "시민 과학자만 쓴 논문이 동료 심사 학술지에 실림(2020). 대중 규모 수치는 원문에서 못 찾음"
+
+[[game]]
+id = "g_walden"
+name = "Walden, a game (2017)"
+basis = "Henry David Thoreau 『Walden』(1854)"
+basis_kind = "비문학"
+facts = ["F_g_walden"]
+[game.situation]
+S_src_model = "예"
+S_src_purpose = "예"
+S_src_story = "일부"
+S_named = "예"
+S_expert = "아니오"
+S_people_play = "아니오"
+S_no_win = "모름"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "보통"
+judged_by = "public"
+basis = "Games for Change 2017 올해의 게임 등 상은 많지만 대중 규모는 작다(Steam 84% / 116). 교실에서 많이 씀"
+
+[[game]]
+id = "g_bioshock"
+name = "BioShock (2007)"
+basis = "Ayn Rand·Orwell·Huxley 등의 사상(비문학) + 역사 인물"
+basis_kind = "비문학"
+facts = ["F_g_bioshock"]
+[game.situation]
+S_src_model = "모름"
+S_src_story = "아니오"
+S_named = "아니오"
+S_many_sources = "예"
+S_people_play = "아니오"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "성공"
+judged_by = "public"
+basis = "Remastered Steam 긍정 83% / 6.5만 (원작 판매는 원문에서 못 찾음)"
+
+# ---------- 비교용: 문학 원작 ----------
+[[game]]
+id = "g_witcher3"
+name = "The Witcher 3: Wild Hunt (2015)"
+basis = "Andrzej Sapkowski 소설 연작"
+basis_kind = "문학"
+facts = ["F_g_witcher3"]
+[game.situation]
+S_src_story = "예"
+S_src_model = "아니오"
+S_named = "예"
+S_people_play = "예"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "크게 성공"
+judged_by = "public"
+basis = "Steam 긍정 96% / 90.5만, 올해의 게임 200개 넘게"
+
+[[game]]
+id = "g_wukong"
+name = "Black Myth: Wukong (2024)"
+basis = "『서유기』"
+basis_kind = "문학"
+facts = ["F_g_wukong"]
+[game.situation]
+S_src_story = "예"
+S_src_model = "아니오"
+S_named = "예"
+S_people_play = "모름"
+S_one_rule = "아니오"
+S_free_short = "아니오"
+S_player_contrib = "아니오"
+[game.outcome]
+judgment = "크게 성공"
+judged_by = "public"
+basis = "첫 달 2천만 장. Steam 긍정 96% / 121만"

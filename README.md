@@ -26,6 +26,10 @@
   - 첫 시험에서는 실측을 보기 전에 세운 가설 하나가 반박되어 둘로 나뉘었습니다.
   - batman 저장소의 지휘 모델이 이 논리집으로 예측합니다. → [agent_usage](domains/agent_usage/CLAUDE.md)
 
+- **비문학을 바탕으로 한 게임**의 성공 논리를 모으고 있습니다. 소설 원작 게임은 많은데 책·논문·기록이 바탕인 게임은 드물다는 생각에서 출발했습니다.
+  - 조사해 보니 꽤 있었습니다(심시티, 심즈, Pandemic, This War of Mine 등). 다만 책의 이야기가 아니라 책 속의 모형·데이터·기록을 게임 규칙으로 옮겼고, 책 이름은 내걸지 않았습니다. → [사례 조사](docs/nonfiction-games-v0.md)
+  - 게임 22개에 성질 15가지를 대 보고, 성공 사례에서 뽑은 규칙은 모두 "가설"로 둡니다. 망한 게임을 덧붙여 시험하는 것이 다음 단계입니다. → [nonfiction_games](domains/nonfiction_games/CLAUDE.md)
+
 아직 로컬 모델은 없습니다. 논리집을 고치는 일은 지금은 세션 안에서 AI가 합니다(자동으로 도는 코드는 아님).
 
 ## 다음 방향: 논리 조각
@@ -43,6 +47,7 @@ python -m proviso check flowlog      # 가설 확인
 python -m proviso audit music_player # 점검: 목표를 해치는데 받아들인 기록이 없는 것
 python -m domains.agent_usage.dispatches  # 하위 에이전트 예측과 실측 비교
 python -m proviso check agent_usage  # 예측 가설을 그 뒤 기록으로 시험
+python -m domains.nonfiction_games.games  # 게임별 대 보기 표
 python -m unittest discover -s tests -t .
 python -m experiments.run_body_v0    # 논리집 유무에 따른 Claude 답 비교 (Claude Code 필요)
 ```
@@ -54,7 +59,7 @@ python -m experiments.run_body_v0    # 논리집 유무에 따른 Claude 답 비
 | 폴더 | 내용 |
 |---|---|
 | `proviso/` | 코어. 지식 파일 읽기·검사, 그래프, 조회, MCP 서버 |
-| `domains/<분야>/` | 분야별 지식 파일(`knowledge.toml`)과 검사·시뮬레이션. `flowlog`, `music_player`, `agent_usage` |
+| `domains/<분야>/` | 분야별 지식 파일(`knowledge.toml`)과 검사·시뮬레이션. `flowlog`, `music_player`, `agent_usage`, `nonfiction_games` |
 | `experiments/` | 본체 실험 스크립트 |
 | `docs/` | 원안 논문, 설계 기록, 실험 보고서, 하위 에이전트 작업 기록 |
 | `scripts/` | 운영 도구 (하위 에이전트 대화 기록에서 사용량 숫자 뽑기) |

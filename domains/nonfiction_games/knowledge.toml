@@ -16,6 +16,73 @@ id = "G_success_logic"
 text = "잘 된 게임의 성공 논리를 작은 조각으로 쪼개, 비문학에 대 볼 수 있게 한다"
 parent = "G_new_genre"
 
+# 사용자 말 "잘 된 게임들"과 판단 기준 결정(해 본 게임은 사용자, 아니면 대중·전반 평가)에서 — 성공의 잣대
+[[goal]]
+id = "G_well_received"
+text = "비문학으로 만든 게임이 잘 된다 (해 본 사람의 판단, 아니면 대중·전반 평가로)"
+parent = "G_new_genre"
+
+# ---------- 상태: 게임에 대 보는 성질 (games.toml의 상황 값) ----------
+[[state]]
+id = "S_src_model"
+text = "바탕의 인과 모형·이론이 게임 규칙이 됐다"
+
+[[state]]
+id = "S_src_data"
+text = "바탕의 데이터·사실이 게임 요소(카드·수치·점수)가 됐다"
+
+[[state]]
+id = "S_src_record"
+text = "바탕의 기록·증언·체험이 게임의 이야기·상황이 됐다"
+
+[[state]]
+id = "S_src_story"
+text = "바탕(원작)의 이야기·인물·세계관이 넘어갔다"
+
+[[state]]
+id = "S_src_purpose"
+text = "바탕의 목적·태도가 플레이어의 자리(역할)가 됐다"
+
+[[state]]
+id = "S_named"
+text = "바탕 책·이론의 이름을 게임에 내걸었다(제목·소개)"
+
+[[state]]
+id = "S_many_sources"
+text = "바탕이 여럿이다(책·이론 여러 개를 섞음)"
+
+[[state]]
+id = "S_expert"
+text = "바탕의 저자·전문가가 개발에 참여하거나 자문했다"
+
+[[state]]
+id = "S_simplified"
+text = "바탕을 단순화·근사했다고 알려져 있다"
+
+[[state]]
+id = "S_people_play"
+text = "놀이의 중심이 사람(인물)의 행동·관계·선택이다"
+
+[[state]]
+id = "S_no_win"
+text = "이기는 조건이 없다(끝없이 할 수 있다)"
+
+[[state]]
+id = "S_dilemma"
+text = "플레이어가 도덕적·현실적 딜레마를 고른다"
+
+[[state]]
+id = "S_one_rule"
+text = "주장 하나를 규칙 하나로 보여 준다"
+
+[[state]]
+id = "S_free_short"
+text = "무료이고 한 번에 끝나는 짧은 체험이다"
+
+[[state]]
+id = "S_player_contrib"
+text = "플레이어의 결과가 실제 연구에 쓰인다"
+
 # ---------- 사실: 심즈 (The Sims, 2000) ----------
 [[fact]]
 id = "F_sims_origin"
@@ -65,6 +132,133 @@ text = "Wright는 1991년 오클랜드 화재로 집을 잃었고, 삶을 다시
 checked = 2026-10-19
 source = "en.wikipedia.org The Sims (video game), Development"
 
+# ---------- 사실: 다른 게임 (영어 위키백과 원문·제작자 페이지·Steam 평가 API, 2026-10-19) ----------
+[[fact]]
+id = "F_g_simcity"
+text = "SimCity(1989): Will Wright는 도시 계획 이론에 빠져 있었고, Jay Forrester가 만든 시스템 다이내믹스의 영향을 밝혔다(Forrester 『Urban Dynamics』, 1969). 처음엔 안 팔리다가 언론 호평으로 베스트셀러가 됐고 가정용 컴퓨터 50만·SNES 198만 장. 평론은 도시 계획·정치·경제 이해에 도움이 된다고 했다. 이기고 지는 시나리오도 있다(배급사 제안)"
+checked = 2026-10-19
+source = "en.wikipedia.org SimCity (1989 video game)"
+
+[[fact]]
+id = "F_g_simearth"
+text = "SimEarth(1990): Lovelock의 가이아 가설을 모형으로 삼았고, Lovelock이 개발팀에 자문(특히 지구물리 모형)하고 매뉴얼 서문을 썼다. 가이아 가설 논문의 데이지월드 모형이 선택지로 들어 있다. Entertainment Weekly A−, 변수가 다항식보다 많다는 평"
+checked = 2026-10-19
+source = "en.wikipedia.org SimEarth"
+
+[[fact]]
+id = "F_g_simant"
+text = "SimAnt(1991): E. O. Wilson의 개미 연구에 크게 기반했다. Wright는 Wilson의 과학 데이터로 실제 개미의 작동 방식을 층층이 쌓았다고 했다. Wilson은 개발에 참여하지 않았지만 '개미 군락 삶의 미묘함을 잡아냈다'고 평했다. Wright: 게임 개발은 '한 주제를 몇 년씩 연구할 핑계'. 1992년 2월까지 5만 장"
+checked = 2026-10-19
+source = "en.wikipedia.org SimAnt"
+
+[[fact]]
+id = "F_g_trust"
+text = "The Evolution of Trust(2017, 무료 웹): 제작자 Nicky Case가 'Robert Axelrod의 『The Evolution of Cooperation』(1984)에 크게 기반했다'고 제작 노트에 밝혔다. 반복 죄수의 딜레마 토너먼트를 플레이어가 직접 돌리고, 실수와 반복을 더해 간다"
+checked = 2026-10-19
+source = "ncase.me/trust/notes, en.wikipedia.org Nicky Case"
+
+[[fact]]
+id = "F_g_polygons"
+text = "Parable of the Polygons(2014, 무료 웹): Thomas Schelling의 1971년 분리 모형 논문을 바탕으로 했다고 페이지에 밝혔다"
+checked = 2026-10-19
+source = "ncase.me/polygons"
+
+[[fact]]
+id = "F_g_paperclips"
+text = "Universal Paperclips(2017, 무료 웹): Nick Bostrom이 2003년에 처음 쓴 '종이 클립 최대화기' 사고실험에서 제목과 개념을 가져왔다(개발자 Frank Lantz). 공개 직후 몰려 사이트가 끊길 정도였고, 첫 11일에 45만 명이 했으며 대부분 끝까지 했다(Wired)"
+checked = 2026-10-19
+source = "en.wikipedia.org Universal Paperclips"
+
+[[fact]]
+id = "F_g_landlord"
+text = "The Landlord's Game(1903, 보드): Lizzie Magie가 Henry George의 조지주의 경제 원리로 설계했다. 목적은 지대가 땅 주인을 부자로, 세입자를 가난하게 만드는 걸 보여 주는 것. 모노폴리의 원형"
+checked = 2026-10-19
+source = "en.wikipedia.org The Landlord's Game"
+
+[[fact]]
+id = "F_g_plague"
+text = "Plague Inc.(2012): 영감은 영화 『Contagion』(2011)과 웹게임 Pandemic 2. 복잡하고 현실적인 변수의 역학 모형으로 전파·심각도를 계산한다. 다운로드 1.6억(2021), Metacritic 80, 미국 아이폰·아이패드 유료 앱 1위. 실제 감염병 유행 때마다 사용자가 크게 늘었다. Steam(Evolved) 긍정 94% / 6.6만"
+checked = 2026-10-19
+source = "en.wikipedia.org Plague Inc.; Steam 평가 API (app 246620)"
+
+[[fact]]
+id = "F_g_kerbal"
+text = "Kerbal Space Program(2015): 물리 엔진이 현실을 완벽히 흉내 내지는 않지만 궤도역학이 대체로 정확하다는 호평. 천체 말고는 뉴턴 역학으로 계산하고, 궤도는 근사(patched conic)로 계산한다. Steam 긍정 96% / 14.8만"
+checked = 2026-10-19
+source = "en.wikipedia.org Kerbal Space Program; Steam 평가 API (app 220200)"
+
+[[fact]]
+id = "F_g_wingspan"
+text = "Wingspan(2019, 보드): 설계자 Elizabeth Hargrave(아마추어 탐조가)가 메릴랜드에서 본 새들을 여러 생물 데이터베이스의 통계로 도표를 만들었고, 새의 특수 능력도 실제 행동을 닮게 골랐다. 2019 Kennerspiel des Jahres, 260만 장 이상, 27개 언어. 디지털판 Steam 94% / 1.2만"
+checked = 2026-10-19
+source = "en.wikipedia.org Wingspan (board game); Steam 평가 API (app 1054490)"
+
+[[fact]]
+id = "F_g_pandemic"
+text = "Pandemic(2008, 보드): 설계자 Matt Leacock이 2002–04 SARS 유행을 바탕으로 만든 협력 게임. 약 200만 장, 2009 Golden Geek 가족 게임상, Spiel des Jahres 후보. COVID-19 때 인기가 늘었다"
+checked = 2026-10-19
+source = "en.wikipedia.org Pandemic (board game)"
+
+[[fact]]
+id = "F_g_twilight"
+text = "Twilight Struggle(2005, 보드): 미·소가 실제 역사 사건에 대응하는 카드로 세계 지도의 영향력을 다툰다. 카드에 역사 사진이 실려 있다. BoardGameGeek 1위(2010.12–2016.1). 디지털판 Steam 86% / 3천"
+checked = 2026-10-19
+source = "en.wikipedia.org Twilight Struggle; Steam 평가 API (app 406290)"
+
+[[fact]]
+id = "F_g_twom"
+text = "This War of Mine(2014): 1992–96 사라예보 포위 등에서 민간인이 겪은 일을 바탕으로, 전선이 아닌 민간인의 생존을 다룬다. 개발자들은 수백 년치 민간인 전쟁 기록을 조사했다. 인물마다 어려운 결정이 많고 결정에 따라 결말이 갈린다. 900만 장 이상. Steam 긍정 94% / 9.8만"
+checked = 2026-10-19
+source = "en.wikipedia.org This War of Mine; Steam 평가 API (app 282070)"
+
+[[fact]]
+id = "F_g_valiant"
+text = "Valiant Hearts: The Great War(2014): 1차대전 100주년에 전쟁을 기억하게 하려는 목적. 역사적으로 정확하게 하려고 직접 증언을 듣고 병사들의 편지를 읽고 참호 유적을 답사했다. 전쟁 게임·슈팅 대신 양쪽 병사들의 고난을 그린다. Steam 긍정 96% / 2.8만"
+checked = 2026-10-19
+source = "en.wikipedia.org Valiant Hearts: The Great War; Steam 평가 API (app 260230)"
+
+[[fact]]
+id = "F_g_burymelove"
+text = "Bury Me, My Love(2017): '현실에서 영감을 받은 기록된 허구'. Le Monde 기자 Lucie Soullier가 쓴, 독일로 피란한 시리아 여성 Dana의 기사에서 시작했다. 플레이어는 메신저로 피란 중인 아내에게 답장과 조언을 고른다. BAFTA 후보 둘, The Game Awards 후보, International Mobile Game Awards 수상. Steam 69% / 184(모바일이 본무대)"
+checked = 2026-10-19
+source = "Steam 상점 설명(app 808090); en.wikipedia.org Bury Me, My Love"
+
+[[fact]]
+id = "F_g_foldit"
+text = "Foldit(2008): 워싱턴대 게임 과학 센터와 생화학과(David Baker)의 연구 프로젝트. 플레이어가 단백질을 접고, 점수가 높은 답을 연구자가 분석한다. 2011년 플레이어들이 15년 동안 못 푼 원숭이 레트로바이러스 단백질분해효소 구조를 3주 만에 풀었다(Nature Structural & Molecular Biology). 베타 등록 24만 명"
+checked = 2026-10-19
+source = "en.wikipedia.org Foldit"
+
+[[fact]]
+id = "F_g_eterna"
+text = "EteRNA(2011): 플레이어가 원하는 모양으로 접히는 RNA를 설계하고, 연구자가 실제로 합성해 확인한다. 시민 과학자만 쓴 논문이 동료 심사 학술지(Biochemistry, 2020)에 처음 실렸다. 결핵 진단·mRNA 백신 안정화 과제도 했다"
+checked = 2026-10-19
+source = "en.wikipedia.org EteRNA"
+
+[[fact]]
+id = "F_g_walden"
+text = "Walden, a game(2017): Tracy Fullerton과 USC Game Innovation Lab이 10년에 걸친 연구 프로젝트로 만들었다. Thoreau가 『Walden』에서 말한 삶의 필수품 넷(음식·연료·주거·의복)이 생존 규칙이고, 책 뒷장의 주제(방문객·소리·고독·독서)가 영감 모으기 규칙이다. 2017 Games for Change 올해의 게임·가장 큰 영향상, IndieCade 개발자 선택상. 교사 설문 91%가 교육 효과를 좋게 봤다. Steam 84% / 116"
+checked = 2026-10-19
+source = "en.wikipedia.org Walden, a game; Steam 평가 API (app 1011700)"
+
+[[fact]]
+id = "F_g_bioshock"
+text = "BioShock(2007): Ken Levine이 Ayn Rand·George Orwell·Aldous Huxley 같은 20세기 디스토피아·유토피아 사상가와 Rockefeller Jr.·Walt Disney 같은 역사 인물의 생각을 콘셉트에 넣었다. Remastered Steam 긍정 83% / 6.5만"
+checked = 2026-10-19
+source = "en.wikipedia.org BioShock; Steam 평가 API (app 409710)"
+
+[[fact]]
+id = "F_g_witcher3"
+text = "The Witcher 3(2015): Andrzej Sapkowski 소설 연작이 원작. 올해의 게임 200개 넘게, 출시 전 사전 주문 150만. Steam 긍정 96% / 90.5만"
+checked = 2026-10-19
+source = "en.wikipedia.org The Witcher 3: Wild Hunt; Steam 평가 API (app 292030)"
+
+[[fact]]
+id = "F_g_wukong"
+text = "Black Myth: Wukong(2024): 『서유기』가 바탕. 첫 달 2천만 장으로 가장 빨리 팔린 게임 가운데 하나. Steam 긍정 96% / 121만"
+checked = 2026-10-19
+source = "en.wikipedia.org Black Myth: Wukong; Steam 평가 API (app 2358720)"
+
 # ---------- 가설 (AI가 사실에서 뽑음, 사후 설명) ----------
 [[hypothesis]]
 id = "H_sims_purpose_not_content"
@@ -89,3 +283,100 @@ id = "H_sims_toy"
 text = "이기는 조건이 없는 장난감 구조가 성공에 중요했다: 플레이어가 목표를 스스로 정하고 이야기를 스스로 만든다(뜻 없는 말 Simlish처럼 추상화된 표현이 그 빈자리를 남긴다)"
 source = "ai (2026-10-19, F_sims_rules·F_sims_ai_sources에서)"
 evidence = ["F_sims_rules", "F_sims_ai_sources"]
+
+# ---------- 가설: 여러 게임을 가로지름 (AI, 성공 쪽 기록으로 세움 → 망한 게임 기록으로 시험) ----------
+[[hypothesis]]
+id = "H_ng_kind_transfer"
+text = "문학 바탕은 이야기·인물·세계관이 넘어가고(S_src_story), 비문학 바탕은 모형·데이터·기록이 넘어간다(S_src_model / S_src_data / S_src_record 중 하나)"
+source = "ai (2026-10-19, docs/nonfiction-games-v0.md 모양 1)"
+evidence = ["F_g_simcity", "F_sims_ai_sources", "F_g_twom", "F_g_witcher3", "F_g_wukong"]
+check = "kind_transfer"
+
+[[hypothesis]]
+id = "H_ng_model_success"
+text = "바탕의 인과 모형을 규칙으로 옮긴(S_src_model=예) 비문학 게임은 잘 된다(성공 이상)"
+source = "ai (2026-10-19, docs/nonfiction-games-v0.md 모양 2)"
+evidence = ["F_g_simcity", "F_sims_reception", "F_g_plague", "F_g_kerbal", "F_g_paperclips"]
+against = ["F_g_simant", "F_g_walden"]
+check = "model_success"
+note = "세울 때 이미 반례 둘(SimAnt 보통, Walden 보통)이 있다 — 모형만으로는 모자라고 다른 조각이 더 있다는 뜻일 수 있다"
+
+[[hypothesis]]
+id = "H_ng_named_small"
+text = "바탕 책·이론의 이름을 내건(S_named=예) 비문학 게임은 크게 성공하지 못한다"
+source = "ai (2026-10-19, docs/nonfiction-games-v0.md 모양 4)"
+evidence = ["F_g_walden"]
+check = "named_small"
+note = "근거가 Walden 하나뿐이고, 이름을 내건 사례 자체가 드물다(선택 편향 주의). 문학은 이름을 내걸고도 크게 성공했다(Witcher 3, Wukong)"
+
+[[hypothesis]]
+id = "H_ng_record_people"
+text = "기록·증언이 바탕인(S_src_record=예) 게임은 놀이 중심이 사람의 행동·선택일 때(S_people_play=예) 잘 된다"
+source = "ai (2026-10-19, docs/nonfiction-games-v0.md 모양 6)"
+evidence = ["F_g_twom", "F_g_valiant", "F_g_burymelove"]
+check = "record_people"
+
+[[hypothesis]]
+id = "H_ng_one_rule_free"
+text = "주장 하나를 규칙 하나로 보여 주는(S_one_rule=예) 게임은 무료·짧은 체험으로 퍼지고, 상업적으로 크게 성공하지 않는다"
+source = "ai (2026-10-19, docs/nonfiction-games-v0.md 모양 5)"
+evidence = ["F_g_polygons"]
+against = ["F_g_landlord"]
+check = "one_rule_free"
+note = "The Landlord's Game은 팔린 보드게임이었다(무료 아님) — 다만 원형의 반응은 모름"
+
+# ---------- 규칙: 성공 사례에서 뽑은 방법 (전부 가설 — 망한 게임에 대 보기 전) ----------
+[[rule]]
+id = "R_ng_model_to_rules"
+version = 1
+status = "hypothesis"
+method = "비문학을 게임으로 옮길 때는 결론을 들려주지 않고, 그 결론을 낳는 인과 모형을 규칙으로 만들어 플레이어가 직접 굴려 보게 한다"
+reason = "플레이어는 모형을 움직여 결론에 스스로 닿는다. 크게 성공한 비문학 게임(도시·사람·전염병·궤도 시뮬레이션)이 모두 이 모양이고, 평론도 '이해에 도움'을 꼽았다"
+serves = ["G_well_received", "G_new_genre"]
+conditions = ["S_src_model"]
+evidence = ["F_g_simcity", "F_sims_ai_sources", "F_g_plague", "F_g_kerbal", "F_g_trust"]
+against = ["F_g_simant", "F_g_walden"]
+note = "반례 둘이 보통이었다 — 모형을 옮기는 건 필요조건일 뿐 충분조건이 아닐 수 있다. 망한 게임에 대 볼 때 무엇이 더 필요한지 본다 (2026-10-19, ai)"
+
+[[rule]]
+id = "R_ng_subject_as_stage"
+version = 1
+status = "hypothesis"
+method = "비문학의 주제(집·전쟁·피란)는 무대로 두고, 놀이는 그 무대에 놓인 사람의 행동·관계·선택으로 만든다"
+reason = "재미는 주제 자체보다 주제가 사람에게 미치는 영향에서 나왔다. 건축 시뮬레이터로 시작한 게임이 사람 쪽으로 무게를 옮겨 크게 성공했고, 전쟁 기록 게임들은 전투가 아니라 민간인·병사의 삶을 다뤄 성공했다"
+serves = ["G_well_received", "G_new_genre"]
+conditions = ["S_people_play"]
+evidence = ["F_sims_pivot", "F_g_twom", "F_g_valiant", "F_g_burymelove"]
+
+[[rule]]
+id = "R_ng_data_as_pieces"
+version = 1
+status = "hypothesis"
+method = "바탕의 데이터·사실은 모으고 조합하는 놀이 요소(카드·수치·점수)로 바꾼다"
+reason = "사실 하나하나가 플레이어가 고르고 쓰는 단위가 되면, 외우지 않아도 사실이 손에 남는다. 조류 데이터 카드, 실제 사건 카드, 단백질 에너지 점수가 그 예다"
+serves = ["G_well_received", "G_new_genre"]
+conditions = ["S_src_data"]
+evidence = ["F_g_wingspan", "F_g_twilight", "F_g_foldit"]
+
+[[rule]]
+id = "R_ng_purpose_as_seat"
+version = 1
+status = "hypothesis"
+method = "책이 독자에게 바라는 태도·목적을 플레이어의 자리(역할)로 만든다"
+reason = "'보통 사람이 직접 설계한다'는 책의 목적이 플레이어를 설계자로 앉힌 짓기 모드·만들기 도구가 됐고, '자급하며 살아 본다'는 책의 실험이 생존 규칙이 됐다"
+serves = ["G_well_received", "G_new_genre"]
+conditions = ["S_src_purpose"]
+evidence = ["F_apl_book", "F_sims_player_designer"]
+against = ["F_g_walden"]
+note = "Walden은 이 방법을 썼는데 대중 규모는 작았다(상은 많음). 잘 되는 데는 다른 조각이 더 필요할 수 있다 (2026-10-19, ai)"
+
+[[rule]]
+id = "R_ng_real_contribution"
+version = 1
+status = "hypothesis"
+method = "플레이어의 결과가 실제 연구에 쓰이게 하면, 그 쓰임 자체를 놀이의 의미로 내세운다"
+reason = "플레이어가 푼 퍼즐이 논문이 되고 실제 분자로 합성됐다. 재미보다 '내가 기여했다'가 동기가 된 경우"
+serves = ["G_new_genre"]
+conditions = ["S_player_contrib"]
+evidence = ["F_g_foldit", "F_g_eterna"]
+note = "잘 됐다는 근거가 대중 반응이 아니라 과학 성과라 G_well_received에는 잇지 않았다 (2026-10-19, ai)"

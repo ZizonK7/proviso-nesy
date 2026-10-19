@@ -12,7 +12,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 - 사용자에게는 일상어로 설명. 전문용어는 처음 쓸 때 풀어서.
 - **공개 저장소.** 커밋 전 타인 식별자(uid·이메일·이름), 학생 기록, 비밀값을 훑는다. 원본 데이터·실험 원본 출력은 `out/`(git 제외)에만.
 
-## 현재 구조 (2026-10-16)
+## 현재 구조 (2026-10-19)
 | 폴더 | 역할 |
 |---|---|
 | `proviso/` | 코어(분야 모름): 지식 파일 읽기·검사(`schema`), 그래프(`graph`), 조회(`query`), MCP 서버(`mcp_server`, 읽기 전용) |
@@ -22,7 +22,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 | `scripts/` | 운영 도구 (하위 에이전트 대화 기록 → 사용량 숫자, `agent_usage` 기록에 씀) |
 | `tests/` | 표준 라이브러리 unittest |
 
-명령 (저장소 루트): `python -m proviso validate|graph|check|audit <분야>` · `python -m unittest discover -s tests -t .` · `python -m experiments.run_body_v0` · `python -m domains.flowlog.replay <백업>` · `python -m domains.agent_usage.dispatches`. Git Bash에서 한글이 깨지면 `PYTHONIOENCODING=utf-8`. 외부 패키지 없음(Python 3.11+).
+명령 (저장소 루트): `python -m proviso validate|graph|check|audit <분야>` · `python -m unittest discover -s tests -t .` · `python -m experiments.run_body_v0` · `python -m domains.flowlog.replay <백업>` · `python -m domains.agent_usage.dispatches` · `python -m domains.nonfiction_games.games`. Git Bash에서 한글이 깨지면 `PYTHONIOENCODING=utf-8`. 외부 패키지 없음(Python 3.11+).
 
 ## 확정된 설계 결정 (원안 대비 변경 포함)
 상세와 경위: [docs/knowledge-format-v0.md](docs/knowledge-format-v0.md)
@@ -52,18 +52,19 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 - 큰 그림(사용자): 문학 기반 게임은 많고 성공도 많은데 비문학 기반은 드물다 → 잘 된 게임(특히 책 기반)의 성공 논리를 잘게 쪼개 비문학에 대 보면 새 장르를 열 수 있다.
 - 순서(사용자 결정): **성공 사례로 논리를 먼저 세우고 → 망한 게임에 대 보고 → 피드백으로 더 쪼갠다.** 선택 편향(성공 사례만 보면 생기는 착각)은 이 순서로 다룬다.
 - 판단 기준(사용자 결정): 사용자가 해 본 게임은 사용자 판단, 아니면 대중·전반 평가, 또는 확인 가능한 사실.
-- 첫 조사: [docs/nonfiction-games-v0.md](docs/nonfiction-games-v0.md). 비문학 기반 게임은 꽤 있다(SimCity·The Sims·Pandemic·This War of Mine 등) — 다만 책의 모형·데이터·절차를 규칙으로 옮겼고 책 이름은 내걸지 않았다. 비어 있는 자리는 "책 한 권의 주장을 내건 상업 게임". 분야 폴더: [domains/nonfiction_games/](domains/nonfiction_games/CLAUDE.md) — 심즈부터(사용자가 해 본 유일한 게임).
+- 첫 조사: [docs/nonfiction-games-v0.md](docs/nonfiction-games-v0.md). 비문학 기반 게임은 꽤 있다(SimCity·The Sims·Pandemic·This War of Mine 등) — 다만 책의 모형·데이터·절차를 규칙으로 옮겼고 책 이름은 내걸지 않았다. 비어 있는 자리는 "책 한 권의 주장을 내건 상업 게임". 분야 폴더: [domains/nonfiction_games/](domains/nonfiction_games/CLAUDE.md) — 게임 22건의 대 보기(`games.toml`), 원문 확인 사실, 가설 5개(검사 붙음, 망한 게임 기록으로 시험)와 규칙 5개(전부 가설). 사용자가 해 본 게임은 심즈뿐 — 심즈 경험은 아직 받지 않았다.
 - 첫 조사의 작업자는 사용자 제안으로 Haiku 5.5 high(기본값 Opus의 예외. 다음 조사도 Haiku로 할지는 그때 사용자에게 확인). Haiku는 빠르지만 근거가 검색 요약에 머물러, 메인의 원문 대조가 필수였다. 이 클라우드 환경은 접속 허용 도메인이 좁다: 위키백과·Steam·ncase.me는 `curl`로 열림(WebFetch는 안 됨), Metacritic·BoardGameGeek·Game Developer·웹 아카이브는 막힘.
 
-## 지금 상태 (2026-10-16)
-- 분야 3개: `flowlog`(제목 추천, 실제 기록 재생 근거 포함), `music_player`(알아서 틀기), `agent_usage`(AI가 스스로 쌓는 사용량 예측).
-- `agent_usage`: batman 배치 1–13의 40건. 두 번째 고리를 돌았다(배치 11–13 시험): 가설 1개 지지, 4개 반박 → 반박마다 이유가 틀렸는지(개정) 잣대가 틀렸는지(검사 고침) 갈라 새 가설 3개와 새 규칙 6개(모두 가설), 개정 3개(턴 빗대기 v2, 분당 턴 v2, 외부 확인을 반복/한 번으로 분리). 턴 빗대기 개정으로 `audit` 통과. 새 가설은 batman 배치 14부터 시험된다. 상세는 [domains/agent_usage/CLAUDE.md](domains/agent_usage/CLAUDE.md).
+## 지금 상태 (2026-10-19)
+- 분야 4개: `flowlog`(제목 추천, 실제 기록 재생 근거 포함), `music_player`(알아서 틀기), `agent_usage`(AI가 스스로 쌓는 사용량 예측), `nonfiction_games`(비문학 기반 게임의 성공 논리, 위 "새 방향").
+- `agent_usage`: 기록 131건(batman 배치 1–36 + 이 저장소 G1). 아홉 번의 고리로 규칙·가설을 개정해 왔고, G1에서 Haiku 5.5의 첫 배수를 쟀다(R_haiku_web). 상세와 최신 상태는 [domains/agent_usage/CLAUDE.md](domains/agent_usage/CLAUDE.md).
 - 엔진 점검 `audit`이 알아서 틀기의 "같은 곡 재등장"(의도와 다름)을 잡음 → 사용자 결정대로 music_player @b401048에서 고침 → 점검 통과. 논리 세우기 → 점검 → 의도 구체화 → 수정 → 사실 갱신의 고리를 처음 한 바퀴 돎.
 - **사용자 평가 대기**: 새 알아서 틀기 실사용(R_M1b 가설 → 검증), music_player 실제 앱 빌드 확인(시뮬레이션만 함, 버전 미변경 v0.3.5).
 - Flowlog v2(R_P1a/R_P1b)는 설계만 — Flowlog 앱은 아직 v1. 앱 수정은 사용자 요청 시.
 - 열린 문제: 운동 종목 추천에서 이름을 계속 타이핑해야 하는 부담(본체 실험 질문 2).
 
 ## 다음 할 일
+0. **임베딩 후보 뽑기 실험** (사용자 결정 2026-10-19): 목적은 비용 절감이 아니라 이 시스템을 쓸 때의 기대 효용을 높이는 연습 — 1종(헛짚음)·2종(놓침) 오류, 기본 비율과 조건부확률. 정답지는 agent_usage 상황 값. 외부 패키지는 `experiments/` 아래 별도 폴더에서만(엔진은 표준 라이브러리 유지).
 1. **조각 층을 스키마에 넣기**: 조각 노드(근거 포함), 규칙의 "이루는 조각" 칸, 상황별 대 보기. 그 위에서 **처음 보는 질문으로 예측 시험**(사후 설명이 아닌지 확인).
 2. 정리: 가설 검사 결과를 지식에 저장(본체 실험에서 도구가 "지지됨"을 못 보여줌), knowledge-format을 확정 양식 문서로 + 원안 대비 변경점 문서. (적용 범위 칸은 조각 층으로 대체)
 3. **일반 지식 넣기**(사용자 제안): 통념 · 사용자 생각 · 연구·실험 근거를 조각으로. 출처 종류·근거 강도, 출처 실재 확인 필수, 필요한 것만, 충돌 시 개인 경험 > 일반 원리. 사용자 생각 출처: 각 저장소 DECISIONS.md(뮤직 플레이어에서 효과 확인 — 있었으면 질문 1을 안 틀렸음).
