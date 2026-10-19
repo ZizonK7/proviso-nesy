@@ -16,5 +16,5 @@
 - 모델 이름·버전, 실행 환경(CPU/GPU)을 보고서에 적는다.
 
 ## 현재 상태 (2026-10-19)
-- 기준 점수(표준 라이브러리 두 방법)만 돌렸다: [docs/experiments/2026-10-19-retrieval-v0-baseline.md](../../docs/experiments/2026-10-19-retrieval-v0-baseline.md). 둘 다 우연보다 조금 나은 정도.
-- 임베딩은 아직: 이 클라우드 환경에서 모델 파일 주소(`us.aws.cdn.hf.co`)가 막혀 있다. 열리면 또는 PC에서 돌린다.
+- 첫 실행: [docs/experiments/2026-10-19-retrieval-v0.md](../../docs/experiments/2026-10-19-retrieval-v0.md). 낱말·글자 겹침 + 임베딩 4개(ONNX, 학습 없음). 가장 나은 bge-m3도 "상위 10개에 90%" 기준에 못 미침. 놓침의 큰 몫은 글에 없는 정보(과거 작업 유무, 턴 수) 탓.
+- 이 클라우드 환경: PyTorch 받는 주소가 막혀 ONNX(`--onnx`)로 돌렸다. `HF_HUB_DISABLE_XET=1`이 필요하다(xet 서버가 막힘). 가상환경은 세션 scratchpad에 만들었다(저장소에 넣지 않음).

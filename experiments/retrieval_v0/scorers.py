@@ -50,3 +50,49 @@ def make_embed(model_name: str, query_prefix: str = "", passage_prefix: str = ""
         return {i: float(v @ q) for i, v in zip(ids, vecs)}
 
     return embed
+
+
+def make_onnx_embed(repo: str, onnx_file: str = "onnx/model.onnx", pooling: str = "mean",
+                    query_prefix: str = "", passage_prefix: str = "", max_len: int = 512):
+    """PyTorch 없이 ONNX 실행기로 문장 임베딩(코사인 유사도). 외부 패키지: onnxruntime, tokenizers, huggingface_hub, numpy.
+
+    pooling: "mean"(e5·MiniLM 계열, 패딩 뺀 평균) / "cls"(bge 계열, 첫 토큰).
+    """
+    import numpy as np
+    import onnxruntime as ort
+    from huggingface_hub import hf_hub_download
+    from tokenizers import Tokenizer
+
+    tok = Tokenizer.from_file(hf_hub_download(repo, "tokenizer.json"))
+    tok.enable_truncation(max_len)
+    tok.enable_padding()
+    sess = ort.InferenceSession(hf_hub_download(repo, onnx_file), providers=["CPUExecutionProvider"])
+    names = {i.name for i in sess.get_inputs()}
+
+    def encode(texts: list[str]):
+        enc = tok.encode_batch(texts)
+        ids = np.array([e.ids for e in enc], dtype=np.int64)
+        mask = np.array([e.attention_mask for e in enc], dtype=np.int64)
+        feed = {"input_ids": ids, "attention_mask": mask}
+        if "token_type_ids" in names:
+            feed["token_type_ids"] = np.zeros_like(ids)
+        hidden = sess.run(None, feed)[0]  # (문장, 토큰, 차원)
+        if pooling == "cls":
+            vec = hidden[:, 0]
+        else:
+            m = mask[..., None].astype(hidden.dtype)
+            vec = (hidden * m).sum(1) / m.sum(1)
+        return vec / np.linalg.norm(vec, axis=1, keepdims=True)
+
+    cache: dict[tuple, tuple] = {}
+
+    def embed(query: str, candidates: dict[str, str]) -> dict[str, float]:
+        key = tuple(sorted(candidates))
+        if key not in cache:
+            ids = list(candidates)
+            cache[key] = (ids, encode([passage_prefix + candidates[i] for i in ids]))
+        ids, vecs = cache[key]
+        q = encode([query_prefix + query])[0]
+        return {i: float(v @ q) for i, v in zip(ids, vecs)}
+
+    return embed

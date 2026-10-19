@@ -4,6 +4,8 @@
   python -m experiments.retrieval_v0.run                       표준 라이브러리 방법만(overlap, bigram)
   python -m experiments.retrieval_v0.run --embed <모델 이름>    임베딩도(외부 패키지 필요, requirements.txt)
   --e5   e5 계열 모델이면 'query: ' / 'passage: ' 접두어를 붙인다
+  --onnx <저장소>[:<onnx 파일>[:mean|cls[:e5]]]   PyTorch 없이 ONNX로(onnxruntime 등, requirements.txt)
+         예: --onnx intfloat/multilingual-e5-small:onnx/model.onnx:mean:e5
   --out <파일>   보고서를 파일로(기본: 화면)
 """
 from __future__ import annotations
@@ -52,12 +54,18 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--embed", action="append", default=[])
     p.add_argument("--e5", action="store_true")
+    p.add_argument("--onnx", action="append", default=[])
     p.add_argument("--out")
     a = p.parse_args(argv)
     methods = {"overlap (지금 엔진의 낱말 겹침)": scorers.overlap, "bigram (글자 두 개 겹침)": scorers.bigram}
     for m in a.embed:
         qp, pp = ("query: ", "passage: ") if a.e5 else ("", "")
         methods[f"embed {m}"] = scorers.make_embed(m, qp, pp)
+    for spec in a.onnx:
+        parts = spec.split(":")
+        repo, onnx_file, pooling, e5 = parts + [None, "onnx/model.onnx", "mean", ""][len(parts):]
+        qp, pp = ("query: ", "passage: ") if e5 == "e5" else ("", "")
+        methods[f"onnx {repo} ({onnx_file.split('/')[-1]}, {pooling})"] = scorers.make_onnx_embed(repo, onnx_file, pooling, qp, pp)
     text = report(methods)
     if a.out:
         Path(a.out).write_text(text + "\n", encoding="utf-8")

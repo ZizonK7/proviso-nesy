@@ -1,2 +1,7 @@
-sentence-transformers>=3.0
-# torch는 CPU판 권장: pip install torch --index-url https://download.pytorch.org/whl/cpu
+# 방법 1 (PyTorch 없이, 이 클라우드 환경에서 쓴 것): --onnx
+onnxruntime>=1.18
+tokenizers>=0.19
+huggingface_hub>=0.23
+numpy>=1.26
+# 방법 2 (PC 등 PyTorch가 있는 곳): --embed
+# sentence-transformers>=3.0   (torch는 CPU판 권장: pip install torch --index-url https://download.pytorch.org/whl/cpu)
