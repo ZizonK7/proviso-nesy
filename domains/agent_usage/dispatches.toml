@@ -4100,3 +4100,39 @@ turns = 28
 tokens_m = 7.6
 [dispatch.review]
 reason = "분·토큰 안(7.2 vs 6–15분, 7.6M vs 5–18M), 턴은 바로 아래(28 vs 30–80). 실측은 같은 대화 기록에서 p02 몫(42턴·6.0M)을 뺀 값이고 분은 완료 알림의 실행 시간. 이어 보낸 회차라 턴당 맥락이 27만으로 p02(14만)의 두 배(R_resume_ctx_v2 방향 그대로). 턴이 적었던 건 큰 파일을 도구가 파일로 저장해 grep으로 절만 꺼내서 — p02와 같은 모양"
+
+[[dispatch]]
+id = "p04"
+project = "proviso"
+batch = 2
+date = 2026-10-19
+task = "구조 개편: 규칙·가설을 성적 붙은 가설 하나로(코어 + 분야 셋 옮기기), 돌아보기에 틀린 조각 칸, 숫자만 넓히는 개정 경고, 시간 구간 세 마디로 다시 채점 + 문서·테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p01"
+time_class = ["L"]
+minutes = [40, 65]
+turns = [190, 330]
+tokens_class = ["T2", "T3"]
+tokens_m = [35, 85]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long_v5", "R_verify_laps"]
+reason = "p01(19.6분·95턴·21.9M, 같은 논리집을 판정 요약으로 읽고 편집)의 턴 ×2–3.5: 이번엔 코어 다섯 파일의 코드 수정 + 분야 셋의 지식 파일 옮기기 + 다시 채점 + 테스트가 붙는다. 기존 코드 고치기라 분당 5–6.5턴, 턴당 13–25만. 테스트 바퀴는 짧아(1분 안) 분을 거의 늘리지 않는다. 사용자에게: 40분 넘음 → '신경 쓰지 마'"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
