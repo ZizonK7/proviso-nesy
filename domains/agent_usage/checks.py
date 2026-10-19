@@ -25,16 +25,30 @@ SEEN_UNTIL = {
     "check_loop_turn_rate": "d26b",
     "research_cap": "dR5D",  # 배치 10·15 조사 여덟 건으로 세움
     "sonnet_max_rate": "d43",  # 배치 19 d42 한 건으로 세움
-    "render_turn_rate": "d47",
+    "render_turn_rate": "d47",  # 배치 19–22 렌더 작업 네 건(d43·d45·d46·d47)으로 세움
     "model_mult_shape": "d50",  # 배치 23 d49·d50 두 건으로 세움
-    "long_lap_turn_rate": "d47",
-    "given_design_rate": "d71",
-    "given_design_rate2": "d73",  # 배치 29 돌아보기: d70·d71·d72(예)로 세움, d73(일부)을 뺀 근거  # 배치 28 d70·d71 두 건으로 세움  # 긴 반복 네 건(d12b·d12c·d26b·d44)으로 세움  # 배치 19–22 렌더 작업 네 건(d43·d45·d46·d47)으로 세움
+    "long_lap_turn_rate": "d47",  # 긴 반복 기록(d12b·d12c·d26b)으로 세움
+    "given_design_rate": "d71",  # 배치 28 d70·d71 두 건으로 세움
+    "given_design_rate2": "d73",  # 배치 29 돌아보기: d70·d72(예)로 세움, d73(일부)을 뺀 근거
+    # 2026-10-19 전체 정리(기록 d01–d94를 다 보고 세움). d95부터 시험한다
+    "mid_notes_bounded": "d94",
+    "sonnet_fixed_floor": "d94",
+    "fixed_input_opus": "d94",
+    "fix_context": "d94",
+    "settled_integration": "d94",
+    "build_tools_minutes": "d94",
+    "doc_spec_minutes": "d94",
 }
 NEED = 0.8
 
 # 토큰 규칙이 가정한 턴당 맥락(천 토큰). turns_vs_context가 '맥락을 작게 잡았는지' 볼 때 쓴다.
-ASSUMED_CTX_K = {"R_tok_v2": 250, "R_tok_v3": 370, "R_tok_long": 350, "R_tok_short": 120, "R_tok_short_v5": 160}
+ASSUMED_CTX_K = {"R_tok_v2": 250, "R_tok_v3": 370, "R_tok_long": 350, "R_tok_short": 120, "R_tok_short_v5": 160,
+                 "R_tok_long_v5": 355}
+
+# 빗댄 기록. 2026-10-19부터는 보내기 전에 predicted.analog에 적는다. 그 전 기록은 돌아보기 글에서 사후에 읽은 것이라
+# '세울 때 본 기록'을 보여 줄 때만 쓴다 (모두 SEEN_UNTIL 앞이라 판정에 들어가지 않는다).
+# d68·d87은 글이 비유를 밝히지 않아 가설이 말하는 종류의 직전 기록을 골랐다(d68: 앞 통합, d87: 도구 없이 지은 새 빌더).
+PAST_ANALOG = {"d39b": "d26b", "d68": "d39b", "d94": "d68", "d62": "d61", "d87": "d61"}
 
 
 def _default_setup(d: dict) -> bool:
@@ -197,10 +211,12 @@ def turn_rate_non_web() -> tuple[str, str]:
 
 
 def render_turn_rate() -> tuple[str, str]:
-    """H_render_rate: Opus high로 렌더를 찍고 보며 고치는 반복이 있는 구현 작업은 분당 5.5–8.5턴."""
+    """H_render_rate: Opus high로 렌더 한 장(1–2분)을 찍고 보며 고치는 반복(S_long_lap=아니오)이 있는 구현 작업은 분당 5.5–8.5턴."""
+    # 2026-10-19 검사 고침: 가설 문장의 조건 '렌더 한 회가 1–2분'은 S_long_lap=아니오다(상태 설명 그대로).
+    # 처음 검사는 이 조건을 빼먹어 장 흐름 바퀴(d69 일부, d69c 예)와 한 번 실행(d69b 모름)까지 쟀다.
     def applies(d: dict) -> bool:
         return (_m(d, "turns_per_min") is not None and _default_setup(d)
-                and dp.situation(d, "S_render") == "예")
+                and dp.situation(d, "S_render") == "예" and dp.situation(d, "S_long_lap") == "아니오")
 
     return _judge("render_turn_rate", applies,
                   lambda d: 5.5 <= _m(d, "turns_per_min") <= 8.5,
@@ -236,9 +252,11 @@ def check_loop_turn_rate() -> tuple[str, str]:
 
 
 def research_cap() -> tuple[str, str]:
-    """H_research_cap: 양식·상한이 있는 조사 조각은 넓이와 상관없이 7–14분, 80–140턴 (도중 지시·고정 입력 작업은 뺌)."""
+    """H_research_cap: 양식·상한이 있는 웹 조사 조각은 넓이와 상관없이 7–14분, 80–140턴 (도중 지시·고정 입력 작업은 뺌)."""
+    # 2026-10-19 검사 고침: 문장의 '웹 조사' 조건(S_web=예)을 처음 검사가 빠뜨렸다
     def applies(d: dict) -> bool:
         return (_default_setup(d) and dp.situation(d, "S_research") == "예"
+                and dp.situation(d, "S_web") == "예"
                 and dp.situation(d, "S_mid_notes") != "예"
                 and dp.situation(d, "S_fixed_input") != "예"
                 and _m(d, "minutes") is not None and _m(d, "turns") is not None)
@@ -313,6 +331,106 @@ def given_design_rate2() -> tuple[str, str]:
                   lambda d: f"분당 {_m(d, 'turns_per_min'):.1f}턴")
 
 
+def _upper(bounds: list[float]) -> float | None:
+    return bounds[1] if bounds and len(bounds) > 1 and bounds[1] else None
+
+
+def mid_notes_bounded() -> tuple[str, str]:
+    """H_mid_notes2: 도중 지시를 받은 작업도 보내기 전 예측 분의 상한 ×1.25 안에서 끝난다."""
+    def applies(d: dict) -> bool:
+        return (dp.situation(d, "S_mid_notes") == "예" and _m(d, "minutes") is not None
+                and _upper(d["predicted"].get("minutes", [])) is not None)
+
+    def ratio(d: dict) -> float:
+        return _m(d, "minutes") / _upper(d["predicted"]["minutes"])
+
+    return _judge("mid_notes_bounded", applies, lambda d: ratio(d) <= 1.25,
+                  lambda d: f"상한의 {ratio(d):.2f}배")
+
+
+def sonnet_fixed_floor() -> tuple[str, str]:
+    """H_sonnet_floor: Sonnet max의 고정 입력 순수 추론(첫 회차)은 입력 크기와 상관없이 13–28분."""
+    def applies(d: dict) -> bool:
+        return (dp.situation(d, "S_other_model") == "예" and "Sonnet" in str(d.get("task", ""))
+                and dp.situation(d, "S_fixed_input") == "예" and dp.situation(d, "S_resumed") != "예"
+                and _m(d, "minutes") is not None)
+
+    return _judge("sonnet_fixed_floor", applies, lambda d: 13.0 <= _m(d, "minutes") <= 28.0,
+                  lambda d: f"{_m(d, 'minutes'):.1f}분")
+
+
+def fixed_input_opus() -> tuple[str, str]:
+    """H_fixed_input_opus: Opus high의 고정 입력 순수 추론은 1–7분, 5–20턴 (한 번 읽고 한 번 쓴다)."""
+    def applies(d: dict) -> bool:
+        return (_default_setup(d) and dp.situation(d, "S_fixed_input") == "예"
+                and _m(d, "minutes") is not None and _m(d, "turns") is not None)
+
+    return _judge("fixed_input_opus", applies,
+                  lambda d: 1.0 <= _m(d, "minutes") <= 7.0 and 5 <= _m(d, "turns") <= 20,
+                  lambda d: f"{_m(d, 'minutes'):.1f}분 {int(_m(d, 'turns'))}턴")
+
+
+def fix_context() -> tuple[str, str]:
+    """H_ctx_fix: Opus high 첫 회차의 고치는 작업(S_fix_existing=예)은 길이와 상관없이 턴당 맥락 13–25만."""
+    def applies(d: dict) -> bool:
+        return (_default_setup(d) and dp.situation(d, "S_fix_existing") == "예"
+                and dp.situation(d, "S_resumed") != "예" and _m(d, "ctx_per_turn_k") is not None)
+
+    return _judge("fix_context", applies, lambda d: 130 <= _m(d, "ctx_per_turn_k") <= 250,
+                  lambda d: f"{int(_m(d, 'turns'))}턴 {_m(d, 'ctx_per_turn_k') / 10:.1f}만")
+
+
+def _analog(d: dict) -> dict | None:
+    """빗댄 기록(끝까지 한 것). predicted.analog가 먼저, 없으면 사후에 읽은 PAST_ANALOG."""
+    ref = d["predicted"].get("analog") or PAST_ANALOG.get(d["id"])
+    if isinstance(ref, list):
+        ref = ref[0] if ref else None
+    found = [o for o in dp.load() if o["id"] == ref and dp.done(o)]
+    return found[0] if found else None
+
+
+def _analog_ratio(d: dict) -> float:
+    return _m(d, "minutes") / _analog(d)["actual"]["minutes"]
+
+
+def settled_integration() -> tuple[str, str]:
+    """H_settled_integration: 통합에서 열린 것이 없으면(S_open_seams=아니오) 전례 통합 분의 ×0.6–0.9, 남아 있으면 ×1.0 이상."""
+    def applies(d: dict) -> bool:
+        return (_default_setup(d) and dp.situation(d, "S_open_seams") in ("예", "아니오")
+                and _m(d, "minutes") is not None and _analog(d) is not None)
+
+    def ok(d: dict) -> bool:
+        r = _analog_ratio(d)
+        return 0.6 <= r <= 0.9 if dp.situation(d, "S_open_seams") == "아니오" else r >= 1.0
+
+    return _judge("settled_integration", applies, ok,
+                  lambda d: f"열린 것 {dp.situation(d, 'S_open_seams')}, {_analog(d)['id']}의 분 ×{_analog_ratio(d):.2f}")
+
+
+def build_tools_minutes() -> tuple[str, str]:
+    """H_build_tools: 확인 도구를 새로 만드는 작업(S_build_tools=예)은 도구 없이 같은 종류를 한 전례 분의 ×1.3–1.7."""
+    def applies(d: dict) -> bool:
+        if not (_default_setup(d) and dp.situation(d, "S_build_tools") == "예" and _m(d, "minutes") is not None):
+            return False
+        a = _analog(d)
+        return a is not None and dp.situation(a, "S_build_tools") != "예"
+
+    return _judge("build_tools_minutes", applies, lambda d: 1.3 <= _analog_ratio(d) <= 1.7,
+                  lambda d: f"{_analog(d)['id']}의 분 ×{_analog_ratio(d):.2f}")
+
+
+def doc_spec_minutes() -> tuple[str, str]:
+    """H_doc_spec_minutes: 설계가 정해진 문서 쓰기(Opus high, 긴 글, 외부 확인 없음, 첫 회차)는 18–45분."""
+    def applies(d: dict) -> bool:
+        return (_default_setup(d) and dp.situation(d, "S_long_doc") == "예"
+                and dp.situation(d, "S_external_check") != "예" and dp.situation(d, "S_resumed") != "예"
+                and dp.situation(d, "S_spec_fixed") in ("예", "일부") and dp.situation(d, "S_web") != "예"
+                and _m(d, "minutes") is not None)
+
+    return _judge("doc_spec_minutes", applies, lambda d: 18.0 <= _m(d, "minutes") <= 45.0,
+                  lambda d: f"{_m(d, 'minutes'):.1f}분")
+
+
 CHECKS = {
     "tokens_per_minute": tokens_per_minute,
     "tokens_per_minute_by_length": tokens_per_minute_by_length,
@@ -331,4 +449,11 @@ CHECKS = {
     "long_lap_turn_rate": long_lap_turn_rate,
     "given_design_rate": given_design_rate,
     "given_design_rate2": given_design_rate2,
+    "mid_notes_bounded": mid_notes_bounded,
+    "sonnet_fixed_floor": sonnet_fixed_floor,
+    "fixed_input_opus": fixed_input_opus,
+    "fix_context": fix_context,
+    "settled_integration": settled_integration,
+    "build_tools_minutes": build_tools_minutes,
+    "doc_spec_minutes": doc_spec_minutes,
 }

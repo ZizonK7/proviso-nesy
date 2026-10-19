@@ -79,6 +79,61 @@ class Loop(unittest.TestCase):
                 self.assertEqual(checks.CHECKS[name]()[0], "시험 전")
 
 
+def _ids(detail_part: str) -> list[str]:
+    """check 설명의 한 줄('...: d01 6.2, d04 2.8 ✗')에서 기록 id만 뽑는다."""
+    body = detail_part.split(":", 1)[1].strip()
+    return [] if body == "없음" else [item.split()[0] for item in body.split(", ")]
+
+
+class Cleanup20261019(unittest.TestCase):
+    NEW = ("mid_notes_bounded", "sonnet_fixed_floor", "fixed_input_opus", "fix_context",
+           "settled_integration", "build_tools_minutes", "doc_spec_minutes")
+
+    def test_new_hypotheses_are_tested_from_d95(self):
+        for name in self.NEW:
+            self.assertEqual(checks.SEEN_UNTIL[name], "d94", name)
+
+    def test_new_checks_match_the_records_they_were_built_from(self):
+        # 세울 때 본 기록에 ✗가 있으면 검사가 가설 문장과 다르게 짜인 것이다 (mid_notes는 보내기 전에 안 적은 d01만 ✗)
+        for name in self.NEW:
+            fit = checks.CHECKS[name]()[1].split("\n")[0]
+            ids = _ids(fit)
+            self.assertTrue(ids, name)
+            bad = [i for i in ids if f"{i} " in fit and fit.split(f"{i} ", 1)[1].split(",")[0].endswith("✗")]
+            self.assertEqual(bad, ["d01"] if name == "mid_notes_bounded" else [], name)
+
+    def test_render_check_keeps_only_short_laps(self):
+        # H_render_rate의 조건 '렌더 한 회 1–2분' = S_long_lap=아니오. 장 흐름 바퀴(d69 일부, d69c 예)는 뺀다
+        detail = checks.render_turn_rate()[1]
+        ids = _ids(detail.split("\n")[0]) + _ids(detail.split("\n")[1])
+        self.assertNotIn("d69", ids)
+        self.assertNotIn("d69c", ids)
+        records = {d["id"]: d for d in dp.load()}
+        self.assertTrue(all(dp.situation(records[i], "S_long_lap") == "아니오" for i in ids))
+
+    def test_research_cap_counts_web_research_only(self):
+        detail = checks.research_cap()[1]
+        records = {d["id"]: d for d in dp.load()}
+        for line in detail.split("\n"):
+            for i in _ids(line):
+                self.assertEqual(dp.situation(records[i], "S_web"), "예", i)
+
+    def test_analog_prefers_prediction_then_past_reading(self):
+        self.assertEqual(checks._analog({"id": "d94", "predicted": {}})["id"], "d68")
+        self.assertEqual(checks._analog({"id": "x", "predicted": {"analog": "d61"}})["id"], "d61")
+        self.assertIsNone(checks._analog({"id": "x", "predicted": {"analog": "없는 id"}}))
+
+    def test_rules_are_tidy(self):
+        # 방식 1: 살아 있는 규칙은 이유가 있고 목표를 섬긴다. 물린 규칙은 무엇이 대신하는지 가리킨다
+        kn = schema.load(KN)
+        for rule in kn.of("rule"):
+            if rule.data["status"] == "retired":
+                self.assertTrue(rule.refs("replaced_by"), rule.id)
+            else:
+                self.assertNotIn("기록 없음", rule.data["reason"], rule.id)
+                self.assertTrue(rule.refs("serves"), rule.id)
+
+
 def order_last_is(record_id: str) -> bool:
     return dp.load()[-1]["id"] == record_id
 
