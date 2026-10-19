@@ -267,9 +267,11 @@ def sonnet_max_rate() -> tuple[str, str]:
 def model_mult_shape() -> tuple[str, str]:
     """H_model_mult_shape: Opus가 아닌 모델의 읽고 쓰는 문서 작업(확인 실행 없음, 고정 입력 아님)은 분당 2.5–5.5턴으로 Opus와 같은 속도다."""
     def applies(d: dict) -> bool:
+        # 웹 조사(S_web)는 문서 작업이 아니다: 검색 요약을 읽는 턴은 짧아 분당 턴이 따로 논다(dG1–dG6)
         return (dp.situation(d, "S_other_model") == "예"
                 and dp.situation(d, "S_external_check") == "아니오"
                 and dp.situation(d, "S_fixed_input") != "예"
+                and dp.situation(d, "S_web") != "예"
                 and _m(d, "minutes") is not None and _m(d, "turns") is not None)
 
     def ok(d: dict) -> bool:

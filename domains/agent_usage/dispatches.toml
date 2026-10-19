@@ -3994,7 +3994,12 @@ rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save", "
 reason = "Opus high 웹 조사 dR5A–D(9.8–11.7분, 102–125턴, 12.6–17.6M)를 기준으로 잡았다. Haiku 5.5 기록은 없다(F_setup: 숫자는 Opus high에서만 확인) — Haiku는 턴당 빠르고 얕게 돌 것으로 보고 분 ×0.6–1.5, 턴 ×0.8–1.5, 토큰 ×0.6–1.5로 넓게 잡았다. 이번이 Haiku 배수의 첫 기록"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 5.6
+turns = 73
+tokens_m = 6.87
+[dispatch.review]
+reason = "셋 다 범위 아래이거나 바닥(5.6분 vs 6–18, 73턴 vs 80–180, 6.87M vs 8–25M). 분당 13.0턴. Haiku 5.5 high 웹 조사는 Opus high dR5A–D의 분 ×0.3–0.65·턴 ×0.4–0.8·토큰 ×0.25–0.6 — 배수를 너무 넓고 높게 잡았다(×0.6–1.5). dR5처럼 페이지 열기가 막혀 검색 요약으로만 일한 조건이 같아 비교는 공정하다. 정식 5·확인 못 함 9: 각도가 좁아(책 한 권 각색) 근거 있는 후보가 적었다"
+hypotheses = []
 
 [[dispatch]]
 id = "dG2"
@@ -4026,7 +4031,12 @@ rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save", "
 reason = "Opus high 웹 조사 dR5A–D(9.8–11.7분, 102–125턴, 12.6–17.6M)를 기준으로 잡았다. Haiku 5.5 기록은 없다(F_setup: 숫자는 Opus high에서만 확인) — Haiku는 턴당 빠르고 얕게 돌 것으로 보고 분 ×0.6–1.5, 턴 ×0.8–1.5, 토큰 ×0.6–1.5로 넓게 잡았다. 이번이 Haiku 배수의 첫 기록"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 3.4
+turns = 49
+tokens_m = 3.77
+[dispatch.review]
+reason = "셋 다 범위 아래이거나 바닥(3.4분 vs 6–18, 49턴 vs 80–180, 3.77M vs 8–25M). 분당 14.4턴. Haiku 5.5 high 웹 조사는 Opus high dR5A–D의 분 ×0.3–0.65·턴 ×0.4–0.8·토큰 ×0.25–0.6 — 배수를 너무 넓고 높게 잡았다(×0.6–1.5). dR5처럼 페이지 열기가 막혀 검색 요약으로만 일한 조건이 같아 비교는 공정하다. 정식 13: 가장 빨리 끝났다"
+hypotheses = []
 
 [[dispatch]]
 id = "dG3"
@@ -4058,7 +4068,12 @@ rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save", "
 reason = "Opus high 웹 조사 dR5A–D(9.8–11.7분, 102–125턴, 12.6–17.6M)를 기준으로 잡았다. Haiku 5.5 기록은 없다(F_setup: 숫자는 Opus high에서만 확인) — Haiku는 턴당 빠르고 얕게 돌 것으로 보고 분 ×0.6–1.5, 턴 ×0.8–1.5, 토큰 ×0.6–1.5로 넓게 잡았다. 이번이 Haiku 배수의 첫 기록"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 6.4
+turns = 86
+tokens_m = 8.46
+[dispatch.review]
+reason = "셋 다 범위 아래이거나 바닥(6.4분 vs 6–18, 86턴 vs 80–180, 8.46M vs 8–25M). 분당 13.4턴. Haiku 5.5 high 웹 조사는 Opus high dR5A–D의 분 ×0.3–0.65·턴 ×0.4–0.8·토큰 ×0.25–0.6 — 배수를 너무 넓고 높게 잡았다(×0.6–1.5). dR5처럼 페이지 열기가 막혀 검색 요약으로만 일한 조건이 같아 비교는 공정하다. 정식 8·확인 못 함 19: 개발자 발언을 찾느라 검색이 가장 많았다(65회)"
+hypotheses = []
 
 [[dispatch]]
 id = "dG4"
@@ -4090,7 +4105,12 @@ rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save", "
 reason = "Opus high 웹 조사 dR5A–D(9.8–11.7분, 102–125턴, 12.6–17.6M)를 기준으로 잡았다. Haiku 5.5 기록은 없다(F_setup: 숫자는 Opus high에서만 확인) — Haiku는 턴당 빠르고 얕게 돌 것으로 보고 분 ×0.6–1.5, 턴 ×0.8–1.5, 토큰 ×0.6–1.5로 넓게 잡았다. 이번이 Haiku 배수의 첫 기록"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 4.2
+turns = 56
+tokens_m = 4.34
+[dispatch.review]
+reason = "셋 다 범위 아래이거나 바닥(4.2분 vs 6–18, 56턴 vs 80–180, 4.34M vs 8–25M). 분당 13.3턴. Haiku 5.5 high 웹 조사는 Opus high dR5A–D의 분 ×0.3–0.65·턴 ×0.4–0.8·토큰 ×0.25–0.6 — 배수를 너무 넓고 높게 잡았다(×0.6–1.5). dR5처럼 페이지 열기가 막혀 검색 요약으로만 일한 조건이 같아 비교는 공정하다. 정식 13"
+hypotheses = []
 
 [[dispatch]]
 id = "dG5"
@@ -4122,7 +4142,12 @@ rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save", "
 reason = "Opus high 웹 조사 dR5A–D(9.8–11.7분, 102–125턴, 12.6–17.6M)를 기준으로 잡았다. Haiku 5.5 기록은 없다(F_setup: 숫자는 Opus high에서만 확인) — Haiku는 턴당 빠르고 얕게 돌 것으로 보고 분 ×0.6–1.5, 턴 ×0.8–1.5, 토큰 ×0.6–1.5로 넓게 잡았다. 이번이 Haiku 배수의 첫 기록"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 5.4
+turns = 74
+tokens_m = 6.96
+[dispatch.review]
+reason = "셋 다 범위 아래이거나 바닥(5.4분 vs 6–18, 74턴 vs 80–180, 6.96M vs 8–25M). 분당 13.7턴. Haiku 5.5 high 웹 조사는 Opus high dR5A–D의 분 ×0.3–0.65·턴 ×0.4–0.8·토큰 ×0.25–0.6 — 배수를 너무 넓고 높게 잡았다(×0.6–1.5). dR5처럼 페이지 열기가 막혀 검색 요약으로만 일한 조건이 같아 비교는 공정하다. 정식 19: 후보가 가장 많았다"
+hypotheses = []
 
 [[dispatch]]
 id = "dG6"
@@ -4154,4 +4179,9 @@ rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save", "
 reason = "Opus high 웹 조사 dR5A–D(9.8–11.7분, 102–125턴, 12.6–17.6M)를 기준으로 잡았다. Haiku 5.5 기록은 없다(F_setup: 숫자는 Opus high에서만 확인) — Haiku는 턴당 빠르고 얕게 돌 것으로 보고 분 ×0.6–1.5, 턴 ×0.8–1.5, 토큰 ×0.6–1.5로 넓게 잡았다. 이번이 Haiku 배수의 첫 기록"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 4.7
+turns = 70
+tokens_m = 5.91
+[dispatch.review]
+reason = "셋 다 범위 아래이거나 바닥(4.7분 vs 6–18, 70턴 vs 80–180, 5.91M vs 8–25M). 분당 14.9턴. Haiku 5.5 high 웹 조사는 Opus high dR5A–D의 분 ×0.3–0.65·턴 ×0.4–0.8·토큰 ×0.25–0.6 — 배수를 너무 넓고 높게 잡았다(×0.6–1.5). dR5처럼 페이지 열기가 막혀 검색 요약으로만 일한 조건이 같아 비교는 공정하다. 정식 14"
+hypotheses = []
