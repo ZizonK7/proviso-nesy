@@ -3998,3 +3998,37 @@ reason = "R_doc_work의 '파일 전반 수정'(40–50분·~200턴)에 무엇을
 hypotheses = []
 [dispatch.actual]
 status = "unknown"
+
+[[dispatch]]
+id = "p02"
+project = "proviso"
+batch = 1
+date = 2026-10-19
+task = "조사: 다른 저장소의 결정 기록에서 사용자 확인이 필요한 결정·의견을 추림 (큰 문서 셋을 GitHub 도구로 읽고 목록 하나, 코드 없음). Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "일부"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["S", "M"]
+minutes = [15, 30]
+turns = [50, 110]
+tokens_class = ["T1", "T2"]
+tokens_m = [8, 35]
+rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "R_research(엄격한 양식, 코드 없음: 80–140턴)인데 웹 검색이 없고 읽을 곳이 정해져 있어 턴은 아래쪽. 파일을 통째로 읽는 조사는 분당 3–6턴(d17·d21·d22) → 15–30분. 문서가 커서(40만 자 안팎) 턴당 맥락이 커지므로 토큰은 T1–T2"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
