@@ -227,16 +227,17 @@ class Devices(unittest.TestCase):
         errors, _ = checks.audit_pieces(self.kn)
         self.assertEqual(errors, [])
 
-    def test_D_one_record_cannot_make_a_piece(self):
-        self.assertIsNone(ft.window([3.0], 2))
+    def test_D_one_record_piece_is_allowed_with_the_widest_range(self):
+        # 2026-10-19 사용자 결정: 한 건이라도 기본 논리가 틀린 게 보이면 고친다. 크기는 모르므로 가장 넓은 창
+        lo, hi = ft.window([3.0], 2)
+        self.assertAlmostEqual(lo * hi, 9.0)
+        self.assertAlmostEqual(hi / lo, 2.0)
         self.assertIsNone(ft.window([], 2))
+        # 값이 여럿인데 흩어져 어느 창도 둘을 못 담으면 세우지 않는다 (흐린 조건)
+        self.assertIsNone(ft.window([1.0, 5.0, 30.0], 2))
         _, stats = ft.fit_final(self.kn, self.records)
         for e, st in stats.items():
-            self.assertGreaterEqual(len(st.explained), 2, e.piece)
-        for s in ft.load_sets().values():
-            _, stats = ft.fit(s["pieces"], ft.records_until(self.records, s["fit_until"]), self.kn, self.records)
-            for e, st in stats.items():
-                self.assertGreaterEqual(len(st.explained), 2, e.piece)
+            self.assertGreaterEqual(len(st.explained), 1, e.piece)
 
     def test_F_effect_count_cap(self):
         pieces = pr.live_pieces(self.kn)

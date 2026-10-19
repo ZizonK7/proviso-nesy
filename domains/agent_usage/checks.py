@@ -576,7 +576,7 @@ def piece_size(node_id: str) -> tuple[str, str]:
 
 
 def audit_pieces(kn) -> tuple[list[str], list[str]]:
-    """계산 조각 점검 (audit의 분야 점검). 오류: 방향 틀림(시험 기록), 한 건짜리 조각(D), 조각 수 상한(F),
+    """계산 조각 점검 (audit의 분야 점검). 오류: 방향 틀림(시험 기록), 설명하는 기록이 없는 조각(D; 한 건짜리는 경고), 조각 수 상한(F),
     기록에서 맞춘 값과 다른 범위(손으로 넣은 숫자, G). 경고: 맞춰 본 기록에서도 방향이 안 맞음, seen_until 없음."""
     from . import fit as ft, holdout, predict as pr
     errors, warns = [], []
@@ -609,9 +609,11 @@ def audit_pieces(kn) -> tuple[list[str], list[str]]:
                 errors.append(f"[계산 조각] {fp.id}: 범위 [{e_now.lo:g}, {e_now.hi:g}]가 기록에서 맞춘 값 [{e_fit.lo:g}, {e_fit.hi:g}]와 다름 "
                               "— 숫자는 손으로 넣거나 넓히지 않는다(fit.py final --write)")
             st = stats[e_fit]
-            if len(st.explained) < 2:
-                errors.append(f"[계산 조각] {fp.id}: {pr.QUANTITY_LABEL[e_fit.on]} 효과가 맞출 기록 {len(st.explained)}건만 설명함 "
-                              "— 한 건짜리 조건은 관찰이나 예외로 둔다(D)")
+            if not st.explained:
+                errors.append(f"[계산 조각] {fp.id}: {pr.QUANTITY_LABEL[e_fit.on]} 효과가 설명하는 기록이 없음(D)")
+            elif len(st.explained) == 1:
+                warns.append(f"[계산 조각] {fp.id}: {pr.QUANTITY_LABEL[e_fit.on]} 효과의 근거가 1건({st.explained[0]}) — "
+                             "방향은 이유 문장이 정하고 크기는 아직 모른다(범위 = 가장 넓은 창). 다음 기록이 시험한다(D)")
             if not st.dir_ok:
                 errors.append(f"[계산 조각] {fp.id}: {pr.QUANTITY_LABEL[e_fit.on]} 효과의 맞춘 범위가 주장한 방향과 어긋남 — 이유 틀림 후보(A)")
     cut = pieces[0].seen_until

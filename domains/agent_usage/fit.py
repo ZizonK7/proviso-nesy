@@ -12,7 +12,9 @@
 - 더하기: 걸린 기록의 '실측 분 − 턴÷분당 턴으로 잡은 분'.
 - 비유 기준값: 빗댄 기록이 있는 기록의 '실측 ÷ 빗댄 기록의 실측'. 맞출 때만 사후에 읽은 빗댄 기록(checks.PAST_ANALOG)도 쓴다.
 - 범위 = 값들을 상한 배(2배) 폭의 창으로 훑어 가장 많이 담는 창(같으면 값들의 가운데 값에 가까운 창)을, 담긴 값의 최소–최대로 줄인 것.
-  창이 값을 2개 이상 담지 못하면 그 조각은 세울 수 없다(장치 D: 한 건짜리 조건 금지).
+  값이 하나뿐인 조건(한 건짜리)도 세울 수 있다: 범위는 그 값 둘레의 가장 넓은 창이고 audit이 '근거 1건'으로 경고한다
+  (장치 D, 2026-10-19 사용자 결정: 특수한 경우일 수 있고, 기본 논리가 틀린 게 보이면 한 건이라도 고친다. 크기는 다음 기록이 시험한다).
+  값이 여럿인데 어느 창도 둘 이상을 못 담으면 세울 수 없다 — 크기가 흩어진 조건은 더 쪼갤 조건이다.
 - 곱하기 범위가 주장한 방향(dir)과 어긋나면 dir_ok = False — 방향(논리)이 데이터와 안 맞는 조각이다(장치 A).
 """
 from __future__ import annotations
@@ -46,10 +48,15 @@ class Stat:
 
 
 def window(values: list[float], max_ratio: float) -> tuple[float, float] | None:
-    """상한 배 폭 창 가운데 값을 가장 많이 담는 창(같으면 가장 좁은 것)의 [최소, 최대]. 2개 미만이면 None."""
+    """상한 배 폭 창 가운데 값을 가장 많이 담는 창(같으면 가장 좁은 것)의 [최소, 최대].
+    값이 하나뿐이면(한 건짜리 조건) 그 값 둘레의 가장 넓은 창(상한 배 폭): 크기는 한 건에서만 나와 아직 모른다는 뜻.
+    값이 여럿인데 어느 창도 둘 이상을 못 담으면 None — 크기가 흩어진 조건은 흐린 조건이라 더 쪼개야 한다."""
     v = sorted(x for x in values if x and x > 0)
-    if len(v) < 2:
+    if not v:
         return None
+    if len(v) == 1:
+        half = math.sqrt(max_ratio)
+        return v[0] / half, v[0] * half
     mid = math.log(v[len(v) // 2]) if len(v) % 2 else (math.log(v[len(v) // 2 - 1]) + math.log(v[len(v) // 2])) / 2
     best = None
     j = 0
@@ -307,7 +314,8 @@ def show(fitted: list[pr.Piece], stats: dict) -> str:
         for e in p.effects:
             st = stats[e]
             flag = "" if st.dir_ok else "  ← 방향이 데이터와 어긋남"
-            short = "  ← 2건 미만(세울 수 없음)" if len(st.explained) < 2 else ""
+            short = "  ← 근거 1건(크기는 다음 기록이 시험)" if len(st.explained) == 1 else (
+                "  ← 설명한 기록 없음(세울 수 없음)" if not st.explained else "")
             lines.append(f"  {pr.QUANTITY_LABEL[e.on]} {pr.OP_LABEL[e.op]} [{e.lo:g}, {e.hi:g}] "
                          f"설명 {len(st.explained)}/{len(st.matched)}{flag}{short}")
     return "\n".join(lines)

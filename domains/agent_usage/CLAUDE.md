@@ -29,7 +29,7 @@
 4. **돌아보기**: `python -m domains.agent_usage.dispatches`, `python -m proviso check agent_usage`.
    - **시간 구간이 빗나갔으면(말한 구간 `told`와 실제 구간이 달라도) `review.wrong`(틀린 조각 id: 규칙·가설·상태)과 `review.why`(셋 중 하나: "조건 흐림" → 쪼갠다 / "이유 틀림" → 새 버전 / "바깥 상황" → 예외)를 반드시 적는다.** p04부터 적용(검증 오류). 어느 조각인지는 `dispatches` 출력의 갈래로 먼저 가른다: 턴 범위가 맞았으면 분당 턴(속도) 조각, 틀렸으면 턴 수(양) 조각.
    - 맞았든 틀렸든 이유를 `review.reason`에 적는다. 맞았을 때도 적는다(H_cancel처럼 맞았는데 이유가 틀린 경우를 잡으려고). 다른 기록을 가리킬 때는 이 파일의 id를 쓴다(batman 쪽 이름과 섞인 적이 있다).
-   - 이유가 새 주장이면: 한 번 본 것은 관찰로, 두 번 이상이면 가설로 세우고 `checks.py`에 검사와 `SEEN_UNTIL`(지금 마지막 기록 id)을 넣는다.
+   - 이유가 새 주장이면 가설로 세우고 `checks.py`에 검사와 `SEEN_UNTIL`(지금 마지막 기록 id)을 넣는다. **한 건이라도 기본 논리가 틀린 게 보이면 고친다**(사용자 결정 2026-10-19: 특수한 경우일 수 있다). 한 건짜리는 '근거 1건'으로 표시되고, 방향은 이유 문장이 정하고 크기는 다음 기록이 시험한다.
 5. **고치기**: 아래 "따라 할 방식"대로.
    - 규칙을 고칠 때는 이전 버전을 지우지 않고 `status = "retired"` + `replaced_by`로 남긴다. 겹치는 규칙을 모을 때도 같다.
    - 가설 표도 같다: 반박된 가설을 쪼개 다시 세우면 옛 가설에 `status = "retired"` + `replaced_by`를 단다(옛 칸 `superseded_by`는 없앰).
@@ -122,7 +122,7 @@
 - 최종본(전체 기록으로 다시 맞춤)은 맞춰 본 것 83/125. **seen_until = p05**: p05 다음 기록부터만 시험된다. 성적은 `python -m proviso check agent_usage`의 piece_direction(방향)·piece_size(크기).
 - 방향이 틀린 조각: '설계 문서가 정해지면 턴이 준다'(C_turns_spec_fixed) — 뒤 절반에서 반박, 전체로 맞추면 범위가 1을 넘나듦 → 물림(이유 틀림).
 - 새 상태 셋(보내기 전에 앎): S_small_codebase(project로 정해짐), S_integration, S_many_turn_model(둘은 사후에 채움, dispatches.toml 머리 주석). 일의 성질이 아닌 상태에 known_before = false(S_short·S_mid_notes 등): 계산 조건으로 못 쓴다.
-- 장치: 이유 없는 숫자 금지, 보내기 전 조건만, 한 건짜리 조건 금지, 쪼갠 뒤 회귀 금지(예외는 holdout.REGRESSION_OK에 이유), 효과 수 ≤ 설명한 기록 ÷ 4, 범위 폭 ≤ 2배, 맞춘 값과 다른 범위 금지 — 코드·테스트가 막는다(tests/test_computable.py).
+- 장치: 이유 없는 숫자 금지, 보내기 전 조건만, 한 건짜리 조건은 허용하되 '근거 1건' 경고(범위 = 그 값 둘레 가장 넓은 2배 창; 값이 여럿인데 흩어지면 세우지 않음 — 더 쪼갈 흐린 조건), 쪼갠 뒤 회귀 금지(예외는 holdout.REGRESSION_OK에 이유), 효과 수 ≤ 설명한 기록 ÷ 4, 범위 폭 ≤ 2배, 맞춘 값과 다른 범위 금지 — 코드·테스트가 막는다(tests/test_computable.py).
 
 ## 2026-10-19 구조 개편 (p04)
 - 규칙·가설 통합: 상태는 hypothesis / retired 둘, 'verified' 없앰. 규칙에 check(주장 + 쓴 예측)를 달았다. 상세: [docs/worklog/2026-10-19-hypothesis-only.md](../../docs/worklog/2026-10-19-hypothesis-only.md).
