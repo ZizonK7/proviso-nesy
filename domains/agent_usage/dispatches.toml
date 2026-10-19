@@ -3963,3 +3963,195 @@ turns = 426
 tokens_m = 175.3
 [dispatch.review]
 reason = "분·턴 아래(90.6 vs 100–160, 426 vs 500–750), 토큰 바닥(175M vs 170–260M): d64의 분 ×0.7·턴 ×0.72(예측 ×0.9–1.3). 브리프가 인계 전부와 B의 결정에 대한 판정을 실어 에이전트가 다른 에이전트에게 물을 턴이 없었고, 예측한 이음새 셋은 이음새가 아니었다. 교훈: 빌더들의 열린 결정을 브리프에서 다 판정한 통합은 찾아야 했던 통합의 ×0.7"
+
+[[dispatch]]
+id = "dG1"
+project = "proviso"
+batch = "G1"
+date = 2026-10-19
+task = "조사: 비문학 책을 각색·라이선스한 게임 (역사·과학·경제·자기계발·철학) → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장). Haiku 5.5 high, 여섯 병렬"
+[dispatch.situation]
+S_web = "예"
+S_research = "예"
+S_full_brief = "예"
+S_short = "예"
+S_similar_past = "일부"
+S_long_doc = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["S", "M"]
+minutes = [6, 18]
+turns = [80, 180]
+tokens_class = ["T1", "T2"]
+tokens_m = [8, 25]
+rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save", "R_other_models_v3"]
+reason = "Opus high 웹 조사 dR5A–D(9.8–11.7분, 102–125턴, 12.6–17.6M)를 기준으로 잡았다. Haiku 5.5 기록은 없다(F_setup: 숫자는 Opus high에서만 확인) — Haiku는 턴당 빠르고 얕게 돌 것으로 보고 분 ×0.6–1.5, 턴 ×0.8–1.5, 토큰 ×0.6–1.5로 넓게 잡았다. 이번이 Haiku 배수의 첫 기록"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "dG2"
+project = "proviso"
+batch = "G1"
+date = 2026-10-19
+task = "조사: 논문·과학 이론·모형을 바탕으로 한 게임 → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장). Haiku 5.5 high, 여섯 병렬"
+[dispatch.situation]
+S_web = "예"
+S_research = "예"
+S_full_brief = "예"
+S_short = "예"
+S_similar_past = "일부"
+S_long_doc = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["S", "M"]
+minutes = [6, 18]
+turns = [80, 180]
+tokens_class = ["T1", "T2"]
+tokens_m = [8, 25]
+rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save", "R_other_models_v3"]
+reason = "Opus high 웹 조사 dR5A–D(9.8–11.7분, 102–125턴, 12.6–17.6M)를 기준으로 잡았다. Haiku 5.5 기록은 없다(F_setup: 숫자는 Opus high에서만 확인) — Haiku는 턴당 빠르고 얕게 돌 것으로 보고 분 ×0.6–1.5, 턴 ×0.8–1.5, 토큰 ×0.6–1.5로 넓게 잡았다. 이번이 Haiku 배수의 첫 기록"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "dG3"
+project = "proviso"
+batch = "G1"
+date = 2026-10-19
+task = "조사: 개발자가 영감으로 밝힌 비문학 (인터뷰·포스트모템) → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장). Haiku 5.5 high, 여섯 병렬"
+[dispatch.situation]
+S_web = "예"
+S_research = "예"
+S_full_brief = "예"
+S_short = "예"
+S_similar_past = "일부"
+S_long_doc = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["S", "M"]
+minutes = [6, 18]
+turns = [80, 180]
+tokens_class = ["T1", "T2"]
+tokens_m = [8, 25]
+rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save", "R_other_models_v3"]
+reason = "Opus high 웹 조사 dR5A–D(9.8–11.7분, 102–125턴, 12.6–17.6M)를 기준으로 잡았다. Haiku 5.5 기록은 없다(F_setup: 숫자는 Opus high에서만 확인) — Haiku는 턴당 빠르고 얕게 돌 것으로 보고 분 ×0.6–1.5, 턴 ×0.8–1.5, 토큰 ×0.6–1.5로 넓게 잡았다. 이번이 Haiku 배수의 첫 기록"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "dG4"
+project = "proviso"
+batch = "G1"
+date = 2026-10-19
+task = "조사: 비문학 기반 보드·테이블 게임 → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장). Haiku 5.5 high, 여섯 병렬"
+[dispatch.situation]
+S_web = "예"
+S_research = "예"
+S_full_brief = "예"
+S_short = "예"
+S_similar_past = "일부"
+S_long_doc = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["S", "M"]
+minutes = [6, 18]
+turns = [80, 180]
+tokens_class = ["T1", "T2"]
+tokens_m = [8, 25]
+rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save", "R_other_models_v3"]
+reason = "Opus high 웹 조사 dR5A–D(9.8–11.7분, 102–125턴, 12.6–17.6M)를 기준으로 잡았다. Haiku 5.5 기록은 없다(F_setup: 숫자는 Opus high에서만 확인) — Haiku는 턴당 빠르고 얕게 돌 것으로 보고 분 ×0.6–1.5, 턴 ×0.8–1.5, 토큰 ×0.6–1.5로 넓게 잡았다. 이번이 Haiku 배수의 첫 기록"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "dG5"
+project = "proviso"
+batch = "G1"
+date = 2026-10-19
+task = "조사: 다큐·저널리즘·시민 과학·교육 게임 중 상업적·대중적 반응이 있는 것 → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장). Haiku 5.5 high, 여섯 병렬"
+[dispatch.situation]
+S_web = "예"
+S_research = "예"
+S_full_brief = "예"
+S_short = "예"
+S_similar_past = "일부"
+S_long_doc = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["S", "M"]
+minutes = [6, 18]
+turns = [80, 180]
+tokens_class = ["T1", "T2"]
+tokens_m = [8, 25]
+rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save", "R_other_models_v3"]
+reason = "Opus high 웹 조사 dR5A–D(9.8–11.7분, 102–125턴, 12.6–17.6M)를 기준으로 잡았다. Haiku 5.5 기록은 없다(F_setup: 숫자는 Opus high에서만 확인) — Haiku는 턴당 빠르고 얕게 돌 것으로 보고 분 ×0.6–1.5, 턴 ×0.8–1.5, 토큰 ×0.6–1.5로 넓게 잡았다. 이번이 Haiku 배수의 첫 기록"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "dG6"
+project = "proviso"
+batch = "G1"
+date = 2026-10-19
+task = "조사: 문학 기반 게임 성공·실패 사례 (가볍게) → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장). Haiku 5.5 high, 여섯 병렬"
+[dispatch.situation]
+S_web = "예"
+S_research = "예"
+S_full_brief = "예"
+S_short = "예"
+S_similar_past = "일부"
+S_long_doc = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_fixed_input = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+[dispatch.predicted]
+written_before = true
+time_class = ["S", "M"]
+minutes = [6, 18]
+turns = [80, 180]
+tokens_class = ["T1", "T2"]
+tokens_m = [8, 25]
+rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save", "R_other_models_v3"]
+reason = "Opus high 웹 조사 dR5A–D(9.8–11.7분, 102–125턴, 12.6–17.6M)를 기준으로 잡았다. Haiku 5.5 기록은 없다(F_setup: 숫자는 Opus high에서만 확인) — Haiku는 턴당 빠르고 얕게 돌 것으로 보고 분 ×0.6–1.5, 턴 ×0.8–1.5, 토큰 ×0.6–1.5로 넓게 잡았다. 이번이 Haiku 배수의 첫 기록"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
