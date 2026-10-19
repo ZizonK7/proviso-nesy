@@ -58,9 +58,9 @@
 - 이미 적힌 기록의 예측·실측 숫자는 고치지 않는다. 상황 값을 사후에 채우면 파일 맨 위 주석에 적는다.
 
 ## 지금 쓰는 규칙 요약 (2026-10-19, 살아 있는 규칙만)
-**0. 계산기 먼저** (2026-10-19): `python -m domains.agent_usage.predict 상황.toml`. 계산 조각은 아직 시험 전(맞춰 본 것만 83/125)이고 뒤 절반 홀드아웃에서는 손 예측보다 못했다(51 % vs 62 %). 그래서 지금은 계산기 결과와 아래 손 규칙을 나란히 놓고, 다르면 둘 다 적는다.
+**0. 계산기 먼저** (2026-10-19): `python -m domains.agent_usage.predict 상황.toml`. 계산 조각은 아직 시험 전(맞춰 본 것만 83/125)이고 뒤 절반 홀드아웃에서는 손 예측보다 못했다(51 % vs 62 %). 그래서 지금은 계산기 답(`[dispatch.calc]`)과 아래 손 규칙으로 잡은 예측(`predicted`)을 둘 다 적는다.
 
-읽는 법: 조건 → 숫자 → 규칙 id와 **성적**(`python -m proviso check agent_usage`, 2026-10-19 기준). 규칙은 모두 가설이다('검증됨' 없음).
+읽는 법(표의 S·M·L·T1 등은 옛 등급: S ≤20분 · M 20–45분 · L 45–90분): 조건 → 숫자 → 규칙 id와 **성적**(`python -m proviso check agent_usage`, 2026-10-19 기준). 규칙은 모두 가설이다('검증됨' 없음).
 - 성적 칸: **주장** = 규칙의 숫자를 가설과 같은 잣대로 잰 것(세운 뒤 기록만), **쓴 예측** = 이 규칙을 적은 예측(보내기 전에 적은 끝난 기록)이 범위에 맞은 수. 예측은 규칙 여럿을 섞으므로 쓴 예측의 빗나감이 이 규칙 탓이라는 뜻은 아니다 — 앞으로는 `review.wrong`이 짚는다.
 - "시험 전" = 시험 수단은 있는데 아직 시험 기록이 없음. 2026-10-19에 세운 규칙 대부분이 여기다(한 번도 쓰이지 않음).
 
@@ -115,34 +115,20 @@
 - R_long_doc_save (근거 1, 시험 수단 없음): 긴 글은 지시서에 "섹션마다 파일에 이어 쓰기".
 - R_say_numbers_v2 (시험 전, `told_zone`이 p04부터 잰다): 시간은 세 마디 구간(잠깐 ≤10분 '잠깐 기다려' / 다른 일 10–40분 '다른 거 하고 있어' / 신경 끄기 >40분 '신경 쓰지 말고 있어')으로, 분·토큰 숫자와 이유를 같이. 범위가 두 구간에 걸치면 긴 쪽으로 말하고 `predicted.told`에 적는다. 참고: 지난 걸친 예측 34건은 짧은 쪽 18·긴 쪽 15·밖 1에 떨어졌다.
 
-## 2026-10-19 계산되는 논리 (p05)
-- 상세: [docs/worklog/2026-10-19-computable.md](../../docs/worklog/2026-10-19-computable.md).
-- 계산 조각 16개(효과 18개, 이전 버전 3개). 계산: 턴 = 기준값 × 곱하기, 분 = 턴 ÷ 분당 턴(+ 더하는 분), 토큰 = 턴 × 턴당 맥락. 범위는 로그 폭을 제곱합 제곱근으로 합치고 2배 폭으로 자른다. 말할 구간은 긴 쪽.
-- 뒤 절반(d39–p04, 61건) 말할 구간: 쪼개기 전 계산기 23(38 %) · 쪼갠 뒤 31(51 %) · 당시 손 예측 38(62 %). 손 예측이 아직 낫다(빗댄 기록과 할 일 수를 본다 — 계산기는 일의 크기를 말해 주는 보내기 전 상태가 없다).
-- 최종본(전체 기록으로 다시 맞춤)은 맞춰 본 것 83/125. **seen_until = p05**: p05 다음 기록부터만 시험된다. 성적은 `python -m proviso check agent_usage`의 piece_direction(방향)·piece_size(크기).
-- 방향이 틀린 조각: '설계 문서가 정해지면 턴이 준다'(C_turns_spec_fixed) — 뒤 절반에서 반박, 전체로 맞추면 범위가 1을 넘나듦 → 물림(이유 틀림).
-- 새 상태 셋(보내기 전에 앎): S_small_codebase(project로 정해짐), S_integration, S_many_turn_model(둘은 사후에 채움, dispatches.toml 머리 주석). 일의 성질이 아닌 상태에 known_before = false(S_short·S_mid_notes 등): 계산 조건으로 못 쓴다.
-- 장치: 이유 없는 숫자 금지, 보내기 전 조건만, 한 건짜리 조건은 허용하되 '근거 1건' 경고(범위 = 그 값 둘레 가장 넓은 2배 창; 값이 여럿인데 흩어지면 세우지 않음 — 더 쪼갈 흐린 조건), 쪼갠 뒤 회귀 금지(예외는 holdout.REGRESSION_OK에 이유), 효과 수 ≤ 설명한 기록 ÷ 4, 범위 폭 ≤ 2배, 맞춘 값과 다른 범위 금지 — 코드·테스트가 막는다(tests/test_computable.py).
+## 현재 상태 (2026-10-19, 기록 130건: batman d01–d94 + 이 저장소 p01–p05)
+- **계산 조각 16개**(효과 18개, 이전 버전 3개, `seen_until = p05`): p05 다음 기록부터 방향(`piece_direction`)·크기(`piece_size`) 성적이 쌓인다. 맞춰 본 것 83/125.
+  - 계산: 턴 = 기준값 × 곱하기, 분 = 턴 ÷ 분당 턴(+ 더하는 분), 토큰 = 턴 × 턴당 맥락. 범위는 로그 폭을 제곱합 제곱근으로 합치고 2배 폭으로 자른다. 말할 구간은 걸치면 긴 쪽.
+  - 뒤 절반 홀드아웃(d39–p04, 61건) 말할 구간: 쪼개기 전 계산기 38 % · 쪼갠 뒤 51 % · 당시 손 예측 62 %. 손 예측이 아직 낫다 — 계산기는 일의 크기를 말해 주는 보내기 전 상태가 없다.
+  - 방향이 틀려 물린 조각: '설계 문서가 정해지면 턴이 준다'(C_turns_spec_fixed, 이유 틀림).
+  - 상태: S_small_codebase(project로 정해짐), S_integration·S_many_turn_model(사후에 채움, dispatches.toml 머리 주석). 일의 성질이 아닌 상태(S_short·S_mid_notes 등)는 `known_before = false`라 계산 조건으로 못 쓴다.
+  - 장치(코드·테스트가 막음, tests/test_computable.py): 이유 없는 숫자 금지, 보내기 전 조건만, 한 건짜리 조건은 허용하되 '근거 1건' 경고(범위 = 그 값 둘레 가장 넓은 2배 창; 값이 여럿인데 흩어지면 세우지 않음 — 더 쪼갤 흐린 조건), 쪼갠 뒤 회귀 금지(예외는 holdout.REGRESSION_OK에 이유), 효과 수 ≤ 설명한 기록 ÷ 4, 범위 폭 ≤ 2배, 맞춘 값과 다른 범위 금지.
+- **시간 구간으로 다시 채점**(분 범위가 있는 끝난 기록 118건, p03까지): 맞음 102, 낮게 잡음 4, 높게 잡음 12. 걸침 34건(짧은 쪽 18·긴 쪽 15·밖 1). 분 범위 적중은 49/118이고 빗나간 69건 중 턴 수(양) 탓 38·분당 턴(속도) 탓 23 — 턴 수 잡기(R_turns_analogy_v2)가 먼저 쪼갤 곳이다. 분 범위 없는 6건(dR1–dR4, d14, d16)은 뺀다.
+- **이 저장소의 일(p01–p05)**: p01·p04는 batman 기준 숫자로 잡아 예측의 ×0.4(작은 코드베이스, 테스트 1초 — 흐렸던 조건, C_small_codebase로 쪼갬). p02·p03(정해진 문서를 읽는 추림 조사)은 웹 조사보다 짧다. p05는 넷 다 맞음.
+- **audit 경고**: 쪼개지 않은 개정 12, 시험 수단 없음 2(R_preflight, R_long_doc_save). 다음 정리에서 처리한다.
+- **오래 시험 전**: H_research_cap(웹 조사를 보내지 않음), H_sonnet_max_rate(Sonnet을 도구 작업에 보내지 않음), H_given_design_rate2(작은 적힌 고침이 안 나옴), H_cancel(예상 800턴 이상이 사라짐 — 사실상 닫힘). 새 가설 일곱(H_mid_notes2, H_sonnet_floor, H_fixed_input_opus, H_ctx_fix, H_settled_integration, H_build_tools, H_doc_spec_minutes)은 d95부터 시험.
+- **다음**: (1) '지시서에 적힌 할 일 수'처럼 일의 크기를 말해 주는 보내기 전 상태를 넣고 지난 기록에 채워 홀드아웃을 다시 돈다. (2) 긴 쪽으로 말했는데 짧은 쪽에서 끝난 기록은 '일찍 끝남'으로 따로 센다(사용자가 고른 말하기라 빗나감과 구분). (3) 다른 모델의 문서·도구 일은 기준값이 없어 '모름' — 기록이 생기면 세운다.
 
-## 2026-10-19 구조 개편 (p04)
-- 규칙·가설 통합: 상태는 hypothesis / retired 둘, 'verified' 없앰. 규칙에 check(주장 + 쓴 예측)를 달았다. 상세: [docs/worklog/2026-10-19-hypothesis-only.md](../../docs/worklog/2026-10-19-hypothesis-only.md).
-- 시간 구간 세 마디로 다시 채점(분 범위가 있는 끝난 기록 118건): 맞음 102, 낮게 잡음 4, 높게 잡음 12. 걸침 34건(짧은 쪽 18·긴 쪽 15·밖 1). 분 범위 없는 6건(dR1–dR4, d14, d16)은 뺀다.
-- 분 범위 적중은 49/118. 빗나간 69건: 아래 50(속도 19·양 30·턴 예측 없음 1), 위 19(속도 4·양 8·턴 예측 없음 7). 양 탓이 많다 — 턴 수 잡기(R_turns_analogy_v2) 쪽이 먼저 쪼갤 곳이다.
-- audit 경고: 쪼개지 않은 개정 12(R_tok_v2→v3 숫자만 바뀜 등), 시험 수단 없음 2(R_preflight, R_long_doc_save). 다음 정리에서 처리한다.
-
-## 현재 상태 (2026-10-19 전체 정리, 기록 d01–d94 + p01–p03)
-- 기록 128건(batman 125건 d01–d94, proviso p01–p03). 판정에 쓰는 끝난 기록은 batman 121건과 p02(나머지는 d15 멈춤, d78–d80·p01·p03 끝났는지 모름).
-- **열 번째 고리 = 첫 전체 정리.** 가설 24개(정리 전 17): 지지 4, 반박 1, 시험 전 11, 대체됨 8. 규칙 41개(정리 전 30) 중 살아 있는 것 22(verified 3: R_time_turns_v2, R_tok_rate_check, R_models_doc).
-  - 올림: H_tok_rate_long(25/29) → R_tok_rate_check ✔, H_model_mult_shape(3/3) → R_other_models_v3를 모양별 셋으로 나누고 문서 칸 R_models_doc ✔.
-  - 개정: H_mid_notes → H_mid_notes2, H_check_loop3 → H_turn_rate_shape로(긴 바퀴는 분당 턴이 아니라 바퀴 수로), R_tok_long → v5, R_fixed_input → v2, R_doc_work → v2, R_verify_loop → R_verify_laps, R_other_models_v3 → R_models_doc·R_models_reasoning·R_models_tool.
-  - 검사 고침: H_render_rate(문장의 '렌더 한 회 1–2분' = S_long_lap=아니오를 넣음; 남은 시험 d69b 하나 ✗, 한 건이라 보류), H_research_cap(문장의 '웹 조사'를 넣음).
-  - 모음(겹침·안 씀): R_spec_fixed·R_full_brief·R_impl_hour → R_turns_analogy_v2.
-  - 새 가설 일곱(d95부터 시험): H_mid_notes2, H_sonnet_floor, H_fixed_input_opus, H_ctx_fix, H_settled_integration, H_build_tools, H_doc_spec_minutes. 새 규칙: R_integration, R_build_tools, R_preflight. 새 상태: S_fix_existing, S_open_seams, S_build_tools.
-- 오래 시험 전인 것: H_research_cap(배치 15 뒤 웹 조사를 보내지 않음), H_sonnet_max_rate(Sonnet을 도구 작업에 보내지 않음), H_given_design_rate2(작은 적힌 고침은 베타 배치에서만 나옴), H_cancel(예상 800턴 이상이 v2 뒤 사라짐 — 사실상 닫힘).
-- 예측 쏠림: 분 범위 밖은 d29–d76에 아래 28·위 7이었는데 d77–d94는 아래 3·위 3(O_minutes_skew). 높게 잡는 버릇은 줄었다.
-- 상세와 판정 표: [docs/worklog/2026-10-19-agent-usage-cleanup.md](../../docs/worklog/2026-10-19-agent-usage-cleanup.md).
-
-## 지난 고리 (경위는 커밋 이력과 dispatches.toml의 review)
+## 지난 고리 (경위는 커밋 이력, dispatches.toml의 review, docs/worklog/)
 1. 배치 1–10 (10-13–16): 토큰을 쓸 글이 아니라 매 턴 다시 읽는 맥락으로 잡게 고침(R_tok_v1→v3), 짧은/긴 작업으로 나눔.
 2. 배치 11–13 (10-16): H_turns_over 지지 → R_turns_analogy_v2(덜 정해진 과거에 빗대면 0.4–0.7배). 분당 턴은 길이가 아니라 모양(R_time_turns_v2), 작업 모양 상태 다섯.
 3. 배치 19–22 (10-17): 렌더 작업을 S_render로 갈라 H_turn_rate_shape의 잣대를 고침, H_check_loop2 → H_check_loop3·H_render_rate, d42로 H_sonnet_max_rate.
@@ -151,4 +137,7 @@
 6. 배치 29 (10-18): 말을 에이전트가 쓰는 고침은 뺀 H_given_design_rate2, 글 규칙이 없으면 전체 바퀴 둘.
 7. 배치 30 (10-18): H_model_mult_shape 2/2, Sonnet 문서 배수를 올린 R_other_models_v3. 입력이 늘면 분이 아니라 토큰이 는다.
 8. 배치 32 (10-18): 고정 입력 Opus는 한 번 읽고 한 번 쓴다(세 번째 확인), Fable xhigh 순수 추론 ×1.8.
-9. 배치 33–36 (10-18): 다섯 모양(픽스처 시험, 모드 공유, 클라우드 렌더, 자기 도구, 다 판정한 통합), Sonnet 최소 분, 절차 교훈 둘 → 10번째(정리)에서 가설·규칙으로 올림.
+9. 배치 33–36 (10-18): 다섯 모양(픽스처 시험, 모드 공유, 클라우드 렌더, 자기 도구, 다 판정한 통합), Sonnet 최소 분, 절차 교훈 둘.
+10. 첫 전체 정리 (10-19, p01): 가설 17개 전수 판정 — 올림 2, 개정 7, 검사 고침 2, 겹친 규칙 셋 모음, 새 가설 일곱, 규칙 요약 한 장. [보고서](../../docs/worklog/2026-10-19-agent-usage-cleanup.md)
+11. 구조 개편 (10-19, p04): 규칙·가설을 성적 붙은 가설 하나로('검증됨' 없앰), 판정 기록, 틀린 조각 칸(`review.wrong`·`why`), 쪼개지 않은 개정 경고, 시간 세 마디로 다시 채점. [보고서](../../docs/worklog/2026-10-19-hypothesis-only.md)
+12. 계산되는 논리 (10-19, p05): 효과 칸, 계산기·맞추기·홀드아웃, 방향/크기 성적 분리, 쪼개기 6, 조각 이름에 분야 이름 금지. 같은 날 한 건짜리 조건 허용(사용자 결정), 계산기 답을 손 예측 옆에 적어 승패를 셈. [보고서](../../docs/worklog/2026-10-19-computable.md)
