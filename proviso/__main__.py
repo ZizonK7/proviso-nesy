@@ -2,8 +2,9 @@
 
   python -m proviso validate flowlog   지식 파일 검사
   python -m proviso graph flowlog      out/flowlog-graph.html, .md 생성
-  python -m proviso check flowlog      가설을 분야별 검사 함수로 확인
-  python -m proviso audit flowlog      점검: 목표를 해치는데 받아들인 기록이 없는 것
+  python -m proviso check flowlog      성적표: 살아 있는 가설(규칙 포함)마다 자동 검사 + 판정 기록, 출처별
+  python -m proviso audit flowlog      점검: 오류(목표를 해치는데 받아들인 기록 없음)와
+                                       경고(쪼개지 않은 개정, 시험 수단 없음). 오류가 있을 때만 실패
 """
 from __future__ import annotations
 
@@ -11,7 +12,7 @@ import importlib
 import sys
 from pathlib import Path
 
-from . import audit, graph, schema
+from . import audit, graph, schema, score
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -24,7 +25,7 @@ def cmd_validate(domain: str) -> int:
     kn = _load(domain)
     errors = schema.validate(kn)
     counts = ", ".join(f"{schema.KIND_LABEL[k]} {len(kn.of(k))}" for k in schema.KINDS)
-    print(f"[{domain}] {counts}")
+    print(f"[{domain}] {counts}, 판정 기록 {len(kn.judgments)}")
     if errors:
         print("문제 발견:")
         for e in errors:
@@ -41,7 +42,7 @@ def cmd_graph(domain: str) -> int:
         print("지식 파일에 문제가 있어 그리지 않음. 먼저 validate를 실행하세요.")
         return 1
     mermaid = graph.to_mermaid(kn)
-    notes = [f"{n.id} ({schema.RULE_STATUS[n.data['status']]}): {n.data['note']}"
+    notes = [f"{n.id} ({schema.STATUS[n.data['status']]}): {n.data['note']}"
              for n in kn.of("rule") if n.data.get("note")]
     out = ROOT / "out"
     out.mkdir(exist_ok=True)
@@ -52,27 +53,28 @@ def cmd_graph(domain: str) -> int:
     return 0
 
 
+def load_checks(domain: str) -> tuple[dict, str]:
+    """분야의 자동 검사 모음과 그 출처(SOURCE, 없으면 'auto')."""
+    module = importlib.import_module(f"domains.{domain}.checks")
+    return module.CHECKS, getattr(module, "SOURCE", "auto")
+
+
 def cmd_check(domain: str) -> int:
     kn = _load(domain)
-    checks = importlib.import_module(f"domains.{domain}.checks").CHECKS
-    for hyp in kn.of("hypothesis"):
-        name = hyp.data.get("check")
-        if not name:
-            print(f"{hyp.id}: 검사 방법 없음 (사용자 확인 필요)")
-            continue
-        verdict, detail = checks[name]()
-        after = hyp.data.get("superseded_by")
-        if after:
-            # 반박된 뒤 쪼개거나 고쳐 다시 세운 가설: 지우지 않고 역사로 남기되 판정은 대체한 가설로 넘긴다
-            verdict = f"대체됨 → {', '.join(after)} (옛 판정: {verdict})"
-        print(f"{hyp.id}: {verdict}\n  가설: {hyp.text}\n{detail}")
+    checks, source = load_checks(domain)
+    missing = sorted({c for n in kn.claims() for c in schema.check_names(n)} - set(checks))
+    if missing:
+        print(f"[{domain}] checks.py에 없는 검사: {', '.join(missing)}")
+        return 1
+    print(f"[{domain}] 성적표 (자동 검사 출처: {schema.SOURCES.get(source, source)}; ★ = 사용자 판정, 가장 무거움)\n")
+    print(score.report(kn, checks, source))
     return 0
 
 
 def cmd_audit(domain: str) -> int:
     kn = _load(domain)
     print(f"[{domain}] {audit.report(kn)}")
-    return 1 if audit.unaccepted_harms(kn) else 0
+    return 1 if audit.unaccepted_harms(kn) else 0  # 경고만 있으면 통과
 
 
 def main(argv: list[str]) -> int:

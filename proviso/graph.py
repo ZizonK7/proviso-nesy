@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import html
 
-from .schema import RULE_STATUS, Knowledge, Node
+from .schema import STATUS, Knowledge, Node
 
 # 선 스타일: (Mermaid 화살표, 라벨, 색)
 EDGE = {
@@ -53,7 +53,7 @@ def _label(node: Node) -> str:
     if node.kind == "goal":
         return f"<b>목표</b><br/>{_wrap(node.text)}"
     if node.kind == "rule":
-        head = f"{node.id} · v{d['version']} · {RULE_STATUS[d['status']]}"
+        head = f"{node.id} · v{d['version']} · {STATUS[d['status']]}"
         return (
             f"<small>{_esc(head)}</small><br/><b>방법</b> {_wrap(d['method'], 22)}"
             f"<br/><b>이유</b> {_wrap(d['reason'], 22)}"

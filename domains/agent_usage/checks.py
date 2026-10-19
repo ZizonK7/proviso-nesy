@@ -3,6 +3,12 @@
 판정은 실측 기록(dispatches.toml)으로 한다. 가설은 **세운 뒤에 나온 기록으로만** 시험한다.
 세울 때 이미 본 기록은 '맞춰 본 것'(사후 설명)이라 따로 보여 주기만 한다.
 판정: "지지됨" / "반박됨" (시험 기록의 80% 이상이 맞으면 지지됨) / "시험 전" (세운 뒤 기록이 아직 없음).
+
+규칙(방법이 붙은 가설)에는 두 가지 검사를 붙인다 (2026-10-19, 규칙·가설 통합):
+- 주장 검사: 규칙의 숫자를 가설과 같은 잣대로 잰다(위 함수들을 그대로 check에 건다).
+- 쓴 예측 검사(used_minutes·used_turns·used_tokens): 그 규칙을 predicted.rules에 적은 예측이 실측과 맞았나.
+  예측은 보내기 전에 적은 것이라 그 자체가 세운 뒤의 시험이다(SEEN_UNTIL이 필요 없다). 보내기 전에 적지 않은 기록은 뺀다.
+  한 예측에 규칙이 여럿 들어가므로 빗나감이 이 규칙 탓인지는 모른다 → review.wrong이 짚은 횟수를 같이 보여 준다.
 """
 from __future__ import annotations
 
@@ -40,6 +46,7 @@ SEEN_UNTIL = {
     "doc_spec_minutes": "d94",
 }
 NEED = 0.8
+SOURCE = "measured"  # 이 분야의 자동 검사는 실측 기록으로 판정한다 (score.py가 출처로 보여 준다)
 
 # 토큰 규칙이 가정한 턴당 맥락(천 토큰). turns_vs_context가 '맥락을 작게 잡았는지' 볼 때 쓴다.
 ASSUMED_CTX_K = {"R_tok_v2": 250, "R_tok_v3": 370, "R_tok_long": 350, "R_tok_short": 120, "R_tok_short_v5": 160,
@@ -431,6 +438,69 @@ def doc_spec_minutes() -> tuple[str, str]:
                   lambda d: f"{_m(d, 'minutes'):.1f}분")
 
 
+def _used(rule_id: str, metric: str) -> tuple[str, str]:
+    """rule_id를 쓴 예측(보내기 전에 적은 끝난 기록)이 실측과 맞았나. metric: minutes / turns / tokens."""
+    rows = []
+    for d in dp.load():
+        p = d["predicted"]
+        if rule_id not in p.get("rules", []) or not dp.done(d) or not p.get("written_before", True):
+            continue
+        m = dp.measures(d)
+        if metric == "tokens":
+            if p.get("tokens_m"):
+                hit, want = dp.in_range(m["tokens_m"], p["tokens_m"]), f"{dp._bounds(p['tokens_m'])}M"
+            elif p.get("tokens_class") and m["tokens_m"] is not None:
+                hit, want = dp.token_class(m["tokens_m"]) in p["tokens_class"], "–".join(p["tokens_class"])
+            else:
+                continue
+            got = f"{m['tokens_m']:.1f}M"
+        else:
+            bounds = p.get(metric, [])
+            hit = dp.in_range(m[metric], bounds)
+            if hit is None:
+                continue
+            want, got = dp._bounds(bounds), f"{m[metric]:g}"
+        extra = ""
+        if metric == "minutes":
+            extra = f" [{dp.zone_verdict(d)}]"  # 세 마디 구간으로는
+        rows.append((d, hit, f"{d['id']} {got} (예측 {want}){extra}{'' if hit else ' ✗'}"))
+    blamed = [d["id"] for d in dp.load() if rule_id in d.get("review", {}).get("wrong", [])]
+    word = {"minutes": "분 범위", "turns": "턴 범위", "tokens": "토큰 범위"}[metric]
+    detail = f"  쓴 예측: {', '.join(r[2] for r in rows) or '없음'}\n  돌아보기에서 틀린 조각으로 짚힘: {', '.join(blamed) or '없음'}"
+    if metric == "minutes" and rows:
+        zone_hits = sum(dp.zone_verdict(d) == "맞음" for d, _, _ in rows)
+        detail += f"\n  세 마디 구간으로는 {len(rows)}건 중 {zone_hits}건 맞음"
+    if not rows:
+        return "시험 전 (이 규칙을 쓴 끝난 예측이 없음)", detail
+    hits = sum(hit for _, hit, _ in rows)
+    verdict = "지지됨" if hits / len(rows) >= NEED else "반박됨"
+    return f"{verdict} (쓴 예측 {len(rows)}건 중 {word} {hits}건 맞음)", detail
+
+
+def used_minutes(rule_id: str) -> tuple[str, str]:
+    return _used(rule_id, "minutes")
+
+
+def used_turns(rule_id: str) -> tuple[str, str]:
+    return _used(rule_id, "turns")
+
+
+def used_tokens(rule_id: str) -> tuple[str, str]:
+    return _used(rule_id, "tokens")
+
+
+def told_zone() -> tuple[str, str]:
+    """R_say_numbers_v2: 사용자에게 말한 구간(predicted.told)이 실제 구간과 맞는다."""
+    rows = [d for d in dp.load() if dp.done(d) and "told" in d["predicted"]]
+    if not rows:
+        return "시험 전 (말한 구간을 적은 끝난 기록이 없음)", "  말한 구간: 없음"
+    ok = [d for d in rows if d["predicted"]["told"] == dp.zone(d["actual"]["minutes"])]
+    detail = "  말한 구간: " + ", ".join(
+        f"{d['id']} {d['predicted']['told']} → {dp.zone(d['actual']['minutes'])}{'' if d in ok else ' ✗'}" for d in rows)
+    verdict = "지지됨" if len(ok) / len(rows) >= NEED else "반박됨"
+    return f"{verdict} (말한 {len(rows)}건 중 {len(ok)}건 맞음)", detail
+
+
 CHECKS = {
     "tokens_per_minute": tokens_per_minute,
     "tokens_per_minute_by_length": tokens_per_minute_by_length,
@@ -456,4 +526,11 @@ CHECKS = {
     "settled_integration": settled_integration,
     "build_tools_minutes": build_tools_minutes,
     "doc_spec_minutes": doc_spec_minutes,
+    # 규칙에 거는 검사 (노드 id를 받는다)
+    "used_minutes": used_minutes,
+    "used_turns": used_turns,
+    "used_tokens": used_tokens,
+    "told_zone": told_zone,
 }
+# SEEN_UNTIL이 필요 없는 검사: 보내기 전에 적은 예측·말한 구간이 곧 세운 뒤의 시험이다
+NO_CUT = ("used_minutes", "used_turns", "used_tokens", "told_zone")

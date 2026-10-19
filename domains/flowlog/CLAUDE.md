@@ -2,14 +2,19 @@
 
 사용자의 Android 앱 Flowlog(github.com/ZizonK7/Flowlog)의 활동 제목 추천 기능에 대한 경험.
 
-- `knowledge.toml`: 목표 4(큰 목표 + a/b/c), 규칙 3(v1 이전 버전, v2 둘), 관찰 2, 가설 1. 출처는 2026-10-14 대화.
+- `knowledge.toml`: 목표 4(큰 목표 + a/b/c), 규칙 3(v1 이전 버전, v2 둘), 관찰 4, 가설 3, 판정 기록 3. 출처는 2026-10-14 대화.
 - `simulate.py`: v1(현재 앱, README 점수식)과 v2(R_P1a + R_P1b) 추천을 가상 사용 패턴으로 돌린다.
-- `checks.py`: `alternate_two_new`, `routine_pushed_out` — 가설을 시뮬레이션으로 확인.
+- `checks.py`: `alternate_two_new`, `routine_pushed_out` — 가설을 시뮬레이션으로 확인(`SOURCE = "simulation"`). 실제 기록 재생 결과는 자동 검사가 아니라 판정 기록(`source = "replay"`)으로 둔다(백업 파일이 저장소 밖이라).
 - `replay.py`: 실제 Flowlog 백업 JSON을 시간순으로 되감아 v1/v2 추천 5칸 적중률을 센다. `python -m domains.flowlog.replay <백업 경로> [uid]`.
   - 백업에는 **다른 사용자 5명의 기록도 들어 있다.** 기본값은 `requestedBy`(사용자 본인 계정, 확인됨) 하나만 읽는다. 다른 uid를 넘기지 말 것.
   - 백업 파일·결과는 개인정보 → 저장소에 넣지 않는다. 결과 요약(비율)만 knowledge.toml의 관찰로 기록.
   - 카테고리별로 추천을 계산(README: 추천은 카테고리마다 5개). 루틴·자동 버튼으로 생긴 기록(sourceType ≠ MANUAL/None)은 제목을 고른 게 아니라서 평가에서 빼고 이력에만 넣는다.
   - 그 당시 앱에 추천이 있었는지와 무관하게 계산 가능. 단 해석 주의: 추천이 있던 시기의 제목 선택은 그때 추천에 영향받았을 수 있고, 귀찮아서 기록 안 한 활동은 데이터에 없다.
+
+## 성적 (2026-10-19 개편, `python -m proviso check flowlog`)
+- 'verified'가 없어졌다. R_P1a의 근거(v1 실사용 '좋다' = 사용자 판정, 실제 기록 재생 98% = 재생 판정)를 `[[judgment]]`로 옮겼다 → 종합 "사용자 실사용 기준 지지".
+- R_P1b: 재생 판정 '일부'(1등 튀기 13%는 없애지만 새 제목 적중 2%p 낮음). 사용자 실사용 판정은 앱에 v2를 넣은 뒤(`test_plan`).
+- H_slot_count는 자동 검사도 판정도 없어 audit 경고 "시험 수단 없음".
 
 ## 현재 상태 (2026-10-14)
 - v2는 설계 단계(가설). Flowlog 앱 코드는 아직 v1. 앱 수정은 이 저장소 범위 밖 — 사용자 요청 시에만.

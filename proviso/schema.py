@@ -2,6 +2,10 @@
 
 지식은 노드의 모음이다. 노드 종류: 목표, 상태, 사실, 관찰, 가설, 규칙.
 노드끼리는 id로 서로를 가리키고, 그 참조가 그래프의 연결선이 된다.
+
+규칙과 가설은 같은 것이다: 둘 다 "성적 붙은 가설"이고 상태는 지금 것(hypothesis)과 이전 버전(retired) 둘뿐이다.
+규칙은 방법(method)이 붙은 가설이다. 표 이름 rule/hypothesis는 칸 모양만 가른다 (2026-10-19, Lean 방향).
+'검증됨'이라는 상태는 없다: 성적은 자동 검사와 판정 기록(`[[judgment]]`)으로 엔진이 계산한다(score.py).
 """
 from __future__ import annotations
 
@@ -20,7 +24,22 @@ KIND_LABEL = {
     "rule": "규칙",
 }
 
-RULE_STATUS = {"hypothesis": "가설", "verified": "검증됨", "retired": "이전 버전"}
+# 규칙·가설의 상태. '검증됨'은 없앴다(2026-10-19): 믿을 만한지는 성적표가 보여 준다.
+STATUS = {"hypothesis": "가설", "retired": "이전 버전"}
+RULE_STATUS = STATUS  # 옛 이름
+
+CLAIMS = ("rule", "hypothesis")  # 성적을 받는 노드 (가설). 목표·상태·사실·관찰은 가설이 아니다
+
+# 판정 출처. 순서 = 무게 (앞이 무겁다). 사용자 실사용 판정이 가장 무겁다.
+SOURCES = {
+    "user": "사용자 실사용",
+    "replay": "실제 기록 재생",
+    "measured": "실측",
+    "auto": "자동 확인",
+    "simulation": "시뮬레이션",
+    "ai": "AI 판단",
+}
+VERDICTS = ("지지", "반박", "일부")
 
 REQUIRED = {
     "goal": ("text",),
@@ -42,12 +61,13 @@ REFS = {
     ("rule", "against"): {"observation", "fact"},
     ("rule", "side_effects"): {"hypothesis", "state"},
     ("rule", "exceptions"): {"state"},
-    ("rule", "replaced_by"): {"rule"},
+    ("rule", "replaced_by"): {"rule", "hypothesis"},
+    ("hypothesis", "conditions"): {"state", "fact", "observation"},
     ("hypothesis", "evidence"): {"observation", "fact"},
     ("hypothesis", "against"): {"observation", "fact"},
     ("hypothesis", "harms"): {"goal"},
     ("hypothesis", "accepted_for"): {"goal"},
-    ("hypothesis", "superseded_by"): {"hypothesis"},
+    ("hypothesis", "replaced_by"): {"rule", "hypothesis"},
     ("state", "harms"): {"goal"},
     ("state", "accepted_for"): {"goal"},
     ("fact", "harms"): {"goal"},
@@ -75,9 +95,27 @@ class Knowledge:
     domain: dict
     nodes: dict[str, Node]
     duplicates: list[str] = field(default_factory=list)
+    judgments: list[dict] = field(default_factory=list)
 
     def of(self, kind: str) -> list[Node]:
         return [n for n in self.nodes.values() if n.kind == kind]
+
+    def claims(self, alive_only: bool = False) -> list[Node]:
+        """규칙과 가설(성적을 받는 노드). alive_only면 이전 버전은 뺀다."""
+        return [n for n in self.nodes.values() if n.kind in CLAIMS and (alive(n) or not alive_only)]
+
+    def judgments_of(self, node_id: str) -> list[dict]:
+        return [j for j in self.judgments if j.get("of") == node_id]
+
+
+def alive(node: Node) -> bool:
+    """지금 쓰는 가설인가 (이전 버전이 아닌가)."""
+    return node.kind in CLAIMS and node.data.get("status", "hypothesis") != "retired"
+
+
+def check_names(node: Node) -> list[str]:
+    """가설에 붙은 자동 검사 이름들 (check 칸: 문자열 하나 또는 목록)."""
+    return node.refs("check")
 
 
 def load(path: Path) -> Knowledge:
@@ -90,7 +128,7 @@ def load(path: Path) -> Knowledge:
             if node.id in nodes:
                 duplicates.append(node.id)
             nodes[node.id] = node
-    return Knowledge(raw.get("domain", {}), nodes, duplicates)
+    return Knowledge(raw.get("domain", {}), nodes, duplicates, list(raw.get("judgment", [])))
 
 
 def validate(kn: Knowledge) -> list[str]:
@@ -102,8 +140,8 @@ def validate(kn: Knowledge) -> list[str]:
         for field in REQUIRED[node.kind]:
             if field not in node.data:
                 errors.append(f"{node.id}: '{field}' 칸이 비어 있음")
-        if node.kind == "rule" and node.data.get("status") not in RULE_STATUS:
-            errors.append(f"{node.id}: status는 {list(RULE_STATUS)} 중 하나여야 함")
+        if node.kind in CLAIMS:
+            errors += _claim_errors(kn, node)
         for (kind, field), allowed in REFS.items():
             if kind != node.kind:
                 continue
@@ -117,6 +155,52 @@ def validate(kn: Knowledge) -> list[str]:
                         f"{'/'.join(KIND_LABEL[k] for k in allowed)}만 올 수 있음"
                     )
     errors += _goal_cycles(kn)
+    errors += _judgment_errors(kn)
+    return errors
+
+
+def _claim_errors(kn: Knowledge, node: Node) -> list[str]:
+    errors = []
+    status = node.data.get("status", "hypothesis" if node.kind == "hypothesis" else None)
+    if status not in STATUS:
+        hint = " ('verified'는 2026-10-19에 없앴다: 성적표로 본다)" if status == "verified" else ""
+        errors.append(f"{node.id}: status는 {list(STATUS)} 중 하나여야 함{hint}")
+    if status == "retired" and not node.refs("replaced_by"):
+        errors.append(f"{node.id}: 이전 버전(retired)인데 무엇이 대신하는지(replaced_by)가 없음")
+    if "superseded_by" in node.data:
+        errors.append(f"{node.id}: superseded_by는 없앴다 → status = \"retired\" + replaced_by")
+    if "check" in node.data and not all(isinstance(c, str) and c for c in node.refs("check")):
+        errors.append(f"{node.id}: check는 검사 이름(문자열) 하나나 목록이어야 함")
+    # 쪼갤 때 더한 조건은 그래프에 이어지게 상태(또는 사실) 노드여야 한다
+    for new_id in node.refs("replaced_by"):
+        new = kn.nodes.get(new_id)
+        if new is None:
+            continue
+        for cond in set(new.refs("conditions")) - set(node.refs("conditions")):
+            target = kn.nodes.get(cond)
+            if target is not None and target.kind not in ("state", "fact"):
+                errors.append(f"{new_id}: 새 버전이 더한 조건 '{cond}'는 상태·사실 노드여야 함 ({KIND_LABEL[target.kind]})")
+    return errors
+
+
+def _judgment_errors(kn: Knowledge) -> list[str]:
+    """판정 기록: 어떤 가설을(of), 누가(source), 어떻게 봤나(verdict)."""
+    errors = []
+    for i, j in enumerate(kn.judgments, 1):
+        where = f"판정 {i}번째({j.get('of', '?')})"
+        target = kn.nodes.get(j.get("of", ""))
+        if target is None or target.kind not in CLAIMS:
+            errors.append(f"{where}: of는 규칙·가설 id여야 함")
+        if j.get("source") not in SOURCES:
+            errors.append(f"{where}: source는 {list(SOURCES)} 중 하나여야 함")
+        if j.get("verdict") not in VERDICTS:
+            errors.append(f"{where}: verdict는 {list(VERDICTS)} 중 하나여야 함")
+        if "date" not in j or not j.get("note"):
+            errors.append(f"{where}: date와 note(무엇을 보고 그렇게 판정했나)가 있어야 함")
+        for ref in ([j["evidence"]] if isinstance(j.get("evidence"), str) else j.get("evidence", [])):
+            node = kn.nodes.get(ref)
+            if node is None or node.kind not in ("observation", "fact"):
+                errors.append(f"{where}: evidence '{ref}'는 관찰·사실 id여야 함")
     return errors
 
 

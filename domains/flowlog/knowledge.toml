@@ -1,6 +1,7 @@
 # Flowlog 활동 기록 앱 — 경험 지식
 # 출처: 2026-10-14 사용자와의 대화 (docs/knowledge-format-v0.md 3-2 ~ 3-4절)
 # 칸 설명은 proviso/CLAUDE.md 참고.
+# 2026-10-19 개편: 규칙도 가설이다. 'verified'를 없애고 그 근거(사용자 실사용 평가, 실제 기록 재생)를 [[judgment]]로 옮겼다.
 
 [domain]
 id = "flowlog"
@@ -105,7 +106,7 @@ note = "목표 b를 너무 세게 챙겨 a를 해침 → 둘로 나눠 고침"
 [[rule]]
 id = "R_P1a"
 version = 2
-status = "verified"
+status = "hypothesis"
 method = "1~4칸은 여러 번(2회 이상) 쓴 제목을 점수 순으로"
 reason = "여러 번 쓴 제목은 또 쓴다"
 serves = ["G_fast"]
@@ -117,6 +118,7 @@ note = "빈도 순서 부분은 v1 실사용에서 '좋다'는 평가"
 id = "R_P1b"
 version = 2
 status = "hypothesis"
+test_plan = "Flowlog 앱에 v2를 넣으면 사용자 실사용 판정 (앱은 아직 v1)"
 method = "5번째 칸에는 1~4칸에 없는 제목 중 가장 최근에 쓴 것 하나"
 reason = "두 번째 쓸 때 다시 타이핑하지 않게. 한 번 쓴 건 순위를 차지할 명분이 없으니 마지막 한 칸만"
 serves = ["G_new"]
@@ -124,3 +126,28 @@ conditions = ["F_stored", "S_slots5"]
 evidence = ["O_slow_recent", "O_replay_0914"]
 side_effects = ["H_alternate", "H_routine_pushed"]
 note = "방법 문구를 '처음 쓴 제목' → '1~4칸에 없는 가장 최근 제목'으로 구체화 (코드로 옮기며 빈틈 발견, 사용자 확인 2026-10-14)"
+
+# ---------- 판정 기록 (성적표의 (ii): 출처별, 사용자 실사용이 가장 무겁다) ----------
+# 자동 검사(checks.py, 시뮬레이션)는 가설의 check 칸에 있다. 여기는 사람·기록 재생이 내린 판정.
+[[judgment]]
+of = "R_P1a"
+source = "user"
+verdict = "지지"
+date = 2026-10-14
+note = "v1을 실제로 쓰며 빈도 순서 부분(여러 번 쓴 제목이 위로)은 '좋다'. R_P1a는 그 부분을 1~4칸으로 옮긴 것. v2 자체는 아직 써 보지 않음"
+
+[[judgment]]
+of = "R_P1a"
+source = "replay"
+verdict = "지지"
+date = 2026-10-14
+note = "실제 기록 3,559건 재생: 두 번째 이상 쓰는 제목의 98%가 v1·v2 모두 5칸 안, 현재 앱 순위 1위 80%"
+evidence = ["O_replay_0914", "O_replay_ranks"]
+
+[[judgment]]
+of = "R_P1b"
+source = "replay"
+verdict = "일부"
+date = 2026-10-14
+note = "실제 기록 재생: v1의 '처음 쓴 제목이 다음 기회에 1등'(13%)은 없어지지만, 새 제목(이전 1~3회) 적중은 v1 84% → v2 82%로 오히려 2%p 낮다"
+evidence = ["O_replay_0914"]

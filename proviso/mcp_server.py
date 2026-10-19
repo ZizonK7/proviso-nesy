@@ -7,11 +7,12 @@ Claude Code 등록 예 (저장소 루트를 PYTHONPATH로):
 """
 from __future__ import annotations
 
+import importlib
 import json
 import sys
 from pathlib import Path
 
-from . import audit, query
+from . import audit, query, score
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -42,7 +43,14 @@ TOOLS = [
     },
     {
         "name": "audit",
-        "description": "점검: 목표를 해치는데 사용자가 대가로 받아들인 기록이 없는 것(의도와 실제가 어긋난 곳)을 찾는다.",
+        "description": "점검: 오류(목표를 해치는데 사용자가 대가로 받아들인 기록이 없는 것)와 "
+                       "경고(조건을 더하지 않은 개정, 시험 수단이 없는 가설)를 찾는다.",
+        "inputSchema": {"type": "object", "properties": {"domain": {"type": "string"}}, "required": ["domain"]},
+    },
+    {
+        "name": "scorecard",
+        "description": "성적표: 한 분야의 살아 있는 가설(규칙 포함)마다 자동 검사 결과와 판정 기록을 출처별로. "
+                       "사용자 실사용 판정이 가장 무겁다. 규칙을 믿기 전에 본다.",
         "inputSchema": {"type": "object", "properties": {"domain": {"type": "string"}}, "required": ["domain"]},
     },
 ]
@@ -63,6 +71,9 @@ def call_tool(name: str, args: dict) -> str:
         return query.goal_tree(kn)
     if name == "audit":
         return audit.report(kn)
+    if name == "scorecard":
+        module = importlib.import_module(f"domains.{args['domain']}.checks")
+        return score.report(kn, module.CHECKS, getattr(module, "SOURCE", "auto"))
     return query.explain(kn, args.get("id", ""))
 
 

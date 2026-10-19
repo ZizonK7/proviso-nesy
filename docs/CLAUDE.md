@@ -2,7 +2,7 @@
 
 - `sela-paper-draft.md`: 사용자가 쓴 원안 논문(2026-10-14 받은 그대로). 수정 금지 — 철학과 출발점의 기준.
 - `rule-drafts-v0.md`: 코드 전에 손으로 써 본 규칙 4개(분야 A, ai_company 기록 기반). 양식 검증용. 사용자 검토 결과를 여기에 반영.
-- `knowledge-format-v0.md`: 정보 층위와 분야 A 조건 단어장, 개정된 규칙, 그리고 사용자가 논리를 쌓은 과정(3절). "선호" 층은 3-4절에서 폐지됐다. 현재 칸 정의는 [proviso/CLAUDE.md](../proviso/CLAUDE.md).
+- `knowledge-format-v0.md`: 정보 층위와 분야 A 조건 단어장, 개정된 규칙, 그리고 사용자가 논리를 쌓은 과정(3절). "선호" 층은 3-4절에서 폐지됐다. 5절: 규칙·가설 통합(검증됨 폐지, 성적표, 틀리면 쪼갠다, 2026-10-19). 현재 칸 정의는 [proviso/CLAUDE.md](../proviso/CLAUDE.md).
 - `pieces-v0.md`: 논리 조각(P1~P6)과 상황별 대 보기. 조각 문장의 최신본.
 - `AGENT-LOG.md`: 하위 에이전트 배치별 모델·effort·품질과 가져온 교훈. 예측과 실측은 `domains/agent_usage/dispatches.toml`. 메인이 쓴다.
 - `worklog/`: 하위 에이전트 작업 보고서(작업마다 하나). 양식은 그 폴더 CLAUDE.md.

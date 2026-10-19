@@ -7,6 +7,8 @@ from __future__ import annotations
 
 from . import simulate as sim
 
+SOURCE = "simulation"  # 이 분야의 자동 검사는 가상 사용 패턴 시뮬레이션이다 (실제 기록 재생 결과는 판정 기록으로)
+
 
 def alternate_two_new() -> tuple[str, str]:
     """H_alternate: 새 활동 둘을 번갈아 하면 v2에서도 계속 직접 입력하게 되는가."""

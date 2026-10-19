@@ -9,8 +9,11 @@
 # 공개 저장소: 작업 설명은 종류만 적는다 (게임 내용·코드는 적지 않음).
 #
 # 칸:
-#   predicted.time_class / tokens_class  등급 목록. 범위 예측("M–L")은 두 등급을 다 적는다
-#   predicted.minutes  [하한, 상한] 분. 하나만 있으면 "이상"
+#   predicted.minutes  [하한, 상한] 분. 하나만 있으면 "이상". 시간 판정은 이 숫자를 세 마디 구간으로 바꿔서 한다
+#                      (잠깐 ≤10분 · 다른 일 10–40분 · 신경 끄기 >40분, 2026-10-19 사용자 결정; dispatches.py가 계산)
+#   predicted.told     사용자에게 말한 구간 (잠깐 / 다른 일 / 신경 끄기). 2026-10-19부터. 범위가 두 구간에 걸치면 긴 쪽(R_say_numbers_v2)
+#   predicted.time_class  옛 시간 등급(S ≤20 · M 20–45 · L 45–90 · XL >90분). 2026-10-19 전 기록의 역사로만 남고 판정에 쓰지 않는다
+#   predicted.tokens_class  토큰 등급 목록. 범위 예측("T2–T3")은 두 등급을 다 적는다
 #   predicted.turns    [하한, 상한] 턴. 하나만 있으면 "이상"
 #   predicted.rules    예측에 쓴 규칙 id (knowledge.toml)
 #   predicted.analog   빗댄 과거 기록 id (2026-10-19부터, 있으면). 배수 가설(H_settled_integration·H_build_tools)이 이 값으로 시험한다
@@ -20,6 +23,9 @@
 #   actual.tokens_m    합계 토큰(백만). 캐시 생성 + 캐시 읽기 + 입력 + 출력
 #   review.reason      맞음/틀림 이유 (기록 그대로). 맞았을 때도 적는다
 #   review.hypotheses  이 기록과 이어진 가설 id
+#   review.wrong       틀린 조각 id 목록 (규칙·가설·상태). 2026-10-19 결정 뒤(p04부터) 시간 구간이 빗나가면 필수
+#   review.why         틀린 까닭 하나: "조건 흐림"(→ 조건을 더해 쪼갠다) / "이유 틀림"(→ 새 버전) / "바깥 상황"(→ 예외). wrong과 함께 필수
+#                      지난 기록은 손으로 되짚지 않는다. 분이 빗나간 기록의 속도/양 갈래는 dispatches.py가 계산해 보여 준다
 
 [[dispatch]]
 id = "d01"
@@ -4126,6 +4132,7 @@ S_build_tools = "아니오"
 [dispatch.predicted]
 written_before = true
 analog = "p01"
+told = "신경 끄기"
 time_class = ["L"]
 minutes = [40, 65]
 turns = [190, 330]
@@ -4135,4 +4142,10 @@ rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long_v5", "R_verify_lap
 reason = "p01(19.6분·95턴·21.9M, 같은 논리집을 판정 요약으로 읽고 편집)의 턴 ×2–3.5: 이번엔 코어 다섯 파일의 코드 수정 + 분야 셋의 지식 파일 옮기기 + 다시 채점 + 테스트가 붙는다. 기존 코드 고치기라 분당 5–6.5턴, 턴당 13–25만. 테스트 바퀴는 짧아(1분 안) 분을 거의 늘리지 않는다. 사용자에게: 40분 넘음 → '신경 쓰지 마'"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 17.0
+turns = 130
+tokens_m = 30.5
+[dispatch.review]
+wrong = ["R_turns_analogy_v2", "R_time_turns_v2"]
+why = "조건 흐림"
+reason = "구간 빗나감: '신경 끄기'라 했는데 17분('다른 일'). 턴 130 vs 190–330(양 조각), 분당 7.6턴 vs 5–6.5(속도 조각) 둘 다 빗나감. p01도 ×0.4였다: 이 저장소의 일(코어 600줄, 표준 라이브러리, 테스트 1초)은 batman 기준 숫자보다 빠르다. 비유 기록 p01 자체가 빠른 쪽이었는데 '할 일이 많다'로 ×2–3.5를 곱했다. 흐렸던 조건: 저장소 크기·검사 속도(작은 코드베이스면 편집이 큰 덩어리로 가고 확인이 즉시 끝난다). 쪼갤 후보: R_turns_analogy_v2에 '같은 저장소의 기록에 빗대면 할 일 수에 비례해 곱하지 말고 ×1–1.5'"

@@ -15,10 +15,26 @@ class Knowledge(unittest.TestCase):
         self.assertEqual(dp.validate(dp.load(), kn), [])
 
     def test_every_check_name_exists(self):
+        # 가설·규칙 모두: 검사 이름이 있고, 세운 뒤 기록으로만 시험하는 검사는 SEEN_UNTIL이 있다
         kn = schema.load(KN)
-        for hyp in kn.of("hypothesis"):
-            self.assertIn(hyp.data["check"], checks.CHECKS)
-            self.assertIn(hyp.data["check"], checks.SEEN_UNTIL)
+        for node in kn.claims():
+            for name in schema.check_names(node):
+                self.assertIn(name, checks.CHECKS, node.id)
+                if name not in checks.NO_CUT:
+                    self.assertIn(name, checks.SEEN_UNTIL, node.id)
+
+    def test_prediction_rules_that_are_alive_have_a_test(self):
+        # 2026-10-19: 예측에 쓰는 살아 있는 규칙은 자동 검사가 있거나, 못 붙이는 까닭(test_plan)을 적는다
+        kn = schema.load(KN)
+        for rule in kn.of("rule"):
+            if schema.alive(rule):
+                self.assertTrue(schema.check_names(rule) or rule.data.get("test_plan"), rule.id)
+
+    def test_no_verified_status_left(self):
+        for domain in ("flowlog", "music_player", "agent_usage"):
+            kn = schema.load(ROOT / "domains" / domain / "knowledge.toml")
+            for node in kn.claims():
+                self.assertIn(node.data.get("status", "hypothesis"), ("hypothesis", "retired"), node.id)
 
     def test_audit_passes_after_turn_analogy_revision(self):
         # 빗대어 잡은 턴 수(H_turns_over)를 R_turns_analogy v2가 배수로 고쳤다. v1은 부작용과 함께 보존된다
@@ -30,15 +46,75 @@ class Knowledge(unittest.TestCase):
 
 
 class Classes(unittest.TestCase):
-    def test_time_and_token_class_edges(self):
-        self.assertEqual([dp.time_class(m) for m in (20, 20.1, 45, 90, 90.1)], ["S", "M", "M", "L", "XL"])
+    def test_zone_and_token_class_edges(self):
+        self.assertEqual([dp.zone(m) for m in (10, 10.1, 40, 40.1)], ["잠깐", "다른 일", "다른 일", "신경 끄기"])
         self.assertEqual([dp.token_class(t) for t in (19.9, 20, 60, 119.9, 120)], ["T1", "T2", "T3", "T3", "T4"])
 
+    def test_zones_of_prediction_range(self):
+        self.assertEqual(dp.zones_of([5, 10]), ["잠깐"])
+        self.assertEqual(dp.zones_of([10, 20]), ["다른 일"])  # 아래 끝이 경계값이면 위 구간부터
+        self.assertEqual(dp.zones_of([40, 65]), ["신경 끄기"])
+        self.assertEqual(dp.zones_of([8, 18]), ["잠깐", "다른 일"])  # 걸침
+        self.assertEqual(dp.zones_of([5, 50]), ["잠깐", "다른 일", "신경 끄기"])
+        self.assertEqual(dp.zones_of([90]), ["신경 끄기"])  # 하나만 있으면 '이상'
+        self.assertEqual(dp.zones_of([]), [])
+
     def test_judge_range_and_direction(self):
-        self.assertEqual(dp.judge(["M", "L"], "L", dp.TIME_CLASSES), "맞음")
-        self.assertEqual(dp.judge(["M"], "XL", dp.TIME_CLASSES), "낮게 잡음")
-        self.assertEqual(dp.judge(["M", "L"], "S", dp.TIME_CLASSES), "높게 잡음")
+        self.assertEqual(dp.judge(["다른 일", "신경 끄기"], "신경 끄기", dp.ZONES), "맞음")
+        self.assertEqual(dp.judge(["잠깐"], "신경 끄기", dp.ZONES), "낮게 잡음")
+        self.assertEqual(dp.judge(["다른 일", "신경 끄기"], "잠깐", dp.ZONES), "높게 잡음")
         self.assertEqual(dp.judge(["T2"], None, dp.TOKEN_CLASSES), "모름")
+
+
+class Rescore20261019(unittest.TestCase):
+    """시간 구간 세 마디로 다시 채점 (기록 파일은 고치지 않는다)."""
+
+    def test_rescore_counts_minute_ranges_only(self):
+        records = dp.load()
+        # 다시 채점한 시점(p03까지)의 기록만: 뒤에 기록이 늘어도 이 숫자는 그대로다
+        records = records[: [d["id"] for d in records].index("p03") + 1]
+        r = dp.rescore(records)
+        self.assertEqual(sorted(r["분 범위 없음"]), sorted(["dR1", "dR2", "dR3", "dR4", "d14", "d16"]))
+        self.assertEqual(sum(r["판정"].values()), 118)
+        spans = sum(r["걸침"].values())
+        singles = sum(sum(c.values()) for c in r["구간별"].values())
+        self.assertEqual(spans + singles, 118)
+
+    def test_miss_split_by_turns(self):
+        base = {"id": "x", "predicted": {"minutes": [20, 30], "turns": [100, 150]}, "actual": {}}
+        speed = {**base, "actual": {"minutes": 10, "turns": 120}}
+        amount = {**base, "actual": {"minutes": 10, "turns": 50}}
+        none = {"id": "y", "predicted": {"minutes": [20, 30]}, "actual": {"minutes": 50, "turns": 50}}
+        self.assertEqual(dp.miss_split(speed), ("아래", "속도"))
+        self.assertEqual(dp.miss_split(amount), ("아래", "양"))
+        self.assertEqual(dp.miss_split(none), ("위", "턴 예측 없음"))
+        self.assertIsNone(dp.miss_split({**base, "actual": {"minutes": 25, "turns": 50}}))
+
+    def test_p04_told_the_long_zone(self):
+        p04 = {d["id"]: d for d in dp.load()}["p04"]["predicted"]
+        self.assertEqual(p04["told"], "신경 끄기")
+        self.assertEqual(dp.zones_of(p04["minutes"])[-1], p04["told"])
+
+    def test_future_zone_miss_needs_wrong_and_why(self):
+        kn = schema.load(KN)
+        records = dp.load()
+        late = {"id": "zz1", "project": "proviso", "batch": 9, "date": "2026-10-20", "task": "t",
+                "predicted": {"minutes": [5, 9], "told": "잠깐"}, "actual": {"minutes": 30, "turns": 10}}
+        errors = dp.validate(records + [late], kn)
+        self.assertTrue(any("zz1" in e and "review.wrong" in e for e in errors))
+        late["review"] = {"wrong": ["R_time_turns_v2"], "why": "조건 흐림"}
+        self.assertEqual(dp.validate(records + [late], kn), [])
+        late["review"]["why"] = "몰라"
+        self.assertTrue(any("review.why" in e for e in dp.validate(records + [late], kn)))
+        # 지난 기록(p03까지)은 빗나가도 요구하지 않는다: p01은 구간을 빗나갔지만 오류가 없다
+        self.assertEqual(dp.zone_verdict({d["id"]: d for d in records}["p01"]), "높게 잡음")
+        self.assertEqual(dp.validate(records, kn), [])
+
+    def test_used_check_reads_predictions_written_before(self):
+        verdict, detail = checks.used_minutes("R_time_turns_v2")
+        self.assertTrue(verdict.startswith(("지지됨", "반박됨")))
+        self.assertNotIn("d32b ", detail)  # 보내기 전에 적지 않은 예측(d32b)은 뺀다
+        self.assertTrue(checks.used_minutes("R_integration")[0].startswith("시험 전"))
 
     def test_open_ended_bound_uses_lower(self):
         self.assertEqual(dp.midpoint([400]), 400)

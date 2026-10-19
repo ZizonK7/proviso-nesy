@@ -1,5 +1,6 @@
 # 뮤직 플레이어 '알아서 틀기' — 경험 지식
 # 출처: 2026-10-14 대화, music_player DECISIONS.md 13번, src/js/smart.js (@8445c93)
+# 2026-10-19 개편: 규칙도 가설이다(상태는 hypothesis / retired). 성적은 판정 기록 [[judgment]]과 자동 검사로 본다.
 
 [domain]
 id = "music_player"
@@ -88,6 +89,7 @@ note = "@71f7460까지의 버전. S_dup_possible이 G_diversity와 어긋남(사
 id = "R_M1b"
 version = 2
 status = "hypothesis"
+test_plan = "실제 앱(exe·폰)에서 써 본 사용자 실사용 판정"
 method = "바퀴 단위: 한 바퀴 안에서 곡마다 한 번씩. 안 나온 곡에서 최대 30곡씩 고르고(억지로 채우지 않음), 다 돌면 '무한히 듣기'(기본 켬)면 처음부터 다시, 끄면 멈춤. 최근 곡 쉬게 하기와 점수+운 뽑기는 그대로"
 reason = "같은 곡이 나올 수 있는 순간을 '바퀴가 바뀔 때' 하나로 줄인다. 그 순간은 최근 곡 쉬게 하기가 막는다"
 serves = ["G_flow", "G_diversity"]
@@ -99,9 +101,19 @@ note = "사용자 결정 2026-10-14: '최대 30개로 제한하고 한 번씩만
 id = "R_S1"
 version = 1
 status = "hypothesis"
+test_plan = "실제 폰에서 써 본 사용자 실사용 판정"
 method = "셔플은 한 번 켜면 끌 때까지 유지한다. 대신 켜져 있는 동안은 폰 재생 막대에도 셔플 버튼을 보여 켜진 줄 알게 하고, 거기서 바로 끌 수 있게 한다"
 reason = "켜진 상태가 이어지는 건 괜찮지만, 모르는 사이에 순서가 바뀌면 고장처럼 느껴진다"
 serves = ["G_mode_visible"]
 conditions = ["F_shuffle_sticky"]
 evidence = ["O_shuffle_surprise"]
 note = "사용자 결정 2026-10-19, music_player @25d6b74(DECISIONS.md 25번). 실제 폰에서 써 본 평가 전이라 가설"
+
+# ---------- 판정 기록 (성적표의 (ii): 출처별, 사용자 실사용이 가장 무겁다) ----------
+[[judgment]]
+of = "R_M1b"
+source = "simulation"
+verdict = "일부"
+date = 2026-10-14
+note = "대기열 흐름 시뮬레이션(곡 12·30·31·75개, 무한히 듣기 켬/끔)에서 같은 곡이 한 바퀴 안에 다시 나오지 않고, 바퀴가 바뀔 때도 방금 들은 곡이 바로 나오지 않음(이유 부분). 흐름이 맞는지(G_flow)는 실사용 평가 전"
+evidence = ["F_dup_window"]

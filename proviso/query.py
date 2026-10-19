@@ -7,7 +7,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from . import schema
-from .schema import KIND_LABEL, REFS, RULE_STATUS, Knowledge, Node
+from .schema import KIND_LABEL, REFS, SOURCES, STATUS, Knowledge, Node, check_names
 
 # 필드 → (정방향 설명, 역방향 설명)
 FIELD_LABEL = {
@@ -36,13 +36,15 @@ def load_all(root: Path) -> dict[str, Knowledge]:
 def describe(node: Node) -> str:
     d = node.data
     if node.kind == "rule":
-        return (f"[규칙 {node.id} v{d['version']} · {RULE_STATUS[d['status']]}] "
+        return (f"[규칙 {node.id} v{d['version']} · {STATUS[d['status']]}] "
                 f"방법: {d['method']} / 이유: {d['reason']}")
     extra = ""
+    if node.kind == "hypothesis" and d.get("status") == "retired":
+        extra = " (이전 버전)"
     if node.kind == "fact":
         extra = f" (확인 {d['checked']}, 출처 {d['source']})"
     elif node.kind in ("observation", "hypothesis"):
-        extra = f" (출처 {d['source']})"
+        extra += f" (출처 {d['source']})"
     return f"[{KIND_LABEL[node.kind]} {node.id}] {node.text}{extra}"
 
 
@@ -93,6 +95,8 @@ def explain(kn: Knowledge, node_id: str) -> str:
     lines = [describe(node)]
     if node.data.get("note"):
         lines.append(f"메모: {node.data['note']}")
+    if node.kind in ("rule", "hypothesis"):
+        lines += _test_means(kn, node)
     for (kind, field) in REFS:
         if kind == node.kind:
             for ref in node.refs(field):
@@ -103,3 +107,19 @@ def explain(kn: Knowledge, node_id: str) -> str:
             if kind == other.kind and node.id in other.refs(field):
                 lines.append(f"- {FIELD_LABEL[field][1]}: {describe(other)}")
     return "\n".join(lines)
+
+
+def _test_means(kn: Knowledge, node: Node) -> list[str]:
+    """가설의 시험 수단: 자동 검사 이름과 판정 기록 (무거운 출처부터). 자동 검사 결과는 check 명령·scorecard 도구로."""
+    out = []
+    names = check_names(node)
+    if names:
+        out.append(f"- 자동 검사: {', '.join(names)}")
+    order = list(SOURCES)
+    for j in sorted(kn.judgments_of(node.id), key=lambda j: order.index(j["source"])):
+        star = "★ " if j["source"] == "user" else ""
+        out.append(f"- {star}판정 ({SOURCES[j['source']]}, {j.get('date', '')}): {j['verdict']} — {j['note']}")
+    if not out:
+        plan = node.data.get("test_plan")
+        out.append("- 시험 수단 없음 (자동 검사도 판정도 없음)" + (f" — 계획: {plan}" if plan else ""))
+    return out
