@@ -4149,3 +4149,40 @@ tokens_m = 30.5
 wrong = ["R_turns_analogy_v2", "R_time_turns_v2"]
 why = "조건 흐림"
 reason = "구간 빗나감: '신경 끄기'라 했는데 17분('다른 일'). 턴 130 vs 190–330(양 조각), 분당 7.6턴 vs 5–6.5(속도 조각) 둘 다 빗나감. p01도 ×0.4였다: 이 저장소의 일(코어 600줄, 표준 라이브러리, 테스트 1초)은 batman 기준 숫자보다 빠르다. 비유 기록 p01 자체가 빠른 쪽이었는데 '할 일이 많다'로 ×2–3.5를 곱했다. 흐렸던 조건: 저장소 크기·검사 속도(작은 코드베이스면 편집이 큰 덩어리로 가고 확인이 즉시 끝난다). 쪼갤 후보: R_turns_analogy_v2에 '같은 저장소의 기록에 빗대면 할 일 수에 비례해 곱하지 말고 ×1–1.5'"
+
+[[dispatch]]
+id = "p05"
+project = "proviso"
+batch = 3
+date = 2026-10-19
+task = "논리집을 계산되게: 가설에 효과 칸(양·속도·더하기), 상황 값으로 예측 계산, 지난 기록 다시 돌리기(앞 절반으로 세우고 뒤 절반으로 시험), 빈틈 쪼개기, 방향(논리)과 크기(숫자) 성적을 따로. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "일부"
+S_build_tools = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p04"
+time_class = ["M"]
+minutes = [18, 35]
+turns = [120, 220]
+tokens_class = ["T2"]
+tokens_m = [25, 60]
+told = "다른 일"
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long_v5"]
+reason = "p04(17.0분·130턴·30.5M, 같은 저장소의 엔진 개편)의 ×1–1.7: 새 코드(계산기·다시 돌리기)를 짓고 쪼개기 판단이 붙지만, p01·p04가 둘 다 batman 기준 예측의 ×0.4였으므로 할 일 수로 크게 곱하지 않는다. 분당 7–8턴(p04 7.6)"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
