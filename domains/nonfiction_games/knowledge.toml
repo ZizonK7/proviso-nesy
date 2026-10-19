@@ -1,0 +1,91 @@
+# 비문학 기반 게임 — 잘 된 게임의 성공 논리
+# 출처: 2026-10-19 대화(사용자 목표·결정), 영어 위키백과 원문(사실, 2026-10-19 확인), docs/nonfiction-games-v0.md
+# 사실은 출처에서 확인한 것만. 사용자 경험은 관찰로. AI가 사실에서 뽑은 설명은 가설(source = "ai")이고, 성공 사례만 보고 세운 사후 설명이다.
+
+[domain]
+id = "nonfiction_games"
+name = "비문학 기반 게임"
+
+# ---------- 목표 (사용자) ----------
+[[goal]]
+id = "G_new_genre"
+text = "비문학(책·논문·기록)을 바탕으로 한 새 게임 장르를 연다"
+
+[[goal]]
+id = "G_success_logic"
+text = "잘 된 게임의 성공 논리를 작은 조각으로 쪼개, 비문학에 대 볼 수 있게 한다"
+parent = "G_new_genre"
+
+# ---------- 사실: 심즈 (The Sims, 2000) ----------
+[[fact]]
+id = "F_sims_origin"
+text = "심즈의 원래 영감은 Christopher Alexander의 건축·도시 설계서 『A Pattern Language』(1977)다. Will Wright는 이 책이 미적 가치가 아니라 쓰임새(구조가 사람 생활에 어떻게 쓰이나)를 설계 원리로 삼은 데 끌렸고, '설계를 통해 사람의 행동과 교류를 가능하게 하는' 시뮬레이션을 만들고 싶어 했다"
+checked = 2026-10-19
+source = "en.wikipedia.org The Sims (video game), Development"
+
+[[fact]]
+id = "F_apl_book"
+text = "『A Pattern Language』는 패턴 253개로 된 책이다. 패턴 하나는 '문제 하나 → 해결 하나'이고, 패턴끼리 번호로 서로를 가리키는 그물 구조다. 목적은 전문가가 아닌 보통 사람이 자기 집과 동네를 직접 설계하게 하는 것: '세상의 멋진 장소 대부분은 건축가가 아니라 사람들이 만들었다'"
+checked = 2026-10-19
+source = "en.wikipedia.org A Pattern Language"
+
+[[fact]]
+id = "F_sims_ai_sources"
+text = "심즈의 인공지능(심의 행동) 모형은 여러 비문학에서 왔다: 『A Pattern Language』, 매슬로의 1943년 논문 「A Theory of Human Motivation」과 욕구 위계, Charles Hampden-Turner의 『Maps of the Mind』. Scott McCloud의 『Understanding Comics』(1993)도 나중에 큰 영향을 줬다 — 설계자와 사용자의 '협업', 추상화가 사람을 이야기에 끌어들이는 힘. Wright는 심즈를 미국 소비문화 풍자라고도 말했다"
+checked = 2026-10-19
+source = "en.wikipedia.org The Sims (series 문서: 매슬로·Maps of the Mind·풍자), The Sims (video game) (Understanding Comics)"
+
+[[fact]]
+id = "F_sims_pivot"
+text = "처음엔 건축 시뮬레이터였고 심은 집을 평가하는 역할이었다. 개발 중 팀이 심이 생각보다 재미있다고 보고 역할을 키웠다. 몇 년간 열린 행동 체계를 만들다 보니 사회적 측면(서로의 집 방문, 오래가는 관계)이 가장 몰입감 있어서 인물 쪽으로 무게를 옮겼다"
+checked = 2026-10-19
+source = "en.wikipedia.org The Sims (video game), Gameplay·Development"
+
+[[fact]]
+id = "F_sims_rules"
+text = "심은 욕구·물건·다른 심에 반응한다. 자유 의지를 켜면 스스로 움직이지만 대개 플레이어가 지시하고, 스스로는 욕구의 우선순위를 잘 못 잡는다. 이기는 조건이 없어 끝없이 할 수 있고 '게임보다 장난감에 가깝다'는 평. 실패는 있다(욕구 방치로 죽음, 가출, 아이를 데려감). 돈(시작 2만 시몰레온)과 직업이 있고, 짓기·사기 모드에서는 시간이 멈춘 채 칸 단위로 집을 짓고 꾸민다"
+checked = 2026-10-19
+source = "en.wikipedia.org The Sims (video game), Gameplay"
+
+[[fact]]
+id = "F_sims_player_designer"
+text = "Wright는 플레이어를 설계자 자리에 두고 싶어 했다. 게임보다 먼저 만들기 도구(모드 도구)를 내놓아, 출시 때 이미 팬이 만든 물건이 있었다"
+checked = 2026-10-19
+source = "en.wikipedia.org The Sims (video game), Modding support"
+
+[[fact]]
+id = "F_sims_reception"
+text = "포커스 그룹에서 콘셉트 반응이 아주 나빠 회사 안에서 뒤로 밀려 개발됐다. 출시 뒤 2002년 당시 PC 최다 판매(630만 장), 2004년 확장팩 포함 4,100만"
+checked = 2026-10-19
+source = "en.wikipedia.org The Sims (video game), Development·Reception"
+
+[[fact]]
+id = "F_sims_personal"
+text = "Wright는 1991년 오클랜드 화재로 집을 잃었고, 삶을 다시 꾸린 경험을 게임에 넣었다"
+checked = 2026-10-19
+source = "en.wikipedia.org The Sims (video game), Development"
+
+# ---------- 가설 (AI가 사실에서 뽑음, 사후 설명) ----------
+[[hypothesis]]
+id = "H_sims_purpose_not_content"
+text = "책에서 넘어간 것은 내용(패턴 253개)이 아니라 책의 목적('보통 사람이 직접 설계한다')이다. 게임은 그 목적을 플레이어의 자리(짓기 모드, 만들기 도구)로 바꿨다"
+source = "ai (2026-10-19, F_apl_book·F_sims_origin·F_sims_player_designer에서)"
+evidence = ["F_apl_book", "F_sims_origin", "F_sims_player_designer"]
+
+[[hypothesis]]
+id = "H_sims_people_over_subject"
+text = "책의 주제(집)는 무대가 되고, 재미는 그 무대에서 움직이는 사람에게서 나왔다. 비문학의 주제를 그대로 놀이로 삼기보다, 주제가 사람 행동에 미치는 영향을 놀이로 삼아야 한다"
+source = "ai (2026-10-19, F_sims_pivot에서)"
+evidence = ["F_sims_pivot", "F_sims_origin"]
+
+[[hypothesis]]
+id = "H_sims_many_sources"
+text = "책 한 권의 각색이 아니다. 건축서·심리학 논문·인지 지도 책·만화 이론서를 섞어 하나의 모형을 만들었고, 그래서 책 이름을 내걸 이유가 없었다"
+source = "ai (2026-10-19, F_sims_ai_sources에서)"
+evidence = ["F_sims_ai_sources"]
+
+[[hypothesis]]
+id = "H_sims_toy"
+text = "이기는 조건이 없는 장난감 구조가 성공에 중요했다: 플레이어가 목표를 스스로 정하고 이야기를 스스로 만든다(뜻 없는 말 Simlish처럼 추상화된 표현이 그 빈자리를 남긴다)"
+source = "ai (2026-10-19, F_sims_rules·F_sims_ai_sources에서)"
+evidence = ["F_sims_rules", "F_sims_ai_sources"]

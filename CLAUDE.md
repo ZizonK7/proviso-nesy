@@ -16,7 +16,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 | 폴더 | 역할 |
 |---|---|
 | `proviso/` | 코어(분야 모름): 지식 파일 읽기·검사(`schema`), 그래프(`graph`), 조회(`query`), MCP 서버(`mcp_server`, 읽기 전용) |
-| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드. 현재 `flowlog`, `music_player`, `agent_usage` |
+| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드. 현재 `flowlog`, `music_player`, `agent_usage`, `nonfiction_games` |
 | `experiments/` | 본체 실험 (논리집 유무에 따른 Claude 답 비교) |
 | `docs/` | 원안, 설계 기록, 실험 보고서, 하위 에이전트 기록(`AGENT-LOG.md`, `worklog/`) |
 | `scripts/` | 운영 도구 (하위 에이전트 대화 기록 → 사용량 숫자, `agent_usage` 기록에 씀) |
@@ -52,7 +52,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 - 큰 그림(사용자): 문학 기반 게임은 많고 성공도 많은데 비문학 기반은 드물다 → 잘 된 게임(특히 책 기반)의 성공 논리를 잘게 쪼개 비문학에 대 보면 새 장르를 열 수 있다.
 - 순서(사용자 결정): **성공 사례로 논리를 먼저 세우고 → 망한 게임에 대 보고 → 피드백으로 더 쪼갠다.** 선택 편향(성공 사례만 보면 생기는 착각)은 이 순서로 다룬다.
 - 판단 기준(사용자 결정): 사용자가 해 본 게임은 사용자 판단, 아니면 대중·전반 평가, 또는 확인 가능한 사실.
-- 첫 조사: [docs/nonfiction-games-v0.md](docs/nonfiction-games-v0.md). 비문학 기반 게임은 꽤 있다(SimCity·The Sims·Pandemic·This War of Mine 등) — 다만 책의 모형·데이터·절차를 규칙으로 옮겼고 책 이름은 내걸지 않았다. 비어 있는 자리는 "책 한 권의 주장을 내건 상업 게임". 아직 분야 폴더(`domains/`)는 없다 — 조각을 세울 때 만든다.
+- 첫 조사: [docs/nonfiction-games-v0.md](docs/nonfiction-games-v0.md). 비문학 기반 게임은 꽤 있다(SimCity·The Sims·Pandemic·This War of Mine 등) — 다만 책의 모형·데이터·절차를 규칙으로 옮겼고 책 이름은 내걸지 않았다. 비어 있는 자리는 "책 한 권의 주장을 내건 상업 게임". 분야 폴더: [domains/nonfiction_games/](domains/nonfiction_games/CLAUDE.md) — 심즈부터(사용자가 해 본 유일한 게임).
 - 첫 조사의 작업자는 사용자 제안으로 Haiku 5.5 high(기본값 Opus의 예외. 다음 조사도 Haiku로 할지는 그때 사용자에게 확인). Haiku는 빠르지만 근거가 검색 요약에 머물러, 메인의 원문 대조가 필수였다. 이 클라우드 환경은 접속 허용 도메인이 좁다: 위키백과·Steam·ncase.me는 `curl`로 열림(WebFetch는 안 됨), Metacritic·BoardGameGeek·Game Developer·웹 아카이브는 막힘.
 
 ## 지금 상태 (2026-10-16)
