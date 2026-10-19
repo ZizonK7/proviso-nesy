@@ -20,7 +20,9 @@ class Knowledge(unittest.TestCase):
         for node in kn.claims():
             for name in schema.check_names(node):
                 self.assertIn(name, checks.CHECKS, node.id)
-                if name not in checks.NO_CUT:
+                if name in checks.NODE_CUT:  # 계산 조각: 노드가 맞출 때 본 마지막 기록을 적는다
+                    self.assertIn("seen_until", node.data, node.id)
+                elif name not in checks.NO_CUT:
                     self.assertIn(name, checks.SEEN_UNTIL, node.id)
 
     def test_prediction_rules_that_are_alive_have_a_test(self):

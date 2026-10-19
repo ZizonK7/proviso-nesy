@@ -70,7 +70,9 @@ def call_tool(name: str, args: dict) -> str:
     if name == "goal_tree":
         return query.goal_tree(kn)
     if name == "audit":
-        return audit.report(kn)
+        module = importlib.import_module(f"domains.{args['domain']}.checks")
+        hook = getattr(module, "AUDIT", None)
+        return audit.report(kn, hook(kn) if hook else None)
     if name == "scorecard":
         module = importlib.import_module(f"domains.{args['domain']}.checks")
         return score.report(kn, module.CHECKS, getattr(module, "SOURCE", "auto"))

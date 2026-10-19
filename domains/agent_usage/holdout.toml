@@ -1,0 +1,365 @@
+# 시간 순서 홀드아웃의 조각 세트 (2026-10-19, 계산되는 논리)
+# 경계: 배치 17 끝(d38b, 2026-10-16). 앞 절반 = d01–d38b의 끝난 기록 64건, 뒤 절반 = d39–p04의 끝난 기록 61건.
+#   끝난 기록 125건의 가운데(63번째)에 가장 가까운 배치 경계다. 배치 안에서 자르면 같은 지시서 묶음이 양쪽으로 갈린다.
+# 세트마다 조각의 '모양'(무엇에·어떻게·언제·방향·이유)은 손으로 적고, 범위(range)와 근거(fit)는
+#   `python -m domains.agent_usage.fit holdout --write`가 fit_until까지의 기록으로만 맞춰 다시 쓴다(테스트가 같은지 확인한다).
+#   front_v0    = 쪼개기 전: 경계 시점에 살아 있던 규칙의 조건을 그대로 조각으로 옮긴 것
+#   front_split = 쪼갠 뒤: front_v0를 앞 절반에 돌려 설명 안 된 기록의 공통 조건으로 쪼갠 것 (앞 절반만 봄)
+# 이 파일의 조각은 지식 파일의 가설이 아니다(성적을 받지 않는다). 지금 쓰는 조각은 knowledge.toml의 계산 조각 구역.
+# 조각 이름·문장에 프로젝트·앱 이름을 쓰지 않는다(다른 분야에서 다시 쓸 수 있게).
+
+[[set]]
+name = "front_v0"
+fit_until = "d38b"
+note = "쪼개기 전: 경계 시점 규칙(R_time_turns_v2, R_research, R_fixed_input, R_resume_ctx, R_tok_short/long, R_spec_fixed, R_other_models)의 조건을 조각으로"
+
+[[set.piece]]
+id = "C_turns_base"
+text = "기본 설정 모델의 일은 기준 턴 수에서 출발한다"
+reason = "일의 양은 턴으로 센다. 모양마다 곱하기 조각이 기준에서 늘리거나 줄인다"
+conditions = ["S_other_model"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴 10/24건 (d02, d05, d06, d09, d10, d12 …)"
+[[set.piece.effect]]
+on = "turns"
+op = "base"
+range = [285, 512]
+when = { S_other_model = "아니오" }
+reason = "기본 설정 모델, 다른 조각이 걸리지 않은 첫 회차 일(대개 구현)의 턴"
+
+[[set.piece]]
+id = "C_turns_fixed_input"
+text = "입력이 정해진 순수 추론은 턴이 아주 적다"
+reason = "읽을 파일 몇 개를 한 번 읽고 한 번 쓰면 끝나고 도구 고리가 없다"
+conditions = ["S_fixed_input"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴 2/4건 (d18, d23)"
+[[set.piece.effect]]
+on = "turns"
+op = "mul"
+range = [0.186, 0.187]
+dir = "down"
+when = { S_fixed_input = "예" }
+reason = "도구 고리가 없어 읽기·쓰기 몇 턴으로 끝난다"
+
+[[set.piece]]
+id = "C_turns_research"
+text = "엄격한 양식의 조사는 구현보다 턴이 적다"
+reason = "출력 상한이 일의 크기를 정한다. 고칠 코드와 확인 고리가 없다"
+conditions = ["S_research"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴 10/10건 (dR1, dR2, dR3, dR4, d18, d23 …)"
+[[set.piece.effect]]
+on = "turns"
+op = "mul"
+range = [0.217, 0.362]
+dir = "down"
+when = { S_research = "예" }
+reason = "확인·고침 고리가 없고 출력 하나를 정해진 양식으로 쓴다"
+
+[[set.piece]]
+id = "C_turns_resumed"
+text = "앞 회차를 마친 같은 에이전트에게 이어 보내면 턴이 준다"
+reason = "앞 회차에서 코드와 규칙을 읽어 둬서 탐색 턴이 빠진다"
+conditions = ["S_resumed"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴 6/12건 (d17b, d15d, d29b, d30b, d30c, d30e)"
+[[set.piece.effect]]
+on = "turns"
+op = "mul"
+range = [0.164, 0.265]
+dir = "down"
+when = { S_resumed = "예" }
+reason = "이미 읽은 것을 다시 찾지 않는다"
+
+[[set.piece]]
+id = "C_turns_spec_fixed"
+text = "설계 문서가 동작·데이터·검사까지 정해 두면 턴이 준다"
+reason = "설계하지 않고 옮겨 쓰기만 한다"
+conditions = ["S_spec_fixed"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴 4/9건 (d26, d27, d28, d30e)"
+[[set.piece.effect]]
+on = "turns"
+op = "mul"
+range = [0.46, 0.713]
+dir = "down"
+when = { S_spec_fixed = "예" }
+reason = "고르고 정하는 턴이 없다"
+
+[[set.piece]]
+id = "C_rate_base"
+text = "기본 설정 모델은 기준 분당 턴으로 돈다"
+reason = "한 턴은 생각 + 도구 호출 하나다. 일의 모양이 빠르기를 바꾼다"
+conditions = ["S_other_model"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 분당 턴 31/46건 (d01, d05, d06, d07, d12, d13 …)"
+[[set.piece.effect]]
+on = "turns_per_min"
+op = "base"
+range = [3.17, 6.34]
+when = { S_other_model = "아니오" }
+reason = "기본 설정 모델의 구현·문서·비평 일의 분당 턴"
+
+[[set.piece]]
+id = "C_rate_web"
+text = "웹 검색·페이지 읽기가 주인 일은 턴이 빨리 돈다"
+reason = "작은 도구 호출(검색 하나, 페이지 하나)이 잦고 한 번에 쓰는 양이 적다"
+conditions = ["S_web"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 분당 턴 8/8건 (dR1, dR2, dR3, dR4, dR5A, dR5B …)"
+[[set.piece.effect]]
+on = "turns_per_min"
+op = "mul"
+range = [1.51, 2.5]
+dir = "up"
+when = { S_web = "예" }
+reason = "도구 호출 하나하나가 짧다"
+
+[[set.piece]]
+id = "C_min_other_fixed"
+text = "기본이 아닌 모델의 순수 추론은 턴이 아니라 생각 시간이 분을 정한다"
+reason = "오래 생각하고 한 번 쓴다. 생각 시간에는 바닥이 있다"
+conditions = ["S_other_model", "S_fixed_input"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 분 5/8건 (d19, d20, d25, d37, d37b)"
+[[set.piece.effect]]
+on = "minutes"
+op = "base"
+range = [13.6, 25.3]
+when = { S_other_model = "예", S_fixed_input = "예" }
+reason = "턴이 열 몇 개라 분당 턴이 흔들리고, 분은 생각 시간이 정한다"
+
+[[set.piece]]
+id = "C_ctx_base"
+text = "기본 설정 모델의 턴당 맥락은 기준값에서 출발한다"
+reason = "에이전트는 매 턴 맥락 전체를 다시 읽는다(F_reread). 맥락의 크기는 한 번에 읽어 두는 양이 정한다"
+conditions = ["S_other_model"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴당 맥락(천 토큰) 22/30건 (d01, d02, d03, d05, d06, d07 …)"
+[[set.piece.effect]]
+on = "ctx_k"
+op = "base"
+range = [217, 432]
+when = { S_other_model = "아니오" }
+reason = "첫 회차 구현·문서 일의 턴당 맥락"
+
+[[set.piece]]
+id = "C_ctx_web"
+text = "웹 조사는 턴당 맥락이 작다"
+reason = "작은 페이지를 조금씩 읽어 맥락이 덜 쌓인다"
+conditions = ["S_web"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴당 맥락(천 토큰) 8/8건 (dR1, dR2, dR3, dR4, dR5A, dR5B …)"
+[[set.piece.effect]]
+on = "ctx_k"
+op = "mul"
+range = [0.275, 0.528]
+dir = "down"
+when = { S_web = "예" }
+reason = "읽는 조각이 작다"
+
+[[set.piece]]
+id = "C_ctx_fixed_input"
+text = "정해진 작은 입력의 순수 추론은 턴당 맥락이 작다"
+reason = "작은 파일 몇 개만 맥락에 둔다"
+conditions = ["S_fixed_input"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴당 맥락(천 토큰) 4/4건 (d18, d23, d36, d36b)"
+[[set.piece.effect]]
+on = "ctx_k"
+op = "mul"
+range = [0.204, 0.311]
+dir = "down"
+when = { S_fixed_input = "예" }
+reason = "맥락에 둘 것이 적다"
+
+[[set.piece]]
+id = "C_ctx_resumed"
+text = "이어 보낸 에이전트는 턴당 맥락이 크다"
+reason = "앞 회차가 끝났을 때의 맥락에서 시작한다"
+conditions = ["S_resumed"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴당 맥락(천 토큰) 11/12건 (d15c, d17b, d15d, d26b, d29b, d29c …)"
+[[set.piece.effect]]
+on = "ctx_k"
+op = "mul"
+range = [1.22, 2.23]
+dir = "up"
+when = { S_resumed = "예" }
+reason = "앞 회차의 맥락이 남는다"
+
+[[set]]
+name = "front_split"
+fit_until = "d38b"
+note = "쪼갠 뒤: front_v0를 앞 절반에 돌려 나온 빈틈으로 둘을 쪼갬(C_turns_research → C_turns_research_v2, C_turns_base에서 C_turns_no_check를 떼어 냄). 앞 절반 말할 구간 39/64 → 47/64. 잃은 d15b는 보고서에 이유"
+
+[[set.piece]]
+id = "C_turns_base"
+text = "기본 설정 모델의 일은 기준 턴 수에서 출발한다"
+reason = "일의 양은 턴으로 센다. 모양마다 곱하기 조각이 기준에서 늘리거나 줄인다"
+conditions = ["S_other_model"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴 10/18건 (d02, d05, d06, d09, d10, d12 …)"
+[[set.piece.effect]]
+on = "turns"
+op = "base"
+range = [285, 512]
+when = { S_other_model = "아니오" }
+reason = "기본 설정 모델, 다른 조각이 걸리지 않은 첫 회차 일(대개 구현)의 턴"
+
+[[set.piece]]
+id = "C_turns_fixed_input"
+text = "입력이 정해진 순수 추론은 턴이 아주 적다"
+reason = "읽을 파일 몇 개를 한 번 읽고 한 번 쓰면 끝나고 도구 고리가 없다"
+conditions = ["S_fixed_input"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴 3/4건 (d18, d23, d36b)"
+[[set.piece.effect]]
+on = "turns"
+op = "mul"
+range = [0.0287, 0.0524]
+dir = "down"
+when = { S_fixed_input = "예" }
+reason = "도구 고리가 없어 읽기·쓰기 몇 턴으로 끝난다"
+
+[[set.piece]]
+id = "C_turns_resumed"
+text = "앞 회차를 마친 같은 에이전트에게 이어 보내면 턴이 준다"
+reason = "앞 회차에서 코드와 규칙을 읽어 둬서 탐색 턴이 빠진다"
+conditions = ["S_resumed"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴 6/12건 (d17b, d15d, d29b, d30b, d30c, d30e)"
+[[set.piece.effect]]
+on = "turns"
+op = "mul"
+range = [0.164, 0.265]
+dir = "down"
+when = { S_resumed = "예" }
+reason = "이미 읽은 것을 다시 찾지 않는다"
+
+[[set.piece]]
+id = "C_turns_spec_fixed"
+text = "설계 문서가 동작·데이터·검사까지 정해 두면 턴이 준다"
+reason = "설계하지 않고 옮겨 쓰기만 한다"
+conditions = ["S_spec_fixed"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴 7/9건 (d26, d27, d28, d30e, d33, d34 …)"
+[[set.piece.effect]]
+on = "turns"
+op = "mul"
+range = [0.46, 0.713]
+dir = "down"
+when = { S_spec_fixed = "예" }
+reason = "고르고 정하는 턴이 없다"
+
+[[set.piece]]
+id = "C_rate_base"
+text = "기본 설정 모델은 기준 분당 턴으로 돈다"
+reason = "한 턴은 생각 + 도구 호출 하나다. 일의 모양이 빠르기를 바꾼다"
+conditions = ["S_other_model"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 분당 턴 31/46건 (d01, d05, d06, d07, d12, d13 …)"
+[[set.piece.effect]]
+on = "turns_per_min"
+op = "base"
+range = [3.17, 6.34]
+when = { S_other_model = "아니오" }
+reason = "기본 설정 모델의 구현·문서·비평 일의 분당 턴"
+
+[[set.piece]]
+id = "C_rate_web"
+text = "웹 검색·페이지 읽기가 주인 일은 턴이 빨리 돈다"
+reason = "작은 도구 호출(검색 하나, 페이지 하나)이 잦고 한 번에 쓰는 양이 적다"
+conditions = ["S_web"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 분당 턴 8/8건 (dR1, dR2, dR3, dR4, dR5A, dR5B …)"
+[[set.piece.effect]]
+on = "turns_per_min"
+op = "mul"
+range = [1.51, 2.5]
+dir = "up"
+when = { S_web = "예" }
+reason = "도구 호출 하나하나가 짧다"
+
+[[set.piece]]
+id = "C_min_other_fixed"
+text = "기본이 아닌 모델의 순수 추론은 턴이 아니라 생각 시간이 분을 정한다"
+reason = "오래 생각하고 한 번 쓴다. 생각 시간에는 바닥이 있다"
+conditions = ["S_other_model", "S_fixed_input"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 분 5/8건 (d19, d20, d25, d37, d37b)"
+[[set.piece.effect]]
+on = "minutes"
+op = "base"
+range = [13.6, 25.3]
+when = { S_other_model = "예", S_fixed_input = "예" }
+reason = "턴이 열 몇 개라 분당 턴이 흔들리고, 분은 생각 시간이 정한다"
+
+[[set.piece]]
+id = "C_ctx_base"
+text = "기본 설정 모델의 턴당 맥락은 기준값에서 출발한다"
+reason = "에이전트는 매 턴 맥락 전체를 다시 읽는다(F_reread). 맥락의 크기는 한 번에 읽어 두는 양이 정한다"
+conditions = ["S_other_model"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴당 맥락(천 토큰) 22/30건 (d01, d02, d03, d05, d06, d07 …)"
+[[set.piece.effect]]
+on = "ctx_k"
+op = "base"
+range = [217, 432]
+when = { S_other_model = "아니오" }
+reason = "첫 회차 구현·문서 일의 턴당 맥락"
+
+[[set.piece]]
+id = "C_ctx_web"
+text = "웹 조사는 턴당 맥락이 작다"
+reason = "작은 페이지를 조금씩 읽어 맥락이 덜 쌓인다"
+conditions = ["S_web"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴당 맥락(천 토큰) 8/8건 (dR1, dR2, dR3, dR4, dR5A, dR5B …)"
+[[set.piece.effect]]
+on = "ctx_k"
+op = "mul"
+range = [0.275, 0.528]
+dir = "down"
+when = { S_web = "예" }
+reason = "읽는 조각이 작다"
+
+[[set.piece]]
+id = "C_ctx_fixed_input"
+text = "정해진 작은 입력의 순수 추론은 턴당 맥락이 작다"
+reason = "작은 파일 몇 개만 맥락에 둔다"
+conditions = ["S_fixed_input"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴당 맥락(천 토큰) 4/4건 (d18, d23, d36, d36b)"
+[[set.piece.effect]]
+on = "ctx_k"
+op = "mul"
+range = [0.204, 0.311]
+dir = "down"
+when = { S_fixed_input = "예" }
+reason = "맥락에 둘 것이 적다"
+
+[[set.piece]]
+id = "C_ctx_resumed"
+text = "이어 보낸 에이전트는 턴당 맥락이 크다"
+reason = "앞 회차가 끝났을 때의 맥락에서 시작한다"
+conditions = ["S_resumed"]
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴당 맥락(천 토큰) 11/12건 (d15c, d17b, d15d, d26b, d29b, d29c …)"
+[[set.piece.effect]]
+on = "ctx_k"
+op = "mul"
+range = [1.22, 2.23]
+dir = "up"
+when = { S_resumed = "예" }
+reason = "앞 회차의 맥락이 남는다"
+
+[[set.piece]]
+id = "C_turns_research_v2"
+text = "엄격한 양식의 조사(정해진 입력의 순수 추론이 아닌 것)는 구현보다 턴이 적다"
+reason = "출력 상한이 일의 크기를 정한다. 고칠 코드와 확인 고리가 없다"
+conditions = ["S_research", "S_fixed_input"]
+split_from = "C_turns_research"
+split_note = "앞 절반의 빈틈: 정해진 입력의 순수 추론(d18·d23)이 조사 조각과 순수 추론 조각을 둘 다 받아 두 번 줄었고, 순수 추론 조각의 숫자가 흐려졌다(d36·d36b가 빈틈). 조사 조각에 '정해진 입력이 아님'을 더했다"
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴 8/8건 (dR1, dR2, dR3, dR4, dR5A, dR5B …)"
+[[set.piece.effect]]
+on = "turns"
+op = "mul"
+range = [0.217, 0.362]
+dir = "down"
+when = { S_research = "예", S_fixed_input = "!예" }
+reason = "정해진 입력의 순수 추론은 따로 줄인다(그쪽 조각). 조사는 찾고 고르는 턴이 붙어 그보다 많다"
+
+[[set.piece]]
+id = "C_turns_no_check"
+text = "외부 확인이 없는 첫 회차의 읽고 쓰는 일(문서·비평·자료 묶음)은 구현보다 턴이 적다"
+reason = "확인 → 고침 고리가 없어서, 읽고 정리해 쓰는 턴만 든다"
+conditions = ["S_external_check", "S_research", "S_fixed_input", "S_resumed"]
+split_from = "C_turns_base"
+split_note = "앞 절반의 빈틈 25건 중 15건이 외부 확인 없음(설명된 39건 중 15건). 비평·문서 일(d17·d21·d22·d31·d32·d34·d35)이 모두 '신경 끄기'로 말해졌다: 기준 턴이 확인 고리가 있는 구현에서 왔다. 조사·순수 추론·이어 보내기는 이미 다른 조각이 줄이므로 뺐다(겹치면 두 번 준다)"
+fit = "d01–d38b 끝난 기록에서 맞춤: 턴 7/9건 (d17, d22, d31, d32, d33, d34 …)"
+[[set.piece.effect]]
+on = "turns"
+op = "mul"
+range = [0.191, 0.362]
+dir = "down"
+when = { S_external_check = "아니오", S_research = "!예", S_fixed_input = "!예", S_resumed = "!예" }
+reason = "확인할 바깥 시스템이 없으면 돌려 보고 고치는 턴이 없다"

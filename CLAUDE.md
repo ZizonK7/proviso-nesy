@@ -22,7 +22,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 | `scripts/` | 운영 도구 (하위 에이전트 대화 기록 → 사용량 숫자, `agent_usage` 기록에 씀) |
 | `tests/` | 표준 라이브러리 unittest |
 
-명령 (저장소 루트): `python -m proviso validate|graph|check|audit <분야>` · `python -m unittest discover -s tests -t .` · `python -m experiments.run_body_v0` · `python -m domains.flowlog.replay <백업>` · `python -m domains.agent_usage.dispatches`. Git Bash에서 한글이 깨지면 `PYTHONIOENCODING=utf-8`. 외부 패키지 없음(Python 3.11+).
+명령 (저장소 루트): `python -m proviso validate|graph|check|audit <분야>` · `python -m unittest discover -s tests -t .` · `python -m experiments.run_body_v0` · `python -m domains.flowlog.replay <백업>` · `python -m domains.agent_usage.dispatches` · `python -m domains.agent_usage.predict <기록 id | 상황 파일>` · `python -m domains.agent_usage.holdout`. Git Bash에서 한글이 깨지면 `PYTHONIOENCODING=utf-8`. 외부 패키지 없음(Python 3.11+).
 
 ## 확정된 설계 결정 (원안 대비 변경 포함)
 상세와 경위: [docs/knowledge-format-v0.md](docs/knowledge-format-v0.md)
@@ -47,10 +47,12 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 - 사용자는 이 분야를 판단하지 않는다("잘 모르겠다"). 대신 **AI가 사용자가 자기 논리집을 쌓는 방식을 보고 따라 해서 스스로 쌓고 스스로 쓴다.** 따라 할 방식 9가지와 절차: [domains/agent_usage/CLAUDE.md](domains/agent_usage/CLAUDE.md).
 - 코어 변경: 규칙·가설에 `against`(반대 근거), 가설에 `evidence`.
 - 가설은 **세운 뒤에 나온 기록으로만 시험**한다(`checks.SEEN_UNTIL`). 조각 v0에서 걸렸던 "사후 설명" 문제를 엔진에서 막는 첫 장치.
+- **계산되는 논리** (2026-10-19, p05): 가설에 효과 칸(무엇에·어떻게·범위·언제·방향·이유)을 붙여, 계산기(`predict`)가 상황 값만으로 숫자와 말할 구간을 낸다. 숫자는 기록에서 기계적으로 맞추고(`fit`), 시간 순서 홀드아웃으로 시험한다. 수치 집착을 막는 장치(방향·크기 성적 분리, 이유 없는 숫자 금지, 보내기 전 조건만, 한 건짜리 조건 금지, 회귀 금지, 조각 수·범위 폭 상한)는 코드·테스트가 강제한다. 조각 이름·문장에는 분야·앱 이름을 쓰지 않는다(다른 분야에서 다시 쓰게).
 - 쓰는 곳: batman 지휘 모델(batman CLAUDE.md §7, 배치 12부터)과 이 저장소의 하위 에이전트(아래 "하위 에이전트 운영").
 
 ## 지금 상태 (2026-10-19)
 - 분야 3개: `flowlog`(제목 추천, 실제 기록 재생 근거 포함), `music_player`(알아서 틀기), `agent_usage`(AI가 스스로 쌓는 사용량 예측).
+- `agent_usage` 계산 조각(p05): 뒤 절반 61건의 말할 구간 적중 — 쪼개기 전 계산기 38 %, 쪼갠 뒤 51 %, 당시 손 예측 62 %. 최종본(전체로 다시 맞춤, 16조각)은 p05 다음 기록부터 시험. 방향이 틀린 조각 하나(설계가 정해지면 턴이 준다)를 물렸다. 상세 [docs/worklog/2026-10-19-computable.md](docs/worklog/2026-10-19-computable.md).
 - `agent_usage`: 기록 129건(batman 배치 1–36의 d01–d94 + 이 저장소 p01–p04). 2026-10-19 첫 전체 정리(개정 7·검사 고침 2·겹친 규칙 셋 모음, 새 가설 일곱, d95부터 시험) 뒤 같은 날 구조 개편(p04): 규칙·가설 통합과 성적표, 시간을 세 마디 구간(잠깐 ≤10분 / 다른 일 10–40분 / 신경 끄기 >40분)으로 다시 채점, 돌아보기에 틀린 조각 칸(`review.wrong`·`why`). 다시 채점하니 분 범위 적중은 49/118로 낮고, 빗나간 69건 중 턴 수(양) 탓이 38·분당 턴(속도) 탓이 23. 예측자가 볼 한 장은 [domains/agent_usage/CLAUDE.md](domains/agent_usage/CLAUDE.md)의 "지금 쓰는 규칙 요약"(성적 포함).
 - 엔진 점검 `audit`이 알아서 틀기의 "같은 곡 재등장"(의도와 다름)을 잡음 → 사용자 결정대로 music_player @b401048에서 고침 → 점검 통과. 논리 세우기 → 점검 → 의도 구체화 → 수정 → 사실 갱신의 고리를 처음 한 바퀴 돎.
 - **사용자 평가 대기**: 새 알아서 틀기 실사용(R_M1b, 판정이 오면 `[[judgment]]` source="user"), 폰 셔플 표시(R_S1, @25d6b74), music_player 실제 앱 빌드 확인(시뮬레이션만 함, 버전 미변경 v0.3.5).
@@ -62,8 +64,9 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 2. 정리: 가설 검사 결과를 지식에 저장(본체 실험에서 도구가 "지지됨"을 못 보여줌 → 2026-10-19부터 MCP `scorecard`가 성적표를 보여 준다. 결과를 파일에 저장하는 것은 아직), knowledge-format을 확정 양식 문서로 + 원안 대비 변경점 문서. (적용 범위 칸은 조각 층으로 대체)
 3. **일반 지식 넣기**(사용자 제안): 통념 · 사용자 생각 · 연구·실험 근거를 조각으로. 출처 종류·근거 강도, 출처 실재 확인 필수, 필요한 것만, 충돌 시 개인 경험 > 일반 원리. 사용자 생각 출처: 각 저장소 DECISIONS.md(뮤직 플레이어에서 효과 확인 — 있었으면 질문 1을 안 틀렸음).
 4. 학습 고리 자동화: Episode 로그(질문·조회·답·판정·이유) + 지식 추가 제안 → 사용자 승인 → 저장(원안 commit 도구). `agent_usage`의 `dispatches.toml`(예측 → 실측 → 돌아보기)이 첫 Episode 로그 형태 — 판정자가 사용자가 아니라 실측인 경우.
-5. `agent_usage` 이어 가기: batman 배치 37부터 기록을 옮기고(STATUS에 "proviso sync pending"이 있으면 PC 세션이 처리) 새 가설 일곱을 시험한다. 보낼 때 새 상태 셋과 `predicted.analog`(빗댄 기록 id), 말한 구간 `predicted.told`를 적고, 구간이 빗나가면 `review.wrong`·`why`를 적는다. 다음 정리에서 audit 경고(쪼개지 않은 개정 12, 시험 수단 없음 2)를 처리하고, 양 탓이 많은 턴 수 잡기(R_turns_analogy_v2)부터 조건을 더해 쪼갠다.
-6. 그 뒤: 로컬 소형 모델(통역), 원안 Stage 2·3
+5. `agent_usage` 계산 조각: 보낼 때마다 계산기와 손 예측을 나란히 적고, p05 다음 기록으로 조각의 방향·크기 성적을 쌓는다. 남은 빈틈(일의 크기를 말해 주는 보내기 전 상태가 없음, 다른 모델의 문서·도구 일은 '모름', 긴 쪽으로 말하기가 범위는 맞은 12건을 틀리게 함)은 보고서 '메인 판단 필요'.
+6. `agent_usage` 이어 가기: batman 배치 37부터 기록을 옮기고(STATUS에 "proviso sync pending"이 있으면 PC 세션이 처리) 새 가설 일곱을 시험한다. 보낼 때 새 상태 셋과 `predicted.analog`(빗댄 기록 id), 말한 구간 `predicted.told`를 적고, 구간이 빗나가면 `review.wrong`·`why`를 적는다. 다음 정리에서 audit 경고(쪼개지 않은 개정 12, 시험 수단 없음 2)를 처리하고, 양 탓이 많은 턴 수 잡기(R_turns_analogy_v2)부터 조건을 더해 쪼갠다.
+7. 그 뒤: 로컬 소형 모델(통역), 원안 Stage 2·3
 
 ## 하위 에이전트 운영 (batman 저장소 방식, 2026-10-14 도입)
 - **역할**: 메인(사용자와 대화하는 모델) = 감독. 방향·설계, 지시서 작성, 결과 검토, 문서를 정직하게 유지, 커밋·push. **하위 에이전트** = 지시서 하나를 맡아 구현. 파일은 쓰지만 지시서에 없으면 커밋·push하지 않는다. **사용자** = 의도와 판정.

@@ -41,6 +41,13 @@ SOURCES = {
 }
 VERDICTS = ("지지", "반박", "일부")
 
+# 효과 칸(2026-10-19, 계산되는 논리): 가설·규칙이 기계가 읽는 효과를 가질 수 있다.
+#   [[hypothesis.effect]] / [[rule.effect]] — on(무엇에) · op(어떻게) · range([하한, 상한]) · when(언제: 상태 id = 값) · reason(왜)
+# 코어는 무엇에(on)의 이름을 모른다: 분야가 [domain] quantities로 밝힌다. 상황 값도 분야의 situation_values.
+OPS = {"base": "기준값", "mul": "곱하기", "add": "더하기"}
+DIRS = {"up": "늘린다", "down": "줄인다"}
+MAX_RATIO = 2.0  # 범위 폭 상한(상한/하한). 분야가 [domain] max_ratio로 바꿀 수 있다. 숫자만 넓혀 맞추는 것을 막는다
+
 REQUIRED = {
     "goal": ("text",),
     "state": ("text",),
@@ -142,6 +149,9 @@ def validate(kn: Knowledge) -> list[str]:
                 errors.append(f"{node.id}: '{field}' 칸이 비어 있음")
         if node.kind in CLAIMS:
             errors += _claim_errors(kn, node)
+            errors += _effect_errors(kn, node)
+        if node.kind == "state" and "known_before" in node.data and not isinstance(node.data["known_before"], bool):
+            errors.append(f"{node.id}: known_before는 true/false여야 함")
         for (kind, field), allowed in REFS.items():
             if kind != node.kind:
                 continue
@@ -180,6 +190,83 @@ def _claim_errors(kn: Knowledge, node: Node) -> list[str]:
             target = kn.nodes.get(cond)
             if target is not None and target.kind not in ("state", "fact"):
                 errors.append(f"{new_id}: 새 버전이 더한 조건 '{cond}'는 상태·사실 노드여야 함 ({KIND_LABEL[target.kind]})")
+    return errors
+
+
+def effects(node: Node) -> list[dict]:
+    """가설·규칙의 효과 목록 (없으면 빈 목록)."""
+    value = node.data.get("effect", [])
+    return [value] if isinstance(value, dict) else list(value)
+
+
+def when_items(effect: dict) -> list[tuple[str, list[str]]]:
+    """효과의 조건: (상태 id, 맞는 값 목록). 값 앞의 '!'는 '그 값이 아님'."""
+    out = []
+    for sid, value in (effect.get("when") or {}).items():
+        out.append((sid, [value] if isinstance(value, str) else list(value)))
+    return out
+
+
+def _effect_errors(kn: Knowledge, node: Node) -> list[str]:
+    """효과 칸 검사. 지킬 장치: 이유 없는 숫자 금지(B), 보내기 전에 알 수 있는 조건만(C),
+    방향이 있는 조건 조각(A), 범위 폭 상한(G)."""
+    effs = effects(node)
+    if not effs:
+        return []
+    errors = []
+    quantities = kn.domain.get("quantities")
+    values = kn.domain.get("situation_values")
+    max_ratio = float(kn.domain.get("max_ratio", MAX_RATIO))
+    reason = node.data.get("reason", "")
+    if not (isinstance(reason, str) and reason.strip()):
+        errors.append(f"{node.id}: 효과가 있는데 이유(reason)가 비어 있음 — 이유 없는 숫자는 안 된다")
+    if not quantities:
+        errors.append(f"{node.id}: 효과가 있는데 분야가 [domain] quantities(효과가 작용하는 것)를 밝히지 않음")
+    conds = set(node.refs("conditions"))
+    for i, e in enumerate(effs, 1):
+        where = f"{node.id} 효과 {i}"
+        if quantities and e.get("on") not in quantities:
+            errors.append(f"{where}: on은 {quantities} 중 하나여야 함")
+        op = e.get("op")
+        if op not in OPS:
+            errors.append(f"{where}: op는 {list(OPS)} 중 하나여야 함")
+        rng = e.get("range")
+        ok_range = (isinstance(rng, list) and len(rng) == 2 and all(isinstance(x, (int, float)) for x in rng)
+                    and 0 < rng[0] <= rng[1])
+        if not ok_range:
+            errors.append(f"{where}: range는 [하한, 상한] (0 < 하한 ≤ 상한)이어야 함")
+        elif rng[1] / rng[0] > max_ratio + 1e-9:
+            errors.append(f"{where}: 범위 폭 {rng[1] / rng[0]:.2f}배가 상한 {max_ratio:g}배를 넘음 — 넓혀서 맞추지 말고 조건을 찾는다")
+        if not (isinstance(e.get("reason"), str) and e["reason"].strip()):
+            errors.append(f"{where}: 이유(reason)가 비어 있음 — 왜 이 조건이 이 차이를 만드나")
+        items = when_items(e)
+        if op in ("mul", "add") and not e.get("analog"):
+            if not items:
+                errors.append(f"{where}: 곱하기·더하기 조각은 조건(when)이 있어야 함")
+            direction = e.get("dir")
+            if direction not in DIRS:
+                errors.append(f"{where}: 조건 조각은 방향 주장(dir = up/down)이 있어야 함")
+            elif ok_range:
+                if op == "mul" and not ((direction == "up" and rng[0] >= 1 and rng[1] > 1)
+                                        or (direction == "down" and rng[1] <= 1 and rng[0] < 1)):
+                    errors.append(f"{where}: 방향 '{direction}'와 범위 {rng}가 어긋남 (곱하기 범위가 1을 넘나들면 방향이 없다)")
+                if op == "add" and direction != "up":
+                    errors.append(f"{where}: 더하기 조각의 방향은 up이어야 함")
+        if e.get("analog") and op != "base":
+            errors.append(f"{where}: 비유(analog) 조각은 기준값(base)이어야 함 — 빗댄 기록의 실측에 범위를 곱한다")
+        for sid, vals in items:
+            target = kn.nodes.get(sid)
+            if target is None or target.kind != "state":
+                errors.append(f"{where}: 조건 '{sid}'는 상태 노드여야 함")
+                continue
+            if target.data.get("known_before") is not True:
+                errors.append(f"{where}: 조건 '{sid}'는 보내기 전에 알 수 있는 상태가 아님(known_before = true 없음)")
+            if sid not in conds:
+                errors.append(f"{where}: 조건 '{sid}'가 노드의 conditions에 없음 (그래프에 이어지게 적는다)")
+            if values:
+                for v in vals:
+                    if v.lstrip("!") not in values:
+                        errors.append(f"{where}: '{sid}'의 값 '{v}'는 {values} 중 하나여야 함 (앞에 !는 '아님')")
     return errors
 
 

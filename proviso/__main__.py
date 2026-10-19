@@ -71,10 +71,21 @@ def cmd_check(domain: str) -> int:
     return 0
 
 
+def domain_audit(domain: str, kn: schema.Knowledge) -> tuple[list[str], list[str]]:
+    """분야 점검: checks.py의 AUDIT(kn) → (오류, 경고). 없으면 빈 것."""
+    try:
+        module = importlib.import_module(f"domains.{domain}.checks")
+    except ModuleNotFoundError:
+        return [], []
+    hook = getattr(module, "AUDIT", None)
+    return hook(kn) if hook else ([], [])
+
+
 def cmd_audit(domain: str) -> int:
     kn = _load(domain)
-    print(f"[{domain}] {audit.report(kn)}")
-    return 1 if audit.unaccepted_harms(kn) else 0  # 경고만 있으면 통과
+    extra = domain_audit(domain, kn)
+    print(f"[{domain}] {audit.report(kn, extra)}")
+    return 1 if audit.unaccepted_harms(kn) or extra[0] else 0  # 경고만 있으면 통과
 
 
 def main(argv: list[str]) -> int:

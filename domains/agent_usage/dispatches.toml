@@ -5,6 +5,10 @@
 # 2026-10-19 정리(p01): 새 상태 셋을 사후에 채웠다 — S_fix_existing(d29·d43 일부, d44–d47·d70–d73 예),
 # S_open_seams(d39b·d94 아니오, d68 예), S_build_tools(d41·d61 아니오, d62·d87 예). 모두 보내기 전에 지시서로 알 수 있던
 # 작업의 성질이고, 이 기록들은 그 가설들의 SEEN_UNTIL(d94) 앞이라 판정에 들지 않고 '맞춰 본 것'으로만 보인다. 예측 칸은 고치지 않았다.
+# 2026-10-19 계산 조각(p05): 새 상태 둘을 사후에 채웠다 — S_integration(여러 갈래를 합치는 일; d12b·d26b·d39b·d68·d94 예: 지시서에
+# '합친 뒤'·'브랜치 통합'이라고 적힌 일), S_many_turn_model(턴을 잘게 나눠 쓰는 모델 설정; S_other_model=예인 기록 중 Sonnet 5.5 max 예,
+# Fable 5.1 xhigh 아니오. d89는 실수로 다른 모델을 이어 보내 보낼 때 몰랐으므로 비움). 둘 다 지시서와 고른 모델로 보내기 전에 알 수 있던 값이다.
+# S_small_codebase는 적지 않는다: project 값으로 정해진다(knowledge.toml의 from_project). 예측 칸은 고치지 않았다.
 # 돌아보기 글의 기록 이름이 batman 쪽 이름과 섞인 곳: d88의 'd51b' = 이 파일의 d58, d89의 'd52b' = d64, d94의 'd64' = d68.
 # 공개 저장소: 작업 설명은 종류만 적는다 (게임 내용·코드는 적지 않음).
 #
@@ -361,6 +365,7 @@ batch = 8
 date = 2026-10-15
 task = "d12 이어서: 두 갈래 합친 뒤 실패 수정 + 한 장 전체 자동 플레이 + 가독성 손보기(렌더)"
 [dispatch.situation]
+S_integration = "예"
 S_long_lap = "예"
 S_check_loop = "예"
 S_root_cause = "예"
@@ -650,6 +655,7 @@ batch = 12
 date = 2026-10-16
 task = "블라인드 풀이 2 (같은 일) — Sonnet 5.5 max (F_setup 밖: 첫 실측)"
 [dispatch.situation]
+S_many_turn_model = "예"
 S_fixed_input = "예"
 S_other_model = "예"
 S_research = "예"
@@ -677,6 +683,7 @@ batch = 12
 date = 2026-10-16
 task = "블라인드 풀이 3 (같은 일) — Fable 5.1 xhigh (F_setup 밖: 첫 실측)"
 [dispatch.situation]
+S_many_turn_model = "아니오"
 S_fixed_input = "예"
 S_other_model = "예"
 S_research = "예"
@@ -844,6 +851,7 @@ batch = 12
 date = 2026-10-16
 task = "블라인드 풀이 2차-2 (같은 일) — Sonnet 5.5 max"
 [dispatch.situation]
+S_many_turn_model = "예"
 S_fixed_input = "예"
 S_other_model = "예"
 S_research = "예"
@@ -872,6 +880,7 @@ batch = 12
 date = 2026-10-16
 task = "블라인드 풀이 2차-3 (같은 일) — Fable 5.1 xhigh"
 [dispatch.situation]
+S_many_turn_model = "아니오"
 S_fixed_input = "예"
 S_other_model = "예"
 S_research = "예"
@@ -1016,6 +1025,7 @@ batch = 13
 date = 2026-10-16
 task = "세 브랜치 통합: 시스템을 실제 챕터에 연결, 자동 플레이 검사 두 장, 옛 코드 제거, CI 빌드 (같은 에이전트 이어서)"
 [dispatch.situation]
+S_integration = "예"
 S_long_lap = "예"
 S_resumed = "예"
 S_full_brief = "예"
@@ -1657,6 +1667,7 @@ batch = 17
 date = 2026-10-16
 task = "답을 모르는 풀이: 같은 일 (Sonnet 5.5 max)"
 [dispatch.situation]
+S_many_turn_model = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_short = "예"
@@ -1688,6 +1699,7 @@ batch = 17
 date = 2026-10-16
 task = "답을 모르는 풀이: 같은 일 (Fable 5.1 xhigh)"
 [dispatch.situation]
+S_many_turn_model = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_short = "예"
@@ -1817,6 +1829,7 @@ batch = 17
 date = 2026-10-16
 task = "답을 모르는 풀이 재실행: 같은 일 (Sonnet 5.5 max)"
 [dispatch.situation]
+S_many_turn_model = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_short = "예"
@@ -1848,6 +1861,7 @@ batch = 17
 date = 2026-10-16
 task = "답을 모르는 풀이 재실행: 같은 일 (Fable 5.1 xhigh)"
 [dispatch.situation]
+S_many_turn_model = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_short = "예"
@@ -1983,6 +1997,7 @@ batch = 18
 date = 2026-10-16
 task = "같은 에이전트 두 번째: 세 브랜치 통합, 한 장 배선, 데이터 모양 맞추기, 끝까지 플레이하는 자동 검사 행, 베타 안내 (Godot, 스모크 반복)"
 [dispatch.situation]
+S_integration = "예"
 S_open_seams = "아니오"
 S_resumed = "예"
 S_full_brief = "예"
@@ -2052,6 +2067,7 @@ batch = 19
 date = 2026-10-17
 task = "데이터 파일 세 개의 한국어 글 다듬기(규칙 문서 기준) + 검사 하나 + 스모크 2회. Sonnet 5.5 max"
 [dispatch.situation]
+S_many_turn_model = "예"
 S_render = "아니오"
 S_resumed = "아니오"
 S_full_brief = "예"
@@ -2304,6 +2320,7 @@ batch = 23
 date = 2026-10-17
 task = "같은 피치 문서 (Sonnet 5.5 max)"
 [dispatch.situation]
+S_many_turn_model = "예"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "예"
@@ -2336,6 +2353,7 @@ batch = 23
 date = 2026-10-17
 task = "같은 피치 문서 (Fable 5.1 xhigh)"
 [dispatch.situation]
+S_many_turn_model = "아니오"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "예"
@@ -2524,6 +2542,7 @@ batch = 25
 date = 2026-10-17
 task = "답을 모르는 풀이: 한국어 문제지 둘(두 장)로 사건 풀기 + 네 낱말 인상 (고정 입력, 출력 하나). Sonnet 5.5 max"
 [dispatch.situation]
+S_many_turn_model = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -2555,6 +2574,7 @@ batch = 25
 date = 2026-10-17
 task = "답을 모르는 풀이: 한국어 문제지 둘(두 장)로 사건 풀기 + 네 낱말 인상 (고정 입력, 출력 하나). Fable 5.1 xhigh"
 [dispatch.situation]
+S_many_turn_model = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -2843,6 +2863,7 @@ batch = 25
 date = 2026-10-17
 task = "답을 모르는 풀이 재실행: 같은 일 (Sonnet 5.5 max)"
 [dispatch.situation]
+S_many_turn_model = "예"
 S_resumed = "예"
 S_full_brief = "예"
 S_spec_fixed = "예"
@@ -2875,6 +2896,7 @@ batch = 25
 date = 2026-10-17
 task = "답을 모르는 풀이 재실행: 같은 일 (Fable 5.1 xhigh)"
 [dispatch.situation]
+S_many_turn_model = "아니오"
 S_resumed = "예"
 S_full_brief = "예"
 S_spec_fixed = "예"
@@ -2907,6 +2929,7 @@ batch = 26
 date = 2026-10-17
 task = "같은 에이전트 두 번째: 다섯 브랜치 통합, 두 장 배선, 데이터 id ↔ 노드 이름 맞추기, 끝까지 플레이하는 자동 검사 행 둘, 베타 안내(한국어), 문서 as built"
 [dispatch.situation]
+S_integration = "예"
 S_open_seams = "예"
 S_resumed = "예"
 S_full_brief = "예"
@@ -3246,6 +3269,7 @@ batch = 30
 date = 2026-10-18
 task = "두 장 분량 설계 피치 문서 하나 쓰기(≤350줄; 같은 지시서). Sonnet 5.5 max"
 [dispatch.situation]
+S_many_turn_model = "예"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "예"
@@ -3285,6 +3309,7 @@ batch = 30
 date = 2026-10-18
 task = "두 장 분량 설계 피치 문서 하나 쓰기(≤350줄; 같은 지시서). Fable 5.1 xhigh"
 [dispatch.situation]
+S_many_turn_model = "아니오"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "예"
@@ -3503,6 +3528,7 @@ batch = 32
 date = 2026-10-18
 task = "블라인드 풀이 S2: 같은 일. Sonnet max"
 [dispatch.situation]
+S_many_turn_model = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -3541,6 +3567,7 @@ batch = 32
 date = 2026-10-18
 task = "블라인드 풀이 S3: 같은 일. Fable xhigh"
 [dispatch.situation]
+S_many_turn_model = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -3846,6 +3873,7 @@ batch = 34
 date = 2026-10-18
 task = "블라인드 풀이 S2(새 에이전트): 같은 일. Sonnet max"
 [dispatch.situation]
+S_many_turn_model = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -3884,6 +3912,7 @@ batch = 34
 date = 2026-10-18
 task = "블라인드 풀이 S3(새 에이전트): 같은 일. Fable xhigh"
 [dispatch.situation]
+S_many_turn_model = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -3960,6 +3989,7 @@ batch = 36
 date = 2026-10-18
 task = "통합(시스템 에이전트 이어서): 브랜치 다섯 합치기, id↔노드 매핑, 두 장 흐름 연결, 판정 반영, 스모크 전체. Opus high"
 [dispatch.situation]
+S_integration = "예"
 S_open_seams = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -4166,7 +4196,7 @@ S_short = "아니오"
 S_web = "아니오"
 S_other_model = "아니오"
 S_resumed = "아니오"
-S_mid_notes = "아니오"
+S_mid_notes = "예"  # 도중 지시 1번(조각 이름에 분야 이름 금지), 처리 분은 재지 못함
 S_spec_fixed = "일부"
 S_render = "아니오"
 S_long_lap = "아니오"
@@ -4185,4 +4215,8 @@ rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long_v5"]
 reason = "p04(17.0분·130턴·30.5M, 같은 저장소의 엔진 개편)의 ×1–1.7: 새 코드(계산기·다시 돌리기)를 짓고 쪼개기 판단이 붙지만, p01·p04가 둘 다 batman 기준 예측의 ×0.4였으므로 할 일 수로 크게 곱하지 않는다. 분당 7–8턴(p04 7.6)"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 27.8
+turns = 136
+tokens_m = 41.2
+[dispatch.review]
+reason = "넷 다 맞음: 말한 구간 '다른 일'(27.8분), 분 18–35 안, 턴 120–220 안, 토큰 25–60M 안. p04에 빗대 ×1–1.7로 잡고 '작은 저장소는 할 일 수로 크게 곱하지 않는다'(p04 돌아보기)를 적용한 첫 예측. 같은 일을 계산기는 21–42분으로 잡아 긴 쪽 '신경 끄기'를 말했을 것 — 계산기는 빗나가고 손 예측은 맞은 한 건. 분당 4.9턴으로 p04(7.6)보다 느렸다: 새로 짓는 코드(계산기·맞추기·홀드아웃)와 판단이 붙어서"

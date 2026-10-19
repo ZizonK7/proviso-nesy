@@ -15,6 +15,8 @@ from __future__ import annotations
 from collections.abc import Callable
 from statistics import median
 
+from proviso import schema
+
 from . import dispatches as dp
 
 # 가설을 세울 때 본 마지막 기록. 그다음 기록부터가 시험이다.
@@ -501,6 +503,134 @@ def told_zone() -> tuple[str, str]:
     return f"{verdict} (말한 {len(rows)}건 중 {len(ok)}건 맞음)", detail
 
 
+# ---------- 계산 조각 (2026-10-19, 계산되는 논리) ----------
+# 조각은 노드의 seen_until(그 조각을 맞출 때 본 마지막 기록) 다음 기록으로만 시험한다(NODE_CUT).
+# 방향 성적(논리)과 크기 성적(숫자)을 따로 낸다 (장치 A). 계산은 holdout.piece_scores.
+EFFECT_PER_RECORDS = 4  # 장치 F: 살아 있는 효과 수 ≤ 설명한 기록 수 ÷ 4 (효과 하나가 숫자 둘(하한·상한)을 맞추므로, 숫자 하나에 기록 둘 이상)
+
+
+def _pieces_state():
+    from . import predict as pr
+    kn = pr.load_kn()
+    return kn, pr.live_pieces(kn), dp.load()
+
+
+def _cut_split(records: list[dict], cut: str | None) -> tuple[list[dict], list[dict]]:
+    ids = [d["id"] for d in records]
+    i = ids.index(cut) + 1 if cut in ids else len(ids)
+    return [d for d in records[:i] if dp.done(d)], [d for d in records[i:] if dp.done(d)]
+
+
+_ROWS: dict = {}
+
+
+def _piece_rows(node_id: str) -> tuple[list[dict], list[dict], str | None]:
+    """(시험 기록의 행, 맞춰 본 기록의 행, seen_until). 조각 하나의 효과마다 한 행."""
+    from . import holdout
+    kn, pieces, records = _pieces_state()
+    piece = next((p for p in pieces if p.id == node_id), None)
+    if piece is None:
+        return [], [], None
+    key = (piece.seen_until, tuple(p.id for p in pieces), len(records))
+    if key not in _ROWS:
+        fit, test = _cut_split(records, piece.seen_until)
+        _ROWS[key] = (holdout.piece_scores(pieces, test, kn), holdout.piece_scores(pieces, fit, kn))
+    test_rows, fit_rows = _ROWS[key]
+    return ([r for r in test_rows if r["piece"] == node_id], [r for r in fit_rows if r["piece"] == node_id], piece.seen_until)
+
+
+def _eff_name(r: dict) -> str:
+    from . import predict as pr
+    e = r["effect"]
+    return f"{pr.QUANTITY_LABEL[e.on]} {pr.OP_LABEL[e.op]}{e.lo:g}–{e.hi:g}"
+
+
+def piece_direction(node_id: str) -> tuple[str, str]:
+    """조건 조각의 방향 주장(늘린다/줄인다)이 시험 기록에서 맞나. 기준값 조각은 방향이 없다."""
+    test, fit, cut = _piece_rows(node_id)
+    test = [r for r in test if r["effect"].op != "base"]
+    fit = [r for r in fit if r["effect"].op != "base"]
+    detail = (f"  맞춰 본 것({cut}까지): " + ("; ".join(f"{_eff_name(r)} {r['direction']} ({r['rough']})" for r in fit) or "없음")
+              + f"\n  시험({cut} 다음부터): " + ("; ".join(f"{_eff_name(r)} {r['direction']} ({r['rough']})" for r in test) or "없음"))
+    if not fit and not test:
+        return "시험 전 (방향 주장이 없는 기준값 조각)", detail
+    decided = [r["direction"] for r in test if r["direction"] in ("지지", "반박")]
+    if not decided:
+        return "시험 전 (시험 기록에 조건 있음·없음이 아직 둘씩 안 됨)", detail
+    if "반박" in decided:
+        return f"반박됨 (방향 시험 {len(decided)}건 중 {decided.count('지지')}건 맞음 — 이유 틀림 후보)", detail
+    return f"지지됨 (방향 시험 {len(decided)}건 중 {len(decided)}건 맞음)", detail
+
+
+def piece_size(node_id: str) -> tuple[str, str]:
+    """조각 범위가 시험 기록에서 맞나(조건이 걸린 기록의 비율이 범위 안). 크기만 틀리면 조건이 흐린 것 → 쪼개기 후보."""
+    test, fit, cut = _piece_rows(node_id)
+    def line(rows):
+        return "; ".join(f"{_eff_name(r)} {r['size_hits']}/{r['size_n']}" for r in rows) or "없음"
+    detail = f"  맞춰 본 것({cut}까지): {line(fit)}\n  시험({cut} 다음부터): {line(test)}"
+    n = sum(r["size_n"] for r in test)
+    if not n:
+        return "시험 전 (조각이 걸린 시험 기록이 없음)", detail
+    hits = sum(r["size_hits"] for r in test)
+    return f"{'지지됨' if hits / n >= NEED else '반박됨'} (크기 시험 {n}건 중 {hits}건 맞음)", detail
+
+
+def audit_pieces(kn) -> tuple[list[str], list[str]]:
+    """계산 조각 점검 (audit의 분야 점검). 오류: 방향 틀림(시험 기록), 한 건짜리 조각(D), 조각 수 상한(F),
+    기록에서 맞춘 값과 다른 범위(손으로 넣은 숫자, G). 경고: 맞춰 본 기록에서도 방향이 안 맞음, seen_until 없음."""
+    from . import fit as ft, holdout, predict as pr
+    errors, warns = [], []
+    records = dp.load()
+    pieces = pr.live_pieces(kn)
+    if not pieces:
+        return errors, warns
+    for node in kn.claims(alive_only=True):
+        if not schema.effects(node):
+            continue
+        # 쪼갠 조각 = split_from이 있거나, 이전 버전의 조건을 다 갖고 조건을 더한 새 버전
+        mine = set(node.refs("conditions"))
+        is_split = node.data.get("split_from") or any(
+            node.id in o.refs("replaced_by") and set(o.refs("conditions")) < mine for o in kn.claims())
+        if is_split and not str(node.data.get("why_condition", "")).strip():
+            errors.append(f"[계산 조각] {node.id}: 쪼갠 조각인데 '왜 이 조건이 차이를 만드나'(why_condition)가 없음(B)")
+        if node.data.get("split_from") and node.data["split_from"] not in kn.nodes:
+            errors.append(f"[계산 조각] {node.id}: split_from '{node.data['split_from']}'이 없는 id")
+    for p in pieces:
+        if not p.seen_until:
+            errors.append(f"[계산 조각] {p.id}: seen_until(맞출 때 본 마지막 기록)이 없음 — 세운 뒤 기록으로만 시험한다")
+    try:
+        fitted, stats = ft.fit_final(kn, records)
+    except ValueError as exc:
+        return errors + [f"[계산 조각] {exc}"], warns
+    by_id = {p.id: p for p in pieces}
+    for fp in fitted:
+        for e_now, e_fit in zip(by_id[fp.id].effects, fp.effects):
+            if (e_now.lo, e_now.hi) != (e_fit.lo, e_fit.hi):
+                errors.append(f"[계산 조각] {fp.id}: 범위 [{e_now.lo:g}, {e_now.hi:g}]가 기록에서 맞춘 값 [{e_fit.lo:g}, {e_fit.hi:g}]와 다름 "
+                              "— 숫자는 손으로 넣거나 넓히지 않는다(fit.py final --write)")
+            st = stats[e_fit]
+            if len(st.explained) < 2:
+                errors.append(f"[계산 조각] {fp.id}: {pr.QUANTITY_LABEL[e_fit.on]} 효과가 맞출 기록 {len(st.explained)}건만 설명함 "
+                              "— 한 건짜리 조건은 관찰이나 예외로 둔다(D)")
+            if not st.dir_ok:
+                errors.append(f"[계산 조각] {fp.id}: {pr.QUANTITY_LABEL[e_fit.on]} 효과의 맞춘 범위가 주장한 방향과 어긋남 — 이유 틀림 후보(A)")
+    cut = pieces[0].seen_until
+    fit_recs, test_recs = _cut_split(records, cut)
+    explained = sum(1 for _, o in holdout.evaluate(pieces, fit_recs, kn, records) if o["told_hit"])
+    n_eff = sum(len(p.effects) for p in pieces)
+    if n_eff * EFFECT_PER_RECORDS > explained:
+        errors.append(f"[계산 조각] 효과 {n_eff}개가 설명한 기록 {explained}건에 비해 많다 (상한: 설명한 기록 ÷ {EFFECT_PER_RECORDS}) — 외워서 맞추는 쪽이다(F)")
+    for r in holdout.piece_scores(pieces, test_recs, kn):
+        if r["direction"] == "반박":
+            errors.append(f"[계산 조각] {r['piece']}: 방향 주장이 시험 기록에서 틀림({r['rough']}) — 이유(논리)가 깨졌다, why = 이유 틀림 후보(A)")
+    for r in holdout.piece_scores(pieces, fit_recs, kn):
+        if r["direction"] == "반박":
+            warns.append(f"[계산 조각] {r['piece']}: 맞춰 본 기록에서도 방향이 안 맞음({r['rough']}) — 같은 기준값끼리의 거친 비교")
+    return errors, warns
+
+
+AUDIT = audit_pieces
+
 CHECKS = {
     "tokens_per_minute": tokens_per_minute,
     "tokens_per_minute_by_length": tokens_per_minute_by_length,
@@ -531,6 +661,10 @@ CHECKS = {
     "used_turns": used_turns,
     "used_tokens": used_tokens,
     "told_zone": told_zone,
+    "piece_direction": piece_direction,
+    "piece_size": piece_size,
 }
 # SEEN_UNTIL이 필요 없는 검사: 보내기 전에 적은 예측·말한 구간이 곧 세운 뒤의 시험이다
 NO_CUT = ("used_minutes", "used_turns", "used_tokens", "told_zone")
+# 노드의 seen_until로 자르는 검사 (계산 조각): 조각마다 맞출 때 본 마지막 기록이 다를 수 있다
+NODE_CUT = ("piece_direction", "piece_size")

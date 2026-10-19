@@ -10,6 +10,9 @@
   틀린 건 대개 논리가 아니라 흐리게 잡은 조건이다 → 틀리면 조건을 더해 쪼갠다(2026-10-19, Lean 방향).
   숫자만 바뀐 개정, 합친 개정, 조건을 뺀 개정을 따로 표시한다.
 - 시험 수단 없음: 살아 있는 가설에 자동 검사도 판정 기록도 없다.
+
+분야 점검 (2026-10-19): 그래프만으로는 못 보는 점검(예: 효과 조각의 방향이 기록과 맞나)은 분야가 낸다.
+분야 checks.py의 AUDIT(kn) → (오류 목록, 경고 목록). 코어는 분야를 모르고, 부르는 쪽(CLI·MCP)이 넘긴다.
 """
 from __future__ import annotations
 
@@ -98,8 +101,10 @@ def warnings(kn: Knowledge) -> list[str]:
     return unsplit_revisions(kn) + untested(kn)
 
 
-def report(kn: Knowledge) -> str:
-    errors, warns = unaccepted_harms(kn), warnings(kn)
+def report(kn: Knowledge, extra: tuple[list[str], list[str]] | None = None) -> str:
+    """extra = 분야 점검 (오류, 경고). 분야 오류도 점검 실패다."""
+    extra_errors, extra_warns = extra or ([], [])
+    errors, warns = unaccepted_harms(kn) + list(extra_errors), warnings(kn) + list(extra_warns)
     lines = []
     if errors:
         lines.append(f"오류 {len(errors)}건 (점검 실패)")
@@ -108,7 +113,7 @@ def report(kn: Knowledge) -> str:
         lines.append("오류 없음: 목표를 해치는 것은 모두 대가로 받아들인 기록이 있음")
     if warns:
         lines.append(f"경고 {len(warns)}건 (실패 아님: 쪼개지 않은 개정 {len(unsplit_revisions(kn))}, "
-                     f"시험 수단 없음 {len(untested(kn))})")
+                     f"시험 수단 없음 {len(untested(kn))}, 분야 점검 {len(extra_warns)})")
         lines += ["  " + w.replace("\n", "\n  ") for w in warns]
     else:
         lines.append("경고 없음")

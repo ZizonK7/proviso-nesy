@@ -3,6 +3,7 @@
 분야 하나 = 폴더 하나. 각 폴더에:
 - `knowledge.toml` — 그 분야의 목표·상태·사실·관찰과 가설(규칙 = 방법이 붙은 가설), 판정 기록 `[[judgment]]` (칸 설명은 [proviso/CLAUDE.md](../proviso/CLAUDE.md))
 - `checks.py` — `CHECKS = {이름: 함수}`와 `SOURCE`(자동 검사의 출처: "measured" 실측, "simulation" 시뮬레이션 등; 없으면 "auto"). 규칙·가설의 `check` 칸이 이 이름을 가리킨다. 함수는 인자 없이 또는 노드 id 하나를 받아 `(판정, 설명)`을 돌려준다.
+- (선택) `checks.py`의 `AUDIT(kn) → (오류, 경고)`: 그래프만으로 못 보는 분야 점검. `audit` 명령과 MCP `audit`이 같이 낸다
 - 필요하면 시뮬레이션 등 분야 전용 코드
 - `CLAUDE.md` — 그 분야의 출처와 현재 상태
 
