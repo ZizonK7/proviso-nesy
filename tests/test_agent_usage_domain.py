@@ -218,3 +218,18 @@ def order_last_is(record_id: str) -> bool:
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class HandVsCalc(unittest.TestCase):
+    """손 예측과 계산기를 나란히 적은 기록의 승패 (사용자 결정 2026-10-19: 어느 쪽이 나은지 계속 기록)."""
+
+    def test_counts_only_records_with_both(self):
+        recs = [
+            {"id": "a", "predicted": {"told": "다른 일"}, "calc": {"told": "신경 끄기"}, "actual": {"minutes": 20}},
+            {"id": "b", "predicted": {"told": "잠깐"}, "calc": {"told": "잠깐"}, "actual": {"minutes": 5}},
+            {"id": "c", "predicted": {"told": "잠깐"}, "actual": {"minutes": 5}},
+        ]
+        r = dp.hand_vs_calc(recs)
+        self.assertEqual(r["손만 맞음"], 1)
+        self.assertEqual(r["둘 다 맞음"], 1)
+        self.assertEqual(sum(r.values()), 2)

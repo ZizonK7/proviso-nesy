@@ -19,7 +19,7 @@
 
 ## 고리 (한 작업마다)
 1. **보내기 전**
-   - **먼저 계산기를 돌린다**: 상황 값을 적은 파일로 `python -m domains.agent_usage.predict 상황.toml`. 말할 구간과 숫자, 쓴 조각을 본다. '모름'이면 아래 규칙 요약으로 손으로 잡고, 계산기와 손 예측이 다르면 둘 다 기록의 reason에 적는다(어느 쪽이 맞나가 다음 시험이다).
+   - **먼저 계산기를 돌린다**: 상황 값을 적은 파일로 `python -m domains.agent_usage.predict 상황.toml`. 말할 구간과 숫자, 쓴 조각을 본다. '모름'이면 아래 규칙 요약으로 손으로 잡는다. 계산기 답은 같든 다르든 늘 `[dispatch.calc]`(`told`, `minutes`)에 적는다 — 손 예측(`predicted.told`)과 어느 쪽이 나은지를 `dispatches` 출력의 '손 예측 vs 계산기'가 계속 센다(사용자 결정 2026-10-19).
    - 아래 "지금 쓰는 규칙 요약"에서 맞는 규칙을 고른다. 성적이 궁금하면 `python -m proviso check agent_usage`(규칙과 가설 모두의 성적표, 맨 끝에 한눈 표)를 본다(배치 19에서 규칙을 놓쳐 d42가 3배 빗나갔다).
    - R_preflight의 점검 넷을 한다(에이전트 id 대조, 지시문 말투, 도구 유무, 글 규칙).
    - `dispatches.toml`에 기록을 하나 덧붙인다: 상황 값(새 상태 S_fix_existing·S_open_seams·S_build_tools, 계산 조각이 쓰는 S_integration·S_many_turn_model 포함; S_small_codebase는 project로 정해진다), 예측(분 범위·등급·턴·토큰), 쓴 규칙 id(가설 id는 넣지 않는다 — 테스트가 실패한다), **빗댄 기록 id(`analog`)**, 이유, `written_before = true`(기본).

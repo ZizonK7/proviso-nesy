@@ -156,6 +156,9 @@ def validate(records: list[dict], kn: schema.Knowledge) -> list[str]:
                 errors.append(f"{did}: 옛 시간 등급 '{cls}'는 {OLD_TIME_CLASSES} 중 하나여야 함")
         if "told" in p and p["told"] not in ZONES:
             errors.append(f"{did}: predicted.told는 {ZONES} 중 하나여야 함")
+        calc = d.get("calc", {})
+        if calc and calc.get("told") not in ZONES:
+            errors.append(f"{did}: calc.told(계산기가 낸 말할 구간)는 {ZONES} 중 하나여야 함")
         for cls in p.get("tokens_class", []):
             if cls not in TOKEN_CLASSES:
                 errors.append(f"{did}: 토큰 등급 '{cls}'는 {TOKEN_CLASSES} 중 하나여야 함")
@@ -243,6 +246,19 @@ def _tally(c: Counter) -> str:
     return ", ".join(f"{k} {c[k]}" for k in ("맞음", "낮게 잡음", "높게 잡음", "모름") if c[k]) or "없음"
 
 
+def hand_vs_calc(records: list[dict]) -> dict:
+    """보내기 전에 손 예측(predicted.told)과 계산기(calc.told)를 둘 다 적은 끝난 기록에서 누가 맞았나."""
+    out = Counter()
+    for d in records:
+        told, calc, minutes = d.get("predicted", {}).get("told"), d.get("calc", {}).get("told"), d.get("actual", {}).get("minutes")
+        if not (done(d) and told and calc and minutes is not None):
+            continue
+        got = zone(minutes)
+        out[{(True, True): "둘 다 맞음", (True, False): "손만 맞음",
+             (False, True): "계산기만 맞음", (False, False): "둘 다 틀림"}[(told == got, calc == got)]] += 1
+    return out
+
+
 def report(records: list[dict]) -> str:
     """예측·실측 비교표와 맞음/빗나감 집계. 시간은 세 마디 구간으로 (분 숫자로 다시 채점)."""
     head = ("| id | 배치 | 예측 분 | 예측 구간 | 말한 구간 | 실제 | 판정 | 예측 토큰 | 실제 | 판정 | 턴 | 분당 토큰 | 턴당 맥락 |\n"
@@ -283,6 +299,10 @@ def report(records: list[dict]) -> str:
     lines.append(f"  분 범위가 없어 뺀 기록 {len(r['분 범위 없음'])}건: {', '.join(r['분 범위 없음']) or '없음'}")
     lines.append(f"  말한 구간(predicted.told)이 있는 끝난 기록: {sum(r['말한 구간'].values())}건"
                  + (f" — 맞음 {r['말한 구간']['맞음']}, 빗나감 {r['말한 구간']['빗나감']}" if r["말한 구간"] else ""))
+    hv = hand_vs_calc(records)
+    lines.append(f"손 예측 vs 계산기 (보내기 전에 둘 다 적은 끝난 기록 {sum(hv.values())}건, 말한 구간 기준): "
+                 + (", ".join(f"{k} {hv[k]}" for k in ("둘 다 맞음", "손만 맞음", "계산기만 맞음", "둘 다 틀림") if hv[k]) or "아직 없음")
+                 + " · 지난 기록 홀드아웃(뒤 절반 61건): 손 62 %, 계산기 51 % (holdout)")
     lines.append(f"분 범위 적중(숫자 그대로): 맞음 {r['분 범위']['맞음']}, 빗나감 {r['분 범위']['빗나감']}")
     miss = r["분 빗나감"]
     lines.append("분 빗나감의 갈래 (턴 범위가 맞았으면 속도 조각 탓, 틀렸으면 양 조각 탓):")
