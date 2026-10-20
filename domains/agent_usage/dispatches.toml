@@ -5140,3 +5140,12 @@ hypotheses = []
 [dispatch.calc]
 told = "다른 일"
 minutes = [5.3, 10.6]
+[dispatch.actual]
+status = "done"
+minutes = 4.8
+turns = 23
+tokens_m = 10.5
+[dispatch.review]
+wrong = ["R_third_pass"]
+why = "조건 흐림"
+reason = "구간 빗나감: '다른 일'(7–15분)이라 했는데 4.8분('잠깐'). 턴 23 < 40–80, 토큰 10.5M < 20–35. 세 번째 회차에 직전 ×0.5–1.0으로 잡았는데 실제는 ×0.3 — 고칠 함수가 한 파일(app-store.js)에 모여 있고 테스트 틀이 이미 있었다. 흐렸던 조건: '건드릴 파일 수'(1–2파일이면 직전 ×0.3 근처). 계산기 5.3–10.6분도 빗나감. 배치 7 최종: 손 4/6(p19·p20·p24 빗나감 — 셋 다 실제가 더 짧음), 계산기 3/6"
