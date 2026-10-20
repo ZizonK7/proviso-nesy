@@ -4896,6 +4896,16 @@ hypotheses = []
 told = "신경 끄기"
 minutes = [22.3, 44.6]
 
+[dispatch.actual]
+status = "done"
+minutes = 19.7
+turns = 147
+tokens_m = 33.1
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "구간 빗나감: '신경 끄기'(25–45분)라 했는데 19.7분('다른 일'). 턴 147 < 200–300(양 탓), 토큰 33.1M은 35–60 바로 아래. 분당 7.5턴은 예측대로. 시안 코드가 이미 네 화면의 UI·상태를 다 갖고 있어 '새로 짓기'가 아니라 '데이터 경로 갈아 끼우기'였다 — 빗댈 때 ×1.2–1.7을 곱한 근거('네 화면 전부 새로')가 틀렸다. 흐렸던 조건: 화면·흐름이 이미 있는가(있으면 ×0.8–1.0). 계산기 22–45분도 빗나감"
+
 [[dispatch]]
 id = "p20"
 project = "proviso"
