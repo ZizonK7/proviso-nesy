@@ -4562,3 +4562,44 @@ turns = 75
 tokens_m = 10.9
 [dispatch.review]
 reason = "말한 구간 '다른 일' 맞음(15.1분). 분 15.1 < 20–40, 턴 75 < 120–200, 토큰 10.9M < 25–50M: 설계(팔레트·와이어프레임)가 다 적힌 HTML 한 장은 큰 편집 몇 번으로 끝나 턴이 적고(분당 5.0턴), 스크린샷 바퀴도 1.5분씩 3번뿐. R_doc_work_v2의 '설계가 정해진 새로 쓰기 130–160턴'은 긴 글 기준이라 HTML 한 장엔 과하다. 계산기 21–42분('신경 끄기')은 빗나감 — 이 배치 7건에서 손 예측 5/7, 계산기 4/7"
+
+[[dispatch]]
+id = "p13"
+project = "proviso"
+batch = 5
+date = 2026-10-20
+task = "구현(출시 준비 1차): 다른 저장소(안드로이드 앱)에서 과장 문구 제거, 민감 로그 정리, 정확 알람 권한 흐름(설명 후 한 번 + 권한 변경 수신기) + 단위 테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"  # gradle 캐시가 따뜻해 바퀴 1분 안(p11 교훈)
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p11"
+told = "다른 일"
+minutes = [10, 22]
+turns = [100, 180]
+tokens_class = ["T2"]
+tokens_m = [20, 40]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long_v5"]
+reason = "p11(179턴·16.3분·34.5M, 같은 저장소에 독립 기능 셋 추가)에 빗대 ×0.6–1.0: 이번 셋은 문구 교체·로그 손질(작음)과 권한 흐름 하나(중간)라 p11보다 작다. 건드릴 자리가 지시서에 적혀 있어(p11 교훈: 코드베이스 크기가 아니라 자리가 정해졌는가) 분당 9–11턴, 따뜻한 gradle 바퀴 1분 안. 턴당 20만 → 20–40M. 계산기는 22–45분 '신경 끄기'(빗댄 계산은 19–38 '다른 일')"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [22.3, 44.6]
