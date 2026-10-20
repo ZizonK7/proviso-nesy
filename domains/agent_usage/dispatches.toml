@@ -4710,3 +4710,44 @@ tokens_m = 14.5
 wrong = ["R_turns_analogy_v2"]
 why = "조건 흐림"
 reason = "구간 빗나감: '다른 일'이라 했는데 8.1분('잠깐', 합계 35.2 − 앞 두 회차 27.1). 턴 45 < 60–110(양 탓), 분당 5.6턴, 토큰 14.5M은 12–28 안(턴당 32만: 세 번째 회차라 맥락이 크다). 빗댈 때 p13 ×0.8–1.5로 잡았는데 같은 에이전트 세 번째 회차 규칙(R_third_pass: 직전 회차 ×0.4–0.6 → 48–71턴)이 더 맞았다 — 두 규칙이 겹칠 때 R_third_pass를 우선한다는 조건이 빠져 있었다. 에뮬레이터는 프록시를 통과해 시도 턴이 늘지 않았다. 계산기 5.3–10.6분은 분 범위 안(말한 구간은 걸쳐서 '다른 일'로 같이 빗나감)"
+
+[[dispatch]]
+id = "p16"
+project = "proviso"
+batch = 6
+date = 2026-10-20
+task = "구현(웹 저장소, 비공개): 규칙에 계정 삭제 예약 문서 조항 + 에뮬레이터 테스트, 삭제 요청 웹 페이지, 처리방침 갱신, 영구 삭제 예약 함수를 함수 폴더로 이식 + 인덱스, App Check 웹 공급자 배선, 계획 문서 갱신. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p14"
+told = "다른 일"
+minutes = [15, 30]
+turns = [120, 200]
+tokens_class = ["T2"]
+tokens_m = [25, 45]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long_v5", "R_verify_laps"]
+reason = "p14(119턴·19.2분·28.3M, 앱 쪽 계정 삭제·가져오기 네 묶음)의 ×1.0–1.5: 묶음 수는 비슷(여섯, 작은 것 포함)하고 처음 보는 저장소(웹, JS 83파일)라 읽는 턴이 더 든다. 에뮬레이터 바퀴(규칙 테스트)는 1분 안. 첫 회차라 턴당 20–25만 → 25–45M. 분당 7–8턴"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [22.3, 44.6]
