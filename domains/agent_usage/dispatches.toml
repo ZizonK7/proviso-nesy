@@ -4653,3 +4653,51 @@ hypotheses = []
 [dispatch.calc]
 told = "다른 일"
 minutes = [5.3, 10.6]
+[dispatch.actual]
+status = "done"
+minutes = 19.2
+turns = 119
+tokens_m = 28.3
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(19.2분 = 합계 27.1 − 1차 7.9). 분 12–25 안, 토큰 20–40M 안(턴당 24만: 이어 보낸 회차라 앞 회차 11만의 2.2배 — R_resume_ctx_v2의 1.6–1.8배보다 큼, 새로 읽은 동기화·로그인 코드 몫). 턴 119는 120–200 바로 아래(분당 6.2턴: 동기화·로그인 흐름을 건드려 1차(9.5)보다 느렸다). 계산기 5.3–10.6분은 빗나감(구간은 걸쳐서 맞음)"
+
+[[dispatch]]
+id = "p15"
+project = "proviso"
+batch = 5
+date = 2026-10-20
+task = "구현(출시 준비 3차, 같은 에이전트 이어서): 앱 무결성 검사(App Check) 붙이기 + 저장소의 규칙 사본 검증 보강과 규칙 테스트 갱신. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p13"
+told = "다른 일"
+minutes = [7, 15]
+turns = [60, 110]
+tokens_class = ["T2"]
+tokens_m = [12, 28]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2"]
+reason = "p13(75턴·7.9분, 자리가 적힌 작은 항목 묶음)의 ×0.8–1.5: App Check는 의존성 한 줄과 초기화 코드 몇 줄, 규칙 사본은 문서 편집과 Node 테스트 추가라 작다. 다만 규칙 에뮬레이터가 프록시에 막히면 시도 턴이 는다. 세 번째 회차라 턴당 맥락 20–25만 → 12–28M. R_third_pass(직전 ×0.4–0.6)는 직전 회차(p14)가 컸으니 그 기준으로도 50–70턴"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [5.3, 10.6]
