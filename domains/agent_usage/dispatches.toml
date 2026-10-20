@@ -4612,3 +4612,44 @@ tokens_m = 8.1
 wrong = ["R_turns_analogy_v2", "R_tok_long_v5"]
 why = "조건 흐림"
 reason = "구간 빗나감: '다른 일'이라 했는데 7.9분('잠깐'). 턴 75 < 100–180(양 탓: p11의 ×0.42, 빗댈 때 ×0.6–1.0으로 잡았다), 분당 9.5턴은 예측대로. 토큰 8.1M < 20–40M(턴당 11만: 고칠 자리가 적혀 있어 큰 파일을 통째 읽지 않았다). p11과 같은 교훈이 더 세게: 건드릴 자리가 지시서에 적힌 작은 항목 묶음은 항목 수와 무관하게 60–90턴·8–10분 쪽이다. 쪼갤 조건: '지시서가 파일·함수 위치까지 적었는가'. 계산기(22–45분)는 더 크게 빗나감"
+
+[[dispatch]]
+id = "p14"
+project = "proviso"
+batch = 5
+date = 2026-10-20
+task = "구현(출시 준비 2차, 같은 에이전트 이어서): 파일 가져오기(파서·중복 판정·UI), 계정 삭제 유보 흐름(서버 표시·로컬 초기화·재로그인 취소), 지운 기록의 서버 내용 비우기(동기화 코드), 영구 삭제 예약 함수(Node) + 테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p13"
+told = "다른 일"
+minutes = [12, 25]
+turns = [120, 200]
+tokens_class = ["T2"]
+tokens_m = [20, 40]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2"]
+reason = "p13(75턴·7.9분·8.1M, 같은 저장소의 작은 항목 셋)의 ×1.6–2.7: 이번엔 네 묶음이고 그중 둘(계정 삭제 흐름, 동기화 코드의 내용 비우기)은 자리가 지시서에 적혔어도 로그인 흐름·동기화 테스트를 건드려 바퀴가 늘고, Node 함수 프로젝트를 새로 만든다. 분당 8–10턴. 이어 보내는 회차라 턴당 맥락이 앞 회차(11만)의 1.6–1.8배 → 20–40M. 계산기 5–11분(빗댄 계산 8–16)은 p13 실측에 끌려 작게 나왔다고 본다"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [5.3, 10.6]
