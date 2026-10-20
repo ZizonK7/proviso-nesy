@@ -4935,3 +4935,53 @@ hypotheses = []
 [dispatch.calc]
 told = "신경 끄기"
 minutes = [47.8, 95.7]
+[dispatch.actual]
+status = "done"
+minutes = 6.8
+turns = 80
+tokens_m = 8.5
+[dispatch.review]
+wrong = ["R_integration", "R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "구간 빗나감: '신경 끄기'(30–60분)라 했는데 6.8분('잠깐'). 턴 80 < 150–250, 토큰 8.5M < 40–80M. 212파일 중 실제 충돌은 3파일(CHANGELOG, MainActivity, 수신기 하나)뿐이고 나머지는 git이 자동으로 합쳤다. 흐렸던 조건: 통합 비용은 '바뀐 파일 수'가 아니라 '양쪽이 같은 줄을 고친 파일 수'와 '합친 뒤 돌려 봐야 하는 런타임 면'이 정한다 — 이번엔 런타임 통합 없이 git 병합 + 단위 테스트 한 바퀴라 R_integration(런타임 면마다 +0.4배)이 해당되지 않았다. 보내기 전에 `git merge-tree`로 충돌 파일 수를 세면 알 수 있었던 값(보내기 전 상태 후보: '충돌 파일 수')"
+
+[[dispatch]]
+id = "p21"
+project = "proviso"
+batch = 7
+date = 2026-10-20
+task = "구현(안드로이드 앱, 같은 에이전트 이어서): 진행 중 타이머를 서버 문서로 동기화 — 시작·정지·일시정지·제목 변경 때 쓰기, 원격 변경(웹) 듣고 적용, 충돌 규칙 순수 로직 + 테스트, 규칙 사본·테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "일부"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p14"
+told = "다른 일"
+minutes = [12, 25]
+turns = [100, 160]
+tokens_class = ["T2"]
+tokens_m = [25, 45]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2"]
+reason = "p14(119턴·19.2분, 같은 앱에 계정 삭제 흐름 등 네 묶음)에 ×0.8–1.3: 문서 모양·충돌 규칙이 지시서에 다 적혀 있고(S_spec_fixed=예) 묶음은 하나지만 타이머 시작·정지 경로가 ViewModel 3,000줄 안에 흩어져 있어 찾는 턴이 든다. 이어 보낸 회차라 턴당 25–30만 → 25–45M. 분당 7–9턴. 계산기 11–23분 '다른 일'"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [11.4, 22.8]
