@@ -4758,3 +4758,44 @@ turns = 175
 tokens_m = 27.7
 [dispatch.review]
 reason = "넷 다 맞음: 말한 구간 '다른 일'(16.1분), 분 15–30 안, 턴 175(120–200 안), 토큰 27.7M(25–45 안). p14에 ×1.0–1.5로 빗댄 것이 맞았다 — 처음 보는 저장소라도 묶음 수와 자리가 지시서에 적혀 있으면 같은 종류의 직전 기록에 ×1 안팎. 분당 10.9턴. 계산기 22–45분('신경 끄기')은 빗나감 — 이 배치(p13–p16) 넷 중 계산기 1/4, 손 2/4"
+
+[[dispatch]]
+id = "p17"
+project = "proviso"
+batch = 6
+date = 2026-10-20
+task = "구현(웹 저장소): 요약 함수를 전체 읽기에서 날짜별 요약 문서 증분 갱신으로, 루틴 화면 30일 범위, 랜딩 어제·오늘 상세 + 28일 요약, 에뮬레이터 테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p16"
+told = "다른 일"
+minutes = [15, 30]
+turns = [150, 230]
+tokens_class = ["T2"]
+tokens_m = [25, 45]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long_v5", "R_verify_laps"]
+reason = "p16(175턴·16.1분·27.7M, 같은 웹 저장소 여섯 묶음)의 ×0.9–1.3: 묶음은 넷으로 적지만 요약 함수 증분화는 집계 논리를 다시 짜고 에뮬레이터로 전후를 맞춰 봐야 해 바퀴가 든다. 분당 9–11턴. 첫 회차 턴당 20만 → 25–45M. 계산기는 22–45분 '신경 끄기'"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [22.3, 44.6]
