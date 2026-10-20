@@ -4221,3 +4221,243 @@ turns = 136
 tokens_m = 41.2
 [dispatch.review]
 reason = "넷 다 맞음: 말한 구간 '다른 일'(27.8분), 분 18–35 안, 턴 120–220 안, 토큰 25–60M 안. p04에 빗대 ×1–1.7로 잡고 '작은 저장소는 할 일 수로 크게 곱하지 않는다'(p04 돌아보기)를 적용한 첫 예측. 같은 일을 계산기는 21–42분으로 잡아 긴 쪽 '신경 끄기'를 말했을 것 — 계산기는 빗나가고 손 예측은 맞은 한 건. 분당 4.9턴으로 p04(7.6)보다 느렸다: 새로 짓는 코드(계산기·맞추기·홀드아웃)와 판단이 붙어서"
+
+[[dispatch]]
+id = "p06"
+project = "proviso"
+batch = 4
+date = 2026-10-20
+task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p02"
+told = "다른 일"
+minutes = [6, 15]
+turns = [25, 50]
+tokens_class = ["T1"]
+tokens_m = [3, 10]
+rules = ["R_turns_analogy_v2", "R_variants", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save"]
+reason = "p02(4.5분·42턴·6.0M, 정해진 파일을 읽고 목록 하나)에 빗댐. 읽기는 정해진 텍스트 하나라 비슷하지만, 출력이 짧은 목록이 아니라 150–300줄 정리 문서(섹션마다 이어 쓰기)라 새로 쓰기 쪽 분당 턴 2.5–4 → 턴 ×0.6–1.2, 분 ×1.3–3. PDF 쪽을 그림으로 읽으면 맥락이 커져 턴당 10–20만. 계산기 기본값(1–2분)은 고정 입력을 '한 번 읽고 한 번 쓰기'로 보는데 이번 출력은 길다. 여섯을 동시에 보내 벽시계는 가장 긴 하나(녹취 포함)가 정한다. 사용자에게: 전체 10–20분 '다른 일'"
+[dispatch.calc]
+told = "잠깐"
+minutes = [1.03, 2.07]
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p07"
+project = "proviso"
+batch = 4
+date = 2026-10-20
+task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p02"
+told = "다른 일"
+minutes = [6, 15]
+turns = [25, 50]
+tokens_class = ["T1"]
+tokens_m = [3, 10]
+rules = ["R_turns_analogy_v2", "R_variants", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save"]
+reason = "p02(4.5분·42턴·6.0M, 정해진 파일을 읽고 목록 하나)에 빗댐. 읽기는 정해진 텍스트 하나라 비슷하지만, 출력이 짧은 목록이 아니라 150–300줄 정리 문서(섹션마다 이어 쓰기)라 새로 쓰기 쪽 분당 턴 2.5–4 → 턴 ×0.6–1.2, 분 ×1.3–3. PDF 쪽을 그림으로 읽으면 맥락이 커져 턴당 10–20만. 계산기 기본값(1–2분)은 고정 입력을 '한 번 읽고 한 번 쓰기'로 보는데 이번 출력은 길다. 여섯을 동시에 보내 벽시계는 가장 긴 하나(녹취 포함)가 정한다. 사용자에게: 전체 10–20분 '다른 일'"
+[dispatch.calc]
+told = "잠깐"
+minutes = [1.03, 2.07]
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p08"
+project = "proviso"
+batch = 4
+date = 2026-10-20
+task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽) + 수업 녹취록(약 12만 자)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p02"
+told = "다른 일"
+minutes = [10, 20]
+turns = [30, 60]
+tokens_class = ["T1"]
+tokens_m = [6, 18]
+rules = ["R_turns_analogy_v2", "R_variants", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save"]
+reason = "p02(4.5분·42턴·6.0M, 정해진 파일을 읽고 목록 하나)에 빗댐. 읽기는 정해진 텍스트 하나라 비슷하지만, 출력이 짧은 목록이 아니라 150–300줄 정리 문서(섹션마다 이어 쓰기)라 새로 쓰기 쪽 분당 턴 2.5–4 → 턴 ×0.6–1.2, 분 ×1.3–3. PDF 쪽을 그림으로 읽으면 맥락이 커져 턴당 10–20만. 녹취록이 슬라이드 텍스트의 약 9배라 읽기·대조가 붙어 분 ×1.5, 토큰 ×2. 계산기 기본값(1–2분)은 고정 입력을 '한 번 읽고 한 번 쓰기'로 보는데 이번 출력은 길다. 여섯을 동시에 보내 벽시계는 가장 긴 하나(녹취 포함)가 정한다. 사용자에게: 전체 10–20분 '다른 일'"
+[dispatch.calc]
+told = "잠깐"
+minutes = [1.03, 2.07]
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p09"
+project = "proviso"
+batch = 4
+date = 2026-10-20
+task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p02"
+told = "다른 일"
+minutes = [6, 15]
+turns = [25, 50]
+tokens_class = ["T1"]
+tokens_m = [3, 10]
+rules = ["R_turns_analogy_v2", "R_variants", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save"]
+reason = "p02(4.5분·42턴·6.0M, 정해진 파일을 읽고 목록 하나)에 빗댐. 읽기는 정해진 텍스트 하나라 비슷하지만, 출력이 짧은 목록이 아니라 150–300줄 정리 문서(섹션마다 이어 쓰기)라 새로 쓰기 쪽 분당 턴 2.5–4 → 턴 ×0.6–1.2, 분 ×1.3–3. PDF 쪽을 그림으로 읽으면 맥락이 커져 턴당 10–20만. 계산기 기본값(1–2분)은 고정 입력을 '한 번 읽고 한 번 쓰기'로 보는데 이번 출력은 길다. 여섯을 동시에 보내 벽시계는 가장 긴 하나(녹취 포함)가 정한다. 사용자에게: 전체 10–20분 '다른 일'"
+[dispatch.calc]
+told = "잠깐"
+minutes = [1.03, 2.07]
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p10"
+project = "proviso"
+batch = 4
+date = 2026-10-20
+task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p02"
+told = "다른 일"
+minutes = [6, 15]
+turns = [25, 50]
+tokens_class = ["T1"]
+tokens_m = [3, 10]
+rules = ["R_turns_analogy_v2", "R_variants", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save"]
+reason = "p02(4.5분·42턴·6.0M, 정해진 파일을 읽고 목록 하나)에 빗댐. 읽기는 정해진 텍스트 하나라 비슷하지만, 출력이 짧은 목록이 아니라 150–300줄 정리 문서(섹션마다 이어 쓰기)라 새로 쓰기 쪽 분당 턴 2.5–4 → 턴 ×0.6–1.2, 분 ×1.3–3. PDF 쪽을 그림으로 읽으면 맥락이 커져 턴당 10–20만. 계산기 기본값(1–2분)은 고정 입력을 '한 번 읽고 한 번 쓰기'로 보는데 이번 출력은 길다. 여섯을 동시에 보내 벽시계는 가장 긴 하나(녹취 포함)가 정한다. 사용자에게: 전체 10–20분 '다른 일'"
+[dispatch.calc]
+told = "잠깐"
+minutes = [1.03, 2.07]
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p11"
+project = "proviso"
+batch = 4
+date = 2026-10-20
+task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p02"
+told = "다른 일"
+minutes = [6, 15]
+turns = [25, 50]
+tokens_class = ["T1"]
+tokens_m = [3, 10]
+rules = ["R_turns_analogy_v2", "R_variants", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save"]
+reason = "p02(4.5분·42턴·6.0M, 정해진 파일을 읽고 목록 하나)에 빗댐. 읽기는 정해진 텍스트 하나라 비슷하지만, 출력이 짧은 목록이 아니라 150–300줄 정리 문서(섹션마다 이어 쓰기)라 새로 쓰기 쪽 분당 턴 2.5–4 → 턴 ×0.6–1.2, 분 ×1.3–3. PDF 쪽을 그림으로 읽으면 맥락이 커져 턴당 10–20만. 계산기 기본값(1–2분)은 고정 입력을 '한 번 읽고 한 번 쓰기'로 보는데 이번 출력은 길다. 여섯을 동시에 보내 벽시계는 가장 긴 하나(녹취 포함)가 정한다. 사용자에게: 전체 10–20분 '다른 일'"
+[dispatch.calc]
+told = "잠깐"
+minutes = [1.03, 2.07]
+[dispatch.actual]
+status = "unknown"
