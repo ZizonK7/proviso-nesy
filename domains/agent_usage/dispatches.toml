@@ -4854,3 +4854,84 @@ turns = 79
 tokens_m = 27.6
 [dispatch.review]
 reason = "넷 다 맞음: '다른 일'(19.4분 = 합계 43.9 − 1회차 24.5), 분 10–20 안(상한 근처), 턴 79(70–130 안), 토큰 27.6M(20–40 안, 턴당 35만: 두 번째 회차 맥락). 직전 회차 ×0.4–0.75(R_third_pass 방식)가 맞았다 — 두 번째 회차에도 쓸 수 있다. 분당 4.1턴으로 느렸다: 브라우저 테스트 셋을 고쳐 돌리는 바퀴가 길었다. 계산기 22–45분은 또 빗나감(배치 6: 손 3/3, 계산기 0/3)"
+
+[[dispatch]]
+id = "p19"
+project = "proviso"
+batch = 7
+date = 2026-10-20
+task = "구현(웹 저장소): 가짜 데이터 PC 시안(4탭, 2,500줄)을 /app/로 옮겨 로그인·실제 기록·할 일·직접 추가·통계(요약 경로)·타이머 문서 읽기까지 붙임 + 브라우저 테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "일부"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p17"
+told = "신경 끄기"
+minutes = [25, 45]
+turns = [200, 300]
+tokens_class = ["T2", "T3"]
+tokens_m = [35, 60]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long_v5", "R_verify_laps"]
+reason = "p17(172턴·24.5분·33.2M, 웹 함수 증분화)의 ×1.2–1.7: 새 페이지 하나에 네 화면의 데이터 경로를 전부 붙이고(읽기·쓰기·revision), 시안 코드 2,500줄을 읽어 재사용하며, 브라우저 테스트를 새로 쓴다. 분당 7–8턴. 새로 짓는 코드라 턴당 20만 → 35–60M. 계산기 22–45분"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [22.3, 44.6]
+
+[[dispatch]]
+id = "p20"
+project = "proviso"
+batch = 7
+date = 2026-10-20
+task = "통합(안드로이드 앱 저장소): 2026-10-13 하드닝 브랜치(212파일)를 이번 세션 브랜치(7커밋)에 병합, 충돌 해결(정확 알람 흐름·로그·빌드 설정·문서), 컴파일·테스트 통과. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "예"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [30, 60]
+turns = [150, 250]
+tokens_class = ["T2", "T3"]
+tokens_m = [40, 80]
+rules = ["R_integration", "R_time_turns_v2", "R_tok_long_v5", "R_verify_laps"]
+reason = "빗댈 기록 없음(이 저장소의 통합 기록은 batman의 d12b·d26b·d39b·d68·d94뿐이고 모두 다른 프로젝트). 처음 합쳐 보는 두 갈래(R_integration: 런타임 면마다 +0.4배)이고 212파일 중 충돌은 10–20파일로 본다. 충돌 하나마다 양쪽 의도를 읽고 고르는 턴이 들고 gradle 바퀴(따뜻해도 1–2분)가 5–8번. 분당 4–6턴 → 30–60분. 큰 diff를 읽어 턴당 25–35만 → 40–80M. 계산기 48–96분"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [47.8, 95.7]
