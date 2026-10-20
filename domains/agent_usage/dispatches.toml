@@ -4806,3 +4806,44 @@ turns = 172
 tokens_m = 33.2
 [dispatch.review]
 reason = "넷 다 맞음: '다른 일'(24.5분), 분 15–30 안, 턴 172(150–230 안), 토큰 33.2M(25–45 안). p16에 ×0.9–1.3으로 빗댄 것이 맞았다. 분당 7.0턴으로 p16(10.9)보다 느렸다 — 집계 논리를 새로 짜고 에뮬레이터 바퀴가 많았다(예측의 '바퀴가 든다'가 맞음). 계산기 22–45분 '신경 끄기'는 빗나감. 배치 6 두 건: 손 2/2, 계산기 0/2"
+
+[[dispatch]]
+id = "p18"
+project = "proviso"
+batch = 6
+date = 2026-10-20
+task = "구현(웹 저장소, 같은 에이전트 이어서): 통계 페이지를 어제·오늘 원본 + 28일 일별 요약으로, 주간 차트·운동 패널 제거, 편집은 불러온 날짜만 + 테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p17"
+told = "다른 일"
+minutes = [10, 20]
+turns = [70, 130]
+tokens_class = ["T2"]
+tokens_m = [20, 40]
+rules = ["R_third_pass", "R_resume_ctx_v2", "R_time_turns_v2"]
+reason = "같은 에이전트 두 번째 회차(직전 p17 172턴·24.5분)의 ×0.4–0.75: 페이지 하나의 데이터 경로 교체와 패널 둘 제거, 브라우저 테스트 셋 다시 돌리기. 패널 제거는 지우는 일이라 빠르지만 통계 페이지 코드가 1,300줄이라 읽는 턴이 있다. 이어 보낸 회차라 턴당 맥락 25–35만 → 20–40M"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [22.3, 44.6]
