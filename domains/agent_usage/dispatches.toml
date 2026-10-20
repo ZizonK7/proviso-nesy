@@ -5044,6 +5044,14 @@ hypotheses = []
 told = "다른 일"
 minutes = [11.4, 22.8]
 
+[dispatch.actual]
+status = "done"
+minutes = 14.0
+turns = 61
+tokens_m = 18.7
+[dispatch.review]
+reason = "넷 다 맞음: '다른 일'(14.0분 = 합계 32.0 − 앞 두 회차 18.0), 분 10–20 안, 턴 61(60–110 바로 안), 토큰 18.7M(15–30 안, 턴당 31만). 직전 회차에 빗댄 ×0.8–1.5가 맞았다. 분당 4.4턴으로 느렸다: 세 번째 회차라 맥락이 크고 업로드·복원 코드를 전수 조사했다. 계산기 11.4–22.8분도 맞음"
+
 [[dispatch]]
 id = "p23"
 project = "proviso"
