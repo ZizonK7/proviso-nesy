@@ -4221,3 +4221,87 @@ turns = 136
 tokens_m = 41.2
 [dispatch.review]
 reason = "넷 다 맞음: 말한 구간 '다른 일'(27.8분), 분 18–35 안, 턴 120–220 안, 토큰 25–60M 안. p04에 빗대 ×1–1.7로 잡고 '작은 저장소는 할 일 수로 크게 곱하지 않는다'(p04 돌아보기)를 적용한 첫 예측. 같은 일을 계산기는 21–42분으로 잡아 긴 쪽 '신경 끄기'를 말했을 것 — 계산기는 빗나가고 손 예측은 맞은 한 건. 분당 4.9턴으로 p04(7.6)보다 느렸다: 새로 짓는 코드(계산기·맞추기·홀드아웃)와 판단이 붙어서"
+
+[[dispatch]]
+id = "p06"
+project = "proviso"
+batch = 4
+date = 2026-10-20
+task = "조사(stock-rader용): 한국어 투자 일지·매매 일지·포트폴리오 공개 글을 읽고 문체를 뽑음 → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장). Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "예"
+S_research = "예"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+[dispatch.calc]
+told = "잠깐"
+minutes = [3.84, 7.67]
+[dispatch.predicted]
+written_before = true
+analog = "dR5A"
+told = "다른 일"
+minutes = [8, 16]
+turns = [85, 145]
+tokens_class = ["T1"]
+tokens_m = [9, 22]
+rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "dR5A–D(문체·방식 웹 조사, 엄격한 양식, 섹션마다 저장: 9.8–11.7분·102–125턴·12.6–17.6M)의 ×1 둘레. 웹 조사라 분당 9–11턴, 턴당 8–16만. 계산기는 C_small_codebase(project=proviso)를 걸어 잠깐(3.8–7.7분)이라 했지만, 웹 조사에는 코드베이스가 없어 그 조건이 맞지 않는다고 봄. 걸치면 긴 쪽 → 다른 일"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"  # 진행 중
+
+[[dispatch]]
+id = "p07"
+project = "proviso"
+batch = 4
+date = 2026-10-20
+task = "조사(stock-rader용): 영어 포트폴리오 업데이트·트레이딩 저널·운용사 투자자 서한을 읽고 문체를 뽑음 → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장). p06과 동시. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "예"
+S_research = "예"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+[dispatch.calc]
+told = "잠깐"
+minutes = [3.84, 7.67]
+[dispatch.predicted]
+written_before = true
+analog = "dR5A"
+told = "다른 일"
+minutes = [8, 16]
+turns = [85, 145]
+tokens_class = ["T1"]
+tokens_m = [9, 22]
+rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "p06과 같은 모양(dR5A–D에 빗댐 ×1). 계산기와 갈린 이유도 같다"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"  # 진행 중
