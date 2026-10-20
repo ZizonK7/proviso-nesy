@@ -4410,6 +4410,14 @@ hypotheses = []
 told = "다른 일"
 minutes = [8.7, 17.4]
 
+[dispatch.actual]
+status = "done"
+minutes = 17.6
+turns = 189
+tokens_m = 33.5
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(17.6분), 분 12–25 안. 턴 189 > 100–160, 토큰 33.5M > 10–30M(턴당 18만): p08과 같이 웹이 대부분 막혀(열린 곳 3) 시도가 늘었고, 앱 UI 코드 읽기가 붙어 턴당 맥락이 웹 조사보다 컸다. 분당 10.7턴(웹 띠 7–11 안). 계산기 8.7–17.4분은 0.2분 차로 빗나감(구간은 맞음)"
+
 [[dispatch]]
 id = "p10"
 project = "proviso"
