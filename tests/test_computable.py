@@ -264,9 +264,16 @@ class Devices(unittest.TestCase):
         self.assertTrue(any("R_tok_v2 → R_tok_v3" in w for w in audit.unsplit_revisions(self.kn)))
 
     def test_seen_until_principle_final_pieces_are_untested_now(self):
-        for p in pr.live_pieces(self.kn):
-            self.assertEqual(p.seen_until, "p05", p.id)
-            self.assertTrue(checks.piece_size(p.id)[0].startswith("시험 전"), p.id)
+        # 맞출 때 본 기록(p05까지)만 있으면 시험 전이고, 성적은 그 뒤 기록에서만 쌓인다
+        records = dp.load()
+        ids = [d["id"] for d in records]
+        upto = records[:ids.index("p05") + 1]
+        with mock.patch.object(dp, "load", return_value=upto):
+            for p in pr.live_pieces(self.kn):
+                self.assertEqual(p.seen_until, "p05", p.id)
+                self.assertTrue(checks.piece_size(p.id)[0].startswith("시험 전"), p.id)
+        _, test = checks._cut_split(records, "p05")
+        self.assertTrue(all(ids.index(d["id"]) > ids.index("p05") for d in test))
 
     def test_split_pieces_say_why_the_condition_matters(self):
         for pid in ("C_turns_research_v2", "C_turns_resumed_v2", "C_turns_no_check", "C_fix_existing",
