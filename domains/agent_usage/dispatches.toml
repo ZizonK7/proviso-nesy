@@ -4483,7 +4483,7 @@ S_research = "아니오"
 S_web = "아니오"
 S_other_model = "아니오"
 S_resumed = "아니오"
-S_mid_notes = "아니오"
+S_mid_notes = "예"  # 후속 1회차(로그아웃 상태 진입점, 토스트 날짜) — 1.5분·18턴·5.0M 포함
 S_spec_fixed = "일부"
 S_render = "아니오"
 S_long_lap = "예"  # gradle 컴파일·테스트 한 바퀴가 따뜻해도 2–5분
@@ -4505,6 +4505,16 @@ hypotheses = []
 [dispatch.calc]
 told = "신경 끄기"
 minutes = [32.9, 65.8]
+
+[dispatch.actual]
+status = "done"
+minutes = 16.3
+turns = 179
+tokens_m = 34.5
+[dispatch.review]
+wrong = ["R_time_turns_v2", "R_verify_laps", "R_tok_long_v5"]
+why = "조건 흐림"
+reason = "구간 빗나감: '신경 끄기'라 했는데 16.3분('다른 일', 후속 1.5분 포함). 턴 179 < 200–350(양도 낮게), 분당 11턴 > 5–6.5(속도도 빗나감), 토큰 34.5M < 40–80M(턴당 19만). 기능 셋이 서로 독립이고 지시서가 파일 위치·검증 양식·명령까지 적어 '설계가 다 적힌 편집'(분당 6–8)보다도 빨랐고, gradle 바퀴는 따뜻한 캐시에서 1분 안이라 R_verify_laps의 '긴 바퀴(S_long_lap=예)' 가정이 틀렸다(첫 실행만 길다). 큰 코드베이스(S_small_codebase=아니오)라고 턴을 올려 잡았지만, 고치는 자리가 정해진 추가 작업은 읽을 범위가 작다 — 흐렸던 조건: '코드베이스 크기'가 아니라 '건드릴 자리가 정해졌는가'. 계산기 33–66분도 빗나감"
 
 [[dispatch]]
 id = "p12"
