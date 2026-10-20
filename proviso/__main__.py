@@ -53,10 +53,17 @@ def cmd_graph(domain: str) -> int:
     return 0
 
 
-def load_checks(domain: str) -> tuple[dict, str]:
-    """분야의 자동 검사 모음과 그 출처(SOURCE, 없으면 'auto')."""
+def load_checks(domain: str) -> tuple[dict, str | dict]:
+    """분야의 자동 검사 모음과 그 출처(SOURCE, 없으면 'auto'; 검사마다면 {검사 이름: 출처})."""
     module = importlib.import_module(f"domains.{domain}.checks")
     return module.CHECKS, getattr(module, "SOURCE", "auto")
+
+
+def source_label(source: str | dict) -> str:
+    """SOURCE를 사람이 읽을 말로: 하나면 그 이름, 검사마다면 '검사마다 (이름: 출처, …)'."""
+    if isinstance(source, dict):
+        return "검사마다 (" + ", ".join(f"{k}: {schema.SOURCES.get(v, v)}" for k, v in source.items()) + ")"
+    return schema.SOURCES.get(source, source)
 
 
 def cmd_check(domain: str) -> int:
@@ -66,7 +73,7 @@ def cmd_check(domain: str) -> int:
     if missing:
         print(f"[{domain}] checks.py에 없는 검사: {', '.join(missing)}")
         return 1
-    print(f"[{domain}] 성적표 (자동 검사 출처: {schema.SOURCES.get(source, source)}; ★ = 사용자 판정, 가장 무거움)\n")
+    print(f"[{domain}] 성적표 (자동 검사 출처: {source_label(source)}; ★ = 사용자 판정, 가장 무거움)\n")
     print(score.report(kn, checks, source))
     return 0
 

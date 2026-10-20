@@ -2,6 +2,10 @@
 
 성적은 두 가지를 합친다.
   (i)  자동 검사 — 분야의 checks.py 함수(가설의 check 칸). 분야가 SOURCE로 출처를 밝힌다(실측·시뮬레이션 등).
+       SOURCE는 문자열 하나(분야 전체) 또는 {검사 이름: 출처}(검사마다, "*" = 나머지)다.
+       검사 함수가 출처별로 따로 판정하려면 (출처, 판정 문장, 자세히) 묶음의 목록을 돌려준다(2026-10-21,
+       stock-rader: 같은 검사를 재생 기록과 실측 기록에 따로 돌려 따로 보인다). 예전처럼 (판정 문장, 자세히)를
+       돌려주면 SOURCE의 출처 하나로 친다.
        가설은 세운 뒤에 나온 기록으로만 시험한다(분야 검사가 책임진다, 예: agent_usage의 SEEN_UNTIL).
   (ii) 판정 기록 — 지식 파일의 [[judgment]] (사용자 실사용·실제 기록 재생·시뮬레이션·AI 판단).
 출처는 따로 보이고, 무거운 출처(schema.SOURCES 순서, 사용자 실사용이 가장 무겁다)부터 늘어선다.
@@ -38,21 +42,49 @@ def normalize(verdict: str) -> str:
     return "불명"
 
 
-def run_check(fn: Callable, node: Node) -> tuple[str, str]:
-    """검사 함수는 인자 없이(가설 하나의 검사) 또는 노드 id 하나를 받는다(여러 규칙에 같이 쓰는 검사)."""
+Source = str | dict[str, str]
+
+
+def run_check(fn: Callable, node: Node):
+    """검사 함수는 인자 없이(가설 하나의 검사) 또는 노드 id 하나를 받는다(여러 규칙에 같이 쓰는 검사).
+    돌려주는 것: (판정 문장, 자세히) 또는 [(출처, 판정 문장, 자세히), ...] — results()가 하나로 맞춘다."""
     return fn(node.id) if inspect.signature(fn).parameters else fn()
 
 
-def card(kn: Knowledge, node: Node, checks: dict[str, Callable], source: str = "auto") -> list[Line]:
-    """노드 하나의 성적 줄들. 무거운 출처부터."""
+def source_of(source: Source, name: str) -> str:
+    """검사 이름의 기본 출처. source가 사전이면 검사마다, 없으면 "*", 그것도 없으면 'auto'."""
+    if isinstance(source, dict):
+        return source.get(name, source.get("*", "auto"))
+    return source
+
+
+def results(raw, default: str) -> list[tuple[str, str, str]]:
+    """검사 결과를 (출처, 판정 문장, 자세히) 목록으로. 예전 모양 (판정, 자세히)는 기본 출처 하나."""
+    if isinstance(raw, tuple):
+        raw = [raw]
+    out = []
+    for item in raw:
+        if len(item) == 2:
+            out.append((default, item[0], item[1]))
+        elif len(item) == 3:
+            out.append(tuple(item))
+        else:
+            raise ValueError(f"검사 결과 모양이 틀림: {item!r} — (판정, 자세히) 또는 (출처, 판정, 자세히)")
+    return out
+
+
+def card(kn: Knowledge, node: Node, checks: dict[str, Callable], source: Source = "auto") -> list[Line]:
+    """노드 하나의 성적 줄들. 무거운 출처부터. 한 검사가 출처 여럿으로 판정하면 이름에 출처를 붙인다."""
     lines = []
     for name in check_names(node):
         fn = checks.get(name)
         if fn is None:
-            lines.append(Line(source, name, "불명", f"검사 '{name}'가 분야 checks.py에 없음"))
+            lines.append(Line(source_of(source, name), name, "불명", f"검사 '{name}'가 분야 checks.py에 없음"))
             continue
-        verdict, detail = run_check(fn, node)
-        lines.append(Line(source, name, normalize(verdict), verdict, detail))
+        got = results(run_check(fn, node), source_of(source, name))
+        for src, verdict, detail in got:
+            shown = f"{name}·{SOURCES.get(src, src)}" if len(got) > 1 else name
+            lines.append(Line(src, shown, normalize(verdict), verdict, detail))
     for j in kn.judgments_of(node.id):
         lines.append(Line(j["source"], str(j.get("date", "")), j["verdict"], j["note"]))
     order = list(SOURCES)
@@ -96,7 +128,7 @@ def tally(line: Line) -> str:
     return f"{line.name} {m.group(2)}/{m.group(1)}" if m else f"{line.name} {line.verdict}"
 
 
-def report(kn: Knowledge, checks: dict[str, Callable], source: str = "auto") -> str:
+def report(kn: Knowledge, checks: dict[str, Callable], source: Source = "auto") -> str:
     """check 명령의 출력: 살아 있는 가설마다 성적표, 맨 끝에 한눈 표. 이전 버전은 무엇이 대신하는지만."""
     out, table, shown = [], [], {}
     for node in kn.nodes.values():

@@ -185,7 +185,9 @@ class Holdout(unittest.TestCase):
         lost = ho.regressions(self.sets["front_v0"]["pieces"], self.sets["front_split"]["pieces"], self.front, self.kn, self.records)
         self.assertLessEqual(lost, set(ho.REGRESSION_OK["front_split"]), lost)
         # 최종본: 쪼갠 세트의 모양을 전체 기록으로 다시 맞춘 것보다 잃은 기록이 없다
-        done = [d for d in self.records if dp.done(d)]
+        # 맞춘 기간(p05까지)의 기록만 본다. 세운 뒤의 기록은 시험 몫이라 회귀 비교에 넣지 않는다
+        cut = [d["id"] for d in self.records].index("p05")
+        done = [d for d in self.records[: cut + 1] if dp.done(d)]
         until = ft.records_until(self.records, "p04")
         before, _ = ft.fit(self.sets["front_split"]["pieces"], until, self.kn, self.records)
         lost = ho.regressions(before, pr.live_pieces(self.kn), done, self.kn, self.records)
@@ -264,9 +266,11 @@ class Devices(unittest.TestCase):
         self.assertTrue(any("R_tok_v2 → R_tok_v3" in w for w in audit.unsplit_revisions(self.kn)))
 
     def test_seen_until_principle_final_pieces_are_untested_now(self):
+        # 세운 시점은 p05다. p05까지의 기록은 '맞춰 본 것'일 뿐 시험에 들어가지 않는다(시험은 p06부터 쌓인다)
         for p in pr.live_pieces(self.kn):
             self.assertEqual(p.seen_until, "p05", p.id)
-            self.assertTrue(checks.piece_size(p.id)[0].startswith("시험 전"), p.id)
+            verdict, detail = checks.piece_size(p.id)
+            self.assertTrue(verdict.startswith("시험 전") or "시험(p05 다음부터)" in detail, (p.id, verdict, detail))
 
     def test_split_pieces_say_why_the_condition_matters(self):
         for pid in ("C_turns_research_v2", "C_turns_resumed_v2", "C_turns_no_check", "C_fix_existing",

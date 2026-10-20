@@ -72,6 +72,30 @@ class Scorecard(unittest.TestCase):
         lines = score.card(kn, kn.nodes["R"], {"used": lambda rid: (f"반박됨 ({rid})", "")})
         self.assertEqual((lines[0].verdict, lines[0].text), ("반박", "반박됨 (R)"))
 
+    def test_check_may_judge_per_source(self):
+        """한 검사가 출처별로 따로 판정한다(2026-10-21, 재생과 실측을 따로 보이기). 이름에 출처가 붙는다."""
+        kn = load_text(BASE + rule("R", 1, "hypothesis", "m", '["S1"]', 'check=["c"]\n'))
+        both = lambda: [("replay", "반박됨 (시험 9건 중 0건 맞음)", "a"), ("measured", "시험 전", "")]
+        lines = score.card(kn, kn.nodes["R"], {"c": both}, "replay")
+        self.assertEqual([(l.source, l.name, l.verdict) for l in lines],
+                         [("replay", "c·실제 기록 재생", "반박"), ("measured", "c·실측", "시험 전")])
+        self.assertEqual(score.summary(lines), "실제 기록 재생 기준 반박 1")
+        # 출처 하나만 내면 이름은 그대로
+        one = lambda: [("measured", "지지됨 (시험 3건 중 3건 맞음)", "")]
+        self.assertEqual(score.card(kn, kn.nodes["R"], {"c": one})[0].name, "c")
+
+    def test_source_may_be_per_check(self):
+        kn = load_text(BASE + rule("R", 1, "hypothesis", "m", '["S1"]', 'check=["a", "b", "z"]\n'))
+        checks = {k: (lambda: ("지지됨", "")) for k in "abz"}
+        lines = score.card(kn, kn.nodes["R"], checks, {"a": "measured", "b": "simulation", "*": "ai"})
+        self.assertEqual({l.name: l.source for l in lines}, {"a": "measured", "b": "simulation", "z": "ai"})
+        self.assertEqual(score.source_of({"a": "measured"}, "q"), "auto")
+        self.assertIn("검사마다", __import__("proviso.__main__", fromlist=["x"]).source_label({"a": "measured"}))
+
+    def test_bad_check_result_shape_is_an_error(self):
+        with self.assertRaises(ValueError):
+            score.results([("only one",)], "auto")
+
     def test_no_means_and_not_yet(self):
         self.assertEqual(score.summary([]), "시험 수단 없음")
         self.assertEqual(score.summary([score.Line("measured", "c", "시험 전", "시험 전")]), "시험 전")
