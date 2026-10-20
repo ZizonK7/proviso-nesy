@@ -4458,6 +4458,14 @@ hypotheses = []
 told = "다른 일"
 minutes = [8.7, 17.4]
 
+[dispatch.actual]
+status = "done"
+minutes = 18.3
+turns = 171
+tokens_m = 28.3
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(18.3분), 분 8–20 안(상한 근처). 턴 171 > 80–140, 토큰 28.3M > 6–22M(턴당 16.5만): p08·p09와 같은 까닭 — 프록시가 공식 문서 사이트 여럿을 막아 시도가 늘었고, 앱 코드(매니페스트·알람·빌드 설정)를 읽어 턴당 맥락이 웹 조사보다 컸다. 분당 9.3턴(웹 띠 안). 계산기 8.7–17.4분 빗나감(구간은 맞음). 세 웹 조사 모두 턴 상한 초과: '막힌 사이트가 많은 환경'은 보내기 전에 알 수 없는 바깥 상황"
+
 [[dispatch]]
 id = "p11"
 project = "proviso"
@@ -4497,3 +4505,43 @@ hypotheses = []
 [dispatch.calc]
 told = "신경 끄기"
 minutes = [32.9, 65.8]
+
+[[dispatch]]
+id = "p12"
+project = "proviso"
+batch = 4
+date = 2026-10-20
+task = "구현: 적힌 설계(디자인 조사 보고서의 방향 ②)대로 앱 화면 5개의 HTML 시안 한 장 + 렌더 확인(Playwright 스크린샷). Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"  # 파일 하나짜리 새 HTML, 확인은 스크린샷 한 장씩
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [20, 40]
+turns = [120, 200]
+tokens_class = ["T2"]
+tokens_m = [25, 50]
+rules = ["R_doc_work_v2", "R_time_turns_v2", "R_verify_laps", "R_tok_long_v5"]
+reason = "설계가 정해진 새로 쓰기(R_doc_work_v2 20–45분·130–160턴)에 가깝다: 팔레트·화면 와이어프레임이 보고서에 적혀 있고 HTML 한 장을 새로 쓴다. 새로 쓰기는 분당 2.5–4턴이지만 설계가 다 적힌 편집은 6–8까지 오르므로 중간(4–6) → 120–200턴에 스크린샷 바퀴 2–3번(한 장 ~1.5분) → 20–40분. 턴당 20–25만 → 25–50M. 걸치지 않게 상한 40 → '다른 일'. 계산기는 21–42분으로 '신경 끄기'"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [21.1, 42.3]
