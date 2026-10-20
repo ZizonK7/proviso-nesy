@@ -4365,3 +4365,46 @@ turns = 94
 tokens_m = 17.8
 [dispatch.review]
 reason = "멈춘 작업이라 판정에서 빠진다. 멈춘 지점: 시세 3종 과거 데이터, market/ 모듈 10개, 논리집 초안, 테스트 일부(재생은 돌리지 않음) — phase1-wip 브랜치로 올려 클라우드 한 번 실행(stock-rader 1단계 마무리)이 이어받음. 교훈: 지시서에 '모든 네트워크 요청에 시간 제한'을 처음부터 적을 것(네이버는 User-Agent 없이 응답 없이 걸림)"
+
+[[dispatch]]
+id = "p09"
+project = "proviso"
+batch = 6
+date = 2026-10-21
+task = "구현(stock-rader 2단계, 1단계 코드 위에): 조사 기록 양식·볼 곳 성적표·조사 조각(시기)·손 예측 기록·돌아보기와 버전 나란히 채점·채점 겹침 제거·코인 판단 때 가격·매일 실행 명령·일지/주간 결산 숫자 채우기·예약 실행 지시문 + PROVISO 코어 검사별 출처. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "일부"
+S_build_tools = "예"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [21.1, 42.3]
+[dispatch.predicted]
+written_before = true
+analog = "p05"
+told = "신경 끄기"
+minutes = [30, 55]
+turns = [150, 260]
+tokens_class = ["T2", "T3"]
+tokens_m = [40, 90]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long_v5", "R_build_tools"]
+reason = "1단계 실제 몫은 로컬 94턴(멈춤, 앞 10분은 걸림) + 클라우드 58턴 ≈ 150턴. 2단계도 비슷한 크기(새 모듈 여럿 + 지시문 문서 + 두 저장소)라 p05(136턴)의 ×1.1–1.9. 분당 턴 p05의 4.9 둘레, 턴당 맥락 25–35만. 계산기(21–42분)와 같은 구간"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"  # 진행 중
