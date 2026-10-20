@@ -4263,6 +4263,14 @@ hypotheses = []
 told = "다른 일"
 minutes = [16.9, 33.7]
 
+[dispatch.actual]
+status = "done"
+minutes = 12.1
+turns = 161
+tokens_m = 24.0
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(12.1분). 턴 161 > 60–120(양 빗나감: 기준 9개를 하나씩 grep·wc로 세는 조사라 턴이 많았다), 분당 13.3턴으로 속도도 띠(5–6) 위 — p07과 같은 '코드 읽기만 하는 조사는 빠르다'. 토큰 24.0M은 15–35M 안(턴당 15만). 계산기 16.9–33.7분은 빗나감(구간은 맞춤)"
+
 [[dispatch]]
 id = "p07"
 project = "proviso"
