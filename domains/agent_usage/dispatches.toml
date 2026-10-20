@@ -4362,6 +4362,14 @@ hypotheses = []
 told = "다른 일"
 minutes = [8.7, 17.4]
 
+[dispatch.actual]
+status = "done"
+minutes = 13.3
+turns = 185
+tokens_m = 20.7
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(13.3분), 분 8–20 안, 토큰 6–22M 안(턴당 11만). 턴 185 > 80–140: 이 환경의 프록시가 스토어·리뷰·시장조사 사이트를 막아(github·wikipedia만 열림) 열기 시도가 거듭 실패했다(바깥 상황). 분당 13.9턴으로 웹 띠(7–11)보다 빨랐고 그래서 분은 맞았다. 계산기 8.7–17.4분도 맞음. H_research_cap 첫 시험: 웹 조사 하나는 '다른 일' 안에서 끝났다"
+
 [[dispatch]]
 id = "p09"
 project = "proviso"
