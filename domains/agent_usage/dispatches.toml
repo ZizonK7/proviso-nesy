@@ -5092,3 +5092,51 @@ hypotheses = []
 [dispatch.calc]
 told = "다른 일"
 minutes = [5.32, 10.6]
+[dispatch.actual]
+status = "done"
+minutes = 12.7
+turns = 79
+tokens_m = 30.8
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(12.7분 = 합계 32.4 − 1회차 19.7), 분 12–22 안, 토큰 30.8M(25–40 안, 턴당 39만). 턴 79 < 90–150(양 탓: 같은 페이지에 더하는 일은 직전 ×0.5 근처 — R_third_pass 범위가 두 번째 회차에도 맞았다). 분당 6.2턴. 계산기 5.3–10.6분은 빗나감(구간은 걸쳐 맞음)"
+
+[[dispatch]]
+id = "p24"
+project = "proviso"
+batch = 7
+date = 2026-10-20
+task = "구현(웹 저장소, 같은 에이전트 세 번째 회차): PC 앱의 할 일 쓰기를 폰과 맞춤 — 숫자 id로 생성, 삭제는 삭제 표시, updatedAt 통일 + 테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p23"
+told = "다른 일"
+minutes = [7, 15]
+turns = [40, 80]
+tokens_class = ["T2"]
+tokens_m = [20, 35]
+rules = ["R_third_pass", "R_time_turns_v2", "R_resume_ctx_v2"]
+reason = "세 번째 회차, 직전 p23(79턴·12.7분)의 ×0.5–1.0: 할 일 쓰기 함수 몇 개와 테스트 수정뿐이고 자리가 정해져 있다. 턴당 맥락은 40만 안팎(세 번째 회차). 계산기는 p23과 같은 상황이라 5.3–10.6분"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [5.3, 10.6]
