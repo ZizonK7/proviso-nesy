@@ -5002,3 +5002,85 @@ turns = 74
 tokens_m = 15.4
 [dispatch.review]
 reason = "말한 구간 '다른 일' 맞음(11.2분 = 합계 18.0 − 병합 회차 6.8). 분은 12–25 바로 아래, 턴 74 < 100–160, 토큰 15.4M < 25–45M(턴당 21만). 바꾸는 자리가 `TimerStateStore` 세 함수로 모여 있어 전수 조사가 짧게 끝났다 — '흩어져 있을 것'이라는 가정이 틀렸다(코드를 보고 보내면 알 수 있는 값). 두 번째 회차인데 직전(80턴)과 비슷한 크기. 계산기 11.4–22.8분은 거의 맞음(구간 맞음). 배치 7 지금까지: 손 2/3(p19 진행 중), 계산기 2/3"
+
+[[dispatch]]
+id = "p22"
+project = "proviso"
+batch = 7
+date = 2026-10-20
+task = "구현(안드로이드 앱, 같은 에이전트 세 번째 회차): 웹에서 바뀐 할 일(완료·삭제·수정·새로 만듦)을 폰이 가져오고 덮어쓰지 않게 — 수정 시각 기준 병합 + 테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p21"
+told = "다른 일"
+minutes = [10, 20]
+turns = [60, 110]
+tokens_class = ["T2"]
+tokens_m = [15, 30]
+rules = ["R_third_pass", "R_time_turns_v2", "R_resume_ctx_v2"]
+reason = "같은 에이전트 세 번째 회차: 직전 p21(74턴·11.2분)의 ×0.8–1.5 — 할 일 동기화는 업로드·복원 코드가 이미 있어 '가져오기' 한 갈래를 더하는 일이지만 덮어쓰기 규칙(수정 시각 비교)과 테스트가 붙는다. 턴당 20–27만. 계산기 11.4–22.8분"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [11.4, 22.8]
+
+[[dispatch]]
+id = "p23"
+project = "proviso"
+batch = 7
+date = 2026-10-20
+task = "구현(웹 저장소, 같은 에이전트 이어서): PC 앱에 루틴 블록·브라우저 알림과 집중 모드(집중 타이머·끝 알림) 추가 + 브라우저 테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "일부"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p19"
+told = "다른 일"
+minutes = [12, 22]
+turns = [90, 150]
+tokens_class = ["T2"]
+tokens_m = [25, 40]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2"]
+reason = "p19(147턴·19.7분, 같은 페이지를 처음 만든 회차)의 ×0.6–1.0: 같은 페이지에 화면 둘을 더하는 일이고 데이터 읽기(루틴)는 루틴 페이지 코드가 있다. 브라우저 알림·타이머는 새로. 이어 보낸 회차라 턴당 25–30만. 계산기 5.32–10.6분"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [5.32, 10.6]
