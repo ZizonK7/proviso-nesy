@@ -199,6 +199,17 @@ class Devices(unittest.TestCase):
         self.kn = pr.load_kn()
         self.records = dp.load()
 
+    def test_outside_situation_records_are_excepted_but_shown(self):
+        # 돌아보기 까닭이 '바깥 상황'인 기록은 계산 조각 시험에서 빠지되, 성적표와 audit에 늘 보인다
+        ex = [d["id"] for d in self.records if checks.is_exception(d)]
+        self.assertTrue(ex)
+        _, test = checks._cut_split(self.records, "p05")
+        self.assertFalse({d["id"] for d in test} & set(ex))
+        _, detail = checks.piece_direction("C_rate_web")
+        self.assertIn("예외로 뺀 기록(바깥 상황)", detail)
+        _, warns = checks.audit_pieces(self.kn)
+        self.assertTrue(any("바깥 상황 예외" in w for w in warns), warns)
+
     def test_A_direction_and_size_are_separate_scores(self):
         down = pr.Effect("C_t", "turns", "mul", 0.5, 0.8, (("S_a", ("예",)),), "down")
         verdict, _ = ho._direction(down, {"B": [[1.2, 1.4], [1.0, 0.9]]})  # 조건이 있는 쪽이 더 크다 → 줄인다는 주장은 틀림

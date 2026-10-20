@@ -515,10 +515,29 @@ def _pieces_state():
     return kn, pr.live_pieces(kn), dp.load()
 
 
-def _cut_split(records: list[dict], cut: str | None) -> tuple[list[dict], list[dict]]:
+def is_exception(d: dict) -> bool:
+    """돌아보기에서 까닭을 '바깥 상황'(보내기 전에 알 수 없던 드문 일)으로 가른 기록. 사용자 규칙(실패 처리):
+    이유는 맞는데 드문 바깥 상황이면 예외로 적고 논리는 그대로 둔다 → 계산 조각의 시험에서 빼되, 늘 '예외로 뺀 기록'으로 보인다.
+    같은 종류가 반복되면 원래 전제에 있어야 했던 조건으로 보고 쪼갠다(audit 경고가 셈을 보여 준다). 2026-10-21 더함(p06·p07)."""
+    return d.get("review", {}).get("why") == "바깥 상황"
+
+
+def exceptions_after(records: list[dict], cut: str | None) -> list[str]:
     ids = [d["id"] for d in records]
     i = ids.index(cut) + 1 if cut in ids else len(ids)
-    return [d for d in records[:i] if dp.done(d)], [d for d in records[i:] if dp.done(d)]
+    return [d["id"] for d in records[i:] if dp.done(d) and is_exception(d)]
+
+
+def _cut_split(records: list[dict], cut: str | None) -> tuple[list[dict], list[dict]]:
+    """(맞춰 본 기록, 시험 기록). 시험 기록에서는 바깥 상황 예외를 뺀다(is_exception)."""
+    ids = [d["id"] for d in records]
+    i = ids.index(cut) + 1 if cut in ids else len(ids)
+    return [d for d in records[:i] if dp.done(d)], [d for d in records[i:] if dp.done(d) and not is_exception(d)]
+
+
+def _exc_note(cut: str | None) -> str:
+    ex = exceptions_after(dp.load(), cut)
+    return f"\n  예외로 뺀 기록(바깥 상황): {', '.join(ex)}" if ex else ""
 
 
 _ROWS: dict = {}
@@ -551,7 +570,8 @@ def piece_direction(node_id: str) -> tuple[str, str]:
     test = [r for r in test if r["effect"].op != "base"]
     fit = [r for r in fit if r["effect"].op != "base"]
     detail = (f"  맞춰 본 것({cut}까지): " + ("; ".join(f"{_eff_name(r)} {r['direction']} ({r['rough']})" for r in fit) or "없음")
-              + f"\n  시험({cut} 다음부터): " + ("; ".join(f"{_eff_name(r)} {r['direction']} ({r['rough']})" for r in test) or "없음"))
+              + f"\n  시험({cut} 다음부터): " + ("; ".join(f"{_eff_name(r)} {r['direction']} ({r['rough']})" for r in test) or "없음")
+              + _exc_note(cut))
     if not fit and not test:
         return "시험 전 (방향 주장이 없는 기준값 조각)", detail
     decided = [r["direction"] for r in test if r["direction"] in ("지지", "반박")]
@@ -567,7 +587,7 @@ def piece_size(node_id: str) -> tuple[str, str]:
     test, fit, cut = _piece_rows(node_id)
     def line(rows):
         return "; ".join(f"{_eff_name(r)} {r['size_hits']}/{r['size_n']}" for r in rows) or "없음"
-    detail = f"  맞춰 본 것({cut}까지): {line(fit)}\n  시험({cut} 다음부터): {line(test)}"
+    detail = f"  맞춰 본 것({cut}까지): {line(fit)}\n  시험({cut} 다음부터): {line(test)}" + _exc_note(cut)
     n = sum(r["size_n"] for r in test)
     if not n:
         return "시험 전 (조각이 걸린 시험 기록이 없음)", detail
@@ -622,6 +642,10 @@ def audit_pieces(kn) -> tuple[list[str], list[str]]:
     n_eff = sum(len(p.effects) for p in pieces)
     if n_eff * EFFECT_PER_RECORDS > explained:
         errors.append(f"[계산 조각] 효과 {n_eff}개가 설명한 기록 {explained}건에 비해 많다 (상한: 설명한 기록 ÷ {EFFECT_PER_RECORDS}) — 외워서 맞추는 쪽이다(F)")
+    ex = exceptions_after(records, cut)
+    if ex:
+        warns.append(f"[계산 조각] 바깥 상황 예외로 시험에서 뺀 기록 {len(ex)}건: {', '.join(ex)} — "
+                     "같은 종류가 반복되면 예외가 아니라 빠진 조건이다(조건을 더해 쪼갠다)")
     for r in holdout.piece_scores(pieces, test_recs, kn):
         if r["direction"] == "반박":
             errors.append(f"[계산 조각] {r['piece']}: 방향 주장이 시험 기록에서 틀림({r['rough']}) — 이유(논리)가 깨졌다, why = 이유 틀림 후보(A)")
