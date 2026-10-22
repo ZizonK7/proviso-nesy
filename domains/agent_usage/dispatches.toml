@@ -5498,4 +5498,51 @@ rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2"]
 reason = "빗댄 p30(같은 에이전트 2회차, 75턴·13.4분·37.3M). 3단계는 2단계보다 기능이 하나 많고(역할극 화면·확인 세트·내보내기·판정 입력) 테스트 셋이라 턴 ×0.9–1.9 → 70–140. 분당 턴은 p29·p30 모두 5.6–5.9 → 5–6/분 → 12–28분, 두 구간에 걸쳐 긴 쪽 '다른 일'. 턴당 맥락은 3회차라 50만→55–65만(R_resume_ctx_v2 회차마다 커짐) → 40–90M. H_resumed_impl_turns(×0.3–0.5)는 p29 기준이면 60–100턴으로 같은 방향"
 hypotheses = ["H_resumed_impl_turns"]
 [dispatch.actual]
+minutes = 10.3  # 완료 알림 실행 시간 620초(10:18–10:28). 누적 78.9분·325턴·129.5M에서 p29+p30 몫(65.9분·275턴·100.0M)을 뺌
+turns = 50
+tokens_m = 29.5
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(10.3분, 하한 12분 바로 아래). 턴 50은 예측 70–140 아래, 토큰 29.5M도 40–90 아래 — 3회차는 2회차(75턴)보다 더 줄었다(첫 회차의 ×0.25). 분당 4.9턴은 띠 안. H_resumed_impl_turns의 ×0.3–0.5는 아래쪽으로 벗어남(근거 2건째) — 회차가 거듭될수록 더 준다는 쪽. 턴당 맥락 59만(앞 회차 50만의 1.2배)"
+hypotheses = ["H_resumed_impl_turns"]
+
+[[dispatch]]
+id = "p32"
+project = "language_learning"
+batch = 14
+date = 2026-10-22
+task = "구현(설계 v1 4단계, 같은 에이전트 4회차, Opus 5.5 high): 가나 보조 트랙 — 가나 92자 데이터(한글 소리·연상 한 줄·비슷한 쌍·묶음·규칙 카드 3·읽기 단어)+카드 3종 화면+플래너·테스트, 3단계 열린 질문 고침 2건, 문서·worklog. ASR 없음. 빌드 도구 없음"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "모름"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "일부"
+S_build_tools = "예"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "일부"
+S_impl_hour = "아니오"
+S_open_seams = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p31"
+told = "다른 일"
+minutes = [8, 18]
+turns = [45, 85]
+tokens_class = ["T2"]
+tokens_m = [25, 50]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2"]
+reason = "빗댄 p31(3회차, 50턴·10.3분·29.5M). 4단계는 데이터 작성(92자 연상·한글·쌍)이 있어 출력이 길지만 화면은 1종 + 카드 3종이라 턴 ×0.9–1.7 → 45–85. 분당 5–6턴 → 8–18분, 걸쳐서 긴 쪽 '다른 일'. 턴당 맥락 59만→60–65만 → 25–50M. 회차마다 턴이 주는 흐름(200→75→50)은 데이터 작성 때문에 이번엔 멈출 것으로 봄"
+hypotheses = ["H_resumed_impl_turns"]
+[dispatch.actual]
 status = "unknown"
