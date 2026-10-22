@@ -25,6 +25,7 @@ from . import fit as ft
 from . import predict as pr
 
 BOUNDARY = "d38b"  # 앞 절반의 마지막 기록 (holdout.toml의 fit_until과 같다)
+HOLDOUT_END = "p05"  # 뒤 절반의 마지막 기록. 홀드아웃은 2026-10-19 실험을 그대로 재생한다(뒤 61건). 그 뒤 기록은 checks.SEEN_UNTIL이 시험한다 (2026-10-22: 새 기록이 뒤 절반에 섞여 성적이 흔들려 고정)
 SETS = ("front_v0", "front_split")
 SET_LABEL = {"front_v0": "쪼개기 전 계산기", "front_split": "쪼갠 뒤 계산기"}
 # 장치 E(회귀 금지): 쪼갠 뒤 설명 안 되게 된 기록과 그래도 쪼갠 까닭. 여기 없는 회귀가 생기면 테스트가 실패한다.
@@ -39,9 +40,11 @@ REGRESSION_OK = {
 
 
 def halves(records: list[dict]) -> tuple[list[dict], list[dict]]:
-    """끝난 기록의 (앞 절반, 뒤 절반). 경계는 BOUNDARY."""
-    cut = [d["id"] for d in records].index(BOUNDARY) + 1
-    return [d for d in records[:cut] if dp.done(d)], [d for d in records[cut:] if dp.done(d)]
+    """끝난 기록의 (앞 절반, 뒤 절반). 경계는 BOUNDARY, 뒤 절반의 끝은 HOLDOUT_END(그 뒤 기록은 홀드아웃에 넣지 않는다)."""
+    ids = [d["id"] for d in records]
+    cut = ids.index(BOUNDARY) + 1
+    end = ids.index(HOLDOUT_END) + 1 if HOLDOUT_END in ids else len(records)
+    return [d for d in records[:cut] if dp.done(d)], [d for d in records[cut:end] if dp.done(d)]
 
 
 def evaluate(pieces: list[pr.Piece], records: list[dict], kn: schema.Knowledge,
@@ -256,7 +259,7 @@ def main(argv: list[str]) -> int:
         for name in SETS:
             print(f"[{SET_LABEL[name]}] 앞 절반({len(front)}건)에서\n{gaps(sets[name]['pieces'], front, kn, records)}\n")
         return 0
-    print(f"경계: {BOUNDARY}까지 앞 절반 {len(front)}건(조각을 세우고 쪼갬), 그 뒤 뒤 절반 {len(back)}건(시험)\n")
+    print(f"경계: {BOUNDARY}까지 앞 절반 {len(front)}건(조각을 세우고 쪼갬), 그 뒤 {HOLDOUT_END}까지 뒤 절반 {len(back)}건(시험; 그 뒤 기록은 checks.SEEN_UNTIL이 시험)\n")
     print("뒤 절반 성적 (맨 위 줄이 사용자가 받는 한마디):")
     print(score_table({SET_LABEL[n]: sets[n]["pieces"] for n in SETS}, back, kn, records))
     for name in SETS:

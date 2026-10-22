@@ -14,7 +14,7 @@
 - `dispatches.py`: 기록 검사 + 예측·실측 비교표. `python -m domains.agent_usage.dispatches`. 시간은 예측 분 범위를 세 마디 구간으로 바꿔 채점하고(옛 S/M/L/XL 등급은 역사로만 남음), 걸친 예측이 어디에 떨어졌는지, 분이 빗나간 기록이 속도(턴은 맞음) 탓인지 양(턴도 틀림) 탓인지를 집계한다.
 - `predict.py` (2026-10-19): **계산기**. `python -m domains.agent_usage.predict <기록 id | 상황 파일>` — 상황 값과 project만 보고 계산 조각(효과 칸이 있는 가설, knowledge.toml의 '계산 조각' 구역)을 조합해 턴·분·토큰 범위와 말할 구간을 낸다. 근거 → 조각 → 조합 → 숫자로 설명하고, 빼도 말할 구간·토큰 등급이 안 바뀌는 조각은 설명에서 뺀다(쓴 조각 목록에는 남김). 맞는 기준값이 없으면 '모름'. 보내기 전에 적은 빗댄 기록(`predicted.analog`)이 있으면 비유 계산을 따로 보여 준다. 상황 파일: `project = "..."`, `[situation]` 상태 = 값, (선택) `analog = "기록 id"`.
 - `fit.py`: 조각의 **범위 숫자를 기록에서 기계적으로 맞춘다**(사람이 고르지 않음). 모양(무엇에·어떻게·언제·방향·이유)은 손으로, `python -m domains.agent_usage.fit final --write`가 seen_until까지의 기록으로 range·fit 칸을 다시 쓴다. 손으로 바꾼 범위는 audit 오류.
-- `holdout.py` + `holdout.toml`: 시간 순서 홀드아웃. 경계 d38b(앞 64건 / 뒤 61건). `python -m domains.agent_usage.holdout` = 뒤 절반 성적(쪼개기 전 / 쪼갠 뒤 / 당시 손 예측)과 조각별 방향·크기 성적, `--gaps` = 앞 절반의 빈틈. holdout.toml의 세트는 앞 절반으로만 맞췄다(테스트가 확인).
+- `holdout.py` + `holdout.toml`: 시간 순서 홀드아웃. 경계 d38b(앞 64건 / 뒤 61건, 뒤 절반의 끝은 p05로 고정 — 2026-10-22에 새 기록이 섞여 방향 성적이 흔들려서 고정했다. 그 뒤 기록은 checks.SEEN_UNTIL이 시험). `python -m domains.agent_usage.holdout` = 뒤 절반 성적(쪼개기 전 / 쪼갠 뒤 / 당시 손 예측)과 조각별 방향·크기 성적, `--gaps` = 앞 절반의 빈틈. holdout.toml의 세트는 앞 절반으로만 맞췄다(테스트가 확인).
 - `checks.py`: 가설과 규칙을 실측 기록으로 판정(`SOURCE = "measured"`). 규칙에는 주장 검사(가설과 같은 잣대)와 **쓴 예측 검사**(`used_minutes`·`used_turns`·`used_tokens`: 그 규칙을 `predicted.rules`에 적은, 보내기 전에 적은 예측이 실측과 맞았나)를 단다. 예측에 쓰는 살아 있는 규칙은 검사가 있거나 못 붙이는 까닭(`test_plan`)이 있어야 한다(테스트가 막는다). **가설은 세운 뒤에 나온 기록으로만 시험한다**(`SEEN_UNTIL`). 세울 때 본 기록은 "맞춰 본 것"으로 따로 보여 준다(사후 설명 방지). 빗댄 기록이 필요한 배수 가설은 `predicted.analog`(없으면 사후에 읽은 `PAST_ANALOG`, 보여 주기만)를 쓴다.
 
 ## 고리 (한 작업마다)
