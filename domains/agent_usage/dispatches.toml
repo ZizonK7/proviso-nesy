@@ -4414,3 +4414,247 @@ tokens_m = 65.1
 wrong = ["R_say_numbers_v2"]
 why = "조건 흐림"  # 형식상: '일찍 끝남'을 따로 세는 칸이 아직 없어(다음 정리 할 일) 검사기가 요구한다. 숫자 조각은 틀리지 않았다
 reason = "분 30–55 안(35.7), 턴 150–260 안(218), 토큰 40–90M 안(65.1) — 숫자는 셋 다 맞음. 말한 구간 '신경 끄기'는 범위가 두 구간에 걸쳐 긴 쪽으로 말한 것(R_say_numbers_v2)이고 실제는 짧은 쪽 '다른 일'에 떨어졌다: '일찍 끝남'(빗나감과 따로 세기로 한 경우). 1단계 실제 몫(로컬 94 + 클라우드 58 ≈ 150턴)에 빗댄 것이 턴을 잘 잡았다. 분당 6.1턴으로 p05(4.9)보다 빨랐다: 1단계 코드 위에 짓고 흉내 실행이 즉시 끝남. 계산기(21–42분, 신경 끄기)도 분 범위는 맞음"
+
+# 2026-10-22 배치 7 (p10–p15): project = "language_learning"(사용자의 일본어 학습 앱 저장소 작업). from_project에 없어 S_small_codebase는 모름 —
+# 웹 조사라 코드베이스가 없다(p06 돌아보기와 같은 판단). 모델이 Haiku 5.5 high(사용자 지시: 대량 조사는 Haiku)라 F_setup 밖:
+# S_other_model = 예, S_many_turn_model = 모름(Haiku 기록 없음). 계산기는 기준값이 없어 '모름'을 냈다(calc 칸 없음). 손 예측은 Opus 조사 규칙에 모델 배수 없이 잡았다 — 첫 Haiku 근거.
+
+[[dispatch]]
+id = "p10"
+project = "language_learning"
+batch = 7
+date = 2026-10-22
+task = "조사(언어 학습 논리집용): 왕초보 어휘·문자 습득 연구 근거(간격 반복·인출·방향·기억술 등 10주제) → 엄격한 양식 보고서 1개 + worklog. 웹, 코드 없음, 섹션마다 저장. Haiku 5.5 high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "일부"
+[dispatch.predicted]
+written_before = true
+analog = "p06"
+told = "다른 일"
+minutes = [8, 25]
+turns = [60, 150]
+tokens_class = ["T1"]
+tokens_m = [3, 12]
+rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "모양은 p06·dR5A–D(엄격한 양식 웹 조사, 섹션마다 저장)와 같다: Opus면 76–151턴·9–17분(계산기 참고값). Haiku 기록은 없어 배수를 모른다. 턴은 같은 양식이라 60–150으로 두고, 분당 턴은 웹 띠(7–11)에 Haiku가 더 빠를 수 있어 하한을 8분으로, 연결이 끊기는 날(p06·p07: 35–60분)을 생각해 상한을 25분으로. 토큰은 웹 조사 턴당 8–16만의 아래쪽. 여섯 건을 동시에 보내 벽시계는 가장 긴 것이 정한다. 계산기 '모름'"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p11"
+project = "language_learning"
+batch = 7
+date = 2026-10-22
+task = "조사(언어 학습 논리집용): 언어 학습 앱 사례 — 세션 크기·복습 간격 방식·꾸준함 장치·가나 학습 방식과 비판 (앱 8개 이상) → 보고서 1개 + worklog. 웹, 코드 없음. Haiku 5.5 high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "일부"
+[dispatch.predicted]
+written_before = true
+analog = "p06"
+told = "다른 일"
+minutes = [8, 25]
+turns = [60, 150]
+tokens_class = ["T1"]
+tokens_m = [3, 12]
+rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "p10과 같은 이유. 앱 공식 문서는 잘 열리는 편이라 p10보다 막힘이 적을 것으로 봄"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p12"
+project = "language_learning"
+batch = 7
+date = 2026-10-22
+task = "조사(언어 학습 논리집용): 한국인 일본어 학습자의 실제 경로(교재·강의·후기, 8개 이상) → 보고서 1개 + worklog. 웹(한국어 블로그·카페 포함), 코드 없음. Haiku 5.5 high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "일부"
+[dispatch.predicted]
+written_before = true
+analog = "p06"
+told = "다른 일"
+minutes = [8, 25]
+turns = [60, 150]
+tokens_class = ["T1"]
+tokens_m = [3, 12]
+rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "p10과 같은 이유. p06에서 네이버 블로그가 0편이었다 — 막힘이 많으면 턴은 적고 분은 길어질 수 있다(상한 25분 쪽)"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p13"
+project = "language_learning"
+batch = 7
+date = 2026-10-22
+task = "조사(언어 학습 논리집용): 일본 여행 생존 일본어의 실제 범위(장면 상위 20개·문자 필요 여부, 후보 8개 이상) → 보고서 1개 + worklog. 웹, 코드 없음. Haiku 5.5 high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "일부"
+[dispatch.predicted]
+written_before = true
+analog = "p06"
+told = "다른 일"
+minutes = [8, 25]
+turns = [60, 150]
+tokens_class = ["T1"]
+tokens_m = [3, 12]
+rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "p10과 같은 이유. 표 두 개를 더 쓰므로 턴은 위쪽일 수 있다"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p14"
+project = "language_learning"
+batch = 7
+date = 2026-10-22
+task = "조사(언어 학습 논리집용): 혼자 공부를 이어 가게 하는 장치(스트릭·작은 목표·실행 의도 등, 10개 이상)의 연구·앱 데이터 근거 → 보고서 1개 + worklog. 웹, 코드 없음. Haiku 5.5 high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "일부"
+[dispatch.predicted]
+written_before = true
+analog = "p06"
+told = "다른 일"
+minutes = [8, 25]
+turns = [60, 150]
+tokens_class = ["T1"]
+tokens_m = [3, 12]
+rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "p10과 같은 이유"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p15"
+project = "language_learning"
+batch = 7
+date = 2026-10-22
+task = "조사(여행 앱 설계용): 여행 정산·지출 기록 앱과 일본 현지 도움 앱의 잘 된 기능(10개 이상) + 총무 기능 목록 초안 → 보고서 1개 + worklog. 웹, 코드 없음. Haiku 5.5 high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "일부"
+[dispatch.predicted]
+written_before = true
+analog = "p06"
+told = "다른 일"
+minutes = [8, 25]
+turns = [60, 150]
+tokens_class = ["T1"]
+tokens_m = [3, 12]
+rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "p10과 같은 이유. 후보 10개 이상이라 턴은 위쪽"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"

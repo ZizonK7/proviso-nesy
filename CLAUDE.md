@@ -16,7 +16,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 | 폴더 | 역할 |
 |---|---|
 | `proviso/` | 코어(분야 모름): 지식 파일 읽기·검사(`schema`), 성적표(`score`), 점검(`audit`), 그래프(`graph`), 조회(`query`), MCP 서버(`mcp_server`, 읽기 전용) |
-| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드(agent_usage: 계산기 `predict`·맞추기 `fit`·홀드아웃 `holdout`). 현재 `flowlog`, `music_player`, `agent_usage` |
+| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드(agent_usage: 계산기 `predict`·맞추기 `fit`·홀드아웃 `holdout`). 현재 `flowlog`, `music_player`, `agent_usage`, `language_learning` |
 | `experiments/` | 본체 실험 (논리집 유무에 따른 Claude 답 비교) |
 | `docs/` | 원안, 설계 기록, 실험 보고서, 하위 에이전트 기록(`AGENT-LOG.md`, `worklog/`) |
 | `scripts/` | 운영 도구 (하위 에이전트 대화 기록 → 사용량 숫자, `agent_usage` 기록에 씀) |
@@ -58,6 +58,12 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 - 코어 변경 (2026-10-21, stock-rader 2단계): 성적표가 **검사마다 출처**를 받는다(재생과 실측을 따로 보이기). 상세: [proviso/CLAUDE.md](proviso/CLAUDE.md). 기존 세 분야 출력은 그대로.
 - 첫 시험(2026-10-21 main): 시세 모양 계산 조각 8개를 2026-06까지로 맞추고 Claude가 결과를 모르는 2026-07~10을 한 번 재생했다. 계산기는 동전보다 못했다(확률 점수 0.2755 vs 0.25). 조각 7개가 반박됐다. 맞춘 기간은 오르는 시기였고 재생 기간은 내리는 시기였다 — **시기가 바뀌는 것을 가격 모양만으로는 못 알아봤다.** 다음은 조사로 대 보는 '시기' 조각(2단계).
 
+## 언어 학습: language_learning (2026-10-22 사용자 결정)
+- 목표(사용자): **일본어를 전혀 모르는 사용자가 일본 여행에서 쓸 일본어를 꾸준히 공부할 시스템.** 앱([ZizonK7/language_learning](https://github.com/ZizonK7/language_learning), 공개, 이 세션 `../language_learning`)일 수도, 수업이나 다른 방법일 수도 있다. 스페인어는 범위 밖. 여행 중 쓸 앱(총무·정산)은 설계만.
+- 결정 방식(사용자): **결정마다 논리집을 보거나 잘 된 케이스를 조사해 근거를 대입한다.** 사용자가 일본어를 모르므로 처음 근거는 조사(연구·앱·한국인 사례·여행 범위·꾸준함 장치)이고, 실사용 판정이 생기면 그것이 위다.
+- 분야 [domains/language_learning/](domains/language_learning/CLAUDE.md): 목표 나무, 앱 동작 사실(코드 @81d1f75), AI 판단 가설 2(audit이 '대가로 받아들인 기록 없음' 오류로 잡음 — 사용자 결정 대기), 규칙 1. 조사 보고서는 `out/research/2026-10-22-language-learning/`(git 제외), 작업 보고서는 `docs/worklog/2026-10-22-research-*.md`.
+- agent_usage 기록: `project = "language_learning"`(from_project에 없어 S_small_codebase 모름). 배치 7(p10–p15)이 첫 Haiku 기록.
+
 ## 지금 상태 (2026-10-19)
 - 분야 3개: `flowlog`(제목 추천, 실제 기록 재생 근거 포함), `music_player`(알아서 틀기, 재생 순서 — 폰 셔플 표시 @25d6b74), `agent_usage`(AI가 스스로 쌓는 사용량 예측).
 - `agent_usage`: 기록 130건(batman 배치 1–36의 d01–d94 + 이 저장소 p01–p05). 2026-10-19 하루에 첫 전체 정리 → 구조 개편(규칙·가설 통합과 성적표, 시간 세 마디 구간, 틀린 조각 칸) → 계산되는 논리(계산 조각 16개, 홀드아웃)까지 돌았다. 뒤 절반 61건의 말할 구간 적중은 쪼갠 뒤 계산기 51 % < 당시 손 예측 62 % — 보낼 때 둘 다 적어 승패를 센다. 상세는 [domains/agent_usage/CLAUDE.md](domains/agent_usage/CLAUDE.md)의 "현재 상태"와 "지금 쓰는 규칙 요약".
@@ -77,6 +83,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 ## 하위 에이전트 운영 (batman 저장소 방식, 2026-10-14 도입)
 - **역할**: 메인(사용자와 대화하는 모델) = 감독. 방향·설계, 지시서 작성, 결과 검토, 문서를 정직하게 유지, 커밋·push. **하위 에이전트** = 지시서 하나를 맡아 구현. 파일은 쓰지만 지시서에 없으면 커밋·push하지 않는다. **사용자** = 의도와 판정.
 - **모델·effort 기본값: Opus 5.5 · effort high** (사용자 지시 2026-10-14). Agent 도구에 `model: "opus"`, `effort: "high"`. 사용자가 바꾸라고 할 때만 바꾼다.
+- **대량 조사는 Haiku 5.5 · effort high** (사용자 지시 2026-10-22, language_learning 작업에서). `model: "haiku"`. agent_usage 숫자는 Opus 기준이라 Haiku는 계산기가 '모름'을 낸다 — 손 예측으로 잡고 기록을 쌓는다(p10–p15가 첫 기록, S_other_model=예). 구현·판단은 그대로 Opus.
 - **지시서에 넣을 것**: 목표, 범위(건드릴 폴더·파일), 하지 말 것과 승인이 필요한 일, 완료 조건과 확인 방법, 긴 글은 섹션마다 파일에 이어 쓰기, 보고서 양식, 하위의 하위 에이전트 허용 여부. 이 저장소 규칙(일상어 설명, 공개 저장소 주의, 사실은 코드로 확인)도 전달.
 - **보고서**: 작업마다 `docs/worklog/YYYY-MM-DD-<주제>.md` — 한 일 / 확인한 것(정확한 명령) / 확인 못 한 것 / 알려진 문제 / 다음 작업자에게. 양식은 [docs/worklog/CLAUDE.md](docs/worklog/CLAUDE.md). 확인하지 않은 건 "확인 못 함"으로 쓴다.
 - **사용량 예측과 기록**: 보내기 전에 [agent_usage](domains/agent_usage/CLAUDE.md) 논리집으로 예측해서 `dispatches.toml`에 적고(`project = "proviso"`), 사용자에게 시간 구간(잠깐/다른 일/신경 끄기)과 분·토큰 숫자, 이유를 말하고 말한 구간을 `predicted.told`에 적는다. 끝나면 `python scripts/agent_usage.py "<세션>/subagents/agent-*.jsonl" --md`로 실측을 넣고 돌아본다. 배치별 모델·effort·품질(1–5)은 [docs/AGENT-LOG.md](docs/AGENT-LOG.md). 이 PC의 기록 위치는 [scripts/CLAUDE.md](scripts/CLAUDE.md).
