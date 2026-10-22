@@ -81,12 +81,14 @@ id = "F_known_not_retested"
 text = "학습 카드에서 '알았음'을 고른 항목은 복습에 들어가지 않고 다시 묻지 않는다. '몰랐음'·'헷갈림'만 단어장에 자동 저장되어 복습된다"
 checked = 2026-10-22
 source = "language_learning 코드 @81d1f75 (LessonViewModel.recordStudyResult)"
+note = "줄 체계(@b365b8d)에서는 '됐다'도 1일 복습을 받아 고쳐졌고, 단어 체계는 그대로다(F_lines_system). 단어 체계가 남는 동안 이 사실과 audit 오류는 유지"
 
 [[fact]]
 id = "F_review_one_direction"
 text = "복습은 외국어 표현을 보고 뜻을 떠올리는 한 방향뿐이다. 뜻을 보고 표현을 떠올리는 방향, 듣기만으로 맞히기, 입력(타이핑)은 없다"
 checked = 2026-10-22
 source = "language_learning 코드 @81d1f75 (ReviewScreen)"
+note = "줄 체계(@b365b8d)에서는 줄 종류가 방향을 정해 고쳐졌고, 단어 체계는 그대로다(F_lines_system)"
 
 [[fact]]
 id = "F_review_intervals"
@@ -677,6 +679,12 @@ note = "사용자 2026-10-22. O_user_intervals_intent를 상태로 쓴 것(개�
 id = "S_solo_app"
 text = "혼자 앱으로 연습한다 — 튜터·대화 상대 없음"
 serves = ["G_system"]
+
+[[fact]]
+id = "F_lines_system"
+text = "앱 코드 @b365b8d(2026-10-22, 설계 v1 1단계, 빌드 미확인): 장면 대화 체계가 단어 체계 옆에 생겼다. scenes 7(+기타)·lines 72(점원 28·손님 35·읽기 9)·frames 7, 줄마다 출처 칸(verified=false 7줄). review_state가 줄·틀 단위로 당일→1일→7일→여행 전(없으면 21일)→완료를 타고, 처음 배운 줄은 결과와 상관없이 당일 재확인으로 가며 '됐다'도 1일 복습을 받는다. 틀리면 1일로, 힌트·헷갈림은 단계 유지, 하루 상한 30, 설정으로 레슨 안 재등장 켜고 끔(이전 장면의 틀 1~2개). 카드: 점원 줄은 듣고 한국어 뜻 3지선다, 손님 줄은 따라 말하기 3회→뜻 보고 말하기→공개→됐다/막혔다(힌트 뜻→첫 소리→정답), 읽기 줄은 보고 떠올리기. 한글 표기는 눌러야 보임, TTS 속도 0.85→1.0. 기존 단어 158개는 장면 슬롯으로 배분됐지만 단어 학습·복습 흐름(알았음 재시험 없음, 한 방향)은 그대로다. 결함 넷 고침(완료 기준 4로 통일, 복습 기준 시각 갱신, 최고 기록·진행률 실제 값, 기본 언어 일본어). JVM 단위 테스트 13개 통과, Android 빌드는 이 환경에서 못 함"
+checked = 2026-10-22
+source = "코드 @b365b8d(language_learning 브랜치 claude/dreamy-ramanujan-9zxz4i), docs/stage1-notes.md, worklog 2026-10-22-impl-stage1"
 
 [[fact]]
 id = "F_apps_speaking_loop"
