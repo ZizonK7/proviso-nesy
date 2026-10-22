@@ -61,7 +61,8 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 ## 언어 학습: language_learning (2026-10-22 사용자 결정)
 - 목표(사용자): **일본어를 전혀 모르는 사용자가 일본 여행에서 쓸 일본어를 꾸준히 공부할 시스템.** 앱([ZizonK7/language_learning](https://github.com/ZizonK7/language_learning), 공개, 이 세션 `../language_learning`)일 수도, 수업이나 다른 방법일 수도 있다. 스페인어는 범위 밖. 여행 중 쓸 앱(총무·정산)은 설계만.
 - 결정 방식(사용자): **결정마다 논리집을 보거나 잘 된 케이스를 조사해 근거를 대입한다.** 사용자가 일본어를 모르므로 처음 근거는 조사(연구·앱·한국인 사례·여행 범위·꾸준함 장치)이고, 실사용 판정이 생기면 그것이 위다.
-- 분야 [domains/language_learning/](domains/language_learning/CLAUDE.md): 목표 나무, 앱 동작 사실(코드 @81d1f75), AI 판단 가설 2(audit이 '대가로 받아들인 기록 없음' 오류로 잡음 — 사용자 결정 대기), 규칙 1. 조사 보고서는 `out/research/2026-10-22-language-learning/`(git 제외), 작업 보고서는 `docs/worklog/2026-10-22-research-*.md`.
+- 분야 [domains/language_learning/](domains/language_learning/CLAUDE.md): 목표 나무, 앱 동작 사실(코드 @81d1f75), 조사 근거 사실 18, 가설 20, 제안 규칙 10(모두 사용자 판정 전), audit 오류 3(의도한 것: 대가로 받아들일지 사용자 결정 대기). 조사 보고서는 `out/research/2026-10-22-language-learning/`(git 제외), 작업 보고서는 `docs/worklog/2026-10-22-research-*.md`. 사용자용 정리와 여행 앱 설계는 language_learning 저장소 `docs/`.
+- **조사 환경 한계(2026-10-22)**: 클라우드 세션의 네트워크 정책이 원문 열기를 거의 다 막는다(학술 출판사·DOI·Reddit·네이버·관광청·앱 공식 사이트). 검색 요약만 받아진다. 원문이 필요한 조사는 환경의 Allowed domains를 넓힌 뒤 보낸다. agent_usage 상태 S_web_blocked.
 - agent_usage 기록: `project = "language_learning"`(from_project에 없어 S_small_codebase 모름). 배치 7(p10–p15)이 첫 Haiku 기록.
 
 ## 지금 상태 (2026-10-19)

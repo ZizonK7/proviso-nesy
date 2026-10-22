@@ -4418,6 +4418,7 @@ reason = "분 30–55 안(35.7), 턴 150–260 안(218), 토큰 40–90M 안(65.
 # 2026-10-22 배치 7 (p10–p15): project = "language_learning"(사용자의 일본어 학습 앱 저장소 작업). from_project에 없어 S_small_codebase는 모름 —
 # 웹 조사라 코드베이스가 없다(p06 돌아보기와 같은 판단). 모델이 Haiku 5.5 high(사용자 지시: 대량 조사는 Haiku)라 F_setup 밖:
 # S_other_model = 예, S_many_turn_model = 모름(Haiku 기록 없음). 계산기는 기준값이 없어 '모름'을 냈다(calc 칸 없음). 손 예측은 Opus 조사 규칙에 모델 배수 없이 잡았다 — 첫 Haiku 근거.
+# 돌아보기(같은 날)에서 S_web_blocked(원문 열기가 정책으로 막힌 환경)를 사후에 채웠다 — 보내기 전에 프록시 상태로 알 수 있던 조건이고 예측 칸은 고치지 않았다.
 
 [[dispatch]]
 id = "p10"
@@ -4445,6 +4446,7 @@ S_build_tools = "아니오"
 S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
+S_web_blocked = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p06"
@@ -4457,7 +4459,14 @@ rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"
 reason = "모양은 p06·dR5A–D(엄격한 양식 웹 조사, 섹션마다 저장)와 같다: Opus면 76–151턴·9–17분(계산기 참고값). Haiku 기록은 없어 배수를 모른다. 턴은 같은 양식이라 60–150으로 두고, 분당 턴은 웹 띠(7–11)에 Haiku가 더 빠를 수 있어 하한을 8분으로, 연결이 끊기는 날(p06·p07: 35–60분)을 생각해 상한을 25분으로. 토큰은 웹 조사 턴당 8–16만의 아래쪽. 여섯 건을 동시에 보내 벽시계는 가장 긴 것이 정한다. 계산기 '모름'"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 7.9
+turns = 71
+tokens_m = 6.7
+[dispatch.review]
+wrong = ["R_say_numbers_v2", "R_research"]
+why = "조건 흐림"
+reason = "분 7.9(예측 8–25의 바로 아래), 턴 71(예측 60–150 안), 토큰 6.7M(3–12M 안). 말한 구간 '다른 일'은 범위가 두 구간에 걸쳐 긴 쪽으로 말한 것이고 실제는 '잠깐' — 일찍 끝남(p09와 같은 갈래). 여섯 건 공통: (1) 원문 열기가 네트워크 정책으로 전부 막혀(학술 출판사·DOI·PubMed·Scholar 403, 여러 사이트 DNS 실패) 열기 시도가 두 번 만에 끝나고 검색 요약만 썼다 → 턴이 Opus 열리는 날의 조사(80–140)보다 적다(45–77). 보내기 전에 프록시 정책으로 알 수 있던 조건이라 새 상태 S_web_blocked로 쪼갠다(조건 흐림, R_research의 턴 범위에 조건이 없었다). (2) Haiku의 분당 턴은 9.0으로 Opus 웹 띠(7–11) 안 — 모델이 바뀌어도 웹 조사 속도는 도구 왕복이 정한다(H_haiku_web_rate). (3) 손 예측의 상한 25분은 '연결이 끊기는 날'을 생각한 것인데 이번엔 막힌 곳이 즉시 거부되어 기다림이 없었다. 여섯 중 가장 길었다(학술 출처 12개를 하나씩 검색). 계산기 '모름'"
+hypotheses = ["H_web_blocked_turns", "H_haiku_web_rate"]
 
 [[dispatch]]
 id = "p11"
@@ -4485,6 +4494,7 @@ S_build_tools = "아니오"
 S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
+S_web_blocked = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p06"
@@ -4497,7 +4507,14 @@ rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"
 reason = "p10과 같은 이유. 앱 공식 문서는 잘 열리는 편이라 p10보다 막힘이 적을 것으로 봄"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 6.4
+turns = 53
+tokens_m = 4.0
+[dispatch.review]
+wrong = ["R_say_numbers_v2", "R_research"]
+why = "조건 흐림"
+reason = "p10과 같은 이유로 '일찍 끝남'. 11개 앱 모두 네 항목(세션 크기·간격·꾸준함·가나)을 채웠고 위키 5건만 열어 읽음. 분당 8.3턴. 공통(p10 돌아보기 참조): 말한 구간 '다른 일'은 범위 8–25가 두 구간에 걸쳐 긴 쪽으로 말한 것이고 실제는 '잠깐'(4.4–7.0분) — 일찍 끝남. 턴은 예측 60–150의 아래쪽이거나 밖(45–77): 원문 열기가 네트워크 정책으로 전부 막혀 열기 시도가 두 번 만에 끝나고 검색 요약만 썼다 — 보내기 전에 프록시 정책으로 알 수 있던 조건이라 새 상태 S_web_blocked로 쪼갠다(조건 흐림). Haiku의 분당 턴은 Opus 웹 띠(7–11) 안이었고(H_haiku_web_rate), 턴당 맥락 7–9만은 R_tok_short_v5 웹 띠(8–16만)의 아래쪽"
+hypotheses = ["H_web_blocked_turns", "H_haiku_web_rate"]
 
 [[dispatch]]
 id = "p12"
@@ -4525,6 +4542,7 @@ S_build_tools = "아니오"
 S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
+S_web_blocked = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p06"
@@ -4537,7 +4555,14 @@ rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"
 reason = "p10과 같은 이유. p06에서 네이버 블로그가 0편이었다 — 막힘이 많으면 턴은 적고 분은 길어질 수 있다(상한 25분 쪽)"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 4.4
+turns = 45
+tokens_m = 3.3
+[dispatch.review]
+wrong = ["R_say_numbers_v2", "R_research"]
+why = "조건 흐림"
+reason = "p10과 같은 이유로 '일찍 끝남'. 한국 커뮤니티(네이버·다모앙·블라인드·코멘토)가 전부 막혀 본문 0건 — 턴이 가장 적었다(45). 분당 10.2턴. 공통(p10 돌아보기 참조): 말한 구간 '다른 일'은 범위 8–25가 두 구간에 걸쳐 긴 쪽으로 말한 것이고 실제는 '잠깐'(4.4–7.0분) — 일찍 끝남. 턴은 예측 60–150의 아래쪽이거나 밖(45–77): 원문 열기가 네트워크 정책으로 전부 막혀 열기 시도가 두 번 만에 끝나고 검색 요약만 썼다 — 보내기 전에 프록시 정책으로 알 수 있던 조건이라 새 상태 S_web_blocked로 쪼갠다(조건 흐림). Haiku의 분당 턴은 Opus 웹 띠(7–11) 안이었고(H_haiku_web_rate), 턴당 맥락 7–9만은 R_tok_short_v5 웹 띠(8–16만)의 아래쪽"
+hypotheses = ["H_web_blocked_turns", "H_haiku_web_rate"]
 
 [[dispatch]]
 id = "p13"
@@ -4565,6 +4590,7 @@ S_build_tools = "아니오"
 S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
+S_web_blocked = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p06"
@@ -4577,7 +4603,14 @@ rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"
 reason = "p10과 같은 이유. 표 두 개를 더 쓰므로 턴은 위쪽일 수 있다"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 4.9
+turns = 49
+tokens_m = 3.8
+[dispatch.review]
+wrong = ["R_say_numbers_v2", "R_research"]
+why = "조건 흐림"
+reason = "p10과 같은 이유로 '일찍 끝남'. 관광청·Reddit·네이버 카페 막힘, 본문 0건. 후보 17개와 표 둘을 썼는데도 49턴. 분당 10턴. 공통(p10 돌아보기 참조): 말한 구간 '다른 일'은 범위 8–25가 두 구간에 걸쳐 긴 쪽으로 말한 것이고 실제는 '잠깐'(4.4–7.0분) — 일찍 끝남. 턴은 예측 60–150의 아래쪽이거나 밖(45–77): 원문 열기가 네트워크 정책으로 전부 막혀 열기 시도가 두 번 만에 끝나고 검색 요약만 썼다 — 보내기 전에 프록시 정책으로 알 수 있던 조건이라 새 상태 S_web_blocked로 쪼갠다(조건 흐림). Haiku의 분당 턴은 Opus 웹 띠(7–11) 안이었고(H_haiku_web_rate), 턴당 맥락 7–9만은 R_tok_short_v5 웹 띠(8–16만)의 아래쪽"
+hypotheses = ["H_web_blocked_turns", "H_haiku_web_rate"]
 
 [[dispatch]]
 id = "p14"
@@ -4605,6 +4638,7 @@ S_build_tools = "아니오"
 S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
+S_web_blocked = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p06"
@@ -4617,7 +4651,14 @@ rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"
 reason = "p10과 같은 이유"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 7.0
+turns = 77
+tokens_m = 6.2
+[dispatch.review]
+wrong = ["R_say_numbers_v2", "R_research"]
+why = "조건 흐림"
+reason = "p10과 같은 이유로 '일찍 끝남'. 여섯 중 가장 길었다(77턴·7.0분): 학술 출처 14개를 하나씩 검색하고 위키를 여러 편 열어 읽음. 작업자가 보고서 파일을 쓰지 않고 답장으로 보냈다(메인이 저장). 분당 11턴. 공통(p10 돌아보기 참조): 말한 구간 '다른 일'은 범위 8–25가 두 구간에 걸쳐 긴 쪽으로 말한 것이고 실제는 '잠깐'(4.4–7.0분) — 일찍 끝남. 턴은 예측 60–150의 아래쪽이거나 밖(45–77): 원문 열기가 네트워크 정책으로 전부 막혀 열기 시도가 두 번 만에 끝나고 검색 요약만 썼다 — 보내기 전에 프록시 정책으로 알 수 있던 조건이라 새 상태 S_web_blocked로 쪼갠다(조건 흐림). Haiku의 분당 턴은 Opus 웹 띠(7–11) 안이었고(H_haiku_web_rate), 턴당 맥락 7–9만은 R_tok_short_v5 웹 띠(8–16만)의 아래쪽"
+hypotheses = ["H_web_blocked_turns", "H_haiku_web_rate"]
 
 [[dispatch]]
 id = "p15"
@@ -4645,6 +4686,7 @@ S_build_tools = "아니오"
 S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
+S_web_blocked = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p06"
@@ -4657,4 +4699,11 @@ rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"
 reason = "p10과 같은 이유. 후보 10개 이상이라 턴은 위쪽"
 hypotheses = []
 [dispatch.actual]
-status = "unknown"
+minutes = 6.3
+turns = 64
+tokens_m = 5.5
+[dispatch.review]
+wrong = ["R_say_numbers_v2", "R_research"]
+why = "조건 흐림"
+reason = "p10과 같은 이유로 '일찍 끝남'. 앱 17개, 위키 3편 열어 읽음. 분당 10.2턴. 공통(p10 돌아보기 참조): 말한 구간 '다른 일'은 범위 8–25가 두 구간에 걸쳐 긴 쪽으로 말한 것이고 실제는 '잠깐'(4.4–7.0분) — 일찍 끝남. 턴은 예측 60–150의 아래쪽이거나 밖(45–77): 원문 열기가 네트워크 정책으로 전부 막혀 열기 시도가 두 번 만에 끝나고 검색 요약만 썼다 — 보내기 전에 프록시 정책으로 알 수 있던 조건이라 새 상태 S_web_blocked로 쪼갠다(조건 흐림). Haiku의 분당 턴은 Opus 웹 띠(7–11) 안이었고(H_haiku_web_rate), 턴당 맥락 7–9만은 R_tok_short_v5 웹 띠(8–16만)의 아래쪽"
+hypotheses = ["H_web_blocked_turns", "H_haiku_web_rate"]

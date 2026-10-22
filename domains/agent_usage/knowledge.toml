@@ -200,6 +200,11 @@ id = "S_build_tools"
 text = "에이전트가 자기 일을 증명할 확인 도구(경로 검사·구동기·캡처 도구·검사기 규칙)를 새로 만들어야 한다 (2026-10-19부터 기록)"
 known_before = true
 
+[[state]]
+id = "S_web_blocked"
+text = "조사 대상 웹 페이지의 원문 열기가 네트워크 정책으로 막힌 환경이다(검색 결과 요약만 받아진다). 보내기 전에 프록시 상태(`$HTTPS_PROXY/__agentproxy/status`의 정책 거부 목록)나 대표 호스트 curl로 확인한다 (2026-10-22부터 기록)"
+known_before = true
+
 # ---------- 관찰 ----------
 [[observation]]
 id = "O_b1_tokens_low"
@@ -506,6 +511,12 @@ id = "O_preflight_b29_b34"
 text = "보내기 전에 막을 수 있던 손실: d89 엉뚱한 에이전트(Fable 피치 작가)를 이어 보내 분 ×2.2·토큰 ×1.9, d90·d92 '첫 읽기 vs 최종'을 요구한 풀이 지시문이 API 안전장치에 걸려 재시도, d73 컨테이너에 없던 도구 설치 약 2분, d73 지시서에 없던 글 규칙으로 전체 스모크 한 바퀴 더(약 10분), d77 컨테이너 재시작으로 18분 잃음"
 source = "measured"
 date = 2026-10-19
+
+[[observation]]
+id = "O_b7_haiku_web"
+text = "배치 7 웹 조사 여섯 건(p10–p15, Haiku 5.5 high, 원문 열기가 전부 막힌 환경): 4.4–7.9분, 45–77턴, 3.3–6.7M. 분당 8.3–11턴으로 Opus 웹 띠(7–11) 안. 턴당 맥락 7–9만. 말한 구간 '다른 일'은 여섯 건 모두 '잠깐'으로 일찍 끝남"
+source = "measured"
+date = 2026-10-22
 
 # ---------- 가설 ----------
 [[hypothesis]]
@@ -1233,6 +1244,24 @@ evidence = ["O_doc_spec"]
 check = "doc_spec_minutes"
 note = "세울 때 본 기록 d31 19.9, d32 32.3, d51 38.3, d77 41.0분. 맞으면 R_doc_work_v2를 verified로 올린다"
 
+
+# ---------- 2026-10-22 배치 7에서 세운 가설 (p10–p15를 보고 세움, SEEN_UNTIL = p15: p16부터 시험. 검사 함수는 다음 정리에서 checks.py에 붙인다) ----------
+[[hypothesis]]
+id = "H_haiku_web_rate"
+text = "Haiku 5.5 high의 웹 조사(S_web=예)는 분당 턴이 Opus high 웹 띠(7–11)와 같고, 턴당 맥락은 웹 띠(8–16만)의 아래쪽(7–9만)이다. 모델이 바뀌어도 웹 조사의 속도는 도구 왕복이 정하기 때문이다"
+source = "measured (p10–p15, 2026-10-22)"
+conditions = ["S_other_model", "S_web"]
+evidence = ["O_b7_haiku_web"]
+test_plan = "다음 Haiku 웹 조사 기록(p16 이후)으로 시험. 여섯 건이 모두 같은 날·같은 막힌 환경이라 근거 1묶음으로 본다"
+
+[[hypothesis]]
+id = "H_web_blocked_turns"
+text = "원문 열기가 막힌 환경(S_web_blocked=예)의 엄격한 양식 웹 조사는 열리는 환경의 턴(80–140) ×0.5–0.8(45–77턴)이다. 열기 시도가 두 번 만에 끝나고 검색 요약만 쓰기 때문이다. 분당 턴은 변하지 않는다"
+source = "measured (p10–p15, 2026-10-22)"
+conditions = ["S_web_blocked", "S_research"]
+evidence = ["O_b7_haiku_web"]
+test_plan = "S_web_blocked=예인 다음 조사 기록으로 시험. 막힌 환경의 Opus 기록이 생기면 모델 영향(H_haiku_web_rate)과 가른다"
+note = "p06·p07(Opus, 연결이 끊긴 날)도 64·79턴으로 이 범위와 겹치지만 그 기록은 '바깥 상황' 예외라 근거에 넣지 않는다. 배치 7은 Haiku라 모델 영향과 섞여 있다"
 
 # ---------- 계산 조각 (2026-10-19, p05: 계산되는 논리) ----------
 # 효과 칸(effect)이 있는 가설 = 계산 조각. 계산기 `python -m domains.agent_usage.predict <기록 id | 상황 파일>`이 상황 값과 project만 보고
