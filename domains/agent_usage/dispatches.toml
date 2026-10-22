@@ -4447,6 +4447,7 @@ S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "예"
+S_read_originals = "아니오"
 [dispatch.predicted]
 written_before = true
 analog = "p06"
@@ -4495,6 +4496,7 @@ S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "예"
+S_read_originals = "아니오"
 [dispatch.predicted]
 written_before = true
 analog = "p06"
@@ -4543,6 +4545,7 @@ S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "예"
+S_read_originals = "아니오"
 [dispatch.predicted]
 written_before = true
 analog = "p06"
@@ -4591,6 +4594,7 @@ S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "예"
+S_read_originals = "아니오"
 [dispatch.predicted]
 written_before = true
 analog = "p06"
@@ -4639,6 +4643,7 @@ S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "예"
+S_read_originals = "아니오"
 [dispatch.predicted]
 written_before = true
 analog = "p06"
@@ -4687,6 +4692,7 @@ S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "예"
+S_read_originals = "아니오"
 [dispatch.predicted]
 written_before = true
 analog = "p06"
@@ -4713,6 +4719,7 @@ hypotheses = ["H_web_blocked_turns", "H_haiku_web_rate"]
 # 원문이 열린다(메인이 curl로 28개 호스트 확인: 네이버·Reddit·Duolingo 블로그·PubMed·DOI·관광청·앱 공식 문서 열림, teamblind·tandfonline·wiley는 사이트 자체 403).
 # S_web_blocked = 아니오. 계산기는 Haiku 기준값이 없어 '모름'. 손 예측: 앞 회차(45–77턴)보다 원문 열기·읽기 턴이 더해져 60–140턴, 분당 턴은 페이지 읽기가
 # 요약 모델을 거쳐 웹 띠 아래쪽(5–11)으로 보고 8–25분. 토큰은 이어 보낸 에이전트(R_resume_ctx_v2: 앞 회차 평균 맥락 7–9만의 1.6–1.8배 + 새로 읽는 페이지)로 15–25만/턴.
+# 돌아보기(같은 날): 새 상태 S_read_originals(원문 읽기가 주된 일)를 p10–p21에 사후 기입(배치 7 아니오, 배치 8 예). 보내기 전에 지시서로 알 수 있던 조건이고 예측 칸은 고치지 않았다.
 
 [[dispatch]]
 id = "p16"
@@ -4741,6 +4748,7 @@ S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "아니오"
+S_read_originals = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p10"
@@ -4787,6 +4795,7 @@ S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "아니오"
+S_read_originals = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p11"
@@ -4833,6 +4842,7 @@ S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "아니오"
+S_read_originals = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p12"
@@ -4845,7 +4855,12 @@ rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2
 reason = "앞 회차 p12의 실측에 원문 열기·읽기 턴(후보 수만큼 열기 + 고치기)을 더해 ×1.2–2.0. 분당 턴은 페이지 읽기가 요약 모델을 거쳐 웹 띠 아래쪽으로 봄. 이어 보낸 에이전트라 턴당 맥락이 앞 회차의 1.6–1.8배 + 새로 읽는 페이지. 범위가 두 구간에 걸쳐 긴 쪽 '다른 일'. 계산기 '모름'. 여섯 건 동시"
 hypotheses = ["H_haiku_web_rate", "H_web_blocked_turns"]
 [dispatch.actual]
-status = "unknown"
+minutes = 23.4  # 완료 알림 실행 시간 1402초. 합계 128턴·23.04M에서 p12 몫(45턴·3.3M)을 뺌
+turns = 83
+tokens_m = 19.7
+[dispatch.review]
+reason = "넷 다 맞음(말한 구간 '다른 일' 23.4분, 턴 83, 토큰 19.7M=T1). 여섯 중 가장 길었다(상한 25분 바로 아래): 네이버 블로그 38편을 m.blog.naver.com으로 curl해 읽고 후보 22개를 더함. 분당 3.5턴. 턴당 맥락 23.7만 = 앞 회차 7.3만의 3.2배. 1차 근거(AI 생성 글·유료 가림 답변)를 가려내 뺀 것이 큰 수확"
+hypotheses = ["H_haiku_web_rate", "H_web_blocked_turns"]
 
 [[dispatch]]
 id = "p19"
@@ -4874,6 +4889,7 @@ S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "아니오"
+S_read_originals = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p13"
@@ -4920,6 +4936,7 @@ S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "아니오"
+S_read_originals = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p14"
@@ -4966,6 +4983,7 @@ S_integration = "아니오"
 S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "아니오"
+S_read_originals = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p15"

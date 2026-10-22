@@ -61,9 +61,9 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 ## 언어 학습: language_learning (2026-10-22 사용자 결정)
 - 목표(사용자): **일본어를 전혀 모르는 사용자가 일본 여행에서 쓸 일본어를 꾸준히 공부할 시스템.** 앱([ZizonK7/language_learning](https://github.com/ZizonK7/language_learning), 공개, 이 세션 `../language_learning`)일 수도, 수업이나 다른 방법일 수도 있다. 스페인어는 범위 밖. 여행 중 쓸 앱(총무·정산)은 설계만.
 - 결정 방식(사용자): **결정마다 논리집을 보거나 잘 된 케이스를 조사해 근거를 대입한다.** 사용자가 일본어를 모르므로 처음 근거는 조사(연구·앱·한국인 사례·여행 범위·꾸준함 장치)이고, 실사용 판정이 생기면 그것이 위다.
-- 분야 [domains/language_learning/](domains/language_learning/CLAUDE.md): 목표 나무, 앱 동작 사실(코드 @81d1f75), 조사 근거 사실 18, 가설 20, 제안 규칙 10(모두 사용자 판정 전), audit 오류 3(의도한 것: 대가로 받아들일지 사용자 결정 대기). 조사 보고서는 `out/research/2026-10-22-language-learning/`(git 제외), 작업 보고서는 `docs/worklog/2026-10-22-research-*.md`. 사용자용 정리와 여행 앱 설계는 language_learning 저장소 `docs/`.
-- **조사 환경 한계(2026-10-22)**: 클라우드 세션의 네트워크 정책이 원문 열기를 거의 다 막는다(학술 출판사·DOI·Reddit·네이버·관광청·앱 공식 사이트). 검색 요약만 받아진다. 원문이 필요한 조사는 환경의 Allowed domains를 넓힌 뒤 보낸다. agent_usage 상태 S_web_blocked.
-- agent_usage 기록: `project = "language_learning"`(from_project에 없어 S_small_codebase 모름). 배치 7(p10–p15)이 첫 Haiku 기록.
+- 분야 [domains/language_learning/](domains/language_learning/CLAUDE.md): 목표 나무, 앱 동작 사실(코드 @81d1f75), 조사 근거 사실 20, 가설 25(이전 버전 1), 제안 규칙 10(모두 사용자 판정 전), audit 오류 3(의도한 것: 대가로 받아들일지 사용자 결정 대기). 조사 보고서는 `out/research/2026-10-22-language-learning/`(git 제외), 작업 보고서는 `docs/worklog/2026-10-22-research-*.md`. 사용자용 정리와 여행 앱 설계는 language_learning 저장소 `docs/`.
+- **조사 환경(2026-10-22)**: 처음엔 네트워크 정책이 원문 열기를 막아 검색 요약만 받아졌다(배치 7). 사용자가 Allowed domains를 넓힌 뒤(배치 8) 원문이 열렸지만 **WebFetch 도구는 프록시를 안 타 DNS 실패**하므로 웹 조사 지시서에 'curl + pdftotext/pandoc/bs4로 읽는다'를 적는다. 사이트 자체 거부: Wiley·OUP·SAGE·ScienceDirect·APA·T&F·Reddit(로그인)·JR동일본·Trustpilot. 네이버 카페 본문은 스크립트 전용(m.blog.naver.com은 됨). **검색 요약만으로 쓴 보고서는 근거로 쓰지 않는다** — 배치 7의 오류(AI 생성 글·다른 앱 혼동·기사 오독·원문과 다른 요약)가 배치 8에서 드러났다. agent_usage 상태 S_web_blocked·S_read_originals.
+- agent_usage 기록: `project = "language_learning"`(from_project에 없어 S_small_codebase 모름). 배치 7(p10–p15)이 첫 Haiku 기록, 배치 8(p16–p21)은 같은 작업자에 이어 보낸 원문 확인(6/6 맞음).
 
 ## 지금 상태 (2026-10-19)
 - 분야 3개: `flowlog`(제목 추천, 실제 기록 재생 근거 포함), `music_player`(알아서 틀기, 재생 순서 — 폰 셔플 표시 @25d6b74), `agent_usage`(AI가 스스로 쌓는 사용량 예측).

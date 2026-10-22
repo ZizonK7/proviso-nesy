@@ -13,14 +13,14 @@
 - 조사: `out/research/2026-10-22-language-learning/`(git 제외)의 보고서 6개 — 연구 근거(research_evidence), 앱 사례(apps), 한국인 학습자 사례(korean_learners), 여행 생존 범위(travel_survival), 꾸준함 장치(habit), 여행 앱(travel_app). 지시서는 같은 폴더 `briefs/`. 작업 보고서는 `docs/worklog/2026-10-22-research-*.md`. 조사에서 뽑은 조각은 가설로 넣고 출처(URL·종류·강도)를 note에 적는다. 넣을 때 지킬 것(루트 CLAUDE.md "다음 할 일 3"): 출처 실재 확인, 필요한 것만, 충돌 시 개인 경험 > 일반 원리.
 - 판정: 사용자 실사용이 가장 무겁다. 사용자가 일본어를 모르므로 '방법이 맞나'는 처음엔 조사 근거(source="ai" 판정 기록)로, '꾸준히 되나'와 '여행에서 됐나'는 사용자 판정으로.
 
-## 현재 상태 (2026-10-22, 조사 반영 뒤)
-- 목표 5, 상태 4, 사실 33(앱 동작 15 + 연구·사례 근거 18), 관찰 2(조사 범위), 가설 20, 규칙 10(제안), 판정 기록 2.
-- 조사 배치 7(p10–p15, Haiku 5.5 high) 끝. 여섯 보고서 모두 '검색 요약만' 근거(원문 0건, O_scope_blocked). 강한 근거(메타분석)는 인출 연습·간격·섞어 배우기·실행 의도 넷.
+## 현재 상태 (2026-10-22, 원문 확인 반영 뒤)
+- 목표 5, 상태 4, 사실 35(앱 동작 15 + 연구·사례 근거 20), 관찰 2(조사 범위), 가설 25(이전 버전 1), 규칙 10(제안), 판정 기록 2.
+- 조사 배치 7(검색 요약)과 배치 8(같은 작업자가 원문 약 200건 확인) 끝. 원문 확인으로 바뀐 것: 섞어 배우기 판정 뒤집힘(단어는 몰아서 → H_similar_interleave를 v2로 쪼갬), 확장 vs 고정 간격 차이 없음, 여행 장면·스트릭 보호·가나 연상의 근거 상승, 1차 오류(AI 생성 글·다른 앱 혼동·기사 오독·원문과 다른 요약) 제거. 아직 못 연 곳: Wiley·OUP 등 일부 출판사, Reddit, 네이버 카페 본문.
 - **audit 오류 3(의도한 것, 사용자 결정 대기)**: H_false_known_lost(알았음 재시험 없음 → R_known_retest 제안), H_recognition_only_gap(복습 한 방향 → R_two_directions 제안), H_backlog_risk(R_known_retest의 부작용 → R_backlog_cap과 함께 받아들일지). 받아들이거나 고치면 accepted_for를 적거나 사실을 갱신한다.
-- 경고: 시험 수단 없음 28 — 모두 test_plan만 있다. 실사용 기록 재생 검사(이벤트 로그 내보내기)가 붙으면 줄어든다.
-- 제안 규칙 10개는 모두 가설이고 사용자 판정 전이다. 사용자용 정리는 language_learning 저장소 `docs/study-system-proposal-v0.md`, 여행 앱 설계(기능 목록만)는 같은 곳 `docs/travel-app-design-v0.md`.
+- 경고: 시험 수단 없음 32 — 모두 test_plan만 있다. 실사용 기록 재생 검사(이벤트 로그 내보내기)가 붙으면 줄어든다.
+- 제안 규칙 10개는 모두 가설이고 사용자 판정 전이다. 사용자용 정리는 language_learning 저장소 `docs/study-system-proposal-v0.md`(v0.1), 여행 앱 설계(기능 목록만)는 같은 곳 `docs/travel-app-design-v0.md`(v0.1).
 - 코드에서 본 결함(규칙이 아니라 고칠 일): 완료 기준 세 곳 불일치(F_archive_threshold_mismatch), 복습 기준 시각 고정(F_review_now_frozen), 가짜 최고 기록(F_streak_from_log). 사용자가 앱 변경을 결정하면 같이 고친다.
-- 사용자 조건 미확인: 여행 시기·기간·동행 수, 하루 공부 가능 시간, 한자 지식 수준(H_korean_kanji_meaning). 목표 G_use_in_japan 문장도 확인 대기.
+- 사용자 조건 미확인: 여행 시기·기간·동행 수, 하루 공부 가능 시간, 한자 지식 수준(H_korean_kanji_meaning). 목표 G_use_in_japan 문장도 확인 대기(준비 뒤 여행 사례의 결과와는 맞는다, H_reading_first_gain).
 
 ## 다음 할 일
 1. 사용자 판정: audit 오류 3건과 제안 규칙 10개 중 무엇을 받아들일지. 받아들인 규칙은 앱 변경으로 옮기고(language_learning 저장소), 변경 뒤 관련 사실을 새 커밋 해시로 갱신한다.

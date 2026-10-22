@@ -205,6 +205,11 @@ id = "S_web_blocked"
 text = "조사 대상 웹 페이지의 원문 열기가 네트워크 정책으로 막힌 환경이다(검색 결과 요약만 받아진다). 보내기 전에 프록시 상태(`$HTTPS_PROXY/__agentproxy/status`의 정책 거부 목록)나 대표 호스트 curl로 확인한다 (2026-10-22부터 기록)"
 known_before = true
 
+[[state]]
+id = "S_read_originals"
+text = "원문(논문 PDF·공식 문서·블로그 본문)을 열어 읽고 대조하는 일이 주된 조사다. 검색 요약만 모으는 조사면 아니오 (2026-10-22부터 기록)"
+known_before = true
+
 # ---------- 관찰 ----------
 [[observation]]
 id = "O_b1_tokens_low"
@@ -515,6 +520,12 @@ date = 2026-10-19
 [[observation]]
 id = "O_b7_haiku_web"
 text = "배치 7 웹 조사 여섯 건(p10–p15, Haiku 5.5 high, 원문 열기가 전부 막힌 환경): 4.4–7.9분, 45–77턴, 3.3–6.7M. 분당 8.3–11턴으로 Opus 웹 띠(7–11) 안. 턴당 맥락 7–9만. 말한 구간 '다른 일'은 여섯 건 모두 '잠깐'으로 일찍 끝남"
+source = "measured"
+date = 2026-10-22
+
+[[observation]]
+id = "O_b8_resume_read"
+text = "배치 8(p16–p21, 같은 Haiku 작업자에 원문 확인을 이어 보냄, 원문 열림): 12.4–23.4분, 63–97턴, 11.1–21.0M. 여섯 건 모두 말한 구간·턴·토큰이 맞음. 분당 3.3–5.3턴으로 웹 띠(7–11)보다 느림(PDF·본문을 curl+pdftotext/pandoc으로 읽음 — WebFetch 도구는 프록시를 안 타 DNS 실패). 턴당 맥락 16.8–23.7만 = 앞 회차(7.3–9.4만)의 2.0–3.2배(R_resume_ctx_v2의 1.6–1.8배 + 새로 읽는 페이지 본문)"
 source = "measured"
 date = 2026-10-22
 
@@ -1262,6 +1273,14 @@ conditions = ["S_web_blocked", "S_research"]
 evidence = ["O_b7_haiku_web"]
 test_plan = "S_web_blocked=예인 다음 조사 기록으로 시험. 막힌 환경의 Opus 기록이 생기면 모델 영향(H_haiku_web_rate)과 가른다"
 note = "p06·p07(Opus, 연결이 끊긴 날)도 64·79턴으로 이 범위와 겹치지만 그 기록은 '바깥 상황' 예외라 근거에 넣지 않는다. 배치 7은 Haiku라 모델 영향과 섞여 있다"
+
+[[hypothesis]]
+id = "H_read_originals_rate"
+text = "원문을 열어 읽고 대조하는 조사(S_read_originals=예)는 분당 3–5.5턴으로 검색 요약 조사의 웹 띠(7–11)보다 느리다. 페이지·PDF 본문을 받아 읽는 턴이 길고 턴당 맥락이 두 배 넘게 크기 때문이다"
+source = "measured (p16–p21, 2026-10-22)"
+conditions = ["S_read_originals", "S_web"]
+evidence = ["O_b8_resume_read"]
+test_plan = "S_read_originals=예인 다음 조사 기록으로 시험(Opus 기록이 생기면 모델 영향과 가른다). 검사 함수는 다음 정리에서 checks.py에 붙인다(SEEN_UNTIL = p21)"
 
 # ---------- 계산 조각 (2026-10-19, p05: 계산되는 논리) ----------
 # 효과 칸(effect)이 있는 가설 = 계산 조각. 계산기 `python -m domains.agent_usage.predict <기록 id | 상황 파일>`이 상황 값과 project만 보고
