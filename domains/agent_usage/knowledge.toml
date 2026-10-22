@@ -534,6 +534,12 @@ source = "measured"
 date = 2026-10-22
 
 [[observation]]
+id = "O_b12_resumed_impl"
+text = "p30(설계 v1 2단계, 1단계를 만든 Opus 에이전트에 이어 보냄, 빌드 도구 없음): 13.4분·75턴·37.3M. 첫 회차 p29(34.1분·200턴·62.7M)의 턴 ×0.38, 분 ×0.39, 분당 턴 5.6(같음), 턴당 맥락 50만(×1.6). 새 파일 13·고친 파일 12, 순수 Kotlin 테스트 12개 추가(누적 25 통과). 말한 구간 '다른 일'은 맞았으나 분 범위(20–40)와 턴 범위(120–220) 아래"
+source = "measured"
+date = 2026-10-22
+
+[[observation]]
 id = "O_b10_send_gate"
 text = "p28(배치 9 ui_patterns 세션에 이어 보낸 스크린샷 회차, Haiku 클라우드): 지시서에 '앱 5개·그림 30장을 실제로 열어 본 뒤에만 보낼 것'을 적었더니 1차 보고가 5.0분 만에 그림 35장을 본 채로 왔고(배치 9의 1차는 3~4분에 원문 0~4건), 메인이 나머지 그림을 보라고 한 번 더 보내 2.2분 뒤 35장을 더 봤다. 전체 7.2분 '잠깐'(말한 구간 '다른 일' 빗나감), 토큰 10.7M(캐시 읽기 10.4M — 그림 70장이 매 턴 맥락에 실림), 비용 0.94달러"
 source = "measured"
@@ -1317,6 +1323,14 @@ evidence = ["O_b9_cloud_haiku"]
 against = ["O_b10_send_gate"]
 test_plan = "다음 클라우드 세션 조사 기록으로 시험(SEEN_UNTIL = p27)"
 note = "p28에서 빗나감: '완료 조건을 숫자로 적어도'가 틀렸다 — 배치 9 지시서의 완료 조건은 보고서 양식 안에 있었고 '전송 전 조건'으로 적히지 않았다. 전송 조건(S_send_gate)을 더해 v2로 쪼갬"
+
+[[hypothesis]]
+id = "H_resumed_impl_turns"
+text = "같은 구현 에이전트에 비슷한 크기의 다음 단계를 이어 보내면(S_resumed=예, S_research=아니오), 코드를 다시 읽는 턴이 없어 턴은 첫 회차의 ×0.3–0.5이고 분당 턴은 같다. 그래서 분도 ×0.3–0.5. 턴당 맥락은 1.6–1.8배(R_resume_ctx_v2)라 토큰은 ×0.5–0.9"
+source = "measured (p29→p30, 2026-10-22)"
+conditions = ["S_resumed", "S_spec_fixed"]
+evidence = ["O_b12_resumed_impl"]
+test_plan = "같은 에이전트에 이어 보낸 다음 구현 기록(p31부터)으로 시험(SEEN_UNTIL = p30, 근거 1건). 비유 조각(C_turns_analog)에 S_resumed 쪼개기 후보"
 
 [[hypothesis]]
 id = "H_cloud_session_rounds_v2"

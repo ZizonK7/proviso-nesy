@@ -5449,4 +5449,53 @@ rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2"]
 reason = "빗댄 p29(같은 에이전트 1차, 200턴·34분·62.7M). 이번은 데이터 작성·새 테이블이 없고 화면·규칙 위주라 턴 ×0.6–1.1 → 120–220. 속도는 이번엔 조각대로: 기본 3.2–6.3 × 고치기 1.2–1.8의 아래쪽(p29 실측 5.9/분) → 5–6.5/분 → 20–40분 '다른 일'(p29의 교훈: 분은 턴 ÷ 분당 턴으로). 토큰은 이어 보낸 에이전트라 턴당 맥락이 앞 회차(31.4만)의 1.6–1.8배(R_resume_ctx_v2) = 50–57만 × 턴 → 60–130M. S_build_tools=예(1단계에서 만든 JVM 검사 프로젝트를 다시 씀). 계산기는 크기 조각이 없어 쓰지 않음"
 hypotheses = []
 [dispatch.actual]
+minutes = 13.4  # 완료 알림 실행 시간 806초(10:02–10:15). 누적 65.9분·275턴·100.0M에서 p29 몫(34.1분·200턴·62.7M)을 뺌
+turns = 75
+tokens_m = 37.3
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일'은 맞음(13.4분, 하한 20분 아래지만 같은 구간). 턴 75는 예측 120–220 아래(양을 틀림), 분당 5.6턴은 맞음, 토큰 37.3M은 60–130 아래(턴이 적어서; 턴당 맥락 50만은 R_resume_ctx_v2대로 앞 회차의 1.6배). 빗댄 p29는 같은 에이전트의 첫 회차 — 이어 보낸 구현 회차는 코드를 다시 읽는 턴이 없어 첫 회차의 ×0.35~0.4(75/200)이지, 비유 조각의 ×0.72–1.37이 아니다. 조건 S_resumed=예를 턴 비유에 안 쪼갰다 → H_resumed_impl_turns"
+hypotheses = ["H_resumed_impl_turns"]
+
+[[dispatch]]
+id = "p31"
+project = "language_learning"
+batch = 13
+date = 2026-10-22
+task = "구현(설계 v1 3단계, 같은 에이전트 3회차, Opus 5.5 high): 주 1회 역할극(장면 섞기, 목표 칩·응답 칩/말하기, 플래너+테스트) + 여행 전 점검 띠 + 2주 확인 세트(결정적 세트+테스트, 추이 표) + 누적 학습 시간 + 여행 뒤 판정 입력 + JSON 내보내기(SAF) + 문서·worklog. 빌드 도구 없음"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "모름"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "일부"
+S_build_tools = "예"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "일부"
+S_impl_hour = "아니오"
+S_open_seams = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p30"
+told = "다른 일"
+minutes = [12, 28]
+turns = [70, 140]
+tokens_class = ["T2", "T3"]
+tokens_m = [40, 90]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2"]
+reason = "빗댄 p30(같은 에이전트 2회차, 75턴·13.4분·37.3M). 3단계는 2단계보다 기능이 하나 많고(역할극 화면·확인 세트·내보내기·판정 입력) 테스트 셋이라 턴 ×0.9–1.9 → 70–140. 분당 턴은 p29·p30 모두 5.6–5.9 → 5–6/분 → 12–28분, 두 구간에 걸쳐 긴 쪽 '다른 일'. 턴당 맥락은 3회차라 50만→55–65만(R_resume_ctx_v2 회차마다 커짐) → 40–90M. H_resumed_impl_turns(×0.3–0.5)는 p29 기준이면 60–100턴으로 같은 방향"
+hypotheses = ["H_resumed_impl_turns"]
+[dispatch.actual]
 status = "unknown"
