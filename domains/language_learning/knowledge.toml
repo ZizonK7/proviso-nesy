@@ -687,6 +687,12 @@ checked = 2026-10-22
 source = "코드 @b365b8d(language_learning 브랜치 claude/dreamy-ramanujan-9zxz4i), docs/stage1-notes.md, worklog 2026-10-22-impl-stage1"
 
 [[fact]]
+id = "F_app_stages_2_4"
+text = "앱 코드 @e2aa189(2026-10-22, 설계 v1 2~4단계, 빌드 미확인): 온보딩(여행 날짜·'언제 어디서' 한 문장·첫 세션 뒤 알림 권한), 홈 맨 위 한 줄(오늘 복습·새 줄·D-xx·연속·보호 1)+'오늘 세션 시작'+최소/권장 분리, 주 1회 보호·복귀 카드, AlarmManager 하루 1회 알림(최소 분량 채운 날 건너뜀), 완료 한 장+7·30·100일 축하, 여행 중 보기(회화집), 설정; 주 1회 장면 섞은 역할극(목표 칩→말풍선→응답 칩/말하기→힌트, 성적은 간격표에), 여행 전 점검 띠, 2주 확인 세트(이벤트만, 추이 표), 누적 시간(세션 30분 상한), 여행 뒤 장면별 판정 입력(TRIP_JUDGMENT), 기록 JSON 내보내기(형식은 docs/stage3-notes.md); 가나 보조 트랙(92자, 가타카나 음식 글자 먼저, 비슷한 쌍 같은 묶음, 카드 3종, 복습 상한 15, 설정으로 끔). 순수 Kotlin 테스트 36개 통과. 미확인: Android 빌드·기기 동작, 한글 표기·연상 92줄·알림 문구는 AI 작성 검토 전"
+checked = 2026-10-22
+source = "코드 @99c565b·@782bc2e·@e2aa189, docs/stage2-4-notes.md, worklog 2026-10-22-impl-stage2~4"
+
+[[fact]]
 id = "F_apps_speaking_loop"
 text = "대화 앱 공식 페이지 13곳에서 첫 주 말하기 설계의 골격이 같다: 정해진 짧은 문장(대화 한 줄)을 듣고 소리 내어 따라 말하기(Pimsleur·Busuu·Glossika·JapanesePod101·Memrise) → 말한 직후 판정·교정(Pimsleur AI 코치, Speak·Praktika·TalkPal, Mondly 인식 통과/실패) → 같은 문장을 나중에 다시 말하기(Pimsleur 간격 회상, Glossika 반복, Busuu 교정 뒤 재녹음, Duolingo Video Call의 이전 대화 기억). 이 골격의 효과를 직접 잰 독립 연구는 없다. 음성 인식 교정은 과교정·부정확 지적이 리뷰에 반복된다(Speak·Praktika·Mondly, 요약)"
 checked = 2026-10-22
