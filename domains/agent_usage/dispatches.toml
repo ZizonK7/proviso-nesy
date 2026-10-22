@@ -4922,7 +4922,12 @@ rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2
 reason = "앞 회차 p14의 실측에 원문 열기·읽기 턴(후보 수만큼 열기 + 고치기)을 더해 ×1.2–2.0. 분당 턴은 페이지 읽기가 요약 모델을 거쳐 웹 띠 아래쪽으로 봄. 이어 보낸 에이전트라 턴당 맥락이 앞 회차의 1.6–1.8배 + 새로 읽는 페이지. 범위가 두 구간에 걸쳐 긴 쪽 '다른 일'. 계산기 '모름'. 여섯 건 동시"
 hypotheses = ["H_haiku_web_rate", "H_web_blocked_turns"]
 [dispatch.actual]
-status = "unknown"
+minutes = 16.2  # 완료 알림 실행 시간 970초. 합계 153턴·21.0M에서 p14 몫(77턴·6.2M)을 뺌
+turns = 76
+tokens_m = 14.8
+[dispatch.review]
+reason = "넷 다 맞음(말한 구간 '다른 일' 16.2분, 턴 76, 토큰 14.8M=T1). 분당 4.7턴 — 학술 PDF를 curl+pdftotext로 읽어 웹 띠보다 느림. 턴당 맥락 19.5만 = 앞 회차 8.1만의 2.4배(R_resume_ctx_v2의 1.6–1.8배보다 큼: PDF 본문). 원문 19건 확인, 후보 15개 중 12개 뒷받침, 새 후보 1. 사이트 거부(Wiley·OUP·ACM·Reddit 로그인)는 우회 안 함"
+hypotheses = ["H_haiku_web_rate", "H_web_blocked_turns"]
 
 [[dispatch]]
 id = "p21"
