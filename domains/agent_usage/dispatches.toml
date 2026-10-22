@@ -4978,4 +4978,9 @@ rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2
 reason = "앞 회차 p15의 실측에 원문 열기·읽기 턴(후보 수만큼 열기 + 고치기)을 더해 ×1.2–2.0. 분당 턴은 페이지 읽기가 요약 모델을 거쳐 웹 띠 아래쪽으로 봄. 이어 보낸 에이전트라 턴당 맥락이 앞 회차의 1.6–1.8배 + 새로 읽는 페이지. 범위가 두 구간에 걸쳐 긴 쪽 '다른 일'. 계산기 '모름'. 여섯 건 동시"
 hypotheses = ["H_haiku_web_rate", "H_web_blocked_turns"]
 [dispatch.actual]
-status = "unknown"
+minutes = 20.8  # 완료 알림 실행 시간 1248초. 합계 161턴·26.54M에서 p15 몫(64턴·5.5M)을 뺌
+turns = 97
+tokens_m = 21.0
+[dispatch.review]
+reason = "넷 다 맞음(말한 구간 '다른 일' 20.8분, 턴 97, 토큰 21.0M=T2). 여섯 중 가장 길고 턴이 많았다: 앱 스토어 24쪽·공식 10곳·기사 16건 등 약 57곳을 curl+pandoc으로 읽고 후보 7개를 더해 보고서가 532줄(상한 450 초과). 분당 4.7턴. 턴당 맥락 21.6만 = 앞 회차 8.6만의 2.5배. 1차 오류 정정 다수(다른 앱을 섞어 본 것, 기사 오독)"
+hypotheses = ["H_haiku_web_rate", "H_web_blocked_turns"]
