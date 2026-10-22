@@ -5353,3 +5353,51 @@ wrong = ["H_cloud_session_rounds"]
 why = "조건 흐림"
 reason = "말한 구간 '다른 일'(10–25분)인데 실제 7.2분 '잠깐'. 토큰 10.7M은 예측 상한(10M) 바로 위, T1 맞음. 지시서에 전송 조건('5개 앱·30장 전에는 보내지 말 것')을 적었더니 1차가 5분 만에 조건을 채워 왔다 — 배치 9의 '1차 얕음'은 클라우드 세션 자체가 아니라 전송 조건이 없어서였다. S_send_gate를 더해 H_cloud_session_rounds를 v2로 쪼갬. 그림은 글보다 턴당 맥락이 커서 토큰은 위로 갔다"
 hypotheses = ["H_cloud_session_rounds_v2", "H_read_originals_rate"]
+
+[[dispatch]]
+id = "p29"
+project = "language_learning"
+batch = 11
+date = 2026-10-22
+task = "구현(설계 v1 1단계, Opus 5.5 high, 세션 안 에이전트): 결함 4개 고침 + 장면 대화 JSON(장면 7, 줄 70~90, 틀·슬롯, 출처 칸) + Room v8(테이블 4, 마이그레이션) + 순수 Kotlin 간격표·세션 계획 + 테스트 + 카드 3종 화면 + 장면 목록·복습 탭 + 문서·worklog. 빌드 도구 없음(SDK 차단)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "모름"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "일부"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "일부"
+S_impl_hour = "아니오"
+S_open_seams = "아니오"
+[dispatch.calc]
+told = "잠깐"
+minutes = [4.9, 9.8]
+turns = [32.5, 64.9]
+tokens_m = [5.8, 11.5]
+note = "계산기(상황 파일, S_fix_existing=예·S_impl_hour=예로 넣었을 때): 잠깐 4.9–9.8분. 빗댄 p05 비유는 다른 일 14.5–29분·98–186턴·17–34M. 둘 다 이 일의 크기(새 테이블·데이터·화면 셋)를 못 본다 — 계산 조각에 '지을 것의 크기' 상태가 없다(다음 정리 과제)"
+[dispatch.predicted]
+written_before = true
+analog = "p08"
+told = "신경 끄기"
+minutes = [45, 120]
+turns = [150, 320]
+tokens_class = ["T2", "T3"]
+tokens_m = [30, 80]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2"]
+reason = "일의 크기: 새 Kotlin 파일 8~10개(엔티티 4·DAO·스케줄러·플래너·뷰모델·화면 2·테스트 2) 약 1,500줄 + JSON 데이터 80줄(원문 보고서 49KB를 읽고 옮겨 적기) + 기존 파일 6~8개 고침. stock-rader 1단계 구현(p08, 새 저장소에 시세·정산·채점)보다 화면이 있어 크다. 빌드가 없어 확인 고리 턴은 적지만 '다시 읽어 검토' 턴이 그 자리를 채운다. 턴당 맥락은 큰 파일(HomeScreen 821줄, StudySession 599줄)을 읽어 20–30만 → 30–80M. 계산기는 크기 상태가 없어 '잠깐'을 냈고 쓰지 않는다"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
