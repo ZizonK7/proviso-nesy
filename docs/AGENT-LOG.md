@@ -109,6 +109,20 @@
 | p20 | 꾸준함 장치 원문 확인 | Haiku 5.5 | high | 3 | 16.2분 (다른 일) | 76 | 14.8M (T1) | 4 | 원문 19건. 스트릭 보호가 통제 실험 7건으로 뒷받침(약→중). Wiley·OUP 거부로 Lally·Nunes는 간접 |
 | p21 | 여행 앱 원문 확인 | Haiku 5.5 | high | 3 | 20.8분 (다른 일) | 97 | 21.0M (T2) | 4 | 약 57곳. 1차 오류 정정(별개 앱 혼동, 기사 오독), 후보 7 추가, 기능 표 17행. 보고서 532줄로 상한 초과 |
 
+## 배치 9 · 2026-10-22 · 대화 중심 조사 여섯 건 (클라우드 'searching' 세션, 첫 create_session 배치)
+- 메인: Fable 5.1 (클라우드 세션). 에이전트: Haiku 5.5 여섯을 클라우드 환경 searching(env_01MZX426uZooVUwnbJ5RV66Q)에 `create_session`으로 보냄(permission_mode는 상속 'auto' — 'dontAsk'는 거부됨). 보고서는 작업자의 `send_message`로 메인에 도착(ReadNotifications). 말한 구간: 신경 끄기(15–48분) → 실제 여섯 모두 **다른 일**(10.2–20.4분). 토큰 T1(3.1–8.3M, 예측 12–40M 아래, 캐시 읽기가 대부분). 턴은 세션 이벤트가 스트림 조각 위주라 세지 않음.
+- 1차 보고가 생성 3~4분 만에 와서 원문 0~4건 → 원문 최소 수·구체 주소를 적은 이어서 지시(v2, 둘은 v3)를 보내 각도당 원문 5~28건. **교훈: 클라우드 Haiku 세션은 완료 조건을 숫자로 써도 1차를 얕게 보내므로, 처음부터 2회차를 계획에 넣거나 '원문 n건 전에는 보내지 말 것'과 구체 주소를 적는다**(H_cloud_session_rounds, 새 상태 S_cloud_session).
+- 환경: searching에서 잘 열린 곳 — J-STAGE 본문 PDF(`_pdf/-char/ja`), NHK Easy Japanese, Crossref·PubMed·ERIC·J-STAGE API, developer.android.com, play.google.com, m.blog.naver.com. 막힌 곳 — Google Scholar 403(세션에 따라 다름), Semantic Scholar 429, OUP·Cloudflare 저장소, JF 502/503·Can-do 로그인, irodori 502, JapanesePod101 403, Mondly 405, pageflows·uxarchive 403, m3.material.io(JS).
+
+| # | 에이전트 / 주제 | 모델 | effort | 난이도 | 실제 시간(구간) | 회차 | 합계(등급) | 품질 | 메모 |
+|---|---|---|---|--:|--:|--:|--:|--:|---|
+| p22 | 말하기·듣기 연구 | Haiku 5.5 | high | 4 | 20.4분 (다른 일) | 2 | 8.3M (T1) | 4 | ASR 메타분석 하위 표를 원문으로(혼자 g=0.44 CI에 0), 초급 쉐도잉 23주 원문(통제군 빠짐), 속도 116→98 wpm. 왕초보 직접 근거는 거의 없음을 정직하게 |
+| p23 | 대화 앱 장치 | Haiku 5.5 | high | 3 | 10.2분 (다른 일) | 2 | 3.2M (T1) | 4 | 공식 페이지 13곳: 첫 주 말하기 골격 공통(따라 말하기 → 즉시 판정 → 재사용). 일본어 지원 확정(Duolingo는 Video Call만), v1 오류 3건 정정 |
+| p24 | 다시 써먹는 구조 | Haiku 5.5 | high | 4 | 10.7분 (다른 일) | 2 | 5.5M (T1) | 4 | HLR 원문, 단어 섞기 불리 g=−0.39, 'Webb 10번'이 노출이 아니라 검사 방식임을 바로잡음. 레슨 안 재등장 vs 별도 복습 비교 연구 없음을 사실로. 원문 8/15 |
+| p25 | 화면 패턴 | Haiku 5.5 | high | 3 | 15.0분 (다른 일) | 2 | 3.1M (T1) | 3 | 스크린샷 0장(alt 텍스트 일반 문구). 말해보카 독립 후기 2건·Duolingo 공식 글·Material 3 공식 6종으로 12개 역할 표. '강' 0, '중' 3 |
+| p26 | 여행 대화 대본 | Haiku 5.5 | high | 3 | 13.4분 (다른 일) | 3 | 5.1M (T1) | 5 | NHK 레슨 13과 대본·이용 조건 원문(개인 용도 한정), 아키타 호텔 시트·京都 약국·국토교통성 면세 PDF, 업계 글로 식당 주문·계산 말. 장면 8개 대본 초안 |
+| p27 | 실험·단기 코스 | Haiku 5.5 | high | 4 | 13.1분 (다른 일) | 3 | 6.3M (T1) | 4 | tilnote AI 글 제거, J-STAGE PDF 3편(下薗 2026 수치), Pimsleur 독립 연구 1건(1명)을 API로 확정, いろどり 1·2과 구조. 한국인 짧은 준비 사례 0건 |
+
 <!--
 ## 배치 N · YYYY-MM-DD · <목적>
 - 메인: <모델>, effort <값>.

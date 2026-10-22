@@ -5027,7 +5027,7 @@ S_web = "예"
 S_research = "예"
 S_other_model = "예"
 S_resumed = "아니오"
-S_mid_notes = "아니오"
+S_mid_notes = "예"  # 1차 보고가 얕아 이어서 지시(v2/v3)를 보냄
 S_spec_fixed = "아니오"
 S_render = "아니오"
 S_long_lap = "아니오"
@@ -5038,6 +5038,7 @@ S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "모름"
 S_read_originals = "예"
+S_cloud_session = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p18"
@@ -5050,7 +5051,13 @@ rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"
 reason = "새 세션이 검색(배치 7: 45–77턴)과 원문 읽기(배치 8: 63–97턴)를 한 번에 하므로 둘을 더한 80–160턴. 분당 턴은 원문 읽기 띠 3.3–5.3(H_read_originals_rate) → 15–48분, 두 구간에 걸쳐 긴 쪽 '신경 끄기'. 토큰은 원문 읽기 턴당 17–24만. 클라우드 세션이라 실측 방법이 다르다(세션 이벤트). 계산기 '모름'"
 hypotheses = ["H_read_originals_rate", "H_haiku_web_rate"]
 [dispatch.actual]
-status = "unknown"
+minutes = 20.4  # 07:47:31→08:07:58. 1차(v1) 보고 뒤 v2 지시 1회. 원문 PDF 1 + 초록 9. 토큰 = 입력 17.1만+캐시 쓰기 19.9만+캐시 읽기 784만+출력 12.8만
+tokens_m = 8.3  # 턴은 세션 이벤트가 스트림 조각 위주라 세지 않음(작업자 자기 보고 도구 호출 수 회차당 8~30)
+[dispatch.review]
+wrong = ["R_turns_analogy_v2", "R_time_turns_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기'(15–48분)인데 실제 20.4분 '다른 일'. 토큰 8.3M=T1(예측 T1–T2, 12–40M 아래). 빗댄 p18(이어 보낸 하위 에이전트 83턴 23분)은 맥락을 이어받은 작업자였고, 클라우드 세션은 1차 보고를 3~4분 만에 얕게 보내고 끝나서 메인이 이어서 지시를 보내야 깊어졌다 — 보내기 전에 알 수 있던 조건(S_cloud_session)을 안 쪼갰다. 캐시 읽기가 토큰의 대부분이라 턴당 맥락도 작았다"
+hypotheses = ["H_cloud_session_rounds", "H_read_originals_rate"]
 
 [[dispatch]]
 id = "p23"
@@ -5069,7 +5076,7 @@ S_web = "예"
 S_research = "예"
 S_other_model = "예"
 S_resumed = "아니오"
-S_mid_notes = "아니오"
+S_mid_notes = "예"  # 1차 보고가 얕아 이어서 지시(v2/v3)를 보냄
 S_spec_fixed = "아니오"
 S_render = "아니오"
 S_long_lap = "아니오"
@@ -5080,6 +5087,7 @@ S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "모름"
 S_read_originals = "예"
+S_cloud_session = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p18"
@@ -5092,7 +5100,13 @@ rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"
 reason = "새 세션이 검색(배치 7: 45–77턴)과 원문 읽기(배치 8: 63–97턴)를 한 번에 하므로 둘을 더한 80–160턴. 분당 턴은 원문 읽기 띠 3.3–5.3(H_read_originals_rate) → 15–48분, 두 구간에 걸쳐 긴 쪽 '신경 끄기'. 토큰은 원문 읽기 턴당 17–24만. 클라우드 세션이라 실측 방법이 다르다(세션 이벤트). 계산기 '모름'"
 hypotheses = ["H_read_originals_rate", "H_haiku_web_rate"]
 [dispatch.actual]
-status = "unknown"
+minutes = 10.2  # 07:47:32→07:57:42. v2 지시 1회. 원문 22건(누적 25). 토큰 = 25.0만+16.1만+266.5만+11.6만
+tokens_m = 3.2  # 턴은 세션 이벤트가 스트림 조각 위주라 세지 않음(작업자 자기 보고 도구 호출 수 회차당 8~30)
+[dispatch.review]
+wrong = ["R_turns_analogy_v2", "R_time_turns_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기'(15–48분)인데 실제 10.2분 '다른 일'. 토큰 3.2M=T1(예측 T1–T2, 12–40M 아래). 빗댄 p18(이어 보낸 하위 에이전트 83턴 23분)은 맥락을 이어받은 작업자였고, 클라우드 세션은 1차 보고를 3~4분 만에 얕게 보내고 끝나서 메인이 이어서 지시를 보내야 깊어졌다 — 보내기 전에 알 수 있던 조건(S_cloud_session)을 안 쪼갰다. 캐시 읽기가 토큰의 대부분이라 턴당 맥락도 작았다"
+hypotheses = ["H_cloud_session_rounds", "H_read_originals_rate"]
 
 [[dispatch]]
 id = "p24"
@@ -5111,7 +5125,7 @@ S_web = "예"
 S_research = "예"
 S_other_model = "예"
 S_resumed = "아니오"
-S_mid_notes = "아니오"
+S_mid_notes = "예"  # 1차 보고가 얕아 이어서 지시(v2/v3)를 보냄
 S_spec_fixed = "아니오"
 S_render = "아니오"
 S_long_lap = "아니오"
@@ -5122,6 +5136,7 @@ S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "모름"
 S_read_originals = "예"
+S_cloud_session = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p18"
@@ -5134,7 +5149,13 @@ rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"
 reason = "새 세션이 검색(배치 7: 45–77턴)과 원문 읽기(배치 8: 63–97턴)를 한 번에 하므로 둘을 더한 80–160턴. 분당 턴은 원문 읽기 띠 3.3–5.3(H_read_originals_rate) → 15–48분, 두 구간에 걸쳐 긴 쪽 '신경 끄기'. 토큰은 원문 읽기 턴당 17–24만. 클라우드 세션이라 실측 방법이 다르다(세션 이벤트). 계산기 '모름'"
 hypotheses = ["H_read_originals_rate", "H_haiku_web_rate"]
 [dispatch.actual]
-status = "unknown"
+minutes = 10.7  # 07:47:33→07:58:12. v2 지시 1회. 원문 5건(누적 8). 토큰 = 25.9만+15.2만+494.0만+11.1만
+tokens_m = 5.5  # 턴은 세션 이벤트가 스트림 조각 위주라 세지 않음(작업자 자기 보고 도구 호출 수 회차당 8~30)
+[dispatch.review]
+wrong = ["R_turns_analogy_v2", "R_time_turns_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기'(15–48분)인데 실제 10.7분 '다른 일'. 토큰 5.5M=T1(예측 T1–T2, 12–40M 아래). 빗댄 p18(이어 보낸 하위 에이전트 83턴 23분)은 맥락을 이어받은 작업자였고, 클라우드 세션은 1차 보고를 3~4분 만에 얕게 보내고 끝나서 메인이 이어서 지시를 보내야 깊어졌다 — 보내기 전에 알 수 있던 조건(S_cloud_session)을 안 쪼갰다. 캐시 읽기가 토큰의 대부분이라 턴당 맥락도 작았다"
+hypotheses = ["H_cloud_session_rounds", "H_read_originals_rate"]
 
 [[dispatch]]
 id = "p25"
@@ -5153,7 +5174,7 @@ S_web = "예"
 S_research = "예"
 S_other_model = "예"
 S_resumed = "아니오"
-S_mid_notes = "아니오"
+S_mid_notes = "예"  # 1차 보고가 얕아 이어서 지시(v2/v3)를 보냄
 S_spec_fixed = "아니오"
 S_render = "아니오"
 S_long_lap = "아니오"
@@ -5164,6 +5185,7 @@ S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "모름"
 S_read_originals = "예"
+S_cloud_session = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p18"
@@ -5176,7 +5198,13 @@ rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"
 reason = "새 세션이 검색(배치 7: 45–77턴)과 원문 읽기(배치 8: 63–97턴)를 한 번에 하므로 둘을 더한 80–160턴. 분당 턴은 원문 읽기 띠 3.3–5.3(H_read_originals_rate) → 15–48분, 두 구간에 걸쳐 긴 쪽 '신경 끄기'. 토큰은 원문 읽기 턴당 17–24만. 클라우드 세션이라 실측 방법이 다르다(세션 이벤트). 계산기 '모름'"
 hypotheses = ["H_read_originals_rate", "H_haiku_web_rate"]
 [dispatch.actual]
-status = "unknown"
+minutes = 15.0  # 07:47:34→08:02:34. v2 지시 1회. 원문 약 28건. 토큰 = 9.6만+18.5만+264.1만+13.7만
+tokens_m = 3.1  # 턴은 세션 이벤트가 스트림 조각 위주라 세지 않음(작업자 자기 보고 도구 호출 수 회차당 8~30)
+[dispatch.review]
+wrong = ["R_turns_analogy_v2", "R_time_turns_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기'(15–48분)인데 실제 15.0분 '다른 일'. 토큰 3.1M=T1(예측 T1–T2, 12–40M 아래). 빗댄 p18(이어 보낸 하위 에이전트 83턴 23분)은 맥락을 이어받은 작업자였고, 클라우드 세션은 1차 보고를 3~4분 만에 얕게 보내고 끝나서 메인이 이어서 지시를 보내야 깊어졌다 — 보내기 전에 알 수 있던 조건(S_cloud_session)을 안 쪼갰다. 캐시 읽기가 토큰의 대부분이라 턴당 맥락도 작았다"
+hypotheses = ["H_cloud_session_rounds", "H_read_originals_rate"]
 
 [[dispatch]]
 id = "p26"
@@ -5195,7 +5223,7 @@ S_web = "예"
 S_research = "예"
 S_other_model = "예"
 S_resumed = "아니오"
-S_mid_notes = "아니오"
+S_mid_notes = "예"  # 1차 보고가 얕아 이어서 지시(v2/v3)를 보냄
 S_spec_fixed = "아니오"
 S_render = "아니오"
 S_long_lap = "아니오"
@@ -5206,6 +5234,7 @@ S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "모름"
 S_read_originals = "예"
+S_cloud_session = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p18"
@@ -5218,7 +5247,13 @@ rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"
 reason = "새 세션이 검색(배치 7: 45–77턴)과 원문 읽기(배치 8: 63–97턴)를 한 번에 하므로 둘을 더한 80–160턴. 분당 턴은 원문 읽기 띠 3.3–5.3(H_read_originals_rate) → 15–48분, 두 구간에 걸쳐 긴 쪽 '신경 끄기'. 토큰은 원문 읽기 턴당 17–24만. 클라우드 세션이라 실측 방법이 다르다(세션 이벤트). 계산기 '모름'"
 hypotheses = ["H_read_originals_rate", "H_haiku_web_rate"]
 [dispatch.actual]
-status = "unknown"
+minutes = 13.4  # 07:47:34→08:01:01. v2·v3 지시 2회. 원문 20+6건. 토큰 = 15.3만+18.0만+462.4만+11.7만
+tokens_m = 5.1  # 턴은 세션 이벤트가 스트림 조각 위주라 세지 않음(작업자 자기 보고 도구 호출 수 회차당 8~30)
+[dispatch.review]
+wrong = ["R_turns_analogy_v2", "R_time_turns_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기'(15–48분)인데 실제 13.4분 '다른 일'. 토큰 5.1M=T1(예측 T1–T2, 12–40M 아래). 빗댄 p18(이어 보낸 하위 에이전트 83턴 23분)은 맥락을 이어받은 작업자였고, 클라우드 세션은 1차 보고를 3~4분 만에 얕게 보내고 끝나서 메인이 이어서 지시를 보내야 깊어졌다 — 보내기 전에 알 수 있던 조건(S_cloud_session)을 안 쪼갰다. 캐시 읽기가 토큰의 대부분이라 턴당 맥락도 작았다"
+hypotheses = ["H_cloud_session_rounds", "H_read_originals_rate"]
 
 [[dispatch]]
 id = "p27"
@@ -5237,7 +5272,7 @@ S_web = "예"
 S_research = "예"
 S_other_model = "예"
 S_resumed = "아니오"
-S_mid_notes = "아니오"
+S_mid_notes = "예"  # 1차 보고가 얕아 이어서 지시(v2/v3)를 보냄
 S_spec_fixed = "아니오"
 S_render = "아니오"
 S_long_lap = "아니오"
@@ -5248,6 +5283,7 @@ S_many_turn_model = "모름"
 S_long_doc = "일부"
 S_web_blocked = "모름"
 S_read_originals = "예"
+S_cloud_session = "예"
 [dispatch.predicted]
 written_before = true
 analog = "p18"
@@ -5260,4 +5296,10 @@ rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"
 reason = "새 세션이 검색(배치 7: 45–77턴)과 원문 읽기(배치 8: 63–97턴)를 한 번에 하므로 둘을 더한 80–160턴. 분당 턴은 원문 읽기 띠 3.3–5.3(H_read_originals_rate) → 15–48분, 두 구간에 걸쳐 긴 쪽 '신경 끄기'. 토큰은 원문 읽기 턴당 17–24만. 클라우드 세션이라 실측 방법이 다르다(세션 이벤트). 계산기 '모름'"
 hypotheses = ["H_read_originals_rate", "H_haiku_web_rate"]
 [dispatch.actual]
-status = "unknown"
+minutes = 13.1  # 07:47:35→08:00:41. v2·v3 지시 2회. 원문 J-STAGE PDF 3 외. 토큰 = 12.6만+16.0만+591.5만+9.8만
+tokens_m = 6.3  # 턴은 세션 이벤트가 스트림 조각 위주라 세지 않음(작업자 자기 보고 도구 호출 수 회차당 8~30)
+[dispatch.review]
+wrong = ["R_turns_analogy_v2", "R_time_turns_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기'(15–48분)인데 실제 13.1분 '다른 일'. 토큰 6.3M=T1(예측 T1–T2, 12–40M 아래). 빗댄 p18(이어 보낸 하위 에이전트 83턴 23분)은 맥락을 이어받은 작업자였고, 클라우드 세션은 1차 보고를 3~4분 만에 얕게 보내고 끝나서 메인이 이어서 지시를 보내야 깊어졌다 — 보내기 전에 알 수 있던 조건(S_cloud_session)을 안 쪼갰다. 캐시 읽기가 토큰의 대부분이라 턴당 맥락도 작았다"
+hypotheses = ["H_cloud_session_rounds", "H_read_originals_rate"]

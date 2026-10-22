@@ -210,6 +210,11 @@ id = "S_read_originals"
 text = "원문(논문 PDF·공식 문서·블로그 본문)을 열어 읽고 대조하는 일이 주된 조사다. 검색 요약만 모으는 조사면 아니오 (2026-10-22부터 기록)"
 known_before = true
 
+[[state]]
+id = "S_cloud_session"
+text = "메인 세션 안의 하위 에이전트가 아니라 클라우드 세션(create_session)으로 보낸 작업자다. 메인과 맥락을 공유하지 않고, 보고서를 세션 메시지로 보내면 턴이 끝나며, 이어서 지시(send_message)로 회차를 더한다 (2026-10-22 배치 9부터 기록)"
+known_before = true
+
 # ---------- 관찰 ----------
 [[observation]]
 id = "O_b1_tokens_low"
@@ -520,6 +525,12 @@ date = 2026-10-19
 [[observation]]
 id = "O_b7_haiku_web"
 text = "배치 7 웹 조사 여섯 건(p10–p15, Haiku 5.5 high, 원문 열기가 전부 막힌 환경): 4.4–7.9분, 45–77턴, 3.3–6.7M. 분당 8.3–11턴으로 Opus 웹 띠(7–11) 안. 턴당 맥락 7–9만. 말한 구간 '다른 일'은 여섯 건 모두 '잠깐'으로 일찍 끝남"
+source = "measured"
+date = 2026-10-22
+
+[[observation]]
+id = "O_b9_cloud_haiku"
+text = "배치 9(p22–p27, 클라우드 'searching' 세션 Haiku 5.5 여섯, 조사 각도 여섯, 원문 열림): 1차 보고가 생성 뒤 3~4분 만에 왔고 원문 확인은 0~4건이라 완료 조건에 못 미쳤다. 메인이 원문 최소 수·구체 주소를 적은 이어서 지시를 1~2회 보내 전체 10.2–20.4분, 3.1–8.3M(캐시 읽기 2.6–7.8M 포함)에 원문 20~28건(각도당)으로 끝났다. 여섯 모두 말한 구간('신경 끄기', 예측 15–48분)보다 짧은 '다른 일'. 턴은 세션 이벤트가 스트림 조각 위주라 세지 않았다(작업자 자기 보고 도구 호출 수 회차당 8~30). 실측은 get_session의 created_at→updated_at과 usage(scripts/agent_usage.py는 로컬 jsonl만 읽어 못 씀)"
 source = "measured"
 date = 2026-10-22
 
@@ -1281,6 +1292,16 @@ source = "measured (p16–p21, 2026-10-22)"
 conditions = ["S_read_originals", "S_web"]
 evidence = ["O_b8_resume_read"]
 test_plan = "S_read_originals=예인 다음 조사 기록으로 시험(Opus 기록이 생기면 모델 영향과 가른다). 검사 함수는 다음 정리에서 checks.py에 붙인다(SEEN_UNTIL = p21)"
+against = ["O_b9_cloud_haiku"]
+note = "배치 9(클라우드 세션)는 턴을 못 세어 분당 턴으로는 시험 못 함. 시간만 보면 같은 원문 조사가 10–20분으로 배치 8(12–23분)과 비슷하거나 짧았다"
+
+[[hypothesis]]
+id = "H_cloud_session_rounds"
+text = "클라우드 세션 Haiku 조사(S_cloud_session=예, S_other_model=예)는 지시서가 완료 조건을 숫자로 못 박아도 1차 보고를 3~5분 만에 얕게 보내고 끝난다. 원문 20건 안팎의 깊이는 이어서 지시 1~2회가 있어야 나오며, 전체 시간은 회차 수 × 4~8분 + 메인의 대기(10–20분), 토큰은 3–9M(캐시 읽기가 대부분)로 하위 에이전트 원문 조사(11–21M)보다 작다. 그래서 말할 구간은 '다른 일'이고, 1차만 보면 '잠깐'이다"
+source = "measured (p22–p27, 2026-10-22)"
+conditions = ["S_cloud_session", "S_other_model", "S_research"]
+evidence = ["O_b9_cloud_haiku"]
+test_plan = "다음 클라우드 세션 조사 기록으로 시험(SEEN_UNTIL = p27). 지시서에 '원문 n건 전에는 보내지 말 것'을 적은 회차와 비교해 1차 깊이가 달라지는지 본다"
 
 # ---------- 계산 조각 (2026-10-19, p05: 계산되는 논리) ----------
 # 효과 칸(effect)이 있는 가설 = 계산 조각. 계산기 `python -m domains.agent_usage.predict <기록 id | 상황 파일>`이 상황 값과 project만 보고

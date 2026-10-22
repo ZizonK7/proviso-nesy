@@ -180,7 +180,7 @@ source = "ai"
 conditions = ["F_known_not_retested", "S_zero_level"]
 harms = ["G_recognize"]
 test_plan = "실사용 기록 재생: '알았음' 항목 수와 그중 뒤에 다시 본 적 없는 비율. 사용자 판정: 여행 뒤 못 알아본 단어가 '알았음' 항목이었나. 조사(research_evidence 2·9번 주제: 인출 연습, 자기 평가의 정확성) 근거로 먼저 판정"
-note = "2026-10-22 AI 판단. 대가로 받아들일지 사용자 결정 대기 — audit이 오류로 잡는 것이 의도"
+note = "2026-10-22 AI 판단. 결정(2026-10-22, AI, 사용자 위임 O_user_delegates_design): 고친다 — R_known_retest 채택. 앱이 바뀌어 F_known_not_retested가 갱신될 때까지 audit 오류로 남는 것이 의도(아직 해치는 중)"
 
 [[hypothesis]]
 id = "H_recognition_only_gap"
@@ -189,7 +189,7 @@ source = "ai"
 conditions = ["F_review_one_direction"]
 harms = ["G_request"]
 test_plan = "조사(research_evidence 3번 주제: 인식 vs 회상 방향) 근거로 먼저 판정. 그 뒤 사용자 실사용(여행에서 요청문을 말했나)"
-note = "2026-10-22 AI 판단. 대가로 받아들일지 사용자 결정 대기"
+note = "2026-10-22 AI 판단. 결정(2026-10-22, AI, 사용자 위임): 고친다 — R_two_directions_v2(항목 종류별 방향) 채택. 앱이 바뀌어 F_review_one_direction이 갱신될 때까지 audit 오류로 남는 것이 의도"
 
 # ---------- 규칙 ----------
 [[rule]]
@@ -475,8 +475,9 @@ source = "p11 후보 1·2 (약)"
 conditions = ["F_known_not_retested"]
 evidence = ["F_apps_review_backlog"]
 harms = ["G_system"]
+accepted_for = ["G_request", "G_recognize"]
 test_plan = "재생: 하루 복습 대기 수의 분포. 사용자 판정: 밀려서 열기 싫었던 날이 있었나"
-note = "R_known_retest의 부작용. 상한을 두는 조건으로 받아들일지 사용자 결정 대기"
+note = "R_known_retest의 부작용. 결정(2026-10-22, AI, 사용자 위임): 알았음 재시험(G_request·G_recognize)의 대가로 받아들이되 R_backlog_cap(상한 30, 넘으면 새 학습 멈춤)을 조건으로 둔다"
 
 [[hypothesis]]
 id = "H_app_only_gap"
@@ -555,7 +556,8 @@ note = "H_false_known_lost(audit 오류)를 고치는 제안. 받아들이면 �
 [[rule]]
 id = "R_two_directions"
 version = 1
-status = "hypothesis"
+status = "retired"
+replaced_by = ["R_two_directions_v2"]
 method = "표지판·메뉴·교통 단어는 외국어를 보고 뜻을 떠올리는 카드로 복습하고, 요청문 패턴과 핵심 요청 표현은 뜻(장면)을 보고 외국어를 떠올리는 카드와 음성을 듣고 따라 말하는 선택 연습으로 따로 복습한다"
 reason = "연습한 방향이 그 방향 시험에 남는다. 알아보기 목표와 말하기 목표는 방향이 다르다"
 serves = ["G_recognize", "G_request"]
@@ -567,7 +569,8 @@ note = "H_recognition_only_gap(audit 오류)을 고치는 제안"
 [[rule]]
 id = "R_spacing_wider"
 version = 1
-status = "hypothesis"
+status = "retired"
+replaced_by = ["R_spacing_wider_v2"]
 method = "복습 간격을 학습 당일 세션 끝 재확인 1회 → 맞힘 1회 1일 → 2회 3일 → 3회 7일 → 4회 14일 → 완료로 넓힌다. 틀리면 1일로 돌아가고 헷갈림은 현재 간격 유지. 여행 날짜가 가까우면 마지막 간격을 여행 전으로 당긴다"
 reason = "복습이 걸친 전체 기간이 길고 떠올리기 횟수가 많을수록(5회) 장기 기억이 크다. 지금 간격(1·1·4일)은 전체 6일·3회라 여행까지 몇 주를 남기기엔 짧다. 확장 간격이냐 고정이냐는 차이가 없으므로 숫자 모양은 덜 중요하다"
 serves = ["G_recognize"]
@@ -579,7 +582,8 @@ note = "원문 확인(2026-10-22) 뒤 당일 재확인 1회를 더하고 이유�
 [[rule]]
 id = "R_scene_units"
 version = 1
-status = "hypothesis"
+status = "retired"
+replaced_by = ["R_scene_units_v2"]
 method = "일본어 단어 158개를 여행 장면 유닛(식당·메뉴·식권기, 역·열차·출구, 편의점·상점·계산, 숙소·체크인, 길 묻기·화장실, 긴급·건강)으로 나눠 식당·역·상점을 앞에 두고, 유닛마다 읽기 단어(가타카나 음식명, 한자 駅·口·入口·出口·普通·急行·特急)와 말하기 문장(패턴 + 편의점 점원 질문의 답)을 짝지어 넣는다. 지금의 범주 10개를 장면으로 재배치한다"
 reason = "관광청 설문 3개년에서 불편 1위 장소가 매년 식당, 2위가 역·소매이고 장면 안의 핵심은 주문·메뉴 고르기(65.8%)와 경로 지정(62.4%)이다. 장면 단위로 묶으면 그 자리에서 읽기와 말하기가 같이 떠오른다"
 serves = ["G_use_in_japan"]
@@ -591,7 +595,8 @@ note = "원문 확인(2026-10-22)으로 근거가 중→강"
 [[rule]]
 id = "R_kana_plan"
 version = 1
-status = "hypothesis"
+status = "retired"
+replaced_by = ["R_kana_plan_v2"]
 method = "가나는 행 단위로 배우되 (1) 글자마다 한 줄 그림·소리 연상과 획순을 붙이고 (2) 소리를 듣고 글자를 고르는 문항을 섞으며 (3) 모양이 비슷한 글자 쌍(あ·お, ぬ·め 등)은 같은 묶음에 섞어 구별 연습을 시키고 (4) 가타카나 장음·촉음 규칙과 음식 외래어 읽기를 첫 주에 넣는다. 발음 표기는 지금처럼 눌러야 보이게 둔다. 탁음·요음은 기본음 뒤에 데이터로 보탠다. 단어 카드는 섞지 않고 장면별로 몰아서 배운다"
 reason = "연상은 가나 단계 포기를 막는 지름길(한국인 기록 3건), 객관식만으로는 떠올리는 힘이 안 생기며, 시각 자료의 구별에는 섞기가 유리하지만 단어 자료는 몰아서가 유리하고, 메뉴는 가타카나가 많아 준비 뒤 여행 사례 2건 모두 가타카나가 병목이었다"
 serves = ["G_recognize"]
@@ -653,6 +658,378 @@ reason = "검증된 화면을 가져오면 사용자가 익힌 조작 습관을 
 serves = ["G_borrow_ui"]
 test_plan = "사용자 판정: 화면이 낯설지 않았나. 화면마다 출처가 적혀 있는지 센다"
 
+# ---------- 배치 9 (2026-10-22, 대화 중심 조사: 클라우드 'searching' 세션 Haiku 5.5, p22–p27) ----------
+# 사용자 방향(2026-10-22): 배운 것을 계속 다시 써먹는 구조, 글자보다 대화, 복습은 1일·7일 정도, 화면은 다른 시스템에서, 설계 결정은 AI에게 위임(O_user_delegates_design).
+
+[[state]]
+id = "S_conversation_first"
+text = "사용자 우선순위: 글자 읽기보다 짧은 대화가 통하는 것이 먼저다"
+serves = ["G_request"]
+note = "사용자 2026-10-22 '글자보다는 대화가 통하게 하는 데 집중'"
+
+[[state]]
+id = "S_simple_review"
+text = "복습은 완벽할 필요가 없고 1일·7일 정도의 단순한 구조면 된다"
+serves = ["G_system"]
+note = "사용자 2026-10-22. O_user_intervals_intent를 상태로 쓴 것(개정 조건은 상태·사실 노드여야 함)"
+
+[[state]]
+id = "S_solo_app"
+text = "혼자 앱으로 연습한다 — 튜터·대화 상대 없음"
+serves = ["G_system"]
+
+[[fact]]
+id = "F_apps_speaking_loop"
+text = "대화 앱 공식 페이지 13곳에서 첫 주 말하기 설계의 골격이 같다: 정해진 짧은 문장(대화 한 줄)을 듣고 소리 내어 따라 말하기(Pimsleur·Busuu·Glossika·JapanesePod101·Memrise) → 말한 직후 판정·교정(Pimsleur AI 코치, Speak·Praktika·TalkPal, Mondly 인식 통과/실패) → 같은 문장을 나중에 다시 말하기(Pimsleur 간격 회상, Glossika 반복, Busuu 교정 뒤 재녹음, Duolingo Video Call의 이전 대화 기억). 이 골격의 효과를 직접 잰 독립 연구는 없다. 음성 인식 교정은 과교정·부정확 지적이 리뷰에 반복된다(Speak·Praktika·Mondly, 요약)"
+checked = 2026-10-22
+source = "p23 v2 후보 1–13 — 공식 문서 13건 원문 확인. 강도 중(설계) / 효과 근거 없음"
+
+[[fact]]
+id = "F_apps_japanese_support"
+text = "일본어 지원(공식 페이지 확인): Pimsleur(일본어 코스, 하루 30분), Glossika, TalkPal, Busuu, Memrise(한자·로마자 과정), JapanesePod101은 있음. Duolingo Max는 일본어에 Video Call만 있고 롤플레이는 없음(2023 공식 글). Praktika·Language Transfer·스픽(한국어 페이지)·말해보카·야나두는 일본어 과정이 확인되지 않음. ELSA는 영어 전용"
+checked = 2026-10-22
+source = "p23 v2 후보 1–13, 탈락 후보 — 공식 페이지 원문. 강도 중"
+
+[[fact]]
+id = "F_r_ai_speaking_anxiety"
+text = "AI 챗봇 말하기 시험(터키 대학생 48명, 2025): 사람 시험에서는 말하기 불안과 점수가 음의 상관(r=−0.50)인데 AI 시험에서는 상관이 사라졌다(r=−0.04). 두 조건의 점수 차이는 없었다. 소규모, 무작위 아님. 언어 학습 앱의 말하기 효과를 다룬 메타분석·무작위 대조 연구는 PubMed·ERIC에서 찾지 못했다(체계적 고찰 1편: 음성 인식·피드백이 가장 많이 연구됐고 정확도·사람 같은 반응성이 참여를 좌우)"
+checked = 2026-10-22
+source = "p23 v2 학술 근거 — PubMed 41602632·42646035, ERIC EJ1365002·EJ1344200 초록 원문. 강도 약~중"
+
+[[fact]]
+id = "F_r_asr_meta"
+text = "음성 인식(ASR) 발음 피드백 메타분석(Ngo·Chen·Lai 2024, ReCALL, 원문 전문): 15편·효과 크기 38개, 전체 g=0.69(CI 0.31–1.08). 하위 집단: 명시적 교정 g=0.86 > 간접(받아쓰기) 0.50, 분절음 0.82 > 운율 0.37(CI에 0), 기간 1–4주 0.07·5–8주 1.01·9주+ 0.72, 혼자 연습 g=0.44(CI −1.13–2.01, 11편) < 동료와 0.89 < 교사와 1.24, 초급 g=1.33은 2편뿐(CI −0.68–3.34). 대부분 영어 학습자. 쉐도잉 체계적 고찰(Whitworth 2024)과 통제 연구(Shao 2023, 47명 2주)는 이해도·억양 개선 방향이나 말하기 점수는 엇갈림(Hori 2008 부정)"
+checked = 2026-10-22
+source = "p22 v1·v2 후보 1·3 — 메타분석 PDF 전문, 체계적 고찰 원문. 강도 강(전체) / 약(혼자·초보·운율)"
+
+[[fact]]
+id = "F_r_speech_rate"
+text = "듣기 속도: 대만 중학생 66명(초급 수준 시험, 2023, 초록)에서 보통 116 wpm → 98 wpm으로 조금 낮추면 이해가 올랐고 58 wpm까지 낮추면 차이가 없었다. 속도만 바꾸는 것은 효과가 없다는 연구도 있다(Blau, 요약). 정형 표현이 있으면 듣기의 단어 식별이 쉬워지며 효과는 텍스트 난이도·학습자 수준에 따라 다르다(LTR 2020, 초록). 점원 질문 같은 짧은 정형 발화를 직접 훈련한 연구는 찾지 못했다"
+checked = 2026-10-22
+source = "p22 v2 후보 9·10 — 초록 원문(Crossref). 강도 약(중학생·초록) / 방향 중"
+
+[[fact]]
+id = "F_r_formulaic_chunks"
+text = "덩어리 표현(정해진 말을 통째로)의 통제 연구 3편(Boers 2006 32명 22시간, Vigo 2022 성인 38명, Albelihi 2022 중급)은 모두 덩어리를 익힌 쪽이 말하기 유창성 평가에서 높았으나 대상이 대학생·성인 중급이고 왕초보 연구는 없다. Albelihi는 원문 수치가 서로 맞지 않는다. 문형 치환 연습은 소규모 보고만(요약). 과제 반복(같은 상황 과제를 1주 뒤 다시: Hu 2018 144명 초록)은 정확도를 높였고 간격이 길면 효과가 준다(메타분석은 메타데이터만). TPR(듣고 몸으로 반응) 통제 연구는 중학생 1편(초록). Pimsleur 방식의 독립 평가는 없다"
+checked = 2026-10-22
+source = "p22 v2 후보 2·5·6·7 — 초록 원문(Crossref)·Frontiers 전문. 강도 중(방향) / 약(왕초보)"
+
+[[fact]]
+id = "F_r_shadowing_beginner"
+text = "초급 쉐도잉 장기 실천(下薗 2026, J-STAGE 원문): 일본어학교 네팔인 초급 42명, 23주, 주 5일 수업 시작 약 10분, 30초 소재 2개를 1회 듣고 5회 따라 말함. SPOT90 점수가 세 집단 모두 유의하게 올랐고(T1→T4 예습군 32.7→46.6, 병행군 31.7→45.5, 복습군 36.3→55.1), 배운 다음 주에 쉐도잉한 복습군이 6주 시점에 예습·병행군보다 유의하게 높았다(p=.02), 종료 시점은 경향(p≈.07). 통제군이 분석에서 빠져 쉐도잉 자체의 효과는 단정 못 함. 반대 방향: 布袋 2022(비교 실험)는 쉐도잉 집단 간 청취 점수 차이 없음. 迫田 2011(초급 고등학생 8주, 매일 10분 녹음 제출)은 음성 특징별 습득 차이를 봄(수치 미판독)"
+checked = 2026-10-22
+source = "p27 v3 후보 13·15·17 — J-STAGE PDF 원문(下薗), 영문 초록(布袋), 포스터(迫田). 강도 중"
+
+[[fact]]
+id = "F_r_pimsleur_no_study"
+text = "Pimsleur 코스 효과의 독립 연구: ERIC 35건·Semantic Scholar 상위 20건·PubMed 0건을 훑어 1건(2023, 브라질 포르투갈어 1명 사례)뿐. 나머지는 적성 검사(Pimsleur Battery) 논문. 회사 보고서(2019, 스페인어 82명 2개월, 대조군 없음)의 '한 단계 이상 향상 83%(CI 63–94)'가 가장 큰 수치. Google Scholar는 403"
+checked = 2026-10-22
+source = "p27 v3 후보 5, p23 v2 후보 1 — API 검색 결과·보고서 PDF 원문. 강도 중(없음을 사실로)"
+
+[[fact]]
+id = "F_r_hlr"
+text = "간격 복습 모델 HLR(Settles & Meeder 2016, ACL 원문): 항목마다 기억 반감기를 추정해 잊을 때쯤 다시 내면 기존 방식보다 예측 오차가 45% 이상 작고(Leitner 대비 거의 절반), 운영 A/B에서 연습 세션 재방문 +9.5%, 레슨 +1.7%, 전체 활동 +12%. 옛 항목은 레슨 안이 아니라 별도 연습 세션으로 낸다. 논문은 Pimsleur의 고정 간격(5초·25초·2분·10분…)을 개인화되지 않은 일정이라 비판"
+checked = 2026-10-22
+source = "p24 v1·v2 후보 1·2 — ACL 논문 PDF·Duolingo 공식 블로그 원문. 강도 강(자사 데이터)"
+
+[[fact]]
+id = "F_r_no_inlesson_vs_separate"
+text = "'새 레슨 안에서 옛 항목을 다시 내기'와 '별도 복습 세션'을 같은 조건에서 비교한 연구는 찾지 못했다. Duolingo 공식 글은 레슨과 스토리가 같은 의사소통 목표(예: 호텔 예약 문제)를 공유해 어휘·표현을 여러 번 노출한다고 설계를 설명하지만 효과 측정은 없다. いろどり 入門 1·2과 PDF에서는 1과 표현의 2과 재등장이 부분적(ありがとうございます 5회, 인사말은 없음). 재등장 횟수 논의(Nation: 6~20회)는 2차 인용뿐이고 합의가 없다"
+checked = 2026-10-22
+source = "p24 v2 각도 요약·후보 6·11, p27 v2 후보 2 — 공식 글·교재 PDF 원문, 2차 인용. 강도 중(없음을 사실로)"
+
+[[fact]]
+id = "F_r_webb_generation"
+text = "Webb 2005(초록 원문): 같은 시간을 주면 문장 세 개 읽기가 문장 만들기보다 단어 지식에 유리했고, 쓰기에 시간을 더 주면 쓰기가 유리했다. 생성 과제의 이득은 시간 배분에 달렸다. 배치 7에서 적었던 'Webb의 10번 만남'은 노출 횟수가 아니라 검사 방식 10가지였다 — 노출 10번의 원문 근거는 확인되지 않았다(Webb 2007·Joe 1998은 OUP 403)"
+checked = 2026-10-22
+source = "p24 v2 후보 3·4 — Cambridge Core 초록 원문. 강도 중"
+
+[[fact]]
+id = "F_travel_scripts"
+text = "장면별로 실제 오가는 말이 원문으로 모였다. 편의점(여러 출처 일치): 「ポイントカードはお持ちですか」「温めますか」「袋、ご利用ですか」「お箸とスプーン、お付けしますか」「お次でお待ちの方」 → 손님 「はい」「大丈夫です」「ないです」. 식당(NHK #20·#27·#33, 업계 글 2): 「ご注文は？」「ご注文は以上でよろしいでしょうか」「お待たせいたしました」「お会計は〇〇円でございます」「伝票をお預かりいたします」 → 「それください」「○○にします」「どれが一番おいしいですか」「どのくらい待ちますか」. 역·길(jepang.org, cotoacademy): 「三番線です」「まもなく、電車が参ります」「まっすぐ／右／左側」 → 「○○行きは何番線ですか」「○○はどこですか」「乗り間違えました」. 택시(NHK #15): 「どちらまで？」「ドアが開きます」 → 「○○までお願いします」「ここで止めてください」. 호텔(아키타현 접객 시트, MATCHA, NHK #36·#37): 「ご予約のお名前をお伺いします」「宿泊者名簿にご記入ください」「チェックアウトは◯◯時です」 → 「チェックイン／鍵／チェックアウト、お願いします」「朝食は何時ですか」「テレビがつかないんですが」. 약국(NHK #25, 京都市 PDF): 「〇〇が痛いんです」, 점원의 쉬운 말 바꾸기 「朝・昼・夜のごはんの後に飲んでください」. 쇼핑(NHK #19·#10·#11, Square): 「これ、いくらですか」「カードは使えますか」「○○はありますか」 → 「○○円です」「はい、使えます」「○○サイズでお間違いありませんか」. 미확보: 식당 입장 인원 말, 사이즈·시착의 손님 말, 면세 점원 말(절차만: 여권 필수)"
+checked = 2026-10-22
+source = "p26 v2·v3 후보 4–7·14–21 — NHK 공식 레슨 13과, 지자체·국토교통성 PDF, 업계 글, 가이드 원문. 강도 강(복수 출처 일치·공식)"
+
+[[fact]]
+id = "F_travel_short_answers"
+text = "손님이 말할 문장은 몇 개의 틀에 수렴한다: 「はい」「大丈夫です」「ないです」(정형 질문의 답), 「○○、お願いします」(체크인·열쇠·체크아웃·목적지), 「これ、ください」「○○にします」(주문·구매), 「○○はどこですか」「○○はありますか」「○○は何時ですか」「いくらですか」(묻기), 「○○が痛いんです」(증상). 점원·역무원 말은 길고 변형이 많지만 손님은 알아듣고 한 단어나 한 틀로 답하면 된다"
+checked = 2026-10-22
+source = "p26 v2·v3 장면별 대본 초안 — F_travel_scripts에서 정리. 강도 중(정리는 AI)"
+
+[[fact]]
+id = "F_nhk_easy_japanese"
+text = "NHK WORLD 'Easy Japanese' 48과: 과마다 스킷 대본(일본어·로마자·영어), 10분 MP3, PDF. 이용 조건 원문 'Download MP3 audio files and PDF text files free of charge. Downloading is limited to personal use.' — 개인 용도 한정, 앱 내장·재배포 허용 문구 없음. いろどり(국제교류기금)는 JF 시드니 페이지에 'open-access'로 소개되나 라이선스 문장(CC 여부)은 본 사이트 502·규약 404로 확인 못 함. 유튜브 대화 영상은 개인 시청만"
+checked = 2026-10-22
+source = "p26 v2 후보 1·2·7·18 — NHK 이용 안내 페이지·JF 시드니 페이지 원문. 강도 강(NHK) / 중(いろどり)"
+
+[[fact]]
+id = "F_irodori_structure"
+text = "いろどり 入門 1·2과 PDF: 과마다 Can-do 목표를 먼저 쓰고(1과 4개), 활동은 '聞いて言いましょう'(듣고 따라 말하기) 음성 단위(MP3 번호) 중심. 효과 검증 자료는 없다. JF Can-do 세부 목록(생활 일본어 Can-do 381항목)은 로그인 필요·공개 PDF 503으로 원문을 얻지 못했다"
+checked = 2026-10-22
+source = "p27 v2·v3 후보 1·2 — 교재 PDF 원문, JF 페이지 시도 기록. 강도 중(구조)"
+
+[[fact]]
+id = "F_korean_travel_posts_none"
+text = "'여행 일본어 한 달/3주 후기' 네이버 블로그 4건을 열었으나 기간·하루 양·여행에서 통했나가 모두 적힌 글은 0건(판매·협찬 성격 또는 결과 없음). 짧은 준비(1~4주) 뒤 여행 결과의 한국인 사례는 아직 없다(배치 8의 최단 2개월 사례와 같다)"
+checked = 2026-10-22
+source = "p27 v2 후보 16 — m.blog.naver.com 원문 4건. 강도 중(없음을 사실로)"
+
+[[fact]]
+id = "F_ui_patterns"
+text = "화면 역할 12개의 다른 앱 방식(원문 약 28건: 스토어 설명 6, Android Compose 공식 문서 6, 개인 블로그 화면 설명 9, 공식 블로그 1). 스크린샷 이미지는 0장이라 '강'은 없고 '중'은 홈·레슨 진행·복습 셋. (1) 홈: 연속 학습일 숫자와 다음 학습 버튼을 맨 위에(Duolingo 경로형 홈 공식 글, 말해보카). (2) 레슨 진행: 긴 과정을 작은 단위로 나누고 완료를 원으로(Duolingo), 레슨 안은 선형 진행 바. (3) 복습: 맞히면 길게, 힌트를 쓰면 몇 분 뒤 짧게(말해보카 독립 후기 2건 일치), 틀린 것은 단어장으로, Duolingo는 복습을 경로 안에 섞음. (4) 카드: 뜻 → 떠올리기(입력·소리) → 힌트 단계(뜻 → 첫 글자 → 정답)(말해보카), Anki 버튼 4개는 Again/Hard 혼동 지적(요약). (5) 온보딩: 목표를 먼저 고르고 그 코스로(Memrise·Busuu 스토어). (6) 역할극: 주제 1개 → 대화 → 번역 버튼 말풍선 옆(말해보카 실전회화는 어려워 흥미가 떨어졌다는 후기 1건). (7) 듣기: 고르기 → 받아쓰기, 속도 조절·3회 반복 제한(말해보카). (8) 말하기: 피드백 화면 원문 0건 — 1차는 채점 없이 내 소리·원본 바꿔 듣기. (9) 완료: 완료 화면 원문 0건, 보상(점수·리그)이 과하면 학습을 가린다는 경고. (10) 복귀: Duolingo 연속 기록 복구는 이벤트·유료로만(후기 3건), 말해보카는 복구 장치 없음. (11) 설정·알림: 권한은 필요한 순간에 이유와 함께(비평 2건). (12) 오류·빈 상태: 이유 한 줄 + 대안 버튼(Snackbar 공식 예시). Material 3: 하단 탭 3~5개 권장(우리 4개는 범위 안), Linear progress, Card, Dialog(행동 확인·입력·선택), Snackbar(확인·오프라인), Button 5종"
+checked = 2026-10-22
+source = "p25 v2 후보 1–12, 가져올 패턴 목록 — 스토어·공식 문서·개인 블로그 원문. 강도 중(홈·진행·복습) / 약(나머지)"
+
+[[observation]]
+id = "O_scope_batch9"
+text = "배치 9(클라우드 searching 세션, Haiku 5.5): 유용했던 곳 — NHK Easy Japanese 레슨 페이지(대본·MP3·이용 안내), J-STAGE 본문 PDF(_pdf/-char/ja), 지자체·국토교통성 PDF, Android 개발자 Compose 컴포넌트 페이지(m3.material.io 대신), 앱 공식 페이지(일본어 지원 확정), PubMed·ERIC·Semantic Scholar API 초록, m.blog.naver.com 화면 설명 글. 정보가 없던 곳 — 레슨 안 재등장 vs 별도 복습 비교 연구, 대화 앱 말하기 효과의 메타분석·무작위 연구, Pimsleur 독립 연구, 짧은 준비 뒤 여행 결과의 한국인 사례, 앱 스크린샷(alt 텍스트가 일반 문구뿐), 완료·설정·오류 화면 원문, 식당 입장 인원 말·면세 점원 말 원문. 막힌 곳 — Google Scholar 403(세션에 따라 다름), OUP·Cloudflare 저장소(Webb 2007·Joe 1998·Pellicer-Sánchez 2010), JF 사이트 502/503·Can-do 로그인, irodori 본 사이트 502, JapanesePod101 403, Mondly 405, pageflows·uxarchive 403, m3.material.io(JS), Glossika notion(JS). 1차 보고서는 생성 3~4분 만에 와서 원문 0~3건이었고, 원문 최소 수·구체 주소를 적은 이어서 지시(v2·v3)로 20~28건까지 올랐다"
+source = "research (p22–p27)"
+date = 2026-10-22
+
+[[hypothesis]]
+id = "H_scene_dialogue_units"
+text = "학습 단위를 단어 묶음이 아니라 '장면 대화'(점원 말 → 손님 답의 줄 3~8개)로 두면, 여행 때 그 자리에서 들을 말과 할 말이 함께 떠오른다"
+source = "ai"
+conditions = ["S_conversation_first", "S_goal_travel", "F_units_are_sets"]
+evidence = ["F_travel_scenes", "F_travel_scripts", "F_apps_speaking_loop", "F_r_no_inlesson_vs_separate"]
+against = ["F_r_pimsleur_no_study"]
+test_plan = "사용자 판정: 여행 뒤 장면별로 '들렸다/말했다'. 재생: 장면별 줄의 복습 정답률"
+note = "Duolingo의 '의사소통 목표 공유' 설계와 いろどり의 과당 Can-do 구조가 같은 방향이나 효과 측정은 없다 — 조각 수준의 근거(장면·정형 질문)는 강"
+
+[[hypothesis]]
+id = "H_speak_loop"
+text = "손님 줄은 '뜻을 보고 소리 내어 말하기 → 공개·음성 비교 → 자기 판정 → 간격 뒤 같은 줄 다시 말하기' 고리로 익히면 혼자서도 첫 주에 말할 수 있다"
+source = "ai"
+conditions = ["S_conversation_first", "S_solo_app", "S_zero_level"]
+evidence = ["F_apps_speaking_loop", "F_r_retrieval", "F_r_feedback", "F_r_direction", "F_r_shadowing_beginner"]
+against = ["F_r_ai_speaking_anxiety"]
+test_plan = "재생: 말하기 줄의 자기 판정 '됐다' 비율 추이(1주·2주). 사용자 판정: 여행에서 말이 나왔나"
+note = "골격은 앱 13곳 공통(설계 근거). 효과의 직접 근거는 없고 떠올리기·방향성·초급 쉐도잉 연구가 간접 근거. against는 '독립 연구 없음'을 가리킨다"
+
+[[hypothesis]]
+id = "H_listen_only_lines"
+text = "점원·역무원 말은 말하기를 요구하지 않고 '듣고 → 뜻이나 답을 고르기'만 시키면, 적은 시간으로 정형 질문에 답할 수 있게 된다"
+source = "ai"
+conditions = ["S_conversation_first", "F_travel_scripts"]
+evidence = ["F_r_direction", "F_travel_short_answers", "F_travel_convenience_store"]
+test_plan = "재생: 듣기 줄의 정답률과 반복 횟수. 사용자 판정: 점원 질문이 들렸나"
+note = "연습한 방향이 남는다는 근거를 듣기에 적용한 것. 정형 표현은 듣기의 단어 식별을 돕지만(F_r_speech_rate) 점원 질문을 직접 훈련한 연구는 없다(p22 v2)"
+
+[[hypothesis]]
+id = "H_slightly_slow_tts"
+text = "점원 줄의 음성을 보통보다 조금(약 15%) 느리게 시작해 보통 속도로 올리면 알아듣기가 늘고, 너무 느리게(절반)는 이득이 없다"
+source = "p22 후보 9 (약)"
+conditions = ["F_tts_builtin", "S_zero_level"]
+evidence = ["F_r_speech_rate"]
+against = ["F_r_speech_rate"]
+test_plan = "재생: 속도별 듣기 정답률. 사용자 판정: 실제 점원 속도에서 들렸나"
+note = "중학생 1편 초록. 속도만 바꾸면 효과 없다는 반대 보고가 있어 양쪽에 적었다"
+
+[[hypothesis]]
+id = "H_frame_slot_reuse"
+text = "손님 줄을 틀(「○○、お願いします」 등)과 슬롯(鍵·チェックイン·○○駅)으로 쪼개 두면, 같은 틀이 새 장면마다 다른 슬롯으로 다시 나와 '배운 것을 다시 써먹는' 구조가 되고 단어 카드를 섞지 않아도 재등장이 생긴다"
+source = "ai"
+conditions = ["F_travel_short_answers", "S_conversation_first"]
+evidence = ["F_r_webb_generation", "F_r_interleave", "F_r_no_inlesson_vs_separate"]
+against = ["F_r_no_inlesson_vs_separate"]
+test_plan = "재생: 같은 틀의 두 번째 장면 정답률이 첫 장면보다 높은가. 사용자 판정: 새 장면에서 틀이 바로 나왔나"
+note = "직접 비교 연구가 없어 against에도 같은 사실을 적었다. 생성 과제는 시간을 짧게(Webb 2005)"
+
+[[hypothesis]]
+id = "H_separate_review_primary"
+text = "재등장의 기본은 별도 복습 세션(간격)이고, 레슨 안 재등장은 같은 장면의 옛 줄 2~3개로 제한해야 한다. 단어 슬롯은 섞지 않는다"
+source = "ai"
+conditions = ["F_units_are_sets", "S_simple_review"]
+evidence = ["F_r_hlr", "F_r_spacing", "F_r_interleave", "F_r_no_inlesson_vs_separate"]
+test_plan = "재생: 레슨 안 재등장 있음/없음 두 조건의 1주 뒤 떠올리기 정답률(앱 안 A/B). 사용자 판정: 레슨이 길어졌나"
+
+[[hypothesis]]
+id = "H_review_1_7_trip"
+text = "당일 세션 끝 재확인 → 1일 → 7일 → 여행 전 점검(출발 7일 안에 한 번)의 떠올리기 4회로도 여행 시점에 기억이 남고, 사용자가 바란 단순한 구조를 지킨다"
+source = "ai"
+conditions = ["S_simple_review", "S_goal_travel", "F_review_intervals"]
+evidence = ["F_r_spacing", "F_r_hlr"]
+against = ["F_r_spacing"]
+test_plan = "재생: 7일 복습과 여행 전 점검의 정답률. 사용자 판정: 여행에서 떠올랐나. 틀리면 14일 단계를 더한다"
+note = "F_r_spacing은 5회가 가장 좋았다고 하므로 against에도 둔다. 1·1·4일(3회)보다는 전체 기간이 길다"
+
+[[hypothesis]]
+id = "H_shadow_short_daily"
+text = "하루 10분 안쪽으로 30초 분량 줄 묶음을 1회 듣고 5회 따라 말하는 것이 초급에서 말하기·듣기 점수를 올린다"
+source = "p27 후보 13 (중)"
+conditions = ["S_zero_level", "S_solo_app"]
+evidence = ["F_r_shadowing_beginner", "F_r_asr_meta"]
+against = ["F_r_shadowing_beginner"]
+test_plan = "재생: 쉐도잉 횟수와 다음 날 말하기 자기 판정. 사용자 판정: 따라 말하기가 부담이었나"
+note = "통제군 없는 연구(下薗)와 차이 없음 연구(布袋)가 같이 있어 양쪽에 적었다"
+
+[[hypothesis]]
+id = "H_asr_not_first"
+text = "음성 인식 채점은 첫 버전에 넣지 않아도 된다 — 혼자 연습에서 효과가 불확실하고 과교정 불만이 반복되며, '상대가 알아들었는가'는 여행에서 판정된다. 자기 판정 + 음성 비교로 시작한다"
+source = "ai"
+conditions = ["S_solo_app", "S_zero_level"]
+evidence = ["F_r_asr_meta", "F_apps_speaking_loop", "F_ui_patterns"]
+against = ["F_r_asr_meta"]
+test_plan = "사용자 판정: 여행에서 못 알아들은 말이 발음 때문이었나. 그러면 안드로이드 음성 인식(SpeechRecognizer)으로 2차에 넣는다"
+note = "전체 g=0.69는 ASR 쪽이지만 혼자 연습 g=0.44(CI에 0)와 초보 연구 2편이 조건이다"
+
+[[hypothesis]]
+id = "H_hint_interval"
+text = "힌트를 쓴 카드는 맞혀도 짧은 간격(당일·1일)으로 돌리면, '알았음' 과신을 줄이면서 복습 수를 크게 늘리지 않는다"
+source = "p25 후보 8 (중)"
+conditions = ["F_known_not_retested"]
+evidence = ["F_ui_patterns", "F_r_feedback"]
+test_plan = "재생: 힌트 사용 카드의 다음 복습 정답률"
+note = "말해보카 독립 후기 2건의 설계. 효과 근거는 없다"
+
+[[hypothesis]]
+id = "H_kana_side_track"
+text = "가나를 대화 트랙과 분리된 보조 트랙(가타카나 음식·메뉴 먼저, 하루 몇 글자)으로 두면 대화 진도를 막지 않으면서 메뉴 읽기 병목을 줄인다"
+source = "ai"
+conditions = ["S_conversation_first", "F_kana_same_flow"]
+evidence = ["F_travel_prepared_cases", "F_korean_cases", "F_r_mnemonic"]
+against = ["F_travel_prepared_cases"]
+test_plan = "재생: 보조 트랙 진도와 대화 트랙 진도의 상관. 사용자 판정: 메뉴를 읽었나, 가나가 부담이었나"
+note = "against: 준비 뒤 여행 사례 2건은 가타카나가 병목이었다고 하므로 '보조'로 미루는 것이 틀릴 수 있다"
+
+[[rule]]
+id = "R_scene_units_v2"
+version = 2
+status = "hypothesis"
+method = "학습 단위를 여행 장면 대화로 바꾼다. 장면(편의점 계산, 식당 입장·주문·계산, 역·열차·길 묻기, 호텔, 택시, 쇼핑·면세, 약국·긴급) 하나에 줄 3~8개를 두고, 줄마다 종류를 붙인다: 점원 줄(알아듣기만), 손님 줄(말하기, 틀+슬롯), 읽기 줄(메뉴·표지의 가타카나·한자 몇 개). 순서는 불편 순위(식당 → 역 → 편의점·상점 → 숙소 → 택시·길 → 약국·긴급)로 두되 첫 장면은 가장 짧은 답(はい／大丈夫です／ないです)이 나오는 편의점으로 시작한다. 기존 단어 158개는 장면의 슬롯 단어로 재배치한다"
+reason = "불편은 식당·역·소매에 몰리고(설문 3개년), 그 자리에서 오가는 말은 점원의 긴 정형 질문과 손님의 짧은 답으로 모양이 정해져 있다(원문 대본). 단어 묶음으로 배우면 들을 말과 할 말이 따로 떠오른다"
+serves = ["G_use_in_japan", "G_request"]
+conditions = ["F_units_are_sets", "S_goal_travel", "S_conversation_first"]
+evidence = ["F_travel_scenes", "F_travel_scripts", "F_travel_short_answers", "F_apps_speaking_loop"]
+against = ["F_r_no_inlesson_vs_separate"]
+test_plan = "사용자 판정: 여행 뒤 장면별 '들렸다/말했다'. 재생: 장면별 줄 정답률(H_scene_dialogue_units)"
+note = "v1(단어를 장면 유닛으로 재배치)에서 더한 조건: S_conversation_first — 단어가 아니라 대화 줄이 단위가 됐다. 결정 2026-10-22(AI, 사용자 위임): 채택"
+
+[[rule]]
+id = "R_two_directions_v2"
+version = 2
+status = "hypothesis"
+method = "줄 종류가 연습 방향을 정한다. 점원 줄: 듣기 → 뜻 고르기 또는 '뭐라고 답할까' 고르기 → 정답 음성 다시 듣기(말하기 요구 없음). 손님 줄: 처음 배울 때 듣고 따라 말하기 3~5회(쉐도잉) → 복습에서는 한국어 뜻·장면을 보고 소리 내어 말하기 → 일본어·음성 공개 → 자기 판정(됐다/막혔다). 읽기 줄: 일본어를 보고 뜻·소리 떠올리기. 한 항목을 양방향으로 묻지 않는다. 점원 줄 음성은 처음엔 보통보다 조금 느리게(TTS 속도 약 0.85) 들려주고 두 번째 맞힌 뒤 보통 속도로"
+reason = "연습한 방향이 그 방향 시험에 남는다. 여행에서 점원 말은 듣기만, 손님 말은 말하기만 필요하므로 방향을 하나씩 정해 시간을 아낀다"
+serves = ["G_request", "G_recognize"]
+conditions = ["F_review_one_direction", "S_goal_travel", "S_conversation_first"]
+evidence = ["F_r_direction", "F_apps_speaking_loop", "F_r_shadowing_beginner", "F_travel_short_answers", "F_r_speech_rate", "F_r_formulaic_chunks"]
+side_effects = ["H_asr_not_first", "H_slightly_slow_tts"]
+test_plan = "사용자 판정: 여행에서 점원 질문이 들렸나, 요청문을 말했나. 재생: 종류별 정답률(H_speak_loop, H_listen_only_lines)"
+note = "v1(단어는 일→뜻, 요청문은 뜻→일 + 따라 말하기)에서 더한 조건: S_conversation_first — 방향을 '항목 종류'에 붙였다. H_recognition_only_gap을 고치는 결정. 결정 2026-10-22(AI, 사용자 위임): 채택"
+
+[[rule]]
+id = "R_frame_slot"
+version = 1
+status = "hypothesis"
+method = "손님 줄은 틀과 슬롯으로 저장한다(틀 「○○、お願いします」, 슬롯 鍵·チェックイン·○○駅…). 틀은 처음 나온 장면에서 배우고, 다음 장면에서는 같은 틀에 새 슬롯만 넣어 말하게 한다(빈칸은 슬롯 하나, 항목당 10초 안쪽). 슬롯 단어는 장면별로 몰아서 배우고 섞지 않는다. 틀의 복습 성적은 틀 하나로 모은다"
+reason = "손님 말은 몇 개의 틀로 수렴하므로(원문 대본), 틀이 새 장면에서 다시 나오면 '배운 것을 다시 써먹는' 구조가 저절로 생긴다. 단어를 섞으면 불리하고(g=−0.39) 생성 과제는 시간을 짧게 줄 때만 유리하다"
+serves = ["G_reuse", "G_request"]
+conditions = ["F_travel_short_answers", "S_conversation_first"]
+evidence = ["F_r_interleave", "F_r_webb_generation", "F_travel_scripts"]
+against = ["F_r_no_inlesson_vs_separate"]
+test_plan = "재생: 같은 틀의 둘째 장면 첫 시도 정답률(H_frame_slot_reuse). 사용자 판정"
+note = "결정 2026-10-22(AI, 사용자 위임): 채택. 데이터 구조: line(kind, frame_id, slot_id, scene_id)"
+
+[[rule]]
+id = "R_reuse_structure"
+version = 1
+status = "hypothesis"
+method = "다시 써먹기는 세 겹으로 한다. (1) 별도 복습 세션이 기본: 모든 줄이 간격표(R_spacing_wider_v2)를 탄다. (2) 레슨 안 재등장은 소량: 새 장면 대화에 이전 장면의 틀 1~2개와 인사·감사 줄을 넣되 옛 줄은 2~3개를 넘기지 않는다. (3) 종합 역할극: 장면을 셋 이상 끝내면 장면을 섞은 역할극(점원 줄을 듣고 손님 줄을 말하기)을 주 1회 내고, 여행 전 점검에서 전체를 한 번 돈다. 레슨 안 재등장 있음/없음을 설정으로 바꿀 수 있게 해 효과를 잰다"
+reason = "원문 근거가 있는 것은 별도 간격 복습이고, 레슨 안 재등장은 설계 사례만 있다. 그래서 기본은 복습 세션, 재등장은 소량으로 두고 앱 안에서 직접 잰다. 장면 그림과 짝지은 섞기(역할극)는 근거가 있다"
+serves = ["G_reuse"]
+conditions = ["S_simple_review", "F_units_are_sets"]
+evidence = ["F_r_hlr", "F_r_spacing", "F_r_no_inlesson_vs_separate", "F_r_interleave", "F_irodori_structure"]
+test_plan = "재생: 재등장 있음/없음 조건의 1주 뒤 정답률(H_separate_review_primary). 사용자 판정: 레슨이 길어졌나"
+note = "결정 2026-10-22(AI, 사용자 위임): 채택. 사용자 목표 G_reuse의 구현"
+
+[[rule]]
+id = "R_spacing_wider_v2"
+version = 2
+status = "hypothesis"
+method = "간격표: 학습 당일 세션 끝 재확인 1회 → 1일 → 7일 → 여행 전 점검(출발 7일 안에 한 번) → 완료. '알았음'도 1일 복습을 한 번 받는다. 틀리면 1일로 돌아가고, 헷갈림·힌트 사용은 현재 단계 유지. 여행 날짜가 7일보다 가까우면 남은 단계를 여행 전 점검 하나로 합친다. 하루 복습 상한 30(R_backlog_cap)"
+reason = "사용자는 1일·7일의 단순한 구조를 바라고, 연구는 간격 모양보다 전체 기간과 횟수를 본다. 1·1·4일(3회, 6일)보다 기간이 길고 횟수는 4회로 5회에 가깝다. 여행 전 점검은 기억을 여행 시점에 맞춘다"
+serves = ["G_recognize", "G_request"]
+conditions = ["F_review_intervals", "S_goal_travel", "S_simple_review"]
+evidence = ["F_r_spacing", "F_r_hlr", "F_apps_review_backlog"]
+against = ["F_r_spacing"]
+test_plan = "재생: 7일 복습·여행 전 점검 정답률(H_review_1_7_trip). 틀리면 14일 단계를 더한다"
+note = "v1(당일→1→3→7→14)에서 더한 조건: S_simple_review — 사용자 의도대로 단계를 줄이고 여행 전 점검으로 대신했다. 결정 2026-10-22(AI, 사용자 위임): 채택"
+
+[[rule]]
+id = "R_daily_session"
+version = 1
+status = "hypothesis"
+method = "하루 한 세션 = 밀린 복습(최대 30) → 새 줄 5개(점원 줄은 듣고 고르기, 손님 줄은 듣고 따라 말하기 3~5회 뒤 뜻 보고 말하기) → 당일 재확인(새 줄 5개를 한 번 더) → 결과 한 줄. 목표 10~15분. 복습이 상한을 넘으면 새 줄을 쉰다. 쉐도잉 묶음은 30초 분량을 넘기지 않는다"
+reason = "초급 쉐도잉 연구가 매일 10분 고정에서 효과를 봤고, 하루 5개는 지금 앱의 단위이며, 당일 재확인은 떠올리기 횟수를 공짜로 하나 더한다"
+serves = ["G_system", "G_request"]
+conditions = ["F_session_5_ordered", "S_simple_review"]
+evidence = ["F_r_shadowing_beginner", "F_r_batch_size", "F_r_spacing", "F_korean_cases"]
+test_plan = "재생: 세션 길이 분포(10~15분 안인가), 새 줄을 쉰 날 수. 사용자 판정: 하루 분량이 맞았나"
+note = "결정 2026-10-22(AI, 사용자 위임): 채택"
+
+[[rule]]
+id = "R_kana_plan_v2"
+version = 2
+status = "hypothesis"
+method = "가나는 대화 트랙과 분리된 보조 트랙으로 둔다. 모든 줄에 한글 발음 표기와 TTS를 붙여 가나를 몰라도 대화 트랙이 진행되게 하고(표기는 눌러야 보임), 보조 트랙은 가타카나 음식·메뉴 글자부터 하루 몇 글자씩 v1의 방식(그림·소리 연상, 듣고 고르기, 비슷한 쌍 섞기)으로 간다. 히라가나는 그다음, 한자는 역·출구 몇 개만 읽기 줄로"
+reason = "사용자 우선순위가 글자보다 대화이고, 메뉴 읽기 병목은 가타카나이므로 가타카나만 앞에 둔다. 연상·섞기 방식의 근거는 v1과 같다"
+serves = ["G_recognize"]
+conditions = ["F_kana_same_flow", "F_kana_basic_only", "S_zero_level", "S_conversation_first"]
+evidence = ["F_r_mnemonic", "F_r_interleave", "F_apps_mcq", "F_travel_convenience_store", "F_travel_prepared_cases", "F_korean_cases"]
+against = ["F_travel_prepared_cases"]
+test_plan = "재생: 보조 트랙 진도와 발음 표기 공개 비율. 사용자 판정: 메뉴를 읽었나(H_kana_side_track)"
+note = "v1에서 더한 조건: S_conversation_first — 가나를 선행 조건에서 보조 트랙으로 옮겼다. 결정 2026-10-22(AI, 사용자 위임): 채택"
+
+[[rule]]
+id = "R_data_own_scripts"
+version = 1
+status = "hypothesis"
+method = "앱 데이터의 대화 줄은 자체 작성한다: 복수 공개 출처에 공통으로 나오는 정형 접객 표현(F_travel_scripts)을 바탕으로 장면당 줄을 쓰고, 줄마다 근거 출처(어느 자료의 어느 장면)와 검토 기록을 남긴다. NHK Easy Japanese·いろどり·유튜브 대본과 음성은 개인 학습 참고로만 쓰고 앱에 넣지 않는다. 음성은 내장 TTS로 만든다. 미확보 장면(식당 입장 인원, 시착, 면세 점원 말)은 '원문 미확인' 표시를 달고 사용자 여행 뒤 실제 들은 말로 고친다"
+reason = "NHK는 개인 용도 한정이 원문으로 확인됐고 いろどり는 라이선스 문장을 못 봤다. 정형 접객 표현 자체는 여러 공개 자료에 같은 문장으로 나온다"
+serves = ["G_evidence", "G_use_in_japan"]
+conditions = ["F_data_generated_unreviewed", "F_nhk_easy_japanese"]
+evidence = ["F_travel_scripts", "F_nhk_easy_japanese"]
+test_plan = "줄마다 출처 칸이 비어 있지 않은지 센다. 사용자 판정: 여행에서 실제 들은 말과 달랐던 줄"
+note = "결정 2026-10-22(AI, 사용자 위임): 채택. R_data_review와 같이 한다"
+
+[[rule]]
+id = "R_ui_patterns_v1"
+version = 1
+status = "hypothesis"
+method = "화면은 다음 패턴을 가져온다(출처 앱 → Material 3 컴포넌트). 홈: 연속 일수 + 남은 날 + '오늘 복습 N개 / 새 장면' 버튼을 맨 위에(Duolingo·말해보카 → Navigation bar 4탭 유지). 레슨 목록: 장면을 작은 단위 원으로 잇고 완료를 채움(Duolingo → Linear progress). 카드: 뜻 → 떠올리기(소리·고르기) → 힌트 단계(뜻 → 첫 글자·첫 소리 → 정답)(말해보카 → Card·Button). 복습: 홈 맨 위 '오늘 복습 N개', 힌트 쓴 카드는 짧은 간격(말해보카 → Badge). 말하기: 듣기 → 따라 말하기 → 내 소리·원본 바꿔 듣기, 채점 없음(말해보카·Memrise). 듣기: 고르기 → 받아쓰기 순, 속도 조절·3회 제한(말해보카). 역할극: 장면 1개 → 점원 말 듣고 손님 줄 말하기 → 막히면 한국어 보기 버튼을 말풍선 옆에(말해보카·Lucida). 완료: 맞은 수 하나 + 다음 버튼, 점수·리그 없음. 복귀: 끊긴 날을 나무라지 않고 '오늘 다시 시작' 한 줄 + 가장 짧은 단위(Duolingo 복구는 유료·이벤트라 넣지 않음). 설정·알림: 권한은 첫 레슨 뒤 이유 한 줄과 함께. 오류·빈 상태: 이유 한 줄 + 대안 버튼(Snackbar). 화면마다 출처 앱을 주석으로 남긴다"
+reason = "같은 역할의 화면을 앱 3개 이상에서 비교해 공통된 방식을 가져온다(R_ui_borrow). 스크린샷은 못 봤지만 공식 글·독립 후기·Material 3 공식 문서가 같은 방향이다"
+serves = ["G_borrow_ui", "G_system"]
+conditions = ["F_ui_patterns", "F_no_reminder"]
+evidence = ["F_ui_patterns", "F_r_streak", "F_r_implementation_intention"]
+test_plan = "사용자 판정: 화면이 낯설지 않았나. 화면마다 출처 주석이 있는지 센다. 근거 '약'인 화면(완료·복귀·설정·오류)은 사용 뒤 고친다"
+note = "결정 2026-10-22(AI, 사용자 위임): 채택. 근거 강도는 홈·진행·복습 중, 나머지 약(F_ui_patterns)"
+
+[[rule]]
+id = "R_asr_later"
+version = 1
+status = "hypothesis"
+method = "첫 버전은 말하기 판정을 자기 판정(됐다/막혔다) + 내 녹음·TTS 바꿔 듣기로 한다. 음성 인식 채점은 여행 뒤 사용자 판정에서 '발음 때문에 못 알아들었다'가 나오면 2차로 넣는다(안드로이드 SpeechRecognizer, 일본어)"
+reason = "혼자 연습에서 ASR 효과는 불확실하고(g=0.44, CI에 0) 과교정 불만이 반복된다. 점수보다 '상대가 알아들었는가'가 기준이다"
+serves = ["G_system"]
+conditions = ["S_solo_app", "F_tts_builtin"]
+evidence = ["F_r_asr_meta", "F_apps_speaking_loop", "F_ui_patterns"]
+against = ["F_r_asr_meta"]
+test_plan = "사용자 판정: 여행에서 못 알아들은 말의 원인(H_asr_not_first)"
+note = "결정 2026-10-22(AI, 사용자 위임): 채택"
+
+[[rule]]
+id = "R_measure_cycle"
+version = 1
+status = "hypothesis"
+method = "모든 줄의 결과(듣기 정답, 말하기 자기 판정, 힌트 사용, 쉐도잉 횟수)를 이벤트 로그에 남기고, 2주마다 같은 확인 세트(장면당 점원 줄 2 + 손님 줄 2)로 정답률을 잰다. 누적 학습 시간을 홈에 센다. 여행 뒤 장면별로 '들렸다/말했다/못 했다'를 받아 판정 기록(source=user)으로 넣고, 못 한 줄은 조건을 더해 쪼갠다"
+reason = "앱 효과는 수십 시간 뒤에 보이고, 판정의 기준은 사용자 실사용이다. 2주 확인 세트는 재생 검사의 재료가 된다"
+serves = ["G_evidence"]
+conditions = ["F_event_log_local", "S_goal_travel"]
+evidence = ["F_r_app_effects", "F_korean_cases"]
+test_plan = "확인 세트가 2주마다 실행됐는지 로그에서 센다"
+note = "결정 2026-10-22(AI, 사용자 위임): 채택. 제안 v0.1의 10번"
+
 # ---------- 판정 기록 ----------
 [[judgment]]
 of = "H_false_known_lost"
@@ -669,3 +1046,51 @@ verdict = "지지"
 date = 2026-10-22
 note = "조사 근거: 연습한 방향이 그 방향 시험에 남고 생산은 수용보다 어렵다(F_r_direction). 실사용 판정은 여행 뒤"
 evidence = ["F_r_direction"]
+
+[[judgment]]
+of = "H_speak_loop"
+source = "ai"
+verdict = "일부"
+date = 2026-10-22
+note = "골격은 앱 13곳 공통이고 떠올리기·방향성·초급 쉐도잉 근거가 받치지만, 이 고리의 효과를 직접 잰 독립 연구는 없다. 채택하되 2주 확인 세트로 시험"
+evidence = ["F_apps_speaking_loop", "F_r_retrieval", "F_r_shadowing_beginner"]
+
+[[judgment]]
+of = "H_separate_review_primary"
+source = "ai"
+verdict = "지지"
+date = 2026-10-22
+note = "간격 복습(HLR, 메타분석)은 원문 근거가 강하고 레슨 안 재등장은 설계 사례뿐. 단어 섞기 불리(g=−0.39)"
+evidence = ["F_r_hlr", "F_r_spacing", "F_r_interleave", "F_r_no_inlesson_vs_separate"]
+
+[[judgment]]
+of = "H_frame_slot_reuse"
+source = "ai"
+verdict = "일부"
+date = 2026-10-22
+note = "틀 수렴은 원문 대본에서 확인. 재등장 효과의 직접 근거는 없음 — 앱 안에서 잰다"
+evidence = ["F_travel_short_answers", "F_r_webb_generation"]
+
+[[judgment]]
+of = "H_asr_not_first"
+source = "ai"
+verdict = "지지"
+date = 2026-10-22
+note = "혼자 연습 하위 집단 g=0.44(CI에 0), 초보 연구 2편, 과교정 불만 반복"
+evidence = ["F_r_asr_meta", "F_apps_speaking_loop"]
+
+[[judgment]]
+of = "H_review_1_7_trip"
+source = "ai"
+verdict = "일부"
+date = 2026-10-22
+note = "간격 모양은 무관하고 전체 기간·횟수가 중요하다는 근거와 맞지만 4회는 5회보다 적다. 사용자 의도(단순)를 우선하고 재생으로 시험"
+evidence = ["F_r_spacing"]
+
+[[judgment]]
+of = "H_backlog_risk"
+source = "ai"
+verdict = "지지"
+date = 2026-10-22
+note = "밀린 복습이 포기 이유라는 보고가 많다. 알았음 재시험의 대가로 받아들이고 상한 30으로 관리(accepted_for)"
+evidence = ["F_apps_review_backlog"]
