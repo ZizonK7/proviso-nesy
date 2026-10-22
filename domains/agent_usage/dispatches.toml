@@ -4794,7 +4794,12 @@ rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2
 reason = "앞 회차 p11의 실측에 원문 열기·읽기 턴(후보 수만큼 열기 + 고치기)을 더해 ×1.2–2.0. 분당 턴은 페이지 읽기가 요약 모델을 거쳐 웹 띠 아래쪽으로 봄. 이어 보낸 에이전트라 턴당 맥락이 앞 회차의 1.6–1.8배 + 새로 읽는 페이지. 범위가 두 구간에 걸쳐 긴 쪽 '다른 일'. 계산기 '모름'. 여섯 건 동시"
 hypotheses = ["H_haiku_web_rate", "H_web_blocked_turns"]
 [dispatch.actual]
-status = "unknown"
+minutes = 12.4  # 완료 알림 실행 시간 746초. 두 회차가 한 파일: 합계 119턴·15.07M에서 p11 몫(53턴·3.98M)을 뺌
+turns = 66
+tokens_m = 11.1
+[dispatch.review]
+reason = "넷 다 맞음(말한 구간 '다른 일' 12.4분, 턴 66, 토큰 11.1M=T1). 분당 5.3턴 — 원문을 curl+bs4로 읽어 웹 띠(7–11)보다 느렸다(WebFetch가 이 호스트들을 못 찾아 curl로 읽음). 턴당 맥락 16.8만 = 앞 회차 7.5만의 2.2배(R_resume_ctx_v2의 1.6–1.8배보다 큼: 페이지 본문을 통째로 읽은 몫). 원문 약 50건 확인, 후보 2개 추가"
+hypotheses = ["H_haiku_web_rate", "H_web_blocked_turns"]
 
 [[dispatch]]
 id = "p18"
