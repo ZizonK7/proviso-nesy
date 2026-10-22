@@ -5303,3 +5303,46 @@ wrong = ["R_turns_analogy_v2", "R_time_turns_v2"]
 why = "조건 흐림"
 reason = "말한 구간 '신경 끄기'(15–48분)인데 실제 13.1분 '다른 일'. 토큰 6.3M=T1(예측 T1–T2, 12–40M 아래). 빗댄 p18(이어 보낸 하위 에이전트 83턴 23분)은 맥락을 이어받은 작업자였고, 클라우드 세션은 1차 보고를 3~4분 만에 얕게 보내고 끝나서 메인이 이어서 지시를 보내야 깊어졌다 — 보내기 전에 알 수 있던 조건(S_cloud_session)을 안 쪼갰다. 캐시 읽기가 토큰의 대부분이라 턴당 맥락도 작았다"
 hypotheses = ["H_cloud_session_rounds", "H_read_originals_rate"]
+
+[[dispatch]]
+id = "p28"
+project = "language_learning"
+batch = 10
+date = 2026-10-22
+task = "조사(클라우드 세션 'searching', Haiku 5.5, 배치 9 ui_patterns 세션에 이어서 v3): 앱 8개의 스토어 스크린샷 그림 파일을 받아 Read로 직접 보고 화면 역할 12개 표를 실제 화면 근거로 다시 채움. 완료 조건: 앱 5개·30장 이상 본 뒤 전송"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "예"
+S_mid_notes = "모름"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "일부"
+S_web_blocked = "모름"
+S_read_originals = "예"
+S_cloud_session = "예"
+[dispatch.predicted]
+written_before = true
+analog = "p25"
+told = "다른 일"
+minutes = [10, 25]
+turns = [60, 120]
+tokens_class = ["T1"]
+tokens_m = [4, 10]
+rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2"]
+reason = "빗댄 p25(같은 세션 v1+v2, 15.0분·3.1M)에 그림 받기·열기 턴(앱 8 × 스토어 HTML 1 + 그림 10 × 받기·보기)을 더해 60–120턴. 그림 한 장이 Read에서 약 1–2천 토큰이라 턴당 맥락은 글 읽기보다 작지만 장수가 많아 4–10M. H_cloud_session_rounds대로 1차가 얕으면 이어서 지시 1회 → 10–25분 '다른 일'. 완료 조건(5개 앱·30장 전에는 보내지 말 것)을 처음부터 적어 1차 깊이가 달라지는지 본다. 모르는 것: 그림 CDN(play-lh.googleusercontent.com)이 searching 환경에서 열리는지 — 막히면 '잠깐'에 끝난다. 계산기 '모름'(Haiku)"
+hypotheses = ["H_cloud_session_rounds", "H_read_originals_rate"]
+[dispatch.actual]
+status = "unknown"
