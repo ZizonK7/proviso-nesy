@@ -5002,3 +5002,261 @@ tokens_m = 21.0
 [dispatch.review]
 reason = "넷 다 맞음(말한 구간 '다른 일' 20.8분, 턴 97, 토큰 21.0M=T2). 여섯 중 가장 길고 턴이 많았다: 앱 스토어 24쪽·공식 10곳·기사 16건 등 약 57곳을 curl+pandoc으로 읽고 후보 7개를 더해 보고서가 532줄(상한 450 초과). 분당 4.7턴. 턴당 맥락 21.6만 = 앞 회차 8.6만의 2.5배. 1차 오류 정정 다수(다른 앱을 섞어 본 것, 기사 오독)"
 hypotheses = ["H_haiku_web_rate", "H_web_blocked_turns"]
+
+
+# 2026-10-22 배치 9 (p22–p27): 사용자 지시로 조사를 클라우드 환경 'searching'(env_01MZX426uZooVUwnbJ5RV66Q)의 새 세션(Haiku 5.5)에서 돌린다.
+# 하위 에이전트가 아니라 별도 세션이라 실측은 세션 이벤트(시작·끝 시각, 턴 수)로 잰다. 토큰은 세션 정보에 있으면 적고 없으면 비운다(배치 5의 클라우드 실행과 같은 사정).
+# 상황: 새 세션(S_resumed=아니오)이 원문을 읽는 조사(S_read_originals=예). 그 환경의 네트워크는 메인이 확인하지 못해 S_web_blocked=모름.
+# 손 예측: 배치 7(검색 45–77턴)과 배치 8(원문 63–97턴)을 한 세션이 다 하므로 80–160턴, 분당 3.3–5.3턴(H_read_originals_rate)으로 15–45분 → 걸치면 긴 쪽 '신경 끄기'.
+
+[[dispatch]]
+id = "p22"
+project = "language_learning"
+batch = 9
+date = 2026-10-22
+task = "조사(클라우드 세션 'searching', Haiku 5.5): speaking_listening — 왕초보 말하기·듣기 습득 연구 → 엄격한 양식 보고서를 세션 메시지로 전달 + 작업 폴더에 파일. 웹, 코드 없음"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "일부"
+S_web_blocked = "모름"
+S_read_originals = "예"
+[dispatch.predicted]
+written_before = true
+analog = "p18"
+told = "신경 끄기"
+minutes = [15, 45]
+turns = [80, 160]
+tokens_class = ["T1", "T2"]
+tokens_m = [12, 40]
+rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "새 세션이 검색(배치 7: 45–77턴)과 원문 읽기(배치 8: 63–97턴)를 한 번에 하므로 둘을 더한 80–160턴. 분당 턴은 원문 읽기 띠 3.3–5.3(H_read_originals_rate) → 15–48분, 두 구간에 걸쳐 긴 쪽 '신경 끄기'. 토큰은 원문 읽기 턴당 17–24만. 클라우드 세션이라 실측 방법이 다르다(세션 이벤트). 계산기 '모름'"
+hypotheses = ["H_read_originals_rate", "H_haiku_web_rate"]
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p23"
+project = "language_learning"
+batch = 9
+date = 2026-10-22
+task = "조사(클라우드 세션 'searching', Haiku 5.5): conversation_apps — 대화 중심 앱의 장치(10개 이상) → 엄격한 양식 보고서를 세션 메시지로 전달 + 작업 폴더에 파일. 웹, 코드 없음"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "일부"
+S_web_blocked = "모름"
+S_read_originals = "예"
+[dispatch.predicted]
+written_before = true
+analog = "p18"
+told = "신경 끄기"
+minutes = [15, 45]
+turns = [80, 160]
+tokens_class = ["T1", "T2"]
+tokens_m = [12, 40]
+rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "새 세션이 검색(배치 7: 45–77턴)과 원문 읽기(배치 8: 63–97턴)를 한 번에 하므로 둘을 더한 80–160턴. 분당 턴은 원문 읽기 띠 3.3–5.3(H_read_originals_rate) → 15–48분, 두 구간에 걸쳐 긴 쪽 '신경 끄기'. 토큰은 원문 읽기 턴당 17–24만. 클라우드 세션이라 실측 방법이 다르다(세션 이벤트). 계산기 '모름'"
+hypotheses = ["H_read_originals_rate", "H_haiku_web_rate"]
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p24"
+project = "language_learning"
+batch = 9
+date = 2026-10-22
+task = "조사(클라우드 세션 'searching', Haiku 5.5): reuse_structure — 배운 것을 다시 써먹는 구조(연구+사례, 재등장 설계 초안) → 엄격한 양식 보고서를 세션 메시지로 전달 + 작업 폴더에 파일. 웹, 코드 없음"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "일부"
+S_web_blocked = "모름"
+S_read_originals = "예"
+[dispatch.predicted]
+written_before = true
+analog = "p18"
+told = "신경 끄기"
+minutes = [15, 45]
+turns = [80, 160]
+tokens_class = ["T1", "T2"]
+tokens_m = [12, 40]
+rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "새 세션이 검색(배치 7: 45–77턴)과 원문 읽기(배치 8: 63–97턴)를 한 번에 하므로 둘을 더한 80–160턴. 분당 턴은 원문 읽기 띠 3.3–5.3(H_read_originals_rate) → 15–48분, 두 구간에 걸쳐 긴 쪽 '신경 끄기'. 토큰은 원문 읽기 턴당 17–24만. 클라우드 세션이라 실측 방법이 다르다(세션 이벤트). 계산기 '모름'"
+hypotheses = ["H_read_originals_rate", "H_haiku_web_rate"]
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p25"
+project = "language_learning"
+batch = 9
+date = 2026-10-22
+task = "조사(클라우드 세션 'searching', Haiku 5.5): ui_patterns — 화면 역할 12개의 다른 앱 비교와 가져올 패턴 표 → 엄격한 양식 보고서를 세션 메시지로 전달 + 작업 폴더에 파일. 웹, 코드 없음"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "일부"
+S_web_blocked = "모름"
+S_read_originals = "예"
+[dispatch.predicted]
+written_before = true
+analog = "p18"
+told = "신경 끄기"
+minutes = [15, 45]
+turns = [80, 160]
+tokens_class = ["T1", "T2"]
+tokens_m = [12, 40]
+rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "새 세션이 검색(배치 7: 45–77턴)과 원문 읽기(배치 8: 63–97턴)를 한 번에 하므로 둘을 더한 80–160턴. 분당 턴은 원문 읽기 띠 3.3–5.3(H_read_originals_rate) → 15–48분, 두 구간에 걸쳐 긴 쪽 '신경 끄기'. 토큰은 원문 읽기 턴당 17–24만. 클라우드 세션이라 실측 방법이 다르다(세션 이벤트). 계산기 '모름'"
+hypotheses = ["H_read_originals_rate", "H_haiku_web_rate"]
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p26"
+project = "language_learning"
+batch = 9
+date = 2026-10-22
+task = "조사(클라우드 세션 'searching', Haiku 5.5): travel_dialogues — 여행 장면 대본·듣기 자료와 이용 조건 → 엄격한 양식 보고서를 세션 메시지로 전달 + 작업 폴더에 파일. 웹, 코드 없음"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "일부"
+S_web_blocked = "모름"
+S_read_originals = "예"
+[dispatch.predicted]
+written_before = true
+analog = "p18"
+told = "신경 끄기"
+minutes = [15, 45]
+turns = [80, 160]
+tokens_class = ["T1", "T2"]
+tokens_m = [12, 40]
+rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "새 세션이 검색(배치 7: 45–77턴)과 원문 읽기(배치 8: 63–97턴)를 한 번에 하므로 둘을 더한 80–160턴. 분당 턴은 원문 읽기 띠 3.3–5.3(H_read_originals_rate) → 15–48분, 두 구간에 걸쳐 긴 쪽 '신경 끄기'. 토큰은 원문 읽기 턴당 17–24만. 클라우드 세션이라 실측 방법이 다르다(세션 이벤트). 계산기 '모름'"
+hypotheses = ["H_read_originals_rate", "H_haiku_web_rate"]
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p27"
+project = "language_learning"
+batch = 9
+date = 2026-10-22
+task = "조사(클라우드 세션 'searching', Haiku 5.5): experiments_courses — 단기 코스·실험 사례와 8주 설계 초안 → 엄격한 양식 보고서를 세션 메시지로 전달 + 작업 폴더에 파일. 웹, 코드 없음"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "일부"
+S_web_blocked = "모름"
+S_read_originals = "예"
+[dispatch.predicted]
+written_before = true
+analog = "p18"
+told = "신경 끄기"
+minutes = [15, 45]
+turns = [80, 160]
+tokens_class = ["T1", "T2"]
+tokens_m = [12, 40]
+rules = ["R_research", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "새 세션이 검색(배치 7: 45–77턴)과 원문 읽기(배치 8: 63–97턴)를 한 번에 하므로 둘을 더한 80–160턴. 분당 턴은 원문 읽기 띠 3.3–5.3(H_read_originals_rate) → 15–48분, 두 구간에 걸쳐 긴 쪽 '신경 끄기'. 토큰은 원문 읽기 턴당 17–24만. 클라우드 세션이라 실측 방법이 다르다(세션 이벤트). 계산기 '모름'"
+hypotheses = ["H_read_originals_rate", "H_haiku_web_rate"]
+[dispatch.actual]
+status = "unknown"
