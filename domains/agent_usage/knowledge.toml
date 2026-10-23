@@ -1432,21 +1432,14 @@ reason = "찾고 골라 정해진 양식 하나로 쓰는 턴만 든다. 정해�
 id = "C_turns_no_check"
 text = "외부 확인이 없는 첫 회차의 읽고 쓰는 일(문서·비평·자료 묶음)은 구현보다 턴이 적다"
 source = "ai (2026-10-19, 계산 조각)"
+status = "retired"
+replaced_by = ["C_turns_base"]
 reason = "확인 → 고침 고리가 없어서, 읽고 정리해 쓰는 턴만 든다"
 conditions = ["S_external_check", "S_research", "S_fixed_input", "S_resumed"]
-check = ["piece_direction", "piece_size"]
-seen_until = "p05"
 split_from = "C_turns_base"
 why_condition = "기준 턴은 확인 고리가 있는 구현에서 왔고, 돌려 보고 고치는 고리가 턴의 큰 몫이다. 확인할 바깥 시스템이 없으면 그 몫이 없다"
-note = "앞 절반에서 기준값(C_turns_base)에서 떼어 냈다: 앞 절반 빈틈 25건 중 15건이 외부 확인 없음. 쪼갠 까닭: 기준 턴은 확인 고리가 있는 구현에서 왔고, 확인 고리가 턴의 큰 몫이다"
-fit = "d01–p04 끝난 기록에서 맞춤: 턴 11/16건 (d17, d21, d22, d33, d34, d35 …)"
-[[hypothesis.effect]]
-on = "turns"
-op = "mul"
-range = [0.158, 0.307]
-dir = "down"
-when = { S_external_check = "아니오", S_research = "!예", S_fixed_input = "!예", S_resumed = "!예" }
-reason = "확인할 바깥 시스템이 없으면 돌려 보고 고치는 턴이 없다"
+note = "방향이 틀려 물림(2026-10-23, why = 이유 틀림): p05 뒤 시험 기록에서 '외부 확인 없음'이 오히려 턴이 많았다(있음/없음 ×1.52) — p29(빌드 도구가 없어 확인을 못 한 구현, 200턴)와 p38(grep·sed로 24개 문서를 대조·고침, 303턴). 앞 절반에서 턴이 적었던 것은 '확인이 없어서'가 아니라 '읽고 쓰는 문서·비평 일이어서'였고, S_external_check=아니오는 그 대리 변수였다. 확인이 없어도 짓는 양이 많으면(p29) 또는 짧은 턴을 많이 치면(p38) 턴은 줄지 않는다. 대신하는 것: 기준값. 다음 정리 후보: 일의 모양(문서·비평 vs 구현 vs 대조·점검)을 직접 받는 상태로 다시 쪼갠다"
+fit = "d01–p04 끝난 기록에서 맞춤: 턴 11/16건 (d17, d21, d22, d33, d34, d35 …) — 물릴 때의 기록"
 
 [[hypothesis]]
 id = "C_turns_resumed"
