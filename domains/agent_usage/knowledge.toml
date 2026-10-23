@@ -225,6 +225,11 @@ id = "S_template_given"
 text = "본뜰 완성 문서(같은 양식으로 이미 끝난 문서 하나)가 있고, 지시서가 '그 문서의 구조·항목을 그대로 따르라'고 적은 쓰기 일이다. 설계가 정해진 것(S_spec_fixed)과 다르다: 설계는 무엇을 쓸지를 정하고, 본보기는 어떻게 생겼는지를 보여 준다 (2026-10-22 p33부터 기록)"
 known_before = true
 
+[[state]]
+id = "S_no_code"
+text = "코드를 짓지도 고치지도 않는 일이다(문서·비평·자료 묶음·대조 — 지시서에 '코드 없음'이 있거나 산출물이 글뿐). 코드를 쓰면 외부 확인이 없어도 돌려 보고 고치는 턴이 생긴다 (2026-10-23 세움, d17 등 13건·p29·p38을 사후에 채움)"
+known_before = true
+
 # ---------- 관찰 ----------
 [[observation]]
 id = "O_b1_tokens_low"
@@ -1433,13 +1438,31 @@ id = "C_turns_no_check"
 text = "외부 확인이 없는 첫 회차의 읽고 쓰는 일(문서·비평·자료 묶음)은 구현보다 턴이 적다"
 source = "ai (2026-10-19, 계산 조각)"
 status = "retired"
-replaced_by = ["C_turns_base"]
-reason = "확인 → 고침 고리가 없어서, 읽고 정리해 쓰는 턴만 든다"
+replaced_by = ["C_turns_no_check_v2"]
 conditions = ["S_external_check", "S_research", "S_fixed_input", "S_resumed"]
 split_from = "C_turns_base"
 why_condition = "기준 턴은 확인 고리가 있는 구현에서 왔고, 돌려 보고 고치는 고리가 턴의 큰 몫이다. 확인할 바깥 시스템이 없으면 그 몫이 없다"
-note = "방향이 틀려 물림(2026-10-23, why = 이유 틀림): p05 뒤 시험 기록에서 '외부 확인 없음'이 오히려 턴이 많았다(있음/없음 ×1.52) — p29(빌드 도구가 없어 확인을 못 한 구현, 200턴)와 p38(grep·sed로 24개 문서를 대조·고침, 303턴). 앞 절반에서 턴이 적었던 것은 '확인이 없어서'가 아니라 '읽고 쓰는 문서·비평 일이어서'였고, S_external_check=아니오는 그 대리 변수였다. 확인이 없어도 짓는 양이 많으면(p29) 또는 짧은 턴을 많이 치면(p38) 턴은 줄지 않는다. 대신하는 것: 기준값. 다음 정리 후보: 일의 모양(문서·비평 vs 구현 vs 대조·점검)을 직접 받는 상태로 다시 쪼갠다"
-fit = "d01–p04 끝난 기록에서 맞춤: 턴 11/16건 (d17, d21, d22, d33, d34, d35 …) — 물릴 때의 기록"
+note = "2026-10-23 쪼갬(why = 조건 흐림): p05 뒤 시험 기록에서 '외부 확인 없음'이 오히려 턴이 많았다(있음/없음 ×1.52) — p29(빌드 도구가 없어 확인을 못 한 코드 구현, 200턴)와 p38(기존 문서 24개를 grep·sed로 대조해 고침, 303턴). 조각 문장은 '읽고 쓰는 일(문서·비평)'이라고 했는데 조건에는 그 뜻이 없었다 — S_external_check=아니오가 문서 일의 대리 변수였다. 빠진 조건 둘을 더해 v2로: 코드를 쓰지 않는 일(S_no_code=예)이고 기존 것을 고치는 일이 아니다(S_fix_existing≠예). 맞춘 13건(d17·d21·d22·d31·d32·d34·d35·d48·d51·d52·d53·d54·d74)은 모두 두 조건을 만족한다"
+
+[[hypothesis]]
+id = "C_turns_no_check_v2"
+text = "외부 확인이 없고 코드를 쓰지 않으며 기존 것을 고치는 일도 아닌 첫 회차의 읽고 쓰는 일(문서·비평·자료 묶음)은 구현보다 턴이 적다"
+source = "ai (2026-10-23, 계산 조각)"
+reason = "확인 → 고침 고리가 없고 지을 코드도 없어서, 읽고 정리해 쓰는 턴만 든다"
+conditions = ["S_external_check", "S_research", "S_fixed_input", "S_resumed", "S_no_code", "S_fix_existing"]
+check = ["piece_direction", "piece_size"]
+seen_until = "p05"
+split_from = "C_turns_no_check"
+why_condition = "코드를 쓰면 외부 확인이 없어도 스스로 돌려 보고 고치는 턴이 생긴다(p29: 빌드 도구 없이도 200턴). 기존 것을 고치는 일은 찾아 읽고 한두 줄 바꾸는 짧은 턴을 많이 친다(p38: 303턴). 둘 다 '외부 확인 없음'만으로는 걸러지지 않는다"
+note = "C_turns_no_check에서 조건 둘(S_no_code=예, S_fix_existing≠예)을 더해 쪼갬. 앞 조각이 맞췄던 13건은 그대로 맞고, 반박하던 p29·p38은 조건 밖으로 나간다. 범위는 앞 조각과 같다(fit으로 다시 맞춰 확인: 같은 13건)"
+fit = "d01–p04 끝난 기록에서 맞춤: 턴 10/13건 (d17, d21, d22, d34, d35, d48 …)"
+[[hypothesis.effect]]
+on = "turns"
+op = "mul"
+range = [0.158, 0.307]
+dir = "down"
+when = { S_external_check = "아니오", S_research = "!예", S_fixed_input = "!예", S_resumed = "!예", S_no_code = "예", S_fix_existing = "!예" }
+reason = "확인할 바깥 시스템도 지을 코드도 없으면 돌려 보고 고치는 턴이 없다. 기존 것을 고치는 일은 따로 본다"
 
 [[hypothesis]]
 id = "C_turns_resumed"
