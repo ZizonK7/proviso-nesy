@@ -5551,3 +5551,325 @@ tokens_m = 31.5
 [dispatch.review]
 reason = "넷 다 맞음: 말한 구간 '다른 일'(11.2분), 턴 48(45–85), 토큰 31.5M(25–50, T2). 분당 4.3턴. 같은 에이전트 4회차 — 턴은 50→48로 더 줄지 않았다(데이터 작성 92자가 출력 긴 턴으로). 턴당 맥락 66만(앞 회차 59만의 1.1배)"
 hypotheses = ["H_resumed_impl_turns"]
+
+[[dispatch]]
+id = "p33"
+project = "professor_king"
+batch = 15
+date = 2026-10-22
+task = "문서+코드 새로 쓰기(설계 고정·본보기 문서 있음, Opus 5.5 high, 세션 안 하위 에이전트): 자율 수업 과목 0부 3회차 수업 설계 문서(각 ~450줄) + 실습 코드 뼈대 + CPU 검증"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "일부"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_long_doc = "예"
+S_impl_hour = "아니오"
+S_open_seams = "아니오"
+S_cloud_session = "아니오"
+S_template_given = "예"
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [21.1, 42.3]
+turns = [94.8, 190]
+tokens_m = [30.4, 60.8]
+note = "상황 파일(project=proviso 대입, analog=p05)로 돌린 문서 1건 기준 답. 문서 N건 묶음에 그대로 못 쓴다 — 계산기에 '문서 수' 상태가 없다. 비유 계산(p05)도 21.4–42.7분·98–186턴"
+[dispatch.predicted]
+written_before = true
+analog = "p05"
+told = "신경 끄기"
+minutes = [40, 130]
+turns = [250, 420]
+tokens_class = ["T3", "T4"]
+tokens_m = [60, 190]
+rules = ["R_doc_work_v2", "R_variants", "R_time_turns_v2", "R_tok_long_v5", "R_long_doc_save"]
+reason = "문서 3건: 첫 건 140–200턴(R_doc_work_v2 설계 고정 새로 쓰기 130–160 + 코드 뼈대·CPU 검증 ×1.1–1.3), 뒤 건은 같은 틀 반복이라 ×0.5–0.8(R_variants ×0.3–0.5보다 보수적으로) → 턴 범위. 분 = 턴 ÷ 3.2–6.3(R_time_turns_v2 구현·문서 띠). 토큰 = 턴 × 25–46만(R_tok_long_v5 새로 짓기, 문서가 맥락에 쌓여 위쪽). 다섯 건을 동시에 보냄(CPU 4코어 공유)"
+hypotheses = []
+[dispatch.actual]
+minutes = 56.5  # scripts/agent_usage.py: 22:58:21–23:54:52 UTC, 응답 192, 도구 103, 캐시 생성 0.82M + 캐시 읽기 50.68M + 출력 ~6.6만
+turns = 192
+tokens_m = 51.6
+[dispatch.review]
+wrong = ["R_doc_work_v2", "R_variants"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기'(56.5분) 맞음. 턴 192(범위 250–420 아래)·토큰 51.6M(T2, 범위 60–190 아래)은 높게 잡음 → 양 탓. 분당 3.4턴(새로 쓰기 띠 아래쪽), 턴당 맥락 27만(C_ctx_base 안). 문서 3건을 각각 큰 Write 몇 번으로 끝냈고(문서 1건 ≈ 55턴), 고정 몫(규칙 문서 읽기·환경 설치)이 컸다. R_doc_work_v2의 130–160턴은 본보기 없이 여러 파일을 읽고 쓰는 글의 숫자였다 — 조건 흐림 → 새 상태 S_template_given, 가설 H_template_doc_turns"
+hypotheses = ["H_template_doc_turns"]
+
+[[dispatch]]
+id = "p34"
+project = "professor_king"
+batch = 15
+date = 2026-10-22
+task = "문서+코드 새로 쓰기(설계 고정·본보기 문서 있음, Opus 5.5 high, 세션 안): 자율 수업 과목 1부 전반 6회차(언어 모델 직접 구현, 한 코드베이스로 이어짐) 수업 설계 문서 + 코드 뼈대 + CPU 검증(토크나이저·소형 GPT 몇 백 스텝)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "일부"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_long_doc = "예"
+S_impl_hour = "아니오"
+S_open_seams = "아니오"
+S_cloud_session = "아니오"
+S_template_given = "예"
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [21.1, 42.3]
+turns = [94.8, 190]
+tokens_m = [30.4, 60.8]
+note = "상황 파일(project=proviso 대입, analog=p05)로 돌린 문서 1건 기준 답. 문서 N건 묶음에 그대로 못 쓴다 — 계산기에 '문서 수' 상태가 없다. 비유 계산(p05)도 21.4–42.7분·98–186턴"
+[dispatch.predicted]
+written_before = true
+analog = "p05"
+told = "신경 끄기"
+minutes = [75, 250]
+turns = [480, 800]
+tokens_class = ["T4"]
+tokens_m = [120, 370]
+rules = ["R_doc_work_v2", "R_variants", "R_time_turns_v2", "R_tok_long_v5", "R_long_doc_save"]
+reason = "문서 6건: 첫 건 140–200턴(R_doc_work_v2 설계 고정 새로 쓰기 130–160 + 코드 뼈대·CPU 검증 ×1.1–1.3), 뒤 건은 같은 틀 반복이라 ×0.5–0.8(R_variants ×0.3–0.5보다 보수적으로) → 턴 범위. 분 = 턴 ÷ 3.2–6.3(R_time_turns_v2 구현·문서 띠). 토큰 = 턴 × 25–46만(R_tok_long_v5 새로 짓기, 문서가 맥락에 쌓여 위쪽). 다섯 건을 동시에 보냄(CPU 4코어 공유)"
+hypotheses = []
+[dispatch.actual]
+minutes = 88.3  # 22:58:21–00:26:40 UTC, 응답 237, 도구 130, 캐시 생성 1.98M + 캐시 읽기 75.71M + 출력 ~10.4만
+turns = 237
+tokens_m = 77.8
+[dispatch.review]
+wrong = ["R_doc_work_v2", "R_variants"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기'(88.3분) 맞음. 분 범위(75–250) 안. 턴 237(480–800 아래)·토큰 77.8M(T3, 120–370 아래) 높게 잡음 → 양 탓. 6건인데 3건(p33)의 1.23배 턴 — 문서 수에 비례하지 않는다. 분당 2.7턴(CPU 경합으로 학습 실행 대기, 에이전트 보고). 틀린 조각은 p33과 같다"
+hypotheses = ["H_template_doc_turns"]
+
+[[dispatch]]
+id = "p35"
+project = "professor_king"
+batch = 15
+date = 2026-10-22
+task = "문서+코드 새로 쓰기(설계 고정·본보기 문서 있음, Opus 5.5 high, 세션 안): 자율 수업 과목 1부 후반 4회차(공개 모델 미세조정·평가) 수업 설계 문서 + 코드 뼈대. 모델 내려받기가 막혀(403) 무작위 초기화 장난감 모델로 경로만 검증"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "일부"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_long_doc = "예"
+S_impl_hour = "아니오"
+S_open_seams = "아니오"
+S_cloud_session = "아니오"
+S_template_given = "예"
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [21.1, 42.3]
+turns = [94.8, 190]
+tokens_m = [30.4, 60.8]
+note = "상황 파일(project=proviso 대입, analog=p05)로 돌린 문서 1건 기준 답. 문서 N건 묶음에 그대로 못 쓴다 — 계산기에 '문서 수' 상태가 없다. 비유 계산(p05)도 21.4–42.7분·98–186턴"
+[dispatch.predicted]
+written_before = true
+analog = "p05"
+told = "신경 끄기"
+minutes = [55, 190]
+turns = [350, 600]
+tokens_class = ["T3", "T4"]
+tokens_m = [90, 280]
+rules = ["R_doc_work_v2", "R_variants", "R_time_turns_v2", "R_tok_long_v5", "R_long_doc_save"]
+reason = "문서 4건: 첫 건 140–200턴(R_doc_work_v2 설계 고정 새로 쓰기 130–160 + 코드 뼈대·CPU 검증 ×1.1–1.3), 뒤 건은 같은 틀 반복이라 ×0.5–0.8(R_variants ×0.3–0.5보다 보수적으로) → 턴 범위. 분 = 턴 ÷ 3.2–6.3(R_time_turns_v2 구현·문서 띠). 토큰 = 턴 × 25–46만(R_tok_long_v5 새로 짓기, 문서가 맥락에 쌓여 위쪽). 다섯 건을 동시에 보냄(CPU 4코어 공유) + 내려받기 시도·pip 설치 몫 몇 분(R_verify_once)"
+hypotheses = []
+[dispatch.actual]
+minutes = 84.8  # 22:58:21–00:23:08 UTC, 응답 211, 도구 114, 캐시 생성 1.42M + 캐시 읽기 60.30M + 출력 ~8.2만
+turns = 211
+tokens_m = 61.8
+[dispatch.review]
+wrong = ["R_doc_work_v2", "R_variants"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기'(84.8분) 맞음, 분 범위 안. 턴 211(350–600 아래) 높게 잡음, 토큰 61.8M은 T3로 등급은 맞고 범위(90–280) 아래. 분당 2.5턴 — 다섯 중 가장 느림(장난감 HF 모델 만들기·peft 설치·CPU 경합). 틀린 조각은 p33과 같다"
+hypotheses = ["H_template_doc_turns"]
+
+[[dispatch]]
+id = "p36"
+project = "professor_king"
+batch = 15
+date = 2026-10-22
+task = "문서+코드 새로 쓰기(설계 고정·본보기 문서 있음, Opus 5.5 high, 세션 안): 자율 수업 과목 2부 6회차(VAE·확산·조건부·잠재 확산·손글씨 모델 비교) 수업 설계 문서 + 코드 뼈대 + CPU 검증(소형 VAE·DDPM 몇 천 스텝)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "일부"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_long_doc = "예"
+S_impl_hour = "아니오"
+S_open_seams = "아니오"
+S_cloud_session = "아니오"
+S_template_given = "예"
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [21.1, 42.3]
+turns = [94.8, 190]
+tokens_m = [30.4, 60.8]
+note = "상황 파일(project=proviso 대입, analog=p05)로 돌린 문서 1건 기준 답. 문서 N건 묶음에 그대로 못 쓴다 — 계산기에 '문서 수' 상태가 없다. 비유 계산(p05)도 21.4–42.7분·98–186턴"
+[dispatch.predicted]
+written_before = true
+analog = "p05"
+told = "신경 끄기"
+minutes = [75, 250]
+turns = [480, 800]
+tokens_class = ["T4"]
+tokens_m = [120, 370]
+rules = ["R_doc_work_v2", "R_variants", "R_time_turns_v2", "R_tok_long_v5", "R_long_doc_save"]
+reason = "문서 6건: 첫 건 140–200턴(R_doc_work_v2 설계 고정 새로 쓰기 130–160 + 코드 뼈대·CPU 검증 ×1.1–1.3), 뒤 건은 같은 틀 반복이라 ×0.5–0.8(R_variants ×0.3–0.5보다 보수적으로) → 턴 범위. 분 = 턴 ÷ 3.2–6.3(R_time_turns_v2 구현·문서 띠). 토큰 = 턴 × 25–46만(R_tok_long_v5 새로 짓기, 문서가 맥락에 쌓여 위쪽). 다섯 건을 동시에 보냄(CPU 4코어 공유). 확산 모델 유도가 길어 문서가 더 길 수 있음"
+hypotheses = []
+[dispatch.actual]
+minutes = 100.1  # 22:58:21–00:38:24 UTC, 응답 324, 도구 183, 캐시 생성 1.62M + 캐시 읽기 110.96M + 출력 ~12.1만
+turns = 324
+tokens_m = 112.7
+[dispatch.review]
+wrong = ["R_doc_work_v2", "R_variants"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기'(100.1분) 맞음, 분 범위 안. 턴 324(480–800 아래)·토큰 112.7M(T3, 120–370 바로 아래) 높게 잡음. 다섯 중 가장 많은 턴·토큰: 확산 모델 학습을 CPU 경합으로 다시 돌렸고(에이전트 보고) 두 작가 데이터 생성·font 변환기 실행이 더 있었다(S_external_check 일부가 실제론 예에 가까움). 틀린 조각은 p33과 같다"
+hypotheses = ["H_template_doc_turns"]
+
+[[dispatch]]
+id = "p37"
+project = "professor_king"
+batch = 15
+date = 2026-10-22
+task = "문서+코드 새로 쓰기(설계 고정·본보기 문서 있음, Opus 5.5 high, 세션 안): 자율 수업 과목 3부 4회차(양자화·메모리 예산·캡스톤·보고서) 수업 설계 문서 + 코드 뼈대 + CPU 검증(int8 양자화 오차)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "일부"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_long_doc = "예"
+S_impl_hour = "아니오"
+S_open_seams = "아니오"
+S_cloud_session = "아니오"
+S_template_given = "예"
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [21.1, 42.3]
+turns = [94.8, 190]
+tokens_m = [30.4, 60.8]
+note = "상황 파일(project=proviso 대입, analog=p05)로 돌린 문서 1건 기준 답. 문서 N건 묶음에 그대로 못 쓴다 — 계산기에 '문서 수' 상태가 없다. 비유 계산(p05)도 21.4–42.7분·98–186턴"
+[dispatch.predicted]
+written_before = true
+analog = "p05"
+told = "신경 끄기"
+minutes = [55, 190]
+turns = [350, 600]
+tokens_class = ["T3", "T4"]
+tokens_m = [90, 280]
+rules = ["R_doc_work_v2", "R_variants", "R_time_turns_v2", "R_tok_long_v5", "R_long_doc_save"]
+reason = "문서 4건: 첫 건 140–200턴(R_doc_work_v2 설계 고정 새로 쓰기 130–160 + 코드 뼈대·CPU 검증 ×1.1–1.3), 뒤 건은 같은 틀 반복이라 ×0.5–0.8(R_variants ×0.3–0.5보다 보수적으로) → 턴 범위. 분 = 턴 ÷ 3.2–6.3(R_time_turns_v2 구현·문서 띠). 토큰 = 턴 × 25–46만(R_tok_long_v5 새로 짓기, 문서가 맥락에 쌓여 위쪽). 다섯 건을 동시에 보냄(CPU 4코어 공유). 뒤 두 회차는 수학이 얇아 짧다"
+hypotheses = []
+[dispatch.actual]
+minutes = 56.6  # 22:58:21–23:55:00 UTC, 응답 159, 도구 88, 캐시 생성 2.28M + 캐시 읽기 38.32M + 출력 ~8.3만
+turns = 159
+tokens_m = 40.7
+[dispatch.review]
+wrong = ["R_doc_work_v2", "R_variants"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기'(56.6분, 하한 55 바로 위) 맞음. 턴 159(350–600 아래)·토큰 40.7M(T2, 90–280 아래) 높게 잡음 → 양 탓. 분당 2.8턴, 턴당 맥락 26만. 틀린 조각은 p33과 같다"
+hypotheses = ["H_template_doc_turns"]
+
+[[dispatch]]
+id = "p38"
+project = "professor_king"
+batch = 16
+date = 2026-10-23
+task = "기존 문서 고치기(Opus 5.5 high, 세션 안): 수업 설계 문서 24개의 교차 맞춤 — 뒤 회차가 앞 회차를 인용한 누적 문제 맥락을 실제 내용과 대조해 표시 제거·수치 정정, 표기 통일, 코드 import 경로 확인, 각 문서 도입부 자기완결성, 커리큘럼 반영. 새로 쓰기 없음"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "예"
+S_long_doc = "아니오"
+S_impl_hour = "아니오"
+S_open_seams = "아니오"
+S_cloud_session = "아니오"
+S_template_given = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [25, 60]
+turns = [120, 240]
+tokens_class = ["T2", "T3"]
+tokens_m = [20, 70]
+rules = ["R_doc_work_v2", "R_time_turns_v2", "R_tok_long_v5"]
+reason = "24개 문서를 부분 읽기(grep+sed)로 대조하고 작은 편집을 많이 한다: 읽기 50~80턴 + 편집 60~140턴 → 120–240턴. 수정·빌더 띠 분당 4–6.5 → 20–60분, 걸쳐서 긴 쪽 '신경 끄기'. 기존 고치기라 턴당 13–25만(R_tok_long_v5 고치기) → 20–70M. p33–p37의 교훈(본보기가 있으면 쓰기 턴이 적다)은 쓰기에만 해당하고 이번은 대조·고치기라 적용하지 않음"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"  # 보낸 뒤 아직 끝나지 않음(2026-10-23 00:50 UTC 기준). 끝나면 scripts/agent_usage.py 실측으로 채운다

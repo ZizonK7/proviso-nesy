@@ -220,6 +220,11 @@ id = "S_cloud_session"
 text = "메인 세션 안의 하위 에이전트가 아니라 클라우드 세션(create_session)으로 보낸 작업자다. 메인과 맥락을 공유하지 않고, 보고서를 세션 메시지로 보내면 턴이 끝나며, 이어서 지시(send_message)로 회차를 더한다 (2026-10-22 배치 9부터 기록)"
 known_before = true
 
+[[state]]
+id = "S_template_given"
+text = "본뜰 완성 문서(같은 양식으로 이미 끝난 문서 하나)가 있고, 지시서가 '그 문서의 구조·항목을 그대로 따르라'고 적은 쓰기 일이다. 설계가 정해진 것(S_spec_fixed)과 다르다: 설계는 무엇을 쓸지를 정하고, 본보기는 어떻게 생겼는지를 보여 준다 (2026-10-22 p33부터 기록)"
+known_before = true
+
 # ---------- 관찰 ----------
 [[observation]]
 id = "O_b1_tokens_low"
@@ -536,6 +541,12 @@ date = 2026-10-22
 [[observation]]
 id = "O_b12_resumed_impl"
 text = "p30(설계 v1 2단계, 1단계를 만든 Opus 에이전트에 이어 보냄, 빌드 도구 없음): 13.4분·75턴·37.3M. 첫 회차 p29(34.1분·200턴·62.7M)의 턴 ×0.38, 분 ×0.39, 분당 턴 5.6(같음), 턴당 맥락 50만(×1.6). 새 파일 13·고친 파일 12, 순수 Kotlin 테스트 12개 추가(누적 25 통과). 말한 구간 '다른 일'은 맞았으나 분 범위(20–40)와 턴 범위(120–220) 아래"
+source = "measured"
+date = 2026-10-22
+
+[[observation]]
+id = "O_b15_template_docs"
+text = "p33–p37(수업 설계 문서 3·6·4·6·4건 + 코드 뼈대 + CPU 검증, 본보기 문서 1-1을 그대로 본뜨게 함, Opus high 다섯 동시): 56.5·88.3·84.8·100.1·56.6분, 192·237·211·324·159턴, 51.6·77.8·61.8·112.7·40.7M. 문서 1건당 40–65턴(긴 Write 몇 번 + 실행 확인)이고 턴은 문서 수에 비례하지 않는다(3건 192턴, 6건 237·324턴). 분당 턴 2.5–3.4(새로 쓰기 띠 아래쪽; CPU 4코어를 다섯이 나눠 써 실행 대기가 끼었다). 턴당 맥락 22–35만. 손 예측(첫 문서 140–200턴 + 뒤 문서 ×0.5–0.8)은 턴·토큰을 1.5–3배 높게 잡았고 말한 구간 '신경 끄기'는 5/5 맞음(분 범위는 p34·p36이 아래)"
 source = "measured"
 date = 2026-10-22
 
@@ -1331,6 +1342,14 @@ source = "measured (p29→p30, 2026-10-22)"
 conditions = ["S_resumed", "S_spec_fixed"]
 evidence = ["O_b12_resumed_impl"]
 test_plan = "같은 에이전트에 이어 보낸 다음 구현 기록(p31부터)으로 시험(SEEN_UNTIL = p30, 근거 1건). 비유 조각(C_turns_analog)에 S_resumed 쪼개기 후보"
+
+[[hypothesis]]
+id = "H_template_doc_turns"
+text = "본뜰 완성 문서가 있는 쓰기(S_template_given=예, S_spec_fixed=예)는 문서 1건이 40–65턴이고, 한 에이전트에 N건을 맡겨도 턴은 N에 비례하지 않고 고정 몫(읽기·환경 30–60턴) + 건당 30–50턴으로 는다. 분당 턴은 새로 쓰기 띠(2.5–3.5)다. 그래서 R_doc_work_v2의 '설계 고정 새로 쓰기 130–160턴'은 본보기가 없을 때의 숫자다"
+source = "measured (p33–p37, 2026-10-22)"
+conditions = ["S_template_given", "S_spec_fixed"]
+evidence = ["O_b15_template_docs"]
+test_plan = "본보기 문서를 주고 보내는 다음 쓰기 기록(p38 이후, 쓰기 일만)으로 시험(SEEN_UNTIL = p37, 근거 5건 한 배치). 틀리면 S_template_given을 '문서 길이'나 '코드 검증 유무'로 더 쪼갠다"
 
 [[hypothesis]]
 id = "H_cloud_session_rounds_v2"
