@@ -6878,3 +6878,281 @@ tokens_m = 10.5
 wrong = ["R_third_pass"]
 why = "조건 흐림"
 reason = "구간 빗나감: '다른 일'(7–15분)이라 했는데 4.8분('잠깐'). 턴 23 < 40–80, 토큰 10.5M < 20–35. 세 번째 회차에 직전 ×0.5–1.0으로 잡았는데 실제는 ×0.3 — 고칠 함수가 한 파일(app-store.js)에 모여 있고 테스트 틀이 이미 있었다. 흐렸던 조건: '건드릴 파일 수'(1–2파일이면 직전 ×0.3 근처). 계산기 5.3–10.6분도 빗나감. 배치 21 최종: 손 4/6(p53·p54·p58 빗나감 — 셋 다 실제가 더 짧음), 계산기 3/6"
+
+# 2026-10-25 병합: 브랜치 claude/relaxed-babbage-11l0ha(2026-10-20 강의 자료 정리본 여섯, 다른 비공개 저장소)의 기록. 그 브랜치에서는 p06–p11·배치 4였으나 main이 같은 번호를 다른 작업에 써서 p59–p64·배치 22로 바꿔 붙임.
+
+[[dispatch]]
+id = "p59"
+project = "professor_king"  # 2026-10-25 병합 때 "proviso"에서 고침: 일은 강의 정리본 저장소에서 했다(과제 본문 "다른 비공개 저장소"). main의 같은 종류 기록(p33–p39)과 같은 값. from_project에 없어 S_small_codebase는 모름
+batch = 22
+date = 2026-10-20
+task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p02"
+told = "다른 일"
+minutes = [6, 15]
+turns = [25, 50]
+tokens_class = ["T1"]
+tokens_m = [3, 10]
+rules = ["R_turns_analogy_v2", "R_variants", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save"]
+reason = "p02(4.5분·42턴·6.0M, 정해진 파일을 읽고 목록 하나)에 빗댐. 읽기는 정해진 텍스트 하나라 비슷하지만, 출력이 짧은 목록이 아니라 150–300줄 정리 문서(섹션마다 이어 쓰기)라 새로 쓰기 쪽 분당 턴 2.5–4 → 턴 ×0.6–1.2, 분 ×1.3–3. PDF 쪽을 그림으로 읽으면 맥락이 커져 턴당 10–20만. 계산기 기본값(1–2분)은 고정 입력을 '한 번 읽고 한 번 쓰기'로 보는데 이번 출력은 길다. 여섯을 동시에 보내 벽시계는 가장 긴 하나(녹취 포함)가 정한다. 사용자에게: 전체 10–20분 '다른 일'"
+[dispatch.calc]
+told = "잠깐"
+minutes = [1.03, 2.07]
+[dispatch.actual]
+minutes = 4.1
+turns = 34
+tokens_m = 2.8
+[dispatch.review]
+wrong = ["R_time_turns_v2"]
+why = "조건 흐림"
+reason = "구간 빗나감: '다른 일'이라 했는데 여섯 다 10분 안('잠깐'), 벽시계도 6.9분. 턴은 범위 안이고 분만 짧았다 → 속도 조각. 분당 턴을 '새로 쓰기 2.5–4'로 잡았는데 실측 7–9(p02 9.3과 같은 띠). R_time_turns_v2에는 '설계·글이 다 적힌 편집은 6–8'이 이미 있는데, 양식과 입력이 다 정해진 새 문서를 '새로 쓰기'로 읽었다 — 규칙의 '새로 쓰기'와 '다 적힌'의 경계가 흐리다. 섹션마다 이어 쓰는 짧은 턴이 많아 분당 턴이 오른다. 다음 정리 후보: R_time_turns_v2를 '무엇을 쓸지 정해진 문서(양식·입력 고정)'와 '내용을 설계하며 쓰는 문서'로 쪼개기. 계산기(1–2분)는 구간은 맞고 분은 낮았다(긴 출력 몫이 없음). 토큰은 아래로 조금 벗어남(턴당 8–9만, PDF 쪽 그림을 읽어도 작았다)."
+
+[[dispatch]]
+id = "p60"
+project = "professor_king"  # 2026-10-25 병합 때 "proviso"에서 고침: 일은 강의 정리본 저장소에서 했다(과제 본문 "다른 비공개 저장소"). main의 같은 종류 기록(p33–p39)과 같은 값. from_project에 없어 S_small_codebase는 모름
+batch = 22
+date = 2026-10-20
+task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p02"
+told = "다른 일"
+minutes = [6, 15]
+turns = [25, 50]
+tokens_class = ["T1"]
+tokens_m = [3, 10]
+rules = ["R_turns_analogy_v2", "R_variants", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save"]
+reason = "p02(4.5분·42턴·6.0M, 정해진 파일을 읽고 목록 하나)에 빗댐. 읽기는 정해진 텍스트 하나라 비슷하지만, 출력이 짧은 목록이 아니라 150–300줄 정리 문서(섹션마다 이어 쓰기)라 새로 쓰기 쪽 분당 턴 2.5–4 → 턴 ×0.6–1.2, 분 ×1.3–3. PDF 쪽을 그림으로 읽으면 맥락이 커져 턴당 10–20만. 계산기 기본값(1–2분)은 고정 입력을 '한 번 읽고 한 번 쓰기'로 보는데 이번 출력은 길다. 여섯을 동시에 보내 벽시계는 가장 긴 하나(녹취 포함)가 정한다. 사용자에게: 전체 10–20분 '다른 일'"
+[dispatch.calc]
+told = "잠깐"
+minutes = [1.03, 2.07]
+[dispatch.actual]
+minutes = 4.4
+turns = 30
+tokens_m = 2.57
+[dispatch.review]
+wrong = ["R_time_turns_v2"]
+why = "조건 흐림"
+reason = "구간 빗나감: '다른 일'이라 했는데 여섯 다 10분 안('잠깐'), 벽시계도 6.9분. 턴은 범위 안이고 분만 짧았다 → 속도 조각. 분당 턴을 '새로 쓰기 2.5–4'로 잡았는데 실측 7–9(p02 9.3과 같은 띠). R_time_turns_v2에는 '설계·글이 다 적힌 편집은 6–8'이 이미 있는데, 양식과 입력이 다 정해진 새 문서를 '새로 쓰기'로 읽었다 — 규칙의 '새로 쓰기'와 '다 적힌'의 경계가 흐리다. 섹션마다 이어 쓰는 짧은 턴이 많아 분당 턴이 오른다. 다음 정리 후보: R_time_turns_v2를 '무엇을 쓸지 정해진 문서(양식·입력 고정)'와 '내용을 설계하며 쓰는 문서'로 쪼개기. 계산기(1–2분)는 구간은 맞고 분은 낮았다(긴 출력 몫이 없음). 토큰은 아래로 조금 벗어남(턴당 8–9만, PDF 쪽 그림을 읽어도 작았다)."
+
+[[dispatch]]
+id = "p61"
+project = "professor_king"  # 2026-10-25 병합 때 "proviso"에서 고침: 일은 강의 정리본 저장소에서 했다(과제 본문 "다른 비공개 저장소"). main의 같은 종류 기록(p33–p39)과 같은 값. from_project에 없어 S_small_codebase는 모름
+batch = 22
+date = 2026-10-20
+task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽) + 수업 녹취록(약 12만 자)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p02"
+told = "다른 일"
+minutes = [10, 20]
+turns = [30, 60]
+tokens_class = ["T1"]
+tokens_m = [6, 18]
+rules = ["R_turns_analogy_v2", "R_variants", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save"]
+reason = "p02(4.5분·42턴·6.0M, 정해진 파일을 읽고 목록 하나)에 빗댐. 읽기는 정해진 텍스트 하나라 비슷하지만, 출력이 짧은 목록이 아니라 150–300줄 정리 문서(섹션마다 이어 쓰기)라 새로 쓰기 쪽 분당 턴 2.5–4 → 턴 ×0.6–1.2, 분 ×1.3–3. PDF 쪽을 그림으로 읽으면 맥락이 커져 턴당 10–20만. 녹취록이 슬라이드 텍스트의 약 9배라 읽기·대조가 붙어 분 ×1.5, 토큰 ×2. 계산기 기본값(1–2분)은 고정 입력을 '한 번 읽고 한 번 쓰기'로 보는데 이번 출력은 길다. 여섯을 동시에 보내 벽시계는 가장 긴 하나(녹취 포함)가 정한다. 사용자에게: 전체 10–20분 '다른 일'"
+[dispatch.calc]
+told = "잠깐"
+minutes = [1.03, 2.07]
+[dispatch.actual]
+minutes = 6.9
+turns = 59
+tokens_m = 7.16
+[dispatch.review]
+wrong = ["R_time_turns_v2"]
+why = "조건 흐림"
+reason = "구간 빗나감: '다른 일'이라 했는데 여섯 다 10분 안('잠깐'), 벽시계도 6.9분. 턴은 범위 안이고 분만 짧았다 → 속도 조각. 분당 턴을 '새로 쓰기 2.5–4'로 잡았는데 실측 7–9(p02 9.3과 같은 띠). R_time_turns_v2에는 '설계·글이 다 적힌 편집은 6–8'이 이미 있는데, 양식과 입력이 다 정해진 새 문서를 '새로 쓰기'로 읽었다 — 규칙의 '새로 쓰기'와 '다 적힌'의 경계가 흐리다. 섹션마다 이어 쓰는 짧은 턴이 많아 분당 턴이 오른다. 다음 정리 후보: R_time_turns_v2를 '무엇을 쓸지 정해진 문서(양식·입력 고정)'와 '내용을 설계하며 쓰는 문서'로 쪼개기. 계산기(1–2분)는 구간은 맞고 분은 낮았다(긴 출력 몫이 없음). 토큰은 범위 안(녹취록 때문에 턴당 12만)."
+
+[[dispatch]]
+id = "p62"
+project = "professor_king"  # 2026-10-25 병합 때 "proviso"에서 고침: 일은 강의 정리본 저장소에서 했다(과제 본문 "다른 비공개 저장소"). main의 같은 종류 기록(p33–p39)과 같은 값. from_project에 없어 S_small_codebase는 모름
+batch = 22
+date = 2026-10-20
+task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p02"
+told = "다른 일"
+minutes = [6, 15]
+turns = [25, 50]
+tokens_class = ["T1"]
+tokens_m = [3, 10]
+rules = ["R_turns_analogy_v2", "R_variants", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save"]
+reason = "p02(4.5분·42턴·6.0M, 정해진 파일을 읽고 목록 하나)에 빗댐. 읽기는 정해진 텍스트 하나라 비슷하지만, 출력이 짧은 목록이 아니라 150–300줄 정리 문서(섹션마다 이어 쓰기)라 새로 쓰기 쪽 분당 턴 2.5–4 → 턴 ×0.6–1.2, 분 ×1.3–3. PDF 쪽을 그림으로 읽으면 맥락이 커져 턴당 10–20만. 계산기 기본값(1–2분)은 고정 입력을 '한 번 읽고 한 번 쓰기'로 보는데 이번 출력은 길다. 여섯을 동시에 보내 벽시계는 가장 긴 하나(녹취 포함)가 정한다. 사용자에게: 전체 10–20분 '다른 일'"
+[dispatch.calc]
+told = "잠깐"
+minutes = [1.03, 2.07]
+[dispatch.actual]
+minutes = 3.9
+turns = 34
+tokens_m = 2.67
+[dispatch.review]
+wrong = ["R_time_turns_v2"]
+why = "조건 흐림"
+reason = "구간 빗나감: '다른 일'이라 했는데 여섯 다 10분 안('잠깐'), 벽시계도 6.9분. 턴은 범위 안이고 분만 짧았다 → 속도 조각. 분당 턴을 '새로 쓰기 2.5–4'로 잡았는데 실측 7–9(p02 9.3과 같은 띠). R_time_turns_v2에는 '설계·글이 다 적힌 편집은 6–8'이 이미 있는데, 양식과 입력이 다 정해진 새 문서를 '새로 쓰기'로 읽었다 — 규칙의 '새로 쓰기'와 '다 적힌'의 경계가 흐리다. 섹션마다 이어 쓰는 짧은 턴이 많아 분당 턴이 오른다. 다음 정리 후보: R_time_turns_v2를 '무엇을 쓸지 정해진 문서(양식·입력 고정)'와 '내용을 설계하며 쓰는 문서'로 쪼개기. 계산기(1–2분)는 구간은 맞고 분은 낮았다(긴 출력 몫이 없음). 토큰은 아래로 조금 벗어남(턴당 8–9만, PDF 쪽 그림을 읽어도 작았다)."
+
+[[dispatch]]
+id = "p63"
+project = "professor_king"  # 2026-10-25 병합 때 "proviso"에서 고침: 일은 강의 정리본 저장소에서 했다(과제 본문 "다른 비공개 저장소"). main의 같은 종류 기록(p33–p39)과 같은 값. from_project에 없어 S_small_codebase는 모름
+batch = 22
+date = 2026-10-20
+task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p02"
+told = "다른 일"
+minutes = [6, 15]
+turns = [25, 50]
+tokens_class = ["T1"]
+tokens_m = [3, 10]
+rules = ["R_turns_analogy_v2", "R_variants", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save"]
+reason = "p02(4.5분·42턴·6.0M, 정해진 파일을 읽고 목록 하나)에 빗댐. 읽기는 정해진 텍스트 하나라 비슷하지만, 출력이 짧은 목록이 아니라 150–300줄 정리 문서(섹션마다 이어 쓰기)라 새로 쓰기 쪽 분당 턴 2.5–4 → 턴 ×0.6–1.2, 분 ×1.3–3. PDF 쪽을 그림으로 읽으면 맥락이 커져 턴당 10–20만. 계산기 기본값(1–2분)은 고정 입력을 '한 번 읽고 한 번 쓰기'로 보는데 이번 출력은 길다. 여섯을 동시에 보내 벽시계는 가장 긴 하나(녹취 포함)가 정한다. 사용자에게: 전체 10–20분 '다른 일'"
+[dispatch.calc]
+told = "잠깐"
+minutes = [1.03, 2.07]
+[dispatch.actual]
+minutes = 4.1
+turns = 33
+tokens_m = 2.73
+[dispatch.review]
+wrong = ["R_time_turns_v2"]
+why = "조건 흐림"
+reason = "구간 빗나감: '다른 일'이라 했는데 여섯 다 10분 안('잠깐'), 벽시계도 6.9분. 턴은 범위 안이고 분만 짧았다 → 속도 조각. 분당 턴을 '새로 쓰기 2.5–4'로 잡았는데 실측 7–9(p02 9.3과 같은 띠). R_time_turns_v2에는 '설계·글이 다 적힌 편집은 6–8'이 이미 있는데, 양식과 입력이 다 정해진 새 문서를 '새로 쓰기'로 읽었다 — 규칙의 '새로 쓰기'와 '다 적힌'의 경계가 흐리다. 섹션마다 이어 쓰는 짧은 턴이 많아 분당 턴이 오른다. 다음 정리 후보: R_time_turns_v2를 '무엇을 쓸지 정해진 문서(양식·입력 고정)'와 '내용을 설계하며 쓰는 문서'로 쪼개기. 계산기(1–2분)는 구간은 맞고 분은 낮았다(긴 출력 몫이 없음). 토큰은 아래로 조금 벗어남(턴당 8–9만, PDF 쪽 그림을 읽어도 작았다)."
+
+[[dispatch]]
+id = "p64"
+project = "professor_king"  # 2026-10-25 병합 때 "proviso"에서 고침: 일은 강의 정리본 저장소에서 했다(과제 본문 "다른 비공개 저장소"). main의 같은 종류 기록(p33–p39)과 같은 값. from_project에 없어 S_small_codebase는 모름
+batch = 22
+date = 2026-10-20
+task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p02"
+told = "다른 일"
+minutes = [6, 15]
+turns = [25, 50]
+tokens_class = ["T1"]
+tokens_m = [3, 10]
+rules = ["R_turns_analogy_v2", "R_variants", "R_time_turns_v2", "R_tok_short_v5", "R_long_doc_save"]
+reason = "p02(4.5분·42턴·6.0M, 정해진 파일을 읽고 목록 하나)에 빗댐. 읽기는 정해진 텍스트 하나라 비슷하지만, 출력이 짧은 목록이 아니라 150–300줄 정리 문서(섹션마다 이어 쓰기)라 새로 쓰기 쪽 분당 턴 2.5–4 → 턴 ×0.6–1.2, 분 ×1.3–3. PDF 쪽을 그림으로 읽으면 맥락이 커져 턴당 10–20만. 계산기 기본값(1–2분)은 고정 입력을 '한 번 읽고 한 번 쓰기'로 보는데 이번 출력은 길다. 여섯을 동시에 보내 벽시계는 가장 긴 하나(녹취 포함)가 정한다. 사용자에게: 전체 10–20분 '다른 일'"
+[dispatch.calc]
+told = "잠깐"
+minutes = [1.03, 2.07]
+[dispatch.actual]
+minutes = 4.7
+turns = 36
+tokens_m = 2.97
+[dispatch.review]
+wrong = ["R_time_turns_v2"]
+why = "조건 흐림"
+reason = "구간 빗나감: '다른 일'이라 했는데 여섯 다 10분 안('잠깐'), 벽시계도 6.9분. 턴은 범위 안이고 분만 짧았다 → 속도 조각. 분당 턴을 '새로 쓰기 2.5–4'로 잡았는데 실측 7–9(p02 9.3과 같은 띠). R_time_turns_v2에는 '설계·글이 다 적힌 편집은 6–8'이 이미 있는데, 양식과 입력이 다 정해진 새 문서를 '새로 쓰기'로 읽었다 — 규칙의 '새로 쓰기'와 '다 적힌'의 경계가 흐리다. 섹션마다 이어 쓰는 짧은 턴이 많아 분당 턴이 오른다. 다음 정리 후보: R_time_turns_v2를 '무엇을 쓸지 정해진 문서(양식·입력 고정)'와 '내용을 설계하며 쓰는 문서'로 쪼개기. 계산기(1–2분)는 구간은 맞고 분은 낮았다(긴 출력 몫이 없음). 토큰은 아래로 조금 벗어남(턴당 8–9만, PDF 쪽 그림을 읽어도 작았다)."
