@@ -116,7 +116,11 @@ class Rescore20261019(unittest.TestCase):
         verdict, detail = checks.used_minutes("R_time_turns_v2")
         self.assertTrue(verdict.startswith(("지지됨", "반박됨")))
         self.assertNotIn("d32b ", detail)  # 보내기 전에 적지 않은 예측(d32b)은 뺀다
-        self.assertTrue(checks.used_minutes("R_integration")[0].startswith("시험 전"))
+        # R_integration은 2026-10-19엔 시험 전이었다. 2026-10-25에 브랜치 ccr-2a22e640-e8dn8n(10-20 Flowlog 세션)을
+        # 병합하며 들어온 p54(원래 p20, 보내기 전에 R_integration으로 예측)가 첫 시험 기록이다 → 이제 판정이 난다
+        verdict, detail = checks.used_minutes("R_integration")
+        self.assertTrue(verdict.startswith(("지지됨", "반박됨")), verdict)
+        self.assertIn("p54", detail)
 
     def test_open_ended_bound_uses_lower(self):
         self.assertEqual(dp.midpoint([400]), 400)

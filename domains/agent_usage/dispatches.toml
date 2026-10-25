@@ -5948,3 +5948,933 @@ wrong = ["R_turns_analogy_v2"]
 why = "조건 흐림"
 reason = "말한 구간 '다른 일'(8–25분)인데 3.4분 '잠깐' → 높게 잡음. 토큰 1.43M은 T1(예측 T1–T2) 맞음, 범위(5–20) 아래. 전송 조건 25개를 3.4분에 채웠다(HF API·PyPI JSON은 curl 한 번에 메타데이터가 오고, 한 턴에 여러 주소를 묶어 받았다 — 50개 이상 열었다고 보고). p28을 빗댈 때 '원문 개수'를 분량으로 봤는데, 분을 정하는 것은 개수가 아니라 '한 턴에 묶어 받을 수 있는가'(API·JSON 메타데이터 vs 그림 한 장씩 Read)였다. H_cloud_session_rounds_v2(전송 조건이 있으면 1차에 채워 온다)는 지지. 품질: 표 양식 그대로, 원문에 없는 수치는 '원문에 없음'으로 적음, 라이선스 주의(MS MARCO 비상업·KorQuAD ND) 짚음 — 5"
 hypotheses = ["H_cloud_session_rounds_v2"]
+
+# 2026-10-25 병합: 브랜치 ccr-2a22e640-e8dn8n(2026-10-20 Flowlog 점검·출시 준비·웹 앱 세션)의 기록. 그 브랜치에서는 p06–p24·배치 4–7이었으나 main이 같은 번호를 다른 작업에 써서 p40–p58·배치 18–21로 바꿔 붙임. 날짜는 10-20이지만 main에 들어온 순서대로 뒤에 둔다(SEEN_UNTIL은 파일 순서 기준).
+
+[[dispatch]]
+id = "p40"
+project = "proviso"
+batch = 18
+date = 2026-10-20
+task = "조사: 다른 저장소(안드로이드 앱)의 완성도를 코드로 평가 — 기준 9개, 점수·근거·확신도 양식, 코드 수정 없음. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "일부"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"  # 일은 다른 저장소(Flowlog, 코틀린 3.9만 줄)에서 한다. project 기본값(예)과 달라 명시
+[dispatch.predicted]
+written_before = true
+analog = "p02"
+told = "다른 일"
+minutes = [10, 25]
+turns = [60, 120]
+tokens_class = ["T1", "T2"]
+tokens_m = [15, 35]
+rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "코드 없는 조사(R_research 80–140턴)지만 대상이 다른 저장소의 큰 코드베이스(코틀린 174파일·3.9만 줄)라 읽는 턴이 p02(4.5분·42턴, 문서 셋 읽기)보다 많다: 60–120턴. 코드 읽기·보고서는 분당 5–6턴 → 10–25분. 큰 파일을 통째 읽고 보고서를 쓰니 턴당 20–25만 → 15–35M. 걸치면 긴 쪽 '다른 일'. 계산기는 S_small_codebase=아니오로 16.9–33.7분"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [16.9, 33.7]
+
+[dispatch.actual]
+status = "done"
+minutes = 12.1
+turns = 161
+tokens_m = 24.0
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(12.1분). 턴 161 > 60–120(양 빗나감: 기준 9개를 하나씩 grep·wc로 세는 조사라 턴이 많았다), 분당 13.3턴으로 속도도 띠(5–6) 위 — p41과 같은 '코드 읽기만 하는 조사는 빠르다'. 토큰 24.0M은 15–35M 안(턴당 15만). 계산기 16.9–33.7분은 빗나감(구간은 맞춤)"
+
+[[dispatch]]
+id = "p41"
+project = "proviso"
+batch = 18
+date = 2026-10-20
+task = "조사: 다른 저장소(안드로이드 앱)의 보안 점검 — 코드·git 이력·DB 규칙·매니페스트, 심각도 양식, 코드 수정 없음. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "일부"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"  # 일은 다른 저장소(Flowlog, 코틀린 3.9만 줄)에서 한다. project 기본값(예)과 달라 명시
+[dispatch.predicted]
+written_before = true
+analog = "p02"
+told = "다른 일"
+minutes = [10, 25]
+turns = [60, 120]
+tokens_class = ["T1", "T2"]
+tokens_m = [15, 35]
+rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "코드 없는 조사(R_research 80–140턴)지만 대상이 다른 저장소의 큰 코드베이스(코틀린 174파일·3.9만 줄)라 읽는 턴이 p02(4.5분·42턴, 문서 셋 읽기)보다 많다: 60–120턴. 코드 읽기·보고서는 분당 5–6턴 → 10–25분. 큰 파일을 통째 읽고 보고서를 쓰니 턴당 20–25만 → 15–35M. 걸치면 긴 쪽 '다른 일'. 계산기는 S_small_codebase=아니오로 16.9–33.7분"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [16.9, 33.7]
+
+[dispatch.actual]
+status = "done"
+minutes = 8.6
+turns = 99
+tokens_m = 12.5
+[dispatch.review]
+wrong = ["R_time_turns_v2", "R_tok_short_v5"]
+why = "조건 흐림"
+reason = "구간 빗나감: '다른 일'이라 했는데 8.6분('잠깐'). 턴 99는 60–120 안(양 맞음) → 속도 조각 탓: 분당 11.5턴으로, 코드 읽기·보고서(5–6)가 아니라 웹 조사(7–11)보다도 빨랐다. 큰 저장소라도 grep·읽기만 하는 조사는 도구 호출 하나하나가 짧다 — R_time_turns_v2의 '구현·문서·비평'과 '웹 조사' 사이에 '코드 읽기만 하는 조사'가 빠져 있었다(조건 흐림). 토큰 12.5M < 15–35M: 턴당 12.6만, 큰 파일을 통째 읽지 않고 grep으로 잘라 읽어 턴당 맥락이 작았다. 계산기(16.9–33.7분)는 더 크게 빗나감 — S_small_codebase=아니오가 턴을 ×2 올렸는데 실제 턴은 작은 저장소 기록과 비슷했다"
+
+[[dispatch]]
+id = "p42"
+project = "proviso"
+batch = 18
+date = 2026-10-20
+task = "웹 조사: 같은 종류의 앱(상용·오픈소스) 10개 이상의 장단점과 시장, 엄격 양식. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "예"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"  # 일은 다른 저장소(Flowlog, 코틀린 3.9만 줄)에서 한다. project 기본값(예)과 달라 명시
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [8, 20]
+turns = [80, 140]
+tokens_class = ["T1", "T2"]
+tokens_m = [6, 22]
+rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "엄격한 양식의 웹 조사 하나(R_research 80–140턴), 웹은 분당 7–11턴 → 8–20분, 웹·작은 입력 턴당 8–16만 → 6–22M. 걸치면 긴 쪽 '다른 일'. 계산기 8.7–17.4분. H_research_cap(웹 조사 기록 없음)의 첫 시험"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [8.7, 17.4]
+
+[dispatch.actual]
+status = "done"
+minutes = 13.3
+turns = 185
+tokens_m = 20.7
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(13.3분), 분 8–20 안, 토큰 6–22M 안(턴당 11만). 턴 185 > 80–140: 이 환경의 프록시가 스토어·리뷰·시장조사 사이트를 막아(github·wikipedia만 열림) 열기 시도가 거듭 실패했다(바깥 상황). 분당 13.9턴으로 웹 띠(7–11)보다 빨랐고 그래서 분은 맞았다. 계산기 8.7–17.4분도 맞음. H_research_cap 첫 시험: 웹 조사 하나는 '다른 일' 안에서 끝났다"
+
+[[dispatch]]
+id = "p43"
+project = "proviso"
+batch = 18
+date = 2026-10-20
+task = "웹 조사 + 코드 읽기: 호평받은 앱들의 디자인 원칙 조사와 앱의 현재 UI 평가, 새 시안 방향 셋. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "예"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"  # 일은 다른 저장소(Flowlog, 코틀린 3.9만 줄)에서 한다. project 기본값(예)과 달라 명시
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [12, 25]
+turns = [100, 160]
+tokens_class = ["T1", "T2"]
+tokens_m = [10, 30]
+rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "웹 조사 + 앱 UI 코드 읽기(테마·화면 구성)가 붙어 R_research 상한보다 조금 많게 100–160턴, 분당 6–8턴 → 12–25분, 턴당 10–18만 → 10–30M. '다른 일'. 계산기 8.7–17.4분"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [8.7, 17.4]
+
+[dispatch.actual]
+status = "done"
+minutes = 17.6
+turns = 189
+tokens_m = 33.5
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(17.6분), 분 12–25 안. 턴 189 > 100–160, 토큰 33.5M > 10–30M(턴당 18만): p42과 같이 웹이 대부분 막혀(열린 곳 3) 시도가 늘었고, 앱 UI 코드 읽기가 붙어 턴당 맥락이 웹 조사보다 컸다. 분당 10.7턴(웹 띠 7–11 안). 계산기 8.7–17.4분은 0.2분 차로 빗나감(구간은 맞음)"
+
+[[dispatch]]
+id = "p44"
+project = "proviso"
+batch = 18
+date = 2026-10-20
+task = "웹 조사: 플랫폼 변화·유지보수 모델·새 기능 아이디어 10개 이상, 엄격 양식. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "예"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"  # 일은 다른 저장소(Flowlog, 코틀린 3.9만 줄)에서 한다. project 기본값(예)과 달라 명시
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [8, 20]
+turns = [80, 140]
+tokens_class = ["T1", "T2"]
+tokens_m = [6, 22]
+rules = ["R_research", "R_time_turns_v2", "R_tok_short_v5"]
+reason = "엄격한 양식의 웹 조사 하나(R_research 80–140턴), 웹은 분당 7–11턴 → 8–20분, 웹·작은 입력 턴당 8–16만 → 6–22M. 걸치면 긴 쪽 '다른 일'. 계산기 8.7–17.4분. H_research_cap(웹 조사 기록 없음)의 첫 시험"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [8.7, 17.4]
+
+[dispatch.actual]
+status = "done"
+minutes = 18.3
+turns = 171
+tokens_m = 28.3
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(18.3분), 분 8–20 안(상한 근처). 턴 171 > 80–140, 토큰 28.3M > 6–22M(턴당 16.5만): p42·p43와 같은 까닭 — 프록시가 공식 문서 사이트 여럿을 막아 시도가 늘었고, 앱 코드(매니페스트·알람·빌드 설정)를 읽어 턴당 맥락이 웹 조사보다 컸다. 분당 9.3턴(웹 띠 안). 계산기 8.7–17.4분 빗나감(구간은 맞음). 세 웹 조사 모두 턴 상한 초과: '막힌 사이트가 많은 환경'은 보내기 전에 알 수 없는 바깥 상황"
+
+[[dispatch]]
+id = "p45"
+project = "proviso"
+batch = 18
+date = 2026-10-20
+task = "구현: 다른 저장소(안드로이드 앱, 코틀린 3.9만 줄)에 기능 셋 추가(지난 기록 직접 입력, 파일 내보내기, 앱 바로가기) + 단위 테스트 + 문서. gradle 컴파일·테스트 바퀴 있음. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "예"  # 후속 1회차(로그아웃 상태 진입점, 토스트 날짜) — 1.5분·18턴·5.0M 포함
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "예"  # gradle 컴파일·테스트 한 바퀴가 따뜻해도 2–5분
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"  # 일은 다른 저장소(Flowlog)에서 한다
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [45, 80]
+turns = [200, 350]
+tokens_class = ["T2", "T3"]
+tokens_m = [40, 80]
+rules = ["R_time_turns_v2", "R_tok_long_v5", "R_verify_laps"]
+reason = "빗댈 기록 없음(이 저장소 기록은 모두 작은 코드베이스). 기본 구현 턴 216–426에서 기능 셋이 서로 독립이고 지시서가 위치·검증 방식까지 적어 200–350턴. 기존 코드 고치기라 분당 5–6.5턴 → 35–60분에, gradle 바퀴(따뜻해도 2–5분) 4–6번 ≈ 10–20분을 더해 45–80분. 턴당 13–25만(기존 코드 고치기) → 40–80M. 계산기는 33–66분"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [32.9, 65.8]
+
+[dispatch.actual]
+status = "done"
+minutes = 16.3
+turns = 179
+tokens_m = 34.5
+[dispatch.review]
+wrong = ["R_time_turns_v2", "R_verify_laps", "R_tok_long_v5"]
+why = "조건 흐림"
+reason = "구간 빗나감: '신경 끄기'라 했는데 16.3분('다른 일', 후속 1.5분 포함). 턴 179 < 200–350(양도 낮게), 분당 11턴 > 5–6.5(속도도 빗나감), 토큰 34.5M < 40–80M(턴당 19만). 기능 셋이 서로 독립이고 지시서가 파일 위치·검증 양식·명령까지 적어 '설계가 다 적힌 편집'(분당 6–8)보다도 빨랐고, gradle 바퀴는 따뜻한 캐시에서 1분 안이라 R_verify_laps의 '긴 바퀴(S_long_lap=예)' 가정이 틀렸다(첫 실행만 길다). 큰 코드베이스(S_small_codebase=아니오)라고 턴을 올려 잡았지만, 고치는 자리가 정해진 추가 작업은 읽을 범위가 작다 — 흐렸던 조건: '코드베이스 크기'가 아니라 '건드릴 자리가 정해졌는가'. 계산기 33–66분도 빗나감"
+
+[[dispatch]]
+id = "p46"
+project = "proviso"
+batch = 18
+date = 2026-10-20
+task = "구현: 적힌 설계(디자인 조사 보고서의 방향 ②)대로 앱 화면 5개의 HTML 시안 한 장 + 렌더 확인(Playwright 스크린샷). Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"  # 파일 하나짜리 새 HTML, 확인은 스크린샷 한 장씩
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [20, 40]
+turns = [120, 200]
+tokens_class = ["T2"]
+tokens_m = [25, 50]
+rules = ["R_doc_work_v2", "R_time_turns_v2", "R_verify_laps", "R_tok_long_v5"]
+reason = "설계가 정해진 새로 쓰기(R_doc_work_v2 20–45분·130–160턴)에 가깝다: 팔레트·화면 와이어프레임이 보고서에 적혀 있고 HTML 한 장을 새로 쓴다. 새로 쓰기는 분당 2.5–4턴이지만 설계가 다 적힌 편집은 6–8까지 오르므로 중간(4–6) → 120–200턴에 스크린샷 바퀴 2–3번(한 장 ~1.5분) → 20–40분. 턴당 20–25만 → 25–50M. 걸치지 않게 상한 40 → '다른 일'. 계산기는 21–42분으로 '신경 끄기'"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [21.1, 42.3]
+[dispatch.actual]
+status = "done"
+minutes = 15.1
+turns = 75
+tokens_m = 10.9
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(15.1분). 분 15.1 < 20–40, 턴 75 < 120–200, 토큰 10.9M < 25–50M: 설계(팔레트·와이어프레임)가 다 적힌 HTML 한 장은 큰 편집 몇 번으로 끝나 턴이 적고(분당 5.0턴), 스크린샷 바퀴도 1.5분씩 3번뿐. R_doc_work_v2의 '설계가 정해진 새로 쓰기 130–160턴'은 긴 글 기준이라 HTML 한 장엔 과하다. 계산기 21–42분('신경 끄기')은 빗나감 — 이 배치 21건에서 손 예측 5/7, 계산기 4/7"
+
+[[dispatch]]
+id = "p47"
+project = "proviso"
+batch = 19
+date = 2026-10-20
+task = "구현(출시 준비 1차): 다른 저장소(안드로이드 앱)에서 과장 문구 제거, 민감 로그 정리, 정확 알람 권한 흐름(설명 후 한 번 + 권한 변경 수신기) + 단위 테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"  # gradle 캐시가 따뜻해 바퀴 1분 안(p45 교훈)
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p45"
+told = "다른 일"
+minutes = [10, 22]
+turns = [100, 180]
+tokens_class = ["T2"]
+tokens_m = [20, 40]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long_v5"]
+reason = "p45(179턴·16.3분·34.5M, 같은 저장소에 독립 기능 셋 추가)에 빗대 ×0.6–1.0: 이번 셋은 문구 교체·로그 손질(작음)과 권한 흐름 하나(중간)라 p45보다 작다. 건드릴 자리가 지시서에 적혀 있어(p45 교훈: 코드베이스 크기가 아니라 자리가 정해졌는가) 분당 9–11턴, 따뜻한 gradle 바퀴 1분 안. 턴당 20만 → 20–40M. 계산기는 22–45분 '신경 끄기'(빗댄 계산은 19–38 '다른 일')"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [22.3, 44.6]
+[dispatch.actual]
+status = "done"
+minutes = 7.9
+turns = 75
+tokens_m = 8.1
+[dispatch.review]
+wrong = ["R_turns_analogy_v2", "R_tok_long_v5"]
+why = "조건 흐림"
+reason = "구간 빗나감: '다른 일'이라 했는데 7.9분('잠깐'). 턴 75 < 100–180(양 탓: p45의 ×0.42, 빗댈 때 ×0.6–1.0으로 잡았다), 분당 9.5턴은 예측대로. 토큰 8.1M < 20–40M(턴당 11만: 고칠 자리가 적혀 있어 큰 파일을 통째 읽지 않았다). p45과 같은 교훈이 더 세게: 건드릴 자리가 지시서에 적힌 작은 항목 묶음은 항목 수와 무관하게 60–90턴·8–10분 쪽이다. 쪼갤 조건: '지시서가 파일·함수 위치까지 적었는가'. 계산기(22–45분)는 더 크게 빗나감"
+
+[[dispatch]]
+id = "p48"
+project = "proviso"
+batch = 19
+date = 2026-10-20
+task = "구현(출시 준비 2차, 같은 에이전트 이어서): 파일 가져오기(파서·중복 판정·UI), 계정 삭제 유보 흐름(서버 표시·로컬 초기화·재로그인 취소), 지운 기록의 서버 내용 비우기(동기화 코드), 영구 삭제 예약 함수(Node) + 테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p47"
+told = "다른 일"
+minutes = [12, 25]
+turns = [120, 200]
+tokens_class = ["T2"]
+tokens_m = [20, 40]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2"]
+reason = "p47(75턴·7.9분·8.1M, 같은 저장소의 작은 항목 셋)의 ×1.6–2.7: 이번엔 네 묶음이고 그중 둘(계정 삭제 흐름, 동기화 코드의 내용 비우기)은 자리가 지시서에 적혔어도 로그인 흐름·동기화 테스트를 건드려 바퀴가 늘고, Node 함수 프로젝트를 새로 만든다. 분당 8–10턴. 이어 보내는 회차라 턴당 맥락이 앞 회차(11만)의 1.6–1.8배 → 20–40M. 계산기 5–11분(빗댄 계산 8–16)은 p47 실측에 끌려 작게 나왔다고 본다"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [5.3, 10.6]
+[dispatch.actual]
+status = "done"
+minutes = 19.2
+turns = 119
+tokens_m = 28.3
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(19.2분 = 합계 27.1 − 1차 7.9). 분 12–25 안, 토큰 20–40M 안(턴당 24만: 이어 보낸 회차라 앞 회차 11만의 2.2배 — R_resume_ctx_v2의 1.6–1.8배보다 큼, 새로 읽은 동기화·로그인 코드 몫). 턴 119는 120–200 바로 아래(분당 6.2턴: 동기화·로그인 흐름을 건드려 1차(9.5)보다 느렸다). 계산기 5.3–10.6분은 빗나감(구간은 걸쳐서 맞음)"
+
+[[dispatch]]
+id = "p49"
+project = "proviso"
+batch = 19
+date = 2026-10-20
+task = "구현(출시 준비 3차, 같은 에이전트 이어서): 앱 무결성 검사(App Check) 붙이기 + 저장소의 규칙 사본 검증 보강과 규칙 테스트 갱신. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p47"
+told = "다른 일"
+minutes = [7, 15]
+turns = [60, 110]
+tokens_class = ["T2"]
+tokens_m = [12, 28]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2"]
+reason = "p47(75턴·7.9분, 자리가 적힌 작은 항목 묶음)의 ×0.8–1.5: App Check는 의존성 한 줄과 초기화 코드 몇 줄, 규칙 사본은 문서 편집과 Node 테스트 추가라 작다. 다만 규칙 에뮬레이터가 프록시에 막히면 시도 턴이 는다. 세 번째 회차라 턴당 맥락 20–25만 → 12–28M. R_third_pass(직전 ×0.4–0.6)는 직전 회차(p48)가 컸으니 그 기준으로도 50–70턴"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [5.3, 10.6]
+[dispatch.actual]
+status = "done"
+minutes = 8.1
+turns = 45
+tokens_m = 14.5
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "구간 빗나감: '다른 일'이라 했는데 8.1분('잠깐', 합계 35.2 − 앞 두 회차 27.1). 턴 45 < 60–110(양 탓), 분당 5.6턴, 토큰 14.5M은 12–28 안(턴당 32만: 세 번째 회차라 맥락이 크다). 빗댈 때 p47 ×0.8–1.5로 잡았는데 같은 에이전트 세 번째 회차 규칙(R_third_pass: 직전 회차 ×0.4–0.6 → 48–71턴)이 더 맞았다 — 두 규칙이 겹칠 때 R_third_pass를 우선한다는 조건이 빠져 있었다. 에뮬레이터는 프록시를 통과해 시도 턴이 늘지 않았다. 계산기 5.3–10.6분은 분 범위 안(말한 구간은 걸쳐서 '다른 일'로 같이 빗나감)"
+
+[[dispatch]]
+id = "p50"
+project = "proviso"
+batch = 20
+date = 2026-10-20
+task = "구현(웹 저장소, 비공개): 규칙에 계정 삭제 예약 문서 조항 + 에뮬레이터 테스트, 삭제 요청 웹 페이지, 처리방침 갱신, 영구 삭제 예약 함수를 함수 폴더로 이식 + 인덱스, App Check 웹 공급자 배선, 계획 문서 갱신. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p48"
+told = "다른 일"
+minutes = [15, 30]
+turns = [120, 200]
+tokens_class = ["T2"]
+tokens_m = [25, 45]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long_v5", "R_verify_laps"]
+reason = "p48(119턴·19.2분·28.3M, 앱 쪽 계정 삭제·가져오기 네 묶음)의 ×1.0–1.5: 묶음 수는 비슷(여섯, 작은 것 포함)하고 처음 보는 저장소(웹, JS 83파일)라 읽는 턴이 더 든다. 에뮬레이터 바퀴(규칙 테스트)는 1분 안. 첫 회차라 턴당 20–25만 → 25–45M. 분당 7–8턴"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [22.3, 44.6]
+[dispatch.actual]
+status = "done"
+minutes = 16.1
+turns = 175
+tokens_m = 27.7
+[dispatch.review]
+reason = "넷 다 맞음: 말한 구간 '다른 일'(16.1분), 분 15–30 안, 턴 175(120–200 안), 토큰 27.7M(25–45 안). p48에 ×1.0–1.5로 빗댄 것이 맞았다 — 처음 보는 저장소라도 묶음 수와 자리가 지시서에 적혀 있으면 같은 종류의 직전 기록에 ×1 안팎. 분당 10.9턴. 계산기 22–45분('신경 끄기')은 빗나감 — 이 배치(p47–p50) 넷 중 계산기 1/4, 손 2/4"
+
+[[dispatch]]
+id = "p51"
+project = "proviso"
+batch = 20
+date = 2026-10-20
+task = "구현(웹 저장소): 요약 함수를 전체 읽기에서 날짜별 요약 문서 증분 갱신으로, 루틴 화면 30일 범위, 랜딩 어제·오늘 상세 + 28일 요약, 에뮬레이터 테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p50"
+told = "다른 일"
+minutes = [15, 30]
+turns = [150, 230]
+tokens_class = ["T2"]
+tokens_m = [25, 45]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long_v5", "R_verify_laps"]
+reason = "p50(175턴·16.1분·27.7M, 같은 웹 저장소 여섯 묶음)의 ×0.9–1.3: 묶음은 넷으로 적지만 요약 함수 증분화는 집계 논리를 다시 짜고 에뮬레이터로 전후를 맞춰 봐야 해 바퀴가 든다. 분당 9–11턴. 첫 회차 턴당 20만 → 25–45M. 계산기는 22–45분 '신경 끄기'"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [22.3, 44.6]
+[dispatch.actual]
+status = "done"
+minutes = 24.5
+turns = 172
+tokens_m = 33.2
+[dispatch.review]
+reason = "넷 다 맞음: '다른 일'(24.5분), 분 15–30 안, 턴 172(150–230 안), 토큰 33.2M(25–45 안). p50에 ×0.9–1.3으로 빗댄 것이 맞았다. 분당 7.0턴으로 p50(10.9)보다 느렸다 — 집계 논리를 새로 짜고 에뮬레이터 바퀴가 많았다(예측의 '바퀴가 든다'가 맞음). 계산기 22–45분 '신경 끄기'는 빗나감. 배치 20 두 건: 손 2/2, 계산기 0/2"
+
+[[dispatch]]
+id = "p52"
+project = "proviso"
+batch = 20
+date = 2026-10-20
+task = "구현(웹 저장소, 같은 에이전트 이어서): 통계 페이지를 어제·오늘 원본 + 28일 일별 요약으로, 주간 차트·운동 패널 제거, 편집은 불러온 날짜만 + 테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p51"
+told = "다른 일"
+minutes = [10, 20]
+turns = [70, 130]
+tokens_class = ["T2"]
+tokens_m = [20, 40]
+rules = ["R_third_pass", "R_resume_ctx_v2", "R_time_turns_v2"]
+reason = "같은 에이전트 두 번째 회차(직전 p51 172턴·24.5분)의 ×0.4–0.75: 페이지 하나의 데이터 경로 교체와 패널 둘 제거, 브라우저 테스트 셋 다시 돌리기. 패널 제거는 지우는 일이라 빠르지만 통계 페이지 코드가 1,300줄이라 읽는 턴이 있다. 이어 보낸 회차라 턴당 맥락 25–35만 → 20–40M"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [22.3, 44.6]
+[dispatch.actual]
+status = "done"
+minutes = 19.4
+turns = 79
+tokens_m = 27.6
+[dispatch.review]
+reason = "넷 다 맞음: '다른 일'(19.4분 = 합계 43.9 − 1회차 24.5), 분 10–20 안(상한 근처), 턴 79(70–130 안), 토큰 27.6M(20–40 안, 턴당 35만: 두 번째 회차 맥락). 직전 회차 ×0.4–0.75(R_third_pass 방식)가 맞았다 — 두 번째 회차에도 쓸 수 있다. 분당 4.1턴으로 느렸다: 브라우저 테스트 셋을 고쳐 돌리는 바퀴가 길었다. 계산기 22–45분은 또 빗나감(배치 20: 손 3/3, 계산기 0/3)"
+
+[[dispatch]]
+id = "p53"
+project = "proviso"
+batch = 21
+date = 2026-10-20
+task = "구현(웹 저장소): 가짜 데이터 PC 시안(4탭, 2,500줄)을 /app/로 옮겨 로그인·실제 기록·할 일·직접 추가·통계(요약 경로)·타이머 문서 읽기까지 붙임 + 브라우저 테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "일부"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p51"
+told = "신경 끄기"
+minutes = [25, 45]
+turns = [200, 300]
+tokens_class = ["T2", "T3"]
+tokens_m = [35, 60]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_long_v5", "R_verify_laps"]
+reason = "p51(172턴·24.5분·33.2M, 웹 함수 증분화)의 ×1.2–1.7: 새 페이지 하나에 네 화면의 데이터 경로를 전부 붙이고(읽기·쓰기·revision), 시안 코드 2,500줄을 읽어 재사용하며, 브라우저 테스트를 새로 쓴다. 분당 7–8턴. 새로 짓는 코드라 턴당 20만 → 35–60M. 계산기 22–45분"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [22.3, 44.6]
+
+[dispatch.actual]
+status = "done"
+minutes = 19.7
+turns = 147
+tokens_m = 33.1
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "구간 빗나감: '신경 끄기'(25–45분)라 했는데 19.7분('다른 일'). 턴 147 < 200–300(양 탓), 토큰 33.1M은 35–60 바로 아래. 분당 7.5턴은 예측대로. 시안 코드가 이미 네 화면의 UI·상태를 다 갖고 있어 '새로 짓기'가 아니라 '데이터 경로 갈아 끼우기'였다 — 빗댈 때 ×1.2–1.7을 곱한 근거('네 화면 전부 새로')가 틀렸다. 흐렸던 조건: 화면·흐름이 이미 있는가(있으면 ×0.8–1.0). 계산기 22–45분도 빗나감"
+
+[[dispatch]]
+id = "p54"
+project = "proviso"
+batch = 21
+date = 2026-10-20
+task = "통합(안드로이드 앱 저장소): 2026-10-13 하드닝 브랜치(212파일)를 이번 세션 브랜치(7커밋)에 병합, 충돌 해결(정확 알람 흐름·로그·빌드 설정·문서), 컴파일·테스트 통과. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "예"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [30, 60]
+turns = [150, 250]
+tokens_class = ["T2", "T3"]
+tokens_m = [40, 80]
+rules = ["R_integration", "R_time_turns_v2", "R_tok_long_v5", "R_verify_laps"]
+reason = "빗댈 기록 없음(이 저장소의 통합 기록은 batman의 d12b·d26b·d39b·d68·d94뿐이고 모두 다른 프로젝트). 처음 합쳐 보는 두 갈래(R_integration: 런타임 면마다 +0.4배)이고 212파일 중 충돌은 10–20파일로 본다. 충돌 하나마다 양쪽 의도를 읽고 고르는 턴이 들고 gradle 바퀴(따뜻해도 1–2분)가 5–8번. 분당 4–6턴 → 30–60분. 큰 diff를 읽어 턴당 25–35만 → 40–80M. 계산기 48–96분"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [47.8, 95.7]
+[dispatch.actual]
+status = "done"
+minutes = 6.8
+turns = 80
+tokens_m = 8.5
+[dispatch.review]
+wrong = ["R_integration", "R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "구간 빗나감: '신경 끄기'(30–60분)라 했는데 6.8분('잠깐'). 턴 80 < 150–250, 토큰 8.5M < 40–80M. 212파일 중 실제 충돌은 3파일(CHANGELOG, MainActivity, 수신기 하나)뿐이고 나머지는 git이 자동으로 합쳤다. 흐렸던 조건: 통합 비용은 '바뀐 파일 수'가 아니라 '양쪽이 같은 줄을 고친 파일 수'와 '합친 뒤 돌려 봐야 하는 런타임 면'이 정한다 — 이번엔 런타임 통합 없이 git 병합 + 단위 테스트 한 바퀴라 R_integration(런타임 면마다 +0.4배)이 해당되지 않았다. 보내기 전에 `git merge-tree`로 충돌 파일 수를 세면 알 수 있었던 값(보내기 전 상태 후보: '충돌 파일 수')"
+
+[[dispatch]]
+id = "p55"
+project = "proviso"
+batch = 21
+date = 2026-10-20
+task = "구현(안드로이드 앱, 같은 에이전트 이어서): 진행 중 타이머를 서버 문서로 동기화 — 시작·정지·일시정지·제목 변경 때 쓰기, 원격 변경(웹) 듣고 적용, 충돌 규칙 순수 로직 + 테스트, 규칙 사본·테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "일부"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p48"
+told = "다른 일"
+minutes = [12, 25]
+turns = [100, 160]
+tokens_class = ["T2"]
+tokens_m = [25, 45]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2"]
+reason = "p48(119턴·19.2분, 같은 앱에 계정 삭제 흐름 등 네 묶음)에 ×0.8–1.3: 문서 모양·충돌 규칙이 지시서에 다 적혀 있고(S_spec_fixed=예) 묶음은 하나지만 타이머 시작·정지 경로가 ViewModel 3,000줄 안에 흩어져 있어 찾는 턴이 든다. 이어 보낸 회차라 턴당 25–30만 → 25–45M. 분당 7–9턴. 계산기 11–23분 '다른 일'"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [11.4, 22.8]
+[dispatch.actual]
+status = "done"
+minutes = 11.2
+turns = 74
+tokens_m = 15.4
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(11.2분 = 합계 18.0 − 병합 회차 6.8). 분은 12–25 바로 아래, 턴 74 < 100–160, 토큰 15.4M < 25–45M(턴당 21만). 바꾸는 자리가 `TimerStateStore` 세 함수로 모여 있어 전수 조사가 짧게 끝났다 — '흩어져 있을 것'이라는 가정이 틀렸다(코드를 보고 보내면 알 수 있는 값). 두 번째 회차인데 직전(80턴)과 비슷한 크기. 계산기 11.4–22.8분은 거의 맞음(구간 맞음). 배치 21 지금까지: 손 2/3(p53 진행 중), 계산기 2/3"
+
+[[dispatch]]
+id = "p56"
+project = "proviso"
+batch = 21
+date = 2026-10-20
+task = "구현(안드로이드 앱, 같은 에이전트 세 번째 회차): 웹에서 바뀐 할 일(완료·삭제·수정·새로 만듦)을 폰이 가져오고 덮어쓰지 않게 — 수정 시각 기준 병합 + 테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p55"
+told = "다른 일"
+minutes = [10, 20]
+turns = [60, 110]
+tokens_class = ["T2"]
+tokens_m = [15, 30]
+rules = ["R_third_pass", "R_time_turns_v2", "R_resume_ctx_v2"]
+reason = "같은 에이전트 세 번째 회차: 직전 p55(74턴·11.2분)의 ×0.8–1.5 — 할 일 동기화는 업로드·복원 코드가 이미 있어 '가져오기' 한 갈래를 더하는 일이지만 덮어쓰기 규칙(수정 시각 비교)과 테스트가 붙는다. 턴당 20–27만. 계산기 11.4–22.8분"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [11.4, 22.8]
+
+[dispatch.actual]
+status = "done"
+minutes = 14.0
+turns = 61
+tokens_m = 18.7
+[dispatch.review]
+reason = "넷 다 맞음: '다른 일'(14.0분 = 합계 32.0 − 앞 두 회차 18.0), 분 10–20 안, 턴 61(60–110 바로 안), 토큰 18.7M(15–30 안, 턴당 31만). 직전 회차에 빗댄 ×0.8–1.5가 맞았다. 분당 4.4턴으로 느렸다: 세 번째 회차라 맥락이 크고 업로드·복원 코드를 전수 조사했다. 계산기 11.4–22.8분도 맞음"
+
+[[dispatch]]
+id = "p57"
+project = "proviso"
+batch = 21
+date = 2026-10-20
+task = "구현(웹 저장소, 같은 에이전트 이어서): PC 앱에 루틴 블록·브라우저 알림과 집중 모드(집중 타이머·끝 알림) 추가 + 브라우저 테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "일부"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p53"
+told = "다른 일"
+minutes = [12, 22]
+turns = [90, 150]
+tokens_class = ["T2"]
+tokens_m = [25, 40]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2"]
+reason = "p53(147턴·19.7분, 같은 페이지를 처음 만든 회차)의 ×0.6–1.0: 같은 페이지에 화면 둘을 더하는 일이고 데이터 읽기(루틴)는 루틴 페이지 코드가 있다. 브라우저 알림·타이머는 새로. 이어 보낸 회차라 턴당 25–30만. 계산기 5.32–10.6분"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [5.32, 10.6]
+[dispatch.actual]
+status = "done"
+minutes = 12.7
+turns = 79
+tokens_m = 30.8
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(12.7분 = 합계 32.4 − 1회차 19.7), 분 12–22 안, 토큰 30.8M(25–40 안, 턴당 39만). 턴 79 < 90–150(양 탓: 같은 페이지에 더하는 일은 직전 ×0.5 근처 — R_third_pass 범위가 두 번째 회차에도 맞았다). 분당 6.2턴. 계산기 5.3–10.6분은 빗나감(구간은 걸쳐 맞음)"
+
+[[dispatch]]
+id = "p58"
+project = "proviso"
+batch = 21
+date = 2026-10-20
+task = "구현(웹 저장소, 같은 에이전트 세 번째 회차): PC 앱의 할 일 쓰기를 폰과 맞춤 — 숫자 id로 생성, 삭제는 삭제 표시, updatedAt 통일 + 테스트. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p57"
+told = "다른 일"
+minutes = [7, 15]
+turns = [40, 80]
+tokens_class = ["T2"]
+tokens_m = [20, 35]
+rules = ["R_third_pass", "R_time_turns_v2", "R_resume_ctx_v2"]
+reason = "세 번째 회차, 직전 p57(79턴·12.7분)의 ×0.5–1.0: 할 일 쓰기 함수 몇 개와 테스트 수정뿐이고 자리가 정해져 있다. 턴당 맥락은 40만 안팎(세 번째 회차). 계산기는 p57과 같은 상황이라 5.3–10.6분"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [5.3, 10.6]
+[dispatch.actual]
+status = "done"
+minutes = 4.8
+turns = 23
+tokens_m = 10.5
+[dispatch.review]
+wrong = ["R_third_pass"]
+why = "조건 흐림"
+reason = "구간 빗나감: '다른 일'(7–15분)이라 했는데 4.8분('잠깐'). 턴 23 < 40–80, 토큰 10.5M < 20–35. 세 번째 회차에 직전 ×0.5–1.0으로 잡았는데 실제는 ×0.3 — 고칠 함수가 한 파일(app-store.js)에 모여 있고 테스트 틀이 이미 있었다. 흐렸던 조건: '건드릴 파일 수'(1–2파일이면 직전 ×0.3 근처). 계산기 5.3–10.6분도 빗나감. 배치 21 최종: 손 4/6(p53·p54·p58 빗나감 — 셋 다 실제가 더 짧음), 계산기 3/6"
