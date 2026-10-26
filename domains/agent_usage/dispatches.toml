@@ -7156,3 +7156,93 @@ tokens_m = 2.97
 wrong = ["R_time_turns_v2"]
 why = "조건 흐림"
 reason = "구간 빗나감: '다른 일'이라 했는데 여섯 다 10분 안('잠깐'), 벽시계도 6.9분. 턴은 범위 안이고 분만 짧았다 → 속도 조각. 분당 턴을 '새로 쓰기 2.5–4'로 잡았는데 실측 7–9(p02 9.3과 같은 띠). R_time_turns_v2에는 '설계·글이 다 적힌 편집은 6–8'이 이미 있는데, 양식과 입력이 다 정해진 새 문서를 '새로 쓰기'로 읽었다 — 규칙의 '새로 쓰기'와 '다 적힌'의 경계가 흐리다. 섹션마다 이어 쓰는 짧은 턴이 많아 분당 턴이 오른다. 다음 정리 후보: R_time_turns_v2를 '무엇을 쓸지 정해진 문서(양식·입력 고정)'와 '내용을 설계하며 쓰는 문서'로 쪼개기. 계산기(1–2분)는 구간은 맞고 분은 낮았다(긴 출력 몫이 없음). 토큰은 아래로 조금 벗어남(턴당 8–9만, PDF 쪽 그림을 읽어도 작았다)."
+
+# 2026-10-26 배치 23(p65–p66): movie_game 분야 시작. project = "movie_game"(from_project에 없어 S_small_codebase 모름).
+
+[[dispatch]]
+id = "p65"
+project = "movie_game"
+batch = 23
+date = 2026-10-26
+task = "조사(클라우드 세션 'searching', Haiku 5.5, 새 세션): 추리 게임·영화의 시각 디자인 '느낌 예시' 수집 — 게임 14~20편의 화풍·UI 특징·제작 규모를 스토어 페이지와 원문으로 확인하고 스크린샷 그림을 받아 Read로 직접 봄. 완료 조건: 그림 30장 이상 본 뒤·원문 15건 이상 연 뒤 전송, 정해진 표 양식"
+[dispatch.situation]
+S_no_code = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "아니오"
+S_web_blocked = "아니오"
+S_read_originals = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_template_given = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p28"
+told = "잠깐"
+minutes = [5, 10]
+tokens_class = ["T1"]
+tokens_m = [5, 12]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "빗댄 p28(그림 70장을 한 장씩 Read, 7.2분·10.7M). 이번은 그림 30장이라 그 ×0.7–1.3 → 5–10분. p39의 교훈(분을 정하는 것은 개수가 아니라 한 턴에 묶어 받을 수 있는가)대로, 그림은 한 장씩 보므로 p39(3.4분)보다는 길다. 토큰은 그림이 매 턴 맥락에 실려 p28처럼 5–12M. 계산기 '모름'(Haiku). 턴은 못 센다(클라우드 세션). 둘(p65·p66)을 동시에 보내 벽시계는 긴 쪽(p65)이 정한다 → 사용자에게 '잠깐(10분 안)'"
+hypotheses = ["H_cloud_session_rounds_v2"]
+# 계산기: 모름(Haiku 기준값 없음)
+
+[[dispatch]]
+id = "p66"
+project = "movie_game"
+batch = 23
+date = 2026-10-26
+task = "조사(클라우드 세션 'searching', Haiku 5.5, 새 세션): 화풍 갈래별로 그 느낌을 내는 데 드는 수단과 비용 — 에셋 가격, 외주 단가, AI 그림 도구 가격·약관, 엔진 비용, 소규모 팀 선례의 제작 기간을 원문(가격 페이지·약관·개발자 인터뷰)으로 확인. 완료 조건: 원문 25건 이상 연 뒤 전송, 가격에 날짜·주소"
+[dispatch.situation]
+S_no_code = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "아니오"
+S_web_blocked = "아니오"
+S_read_originals = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_template_given = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p39"
+told = "잠깐"
+minutes = [3, 9]
+tokens_class = ["T1"]
+tokens_m = [1.5, 6]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "빗댄 p39(원문 25건, API·JSON을 묶어 받아 3.4분·1.43M). 이번 원문은 가격 페이지·약관·인터뷰 HTML이라 JSON보다 한 건이 무겁고 묶어 받기도 덜 돼 ×1–2.5 → 3–9분, 토큰 1.5–6M. 그림은 보지 않는다. 계산기 '모름'(Haiku)"
+hypotheses = ["H_cloud_session_rounds_v2"]
+# 계산기: 모름(Haiku 기준값 없음)
