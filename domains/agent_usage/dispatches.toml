@@ -7612,6 +7612,12 @@ rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
 reason = "배치 24(p69–p71: 4.3·7.8·6.5분, 1.4–3.5M)와 같은 모양의 클라우드 Haiku 글 조사. p71 교훈대로 원문 수·길이와 무관하게 4–10분 '잠깐'. PDF(보존 지침)가 섞여 pdftotext 몫이 있으나 범위 안. 계산기 모름(Haiku)"
 hypotheses = ["H_cloud_session_rounds_v2"]
 # 계산기: 모름(Haiku 기준값 없음)
+[dispatch.actual]
+minutes = 7.4  # get_session: 23:21:18 → 23:28:40 UTC
+tokens_m = 2.48  # usage: 캐시 읽기 219.3만 + 캐시 쓰기 11.0만 + 입력 11.1만 + 출력 6.4만. 비용 0.37달러
+[dispatch.review]
+reason = "말한 구간 '잠깐'(4–10분) 맞음(7.4분), 토큰 2.48M 범위(2–6)·T1 맞음. 전송 조건 20건을 약 45건으로 채움(PDF 15건 pdftotext). 품질: 부재 이름·구성은 좋고 치수는 창 실측·1709년 후퇴·연석·셋·간판 규정까지. Historic England 전체가 403이라 층고·가스등 높이·거리 폭이 빈 칸임을 분명히 적음 — 4"
+hypotheses = ["H_cloud_session_rounds_v2"]
 
 [[dispatch]]
 id = "p74"
@@ -7656,6 +7662,12 @@ rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
 reason = "p73과 같음. 원작 텍스트(한 편 10만 자 안팎)를 통째로 받으면 맥락이 커질 수 있어 토큰 상한을 7M으로. 계산기 모름(Haiku)"
 hypotheses = ["H_cloud_session_rounds_v2"]
 # 계산기: 모름(Haiku 기준값 없음)
+[dispatch.actual]
+minutes = 3.7  # get_session: 23:21:19 → 23:24:58 UTC
+tokens_m = 1.93  # usage: 캐시 읽기 175.0만 + 캐시 쓰기 6.9만 + 입력 6.8만 + 출력 4.3만. 비용 0.20달러
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(3.7분), 토큰 1.93M은 T1 맞음이나 범위(2–7) 바로 아래 — Gutenberg 평문을 통째 받지 않고 범위 읽기로 끝내 맥락이 작았다. 품질: 원문 인용은 정확하나 표본 수가 기준 미달(여성 의뢰인 2줄·허드슨 0줄)이고 억양 근거는 검색 발췌 — 작업자가 미달을 스스로 적음. 3. 교훈: '인물별 n줄'은 전송 조건에 숫자로 넣어야 채운다(배치 10 교훈의 반복)"
+hypotheses = ["H_cloud_session_rounds_v2"]
 
 [[dispatch]]
 id = "p75"
@@ -7700,3 +7712,9 @@ rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
 reason = "p71(설계 선례 12편·글 12건, 6.5분·3.1M)에 빗댐. 원작 4편을 읽고 세는 일은 글 조사와 같은 모양. 계산기 모름(Haiku)"
 hypotheses = ["H_cloud_session_rounds_v2"]
 # 계산기: 모름(Haiku 기준값 없음)
+[dispatch.actual]
+minutes = 6.2  # get_session: 23:21:19 → 23:27:29 UTC
+tokens_m = 3.12  # usage: 캐시 읽기 274.2만 + 캐시 쓰기 17.3만 + 입력 12.5만 + 출력 7.6만. 비용 0.53달러
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(6.2분), 토큰 3.12M 범위(2–7)·T1 맞음. 원작 4편을 실제로 세고(줄 범위·wc -w 명시) 관찰→추리 사슬을 원문 인용으로 쪼갬, 원문이 사슬을 끊어 둔 곳과 출처 불일치를 표시 — 5. 배치 26 셋 다 4–10분 안: '클라우드 Haiku 글 조사는 원문 수와 무관하게 4–10분'(p71 교훈) 3/3 지지"
+hypotheses = ["H_cloud_session_rounds_v2"]
