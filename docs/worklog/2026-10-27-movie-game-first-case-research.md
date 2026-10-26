@@ -8,7 +8,7 @@
 - 사용자 결정(2026-10-27): 추리 규칙의 첫 시험은 브라우저 보드가 아니라 **게임 안에서 플레이**로 한다. 사전 피드백은 **첫 사건의 크기만**. 그래서 조사 세 갈래: p73 건물 입면·상점·거리 치수(종이 느낌 손질용), p74 대본 재료(원작 표본·말투·억양·성우 지시서), p75 원작 단편 4편 구조와 게임 사건 크기.
 - 보고서: `out/research/2026-10-27-movie-game-case/`(git 제외) p73 185줄·p74 145줄·p75 200줄. 메인이 셋 전문을 읽음.
 - 논리집: 사실 5(F_r_short_story_structure, F_r_observation_pieces, F_r_game_case_sizes, F_r_script_samples, F_r_facade_dims), 가설 H_first_case_size(말하는 인물 4·장소 3·장면 5·첫 대면 조각 5–6·사슬 6–8·묶음 3·결말 1·~30분).
-- 사용자용 문서: "첫 사건 크기 제안 v0" 비공개 아티팩트 https://claude.ai/artifact/… (이 파일을 쓸 때 주소는 메인이 채움) — 1절 결정 요청, 2–4절 근거, 부록 A 건물 치수, 부록 B 대본 재료.
+- 사용자용 문서: "첫 사건 크기 제안 v0" 비공개 아티팩트 https://claude.ai/artifact/DUy51RB73WuVcvJHqy7NNb — 1절 결정 요청, 2–4절 근거, 부록 A 건물 치수, 부록 B 대본 재료.
 
 ## 확인한 것 (어떻게)
 - `python -m proviso validate movie_game` → 문제 없음(목표 9, 상태 2, 사실 28, 관찰 6, 가설 10). `python -m domains.agent_usage.dispatches` → 기록 문제 없음(200건).
