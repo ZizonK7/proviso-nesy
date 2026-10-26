@@ -7512,3 +7512,50 @@ wrong = ["R_turns_analogy_v2"]
 why = "조건 흐림"
 reason = "말한 구간 '다른 일'(5–12분, 걸쳐서 긴 쪽)인데 6.5분 '잠깐' → 일찍 끝남. 분 범위(5–12)·토큰(3–8)·T1은 맞음. '강연·긴 글 원문은 가격 페이지보다 한 건이 길어 더 걸린다'고 ×0.7–1.5를 더했는데, 리뷰·인터뷰 HTML도 curl로 한 턴에 여러 건 받아 속도가 p66과 같았다 — 한 건의 길이는 분을 정하지 않는다(p39 교훈 '한 턴에 묶어 받을 수 있는가'의 반복). 다음부터 클라우드 Haiku 글 조사는 원문 수와 무관하게 4–10분으로 잡는다. 품질: 게임 12편을 플레이어 몫/게임 몫/필요한 시스템으로 갈라 적고 비판을 원문 인용으로, 2차 인용·요약만 본 것을 표시 — 5"
 hypotheses = ["H_cloud_session_rounds_v2"]
+
+# 2026-10-26 배치 25(p72–): movie_game 프로토타입 — 결정을 하나씩 확인. 첫째는 3D 화면과 움직임.
+
+[[dispatch]]
+id = "p72"
+project = "movie_game"
+batch = 25
+date = 2026-10-26
+task = "구현: 브라우저 3D 프로토타입 한 장(Three.js UMD, cdnjs) — 밤·비·안개·가스등의 빅토리아 거리 한 블록을 1인칭으로 걷고(WASD·마우스), 221B 문으로 들어가 거실까지. 그림 없이 코드로 생성(캔버스 텍스처·박스 건물). Playwright로 WebGL 렌더 스크린샷 확인(npm으로 받은 로컬 three로 시험). Opus high, 세션 안 Agent"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "일부"  # 로컬 three + Playwright WebGL 시험 틀을 스스로 만든다
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p68"
+told = "다른 일"
+minutes = [15, 32]
+turns = [40, 90]
+tokens_class = ["T1", "T2"]
+tokens_m = [6, 16]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_verify_laps", "R_build_tools", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댄 p68(SVG 시안 한 장, 13.7분·39턴·4.98M). 이번은 Three.js 코드(이동·충돌·문·실내·비·안개)라 디버그 바퀴가 더 있고(WebGL 스크린샷 3–5번, 한 장 ~1.5분), 로컬 시험 틀(npm three + Playwright)을 만드는 몫(R_build_tools ×1.3–1.7) → 턴 ×1–2.3 = 40–90, 분당 3–5턴 + 바퀴 → 15–32분 '다른 일'. 토큰 턴당 15–18만 → 6–16M. p68 교훈(화풍 수는 턴 크기만 늘린다)대로 턴을 크게 올리지 않음. 계산기(기본 조각) 21–42분 '신경 끄기'"
+hypotheses = ["H_build_tools"]
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [21.1, 42.3]
