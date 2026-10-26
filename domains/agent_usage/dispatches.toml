@@ -7566,3 +7566,137 @@ turns = 2
 tokens_m = 0.12
 [dispatch.review]
 reason = "사용자가 '로컬에서 해보게 멈춰봐'라고 해서 3.2분 만에 중단(npm install까지만). 예측은 시험 못 함. 바깥 상황(사용자 결정)이라 조각 판정 없음. 교훈: 결정을 하나씩 확인하는 단계에서는 보내기 전에 '여기서 만들까, 사용자 PC에서 할까'를 먼저 묻는다 — 3D·엔진 일은 사용자 PC(GPU·엔진 설치)가 본무대"
+
+# 2026-10-27 배치 26(p73–p75): movie_game 조사 세 갈래 동시 — 건물 해부(종이 느낌 손질 명세), 말투·억양·대본 틀, 첫 사건의 크기. 클라우드 searching Haiku. p71 교훈대로 원문 수·길이와 무관하게 4–10분.
+
+[[dispatch]]
+id = "p73"
+project = "movie_game"
+batch = 26
+date = 2026-10-27
+task = "조사(클라우드 'searching', Haiku 5.5): 빅토리아 런던 테라스 하우스·상점 전면·거리 소품의 해부와 치수(창 깊이·창틀·띠돌림·처마·지붕·굴뚝·배수관·철책·상점 파시아·가스등·자갈·연석)를 보존 지침·측량 자료 원문으로. 출력은 cm 치수 표. 완료 조건: 원문 20건 이상"
+[dispatch.situation]
+S_no_code = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "아니오"
+S_web_blocked = "아니오"
+S_read_originals = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_template_given = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p70"
+told = "잠깐"
+minutes = [4, 10]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "배치 24(p69–p71: 4.3·7.8·6.5분, 1.4–3.5M)와 같은 모양의 클라우드 Haiku 글 조사. p71 교훈대로 원문 수·길이와 무관하게 4–10분 '잠깐'. PDF(보존 지침)가 섞여 pdftotext 몫이 있으나 범위 안. 계산기 모름(Haiku)"
+hypotheses = ["H_cloud_session_rounds_v2"]
+# 계산기: 모름(Haiku 기준값 없음)
+
+[[dispatch]]
+id = "p74"
+project = "movie_game"
+batch = 26
+date = 2026-10-27
+task = "조사(클라우드 'searching', Haiku 5.5): 영어 대본 재료 — 퍼블릭 도메인 원작(Gutenberg)에서 인물별 대사 표본 추출(홈즈·왓슨·의뢰인·레스트레이드·허드슨 부인), 말투 특징, 억양 종류와 계층 대응(RP·코크니 등), 시대 어휘 주의, 게임 성우 지시서(캐스팅 브레이크다운) 양식. 완료 조건: 원문 20건 이상(원작 텍스트 5편 이상 포함)"
+[dispatch.situation]
+S_no_code = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "아니오"
+S_web_blocked = "아니오"
+S_read_originals = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_template_given = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p70"
+told = "잠깐"
+minutes = [4, 10]
+tokens_class = ["T1"]
+tokens_m = [2, 7]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "p73과 같음. 원작 텍스트(한 편 10만 자 안팎)를 통째로 받으면 맥락이 커질 수 있어 토큰 상한을 7M으로. 계산기 모름(Haiku)"
+hypotheses = ["H_cloud_session_rounds_v2"]
+# 계산기: 모름(Haiku 기준값 없음)
+
+[[dispatch]]
+id = "p75"
+project = "movie_game"
+batch = 26
+date = 2026-10-27
+task = "조사(클라우드 'searching', Haiku 5.5): 첫 사건의 크기 재료 — 원작 단편 4편의 구조(인물·장소·장면·단서 수, 관찰→추리 사슬, 홈즈의 '첫 대면 추리' 목록)와 추리 게임 선례의 사건 크기(장소·인물·단서 수). 완료 조건: 원문 20건 이상(원작 4편 전문 포함)"
+[dispatch.situation]
+S_no_code = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "아니오"
+S_web_blocked = "아니오"
+S_read_originals = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_template_given = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p71"
+told = "잠깐"
+minutes = [4, 10]
+tokens_class = ["T1"]
+tokens_m = [2, 7]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "p71(설계 선례 12편·글 12건, 6.5분·3.1M)에 빗댐. 원작 4편을 읽고 세는 일은 글 조사와 같은 모양. 계산기 모름(Haiku)"
+hypotheses = ["H_cloud_session_rounds_v2"]
+# 계산기: 모름(Haiku 기준값 없음)
