@@ -16,7 +16,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 | 폴더 | 역할 |
 |---|---|
 | `proviso/` | 코어(분야 모름): 지식 파일 읽기·검사(`schema`), 성적표(`score`), 점검(`audit`), 그래프(`graph`), 조회(`query`), MCP 서버(`mcp_server`, 읽기 전용) |
-| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드(agent_usage: 계산기 `predict`·맞추기 `fit`·홀드아웃 `holdout`). 현재 `flowlog`, `music_player`, `agent_usage`, `language_learning` |
+| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드(agent_usage: 계산기 `predict`·맞추기 `fit`·홀드아웃 `holdout`). 현재 `flowlog`, `music_player`, `agent_usage`, `language_learning`, `movie_game` |
 | `experiments/` | 본체 실험 (논리집 유무에 따른 Claude 답 비교) |
 | `docs/` | 원안, 설계 기록, 실험 보고서, 하위 에이전트 기록(`AGENT-LOG.md`, `worklog/`) |
 | `scripts/` | 운영 도구 (하위 에이전트 대화 기록 → 사용량 숫자, `agent_usage` 기록에 씀) |
@@ -73,6 +73,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 - Flowlog v2(R_P1a/R_P1b)는 설계만 — Flowlog 앱은 아직 v1. 앱 수정은 사용자 요청 시.
 - **Flowlog 전체 점검 (2026-10-20, 클라우드 세션, 브랜치 `ccr-2a22e640-e8dn8n`)**: 사용자 요청으로 완성도·보안·공개 여부·디자인·기능·방향·유사 앱을 하위 에이전트 7명(p40–p46)이 조사·구현하고 메인이 판단. Flowlog 같은 브랜치에 기능 셋(지난 활동 직접 추가, CSV/JSON 내보내기, 앱 아이콘 바로가기; 단위 테스트 115개 통과, 기기 미확인) 커밋 81ed74c — main 병합은 사용자 판단. 보고서는 `docs/worklog/2026-10-20-*.md`, 상세 조사 원본은 `docs/flowlog-review-2026-10-20/`(보안 세부는 저장소에 넣지 않음). 결과 보고서 페이지와 "Flowlog River" 디자인 시안 페이지는 사용자에게 전달. 이어서 사용자 결정(Play 출시, 무료 앱 + 서버 저장·웹 구독, 계정 삭제 유보 14일, 디자인 유지)으로 출시 준비 세 회차(p47–p49)를 같은 브랜치에 커밋(7f2918b·d359e05·1947a67): 과장 문구·민감 로그 정리, 정확 알람 권한 흐름, JSON 가져오기, 계정 삭제 유보 흐름과 영구 삭제 함수, 내용 없는 tombstone, App Check, 규칙 사본 보강. 남은 일은 Flowlog `docs/RELEASE_CHECKLIST.md`. 웹 저장소(pfkfks-main, 비공개)도 같은 세션에서 붙여 짝 작업(삭제 요청 페이지·규칙·처리방침·영구 삭제 함수·App Check 배선)을 같은 이름의 브랜치에 커밋(2601e5c, main 미병합 — 그 저장소는 main push가 곧 배포). 웹 저장소의 `docs/flowlog-release-plan.md`(2026-10-13)에 서비스 계정 키 유출 확인과 Flowlog 미병합 브랜치 `ccr-1cb50339-vdsr0x`가 적혀 있어 사용자에게 알림. 이어서(배치 20·7, p50–p58): 웹 main에 계정 삭제 페이지·규칙·처리방침·영구 삭제 함수·App Check 배선·요약 함수 증분화·통계 페이지 경량화·PC 앱 `/app/`(실제 데이터, 타이머 문서 공유, 루틴 알림·집중 모드, 숫자 id 할 일)을 올렸고(최종 main 커밋은 git log), 인덱스·규칙·함수 자동 배포 워크플로는 서비스 계정 권한이 없어 첫 실행 실패(사용자 할 일). Flowlog 브랜치에는 하드닝 브랜치 병합(충돌 3파일), 타이머 문서 공유(앱 쪽), 할 일 증분 가져오기를 커밋(main 미병합, 기기 미확인). 사용자가 콘솔에서 할 일은 Flowlog `docs/RELEASE_CHECKLIST.md` 맨 위.
 - 열린 문제: 운동 종목 추천에서 이름을 계속 타이핑해야 하는 부담(본체 실험 질문 2).
+- **movie_game 분야 시작 (2026-10-26)**: 셜록 홈즈 추리 게임의 설계 판단 논리집. 목표 나무만(7개), 가설 없음. 메인 저장소는 [ZizonK7/movie_game](https://github.com/ZizonK7/movie_game)(공개)이고 그쪽 `CLAUDE.md`(메모리)·`DECISIONS.md`(의도)와 역할을 나눈다. 그 저장소의 md는 **제안 → 허락 뒤 수정**(사용자 지시). 상세: [domains/movie_game/CLAUDE.md](domains/movie_game/CLAUDE.md).
 
 ## 다음 할 일
 1. **조각 층을 스키마에 넣기**: 조각 노드(근거 포함), 규칙의 "이루는 조각" 칸, 상황별 대 보기. 같은 조각이 여러 분야에 걸리고 분야별 성적이 따로 보이게. agent_usage의 계산 조각(효과 칸)이 첫 형태. 그 위에서 **처음 보는 질문으로 예측 시험**(사후 설명이 아닌지 확인).
