@@ -330,3 +330,17 @@ evidence = ["F_r_voice_ai_terms", "F_r_voice_human", "F_r_dialogue_volume"]
 serves = ["G_english_british"]
 test_plan = "프로토타입 대사 10줄을 임시 AI 음성으로 넣어 보고, 같은 줄을 사람 성우 샘플로 바꿔 사용자 판정(영국 느낌이 나는가)"
 note = "2026-10-26 AI 판단. ElevenLabs는 타인 음성 복제를 금지하므로 성우 음성을 쓰려면 성우 본인 계정이 필요하다"
+
+# ---------- 2026-10-27: 사용자 PC에서 만든 프로토타입 둘 (movie_game main f2f07c6) ----------
+[[fact]]
+id = "F_proto_v0"
+text = "프로토타입 둘이 있다(movie_game `proto/threejs/`, `ue/`): 베이커 가 한 블록(밤·비·안개·가스등·젖은 자갈길) + 1인칭 걷기 + 221B 현관→복도→17계단→벽난로 거실. UE 5.8 판은 레벨 전체를 언리얼 Python(`tools/build_level.py`, 809줄)이 생성하고 질감·소리는 numpy가 만든다. RTX 4060에서 거리 97 FPS, 거실 83 FPS. 인물·문 상호작용·불꽃 애니메이션 없음, 비는 줄무늬 판. 스크린샷 `ue/shots/`"
+checked = 2026-10-27
+source = "movie_game main f2f07c6·49324cd(사용자 PC 세션), 스크린샷 5장을 클라우드 세션이 Read로 확인"
+note = "H_ue5_fits_needs의 첫 시험 재료: 안개·점광원·젖은 길·실내가 한 프로젝트에서 돌아간다는 것까지는 확인. 인물(MetaHuman)·입 모양·현지화는 아직 시험 전"
+
+[[observation]]
+id = "O_user_paper_buildings"
+text = "사용자(PC 세션, 2026-10-27): 프로토타입의 건물이 '종이 쪼가리 같다' — 창이 벽에 납작하고 상점 전면·지붕선·처마·배수관이 없다"
+source = "user"
+date = 2026-10-27
