@@ -47,6 +47,24 @@ class AgentUsage(unittest.TestCase):
                 agent_usage.main([str(Path(d) / "agent-*.jsonl"), "--md"])
         self.assertIn("| 조각 스키마 구현 |", buf.getvalue())
 
+    def test_turns_measure_action_length_and_context_without_content(self):
+        # 전제 1 시험(2026-10-26): 턴마다 동작·길이·맥락을 숫자로. 첫 턴은 Read 동작, 다음 응답까지 9.5분(570초), 도구 결과까지 30초
+        with tempfile.TemporaryDirectory() as d:
+            rows = agent_usage.turn_rows(str(write_transcript(Path(d))))
+            table = agent_usage.turn_table(rows)
+        self.assertEqual([r["action"] for r in rows], ["Read", "글"])
+        self.assertEqual(rows[0]["turn_s"], 570.0)
+        self.assertEqual(rows[0]["tool_s"], 30.0)
+        self.assertEqual(rows[0]["ctx_k"], 1)
+        self.assertIn("| Read | 1 | 570.0 | 30.0 |", table)
+        self.assertNotIn("파일 내용", table)
+
+    def test_bash_action_keeps_only_the_verb(self):
+        self.assertEqual(agent_usage._action([{"type": "tool_use", "name": "Bash", "input": {"command": "grep -rn 비밀 src/"}}]),
+                         "Bash:grep")
+        self.assertEqual(agent_usage._action([{"type": "tool_use", "name": "Grep", "input": {}},
+                                              {"type": "tool_use", "name": "Edit", "input": {}}]), "Grep+Edit")
+
 
 if __name__ == "__main__":
     unittest.main()
