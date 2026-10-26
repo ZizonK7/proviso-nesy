@@ -7559,3 +7559,10 @@ hypotheses = ["H_build_tools"]
 [dispatch.calc]
 told = "신경 끄기"
 minutes = [21.1, 42.3]
+[dispatch.actual]
+status = "stopped"
+minutes = 3.2
+turns = 2
+tokens_m = 0.12
+[dispatch.review]
+reason = "사용자가 '로컬에서 해보게 멈춰봐'라고 해서 3.2분 만에 중단(npm install까지만). 예측은 시험 못 함. 바깥 상황(사용자 결정)이라 조각 판정 없음. 교훈: 결정을 하나씩 확인하는 단계에서는 보내기 전에 '여기서 만들까, 사용자 PC에서 할까'를 먼저 묻는다 — 3D·엔진 일은 사용자 PC(GPU·엔진 설치)가 본무대"
