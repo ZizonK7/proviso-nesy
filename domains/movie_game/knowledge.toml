@@ -147,7 +147,7 @@ evidence = ["F_r_duo_precedents", "F_r_solo_precedents", "F_r_deduction_ui", "O_
 against = ["F_r_realistic_3d_scale"]
 serves = ["G_design", "G_player_reason"]
 test_plan = "같은 장면(221B 거실, 의뢰인을 처음 보는 순간)을 세 갈래 시안으로 만들어 사용자 판정: 어느 쪽이 셜록 영화 같은가, 어느 쪽을 직접 그려 채울 수 있겠는가. 그 뒤 실제로 그린 장면 하나를 넣어 본다"
-note = "2026-10-26 AI 판단. 2인 선례(Golden Idol·Strange Horticulture·Tangle Tower)가 '개발자 + 아티스트' 조합인데, 사용자는 둘을 한 사람이 하는 경우라서 양(장면 수)이 변수. 로컬 AI(RTX 4060)는 밑그림·변형·배경 보조로 쓸 수 있으나 가능 범위는 미확인"
+note = "2026-10-26 AI 판단. 같은 날 저녁 사용자가 '1인 제약은 기준이 아니다'(O_user_no_solo_limit)와 '공간을 걸어 다닌다'(G_walk_space)를 정해, 이 가설의 '1인이 완성할 수 있는 양' 절반은 기준에서 빠지고 2D 장면 전제도 흔들린다. 화풍 결정이 다시 올 때 다시 본다(지금은 시험 대상 아님)"
 
 [[hypothesis]]
 id = "H_pieces_board_serves_reasoning"
@@ -157,3 +157,59 @@ evidence = ["F_r_deduction_ui"]
 serves = ["G_player_reason", "G_balance"]
 test_plan = "종이 프로토타입이나 첫 화면 시안으로 사용자 판정: 어느 장치에서 '내가 추리했다'는 느낌이 들었나. 화면 위 글자 연출은 셜록의 명석함을 보여 주는 연출로 따로 쓰일 수 있어, 둘을 섞는 방법도 시안에 넣는다"
 note = "2026-10-26 AI 판단. 이 가설은 디자인 갈래와 별개로 UI 장치를 고르는 기준"
+
+# ---------- 2026-10-26 저녁: 사용자 결정 7–12 (movie_game DECISIONS.md) ----------
+[[goal]]
+id = "G_walk_space"
+text = "플레이어가 셜록이 되어 방과 거리를 직접 돌아다니며 살핀다(장면 카드 방식이 아니다)"
+parent = "G_game"
+source = "user"
+
+[[goal]]
+id = "G_english_british"
+text = "대사와 음성은 영어, 한글은 자막·번역만. 말투와 도시 자체가 영국 느낌이다"
+parent = "G_game"
+source = "user"
+
+[[observation]]
+id = "O_user_no_solo_limit"
+text = "사용자: '1인에 집착하지 말고 뭘 하려면 뭐가 필요하고 그것만 생각해. 1인이면 힘들고 얼마가 걸리고 그런 건 상관없으니까.' — 비용·기간·1인 선례는 판단 기준이 아니다"
+source = "user"
+date = 2026-10-26
+
+[[observation]]
+id = "O_user_pruning"
+text = "사용자: 틀린 조각을 넣으면 셜록이 궁시렁거리는 반응은, 플레이어가 스스로 추리의 가지를 쳐내는 느낌과 맞는다"
+source = "user"
+date = 2026-10-26
+
+[[observation]]
+id = "O_user_two_stage_observe"
+text = "사용자: 단서를 찾을 때 처음에는 눈에 띄는 것만 보다가, 찾는 것이 생기면 그것을 위해 관찰한다는 느낌이 좋다"
+source = "user"
+date = 2026-10-26
+
+[[observation]]
+id = "O_user_styles_similar"
+text = "사용자: 2D 시안 A·B·C가 다 비슷해 보인다 — 화풍 차이는 지금 단계의 물음이 아니었다"
+source = "user"
+date = 2026-10-26
+
+[[hypothesis]]
+id = "H_wrong_piece_is_pruning"
+text = "틀린 조각을 넣는 행위를 '플레이어가 자기 추리의 가지를 쳐내는 일'로 두고 셜록의 한 줄 반응을 그 신호로 쓰면, 틀림이 벌이 아니라 논리를 좁히는 과정이 되어 플레이어가 머리를 쓰는 목표와 셜록이 다 하지 않는 목표에 동시에 맞는다"
+source = "user"
+evidence = ["O_user_pruning", "F_r_deduction_ui"]
+serves = ["G_player_reason", "G_balance", "G_logic"]
+test_plan = "프로토타입 플레이 판정(사용자): 틀린 조각을 넣었을 때 '벌 받았다'가 아니라 '하나 지웠다'로 느껴지나. 반응 문장의 종류(비꼼·힌트·침묵)별로 따로 본다"
+note = "2026-10-26 사용자 생각을 가설로 올림(DECISIONS 10). 논리학의 소거(가지치기)와 맞닿는다"
+
+[[hypothesis]]
+id = "H_two_stage_observation"
+text = "관찰을 두 단계로 나누면(처음엔 눈에 띄는 것만 보이고, 찾을 것이 생기면 그것을 위해 목적을 갖고 본다) '다 보여 주는 탐정 시야'보다 플레이어의 눈썰미가 산다"
+source = "user"
+evidence = ["O_user_two_stage_observe"]
+against = ["F_r_deduction_ui"]
+serves = ["G_player_observe", "G_balance"]
+test_plan = "프로토타입 플레이 판정(사용자): 찾을 것이 생긴 뒤 다시 본 장면에서 새 단서를 '내가 찾았다'고 느끼나. 반대 근거로 둔 F_r_deduction_ui의 'Sherlock Vision'(자동으로 띄움)과 비교"
+note = "2026-10-26 사용자 생각을 가설로 올림(DECISIONS 11). 무엇을 찾는지 알 때 보이는 것 = 목적 있는 관찰"

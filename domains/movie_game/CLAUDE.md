@@ -8,6 +8,8 @@
 - 판단 중 Claude가 추정한 것은 `hypothesis`로, `source`를 밝혀 넣는다. 사용자가 말하지 않은 목표·관찰을 지어내 넣지 않는다.
 - 다른 분야와 같이, 조각 문장에는 분야·앱 이름을 쓰지 않는다(다른 분야에서 다시 쓰게).
 
-## 현재 상태 (2026-10-26)
-- 목표 7개(G_game 아래 여섯). 상태·사실·관찰·가설·규칙은 없다. `checks.py`는 빈 뼈대.
-- 설계가 시작되면 "핵심 질문 둘"(플레이어가 머리를 써서 셜록의 명석함을 끌어내는 법, 눈썰미를 발휘하는 법)에 대한 답이 첫 가설이 된다. 시험 수단은 처음엔 사용자 판정 `[[judgment]]`(`source = "user"`), 플레이 가능한 것이 생기면 실제 플레이 관찰.
+## 현재 상태 (2026-10-26 저녁)
+- 목표 9(G_game 아래 여덟: 디자인 우선·스토리·머리 쓰기·눈썰미·균형·논리·**공간 걷기**·**영어 음성·영국 느낌**), 상태 2, 조사 사실 9, 관찰 5, 가설 5(살아 있는 것 4: H_own_art_with_code_frame, H_pieces_board_serves_reasoning, H_wrong_piece_is_pruning, H_two_stage_observation; H_code_made_look은 전제가 틀려 물림). 판정 기록 없음 — 모두 시안·프로토타입 → 사용자 판정 대기(audit 경고 "시험 수단 없음"은 의도).
+- 조사 원본: `out/research/2026-10-26-movie-game-design/`(git 제외). 작업 보고서: [docs/worklog/2026-10-26-movie-game-design-research.md](../../docs/worklog/2026-10-26-movie-game-design-research.md).
+- **판단 기준에서 뺀 것(사용자, O_user_no_solo_limit)**: 비용·기간·1인 선례. 사실 노드에는 남기되 가설의 근거로 쓰지 않는다 — "뭘 하려면 뭐가 필요한가"만.
+- 다음: 공간(3D)·영어 음성·두 단계 관찰·가지치기 추리에 각각 무엇이 필요한지 조사 → 설계. 화풍은 그 위에서 다시.

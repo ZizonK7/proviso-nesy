@@ -7358,3 +7358,137 @@ turns = 39
 tokens_m = 4.98
 [dispatch.review]
 reason = "말한 구간 '다른 일' 맞음(13.7분). 분 13.7 < 18–32, 턴 39 < 90–150, 토큰 4.98M < 14–30M → 양(턴)을 높게 잡음. p46(75턴·15.1분)보다도 턴이 적다: 화풍 셋을 그리는 긴 SVG를 큰 편집 몇 번으로 썼고(분당 2.8턴, 턴당 12.8만), 스크린샷 바퀴 3번도 짧았다. '화풍 셋 = 품 ×1.2–2'로 턴을 올린 것이 틀렸다 — 화풍 수는 출력 길이(한 턴의 크기)를 늘리지 턴 수를 늘리지 않는다(p38·p59–p64 교훈 '턴 하나의 크기'와 같은 줄기). 계산기 기본 조각(21–42분)은 빗나가고 비유 계산(12–24분)은 맞음. 품질: 12프레임이 같은 자리에 같은 박자로 놓여 비교가 되고, 핫스팟 미표시·함정 조각·틀린 조합 반응까지 지시서대로. 폰에서 프레임 안 글자가 6px로 작아지는 문제를 스스로 적음 — 5"
+
+# 2026-10-26 배치 24(p69–p71): movie_game "뭘 하려면 뭐가 필요한가" 조사 세 갈래(클라우드 searching Haiku 셋 동시). 결정 8(1인 제약 제외)로 비용·기간은 묻지 않고 '필요한 것'만.
+
+[[dispatch]]
+id = "p69"
+project = "movie_game"
+batch = 24
+date = 2026-10-26
+task = "조사(클라우드 'searching', Haiku 5.5, 새 세션): 빅토리아 런던을 걸어 다니는 3D 공간과 인물을 만드는 데 필요한 것 — 엔진 3D 역량(공식 문서), 런던·빅토리아 에셋 모음, 인물 파이프라인, 안개·비·가스등 분위기 수단, AI 3D 생성 도구 약관, 선례의 제작 방식(개발 블로그). 완료 조건: 원문 25건 이상"
+[dispatch.situation]
+S_no_code = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "아니오"
+S_web_blocked = "아니오"
+S_read_originals = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_template_given = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p66"
+told = "잠깐"
+minutes = [4, 10]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "빗댄 p66(가격·약관 HTML 원문 39건, 7.9분·2.98M)과 같은 모양: 공식 문서·블로그 원문 25건, 그림 없음. 엔진 문서는 JS 렌더링이 많아 막히는 시도가 섞여 p66과 비슷하게 ×0.5–1.3 → 4–10분 '잠깐'. 토큰 2–6M. 계산기 모름(Haiku). 셋을 동시에 보내 벽시계는 긴 쪽(p71)"
+hypotheses = ["H_cloud_session_rounds_v2"]
+# 계산기: 모름(Haiku 기준값 없음)
+
+[[dispatch]]
+id = "p70"
+project = "movie_game"
+batch = 24
+date = 2026-10-26
+task = "조사(클라우드 'searching', Haiku 5.5, 새 세션): 영어 음성·영국 느낌에 필요한 것 — 성우 섭외 경로와 계약 틀, AI 음성 도구의 영국 억양·약관, 입 모양·얼굴 애니 수단, 선례의 대사·음성 양, 자막·현지화 파이프라인, 빅토리아 영어 말투 자료(퍼블릭 도메인). 완료 조건: 원문 25건 이상"
+[dispatch.situation]
+S_no_code = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "아니오"
+S_web_blocked = "아니오"
+S_read_originals = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_template_given = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p66"
+told = "잠깐"
+minutes = [4, 10]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "p69와 같은 이유(p66 빗댐). 약관 페이지가 많아 막힘 시도가 p69보다 많을 수 있으나 범위 안"
+hypotheses = ["H_cloud_session_rounds_v2"]
+# 계산기: 모름(Haiku 기준값 없음)
+
+[[dispatch]]
+id = "p71"
+project = "movie_game"
+batch = 24
+date = 2026-10-26
+task = "조사(클라우드 'searching', Haiku 5.5, 새 세션): 3D 게임이 관찰·추리를 어떻게 구현했나 — 장치별로 플레이어가 하는 일/게임이 하는 일/필요한 시스템, '다 보여 주는 탐정 시야' 비판, 두 단계 관찰·가지치기와 맞닿는 설계 글(GDC 강연·개발 블로그·설계 비평). 완료 조건: 원문 20건 이상"
+[dispatch.situation]
+S_no_code = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "아니오"
+S_web_blocked = "아니오"
+S_read_originals = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_template_given = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p22"
+told = "다른 일"
+minutes = [5, 12]
+tokens_class = ["T1"]
+tokens_m = [3, 8]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "빗댄 p22–p27(클라우드 Haiku 연구 글 조사, 10–20분·3–8M, 그때는 전송 조건이 없어 이어서 지시로 깊였다)과 p39·p66(전송 조건 있음, 3–8분). 강연·긴 글 원문 20건은 가격 페이지보다 한 건이 길어 p66의 ×0.7–1.5 → 5–12분, 걸쳐서 긴 쪽 '다른 일'. 토큰 3–8M"
+hypotheses = ["H_cloud_session_rounds_v2"]
+# 계산기: 모름(Haiku 기준값 없음)
