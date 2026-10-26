@@ -47,3 +47,86 @@ id = "G_logic"
 text = "논리적 사고가 게임의 바탕이다"
 parent = "G_game"
 source = "user"
+
+# ---------- 상태 (상황 대 보기) ----------
+[[state]]
+id = "S_solo_no_art"
+text = "개발자가 1인(AI 코딩 보조)이고 그림을 직접 그리지 못한다"
+known_before = true
+note = "2026-10-26 AI 추정(조사 지시서의 전제로 썼다). 사용자 확인 전 — 사용자가 다르다고 하면 고친다"
+
+# ---------- 사실 (조사, 2026-10-26, out/research/2026-10-26-movie-game-design/) ----------
+[[fact]]
+id = "F_r_solo_precedents"
+text = "1인이 만든 추리·미스터리 게임 선례: Return of the Obra Dinn(Lucas Pope, Unity, 1비트 디더링 3D), Blue Prince(Tonda Ros, 8년, 고유 화풍에 약 3년, Unity), The Roottrees Are Dead 원작(Jeremy Johnston이 11개월, Unity, 코르크 보드 UI). Shadows of Doubt(ColePowered Games)의 1인 여부는 2차 보도 기준"
+checked = 2026-10-26
+source = "조사 p65·p66 — 위키백과 원문(Return_of_the_Obra_Dinn, Blue_Prince, The_Roottrees_are_Dead, Shadows_of_Doubt)"
+
+[[fact]]
+id = "F_r_duo_precedents"
+text = "2인 선례: The Case of the Golden Idol(형제 2인 + 작곡가, Godot, 90년대 포인트앤클릭풍 평면 일러스트), Strange Horticulture(형제 2인, 수채 손그림), Tangle Tower(형제 2인 + 외주 아티스트, Unity, 출시까지 2년). Pentiment는 2인에서 13인으로 늘었다"
+checked = 2026-10-26
+source = "조사 p65·p66 — 위키백과 원문, intoindiegames.com Adam Vian 인터뷰"
+
+[[fact]]
+id = "F_r_realistic_3d_scale"
+text = "사실적 3D 셜록 홈즈 시리즈(Crimes & Punishments UE3, Chapter One UE4)의 Frogwares는 6인에서 80인으로 커진 스튜디오다. 1인 사실적 3D 선례는 조사에서 찾지 못했다"
+checked = 2026-10-26
+source = "조사 p65·p66 — 위키백과 원문(Frogwares, Sherlock_Holmes:_Crimes_&_Punishments)"
+
+[[fact]]
+id = "F_r_deduction_ui"
+text = "추리를 화면에 올린 장치(스크린샷·원문 확인): 사건판에 핀·빨간 실로 증거 잇기(Shadows of Doubt) / 탐색↔생각 슬라이더와 이름·물건 타일 채우기(Golden Idol) / 로그북·승무원 명단·회중시계(Obra Dinn) / 코르크 보드 가계도와 할 일 메모(Roottrees) / 증거 영상 검색 데이터베이스(Her Story) / 도감 펼침·돋보기·메모지(Strange Horticulture) / 케이스북(Lamplight City) / 'Objection!' 증거 제시 연출과 지문 확대(Ace Attorney) / 생각을 화면 위 글자로 보여 주는 'Sherlock Vision'(Crimes & Punishments, BBC 셜록을 참고했다는 개발사 인용)"
+checked = 2026-10-26
+source = "조사 p65 — 스팀 스크린샷 38장 직접 확인 + 위키백과 원문"
+
+[[fact]]
+id = "F_r_engine_cost"
+text = "엔진 비용(공식 페이지): Godot MIT 무료 / Ren'Py 무료·상용 가능 / GameMaker 비상업 무료·상업 Professional 일회성 $99.99 / Unity Personal 연 매출·투자 $200,000 이하 무료. Unreal 로열티 조항은 페이지가 열리지 않아 미확인"
+checked = 2026-10-26
+source = "조사 p66 — godotengine.org/license, renpy.org, gamemaker.io 가격 FAQ, unity.com/pricing-updates"
+
+[[fact]]
+id = "F_r_outsourcing_rates"
+text = "2D 외주 공개 단가(개인 아티스트 단가표 2곳): 픽셀 스프라이트 $15–50/장, 픽셀 일러스트 $50–80/장, 인물 일러스트 단순 $45–75·상세 $80–120/장, 배경 200–300 USD/장. 3D 모델·FMV 촬영·UI 단가는 원문 못 찾음"
+checked = 2026-10-26
+source = "조사 p66 — azzicore.carrd.co, pixelrakuen-commissionrates.carrd.co"
+
+[[fact]]
+id = "F_r_ai_art_terms"
+text = "AI 그림 도구(공식 약관): Ideogram Plus $20/월·Pro $60/월, 출력물 권리는 사용자에게 양도하되 유일성은 보장하지 않음 / Stability AI Community License 연 매출 $1,000,000 이하 상업 무료 / FLUX.1-dev는 비상업 라이선스 표시와 출력물 상업 사용 문구가 같이 있어 범위 미확정. Midjourney·Adobe·OpenAI 약관은 열리지 않음. VRAM 8GB 로컬 실행 가능 여부는 모델 카드에 수치가 없어 미확인"
+checked = 2026-10-26
+source = "조사 p66 — about.ideogram.ai/tos, docs.ideogram.ai/faq, stability.ai/community-license-agreement, huggingface.co/black-forest-labs/FLUX.1-dev"
+
+[[fact]]
+id = "F_r_asset_packs"
+text = "추리 소재 에셋 팩 가격: 픽셀 아이콘·인물 $2.99–11.99, 복셀 누아르 $12.95–39.90, 로우폴리 탐정 €5.99 이상, 2D 벡터 누아르 팩 '값은 자유'. 라이선스(출처 표기·재배포 금지)는 팩마다 다르다. 회화풍·사실적 3D·FMV 쪽 팩은 못 찾음"
+checked = 2026-10-26
+source = "조사 p66 — itch.io 팩 페이지 6곳"
+
+[[fact]]
+id = "F_r_victorian_fonts"
+text = "빅토리아 느낌 세리프 글꼴 중 상용 무료(SIL OFL 1.1, GitHub 원문 확인): Libre Baskerville, Playfair Display, IM Fell English. 한국어 세리프: Noto Serif KR, Nanum Myeongjo(모두 OFL)"
+checked = 2026-10-26
+source = "조사 p66 — github.com/google/fonts OFL.txt 원문"
+
+# ---------- 가설 (AI 판단, 2026-10-26. 사용자 판정 전) ----------
+[[hypothesis]]
+id = "H_code_made_look"
+text = "그림을 직접 그리지 못하는 1인 개발에서는 코드로 내는 화풍(셰이더·디더링·타이포·종이 질감 레이아웃)이 그림 중심 화풍(손그림·회화풍·사실적 3D)보다 화면 전체의 일관성을 지키기 쉽고 비용이 적다"
+source = "ai"
+conditions = ["S_solo_no_art"]
+evidence = ["F_r_solo_precedents", "F_r_outsourcing_rates", "F_r_ai_art_terms"]
+against = ["F_r_duo_precedents"]
+serves = ["G_design"]
+test_plan = "같은 장면을 두 갈래(코드 화풍 / AI·외주 그림)로 시안을 만들어 사용자 판정(어느 쪽이 '셜록 영화 같은가', 어느 쪽 제작이 더 걸렸나). 1인 선례(Obra Dinn·Blue Prince)가 코드 화풍이고 2인 선례가 그림 화풍인 것은 근거이지만 사후 설명이다"
+note = "2026-10-26 AI 판단. 반대 근거: 2인 선례들은 아티스트 한 명이 그림 화풍을 맡았다 — 사람이 한 명 더 있으면 성립하지 않는 조건"
+
+[[hypothesis]]
+id = "H_pieces_board_serves_reasoning"
+text = "단서를 조각으로 화면에 놓고 플레이어가 직접 잇거나 채우게 하는 장치(사건판·이름 타일·로그북·가계도)가, 단서를 자동으로 띄워 주는 장치(화면 위 글자 연출·자동 스캔)보다 '플레이어가 머리를 쓴다'와 '셜록이 다 하지 않는다'에 맞는다"
+source = "ai"
+evidence = ["F_r_deduction_ui"]
+serves = ["G_player_reason", "G_balance"]
+test_plan = "종이 프로토타입이나 첫 화면 시안으로 사용자 판정: 어느 장치에서 '내가 추리했다'는 느낌이 들었나. 화면 위 글자 연출은 셜록의 명석함을 보여 주는 연출로 따로 쓰일 수 있어, 둘을 섞는 방법도 시안에 넣는다"
+note = "2026-10-26 AI 판단. 이 가설은 디자인 갈래와 별개로 UI 장치를 고르는 기준"

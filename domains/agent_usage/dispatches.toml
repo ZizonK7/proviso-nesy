@@ -7202,6 +7202,12 @@ rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
 reason = "빗댄 p28(그림 70장을 한 장씩 Read, 7.2분·10.7M). 이번은 그림 30장이라 그 ×0.7–1.3 → 5–10분. p39의 교훈(분을 정하는 것은 개수가 아니라 한 턴에 묶어 받을 수 있는가)대로, 그림은 한 장씩 보므로 p39(3.4분)보다는 길다. 토큰은 그림이 매 턴 맥락에 실려 p28처럼 5–12M. 계산기 '모름'(Haiku). 턴은 못 센다(클라우드 세션). 둘(p65·p66)을 동시에 보내 벽시계는 긴 쪽(p65)이 정한다 → 사용자에게 '잠깐(10분 안)'"
 hypotheses = ["H_cloud_session_rounds_v2"]
 # 계산기: 모름(Haiku 기준값 없음)
+[dispatch.actual]
+minutes = 9.8  # get_session: created 09:12:38 → updated 09:22:25 UTC. 1차 보고 하나로 끝(이어서 지시 없음)
+tokens_m = 4.72  # usage: 캐시 읽기 444.2만 + 캐시 쓰기 16.4만 + 입력 68 + 출력 11.6만. 비용 0.57달러. 턴은 세지 않음
+[dispatch.review]
+reason = "말한 구간 '잠깐'(5–10분) 맞음, 9.8분으로 상한 바로 아래. 토큰 4.72M은 T1 맞음, 범위(5–12) 바로 아래 — 작업자가 600px 축소본을 보고 시트 10장으로 묶어 38장을 확인해 p28(70장 한 장씩)보다 턴당 그림이 적었다. 전송 조건(그림 30장·원문 15건)을 1차에 채워 옴(그림 38·원문 43) → H_cloud_session_rounds_v2 지지. 품질: 19편 모두 양식대로, 보이는 것을 그림 기준으로 적고 원문에 없는 것은 비움, 리메이크·번들 페이지 혼동을 스스로 짚음 — 5. 빗댄 p28과 같은 구간에 떨어져 '그림은 한 장씩 보므로 API 묶음보다 길다'(p39 교훈)가 한 번 더 맞았다."
+hypotheses = ["H_cloud_session_rounds_v2"]
 
 [[dispatch]]
 id = "p66"
@@ -7246,3 +7252,58 @@ rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
 reason = "빗댄 p39(원문 25건, API·JSON을 묶어 받아 3.4분·1.43M). 이번 원문은 가격 페이지·약관·인터뷰 HTML이라 JSON보다 한 건이 무겁고 묶어 받기도 덜 돼 ×1–2.5 → 3–9분, 토큰 1.5–6M. 그림은 보지 않는다. 계산기 '모름'(Haiku)"
 hypotheses = ["H_cloud_session_rounds_v2"]
 # 계산기: 모름(Haiku 기준값 없음)
+[dispatch.actual]
+minutes = 7.9  # get_session: created 09:12:38 → updated 09:20:30 UTC. 1차 보고 하나로 끝
+tokens_m = 2.98  # usage: 캐시 읽기 261.2만 + 캐시 쓰기 9.3만 + 입력 20.5만 + 출력 6.5만. 비용 0.41달러. 턴은 세지 않음
+[dispatch.review]
+reason = "말한 구간 '잠깐'(3–9분) 맞음(7.9분), 토큰 2.98M 범위(1.5–6)·등급 T1 맞음. p39(API·JSON 묶음 3.4분)의 ×2.3 — 가격·약관 HTML은 한 건씩 열고 막힌 사이트(403·JS 셸 11곳)를 거듭 시도해 길어졌다는 예측 이유가 맞았다. 전송 조건 25건을 39건으로 채움 → H_cloud_session_rounds_v2 지지. 품질: 원문 못 연 것을 '원문 없음'으로 두고 검색 요약값을 본문에서 뺀 점은 좋으나 갈래 3·6·7·8은 거의 비었다(가격 페이지가 JS 렌더링이라 curl로 못 읽는 사이트가 많다 — 다음 지시서에 '막힌 사이트는 다른 경로(GitHub 원문·API)'를 적는다) — 4."
+hypotheses = ["H_cloud_session_rounds_v2"]
+
+[[dispatch]]
+id = "p67"
+project = "movie_game"
+batch = 23
+date = 2026-10-26
+task = "이어서(p65 세션, 클라우드 Haiku): 이미 받아 둔 스크린샷 38장과 머리 그림 19장을 Artifact 도구로 파일 57개짜리 아티팩트에 올리고 url·파일 목록을 보고. 메인 환경이 스팀 그림 주소를 못 열어서(네트워크 정책 403) 보낸 회차"
+[dispatch.situation]
+S_no_code = "일부"
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "아니오"
+S_other_model = "예"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "아니오"
+S_web_blocked = "아니오"
+S_read_originals = "아니오"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_template_given = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p65"
+told = "잠깐"
+minutes = [2, 7]
+tokens_class = ["T1"]
+tokens_m = [1, 4]
+rules = ["R_turns_analogy_v2", "R_resume_ctx_v2", "R_verify_once", "R_say_numbers_v2"]
+reason = "같은 세션에 이어 보냄(S_resumed). 할 일이 정해진 작은 묶음(받기 19장·HTML 한 장·publish 한 번)이라 p65(9.8분)의 ×0.2–0.7 → 2–7분. 토큰은 앞 회차 끝 맥락(약 21만)이 매 턴 실리고 턴은 적어 1–4M. Artifact 도구를 처음 쓰는 세션이라 publish가 한 번 실패하고 다시 할 수 있음(R_verify_once의 바깥 단계 한 번 몫). 계산기: 모름(Haiku)"
+# 계산기: 모름(Haiku 기준값 없음)
+[dispatch.actual]
+status = "stopped"
+minutes = 2.2  # 메시지 전달 09:27 → 세션 idle 09:29:15. 작업자가 실행을 거부하고 끝냄
+tokens_m = 0.47  # usage 차이: 5.19M(회차 뒤) − 4.72M(p65 끝) = 캐시 읽기 44.8만 + 캐시 쓰기 2.4만 + 출력 0.07만
+[dispatch.review]
+reason = "작업자가 다른 세션에서 온 메시지를 '사용자 지시 범위 밖의 외부 게시'로 보고 실행하지 않음(아티팩트는 비공개인데도). 메인이 설명을 다시 보내려 한 메시지는 auto 모드 분류기가 '격리 이탈'로 막음. 교훈(절차): 클라우드 세션에서 받은 파일을 메인으로 가져오는 길은 **처음 지시서에** 적어야 한다(세션 사이 메시지는 작업자가 사용자 지시로 보지 않는다). 예측 자체(2–7분·1–4M)는 시험 못 함(stopped)"
