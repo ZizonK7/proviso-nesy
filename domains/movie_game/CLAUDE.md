@@ -13,4 +13,5 @@
 - 조사 원본: `out/research/2026-10-26-movie-game-design/`(화풍·비용), `out/research/2026-10-26-movie-game-needs/`(공간·음성·추리 장치, 모두 git 제외). 작업 보고서: [docs/worklog/2026-10-26-movie-game-design-research.md](../../docs/worklog/2026-10-26-movie-game-design-research.md), [docs/worklog/2026-10-26-movie-game-needs-research.md](../../docs/worklog/2026-10-26-movie-game-needs-research.md). 설계 문서 v0(필요한 것)는 비공개 아티팩트 https://claude.ai/artifact/A4V1CCN1n5Hm19Ko6Phq8q (저장소 md는 사용자 허락 대기).
 - **판단 기준에서 뺀 것(사용자, O_user_no_solo_limit)**: 비용·기간·1인 선례. 사실 노드에는 남기되 가설의 근거로 쓰지 않는다 — "뭘 하려면 뭐가 필요한가"만.
 - 2026-10-27: 사용자 PC 세션이 프로토타입 둘(Three.js·UE 5.8)을 만듦(F_proto_v0). 사용자 1차 반응은 "건물이 종이 쪼가리 같다"(O_user_paper_buildings) — "이 느낌인가" 판정은 아직. 엔진 결정도 아직.
-- 다음: 사용자 판정 → 엔진 결정(DECISIONS) → 결정 6개 → 프로토타입으로 가설 8개 시험. 화풍은 그 위에서 다시.
+- 2026-10-27 배치 26: 첫 사건 크기 조사(단편 4편 구조·관찰 조각·게임 사건 크기·대본 표본·입면 치수) → 사실 5, 가설 H_first_case_size. 사용자 결정: 추리 규칙의 첫 시험은 게임 안 플레이로, 사전 피드백은 크기만. 보고서 [docs/worklog/2026-10-27-movie-game-first-case-research.md](../../docs/worklog/2026-10-27-movie-game-first-case-research.md).
+- 다음: 사용자 크기 피드백(H_first_case_size) → DECISIONS → PC 세션이 UE 프로토타입에 사건 삽입 → 플레이 판정으로 가설 시험(두 단계 관찰·가지치기·국소 반응·묶음 확정·UE5). 화풍은 그 위에서 다시.
