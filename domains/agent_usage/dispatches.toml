@@ -8092,3 +8092,48 @@ wrong = ["R_turns_analogy_v2"]
 why = "조건 흐림"
 reason = "말한 구간 '다른 일' 틀림 — 8.6분은 '잠깐'. 계산기(기본 조각) 4.66–9.31분 '잠깐'이 맞음(코드 없는 페이지에서 p77에 이어 2번째). 턴 21 < 40–70, 토큰 2.49M < 5–10M. '창작이 더해져 p77의 1.5배'로 키웠는데 Opus는 글을 큰 Write 몇 번에 쓰고 렌더 확인도 한 번에 끝냈다(도구 12번). 교훈: 코드 없는 HTML 한 장(p77 9.3분, p82 8.6분)은 내용 양과 무관하게 9분 안팎 → 다음부터 이런 일은 계산기 기본 조각대로 '잠깐'으로 말한다(근거 2건). '14–15분 띠'는 코드+자동 시험이 있는 한 장(p46·p68·p76). 품질: 조사 보고서의 원문 확인 사실만 쓰고 출처 번호를 달았으며, 예시에 '사용자 결정 아님'을 세 곳에 붙이고 추정·역사 확인 필요를 표시, 두 예시 모두 배후 한 명 없이 서로 다른 조합 — 5"
 hypotheses = []
+
+[[dispatch]]
+id = "p83"
+project = "movie_game"
+batch = 30
+date = 2026-10-27
+task = "구현(이어서 지시, p78 작업자): 플레이판에 홈즈의 앞선 추리 컷씬 둘 — 나) 첫 대면(분필 묻은 소맷부리·주머니의 읽기 책 → 가정교사), 가) 결론 전 한 걸음(숨긴 칸 상자·Mr. L 메모·하커 부인 → 장물아비, 톰이 숨은 까닭). 컷씬 장치(레터박스·단서 비추기·대사), SVG 소품 둘, JSON, 자동 시험. DECISIONS 18. Opus high, SendMessage로 이어서"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "일부"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p78"
+told = "다른 일"
+minutes = [10, 20]
+turns = [45, 90]
+tokens_class = ["T1"]
+tokens_m = [8, 18]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댄 p78(같은 작업자가 같은 플레이판 고침 셋, 15.0분·63턴·9.05M). 이번은 이어서 지시라 읽기가 줄지만, 그 뒤 메인이 템플릿을 크게 바꿔(v3.1–v4) 다시 읽어야 하고, 새 장치(컷씬)·그림 소품·시험이 더해진다 → p78과 비슷한 크기 10–20분 '다른 일'. 토큰은 이어진 맥락이 커서 턴당 크다 → 8–18M. 계산기(기본 조각) 2.35–4.70분 '잠깐'(S_resumed가 크게 줄임), 비유(p78) 6.71–13.4분 '다른 일'"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.35, 4.70]
