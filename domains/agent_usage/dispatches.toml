@@ -7966,6 +7966,15 @@ tokens_m = [2, 7]
 rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
 reason = "p79와 같은 모양의 클라우드 Haiku 글 조사(원문 15건). 계산기 모름(Haiku)"
 hypotheses = ["H_cloud_session_rounds_v2"]
+[dispatch.actual]
+status = "done"
+minutes = 3.4  # get_session: 03:26:41 → 03:30:04 UTC
+turns = 26  # result.num_turns
+tokens_m = 1.24  # usage: 캐시 읽기 110.8만 + 캐시 쓰기 7.0만 + 입력 2.7만 + 출력 3.3만. 비용 0.15달러
+[dispatch.review]
+wrong = ["R_research"]
+why = "조건 흐림"
+reason = "말한 구간 '잠깐' 맞음(3.4분). 분 3.4는 4–10 아래, 토큰 1.24M은 2–7M 아래(T1 맞음). 원문 37건(조건 15건의 2배 넘음)을 3.4분에 — 대부분 raw.githubusercontent의 README·LICENSE라 페이지가 작고 빨리 읽힌다. 클라우드 Haiku 글 조사 띠를 '3–10분'으로 넓힌다(4/4 '잠깐' 안). 품질: 표가 촘촘하고 확인 못 한 곳을 정직하게 표시, MeloTTS 영국 화자·MIT 상업 사용 문장은 메인이 원문으로 재확인함. UE 문서 본문은 못 열어 검색 요약만 — 4"
 
 [[dispatch]]
 id = "p81"
@@ -8007,6 +8016,61 @@ tokens_class = ["T1"]
 tokens_m = [3, 7]
 rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
 reason = "p77 교훈: 코드 없는 글·표 한 장은 분당 턴이 높아 빠르다(9.3분·45턴). 이번은 그림·HTML 없이 표 하나라 p77보다 작게 → 5–10분 '잠깐'. 계산기(기본 조각) 4.7–9.3분 '잠깐', 비유(p77) 7.1–14.1분 '다른 일'"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [4.66, 9.31]
+[dispatch.actual]
+status = "done"
+minutes = 4.9  # scripts/agent_usage.py: 03:27:03 → 03:31:57
+turns = 10
+tokens_m = 0.84  # 캐시 읽기 61만 + 캐시 쓰기 23만 + 출력 0.5만
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '잠깐' 맞음(4.9분, 계산기 4.66–9.31도 맞음). 분은 5–10의 아래 끝, 턴 10은 25–50보다 훨씬 적고 토큰 0.84M은 3–7M보다 작음(T1 맞음). p77(설계 비교 페이지, 45턴)에 빗댔는데 이번은 읽을 파일 4개를 읽고 표 하나를 한 번에 쓴 일이라 도구 호출 7번으로 끝났다 — '글 한 장'이라도 페이지(HTML·렌더 확인)와 표 하나(마크다운 한 번 쓰기)는 턴이 4배 다르다. 다음부터: 읽고 표 하나 쓰는 검수는 10–20턴·1–3M으로 잡는다(근거 1건). 품질: 33건(높음 4), 논리 구멍(목수)·말씨 섞임·시대 표현을 짚고 확신을 나눠 표시, 원어민 아님·사전 미확인을 정직하게 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p82"
+project = "movie_game"
+batch = 29
+date = 2026-10-27
+task = "설계 초안(HTML 한 장): 수렴 방식 예시판(방식 8가지·실제 예·잘 되는/억지 조건·섞는 법) + 수렴점 한 장 빈 틀(DECISIONS 16 칸) + 채운 예시 2개(결정 아님, 두 방식 이상, 한 인물 지휘 기본값 금지, 첫 사건 씨앗 사용) + 사용자가 정할 질문. 입력: p79 조사 보고서(고친 판). Opus high, 세션 안 Agent"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "일부"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p77"
+told = "다른 일"
+minutes = [10, 18]
+turns = [40, 70]
+tokens_class = ["T1"]
+tokens_m = [5, 10]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "p77(설계 비교 HTML 한 장, 9.3분·45턴·5.6M)에 빗댐. 이번은 조사 보고서를 읽고 방식 8가지·빈 틀·채운 예시 둘을 새로 쓰는 창작이 더해져 글이 p77의 1.5배쯤 → 10–18분 '다른 일'. p81 교훈(표 하나는 10턴)은 여기 안 맞음: HTML 페이지는 렌더 확인 바퀴가 있다. 계산기(기본 조각) 4.66–9.31분 '잠깐', 비유(p77) 7.07–14.1분 '다른 일'"
 hypotheses = []
 [dispatch.calc]
 told = "잠깐"
