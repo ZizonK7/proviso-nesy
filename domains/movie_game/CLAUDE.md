@@ -19,4 +19,6 @@
 - 2026-10-27 밤, 첫 플레이 피드백(브라우저 플레이판): 사용자가 "홈즈가 왜 갑자기 '집에서 곧장 왔나'를 궁금해하는지 모르겠다"(O_user_q1_no_trigger). 질문이 대본(에이다의 말)만으로 켜졌던 것이 원인 → **질문 = 말 + 플레이어가 본 조각**으로 고치고 H_question_from_seen을 세움. H_observe_cost_and_question 첫 판정 '일부'(틀은 판정 전, 질문의 출처가 빠졌음). 판정 기록 3.
 - 2026-10-27 밤, 플레이 피드백 3–5회차: 보드 막다른 길(H_no_fillable_dead_end), 단서 읽기(H_clue_one_reading), 확정 문장(H_conclusion_reads_as_sentence), 홈즈가 조사 전에 아는 순서(H_reason_findable 사용자 판정 '일부'). 플레이판 v4는 "질문 = 본 것 + 들은 말".
 - 2026-10-27 밤, PC 밖 초안(배치 29): 수렴 사례(F_r_convergence_cases)·수렴 틀 가설 셋, 임시 음성(F_r_tts_local, H_temp_voice_kokoro). 보고서 [docs/worklog/2026-10-27-movie-game-drafts.md](../../docs/worklog/2026-10-27-movie-game-drafts.md). 사용자 판정 대기.
+- 2026-10-27 밤, 플레이 피드백 5–6회차와 결정 18–20: 홈즈의 앞선 추리(같은 재료·홈즈만의 도약·컷씬, H_holmes_lead_same_info_leap), 시점(3인칭 걷기+1인칭 살펴보기), 수렴 방향(선택 분기 안 함·원작은 반영만). Q1은 되묻기+전보로 시선(H_doubt_shown_not_explained), 거짓말엔 설계된 이유(H_lie_has_reason_not_now). 실제 화면 10장에 대한 사용자 판정(O_user_ref_shots_1·2). 설계서·PC 지시서는 플레이판 v7 기준으로 갱신됨.
+- 2026-10-27 밤, 수렴점 시안 넷(메인이 직접 씀, 비공개 아티팩트 https://claude.ai/artifact/6atfXRyzcC9zwDZDByiZ79 — 사용자가 "맡겨도 되는지 보겠다"고 해서 시험 쓰기). 피드백 대기. 남은 수렴 질문: 마지막 그림의 무게, 홈즈의 과거.
 - 다음: PC 세션이 첫 장면을 UE 프로토타입에 넣음(movie_game docs/briefs/case01-ue-brief.md) → 사용자 플레이 판정으로 가설 6개 시험. 그 사이 여기서: 수렴 예시, 수렴점 한 장 틀, 임시 음성 준비. 화풍은 그 뒤.
