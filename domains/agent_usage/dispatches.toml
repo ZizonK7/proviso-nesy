@@ -7880,3 +7880,134 @@ tokens_m = 9.05  # 캐시 읽기 861만 + 캐시 쓰기 42만 + 출력 1.8만
 [dispatch.review]
 reason = "말한 구간 '다른 일' 맞음(15.0분). 턴 63은 40–80 안, 토큰 9.05M은 5–10M T1 안 — 셋 다 맞음. 계산기(기본 조각) 9.85–19.7분 '다른 일'도 맞음, 비유 계산(p76 ×) 4.3–8.5분 '잠깐'은 틀림: 있는 코드를 고치는 일은 처음 만든 기록에 빗대면 짧게 나온다(읽기·시험 고치기가 더해짐) — C_fix_existing이 맞게 턴을 올렸다. 분당 4.2턴(p76 2.8보다 빠름), 턴당 14.4만. 중간에 메인 세션의 모델이 바뀌었지만(사용자 /model) 하위 에이전트는 그대로 돌았다. 품질: 고침 셋 전부 + 시험 63→98, 지시서의 '넣는 즉시 뜻을 보인다'가 3자리 동시 확정 규칙과 부딪힌다는 것을 스스로 찾아 '확정 뒤에만'으로 바꾸고 한 줄 스위치로 남김, 한글 조사 자동 맞춤·D2 한글 문장 틀 수정 — 5"
 hypotheses = []
+
+[[dispatch]]
+id = "p79"
+project = "movie_game"
+batch = 29
+date = 2026-10-27
+task = "조사(클라우드 'searching', Haiku 5.5): 사건 단위 이야기가 끝에서 수렴하는 방식의 사례 — 게임·드라마·소설 12편 이상, 수렴 방식 5가지 이상(한 인물 지휘가 아닌 사례 4편 이상), 초반 사건에 심은 씨앗, 억지/납득 평가. 완료 조건: 원문 18건 이상"
+[dispatch.situation]
+S_no_code = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "아니오"
+S_web_blocked = "아니오"
+S_read_originals = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_template_given = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p75"
+told = "잠깐"
+minutes = [4, 10]
+tokens_class = ["T1"]
+tokens_m = [2, 7]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "클라우드 Haiku 글 조사는 원문 수와 무관하게 4–10분(p71·p73–p75 3/3). 이번 원문 18건은 p75(20건, 6.2분·3.1M)와 같은 크기. 계산기 모름(Haiku)"
+hypotheses = ["H_cloud_session_rounds_v2"]
+
+[[dispatch]]
+id = "p80"
+project = "movie_game"
+batch = 29
+date = 2026-10-27
+task = "조사(클라우드 'searching', Haiku 5.5): 임시 영어 음성(영국 억양) — RTX 4060에서 돌릴 로컬 TTS 후보(영국 목소리·라이선스·VRAM·윈도 설치), API 대안, 대사 파일 양식과 UE 5.8 가져오기. 완료 조건: 원문 15건 이상(모델 카드·README·LICENSE·UE 문서)"
+[dispatch.situation]
+S_no_code = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "아니오"
+S_web_blocked = "아니오"
+S_read_originals = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_template_given = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p75"
+told = "잠깐"
+minutes = [4, 10]
+tokens_class = ["T1"]
+tokens_m = [2, 7]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "p79와 같은 모양의 클라우드 Haiku 글 조사(원문 15건). 계산기 모름(Haiku)"
+hypotheses = ["H_cloud_session_rounds_v2"]
+
+[[dispatch]]
+id = "p81"
+project = "movie_game"
+batch = 29
+date = 2026-10-27
+task = "검수: 첫 장면 영어 대사·반응·보드 문장(scene01.json)을 빅토리아 시대 영국 영어 말투·인물 목소리·단서 논리·한글 자막 자연스러움으로 검토, 고칠 안만 표로(파일은 안 고침). Opus high, 세션 안 Agent"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "일부"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p77"
+told = "잠깐"
+minutes = [5, 10]
+turns = [25, 50]
+tokens_class = ["T1"]
+tokens_m = [3, 7]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "p77 교훈: 코드 없는 글·표 한 장은 분당 턴이 높아 빠르다(9.3분·45턴). 이번은 그림·HTML 없이 표 하나라 p77보다 작게 → 5–10분 '잠깐'. 계산기(기본 조각) 4.7–9.3분 '잠깐', 비유(p77) 7.1–14.1분 '다른 일'"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [4.66, 9.31]
