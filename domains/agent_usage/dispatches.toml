@@ -8674,3 +8674,48 @@ turns = 43
 tokens_m = 2.51  # usage: 캐시 읽기 183.9만 + 캐시 쓰기 9.5만 + 입력 52.0만 + 출력 6.1만. 비용 0.39달러
 [dispatch.review]
 reason = "말한 구간 '잠깐' 맞음(4.6분), 토큰 2.51M은 1–5M·T1 안. 클라우드 Haiku 글 조사 3–10분 띠 7/7. 품질: 7항목 모두 '된다/안 된다/조건부'로 결론을 냈고, 이야기를 고쳐야 할 곳 8개(사망→교수형 2–3개월, 1868년 이후 교도소 안 집행, 경찰이 공을 가져간 실제 사례 없음, 1880년대 잉글랜드 사후 무죄 사례 없음)가 쓸모 있음. Old Bailey Online은 403. 요약 도구로 읽은 3건을 따로 표시 — 5"
+
+[[dispatch]]
+id = "p94"
+project = "movie_game"
+batch = 33
+date = 2026-10-27
+task = "비평 2회차(이어서, p92 작업자): 수렴점 v2가 v1 비평 26건과 역사 확인을 제대로 반영했는지, 새로 생긴 구멍, 남은 '따라 함', 5번·6번 장치의 일관성. 고칠 안 표. 파일은 안 고침"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p92"
+told = "잠깐"
+minutes = [5, 9]
+turns = [8, 16]
+tokens_class = ["T1"]
+tokens_m = [1, 3]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댄 p92(9.2분·14턴·1.4M). 이어서 지시라 읽기가 줄고(v2 한 장 + 역사 보고서), 표가 짧아짐 → 5–9분 '잠깐'. 계산기(S_resumed) 2.35–4.70 '잠깐'"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.35, 4.70]
