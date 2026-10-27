@@ -8995,3 +8995,13 @@ hypotheses = []
 [dispatch.calc]
 told = "잠깐"
 minutes = [4.04, 8.09]
+[dispatch.actual]
+status = "done"
+minutes = 4.7  # 알림 duration 280초 (10:44:51 → 10:49:31)
+turns = 36  # agent_usage.py 전체 244 − p96까지 208
+tokens_m = 19.4  # 전체 76.84M − 57.48M
+[dispatch.review]
+wrong = ["R_time_turns_v2", "R_say_numbers_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' 틀림 — 4.7분은 '잠깐'. 손 예측 7–13 빗남, 턴 36은 35–60 안, 토큰 19.4M은 15–30 안(T2). 턴은 맞고 시간이 짧다 = 분당 7.7턴으로 빠름: 같은 작업자 6회차라 어디를 고칠지 바로 알고 짧은 턴으로 돈다(p89 6턴/분·p91 4.3턴/분과 같은 결). 계산기 4.0–8.1 '잠깐'이 맞았다 — 이어서 고침은 계산기가 손보다 낫다(p91·p99). 품질: 192/192, 참조 점검 357, HTML 설계 낱말 0을 시험에 넣음, 데이터가 비운 둘을 가장 가까운 동작으로 하고 보고 — 5"
+hypotheses = []

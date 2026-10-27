@@ -20,7 +20,8 @@
 
 ## 확인한 것 (어떻게)
 - 작가·작업자 보고의 명령: `python3 -c "import json; json.load(open('content/case01/scene01.json'))"`, `python3 proto/scene01-play/src/build.py`(참조 점검 포함), `cd /tmp && node proto/scene01-play/src/playtest.js`, `grep -c '씨앗\|수렴\|봉인\|거짓말' content/case01/scene01.json` → 0 (메인이 다시 돌림).
-- p99 결과: (아래 갱신)
+- p99 결과(메인이 직접 다시 돌림, movie_game 루트): `python3 proto/scene01-play/src/build.py` → 참조 점검 357/357, 빌드 성공; `grep -c '씨앗\|수렴\|봉인\|거짓말' proto/scene01-play/scene01-play.html` → 0; `cd /tmp && node .../playtest.js` → 192/192 통과, 콘솔 오류 0. 아티팩트 같은 주소 버전 13.
+- 커밋: movie_game `b1b2700`(v1 데이터·문서) → `d30732a`(수렴점 v3 한 구절) → `64bda41`(v2 + 플레이판). 이 저장소: 기록·보고서.
 
 ## 확인 못 한 것
 - 사람이 실제로 하는 플레이(사용자 몫 — 끝 화면 JSON을 세션에 붙이면 논리집 판정으로).
