@@ -8561,3 +8561,11 @@ hypotheses = []
 [dispatch.calc]
 told = "잠깐"
 minutes = [2.35, 4.70]
+[dispatch.actual]
+status = "done"
+minutes = 4.0  # task-notification duration_ms 237245
+turns = 17  # 전체 144 − p89까지 127
+tokens_m = 5.53  # 전체 31.27M − 25.74M
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(4.0분, 4–8 아래 끝, 계산기 2.35–4.70 안). 턴 17 < 20–35, 토큰 5.53M < 6–12M(T1 맞음). 이어서 4회차(6.8 → 4.5 → 4.0분): 글자만 바꾸는 회차는 계산기 기본 조각이 정확하고 손 예측은 계속 조금 높다. 품질: 33행을 반영/확인/건너뜀으로 나눠 보고, 검수 안과 다르게 쓴 곳을 따로 표시, 시험에 '해커·Mr. L 없음' 검사 추가 — 5"
+hypotheses = []
