@@ -681,3 +681,26 @@ evidence = ["O_user_lie_needs_reason", "O_user_explaining_line_cringe"]
 serves = ["G_logic", "G_story", "G_player_reason"]
 test_plan = "첫 장면 플레이 뒤 '왜 거짓말했지?'가 남는지 사용자 판정. 남지 않으면 장면에서 안 밝혀도 된다는 쪽 지지"
 note = "2026-10-27 사용자 결정. 에이다의 거짓말 이유(가정교사의 평판 — 선술집 문 앞에 서 있었다는 것이 주인댁에 알려지면 자리를 잃음)는 설계서에 적고 장면에는 넣지 않는다"
+
+# ---------- 실제 화면 사례에 대한 사용자 판정 (2026-10-27, p90 사진판) ----------
+[[observation]]
+id = "O_user_ref_shots_1"
+text = "사용자(2026-10-27, 실제 게임 화면 5장을 보고): (1) 단서 위의 둥근 표시(Crimes & Punishments)는 '한 번 찾은 단서'에 쓰는 게 좋다. 브라우저 판의 깔끔한 점선 테두리도 좋다. 관찰의 재미가 있어야 하니 찾기 전에는 대놓고 표시하지 않는다. (2) 클로즈업으로 살펴볼 영역을 정해 주는 것(The Awakened의 자물쇠)은 괜찮다. (3) 얼굴 클로즈업으로 연기를 보이는 것(L.A. Noire)은 가능하면 무조건 좋다. (4) 현실성을 높이는 것은 무조건 좋다. (5) 화면 아래 자막은 정석이고 우리는 한글로 쓴다"
+source = "user"
+date = 2026-10-27
+
+[[judgment]]
+of = "H_two_stage_observation"
+source = "user"
+verdict = "일부"
+date = 2026-10-27
+note = "'찾기 전에는 표시하지 않는다(관찰의 재미)'는 사용자가 실제 화면을 보고 확인. 찾은 뒤에는 표시를 남긴다(고리 또는 점선). 플레이 판정은 아직"
+evidence = ["O_user_ref_shots_1"]
+
+[[judgment]]
+of = "H_lie_has_reason_not_now"
+source = "user"
+verdict = "지지"
+date = 2026-10-27
+note = "거짓말의 이유를 '오빠가 오지 말라고 했는데 갔다'로 정함('그 정도면 충분'). 고백 줄에는 그 사실만 넣고 이유는 플레이어가 잇는다"
+evidence = ["O_user_lie_needs_reason"]
