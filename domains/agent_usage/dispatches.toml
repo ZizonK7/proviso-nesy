@@ -7718,3 +7718,48 @@ tokens_m = 3.12  # usage: 캐시 읽기 274.2만 + 캐시 쓰기 17.3만 + 입�
 [dispatch.review]
 reason = "말한 구간 '잠깐' 맞음(6.2분), 토큰 3.12M 범위(2–7)·T1 맞음. 원작 4편을 실제로 세고(줄 범위·wc -w 명시) 관찰→추리 사슬을 원문 인용으로 쪼갬, 원문이 사슬을 끊어 둔 곳과 출처 불일치를 표시 — 5. 배치 26 셋 다 4–10분 안: '클라우드 Haiku 글 조사는 원문 수와 무관하게 4–10분'(p71 교훈) 3/3 지지"
 hypotheses = ["H_cloud_session_rounds_v2"]
+
+[[dispatch]]
+id = "p76"
+project = "movie_game"
+batch = 27
+date = 2026-10-27
+task = "구현: 첫 장면 '젖은 왼쪽 소매'를 브라우저에서 대충 플레이할 수 있는 한 장(scene01.json 내장) — 방 셋(SVG), 1단계 핫스팟 표시 없음·2단계는 질문+관찰(3초 대가), 조각 주머니, 빈칸 셋 보드(3자리 동시 판정·국소 반응), 대사 자막, 결론 연출, 플레이 로그 + 피드백 설문 → JSON 복사. Playwright 확인. Opus high, 세션 안 Agent"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "일부"
+S_similar_past = "일부"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p68"
+told = "다른 일"
+minutes = [18, 36]
+turns = [45, 100]
+tokens_class = ["T1", "T2"]
+tokens_m = [7, 20]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_verify_laps", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댄 p68(SVG 시안 한 장, 13.7분·39턴·5M). 이번은 상태 기계(박자·질문·관찰 모드·보드 판정·로그)가 있는 상호작용 JS라 디버그 바퀴(Playwright로 클릭 흐름 끝까지)가 더 많다 → 턴 ×1.2–2.5 = 45–100, 분당 3–4턴 + 바퀴 → 18–36분 '다른 일'. 토큰 턴당 15–20만 → 7–20M. p68 교훈(화풍 수는 턴 크기만)은 여기선 안 맞고(로직 분기가 턴을 늘림), p72는 중단돼 참고 못 함. 계산기(기본 조각) 21–42분 '신경 끄기', 비유 계산(p68 ×0.72–1.37) 7–15분 '다른 일'"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [21.1, 42.3]
