@@ -572,3 +572,52 @@ verdict = "일부"
 date = 2026-10-27
 note = "'인물이 먼저 제시하고 상대가 나중에 이유를 찾는다'는 이유가 첫눈에 안 보일 때만 맞는다. 이유(한쪽만 젖은 소매)가 첫 조사에서 바로 보이는 자리에서는 인물이 먼저 아는 것이 어색하고, 이유 찾기는 이미 아는 것을 다시 내는 일이 된다. 사용자가 메인의 제안(본 것 + 들은 말이 만날 때 홈즈 속말이 어긋남을 대신 말함)을 골랐다. 조건을 더해 쪼갤 후보: H_reason_findable을 '이유가 첫눈에 안 보이는 단서'로 좁히고, 첫눈에 보이는 단서는 H_question_from_seen 쪽"
 evidence = ["O_user_holmes_before_look"]
+
+# ---------- PC 밖 초안 (배치 29, 2026-10-27, out/research/2026-10-27-movie-game-drafts/) ----------
+[[fact]]
+id = "F_r_convergence_cases"
+text = "사건 단위로 가다 끝에서 모이는 작품 14편(게임 10·드라마 2·소설 1 등)을 보면 모이는 방식은 여덟 갈래로 나뉜다: (가) 앞 사건이 증거가 됨 (나) 배후 하나 (다) 인물의 사정 (라) 물건·장소가 지나감 (마) 마지막 사실이 앞을 다시 읽게 함 (바) 주인공의 과거 (사) 선택의 결과가 쌓임 (아) 주제만 모임. 한 인물 지휘(나)가 아닌 방식으로 주로 모은 작품이 8편. 억지 평을 받은 경우: 배후가 결말에서 처음 얼굴을 보임(멘탈리스트), 사정을 마지막 장면에 몰아 설명(BBC 셜록 시즌 4), 처음 보는 증거를 소급. 잘 된 섞기: 역전재판 3(사건마다 작은 완결 + 공통 고리 하나 + 결말 한 장면에서 묶기)"
+checked = 2026-10-27
+source = "조사 p79(클라우드 Haiku, 위키백과 action=raw 23·리뷰 17, 1차 줄거리 오류를 메인이 짚어 원문 문장으로 재확인한 수정판)"
+
+[[fact]]
+id = "F_r_tts_local"
+text = "로컬 임시 음성 도구: MeloTTS는 영국 영어 화자가 EN-BR 하나뿐(README의 화자 목록 EN-Default·EN-US·EN-BR·EN_INDIA·EN-AU), MIT('free for both commercial and non-commercial use'). Kokoro-82M은 영국 영어(lang_code 'b') 지원, 'Apache-licensed weights'. F5-TTS 가중치는 CC-BY-NC(비상업), XTTS-v2는 출력까지 비상업, Chatterbox는 모든 출력에 워터마크. 런던 노동계층 억양을 명시한 도구는 찾지 못함. UE 5.8에서 자막을 현지화하려면 Sound Wave가 아니라 Dialogue Wave를 써야 한다는 것은 포럼 검색 요약만"
+checked = 2026-10-27
+source = "조사 p80(클라우드 Haiku, 원문 37건) + 메인이 MeloTTS·Kokoro README 원문 직접 확인"
+
+[[hypothesis]]
+id = "H_temp_voice_kokoro"
+text = "첫 장면 임시 음성은 영국 목소리가 여럿인 로컬 모델(Kokoro, 남 넷·여 넷)로 인물마다 다른 목소리를 붙이는 것이, 영국 목소리가 하나인 모델이나 API보다 '인물이 구분되는 영국 느낌'을 시험하기에 낫다"
+source = "ai"
+evidence = ["F_r_tts_local", "F_r_voice_ai_terms"]
+serves = ["G_english_british"]
+test_plan = "PC에서 같은 문장을 여덟 목소리로 뽑아 다섯 인물에 고른 뒤 첫 장면을 돌려 사용자 판정: 영국 느낌인가, 인물이 구분되나. 노동계층 억양(톰·하커 부인)이 모자라면 그 부분만 반박"
+note = "2026-10-27 메인 판단. 조사 작업자는 MeloTTS를 1순위로 올렸으나 영국 화자가 하나뿐이라 바꿈. H_voice_two_pass의 첫 단계(임시 음성)를 고르는 가설"
+
+[[hypothesis]]
+id = "H_strand_stands_alone"
+text = "수렴점 한 장에서 줄기마다 '이 줄기를 빼도 다른 줄기가 서나'를 칸으로 적게 하면, 한 인물이 전부 지휘하는 그림이 기본값으로 흘러드는 것을 쓰는 단계에서 잡을 수 있다"
+source = "ai"
+evidence = ["F_r_convergence_cases", "O_user_convergence_examples"]
+serves = ["G_convergence_not_single_mode"]
+test_plan = "두 번째 사건 전에 채운 한 장에서 이 칸이 '아니요'인 줄기가 나왔을 때 설계를 바꿨나(사용자 판정)"
+note = "2026-10-27 설계 초안 p82의 제안. 수렴점 설계판(비공개 아티팩트 https://claude.ai/artifact/VSGa73nvh5aZjiT1Lc6Nmr)의 빈 틀에 이 칸이 있다"
+
+[[hypothesis]]
+id = "H_reuse_confirmed_conclusions"
+text = "앞 사건을 뒤에서 증거로 다시 쓸 때, 플레이어가 보드에서 직접 확정한 결론만 쓰면 '처음 보는 증거를 사실은 중요했다고 소급'하는 억지를 피한다"
+source = "ai"
+evidence = ["F_r_convergence_cases"]
+serves = ["G_story_converges", "G_player_reason"]
+test_plan = "수렴 사건 플레이에서 '그게 언제 나왔지?' 반응이 있나(사용자 판정)"
+note = "2026-10-27 설계 초안 p82의 제안"
+
+[[hypothesis]]
+id = "H_convergence_faces_early"
+text = "수렴에 걸리는 인물은 마지막 사건보다 앞에서 얼굴을 보여야, 정체가 드러날 때 '새 인물 등장'으로 느껴지지 않는다"
+source = "ai"
+evidence = ["F_r_convergence_cases"]
+serves = ["G_story_converges"]
+test_plan = "수렴 사건 플레이 판정. 첫 사건의 하커 부인·Mr. L처럼 앞에서 얼굴만 비친 인물이 수렴 때 납득되는가"
+note = "2026-10-27 설계 초안 p82의 제안. 근거 사례는 멘탈리스트(억지 평)·커튼(배후가 앞에서 얼굴을 보임)"
