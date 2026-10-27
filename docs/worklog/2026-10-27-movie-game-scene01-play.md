@@ -6,7 +6,7 @@
 ## 한 일
 - 설계 데이터 `content/case01/scene01.json`을 글자 그대로 내장한 한 장짜리 페이지. 시작 → 의뢰(221B) → 거리 → 현장(뒷방) → 보드 → 결론 → 끝 화면(플레이 로그 10칸 + events + 설문 6개 + JSON 복사 + 다시 하기).
 - 규칙 구현: 1단계 핫스팟은 표시·윤곽 없음(커서만), 2단계는 켜진 질문 + [관찰](3초 잠금, 횟수 집계)일 때만, 보드는 세 칸이 다 찰 때만 판정·틀린 칸만 비움·칸 종류별 반응(두 번째부터 "Not there.")·왓슨의 잘못된 제안 한 번, 결론은 큰 글자 2초 + 안쪽 문.
-- 비공개 아티팩트로 발행: https://claude.ai/artifact/… (메인이 주소 채움). 소스(템플릿·빌드·시험)는 movie_game `proto/scene01-play/`.
+- 비공개 아티팩트로 발행: https://claude.ai/artifact/2MZv9MPnnoad3MnFZobHeu. 소스(템플릿·빌드·시험)는 movie_game `proto/scene01-play/`.
 
 ## 확인한 것 (어떻게)
 - 작업자: Playwright 자동 플레이 61/61 통과, 콘솔 오류 0. Q 없이 관찰 → 속말만 / 두 칸만 찼을 때 무반응 / 1단계 핫스팟 윤곽 없음(계산된 스타일) / 1280·400px 가로 스크롤 없음 / 형식(doctype 없음, 외부 주소 fonts.googleapis.com뿐).
