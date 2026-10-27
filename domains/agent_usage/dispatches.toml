@@ -7827,3 +7827,48 @@ wrong = ["R_time_turns_v2"]
 why = "조건 흐림"
 reason = "말한 구간 '다른 일' 틀림 — 9.3분은 '잠깐'(경계 10분에서 0.7분 모자람). 계산기(기본 조각) 4.66–9.31 '잠깐'이 맞았다(비유 계산 6.1–12.3 '다른 일'은 틀림). 턴 45는 35–70 안, 토큰 5.6M은 4–9M T1 안 — 턴·토큰은 맞고 분만 짧았다: 분당 4.8턴으로 p68(2.8)·p76(2.8)보다 빨랐다. 코드 없는 글·표 한 장은 확인 바퀴(빌드·시험)가 없어 분당 턴이 오른다 — C_turns_no_check_v2가 턴이 아니라 속도에서 맞았다. 교훈: '한 장짜리 산출물 14–15분 띠'는 코드+시험이 있을 때(p46·p68·p76)이고, 코드 없는 글·표 한 장은 8–12분으로 따로 잡는다(한 건이라 '근거 1건'). 품질: 지시서 7항목 전부, 결정 7과의 충돌을 스스로 짚음, 선례는 전부 '검색 요약만'으로 정직하게 표시, 두 폭 렌더 확인 — 5. 보고서를 scratchpad가 아닌 저장소 docs/worklog에 바로 썼다(p76 때 막혔던 쓰기가 이번엔 됨)"
 hypotheses = []
+
+[[dispatch]]
+id = "p78"
+project = "movie_game"
+batch = 28
+date = 2026-10-27
+task = "고침: 첫 장면 브라우저 플레이판 세 가지 — 빈칸에 증거 이름 대신 뜻(fill) 넣기, 소매 조각 뜻을 '한쪽만 젖음'으로, Q1을 '홈즈 의심 → 걸린 것 빈칸에 A → 2단계'(1안 나)로. Playwright 검사 갱신·추가. Opus high, 세션 안 Agent"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "일부"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p76"
+told = "다른 일"
+minutes = [10, 20]
+turns = [40, 80]
+tokens_m = [5, 10]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댄 p76(같은 플레이판을 처음 만든 기록, 14.1분·40턴·5.44M). 이번은 있는 코드(템플릿 800줄 + 시험 63개)를 읽고 세 군데 고치며 시험을 새 규칙에 맞게 고쳐야 한다 — 읽기와 시험 수정이 턴을 더 먹어 p76 ×1–2 = 40–80턴, 분당 ~4턴 → 10–20분 '다른 일'. 토큰은 큰 파일을 읽어 턴당 맥락이 커지므로 5–10M T1. 계산기(기본 조각) 9.85–19.7분 '다른 일'(C_fix_existing이 턴을 올림), 비유 계산 4.3–8.5분 '잠깐' — 이번엔 기본 조각 쪽을 믿는다(고침은 읽기가 있다)"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [9.85, 19.7]
