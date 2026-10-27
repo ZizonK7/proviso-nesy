@@ -8874,3 +8874,58 @@ hypotheses = []
 [dispatch.calc]
 told = "잠깐"
 minutes = [2.35, 4.70]
+[dispatch.actual]
+status = "done"
+minutes = 7.3  # 알림 duration 440초; scripts/agent_usage.py 누적 37턴·6.16M에서 p92+p94(23턴·2.92M)를 뺌
+turns = 14
+tokens_m = 3.2
+[dispatch.review]
+wrong = ["R_say_numbers_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' 틀림 — 7.3분은 '잠깐'. 손 예측 7–12는 안이지만 경계를 넘을까 봐 '다른 일'로 말했고 넘지 않았다. 턴 14는 8–16 안, 토큰 3.2M은 1.5–3을 조금 넘김(이어서 3회차라 캐시 읽기가 더 쌓임). 교훈: 이어서 비평은 읽을 양이 늘어도 10분 안에 끝난다(5.2 → 7.3) — 다음부터 이어서 비평은 '잠깐'으로 말한다. 품질: 가장 큰 문제 셋(앞선 추리 근거 없음, 말 샘이 보드 답을 먼저 줌, 씨앗 동작이 함정 힌트가 됨)이 모두 맞고, 작가 약점 12에 하나씩 판정, 빠진 것 11 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p98"
+project = "movie_game"
+batch = 34
+date = 2026-10-27
+task = "쓰기(이어서 2회차, p95 작가): 비평 p97 26건 반영 → 봉인 문서 v2 + JSON 고침, 봉인 성격 글을 JSON에서 빼기(결정 21), 참조 점검 재실행"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p95"
+told = "다른 일"
+minutes = [10, 16]
+turns = [30, 50]
+tokens_m = [10, 20]
+tokens_class = ["T1", "T2"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댄 p95(22.8분·74턴·13.8M, 첫 회차). 이어서는 시간·턴이 반쯤(p92→p94 규칙)이지만 고칠 곳이 26곳 + JSON에서 봉인 글 빼기 + 점검 재실행 → 10–16분 '다른 일', 턴 30–50. 토큰은 이어서라 앞 대화를 다시 읽어 10–20M"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [3.15, 6.29]
