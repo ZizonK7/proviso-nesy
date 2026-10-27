@@ -7772,3 +7772,48 @@ tokens_m = 5.44
 wrong = ["R_turns_analogy_v2"]
 why = "조건 흐림"
 reason = "말한 구간 '다른 일' 맞음(14.1분). 분 14.1 < 18–36, 턴 40 < 45–100, 토큰 5.44M < 7–20M → 또 높게 잡음(p68과 같은 모양: 13.7분·39턴·5M). '상호작용 로직(상태 기계·판정)이 턴을 늘린다'고 ×1.2–2.5를 더했는데 Opus는 템플릿+빌드 스크립트+Playwright 시험 61개를 큰 편집 몇 번으로 끝냈다(분당 2.8턴, 턴당 13.6만). 교훈: 설계가 다 적힌 한 장짜리 산출물(HTML 시안이든 상호작용 페이지든)은 내용의 복잡도와 무관하게 p68·p46과 같은 40–75턴·14–15분 띠에 떨어진다 — 다음부터 이 띠로 바로 잡는다(비유 계산 7–15분이 손 예측보다 맞았음). 품질: 지시서 규칙 전부(표시 없음·3초 잠금·세 칸 판정·국소 반응·로그·설문) 구현, 자동 플레이 61/61, JSON에 없던 것을 보고서에 적음 — 5. 보고서 파일 쓰기는 도구가 막아 메시지로 보냄(세션 안 Agent의 보고서는 scratchpad 쓰기가 막힐 수 있다 — 메인이 저장)"
+
+[[dispatch]]
+id = "p77"
+project = "movie_game"
+batch = 28
+date = 2026-10-27
+task = "설계 그림: 2안 '플레이어 = 왓슨'(사용자 제안)을 첫 장면에 대 보고 1안(플레이어 = 홈즈, 홈즈가 먼저 질문 → 플레이어가 이유를 찾음)과 나란히 비교한 한 장(HTML 아티팩트) + 보고서. 선례(대역전재판 추리 무도 등)는 WebSearch로 확인하되 못 열면 '확인 못 함'. Opus high, 세션 안 Agent"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "일부"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "일부"
+S_web = "일부"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p68"
+told = "다른 일"
+minutes = [10, 18]
+turns = [35, 70]
+tokens_class = ["T1"]
+tokens_m = [4, 9]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "p76 교훈을 바로 쓴다: 설계가 다 적힌 한 장짜리 산출물(p46·p68·p76)은 내용 복잡도와 무관하게 40–75턴·14–15분 띠 → 10–18분 '다른 일', 35–70턴. 이번은 코드 없음·웹 확인 조금(선례 2–3개, 막히면 '확인 못 함')이라 p68(13.7분·39턴·5M)과 같은 크기로 봄. 토큰은 p68·p76의 5–5.4M 근처 → 4–9M T1. 계산기(기본 조각)는 4.7–9.3분 '잠깐'(C_turns_no_check_v2가 확인 바퀴 없음으로 턴을 줄였는데, 글·그림 한 장도 다듬는 바퀴는 있다 — 틀리면 그 조각 조건을 본다), 비유 계산 6.1–12.3분 '다른 일'"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [4.66, 9.31]
