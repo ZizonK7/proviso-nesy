@@ -8774,3 +8774,103 @@ hypotheses = []
 [dispatch.calc]
 told = "잠깐"
 minutes = [3.15, 6.29]
+[dispatch.actual]
+status = "done"
+minutes = 22.8  # scripts/agent_usage.py 09:59:48 → 10:22:33 (알림 duration 1366초)
+turns = 74
+tokens_m = 13.8  # 캐시 읽기 1292만 + 캐시 쓰기 83만 + 출력 1.9만
+[dispatch.review]
+wrong = ["R_time_turns_v2", "R_turns_analogy_v2", "R_tok_short_v5"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' 맞음(22.8분, 10–40 안) — 손 예측 10–18은 넘김, 계산기 3.2–6.3은 크게 빗남. 턴 74는 15–30의 두 배 반, 토큰 13.8M은 4–10M을 넘김. 왜: '글 쓰기'로 봤는데 작업자가 검사를 많이 했다 — 참조 점검 스크립트(368검사)를 짜고, proto를 스크래치에 복사해 빌드·자동 플레이(139)까지 돌림 → 도구 호출 41. 지시서에 '열리는지 확인'만 적었는데 작업자가 S_check_loop처럼 움직였다. 빗댄 p82(HTML 한 장)와 달리 데이터 파일을 고치는 일은 검사 고리가 따라붙는다 — S_fix_existing=예 + S_no_code=예 조합은 턴이 코드 일처럼 늘어난다. 품질: 구조 그대로, 씨앗 4 대조, 가설 11 표, 약점 12를 스스로 적음, 플레이판 작업자 인수 절이 정확 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p96"
+project = "movie_game"
+batch = 34
+date = 2026-10-27
+task = "구현(이어서 5회차, p78 작업자): 플레이판이 FLOW를 JSON flow에서 읽게, 새 연출·조건 11개(꼬리 건너뛰기·찾을 때 한마디·관찰 첫 켬 대사·ask 조건·장갑 동작·끝 그림 순서 등), playtest.js 기대값 갱신, 139+ 통과, 아티팩트 재게시"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "예"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p89"
+told = "다른 일"
+minutes = [12, 25]
+turns = [40, 70]
+tokens_m = [10, 20]
+tokens_class = ["T1", "T2"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댄 p89(4.5분·27턴·7.8M, 이어서 3회차 작은 고침). 이번은 엔진 변경(FLOW→JSON) + 조건 11개 + 검사 갱신 + SVG 동작 + 끝 순서라 p78 첫 판(큰 구현)과 p89 사이. 이어서라 맥락은 크고(토큰 10–20M) 턴은 40–70, 12–25분 '다른 일'. 계산기 4.0–8.1 '잠깐'은 p89 크기를 가정"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [4.04, 8.09]
+
+[[dispatch]]
+id = "p97"
+project = "movie_game"
+batch = 34
+date = 2026-10-27
+task = "비평(이어서 3회차, p92 비평가): 사건 1 봉인 문서 v1 + JSON 대사 75줄 — 이야기 논리·시간순·거짓말 이유·조각 읽기 하나·하커 부인이 흘리나·홈즈 앞선 추리 재료·영어 시대 표현·수렴 누설·결정 준수, 고칠 안 표. 파일은 안 고침"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p94"
+told = "다른 일"
+minutes = [7, 12]
+turns = [8, 16]
+tokens_m = [1.5, 3]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댄 p94(5.2분·9턴·1.5M, 이어서 2회차). 이번은 읽을 것이 더 길다(봉인 문서 302줄 + 대사 75줄 + 설계서)와 표가 길어질 것 → 7–12분, 경계(10)를 넘을 수 있어 '다른 일'로 말함. 이어서라 토큰은 1.5–3M"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.35, 4.70]
