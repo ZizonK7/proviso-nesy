@@ -8940,3 +8940,58 @@ hypotheses = []
 [dispatch.calc]
 told = "잠깐"
 minutes = [3.15, 6.29]
+[dispatch.actual]
+status = "done"
+minutes = 9.6  # 알림 duration 574초 (10:34:15 → 10:43:49)
+turns = 37  # agent_usage.py 전체 111 − p95 74
+tokens_m = 11.8  # 전체 25.6M − 13.8M
+[dispatch.review]
+wrong = ["R_say_numbers_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' 틀림 — 9.6분은 '잠깐'(경계 0.4분 아래). 손 예측 10–16은 아슬하게 빗남, 턴 37은 30–50 안, 토큰 11.8M은 10–20 안. 이어서 2회차가 첫 회차의 42 %(22.8→9.6) — p92→p94(56 %)·p89→p91과 같은 결. 품질: 26건 중 24 반영·1 다르게·1 안 함을 번호별 표로, JSON에서 봉인 글 제거 grep 0, 플레이판 작업자 인수 절을 v2로 다시 씀 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p99"
+project = "movie_game"
+batch = 34
+date = 2026-10-27
+task = "구현(이어서 6회차, p78 작업자): 플레이판을 v2 데이터에 맞춤 — flow 비배열 칸 건너뛰기, 장갑 동작을 첫 보드 삽입으로 이동, 거리 순서(에이다 앞)·문 앞 줄 조건, I 쪽지 그림, holmes_27, K 한마디 제거, HTML 봉인 낱말 grep 0, 검사 갱신, 재게시"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "예"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p96"
+told = "다른 일"
+minutes = [7, 13]
+turns = [35, 60]
+tokens_m = [15, 30]
+tokens_class = ["T2"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댄 p96(13.0분·64턴·26.2M, 같은 작업자 5회차 큰 변경). 이번은 고칠 곳 8개(그중 그림 둘·검사 여럿)로 p96의 절반~같음 → 7–13분 '다른 일'. 이어서 6회차라 턴당 토큰이 크다(T2)"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [4.04, 8.09]
