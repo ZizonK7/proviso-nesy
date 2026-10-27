@@ -8457,3 +8457,54 @@ hypotheses = []
 [dispatch.calc]
 told = "잠깐"
 minutes = [2.35, 4.70]
+[dispatch.actual]
+status = "done"
+minutes = 4.5  # task-notification duration_ms 272516
+turns = 27  # agent_usage.py 전체 127턴 − p83까지 100턴
+tokens_m = 7.79  # agent_usage.py 전체 25.74M − p83까지 17.95M
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(4.5분, 손 예측 5–10의 아래 끝, 계산기 2.35–4.70 안). 턴 27·토큰 7.79M 모두 범위 안·T1. 같은 작업자 이어서 지시 3회차(p83 6.8분 → p89 4.5분): 있는 장치를 고쳐 쓰는 회차는 계산기 기본 조각(S_resumed)이 맞게 짧게 잡는다. 토큰은 이어진 맥락 때문에 턴당 29만으로 크다. 품질: 지시 전부, 컷씬 장치를 '대사 뒤·띠 없음'으로 넓혀 질문 열기에 재사용, 쓰지 않게 된 대사 둘을 지우는 판단을 보고에 밝힘, 시험 134→138 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p90"
+project = "movie_game"
+batch = 32
+date = 2026-10-27
+task = "조사(클라우드 'searching', Haiku 5.5): 실제 게임 화면 사진 — 1인칭 3D 관찰 모드, 3D 게임 안 추리 보드, 탐정이 먼저 추리하는 연출, 빅토리아 런던 3D 거리. 주제마다 6장 이상·전체 32장 이상을 Read로 직접 보고 고른 뒤 비공개 아티팩트로 publish(첫 지시서에 넣음, p67 교훈). 메인이 그 사진으로 정리 페이지를 만든다"
+[dispatch.situation]
+S_no_code = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "아니오"
+S_web_blocked = "아니오"
+S_read_originals = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_template_given = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p65"
+told = "다른 일"
+minutes = [8, 15]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "빗댄 p65(스팀 스크린샷 38장을 직접 보고 고른 그림 조사, 9.8분). 이번은 32장 이상 + 아티팩트 publish까지 한 회차에 → 8–15분 '다른 일'. 작업자가 publish 전에 사용자 승인을 물으면 그 기다림은 쉬는 시간으로 뺀다(p67). 계산기 모름(Haiku)"
+hypotheses = ["H_cloud_session_rounds_v2"]
