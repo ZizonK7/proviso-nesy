@@ -17,4 +17,6 @@
 - 2026-10-27 사용자 결정 13–17: 크기 OK(H_first_case_size 첫 판정 지지, 플레이 판정은 아직), 실제 런던·빅토리아(G_real_london_victorian), 사건 단위 + 수렴(G_story_converges)이되 한 방식만으로 가지 않음(G_convergence_not_single_mode), 수렴점 한 장 + 사건 하나씩(H_story_fixed_end_open_cases, 사용자 채택), **지금은 플레이 장면 하나를 만드는 단계**(S_one_scene_stage). 명세는 movie_game `docs/first-case-v0.md`.
 - 2026-10-27 저녁: 첫 장면 "젖은 왼쪽 소매" v0 설계(F_scene01_design) — 메인이 여기서 글로 끝까지 설계(핫스팟 12·빈칸 2·반응 8·대사 18), PC는 짓기만. 사용자 방침: "컴퓨터에서 못 하는 것은 미리 해 간다".
 - 2026-10-27 밤, 첫 플레이 피드백(브라우저 플레이판): 사용자가 "홈즈가 왜 갑자기 '집에서 곧장 왔나'를 궁금해하는지 모르겠다"(O_user_q1_no_trigger). 질문이 대본(에이다의 말)만으로 켜졌던 것이 원인 → **질문 = 말 + 플레이어가 본 조각**으로 고치고 H_question_from_seen을 세움. H_observe_cost_and_question 첫 판정 '일부'(틀은 판정 전, 질문의 출처가 빠졌음). 판정 기록 3.
+- 2026-10-27 밤, 플레이 피드백 3–5회차: 보드 막다른 길(H_no_fillable_dead_end), 단서 읽기(H_clue_one_reading), 확정 문장(H_conclusion_reads_as_sentence), 홈즈가 조사 전에 아는 순서(H_reason_findable 사용자 판정 '일부'). 플레이판 v4는 "질문 = 본 것 + 들은 말".
+- 2026-10-27 밤, PC 밖 초안(배치 29): 수렴 사례(F_r_convergence_cases)·수렴 틀 가설 셋, 임시 음성(F_r_tts_local, H_temp_voice_kokoro). 보고서 [docs/worklog/2026-10-27-movie-game-drafts.md](../../docs/worklog/2026-10-27-movie-game-drafts.md). 사용자 판정 대기.
 - 다음: PC 세션이 첫 장면을 UE 프로토타입에 넣음(movie_game docs/briefs/case01-ue-brief.md) → 사용자 플레이 판정으로 가설 6개 시험. 그 사이 여기서: 수렴 예시, 수렴점 한 장 틀, 임시 음성 준비. 화풍은 그 뒤.

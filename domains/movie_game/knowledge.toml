@@ -547,7 +547,100 @@ date = 2026-10-27
 id = "H_no_fillable_dead_end"
 text = "다음 단계로 가는 문이 닫혀 있을 때, 지금 가진 재료로 채울 수 있어 보이는 다른 자리(카드 셋과 빈칸 셋)가 열려 있으면 상대는 그 자리에서 맴돌며 막혔다고 느낀다. 지금 채울 수 없는 자리는 열어 두지 않고, 열린 문(지금 할 수 있는 일)은 눈에 띄게 한다 — 무엇을 넣을지는 알리지 않고 어디를 누를지만"
 source = "ai"
-evidence = ["O_user_stuck_three_clues"]
+evidence = ["O_user_stuck_three_clues", "O_user_next_step_offscreen"]
 serves = ["G_player_reason", "G_design", "G_balance"]
 test_plan = "플레이판 v3.1(보드는 질문의 2단계가 열린 뒤에만, 걸린 것 칸·관찰 버튼 깜빡임)로 사용자 다시 플레이: 막힘 없이 끝까지 가나, 깜빡임이 '답을 알려 준다'로 느껴지나(그렇다면 G_balance를 해친 것 — 깜빡임을 늦게 켜거나 없앤다)"
 note = "2026-10-27 AI 판단(메인 Opus). 넓게: 게임 밖에서도 '채울 수 있어 보이는 틀'이 먼저 주어지면 사람은 틀을 채우는 데 매달린다는 주장"
+
+[[observation]]
+id = "O_user_next_step_offscreen"
+text = "사용자(2026-10-27, 플레이판 v3.1): 단서 셋을 찾은 화면에서 '더 조사할 게 없는 게 맞나', '발이 안 눌린다'. 재현해 보니 단서 설명 상자가 대사 줄을 화면 밖으로 밀어, 대화가 첫 줄에 멈춰 있는 것(지금 할 수 있는 일)이 보이지 않았다. 사용자 확인은 아직. 원문은 movie_game docs/playtest/2026-10-27-scene01-browser.md"
+source = "user"
+date = 2026-10-27
+
+# ---------- 플레이 피드백 5회차 (플레이판 v3.3, 2026-10-27 밤) ----------
+[[observation]]
+id = "O_user_holmes_before_look"
+text = "사용자(2026-10-27): '도중에 셜록이 집에서 바로 온 건지 의구심을 갖는데, 우리가 조사하기 전에 그걸 알아내는 게 맞아? 어차피 처음 조사 때 한쪽만 젖은 걸 확인하는데.' — 의심이 정해진 대사 시점에 떠서, 말부터 들으면 홈즈가 플레이어보다 먼저 알고, 먼저 둘러봤으면 '걸린 것' 칸은 이미 아는 것을 다시 내는 일이 됐다. 원문은 movie_game docs/playtest/2026-10-27-scene01-browser.md"
+source = "user"
+date = 2026-10-27
+
+[[judgment]]
+of = "H_reason_findable"
+source = "user"
+verdict = "일부"
+date = 2026-10-27
+note = "'인물이 먼저 제시하고 상대가 나중에 이유를 찾는다'는 이유가 첫눈에 안 보일 때만 맞는다. 이유(한쪽만 젖은 소매)가 첫 조사에서 바로 보이는 자리에서는 인물이 먼저 아는 것이 어색하고, 이유 찾기는 이미 아는 것을 다시 내는 일이 된다. 사용자가 메인의 제안(본 것 + 들은 말이 만날 때 홈즈 속말이 어긋남을 대신 말함)을 골랐다. 조건을 더해 쪼갤 후보: H_reason_findable을 '이유가 첫눈에 안 보이는 단서'로 좁히고, 첫눈에 보이는 단서는 H_question_from_seen 쪽"
+evidence = ["O_user_holmes_before_look"]
+
+# ---------- PC 밖 초안 (배치 29, 2026-10-27, out/research/2026-10-27-movie-game-drafts/) ----------
+[[fact]]
+id = "F_r_convergence_cases"
+text = "사건 단위로 가다 끝에서 모이는 작품 14편(게임 10·드라마 2·소설 1 등)을 보면 모이는 방식은 여덟 갈래로 나뉜다: (가) 앞 사건이 증거가 됨 (나) 배후 하나 (다) 인물의 사정 (라) 물건·장소가 지나감 (마) 마지막 사실이 앞을 다시 읽게 함 (바) 주인공의 과거 (사) 선택의 결과가 쌓임 (아) 주제만 모임. 한 인물 지휘(나)가 아닌 방식으로 주로 모은 작품이 8편. 억지 평을 받은 경우: 배후가 결말에서 처음 얼굴을 보임(멘탈리스트), 사정을 마지막 장면에 몰아 설명(BBC 셜록 시즌 4), 처음 보는 증거를 소급. 잘 된 섞기: 역전재판 3(사건마다 작은 완결 + 공통 고리 하나 + 결말 한 장면에서 묶기)"
+checked = 2026-10-27
+source = "조사 p79(클라우드 Haiku, 위키백과 action=raw 23·리뷰 17, 1차 줄거리 오류를 메인이 짚어 원문 문장으로 재확인한 수정판)"
+
+[[fact]]
+id = "F_r_tts_local"
+text = "로컬 임시 음성 도구: MeloTTS는 영국 영어 화자가 EN-BR 하나뿐(README의 화자 목록 EN-Default·EN-US·EN-BR·EN_INDIA·EN-AU), MIT('free for both commercial and non-commercial use'). Kokoro-82M은 영국 영어(lang_code 'b') 지원, 'Apache-licensed weights'. F5-TTS 가중치는 CC-BY-NC(비상업), XTTS-v2는 출력까지 비상업, Chatterbox는 모든 출력에 워터마크. 런던 노동계층 억양을 명시한 도구는 찾지 못함. UE 5.8에서 자막을 현지화하려면 Sound Wave가 아니라 Dialogue Wave를 써야 한다는 것은 포럼 검색 요약만"
+checked = 2026-10-27
+source = "조사 p80(클라우드 Haiku, 원문 37건) + 메인이 MeloTTS·Kokoro README 원문 직접 확인"
+
+[[hypothesis]]
+id = "H_temp_voice_kokoro"
+text = "첫 장면 임시 음성은 영국 목소리가 여럿인 로컬 모델(Kokoro, 남 넷·여 넷)로 인물마다 다른 목소리를 붙이는 것이, 영국 목소리가 하나인 모델이나 API보다 '인물이 구분되는 영국 느낌'을 시험하기에 낫다"
+source = "ai"
+evidence = ["F_r_tts_local", "F_r_voice_ai_terms"]
+serves = ["G_english_british"]
+test_plan = "PC에서 같은 문장을 여덟 목소리로 뽑아 다섯 인물에 고른 뒤 첫 장면을 돌려 사용자 판정: 영국 느낌인가, 인물이 구분되나. 노동계층 억양(톰·하커 부인)이 모자라면 그 부분만 반박"
+note = "2026-10-27 메인 판단. 조사 작업자는 MeloTTS를 1순위로 올렸으나 영국 화자가 하나뿐이라 바꿈. H_voice_two_pass의 첫 단계(임시 음성)를 고르는 가설"
+
+[[hypothesis]]
+id = "H_strand_stands_alone"
+text = "수렴점 한 장에서 줄기마다 '이 줄기를 빼도 다른 줄기가 서나'를 칸으로 적게 하면, 한 인물이 전부 지휘하는 그림이 기본값으로 흘러드는 것을 쓰는 단계에서 잡을 수 있다"
+source = "ai"
+evidence = ["F_r_convergence_cases", "O_user_convergence_examples"]
+serves = ["G_convergence_not_single_mode"]
+test_plan = "두 번째 사건 전에 채운 한 장에서 이 칸이 '아니요'인 줄기가 나왔을 때 설계를 바꿨나(사용자 판정)"
+note = "2026-10-27 설계 초안 p82의 제안. 수렴점 설계판(비공개 아티팩트 https://claude.ai/artifact/VSGa73nvh5aZjiT1Lc6Nmr)의 빈 틀에 이 칸이 있다"
+
+[[hypothesis]]
+id = "H_reuse_confirmed_conclusions"
+text = "앞 사건을 뒤에서 증거로 다시 쓸 때, 플레이어가 보드에서 직접 확정한 결론만 쓰면 '처음 보는 증거를 사실은 중요했다고 소급'하는 억지를 피한다"
+source = "ai"
+evidence = ["F_r_convergence_cases"]
+serves = ["G_story_converges", "G_player_reason"]
+test_plan = "수렴 사건 플레이에서 '그게 언제 나왔지?' 반응이 있나(사용자 판정)"
+note = "2026-10-27 설계 초안 p82의 제안"
+
+[[hypothesis]]
+id = "H_convergence_faces_early"
+text = "수렴에 걸리는 인물은 마지막 사건보다 앞에서 얼굴을 보여야, 정체가 드러날 때 '새 인물 등장'으로 느껴지지 않는다"
+source = "ai"
+evidence = ["F_r_convergence_cases"]
+serves = ["G_story_converges"]
+test_plan = "수렴 사건 플레이 판정. 첫 사건의 하커 부인·Mr. L처럼 앞에서 얼굴만 비친 인물이 수렴 때 납득되는가"
+note = "2026-10-27 설계 초안 p82의 제안. 근거 사례는 멘탈리스트(억지 평)·커튼(배후가 앞에서 얼굴을 보임)"
+
+# ---------- 홈즈의 앞선 추리 (사용자 생각, 2026-10-27 밤) ----------
+[[observation]]
+id = "O_user_holmes_lead_rule"
+text = "사용자(2026-10-27): 셜록의 앞선 추리가 나올 때는 사용자와 비슷한 정보를 가지되, 0에서 만들어 내기에는 어려운 셜록의 머리로만 가능한 느낌으로 만들자. 그건 컷씬으로 만들어도 괜찮을 듯. 그렇다고 너무 중요한 걸 셜록이 해 버리면 그 위험은 생각해야 한다"
+source = "user"
+date = 2026-10-27
+
+[[hypothesis]]
+id = "H_holmes_lead_same_info_leap"
+text = "인물이 상대보다 앞서 결론을 낼 때, 상대와 같은 재료(상대가 본 것·들은 것)만 쓰고 그 재료에서 결론까지의 연결을 상대가 0부터 만들기 어려운 도약으로 하면, 상대는 '나도 봤는데 저렇게는 못 잇는다'와 '듣고 나니 그러네'를 함께 느껴 그 인물의 탁월함을 납득한다. 앞선 결론은 장면 연출(컷씬)로 보여 줘도 된다. 다만 상대가 맡아야 할 핵심 연결까지 그 인물이 해 버리면 상대 몫이 줄어든다"
+source = "user"
+evidence = ["O_user_holmes_lead_rule", "O_user_holmes_first_ok"]
+serves = ["G_player_reason", "G_balance", "G_logic"]
+test_plan = "홈즈의 앞선 추리를 컷씬 하나로 넣은 판을 플레이해 사용자 판정: (1) 재료가 내가 본 것이었나, (2) 내가 혼자 잇기는 어려웠나, (3) 듣고 나서 납득했나, (4) 내 몫을 빼앗겼다고 느꼈나. (4)가 '예'면 '너무 중요한 것' 쪽에서 반박"
+note = "2026-10-27 사용자 생각을 가설로 올림. H_reason_findable(먼저 제시해도 이유를 찾을 수 있어야 함)에 '재료는 같게, 연결은 도약으로'와 '핵심 연결은 남긴다'를 더한 것. 이유가 첫눈에 보이는 단서에서는 의심이 플레이어 쪽에서 나온다(H_reason_findable 판정 '일부')와 함께 읽는다"
+
+[[fact]]
+id = "F_scene01_cutscenes"
+text = "플레이판 v5(2026-10-27)에 홈즈의 앞선 추리 컷씬 둘: 첫 대면(화면에 그린 분필 묻은 소맷부리·주머니의 읽기 책 → '가정교사', 추리 보드와 무관)과 결론 전 한 걸음(두 번째 보드 확정 뒤, 플레이어가 본 숨긴 칸 상자·메모·하커 부인 → '장물아비', 톰이 숨은 까닭). 컷씬 중에는 조작이 막히고 비춘 단서는 '찾은 것'이 되며, 끝 화면 기록은 스스로 찾은 단서와 컷씬이 먼저 비춘 단서를 따로 센다"
+checked = 2026-10-27
+source = "movie_game content/case01/scene01.json(cutscenes, rules.cutscene), proto/scene01-play 자동 시험 134/134"
+note = "H_holmes_lead_same_info_leap를 시험하는 장치. 사용자 플레이 판정 전"
