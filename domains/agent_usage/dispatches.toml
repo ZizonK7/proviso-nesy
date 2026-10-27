@@ -8614,6 +8614,16 @@ hypotheses = []
 [dispatch.calc]
 told = "잠깐"
 minutes = [4.66, 9.31]
+[dispatch.actual]
+status = "done"
+minutes = 9.2  # scripts/agent_usage.py: 08:54:35 → 09:03:47
+turns = 14
+tokens_m = 1.4  # 캐시 읽기 106만 + 캐시 쓰기 33만 + 출력 0.5만
+[dispatch.review]
+wrong = ["R_time_turns_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '잠깐' 맞음(9.2분, 10분 안쪽이지만 손 예측 4–8을 넘김, 계산기 4.66–9.31 안). 턴 14은 8–20 안, 토큰 1.4M은 1–3M·T1 안. p81(4.9분)보다 두 배 — 같은 '읽고 표 하나'라도 비평은 읽을 파일이 많고(결정·시안 넷·논리집·설계서) 표가 26행으로 길다. 분당 1.5턴으로 느림: 긴 글 한 번에 쓰는 턴이 길다. 품질: 가장 큰 문제 셋이 정확(홈즈가 알았나 몰랐나의 모순, 1881 사슬 비어 있음, 5번과 6번의 기술 불일치), 증상 대안이 더 좋고, 원작·영상 따라 함을 기억에 기댔다고 밝힘 — 5"
+hypotheses = []
 
 [[dispatch]]
 id = "p93"
@@ -8657,3 +8667,10 @@ tokens_m = [1, 5]
 rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
 reason = "클라우드 Haiku 글 조사 3–10분 띠(p71·p73–p75·p79·p80 모두 안). 역사 자료는 위키백과·Old Bailey Online 등 열리는 곳. 계산기 모름(Haiku)"
 hypotheses = ["H_cloud_session_rounds_v2"]
+[dispatch.actual]
+status = "done"
+minutes = 4.6  # result duration_ms 273817 (08:54:36 → 08:59:13)
+turns = 43
+tokens_m = 2.51  # usage: 캐시 읽기 183.9만 + 캐시 쓰기 9.5만 + 입력 52.0만 + 출력 6.1만. 비용 0.39달러
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(4.6분), 토큰 2.51M은 1–5M·T1 안. 클라우드 Haiku 글 조사 3–10분 띠 7/7. 품질: 7항목 모두 '된다/안 된다/조건부'로 결론을 냈고, 이야기를 고쳐야 할 곳 8개(사망→교수형 2–3개월, 1868년 이후 교도소 안 집행, 경찰이 공을 가져간 실제 사례 없음, 1880년대 잉글랜드 사후 무죄 사례 없음)가 쓸모 있음. Old Bailey Online은 403. 요약 도구로 읽은 3건을 따로 표시 — 5"
