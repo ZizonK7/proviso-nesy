@@ -8,7 +8,7 @@
 - 판단 중 Claude가 추정한 것은 `hypothesis`로, `source`를 밝혀 넣는다. 사용자가 말하지 않은 목표·관찰을 지어내 넣지 않는다.
 - 다른 분야와 같이, 조각 문장에는 분야·앱 이름을 쓰지 않는다(다른 분야에서 다시 쓰게).
 
-## 현재 상태 (2026-10-26 저녁)
+## 현재 상태 (2026-10-27 밤)
 - 목표 9(G_game 아래 여덟: 디자인 우선·스토리·머리 쓰기·눈썰미·균형·논리·**공간 걷기**·**영어 음성·영국 느낌**), 상태 2, 조사 사실 22(배치 23 화풍·비용 9 + 배치 24 공간·음성·추리 장치 13), 관찰 5, 가설 9(살아 있는 것 8: 사용자 생각 둘 H_wrong_piece_is_pruning·H_two_stage_observation, AI 판단 여섯 H_own_art_with_code_frame·H_pieces_board_serves_reasoning·H_local_reaction_batch_confirm·H_observe_cost_and_question·H_ue5_fits_needs·H_voice_two_pass; H_code_made_look은 전제가 틀려 물림). 판정 기록 없음 — 모두 프로토타입 → 사용자 판정 대기(audit 경고 "시험 수단 없음"은 의도).
 - 조사 원본: `out/research/2026-10-26-movie-game-design/`(화풍·비용), `out/research/2026-10-26-movie-game-needs/`(공간·음성·추리 장치, 모두 git 제외). 작업 보고서: [docs/worklog/2026-10-26-movie-game-design-research.md](../../docs/worklog/2026-10-26-movie-game-design-research.md), [docs/worklog/2026-10-26-movie-game-needs-research.md](../../docs/worklog/2026-10-26-movie-game-needs-research.md). 설계 문서 v0(필요한 것)는 비공개 아티팩트 https://claude.ai/artifact/A4V1CCN1n5Hm19Ko6Phq8q (저장소 md는 사용자 허락 대기).
 - **판단 기준에서 뺀 것(사용자, O_user_no_solo_limit)**: 비용·기간·1인 선례. 사실 노드에는 남기되 가설의 근거로 쓰지 않는다 — "뭘 하려면 뭐가 필요한가"만.
@@ -22,4 +22,5 @@
 - 2026-10-27 밤, 플레이 피드백 5–6회차와 결정 18–20: 홈즈의 앞선 추리(같은 재료·홈즈만의 도약·컷씬, H_holmes_lead_same_info_leap), 시점(3인칭 걷기+1인칭 살펴보기), 수렴 방향(선택 분기 안 함·원작은 반영만). Q1은 되묻기+전보로 시선(H_doubt_shown_not_explained), 거짓말엔 설계된 이유(H_lie_has_reason_not_now). 실제 화면 10장에 대한 사용자 판정(O_user_ref_shots_1·2). 설계서·PC 지시서는 플레이판 v7 기준으로 갱신됨.
 - 2026-10-27 밤, 수렴점 시안 넷(메인이 직접 씀, 비공개 아티팩트 https://claude.ai/artifact/6atfXRyzcC9zwDZDByiZ79 — 사용자가 "맡겨도 되는지 보겠다"고 해서 시험 쓰기). 피드백 대기. 남은 수렴 질문은 결정 20·21로 닫힘.
 - 2026-10-27, 사용자 결정 21 **이야기 봉인**(O_user_story_sealed): 수렴점·사건 내용은 AI가 쓰고 사용자는 플레이로 판정. **이 논리집에는 이야기 내용을 적지 않는다**(공개 저장소) — 구조(방식·줄기 수·증상 유무·약점·결정 준수)만. 내용은 movie_game `docs/story/`(봉인, 사용자 안 읽음). 진짜 수렴점 v3까지 썼다(배치 33: 비평 2바퀴 p92·p94 + 역사 확인 p93, 메인 약품 확인). 구조: 줄기 넷+배경, 사람 넷, 사건 여섯, 증상 다섯, 재구성은 2번부터. 새 가설 H_question_leaves_eye_to_player(질문은 조각도 눈도 가리키지 않는다). 보고서 [docs/worklog/2026-10-27-movie-game-convergence-sealed.md](../../docs/worklog/2026-10-27-movie-game-convergence-sealed.md).
-- 다음: PC 세션이 첫 장면을 UE 프로토타입에 넣음(movie_game docs/briefs/case01-ue-brief.md) → 사용자 플레이 판정으로 가설 6개 시험. 그 사이 여기서: 수렴 예시, 수렴점 한 장 틀, 임시 음성 준비. 화풍은 그 뒤.
+- 2026-10-27 밤, PC 세션: 사건 1(이야기 v2)이 UE 5.8 프로토타입에서 처음부터 끝까지 돈다(F_ue_case01, 보고서 [docs/worklog/2026-10-27-movie-game-case01-ue.md](../../docs/worklog/2026-10-27-movie-game-case01-ue.md)). C++ 감독이 플레이판의 상태 기계를 그대로 옮겼고, 거리 건물은 부품 10개로 다시 지었다. 자동 플레이 검사만 했고 사용자 플레이 판정은 아직 — 판정이 오면 가설 12개(H_first_case_size·H_two_stage_observation·H_observe_cost_and_question·H_wrong_piece_is_pruning·H_local_reaction_batch_confirm·H_ue5_fits_needs·H_clue_one_reading·H_conclusion_reads_as_sentence·H_no_fillable_dead_end·H_doubt_shown_not_explained·H_holmes_lead_same_info_leap·H_temp_voice_kokoro)에 `[[judgment]]`.
+- 다음: 사용자가 `ue/play.cmd`로 플레이(처음 한 번이 판정, 결정 22) → 판정 기록 → 사건 2. 화풍은 그 뒤.
