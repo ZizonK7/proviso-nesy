@@ -8569,3 +8569,91 @@ tokens_m = 5.53  # 전체 31.27M − 25.74M
 [dispatch.review]
 reason = "말한 구간 '잠깐' 맞음(4.0분, 4–8 아래 끝, 계산기 2.35–4.70 안). 턴 17 < 20–35, 토큰 5.53M < 6–12M(T1 맞음). 이어서 4회차(6.8 → 4.5 → 4.0분): 글자만 바꾸는 회차는 계산기 기본 조각이 정확하고 손 예측은 계속 조금 높다. 품질: 33행을 반영/확인/건너뜀으로 나눠 보고, 검수 안과 다르게 쓴 곳을 따로 표시, 시험에 '해커·Mr. L 없음' 검사 추가 — 5"
 hypotheses = []
+
+[[dispatch]]
+id = "p92"
+project = "movie_game"
+batch = 33
+date = 2026-10-27
+task = "비평(세션 안 Opus): 메인이 쓴 수렴점 한 장 v1(홈즈의 7년 전 실수, 연역 아님 주제)을 이야기 논리·우연·증상 배치·원작 따라 함·게임 규칙과의 일관성으로 검토, 고칠 안 표. 파일은 안 고침"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p81"
+told = "잠깐"
+minutes = [4, 8]
+turns = [8, 20]
+tokens_class = ["T1"]
+tokens_m = [1, 3]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댄 p81(대사 검수, 읽고 표 하나: 4.9분·10턴·0.84M). 같은 모양(파일 몇 개 읽고 비평 표 하나). 읽을 양이 조금 더 많아 4–8분 '잠깐', 1–3M. 계산기(기본 조각) 4.66–9.31 '잠깐'"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [4.66, 9.31]
+
+[[dispatch]]
+id = "p93"
+project = "movie_game"
+batch = 33
+date = 2026-10-27
+task = "조사(클라우드 Haiku): 수렴점 v1이 기대는 역사 사실 — 1880년대 런던의 검시(coroner's inquest)·재판·사형 집행까지의 기간, 약국 조제실과 조수, 인쇄소, 경찰이 민간 탐정의 공을 가져가는 일이 있었나, 교수형수 가족의 개명. 원문 12건 이상"
+[dispatch.situation]
+S_no_code = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "모름"
+S_web = "예"
+S_research = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "모름"
+S_long_doc = "아니오"
+S_web_blocked = "아니오"
+S_read_originals = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_template_given = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p80"
+told = "잠깐"
+minutes = [3, 10]
+tokens_class = ["T1"]
+tokens_m = [1, 5]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "클라우드 Haiku 글 조사 3–10분 띠(p71·p73–p75·p79·p80 모두 안). 역사 자료는 위키백과·Old Bailey Online 등 열리는 곳. 계산기 모름(Haiku)"
+hypotheses = ["H_cloud_session_rounds_v2"]
