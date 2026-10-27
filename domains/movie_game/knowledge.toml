@@ -504,3 +504,34 @@ evidence = ["O_user_q1_no_trigger", "O_user_holmes_first_ok"]
 serves = ["G_player_reason", "G_player_observe", "G_balance"]
 test_plan = "같은 장면을 두 방법으로 플레이해 사용자 판정: (가) 조각을 본 뒤에만 질문이 뜬다(지금 플레이판) / (나) 홈즈가 먼저 질문을 던지고 플레이어가 그 이유(젖은 소매)를 찾으면 '그러네' 속말이 나온다. 어느 쪽에서 '왜 궁금한지 알겠다'가 나오나. 넓게 적은 문장이라 게임 밖(소설·영화)의 반례도 반박 근거가 된다"
 note = "2026-10-27 사용자가 넓혀 적자고 함('가장 큰 범위로 적어야 반박당할 일이 많아진다'). H_question_from_seen(순서를 강제)을 물리고 그 자리에. 2안 '플레이어 = 왓슨'(사용자 제안)은 이 가설의 방법 쪽 후보: 홈즈가 먼저 말하고 왓슨(플레이어)이 이유를 찾는 그림이 자연스럽다"
+
+# ---------- 플레이 피드백 2회차 (플레이판 v2, 2026-10-27 밤) ----------
+[[observation]]
+id = "O_user_d1_sentence_unreadable"
+text = "사용자(2026-10-27, 플레이판 v2): 추리 ① 확정 문장을 보고 '이게 무슨 문장이야' — 빈칸에 증거 이름이 그대로 들어가 문장이 읽히지 않았다(…the door of [Sawdust on the hem] for [Mud on the right heel]…). 원문은 movie_game docs/playtest/2026-10-27-scene01-browser.md"
+source = "user"
+date = 2026-10-27
+
+[[observation]]
+id = "O_user_sleeve_meaning"
+text = "사용자(2026-10-27, 플레이판 v2): 소매 조각을 '어깨까지 젖었으니 잠깐 밖에 있던 게 아니다(= 오래)'로 읽었고, '우산을 들었는데 왼쪽이 젖은 이유가 뭔가, 전보를 들고 뭘 하고 있었나'를 물었다. 설계의 뜻(한쪽만 젖음 → 왼손이 우산 밖에서 전보를 들고 어딘가 서서 읽었다)이 전달되지 않았다. 원문은 movie_game docs/playtest/2026-10-27-scene01-browser.md"
+source = "user"
+date = 2026-10-27
+
+[[hypothesis]]
+id = "H_clue_one_reading"
+text = "단서가 무엇을 뜻하는지 상대가 스스로 읽어 내려면, 보이는 모습이 그 뜻으로 가는 한 가지 이상함(예: 한쪽만 젖고 다른 쪽은 마름)을 담아야 하고, 그 단서를 말로 설명하는 줄(이름·속말)이 다른 읽기(예: 흠뻑 젖음 → 오래)를 부추기면 안 된다. 부추긴 읽기를 다른 자리에서 틀렸다고 하면 상대는 자기가 아니라 이야기가 모순이라고 느낀다"
+source = "ai"
+evidence = ["O_user_sleeve_meaning"]
+serves = ["G_player_observe", "G_player_reason", "G_logic"]
+test_plan = "플레이판 v3(카드 이름 '왼쪽 소매만 젖음', 속말 '한쪽만 젖고 다른 쪽은 마름 → 우산은 오른손, 왼손은 빗속에서 전보를 들고 → 어딘가 서서 읽었다')로 사용자 다시 플레이: 소매를 보고 '왜 한쪽만?'이 떠오르나, 속말을 듣고 '그러네' 하나. 다음 단서들(E·F·H·K·L)도 같은 기준으로 사용자 판정"
+note = "2026-10-27 AI 판단. H_reason_findable의 '찾을 재료가 있어도 재료가 그 생각과 이어지지 않으면'의 한 갈래 — 재료가 있어도 다른 쪽으로 읽히게 쓰여 있으면 이어지지 않는다"
+
+[[hypothesis]]
+id = "H_conclusion_reads_as_sentence"
+text = "증거를 빈칸에 끼워 결론을 만드는 장치에서, 확정된 결론은 증거의 이름이 아니라 증거가 뜻하는 말로 읽혀야 한다(증거 이름은 곁에 남긴다). 이름이 그대로 들어가면 결론이 문장이 아니게 되어 '내가 추리했다'는 마무리가 깨진다. 단 확정 전에 뜻을 보이면 어느 칸이 맞았는지 새므로 뜻은 확정 뒤에만 보인다"
+source = "ai"
+evidence = ["O_user_d1_sentence_unreadable"]
+serves = ["G_player_reason", "G_design"]
+test_plan = "플레이판 v3에서 사용자 판정: 확정 문장이 읽히나, 확정 전에도 뜻을 보고 싶었나(보고 싶었다면 '확정 뒤에만' 조건이 틀린 것 — 스위치 한 줄로 바꿔 다시 시험)"
+note = "2026-10-27 AI 판단. '확정 뒤에만'은 구현 에이전트(p78)가 지시서와 달리 판단한 것을 메인이 받아들임"
