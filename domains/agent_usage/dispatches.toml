@@ -8137,3 +8137,13 @@ hypotheses = []
 [dispatch.calc]
 told = "잠깐"
 minutes = [2.35, 4.70]
+[dispatch.actual]
+status = "done"
+minutes = 6.8  # task-notification duration_ms 405326 (이어서 지시 한 회차)
+turns = 37  # agent_usage.py 전체 100턴 − p78 63턴
+tokens_m = 8.9  # agent_usage.py 전체 17.95M − p78 9.05M. 이어진 맥락이라 턴당 24만으로 큼
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' 틀림 — 6.8분은 '잠깐'. 토큰 8.9M은 8–18M·T1 맞음, 턴 37 < 45–90. 계산기 기본 조각 2.35–4.70분 '잠깐'은 구간은 맞고 분은 짧게 잡음, 비유(p78) 6.71–13.4분은 분이 맞음. 같은 작업자에게 이어서 보낸 회차는 읽기가 크게 줄어 새로 짓는 일(컷씬 장치·그림 소품·시험 29개)이 있어도 7분 — S_resumed가 '잠깐' 쪽으로 미는 건 맞다(근거 1건). 토큰은 이어진 맥락 때문에 턴당 커서 줄지 않는다. 품질: 지시서 전부 + 시험 105→134, 스스로 찾은 수와 컷씬이 비춘 수가 섞이는 기록 문제를 스스로 짚음(메인이 고침), 긴 줄과 겹치는 '눌러서 다음' 위치 손봄 — 5"
+hypotheses = []

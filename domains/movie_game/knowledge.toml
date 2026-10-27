@@ -637,3 +637,10 @@ evidence = ["O_user_holmes_lead_rule", "O_user_holmes_first_ok"]
 serves = ["G_player_reason", "G_balance", "G_logic"]
 test_plan = "홈즈의 앞선 추리를 컷씬 하나로 넣은 판을 플레이해 사용자 판정: (1) 재료가 내가 본 것이었나, (2) 내가 혼자 잇기는 어려웠나, (3) 듣고 나서 납득했나, (4) 내 몫을 빼앗겼다고 느꼈나. (4)가 '예'면 '너무 중요한 것' 쪽에서 반박"
 note = "2026-10-27 사용자 생각을 가설로 올림. H_reason_findable(먼저 제시해도 이유를 찾을 수 있어야 함)에 '재료는 같게, 연결은 도약으로'와 '핵심 연결은 남긴다'를 더한 것. 이유가 첫눈에 보이는 단서에서는 의심이 플레이어 쪽에서 나온다(H_reason_findable 판정 '일부')와 함께 읽는다"
+
+[[fact]]
+id = "F_scene01_cutscenes"
+text = "플레이판 v5(2026-10-27)에 홈즈의 앞선 추리 컷씬 둘: 첫 대면(화면에 그린 분필 묻은 소맷부리·주머니의 읽기 책 → '가정교사', 추리 보드와 무관)과 결론 전 한 걸음(두 번째 보드 확정 뒤, 플레이어가 본 숨긴 칸 상자·메모·하커 부인 → '장물아비', 톰이 숨은 까닭). 컷씬 중에는 조작이 막히고 비춘 단서는 '찾은 것'이 되며, 끝 화면 기록은 스스로 찾은 단서와 컷씬이 먼저 비춘 단서를 따로 센다"
+checked = 2026-10-27
+source = "movie_game content/case01/scene01.json(cutscenes, rules.cutscene), proto/scene01-play 자동 시험 134/134"
+note = "H_holmes_lead_same_info_leap를 시험하는 장치. 사용자 플레이 판정 전"
