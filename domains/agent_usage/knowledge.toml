@@ -1379,7 +1379,7 @@ reason = "일의 양은 턴으로 센다. 일의 모양마다 곱하기 조각�
 conditions = ["S_other_model"]
 check = ["piece_direction", "piece_size"]
 seen_until = "p05"
-fit = "d01–p04 끝난 기록에서 맞춤: 턴 26/40건 (d02, d05, d06, d09, d13, d14 …)"
+fit = "d01–p05 끝난 기록에서 맞춤: 턴 26/43건 (d02, d05, d06, d09, d13, d14 …)"
 [[hypothesis.effect]]
 on = "turns"
 op = "base"
@@ -1395,7 +1395,7 @@ reason = "읽을 파일 몇 개를 한 번 읽고 한 번 쓰면 끝나고 도�
 conditions = ["S_fixed_input"]
 check = ["piece_direction", "piece_size"]
 seen_until = "p05"
-fit = "d01–p04 끝난 기록에서 맞춤: 턴 4/8건 (d18, d23, d36b, d81)"
+fit = "d01–p05 끝난 기록에서 맞춤: 턴 4/8건 (d18, d23, d36b, d81)"
 [[hypothesis.effect]]
 on = "turns"
 op = "mul"
@@ -1424,7 +1424,7 @@ seen_until = "p05"
 split_from = "C_turns_research"
 why_condition = "정해진 입력의 풀이는 찾는 턴조차 없어 조사보다 훨씬 적다. 같은 일을 두 조각이 줄이면 숫자가 흐려진다"
 note = "쪼갠 까닭(왜 이 조건이 차이를 만드나): 정해진 입력의 풀이는 찾는 턴조차 없어 조사보다 훨씬 적다. 같은 일을 두 조각이 줄이면 숫자가 흐려진다"
-fit = "d01–p04 끝난 기록에서 맞춤: 턴 9/10건 (dR1, dR2, dR3, dR4, dR5A, dR5B …)"
+fit = "d01–p05 끝난 기록에서 맞춤: 턴 9/10건 (dR1, dR2, dR3, dR4, dR5A, dR5B …)"
 [[hypothesis.effect]]
 on = "turns"
 op = "mul"
@@ -1455,7 +1455,7 @@ seen_until = "p05"
 split_from = "C_turns_no_check"
 why_condition = "코드를 쓰면 외부 확인이 없어도 스스로 돌려 보고 고치는 턴이 생긴다(p29: 빌드 도구 없이도 200턴). 기존 것을 고치는 일은 찾아 읽고 한두 줄 바꾸는 짧은 턴을 많이 친다(p38: 303턴). 둘 다 '외부 확인 없음'만으로는 걸러지지 않는다"
 note = "C_turns_no_check에서 조건 둘(S_no_code=예, S_fix_existing≠예)을 더해 쪼갬. 앞 조각이 맞췄던 13건은 그대로 맞고, 반박하던 p29·p38은 조건 밖으로 나간다. 범위는 앞 조각과 같다(fit으로 다시 맞춰 확인: 같은 13건)"
-fit = "d01–p04 끝난 기록에서 맞춤: 턴 10/13건 (d17, d21, d22, d34, d35, d48 …)"
+fit = "d01–p05 끝난 기록에서 맞춤: 턴 10/13건 (d17, d21, d22, d34, d35, d48 …)"
 [[hypothesis.effect]]
 on = "turns"
 op = "mul"
@@ -1484,7 +1484,7 @@ seen_until = "p05"
 split_from = "C_turns_resumed"
 why_condition = "이어 보내서 줄어드는 몫은 '다시 찾지 않는 탐색'인데, 여러 갈래를 합치는 일은 찾을 것이 앞 회차에 없던 것이다"
 note = "쪼갠 까닭(왜 이 조건이 차이를 만드나): 줄어드는 몫은 '다시 찾지 않는 탐색'인데, 여러 갈래를 합치는 일은 찾을 것이 앞 회차에 없던 것이다"
-fit = "d01–p04 끝난 기록에서 맞춤: 턴 9/19건 (d17b, d15d, d29b, d30b, d30c, d30e …)"
+fit = "d01–p05 끝난 기록에서 맞춤: 턴 9/19건 (d17b, d15d, d29b, d30b, d30c, d30e …)"
 [[hypothesis.effect]]
 on = "turns"
 op = "mul"
@@ -1498,12 +1498,14 @@ id = "C_fix_existing"
 text = "기존 코드·데이터의 정해진 곳을 고치는 일은 새로 짓는 일보다 턴이 적고, 턴이 빨리 돌고, 맥락이 작다"
 source = "ai (2026-10-19, 계산 조각)"
 reason = "새로 쓸 양이 없고 고칠 곳만 나눠 읽는다. 편집과 확인이 짧게 이어진다"
+status = "retired"
+replaced_by = ["C_fix_existing_v2"]
 conditions = ["S_fix_existing", "S_long_lap"]
 check = ["piece_direction", "piece_size"]
 seen_until = "p05"
 split_from = "C_turns_base"
 why_condition = "고칠 곳이 지시서에 적혀 있으면 짓는 양과 읽는 양이 둘 다 작고, 편집과 확인이 짧게 이어진다"
-note = "전체 기록에서 세움: 기준값으로 계산한 고치는 일 여덟(d44–d46·d70–d73)의 분이 모두 범위 위로 나왔다(실제는 다른 일). 쪼갠 뒤 분 범위는 다섯(d44·d45·d46·d72·d73)이 맞고 p04는 구간도 맞지만, 범위가 22–45분처럼 두 구간에 걸쳐 긴 쪽(신경 끄기)으로 말하게 되어 말할 구간은 아직 틀린다 — 조건이 아니라 말하기 규칙의 몫(보고서 '메인 판단 필요'). H_ctx_fix, H_given_design_rate2와 같은 방향"
+note = "2026-10-27 새 버전(why = 이유 틀림, 분당 턴 효과만): p05 뒤 시험 기록에서 '고치는 일은 턴이 빨리 돈다'의 방향이 틀렸다 — 분당 턴 비율(실측 ÷ 이 조각을 뺀 계산)의 가운데 값이 고치는 일 1.38 · 아닌 일 1.43(×0.97). 고치지 않는데 빠른 일이 여럿이다: 코드 읽기만 하는 조사 p40·p41(분당 11–13턴), 정해진 양식의 정리 문서 p59–p64(7–9), 그림을 보고 라벨 표를 채우는 p79–p83(15–20). 고치는 일 중에도 p38(13.9)은 빠르고 p52·p56·p78(4–6)은 보통이다. 분당 턴을 정하는 것은 고치느냐 짓느냐가 아니라 턴 하나의 크기(부분 읽기·한 장 렌더·작은 검사 호출 위주인가)였다 — p38 돌아보기에서 이미 다음 정리 후보로 적은 조건. 그 상태를 세우려면 p05 앞 기록에도 값을 채워 맞춰야 하므로 다음 정리로 미루고, 지금은 틀린 효과만 뺀 v2로 바꾼다. 턴·맥락 효과는 시험 기록에서도 방향이 맞다(고치는 일 0.59·0.60 vs 아닌 일 0.93·0.91). 전체 기록에서 세움: 기준값으로 계산한 고치는 일 여덟(d44–d46·d70–d73)의 분이 모두 범위 위로 나왔다(실제는 다른 일). 쪼갠 뒤 분 범위는 다섯(d44·d45·d46·d72·d73)이 맞고 p04는 구간도 맞지만, 범위가 22–45분처럼 두 구간에 걸쳐 긴 쪽(신경 끄기)으로 말하게 되어 말할 구간은 아직 틀린다 — 조건이 아니라 말하기 규칙의 몫(보고서 '메인 판단 필요'). H_ctx_fix, H_given_design_rate2와 같은 방향"
 fit = "d01–p04 끝난 기록에서 맞춤: 턴 8/9건 (d44, d45, d46, d47, d70, d72 …); 턴당 맥락(천 토큰) 9/9건 (d44, d45, d46, d47, d70, d71 …); 분당 턴 8/8건 (d45, d46, d47, d70, d71, d72 …)"
 [[hypothesis.effect]]
 on = "turns"
@@ -1528,6 +1530,33 @@ when = { S_fix_existing = "예", S_long_lap = "!예" }
 reason = "짧은 편집과 짧은 확인이 이어져 한 턴이 짧다. 한 바퀴가 긴 확인을 기다리면 이 몫이 사라지므로 뺀다"
 
 [[hypothesis]]
+id = "C_fix_existing_v2"
+text = "기존 코드·데이터의 정해진 곳을 고치는 일은 새로 짓는 일보다 턴이 적고, 맥락이 작다"
+source = "ai (2026-10-27, 계산 조각)"
+reason = "새로 쓸 양이 없고 고칠 곳만 나눠 읽는다"
+conditions = ["S_fix_existing"]
+check = ["piece_direction", "piece_size"]
+seen_until = "p05"
+split_from = "C_turns_base"
+why_condition = "고칠 곳이 지시서에 적혀 있으면 짓는 양과 읽는 양이 둘 다 작다"
+note = "C_fix_existing에서 분당 턴 효과(고치는 일은 턴이 빨리 돈다)를 뺀 새 버전(이유 틀림 — 분당 턴은 턴 하나의 크기가 정한다, C_fix_existing note). 턴·맥락 효과와 범위는 그대로이고 fit으로 다시 맞춰 확인했다. 그 효과에만 쓰던 조건 S_long_lap은 뺐다"
+fit = "d01–p05 끝난 기록에서 맞춤: 턴 8/9건 (d44, d45, d46, d47, d70, d72 …); 턴당 맥락(천 토큰) 9/9건 (d44, d45, d46, d47, d70, d71 …)"
+[[hypothesis.effect]]
+on = "turns"
+op = "mul"
+range = [0.487, 0.97]
+dir = "down"
+when = { S_fix_existing = "예" }
+reason = "지을 것이 없어 바꿀 곳만 바꾼다"
+[[hypothesis.effect]]
+on = "ctx_k"
+op = "mul"
+range = [0.413, 0.742]
+dir = "down"
+when = { S_fix_existing = "예" }
+reason = "큰 파일을 통째로 두지 않고 고칠 곳만 나눠 읽어 맥락이 덜 쌓인다"
+
+[[hypothesis]]
 id = "C_small_codebase"
 text = "검사가 몇 초 안에 끝나는 작은 코드베이스의 일은 턴이 적다"
 source = "ai (2026-10-19, 계산 조각)"
@@ -1538,7 +1567,7 @@ seen_until = "p05"
 split_from = "C_turns_base"
 why_condition = "읽을 코드가 적으면 찾는 턴이 짧고, 검사가 몇 초면 확인 바퀴가 즉시 끝나 고침이 큰 편집 몇 번으로 끝난다"
 note = "전체 기록에서 세움: 작은 코드베이스의 기록 넷(p01–p04)이 모두 큰 코드베이스 기준 예측의 ×0.3–0.5였다(p04 돌아보기의 흐렸던 조건). 분당 턴 효과도 시험했지만 범위가 1을 넘나들어(방향 없음) 넣지 않았다"
-fit = "d01–p04 끝난 기록에서 맞춤: 턴 3/4건 (p01, p02, p04)"
+fit = "d01–p05 끝난 기록에서 맞춤: 턴 4/5건 (p01, p02, p04, p05)"
 [[hypothesis.effect]]
 on = "turns"
 op = "mul"
@@ -1565,7 +1594,7 @@ conditions = ["S_similar_past"]
 check = ["piece_direction", "piece_size"]
 seen_until = "p05"
 note = "비유 조각: 성적을 따로 낸다. 맞출 때는 사후에 읽은 빗댄 기록(checks.PAST_ANALOG)도 썼다 — 보내기 전에 적은 것은 p04 하나뿐이다"
-fit = "d01–p04 끝난 기록에서 맞춤: 턴 5/6건 (d39b, d62, d87, d94, p04)"
+fit = "d01–p05 끝난 기록에서 맞춤: 턴 6/7건 (d39b, d62, d87, d94, p04, p05)"
 [[hypothesis.effect]]
 on = "turns"
 op = "base"
@@ -1582,11 +1611,11 @@ reason = "한 턴은 생각 + 도구 호출 하나다. 일의 모양이 빠르�
 conditions = ["S_other_model"]
 check = ["piece_direction", "piece_size"]
 seen_until = "p05"
-fit = "d01–p04 끝난 기록에서 맞춤: 분당 턴 59/85건 (d01, d05, d06, d07, d12, d13 …)"
+fit = "d01–p05 끝난 기록에서 맞춤: 분당 턴 66/94건 (d01, d05, d06, d07, d12, d13 …)"
 [[hypothesis.effect]]
 on = "turns_per_min"
 op = "base"
-range = [3.17, 6.34]
+range = [3.33, 6.64]
 when = { S_other_model = "아니오" }
 reason = "기본 설정 모델의 구현·문서·비평 일의 분당 턴"
 
@@ -1598,11 +1627,11 @@ reason = "작은 도구 호출(검색 하나, 페이지 하나)이 잦고 한 �
 conditions = ["S_web"]
 check = ["piece_direction", "piece_size"]
 seen_until = "p05"
-fit = "d01–p04 끝난 기록에서 맞춤: 분당 턴 8/8건 (dR1, dR2, dR3, dR4, dR5A, dR5B …)"
+fit = "d01–p05 끝난 기록에서 맞춤: 분당 턴 8/8건 (dR1, dR2, dR3, dR4, dR5A, dR5B …)"
 [[hypothesis.effect]]
 on = "turns_per_min"
 op = "mul"
-range = [1.51, 2.5]
+range = [1.44, 2.38]
 dir = "up"
 when = { S_web = "예" }
 reason = "도구 호출 하나하나가 짧다"
@@ -1615,7 +1644,7 @@ reason = "오래 생각하고 한 번 쓴다. 생각 시간에는 바닥이 있�
 conditions = ["S_other_model", "S_fixed_input"]
 check = ["piece_direction", "piece_size"]
 seen_until = "p05"
-fit = "d01–p04 끝난 기록에서 맞춤: 분 6/8건 (d19, d37, d37b, d56, d82, d91)"
+fit = "d01–p05 끝난 기록에서 맞춤: 분 6/8건 (d19, d37, d37b, d56, d82, d91)"
 [[hypothesis.effect]]
 on = "minutes"
 op = "base"
@@ -1634,7 +1663,7 @@ seen_until = "p05"
 split_from = "C_min_other_fixed"
 why_condition = "턴을 잘게 나눠 쓰는 모델은 정해진 입력도 여러 번 다시 읽고 고쳐 쓰며, 그렇지 않은 모델은 한 번 읽고 한 번 쓴다"
 note = "전체 기록에서 C_min_other_fixed를 모델 성질로 쪼갬: 같은 풀이를 두 모델이 한 짝마다 턴을 잘게 쓰지 않는 쪽이 0.4–0.6배(d19/d20, d24/d25, d37/d38, d37b/d38b가 앞 절반에서 이미 같은 방향)"
-fit = "d01–p04 끝난 기록에서 맞춤: 분 6/8건 (d38, d38b, d57, d67, d83, d92)"
+fit = "d01–p05 끝난 기록에서 맞춤: 분 6/8건 (d38, d38b, d57, d67, d83, d92)"
 [[hypothesis.effect]]
 on = "minutes"
 op = "mul"
@@ -1651,7 +1680,7 @@ reason = "에이전트는 매 턴 맥락 전체를 다시 읽는다. 맥락의 �
 conditions = ["S_other_model"]
 check = ["piece_direction", "piece_size"]
 seen_until = "p05"
-fit = "d01–p04 끝난 기록에서 맞춤: 턴당 맥락(천 토큰) 40/54건 (d01, d02, d03, d05, d06, d07 …)"
+fit = "d01–p05 끝난 기록에서 맞춤: 턴당 맥락(천 토큰) 41/55건 (d01, d02, d03, d05, d06, d07 …)"
 [[hypothesis.effect]]
 on = "ctx_k"
 op = "base"
@@ -1667,7 +1696,7 @@ reason = "작은 페이지를 조금씩 읽어 맥락이 덜 쌓인다"
 conditions = ["S_web"]
 check = ["piece_direction", "piece_size"]
 seen_until = "p05"
-fit = "d01–p04 끝난 기록에서 맞춤: 턴당 맥락(천 토큰) 8/8건 (dR1, dR2, dR3, dR4, dR5A, dR5B …)"
+fit = "d01–p05 끝난 기록에서 맞춤: 턴당 맥락(천 토큰) 8/8건 (dR1, dR2, dR3, dR4, dR5A, dR5B …)"
 [[hypothesis.effect]]
 on = "ctx_k"
 op = "mul"
@@ -1684,7 +1713,7 @@ reason = "작은 파일 몇 개만 맥락에 둔다"
 conditions = ["S_fixed_input"]
 check = ["piece_direction", "piece_size"]
 seen_until = "p05"
-fit = "d01–p04 끝난 기록에서 맞춤: 턴당 맥락(천 토큰) 8/8건 (d18, d23, d36, d36b, d55, d65 …)"
+fit = "d01–p05 끝난 기록에서 맞춤: 턴당 맥락(천 토큰) 8/8건 (d18, d23, d36, d36b, d55, d65 …)"
 [[hypothesis.effect]]
 on = "ctx_k"
 op = "mul"
@@ -1701,7 +1730,7 @@ reason = "앞 회차가 끝났을 때의 맥락에서 시작한다"
 conditions = ["S_resumed"]
 check = ["piece_direction", "piece_size"]
 seen_until = "p05"
-fit = "d01–p04 끝난 기록에서 맞춤: 턴당 맥락(천 토큰) 18/23건 (d15c, d17b, d15d, d26b, d29b, d29c …)"
+fit = "d01–p05 끝난 기록에서 맞춤: 턴당 맥락(천 토큰) 18/23건 (d15c, d17b, d15d, d26b, d29b, d29c …)"
 [[hypothesis.effect]]
 on = "ctx_k"
 op = "mul"

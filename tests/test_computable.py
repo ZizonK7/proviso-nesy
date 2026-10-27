@@ -87,8 +87,8 @@ class Calculator(unittest.TestCase):
         out = pr.report_record(self.rec("p04"), self.records, self.pieces, self.kn)
         self.assertIn("말할 구간: 다른 일", out)
         self.assertIn("근거 → 조각 → 조합 → 숫자", out)
-        self.assertIn("C_fix_existing(턴)", out)
-        self.assertIn("근거: d01–p04 끝난 기록에서 맞춤", out)
+        self.assertIn("C_fix_existing_v2(턴)", out)
+        self.assertIn("근거: d01–p05 끝난 기록에서 맞춤", out)
         self.assertIn("쓴 조각:", out)
         self.assertIn("맞춰 본 것", out)  # p04는 조각을 세울 때 본 기록이다
 
@@ -99,7 +99,11 @@ class Calculator(unittest.TestCase):
         for e in p.used():
             changed = p.told(e) != p.told() or p.token_class(e) != p.token_class()
             self.assertEqual(changed, e in decisive, e.piece)
-        self.assertTrue(any(e not in decisive for e in p.used()))  # p04에서는 고치는 일의 분당 턴이 구간을 안 바꾼다
+        # 고치는 일의 분당 턴 효과를 뺀 뒤(C_fix_existing_v2, 2026-10-27) p04에는 안 바꾸는 조각이 없다.
+        # d18에서는 정해진 입력의 턴당 맥락이 구간·토큰 등급을 안 바꾼다
+        d = self.rec("d18")
+        p = pr.predict(d["situation"], d["project"], self.pieces, self.kn)
+        self.assertTrue(any(e not in p.decisive() for e in p.used()))
 
     def test_unknown_when_no_base_piece_matches(self):
         # 기본이 아닌 모델의 문서 일: 맞는 기준값이 없으면 지어내지 않는다
@@ -284,10 +288,10 @@ class Devices(unittest.TestCase):
             self.assertTrue(verdict.startswith("시험 전") or "시험(p05 다음부터)" in detail, (p.id, verdict, detail))
 
     def test_split_pieces_say_why_the_condition_matters(self):
-        for pid in ("C_turns_research_v2", "C_turns_resumed_v2", "C_turns_no_check", "C_fix_existing",
+        for pid in ("C_turns_research_v2", "C_turns_resumed_v2", "C_turns_no_check", "C_fix_existing_v2",
                     "C_small_codebase", "C_min_light_model"):
             self.assertTrue(self.kn.nodes[pid].data.get("why_condition", "").strip(), pid)
-        node = self.kn.nodes["C_fix_existing"]
+        node = self.kn.nodes["C_fix_existing_v2"]
         saved = node.data.pop("why_condition")
         try:
             errors, _ = checks.audit_pieces(self.kn)
