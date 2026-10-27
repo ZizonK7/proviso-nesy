@@ -7923,6 +7923,13 @@ tokens_m = [2, 7]
 rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
 reason = "클라우드 Haiku 글 조사는 원문 수와 무관하게 4–10분(p71·p73–p75 3/3). 이번 원문 18건은 p75(20건, 6.2분·3.1M)와 같은 크기. 계산기 모름(Haiku)"
 hypotheses = ["H_cloud_session_rounds_v2"]
+[dispatch.actual]
+status = "done"
+minutes = 9.3  # get_session: 03:26:41 → 03:35:57 UTC. 1차 5.9분(→03:32:37) + 메인의 사실 재확인 요청 2차 약 3분
+turns = 43  # result.num_turns 1차 39 + 2차 4
+tokens_m = 4.14  # usage 합: 캐시 읽기 375.0만 + 캐시 쓰기 15.0만 + 입력 15.4만 + 출력 8.3만. 비용 0.54달러
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(1차 5.9분, 재확인 포함 9.3분도 10분 안). 토큰 4.14M은 2–7M·T1 안. 품질: 1차 보고서에 원문 확인 표시가 붙은 줄거리 사실이 틀린 곳이 있었다(역전재판 3 Dahlia '살아 있음', Armando가 쓰러진 사건, 단간론파 결말 인물 이름, 본문·목록 출처 번호 어긋남). 메인이 7곳을 짚어 재확인시키자 원문 문장 인용으로 고침 — 1차 3, 2차 4. 교훈: Haiku는 소설·게임 줄거리를 요약할 때 '[원문 확인]' 표시와 실제 문장이 어긋날 수 있다 → 줄거리 사실 조사 지시서에는 '사실마다 원문 문장 인용'을 전송 조건에 넣는다(H_cloud_session_rounds_v2: 이어서 지시 1회로 고쳐짐)"
 
 [[dispatch]]
 id = "p80"
