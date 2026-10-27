@@ -398,12 +398,12 @@ text = "한 사건 단위로 진행하되 끝으로 갈수록 그동안의 사�
 parent = "G_story"
 source = "user"
 
-[[state]]
-id = "S_convergence_single_mode"
-text = "수렴이 한 가지 방식만으로(특히 '한 인물이 전부 지휘한다'로) 단순하게 이루어진다"
-known_before = true
-harms = ["G_story_converges"]
-note = "2026-10-27 사용자 제약: 수렴 방식은 열려 있지만(이전 사건이 증거, 배후, 인물의 사정 모두 가능) 한 방식만으로 가지 않는다. 이 상태가 '예'가 되는 설계는 목표를 해친다. 역전재판 예시(O_user_convergence_examples)는 참고이지 지시가 아니다"
+[[goal]]
+id = "G_convergence_not_single_mode"
+text = "수렴은 한 가지 방식만으로(특히 '한 인물이 전부 지휘한다'로) 단순하게 이루어지지 않는다 — 이전 사건이 증거가 되는 것, 배후, 인물의 사정 등 여러 줄기를 섞는다"
+parent = "G_story_converges"
+source = "user"
+note = "2026-10-27 사용자 제약(DECISIONS 15). 수렴 방식 자체는 열려 있다. 역전재판 예시(O_user_convergence_examples)는 참고이지 지시가 아니다. 설계가 한 방식으로 기울면 이 목표를 해치는 것으로 본다"
 
 [[state]]
 id = "S_one_scene_stage"
@@ -437,7 +437,7 @@ id = "H_story_fixed_end_open_cases"
 text = "수렴점(마지막 그림, 수렴에 걸리는 인물 서너 명의 사정, 수렴 줄기 두세 개, 바꾸지 않을 것)만 한 장으로 미리 고정하고 사건은 하나씩 쓰되 사건마다 씨앗 하나를 심고 사건 자체는 혼자 서게 하면, 수렴이 즉흥으로 억지스러워지는 것(한 인물 지휘로 흐름)과 전체 계획이 플레이에서 깨지는 것을 둘 다 피한다"
 source = "ai"
 evidence = ["F_r_deduction_validation_principles", "O_user_convergence_examples"]
-serves = ["G_story_converges", "G_story"]
+serves = ["G_story_converges", "G_convergence_not_single_mode", "G_story"]
 test_plan = "두 번째 사건을 쓸 때 판정: 한 장짜리 틀이 첫 사건의 교훈으로 고쳐졌나, 씨앗이 억지 없이 심어졌나. 사용자 판정"
 note = "2026-10-27 AI 제안 → 사용자가 채택(DECISIONS 16). 첫 사건은 틀 없이 가도 된다(프로토타입 시험이 목적)"
 
