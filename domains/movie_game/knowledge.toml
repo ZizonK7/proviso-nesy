@@ -455,3 +455,27 @@ text = "첫 장면 '젖은 왼쪽 소매' v0 설계가 있다(movie_game docs/fi
 checked = 2026-10-27
 source = "클라우드 세션(메인)이 설계. 사용자 검토 전, 플레이 전"
 note = "H_first_case_size·H_two_stage_observation·H_observe_cost_and_question·H_wrong_piece_is_pruning·H_local_reaction_batch_confirm·H_ue5_fits_needs를 한 번에 시험하는 장치. 인물·사건은 가칭·예시"
+
+# ---------- 첫 플레이 피드백 (브라우저 플레이판, 2026-10-27 밤) ----------
+[[observation]]
+id = "O_user_q1_no_trigger"
+text = "사용자(2026-10-27, 플레이판을 살짝 해 봄): 홈즈가 왜 갑자기 '집에서 곧장 왔나'를 궁금해하는지 모르겠다. 사용자 해석은 '홈즈가 걸리는 부분이 있어서 의심한다'인데, 그 걸리는 부분을 보여 주는 장치가 있었나 — 없어 보였다"
+source = "user"
+date = 2026-10-27
+
+[[hypothesis]]
+id = "H_question_from_seen"
+text = "2단계 관찰을 여는 질문은 대본이 켜 주면 안 되고, 플레이어가 이미 본 조각과 인물의 말이 어긋나는 자리에서 열려야 한다(조각을 못 봤으면 말만으로는 질문이 안 생기고, 말을 못 들었으면 조각만으로는 안 생긴다). 그래야 '내가 걸린 것'으로 느껴지고 다음 관찰이 목적을 갖는다"
+source = "ai"
+evidence = ["O_user_q1_no_trigger", "O_user_two_stage_observe"]
+serves = ["G_player_observe", "G_player_reason"]
+test_plan = "고친 플레이판(질문 = 말 + 본 조각)으로 사용자 다시 플레이: 질문이 뜰 때 '왜 궁금한지' 알겠나. 반대 사례: 조각을 못 봐서 질문이 영영 안 뜨면 막힘 — 그때는 조각을 보게 하는 다른 장치가 필요"
+note = "2026-10-27 첫 플레이 피드백에서. 설계 v0에서는 Q1이 에이다의 말(ada_03) 하나로 켜졌다 → 말 + 조각 A(젖은 소매)로 고침. H_observe_cost_and_question의 '질문을 들고 있을 때만'에 '질문은 어디서 오나'를 더한 것"
+
+[[judgment]]
+of = "H_observe_cost_and_question"
+source = "user"
+verdict = "일부"
+date = 2026-10-27
+note = "'질문이 있을 때만 2단계가 열린다'는 틀 자체는 아직 판정 전. 다만 질문이 대본에서 그냥 켜지면 플레이어는 왜 궁금한지 모른다 — 질문의 출처가 빠져 있었다(H_question_from_seen으로 쪼갬). 대가(시야 고정 3초)에 대한 판정은 아직"
+evidence = ["O_user_q1_no_trigger"]
