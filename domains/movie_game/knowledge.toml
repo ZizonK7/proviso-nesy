@@ -448,3 +448,10 @@ verdict = "지지"
 date = 2026-10-27
 note = "사용자: '아직 게임을 만드는 게 아니라 한 플레이 장면을 만드는 단계'로 정리하며 채택(DECISIONS 16·17). 실제 시험은 두 번째 사건 때"
 evidence = ["O_user_convergence_examples"]
+
+[[fact]]
+id = "F_scene01_design"
+text = "첫 장면 '젖은 왼쪽 소매' v0 설계가 있다(movie_game docs/first-case-scene-v0.md, content/case01/scene01.json): 말하는 인물 4 + 톰 한 줄, 장소 3(뒷방 하나 새로), 박자 5, 핫스팟 12(1단계 8·2단계 4, 함정 3), 질문 2(Q1 집에서 곧장 왔나 / Q2 톰은 어디), 빈칸 문장 2(각 3자리, 3자리 동시 확정), 자리 종류별 셜록 반응 8, 대사 18줄(영어 + 한글 자막), 플레이 로그 칸 10. 2단계 관찰의 대가는 '시야 고정 3초'로 첫 시험"
+checked = 2026-10-27
+source = "클라우드 세션(메인)이 설계. 사용자 검토 전, 플레이 전"
+note = "H_first_case_size·H_two_stage_observation·H_observe_cost_and_question·H_wrong_piece_is_pruning·H_local_reaction_batch_confirm·H_ue5_fits_needs를 한 번에 시험하는 장치. 인물·사건은 가칭·예시"

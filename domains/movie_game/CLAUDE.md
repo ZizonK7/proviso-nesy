@@ -15,4 +15,5 @@
 - 2026-10-27: 사용자 PC 세션이 프로토타입 둘(Three.js·UE 5.8)을 만듦(F_proto_v0). 사용자 1차 반응은 "건물이 종이 쪼가리 같다"(O_user_paper_buildings) — "이 느낌인가" 판정은 아직. 엔진 결정도 아직.
 - 2026-10-27 배치 26: 첫 사건 크기 조사(단편 4편 구조·관찰 조각·게임 사건 크기·대본 표본·입면 치수) → 사실 5, 가설 H_first_case_size. 사용자 결정: 추리 규칙의 첫 시험은 게임 안 플레이로, 사전 피드백은 크기만. 보고서 [docs/worklog/2026-10-27-movie-game-first-case-research.md](../../docs/worklog/2026-10-27-movie-game-first-case-research.md).
 - 2026-10-27 사용자 결정 13–17: 크기 OK(H_first_case_size 첫 판정 지지, 플레이 판정은 아직), 실제 런던·빅토리아(G_real_london_victorian), 사건 단위 + 수렴(G_story_converges)이되 한 방식만으로 가지 않음(G_convergence_not_single_mode), 수렴점 한 장 + 사건 하나씩(H_story_fixed_end_open_cases, 사용자 채택), **지금은 플레이 장면 하나를 만드는 단계**(S_one_scene_stage). 명세는 movie_game `docs/first-case-v0.md`.
-- 다음: PC 세션이 첫 사건을 UE 프로토타입에 넣음 → 사용자 플레이 판정으로 가설 시험(두 단계 관찰·가지치기·국소 반응·묶음 확정·UE5). 화풍은 그 위에서 다시.
+- 2026-10-27 저녁: 첫 장면 "젖은 왼쪽 소매" v0 설계(F_scene01_design) — 메인이 여기서 글로 끝까지 설계(핫스팟 12·빈칸 2·반응 8·대사 18), PC는 짓기만. 사용자 방침: "컴퓨터에서 못 하는 것은 미리 해 간다".
+- 다음: PC 세션이 첫 장면을 UE 프로토타입에 넣음(movie_game docs/briefs/case01-ue-brief.md) → 사용자 플레이 판정으로 가설 6개 시험. 그 사이 여기서: 수렴 예시, 수렴점 한 장 틀, 임시 음성 준비. 화풍은 그 뒤.
