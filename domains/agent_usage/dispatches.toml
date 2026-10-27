@@ -8412,3 +8412,48 @@ wrong = ["R_time_turns_v2"]
 why = "조건 흐림"
 reason = "이 기록: 13.0분('다른 일')·194턴(범위 넘음)·31.52M(범위 넘음), 분당 14.9턴. 말한 구간 '신경 끄기'(>40분) 틀림 — 다섯 명이 9.7–13.0분에 끝났다(4명 '다른 일', p82는 '잠깐'). 계산기 48–96분 '신경 끄기'도 틀림. 턴은 146–232로 손 예측 90–150을 대개 넘었는데 분은 훨씬 짧았다: 분당 15–20턴. 손 예측은 '그림을 보고 칸 200개씩 판단하니 분당 3–5턴(새로 쓰기 띠)'으로 잡았는데, 실제로는 확대 그림 렌더·검사 스크립트 같은 짧은 도구 호출이 대부분이라 R_time_turns_v2의 렌더 캡처 띠(분당 7–11)보다도 빨랐다. 라벨 출력은 쪽마다 한두 번의 큰 쓰기였다. 교훈(근거 5건, 같은 배치): 정해진 양식으로 그림을 보고 표를 채우는 반복(라벨 붙이기)은 분당 15–20턴, 쪽 6개에 150–230턴·10–13분 — 병렬 다섯이 같은 띠에 모였다. 토큰은 턴당 13–17만(그림이 맥락에 쌓임)이라 턴이 많은 만큼 21–40M(T2). 이 다섯 건이 들어오자 C_fix_existing의 분당 턴 효과('고치는 일은 턴이 빨리 돈다')가 시험 기록에서 방향이 뒤집혀(고치는 일/아닌 일 ×0.97) 그 효과만 뺀 C_fix_existing_v2로 바꿨다(이유 틀림) — 분당 턴은 고치느냐 짓느냐가 아니라 턴 하나의 크기가 정한다(p38·p40·p41·p59–p64와 같은 모양, 다음 정리에서 상태로 세운다). 품질: 6쪽 전부, 검토 그림 전부 봄 — 5"
 hypotheses = ["C_fix_existing", "C_fix_existing_v2"]
+
+[[dispatch]]
+id = "p89"
+project = "movie_game"
+batch = 32
+date = 2026-10-27
+task = "구현(이어서 지시, p78·p83 작업자 — 지시서 안에서는 p84라고 부름. 다른 세션이 p84–p88을 먼저 써서 p89로 옮김): Q1 근거를 소매에서 전보 내용으로 — ada_03 뒤 홈즈가 소리 내어 되묻고('Straight from home, Miss Pryce?') 에이다가 머뭇거림, 그 사이 시선이 전보로(띠 없는 짧은 비춤), 그 뒤 Q1과 관찰이 열림. 소매 속말 줄 정리. '들어가지 않았다' 근거(톱밥은 치맛단에만·신바닥엔 없음, 진흙에 톱밥 없음)와 holmes_05 개정. 시험 갱신. Opus high, SendMessage로 이어서"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "일부"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p83"
+told = "잠깐"
+minutes = [5, 10]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [6, 12]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댄 p83(같은 작업자 이어서, 컷씬 장치 새로 짓기 6.8분·37턴·8.9M). 이번은 이미 있는 장치(컷씬·질문)를 고쳐 쓰고 대사·설명만 바꾸는 일이라 p83보다 작거나 같음 → 5–10분 '잠깐'. 토큰은 이어진 맥락이 커서 6–12M. 계산기(기본 조각) 2.35–4.70분 '잠깐'"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.35, 4.70]

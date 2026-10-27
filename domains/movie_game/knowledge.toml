@@ -644,3 +644,25 @@ text = "플레이판 v5(2026-10-27)에 홈즈의 앞선 추리 컷씬 둘: 첫 �
 checked = 2026-10-27
 source = "movie_game content/case01/scene01.json(cutscenes, rules.cutscene), proto/scene01-play 자동 시험 134/134"
 note = "H_holmes_lead_same_info_leap를 시험하는 장치. 사용자 플레이 판정 전"
+
+# ---------- 플레이 피드백 6회차: 질문의 근거 다시 (2026-10-27 밤) ----------
+[[observation]]
+id = "O_user_sleeve_not_standing"
+text = "사용자(2026-10-27): '걸어가면서 종이를 빗속에 내밀고 다니지 않는다는 게 서서 전보를 보고 있었다는 게 되나? 걸어가면서 전보를 보고 있었을 수도 있잖아.' / '곧장 오지 않았다 = 가만히 서서 전보를 읽고 있었다. 알겠는데 이게 왜 나오지?' — 한쪽만 젖은 소매에서 '곧장 오지 않았다'로 가는 고리가 끊겨 있었다(메인 확인: 소매는 '왼팔이 빗속에 오래 나가 있었다'까지만 말한다)"
+source = "user"
+date = 2026-10-27
+
+[[observation]]
+id = "O_user_explaining_line_cringe"
+text = "사용자(2026-10-27): 홈즈 속말 안 \"'그레이프스에 오지 마라.' 전보가 짚은 단 한 곳이다. 그런데 집에서 곧장 왔다고?\"를 보고 '전보가 짚은 한 곳이다? 이거는 오글거리는데'. 대신 '소리 내어 되묻기(Straight from home, Miss Pryce?) + 머뭇거림 + 시선이 전보로'를 고름"
+source = "user"
+date = 2026-10-27
+
+[[hypothesis]]
+id = "H_doubt_shown_not_explained"
+text = "인물이 품은 의심은 그 이유를 말로 풀어 설명하면 꾸민 말처럼 들린다. 짧은 되물음·상대의 머뭇거림·시선 같은 행동으로 의심만 보이고, 이유는 상대가 방금 보고 들은 것에서 스스로 찾게 하는 편이 낫다"
+source = "user"
+evidence = ["O_user_explaining_line_cringe", "O_user_holmes_first_ok"]
+serves = ["G_player_reason", "G_design", "G_english_british"]
+test_plan = "플레이판 v6(ada_03 뒤 'Straight from home, Miss Pryce?' → '…Yes.' → 시선이 전보로)로 사용자 판정: 왜 되묻는지 스스로 찾았나(전보 내용), 오글거리지 않았나"
+note = "2026-10-27 사용자 선택을 가설로 올림. H_reason_findable(이유를 찾을 수 있어야)·H_holmes_lead_same_info_leap(같은 재료, 홈즈의 도약)과 함께 읽는다. 의심의 근거는 소매가 아니라 전보 내용(O_user_sleeve_not_standing)"
