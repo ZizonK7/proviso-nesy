@@ -8516,3 +8516,48 @@ tokens_m = 3.02  # usage: 캐시 읽기 277.6만 + 캐시 쓰기 13.3만 + 입�
 wrong = ["R_turns_analogy_v2"]
 why = "조건 흐림"
 reason = "말한 구간 '다른 일'(8–15분) 틀림 — 7.2분 '잠깐'. 토큰 3.02M은 2–6M·T1 맞음. 아티팩트 publish까지 처음 지시서에 넣으니 승인을 묻지 않고 한 회차에 끝났다(p67 교훈 적용 성공). 사진 조사는 글 조사와 같은 '클라우드 Haiku 3–10분' 띠에 든다(p65 9.8, p90 7.2) — 다음부터 '잠깐'. 품질: 32장 모두 Read로 봤고 설명이 보이는 것에 한정됨, 못 찾은 것을 정직하게 적음. 다만 설계에 가장 필요한 화면(Mind Palace·Deduction Space·Concentration·Dance of Deduction)은 스팀 상점 사진에 없어 비었다 — 스팀 상점 사진은 마케팅용이라 UI 화면이 드물다는 것이 교훈. 지시서에 '상점에 없으면 공식 사이트·보도자료·팬 위키'를 적었지만 그쪽은 403 — 3"
+
+[[dispatch]]
+id = "p91"
+project = "movie_game"
+batch = 32
+date = 2026-10-27
+task = "구현(이어서 지시 4회차, p78 작업자): 대사 검수(p81) 반영 — 높음·중간 행 전부, 낮음은 한글(하게체 통일·'하커'·Mr L)만. 시험 문장 비교 갱신. Opus high"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "일부"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p89"
+told = "잠깐"
+minutes = [4, 8]
+turns = [20, 35]
+tokens_class = ["T1"]
+tokens_m = [6, 12]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댄 p89(이어서 3회차, 4.5분·27턴·7.8M). 이번은 글자만 바꾸는 일이라 짓는 것은 없지만 바꿀 줄이 20곳 넘고 시험 문장도 맞춰야 해 비슷한 크기 → 4–8분 '잠깐'. 계산기 2.35–4.70 '잠깐'"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.35, 4.70]
