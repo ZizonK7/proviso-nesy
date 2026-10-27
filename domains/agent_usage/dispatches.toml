@@ -7880,3 +7880,218 @@ tokens_m = 9.05  # 캐시 읽기 861만 + 캐시 쓰기 42만 + 출력 1.8만
 [dispatch.review]
 reason = "말한 구간 '다른 일' 맞음(15.0분). 턴 63은 40–80 안, 토큰 9.05M은 5–10M T1 안 — 셋 다 맞음. 계산기(기본 조각) 9.85–19.7분 '다른 일'도 맞음, 비유 계산(p76 ×) 4.3–8.5분 '잠깐'은 틀림: 있는 코드를 고치는 일은 처음 만든 기록에 빗대면 짧게 나온다(읽기·시험 고치기가 더해짐) — C_fix_existing이 맞게 턴을 올렸다. 분당 4.2턴(p76 2.8보다 빠름), 턴당 14.4만. 중간에 메인 세션의 모델이 바뀌었지만(사용자 /model) 하위 에이전트는 그대로 돌았다. 품질: 고침 셋 전부 + 시험 63→98, 지시서의 '넣는 즉시 뜻을 보인다'가 3자리 동시 확정 규칙과 부딪힌다는 것을 스스로 찾아 '확정 뒤에만'으로 바꾸고 한 줄 스위치로 남김, 한글 조사 자동 맞춤·D2 한글 문장 틀 수정 — 5"
 hypotheses = []
+
+[[dispatch]]
+id = "p79"
+project = "font"
+batch = 29
+date = 2026-10-27
+task = "손글씨 라벨 붙이기: 시험 대비 수식 풀이 PDF 1–6쪽(후보 칸 약 1175개)을 줄마다 칸별 글자로 적고, 갈라진 글자 합치기(_merges)와 첨자 빼기 목록을 만든다. 메인이 준 확대·검토 도구로 렌더해 확인. 5명이 쪽을 나눠 병렬. Opus high, 세션 안 Agent"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "일부"
+S_check_loop = "예"
+S_short = "일부"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "일부"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [18, 50]
+turns = [90, 150]
+tokens_class = ["T1", "T2"]
+tokens_m = [9, 30]
+rules = ["R_time_turns_v2", "R_verify_laps", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댈 기록 없음(라벨 붙이기는 처음 보낸다). 쪽마다 시트 3장 보기 → 라벨 파일 쓰기 → 검토 그림 1–3장 → 고치기로 12–20턴 × 6쪽 + 시작 읽기·보고서 = 90–150턴. 그림을 보고 칸 200개씩 판단·출력하는 턴이 길어 분당 3–5턴(새로 쓰기 띠) → 18–50분, 걸쳐서 긴 쪽 '신경 끄기'. 토큰은 그림이 맥락에 쌓여 턴당 10–20만 → 9–30M. 계산기(기본 조각만 걸림) 48–96분·216–426턴은 확인 고리 있는 구현 기준이라 길게 본다고 봄"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [47.8, 95.7]
+
+[[dispatch]]
+id = "p80"
+project = "font"
+batch = 29
+date = 2026-10-27
+task = "손글씨 라벨 붙이기: 시험 대비 수식 풀이 PDF 7–12쪽(후보 칸 약 1174개)을 줄마다 칸별 글자로 적고, 갈라진 글자 합치기(_merges)와 첨자 빼기 목록을 만든다. 메인이 준 확대·검토 도구로 렌더해 확인. 5명이 쪽을 나눠 병렬. Opus high, 세션 안 Agent"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "일부"
+S_check_loop = "예"
+S_short = "일부"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "일부"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [18, 50]
+turns = [90, 150]
+tokens_class = ["T1", "T2"]
+tokens_m = [9, 30]
+rules = ["R_time_turns_v2", "R_verify_laps", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댈 기록 없음(라벨 붙이기는 처음 보낸다). 쪽마다 시트 3장 보기 → 라벨 파일 쓰기 → 검토 그림 1–3장 → 고치기로 12–20턴 × 6쪽 + 시작 읽기·보고서 = 90–150턴. 그림을 보고 칸 200개씩 판단·출력하는 턴이 길어 분당 3–5턴(새로 쓰기 띠) → 18–50분, 걸쳐서 긴 쪽 '신경 끄기'. 토큰은 그림이 맥락에 쌓여 턴당 10–20만 → 9–30M. 계산기(기본 조각만 걸림) 48–96분·216–426턴은 확인 고리 있는 구현 기준이라 길게 본다고 봄"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [47.8, 95.7]
+
+[[dispatch]]
+id = "p81"
+project = "font"
+batch = 29
+date = 2026-10-27
+task = "손글씨 라벨 붙이기: 시험 대비 수식 풀이 PDF 13–18쪽(후보 칸 약 998개)을 줄마다 칸별 글자로 적고, 갈라진 글자 합치기(_merges)와 첨자 빼기 목록을 만든다. 메인이 준 확대·검토 도구로 렌더해 확인. 5명이 쪽을 나눠 병렬. Opus high, 세션 안 Agent"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "일부"
+S_check_loop = "예"
+S_short = "일부"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "일부"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [18, 50]
+turns = [90, 150]
+tokens_class = ["T1", "T2"]
+tokens_m = [9, 30]
+rules = ["R_time_turns_v2", "R_verify_laps", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댈 기록 없음(라벨 붙이기는 처음 보낸다). 쪽마다 시트 3장 보기 → 라벨 파일 쓰기 → 검토 그림 1–3장 → 고치기로 12–20턴 × 6쪽 + 시작 읽기·보고서 = 90–150턴. 그림을 보고 칸 200개씩 판단·출력하는 턴이 길어 분당 3–5턴(새로 쓰기 띠) → 18–50분, 걸쳐서 긴 쪽 '신경 끄기'. 토큰은 그림이 맥락에 쌓여 턴당 10–20만 → 9–30M. 계산기(기본 조각만 걸림) 48–96분·216–426턴은 확인 고리 있는 구현 기준이라 길게 본다고 봄"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [47.8, 95.7]
+
+[[dispatch]]
+id = "p82"
+project = "font"
+batch = 29
+date = 2026-10-27
+task = "손글씨 라벨 붙이기: 시험 대비 수식 풀이 PDF 19–23쪽(후보 칸 약 1145개)을 줄마다 칸별 글자로 적고, 갈라진 글자 합치기(_merges)와 첨자 빼기 목록을 만든다. 메인이 준 확대·검토 도구로 렌더해 확인. 5명이 쪽을 나눠 병렬. Opus high, 세션 안 Agent"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "일부"
+S_check_loop = "예"
+S_short = "일부"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "일부"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [18, 50]
+turns = [90, 150]
+tokens_class = ["T1", "T2"]
+tokens_m = [9, 30]
+rules = ["R_time_turns_v2", "R_verify_laps", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댈 기록 없음(라벨 붙이기는 처음 보낸다). 쪽마다 시트 3장 보기 → 라벨 파일 쓰기 → 검토 그림 1–3장 → 고치기로 12–20턴 × 6쪽 + 시작 읽기·보고서 = 90–150턴. 그림을 보고 칸 200개씩 판단·출력하는 턴이 길어 분당 3–5턴(새로 쓰기 띠) → 18–50분, 걸쳐서 긴 쪽 '신경 끄기'. 토큰은 그림이 맥락에 쌓여 턴당 10–20만 → 9–30M. 계산기(기본 조각만 걸림) 48–96분·216–426턴은 확인 고리 있는 구현 기준이라 길게 본다고 봄"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [47.8, 95.7]
+
+[[dispatch]]
+id = "p83"
+project = "font"
+batch = 29
+date = 2026-10-27
+task = "손글씨 라벨 붙이기: 시험 대비 수식 풀이 PDF 24–29쪽(후보 칸 약 1322개)을 줄마다 칸별 글자로 적고, 갈라진 글자 합치기(_merges)와 첨자 빼기 목록을 만든다. 메인이 준 확대·검토 도구로 렌더해 확인. 5명이 쪽을 나눠 병렬. Opus high, 세션 안 Agent"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "일부"
+S_check_loop = "예"
+S_short = "일부"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "일부"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [18, 50]
+turns = [90, 150]
+tokens_class = ["T1", "T2"]
+tokens_m = [9, 30]
+rules = ["R_time_turns_v2", "R_verify_laps", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댈 기록 없음(라벨 붙이기는 처음 보낸다). 쪽마다 시트 3장 보기 → 라벨 파일 쓰기 → 검토 그림 1–3장 → 고치기로 12–20턴 × 6쪽 + 시작 읽기·보고서 = 90–150턴. 그림을 보고 칸 200개씩 판단·출력하는 턴이 길어 분당 3–5턴(새로 쓰기 띠) → 18–50분, 걸쳐서 긴 쪽 '신경 끄기'. 토큰은 그림이 맥락에 쌓여 턴당 10–20만 → 9–30M. 계산기(기본 조각만 걸림) 48–96분·216–426턴은 확인 고리 있는 구현 기준이라 길게 본다고 봄"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [47.8, 95.7]
