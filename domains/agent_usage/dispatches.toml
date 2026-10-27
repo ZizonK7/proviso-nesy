@@ -8830,6 +8830,17 @@ hypotheses = []
 told = "잠깐"
 minutes = [4.04, 8.09]
 
+[dispatch.actual]
+status = "done"
+minutes = 13.0  # 알림 duration 782초 (10:24:50 → 10:37:52)
+turns = 64  # agent_usage.py 전체 208 − p91까지 144
+tokens_m = 26.2  # 전체 57.48M − 31.27M. 이어서 5회차라 캐시 읽기가 매 턴 크다
+[dispatch.review]
+wrong = ["R_tok_short_v5"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' 맞음(13.0분, 12–25 안). 턴 64는 40–70 안. 토큰 26.2M은 10–20을 넘김(T2) — 이어서 5회차는 맥락이 매 턴 40만 토큰 가까이 쌓여 턴당 토큰이 첫 회차의 두 배. 이어서 회차 수가 토큰을 밀어 올리는 것을 다음 정리에서 상태로. 품질: 검사 139→182, 참조 점검을 저장소 안으로 옮기고 build.py 앞에 걸었다, 데이터가 비운 조건은 가장 가까운 동작으로 하고 목록으로 보고 — 5"
+hypotheses = []
+
 [[dispatch]]
 id = "p97"
 project = "movie_game"
