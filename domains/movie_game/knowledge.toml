@@ -816,3 +816,10 @@ text = "사건 1(이야기 v2)이 UE 5.8 프로토타입에서 처음부터 끝�
 checked = 2026-10-27
 source = "PC 세션(Fable 5.1) 구현 + 자동 플레이 검사 로그·스크린샷. 보고서 docs/worklog/2026-10-27-movie-game-case01-ue.md"
 note = "H_ue5_fits_needs의 두 번째 시험 재료: 인물(마네킹)·대사·자막·현지화 없이 영어+한글 자막·음성·2단계 관찰·보드·컷씬이 한 프로젝트에서 돈다. 막힌 기능 없음. MetaHuman·입 모양은 아직. 사용자 플레이 판정은 아직(가설 판정은 그 뒤)"
+
+[[fact]]
+id = "F_character_paths_tested"
+text = "인물을 만드는 두 길을 같은 PC(RTX 4060 8GB)에서 끝까지 돌렸다(movie_game ue/, 2026-10-28). (1) 로컬 AI: Z-Image-Turbo 정면 그림 → BiRefNet 배경 제거 → TripoSR 메시 → 블렌더 정리·질감 굽기 → UniRig 자동 리깅 → UE 스켈레탈 메시, 인물 하나 2분 30초, 전부 MIT/Apache(상업 가능), 결과는 실루엣만 읽히고 얼굴은 뭉개져 2m 안 시점에는 못 쓴다. (2) 메타휴먼 크리에이터(UE 5.8 내장, Python API): 프리셋 복제·머리·옷은 헤드리스로 되지만 자동 리깅·피부 질감은 Epic 서버라 에디터에서 사람이 한 번 로그인해야 한다(커맨드릿은 코드 로그인 못 함), 인물 하나 약 3분, 결과 817MB(공용 리그 포함), 빅토리아 옷은 기본에 없고 Fab 구매 또는 직접 제작"
+checked = 2026-10-28
+source = "PC 세션(Fable 5.1) 실행 로그·스크린샷 ue/shots/2026-10-28_char_*.jpg. 보고서 docs/worklog/2026-10-28-movie-game-characters.md"
+note = "H_ue5_fits_needs의 '리깅된 인물' 조건과 H_own_art_with_code_frame(직접 그린 그림을 쓰는 길)의 재료. 사용자의 디자인 판정(어느 길, 또는 섞기)은 아직"
