@@ -8508,3 +8508,11 @@ tokens_m = [2, 6]
 rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
 reason = "빗댄 p65(스팀 스크린샷 38장을 직접 보고 고른 그림 조사, 9.8분). 이번은 32장 이상 + 아티팩트 publish까지 한 회차에 → 8–15분 '다른 일'. 작업자가 publish 전에 사용자 승인을 물으면 그 기다림은 쉬는 시간으로 뺀다(p67). 계산기 모름(Haiku)"
 hypotheses = ["H_cloud_session_rounds_v2"]
+[dispatch.actual]
+status = "done"
+minutes = 7.2  # get_session: 07:46:49 → 07:54:02 UTC
+tokens_m = 3.02  # usage: 캐시 읽기 277.6만 + 캐시 쓰기 13.3만 + 입력 4.4만 + 출력 6.8만. 비용 0.39달러
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일'(8–15분) 틀림 — 7.2분 '잠깐'. 토큰 3.02M은 2–6M·T1 맞음. 아티팩트 publish까지 처음 지시서에 넣으니 승인을 묻지 않고 한 회차에 끝났다(p67 교훈 적용 성공). 사진 조사는 글 조사와 같은 '클라우드 Haiku 3–10분' 띠에 든다(p65 9.8, p90 7.2) — 다음부터 '잠깐'. 품질: 32장 모두 Read로 봤고 설명이 보이는 것에 한정됨, 못 찾은 것을 정직하게 적음. 다만 설계에 가장 필요한 화면(Mind Palace·Deduction Space·Concentration·Dance of Deduction)은 스팀 상점 사진에 없어 비었다 — 스팀 상점 사진은 마케팅용이라 UI 화면이 드물다는 것이 교훈. 지시서에 '상점에 없으면 공식 사이트·보도자료·팬 위키'를 적었지만 그쪽은 403 — 3"
