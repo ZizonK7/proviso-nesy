@@ -8729,3 +8729,48 @@ wrong = []
 why = ""
 reason = "말한 구간 '잠깐' 맞음(5.2분, 손 예측 5–9 안쪽 끝, 계산기 2.35–4.70은 조금 넘김). 턴 9는 8–16 안, 토큰 1.5M은 1–3M 안. 이어서 지시의 모양 그대로: 시간은 반(9.2→5.2) 턴도 반(14→9)인데 토큰은 같다(1.4→1.5M) — 앞 대화를 캐시로 다시 읽기 때문. 품질: 26건 반영 표가 문장 근거를 달았고, 새 구멍 넷(죽은 사람 아닌 용의자를 콕 집는 흔적이 없음, 질문이 핵심 연결을 대신함, 날짜 단서가 증명 안 됨, 5·6번 같은 모양의 흔적)이 모두 맞다. 역사 어긋남 1건(장부의 용도) 잡음 — 5"
 hypotheses = []
+
+[[dispatch]]
+id = "p95"
+project = "movie_game"
+batch = 34
+date = 2026-10-27
+task = "쓰기(세션 안 Opus, 봉인): 사건 1 「젖은 왼쪽 소매」를 규칙 시험 장면에서 첫 이야기로 — 구조(조각 12·질문 2·보드 2·컷씬 3) 그대로, 다섯 박자를 대사 60–90줄과 장면 연출로 채움. 봉인 문서 + scene01.json 고침. 지시서 9개 읽을 것, 수렴점 v3의 사건 1 씨앗 4개만"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p82"
+told = "다른 일"
+minutes = [10, 18]
+turns = [15, 30]
+tokens_class = ["T1"]
+tokens_m = [4, 10]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댄 p82(8.6분·21턴, 조사 보고서를 HTML 한 장으로). 이번은 읽을 것이 9개(수렴점·설계서·피드백·JSON·가설)이고 쓰는 양이 두 배(영·한 대사 60–90줄 + 긴 봉인 문서 + JSON 고침) → 긴 글 턴이라 분당 턴이 낮다(p92 1.5턴/분처럼) → 10–18분 '다른 일'. 계산기(C_rate_base 3.3–6.6턴/분)는 3.2–6.3 '잠깐' — 긴 글 쓰기는 분당 턴이 기본보다 낮다는 조건이 계산기에 없다(p92·p82 모두 넘김)"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [3.15, 6.29]
