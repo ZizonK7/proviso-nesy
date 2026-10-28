@@ -9,12 +9,13 @@
 - ccr-ae8e6087-ncdydt의 턴별 사용량 측정 기능 1커밋을 충돌 없이 병합.
 - nonfiction_games 조사와 retrieval_v0 실험 원본(39499ea)은 원격 태그 archive/old-history-2026-10-19로 보존하고 동일한 옛 브랜치 둘을 삭제.
 - 이미 번호를 바꾸어 반영한 claude/relaxed-babbage-11l0ha 원본은 archive/lecture-records-2026-10-20 태그로 보존한 뒤 정리. 반영 방식은 2026-10-25-branch-cleanup.md 참고.
-- 나머지 브랜치는 main에 커밋이 포함되는지 확인하고 삭제. 원격 변경이 있으면 삭제가 거부되도록 각 브랜치의 확인한 커밋으로 lease를 지정.
+- 나머지 완료 브랜치는 main에 커밋이 포함되는지 확인하고 삭제. 원격 변경이 있으면 삭제가 거부되도록 각 브랜치의 확인한 커밋으로 lease를 지정.
+- claude/busy-mccarthy-yzak4q는 다른 세션이 계속 작업 중이라 보존. p104 예측까지 main에 포함했으나 이후 p104–p106 실측 및 p107 예측을 합치면 C_small_codebase 방향 주장 검사(있음/없음 ×1.04)가 실패한다. 추가 병합만 revert했으며 새 기록 원본은 해당 원격 브랜치에 남김. 규칙이나 실측을 임의로 수정하지 않음.
 
 ## 확인한 것
 - 정리 도중 원격에 추가된 p104 예측도 병합. 실측 칸 누락으로 완료로 취급되던 문제는 actual.status = "unknown"으로 명시하여 해결(실측 수치는 만들지 않음).
 - python -m unittest discover -s tests -t .: 106개 통과.
-- python -m domains.agent_usage.dispatches: 기록 문제 없음, 228건.
+- python -m domains.agent_usage.dispatches: 최초 병합 시 기록 문제 없음, 228건. 이후 p104 미확정 예측 포함 229건.
 - python -m proviso validate agent_usage: 문제 없음.
 - python -m proviso audit agent_usage: 오류 없음. 경고 22건은 개정 조건·시험 수단·바깥 상황 예외 관련.
 - git diff --check origin/main..HEAD: 문제 없음.
