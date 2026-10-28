@@ -9005,3 +9005,59 @@ wrong = ["R_time_turns_v2", "R_say_numbers_v2"]
 why = "조건 흐림"
 reason = "말한 구간 '다른 일' 틀림 — 4.7분은 '잠깐'. 손 예측 7–13 빗남, 턴 36은 35–60 안, 토큰 19.4M은 15–30 안(T2). 턴은 맞고 시간이 짧다 = 분당 7.7턴으로 빠름: 같은 작업자 6회차라 어디를 고칠지 바로 알고 짧은 턴으로 돈다(p89 6턴/분·p91 4.3턴/분과 같은 결). 계산기 4.0–8.1 '잠깐'이 맞았다 — 이어서 고침은 계산기가 손보다 낫다(p91·p99). 품질: 192/192, 참조 점검 357, HTML 설계 낱말 0을 시험에 넣음, 데이터가 비운 둘을 가장 가까운 동작으로 하고 보고 — 5"
 hypotheses = []
+
+[[dispatch]]
+id = "p100"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "수집(클라우드 세션 'searching', Opus 5.5, 새 세션): 메인 환경에서 평가원 사이트(kice.re.kr·suneung.re.kr·ebsi)가 네트워크 정책 403으로 막혀, searching 환경에서 열리는지 시험하고 열리면 국어 문제지 PDF 17회차(2206~2709)와 정답표를 curl로 받아 exams/korean/에 커밋·push. 완료 조건: 열린/막힌 주소 목록과 회차별 쪽수 표"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_web = "예"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_web_blocked = "모름"
+S_read_originals = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+[dispatch.predicted]
+written_before = true
+analog = "p66"
+told = "잠깐"
+minutes = [4, 10]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2"]
+reason = "빗댄 p66(클라우드 세션에서 원문 39건을 curl로 열어 7.9분·2.98M). 이번은 게시판 구조 찾기 + PDF 17+17건 받기 + pdfinfo 확인 + 커밋·push라 건수는 비슷하고 글을 읽지 않아 가벼움 → 4–10분 '잠깐'. 모르는 것: searching 환경에서도 평가원이 막히면 보고서만 쓰고 2–4분에 끝난다. Opus라 계산기가 돈다. 턴은 못 센다(클라우드 세션)"
+hypotheses = ["H_cloud_session_rounds_v2"]
+[dispatch.calc]
+told = "잠깐"
+minutes = [0.53, 1.06]
+tokens_m = [0.13, 0.25]
+[dispatch.actual]
+status = "done"
+minutes = 5.3  # get_session: created 02:06:47 → updated 02:12:05 UTC. 1차 보고 하나로 끝(이어서 지시 없음). 첫 시도는 원격에 브랜치가 없어 0초에 실패(세지 않음)
+tokens_m = 1.84  # usage: 캐시 읽기 176.4만 + 캐시 쓰기 6.6만 + 입력 40 + 출력 1.3만. 비용 1.14달러. 턴은 세지 않음
+[dispatch.review]
+wrong = []
+why = ""
+reason = "말한 구간 '잠깐'(4–10분) 맞음(5.3분). 토큰 1.84M은 손 예측(2–6) 바로 아래, T1 맞음 — 받기만 하고 글을 읽지 않아 p66(2.98M)보다 가벼웠다는 이유가 맞았다. 계산기 0.5–1.1분·0.13–0.25M은 틀림: '입력이 정해진 일' 조각(C_turns_fixed_input ×0.04)이 클라우드 세션에서 curl로 34건을 하나씩 받는 턴을 못 본다 — 클라우드 세션(S_cloud_session=예)에는 fixed_input 감쇠를 쓰지 않거나 받기 건수 조각이 필요(다음 정리 후보). 전송 조건(열린/막힌 주소 목록·회차별 표)을 1차에 채워 옴 → H_cloud_session_rounds_v2 지지. 품질: 17/17 문제지+정답표, 텍스트층에 제목이 없어 첫 쪽을 그림으로 떠서 눈으로 확인, 홀수형 선택·40쪽 원본 보존 같은 결정을 보고서에 적음, fileSeq 표로 재현 가능 — 5"
+hypotheses = ["H_cloud_session_rounds_v2"]
