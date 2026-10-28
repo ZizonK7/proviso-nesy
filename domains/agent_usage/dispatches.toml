@@ -9332,3 +9332,8 @@ tokens_m = [11, 18]
 rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
 reason = "빗댄 p104(같은 일의 두 번째 회차, 13.6분·84턴·13.2M, 세트당 7.6턴·분당 6.2턴). 이번은 읽을 앞 요약이 둘이라 맥락이 조금 더 크고 비교 절이 같다 → 75–105턴, 분당 6턴 → 11–17분 '다른 일'. 토큰 11–18M(T2)"
 hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [12.6, 25.2]
+turns = [60.8, 115]
+tokens_m = [4.47, 8.94]
