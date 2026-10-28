@@ -9231,3 +9231,51 @@ wrong = ["R_say_numbers_v2", "R_time_turns_v2"]
 why = "조건 흐림"
 reason = "말한 구간 '다른 일'(8–16분) 틀림 — 9.0분은 '잠깐'(경계 10분 아래). 손 예측 범위(8–16)에는 들었지만 두 구간에 걸친 범위를 긴 쪽으로 말했는데 짧은 쪽에 떨어졌다(걸친 예측 34건 중 짧은 쪽 18의 결). 턴 55는 범위(55–100) 바닥, 토큰 7.0M은 범위(6–14)·T2 맞음. 세트가 17 → 11로 줄어(언매 제외, 중간 지시) 턴이 바닥에 붙었다 — 세트당 5턴, 분당 6.1턴으로 p102의 교훈('세트 수 × 4턴, 속도는 기본 띠')이 맞았다. 계산기 10.5–21분도 위로 틀림. 교훈: 국어 회차 분석은 11세트면 '잠깐', 17세트면 '다른 일' 경계. 품질: 45/45, 쉬움·중간·어려움을 세트별로 세고 판정 규칙(한 자리 = 한 문장 등)을 스스로 밝혀 다음 분석자에게 넘김, 확신 낮은 곳 6개를 짚음, 화작 표지 10개 — 5"
 hypotheses = []
+
+[[dispatch]]
+id = "p104"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2209 회차를 v2 양식으로(독서·문학 8세트 + 화작 3세트, 언매 제외). 앞 회차 요약(flow/2206.md)을 읽고 흐름을 이어 비교. 시간 순 두 번째 회차"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p103"
+told = "잠깐"
+minutes = [7, 12]
+turns = [50, 80]
+tokens_class = ["T1"]
+tokens_m = [6, 12]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p103(같은 양식 11세트, 9.0분·55턴·7.0M, 세트당 5턴·분당 6.1턴). 이번은 v1 노트 없이 새로 쓰고 앞 회차 요약과 비교하는 몫이 더해져 세트당 5–7턴 → 50–80턴, 분당 6턴 → 7–12분. 두 구간에 걸치지만 p103의 결(짧은 쪽)대로 '잠깐'으로 말한다. 토큰은 flow/2206을 읽어 맥락이 조금 커 6–12M"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [8.24, 16.5]
+turns = [39.8, 75.4]
+tokens_m = [2.93, 5.85]
