@@ -9966,3 +9966,61 @@ told = "다른 일"
 minutes = [19.6, 39.2]
 turns = [94.8, 179]
 tokens_m = [6.97, 13.9]
+[dispatch.actual]
+status = "done"
+minutes = 17.3  # agent_usage.py: 06:28:29 → 06:45:46
+turns = 103
+tokens_m = 24.3  # 캐시 생성 58.8만 + 캐시 읽기 2368.1만 + 입력 206 + 출력(추정) 2.2만. 도구 호출 65
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일'(15–23분) 맞음(17.3분). 턴 103은 범위(110–140) 아래, 토큰 24.3M은 범위(25–36) 바로 아래 — '2025학년도 이후는 그림이 많다'고 한 단계 올렸는데 이번은 그림이 넷뿐이라 앞 띠(90–130)에 떨어졌다. 그림 수는 보내기 전에 모르니 범위를 둘 합친 90–140으로 넓게 잡는 게 맞다. 분은 열 회차 연속 15–19분. 품질: 45/45, 경계 문항(22)을 양쪽 숫자로 보고, 짜임 변화 셋을 짚음 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p117"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2609 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 열네 번째"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p116"
+told = "다른 일"
+minutes = [15, 22]
+turns = [90, 140]
+tokens_class = ["T2"]
+tokens_m = [20, 34]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p109–p116(15.4–18.9분, 92–131턴, 19.4–31.9M). 그림 수를 모르니 턴·토큰은 두 띠를 합쳐 넓게, 분은 열 회차 연속 15–19분이라 15–22"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [15.4, 30.9]
+turns = [74.6, 141]
+tokens_m = [5.48, 11.0]
