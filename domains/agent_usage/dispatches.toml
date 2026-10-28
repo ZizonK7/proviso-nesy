@@ -9164,3 +9164,51 @@ wrong = ["R_time_turns_v2", "R_turns_analogy_v2", "H_template_doc_turns"]
 why = "조건 흐림"
 reason = "말한 구간 '신경 끄기'(30–70분) 틀림 — 10.6분 '다른 일'. 턴 70은 예측(80–160) 아래, 토큰 9.57M은 범위(8–25) 안·T2 맞음. 빗댄 p33–p37(본뜰 문서 1건 ≈ 40–65턴)은 긴 설계 문서였고, 이번 노트는 표 하나짜리라 세트당 ~4턴(17세트 70턴)으로 끝났다 — H_template_doc_turns는 '문서 길이'가 조건에 없어 흐리다. 분당 6.6턴은 기본 띠 상단(3.3–6.6)으로, '글 읽기·긴 쓰기라 느릴 것'이라는 이유도 틀렸다(에이전트가 지문을 한 번 뽑고 바로 노트를 쓴다). 계산기(28.8–57.5분)도 같은 쪽으로 틀림. 교훈: 분석 노트는 '세트 수 × 4턴', 속도는 기본 띠. 품질: 56/56 정답 일치(단, 언매 38·39는 정답을 먼저 봤다고 스스로 밝힘), 회차 요약이 지문 구성·3점 자리·오답 방식 빈도·후보 41개·다음 회차 비교점 8개를 갖춤, 양식이 안 맞는 곳을 세트마다 적음, 도구 버그를 우회하고 보고 — 5"
 hypotheses = ["H_template_doc_turns"]
+
+[[dispatch]]
+id = "p103"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2206 회차를 v2 양식(근거의 범위→쉬움/어려움, 화작·매체는 표지, 언매 문법은 배경 지식)으로 다시 쓴다. 세트 17개 + 회차 요약. v1 노트가 있으니 글의 뼈대는 참고 가능"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p102"
+told = "다른 일"
+minutes = [8, 16]
+turns = [55, 100]
+tokens_class = ["T2"]
+tokens_m = [6, 14]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2"]
+reason = "빗댄 p102(같은 회차 v1, 17세트 70턴·10.6분·9.6M, 세트당 4턴·분당 6.6턴). 이번은 양식이 바뀌어 새로 쓰지만 v1 노트의 뼈대를 참고할 수 있어 세트당 3–5턴 → 55–100턴, 분당 6턴 안팎 → 8–16분 '다른 일'. 토큰은 v1 노트를 읽는 만큼 맥락이 조금 커 6–14M(T2)"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [10.5, 21.0]
+turns = [50.7, 95.9]
+tokens_m = [2.06, 4.12]
