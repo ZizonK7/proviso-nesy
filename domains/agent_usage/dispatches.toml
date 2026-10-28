@@ -9279,3 +9279,56 @@ told = "다른 일"
 minutes = [8.24, 16.5]
 turns = [39.8, 75.4]
 tokens_m = [2.93, 5.85]
+[dispatch.actual]
+status = "done"
+minutes = 13.6  # agent_usage.py: 03:13:09 → 03:26:44
+turns = 84
+tokens_m = 13.2  # 캐시 생성 54.1만 + 캐시 읽기 1262.4만 + 입력 168 + 출력(추정) 1.5만. 도구 호출 53
+[dispatch.review]
+wrong = ["R_say_numbers_v2", "R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '잠깐'(7–12분) 틀림 — 13.6분 '다른 일'. 턴 84는 범위(50–80) 위, 토큰 13.2M은 범위(6–12) 위(T2). 빗댄 p103은 v1 노트의 뼈대를 참고해 세트당 5턴이었는데, 이번은 새로 읽고(세트당 7.6턴) 앞 회차 요약과 비교하는 절(8)을 쓰느라 턴·맥락이 커졌다 — '비교 몫'을 세트당 1~2턴으로 잡은 것이 적었다. 분당 6.2턴은 맞음. 교훈: 흐름 비교가 붙은 회차 분석은 11세트 기준 80–100턴·12–16분 '다른 일'. 품질: 45/45, 2206 비교점 9개에 답함, 재등장 후보 표시(NK-A 세 번째), 표현 믿음 반례 없음·경계 사례 1 적음, 2206 문서의 앞뒤 안 맞는 곳을 고치지 않고 짚음 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p105"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2211(2022학년도 수능) 회차를 v2 양식으로(독서·문학 8세트 + 화작 3세트). 앞 두 회차 요약(flow/2206·2209)을 읽고 비교. 시간 순 세 번째 회차"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p104"
+told = "다른 일"
+minutes = [11, 17]
+turns = [75, 105]
+tokens_class = ["T2"]
+tokens_m = [11, 18]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p104(같은 일의 두 번째 회차, 13.6분·84턴·13.2M, 세트당 7.6턴·분당 6.2턴). 이번은 읽을 앞 요약이 둘이라 맥락이 조금 더 크고 비교 절이 같다 → 75–105턴, 분당 6턴 → 11–17분 '다른 일'. 토큰 11–18M(T2)"
+hypotheses = []
