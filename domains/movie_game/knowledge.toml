@@ -853,3 +853,25 @@ checked = 2026-10-28
 source = "PC 세션(Fable 5.1) 빌드 로그·게임 로그(Aftermath 덤프)·사진 9장. 보고서 docs/worklog/2026-10-28-movie-game-fab-assets.md"
 note = "H_ue5_fits_needs의 '기성 자산' 조건에 걸리는 사실: 자산은 공짜로 들어오지만 받는 길과 렌더 안정성에 비용이 있다. 판정은 사용자 플레이(결정 22) 때"
 
+
+# ---------- 2026-10-29: 환경 2차·DX12 원인 (PC 세션, 병렬 작업자 둘) ----------
+[[fact]]
+id = "F_env_second_pass"
+text = "환경 2차(movie_game ue/tools/env2.py, 2026-10-29, Opus 작업자 30분): 벽난로 불은 Niagara 없이 재질 애니메이션(노이즈 두 겹이 시간으로 흐르는 가산 평면 5장 + 라이트 펑션으로 깜빡이는 점광원 둘)으로 한 번에 불처럼 보였다. 액자 그림 4장은 로컬 그림 모델(Z-Image-Turbo, 장당 23초)로 유화풍을 만들어 블렌더 금박 액자에 넣었다. 기름등·책 열(책등 질감 UV)·뒷방 연장·찻잔·병 18개는 블렌더 스크립트 한 번으로 소품 23종(FBX 0.5MB). 날씨(안개·빛 번짐)는 세게 하면 거리가 빛 덩어리로 뭉개져 약하게만. 빌드 2438 액터, 재질 컴파일 오류 0"
+checked = 2026-10-29
+source = "PC 세션 작업자 env2(p105) 보고서와 사진 ue/shots/2026-10-29_env2_*.jpg. 보고서 docs/worklog/2026-10-29-movie-game-env2-metahuman-parallel.md"
+note = "H_ue5_fits_needs(UE 안에서 필요한 것이 다 되는가)의 환경 쪽 재료. 사실풍 결정(23) 아래에서 불·그림·소품은 '코드+블렌더+로컬 그림 모델'로 충분히 나왔고, 날씨만 손이 더 간다. 사용자 판정은 플레이 때"
+
+[[fact]]
+id = "F_dx12_nanite_async_crash"
+text = "DX12 크래시의 원인 범위(2026-10-29): RTX 4060(드라이버 2026-07)에서 Nanite 메시가 든 레벨을 DX12로 띄우면 2~3프레임째 GPU 페이지 폴트(MMU fault, 추적 리소스 0건). Nanite를 끄면(r.Nanite=0) 완주, Nanite 스트리밍 예약 리소스를 꺼도(ReservedResources=0) 죽음, **Nanite 스트리밍 비동기 컴퓨트를 끄면(r.Nanite.Streaming.AsyncCompute=0) 완주 2/2**, 끈 채 4/4 죽음. DefaultEngine.ini [ConsoleVariables]에 넣었다. 재현에는 새 재질이 많이 들어간 레벨이 필요했다(환경 2차 전에는 같은 레벨이 2회 완주)"
+checked = 2026-10-29
+source = "PC 세션 메인이 photo/shoot.ps1로 DX12 실행 9회(-dpcvars로 cvar 하나씩), 게임 로그의 GPU Crashed·Setting CommandLine Device Profile CVar 줄"
+note = "F_fab_assets_first_pass의 '원인 미확인'을 닫는 사실. 드라이버 문제일 가능성은 남지만(비동기 컴퓨트 경로의 드라이버 버그로 보임) 사용자가 손댈 것은 없다. 성능 영향(스트리밍이 그래픽 큐로 감)은 재지 않음"
+
+[[fact]]
+id = "F_metahuman_npc_walk"
+text = "빌드된 메타휴먼을 사건 1의 인물 셋(에이다 셋)과 플레이어 몸에 붙이고 걷게 했다(movie_game ue/tools/mh_npc.py·mh_anim.py + C++ MGNpc·MGCharacter, 2026-10-29, Opus 작업자 52분). 방식: 레벨 스크립트는 인물 액터에 빌드 이름만 적고, 게임 시작 때 C++가 BP를 스폰해 Mesh에 붙인다(마네킹 메시는 비우고 컴포넌트는 남겨 몸 숨김이 그대로 먹음). 뼈 이름이 UE5 마네킹과 같아 소품은 같은 이름 뼈로 옮겨진다. 걷기·서기는 플러그인 Core Data의 애니를 복제해 RTG_MH_IKRig로 인물마다 리타게팅하고(플러그인 애니는 다른 뼈대 에셋을 가리켜 그대로는 못 씀) 애님 BP 없이 속도로 전환 재생한다. 사건 1 전체 자동 플레이가 끝까지 통과(이벤트 159·핫스팟 13, 10-27과 같음). 숨은 버그 둘 발견: 인물에 컨트롤러가 없어 걷기 명령이 무시되고 감독이 순간이동으로 메우고 있었다 / 거리 인물 시작점이 난간에 박혀 있었다"
+checked = 2026-10-29
+source = "PC 세션 작업자 mhnpc(p106) 답장 보고와 사진 ue/shots/2026-10-29_mh_*.jpg, 플레이 로그 PlayLogs/case01_2026-10-29_0555.json. 보고서 docs/worklog/2026-10-29-movie-game-env2-metahuman-parallel.md"
+note = "H_ue5_fits_needs의 '리깅된 인물·걷기' 조건이 닫힘(메타휴먼 + 내장 애니 리타게팅으로 됨). 남은 것: 프리셋 얼굴 다시 고르기(사용자, 로그인), 옷(사용자 블렌더), 캡슐에 붙은 단서 소품을 뼈로 옮기기, 전환 블렌드·회전 애니. 사용자 판정은 플레이 때"

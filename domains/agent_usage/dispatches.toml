@@ -9281,3 +9281,109 @@ turns = [39.8, 75.4]
 tokens_m = [2.93, 5.85]
 [dispatch.actual]
 status = "unknown"  # 예측만 기록됨. 실측이 올라오기 전에는 완료로 채점하지 않는다.
+
+[[dispatch]]
+id = "p105"
+project = "movie_game"
+batch = 36
+date = 2026-10-29
+task = "구현: 환경 2차 — 벽난로 불(재질 애니메이션 또는 Niagara)·액자 그림·기름등·책 블록·뒷방 공구·찻잔·병을 블렌더·PIL·로컬 그림 모델로 만들어 레벨 스크립트로 배치, 비·안개·하늘 손질, Fab 배치 2차(장 앞뒤·소파·큰 책장), 사진 확인"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "예"
+S_long_lap = "예"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [40, 80]
+turns = [140, 260]
+tokens_m = [35, 80]
+tokens_class = ["T2", "T3"]
+rules = ["R_verify_laps", "R_time_turns_v2", "R_tok_long_v5", "R_say_numbers_v2"]
+reason = "항목 8개(불·액자·기름등·책·공구·찻잔·병·비안개하늘)와 Fab 2차를 블렌더·PIL로 만들어 레벨 스크립트에 넣고 사진으로 확인한다. 바퀴 하나 = 레벨 빌드 2분 + 게임 사진 3분 ≈ 5분(S_long_lap), 바퀴 4–6회 = 20–30분. 코드·블렌더 작업은 본보기(make_furniture·fab_props)가 있어 분당 4–5턴으로 120–200턴 ≈ 25–50분 → 합 40–80분. 첫 회차 150턴 넘는 짓기라 턴 × 25–35만 → 35–80M. 계산기 14–28분은 바퀴 몫과 항목 수를 모른다"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [13.9, 27.7]
+[dispatch.actual]
+status = "done"
+minutes = 30.3  # agent_usage.py 20:07:35 → 20:37:51 (알림 duration 1816초 = 30.3분)
+turns = 118
+tokens_m = 22.4
+[dispatch.review]
+wrong = ["R_verify_laps", "R_say_numbers_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기' 틀림 — 30.3분은 '다른 일'. 턴 118은 예측 140–260 아래, 토큰 22.4M은 35–80 아래(등급 T2는 맞음). 분당 3.9턴은 기본 띠 안이라 속도는 맞고 양(턴)을 높게 잡았다: 항목 8개를 바퀴마다 하나씩 확인할 줄 알았는데(4–6바퀴), 작업자는 블렌더 소품 23종을 한 스크립트로 한 번에 만들고 레벨 빌드 3회·사진 3회로 끝냈다 — R_verify_laps의 '바퀴 수 = 찾을 문제마다 1'이 '항목마다 1'로 흐려졌다. 계산기 '다른 일' 13.9–27.7이 구간을 맞혔다(분은 조금 낮음). --turns: 글 50턴(중앙값 2.2초, 도구 시간 131초 = 빌드·사진 기다림), Bash 46턴 3–5초, Write 2턴 21초(19천 자). 품질: 7/8 됨, 사진으로 확인, 금지 파일 안 건드림 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p106"
+project = "movie_game"
+batch = 36
+date = 2026-10-29
+task = "구현: 메타휴먼 인물 걷기 — 빌드된 메타휴먼(몸·얼굴·머리·기본 옷)을 사건 1의 인물 셋과 플레이어 몸에 붙이고, 내장 걷기·서기 애니메이션(필요하면 리타게팅)으로 걷게 함. C++ 인물 클래스 고침 + 레벨 스크립트 모듈 새로 + 사진 확인"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "예"
+S_long_lap = "예"
+S_fix_existing = "예"
+S_build_tools = "일부"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "아니오"
+S_template_given = "일부"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [35, 70]
+turns = [120, 220]
+tokens_m = [30, 60]
+tokens_class = ["T2"]
+rules = ["R_verify_laps", "R_time_turns_v2", "R_tok_long_v5", "R_say_numbers_v2"]
+reason = "정해지지 않은 것이 둘(내장 걷기 애니가 빌드된 몸 뼈대에 바로 붙는지, 블루프린트 부품 묶음을 C++ 인물에 붙이는 법)이라 탐색 몫이 있다. 바퀴 하나 = C++ 1분 + 레벨 2분 + 사진 3분 ≈ 6분, 4–6회 = 25–35분, 코드 100–180턴 ≈ 20–40분 → 35–70분. 계산기(14–28)보다 길게 본 이유는 같다(바퀴·탐색). 토큰은 C++·파이썬·BP 구조를 읽어 턴 × 25만 안팎"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [13.9, 27.7]
+[dispatch.actual]
+status = "done"
+minutes = 51.6  # agent_usage.py 20:07:35 → 20:59:14 (알림 duration 3099초 = 51.6분)
+turns = 167
+tokens_m = 32.7
+[dispatch.review]
+reason = "말한 구간 '신경 끄기' 맞음(51.6분). 턴 167은 120–220 안, 토큰 32.7M은 30–60 안(T2). 탐색 몫(뼈대 호환 확인 → 리타게팅 선택, BP 부품 묶음을 C++에서 스폰해 붙이기)과 바퀴(C++ 빌드·레벨 빌드·사진·사건 1 전체 자동 플레이 225초)가 예측대로 시간을 채웠다. --turns: PowerShell 17턴이 중앙값 92초(도구 시간 77초 — 빌드·게임 실행을 기다림)로 시간의 절반, 글 76턴은 1.8초. 계산기 '다른 일' 13.9–27.7은 바퀴 길이(S_long_lap)를 모르니 틀림. 품질: 목표 넷 다 됨 + 사건 1 자동 플레이 끝까지 통과 + 숨은 버그 둘(컨트롤러 없는 인물은 걷기 명령이 무시되던 것, 난간에 박힌 시작점) 잡음 — 5"
+hypotheses = []
