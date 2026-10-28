@@ -9106,6 +9106,15 @@ hypotheses = ["H_cloud_session_rounds_v2"]
 told = "잠깐"
 minutes = [0.99, 1.97]
 tokens_m = [0.35, 0.70]
+[dispatch.actual]
+status = "done"
+minutes = 25.8  # get_session: created 02:26:04 → updated 02:51:51 UTC. 1차 보고 하나로 끝
+tokens_m = 9.63  # usage: 캐시 읽기 944.0만 + 캐시 쓰기 15.3만 + 입력 0.3만 + 출력 3.1만. 비용 3.75달러. 턴은 세지 않음
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일'(8–18분) 맞음이나 25.8분으로 상한을 넘김. 토큰 9.63M은 예측(3–8) 위, T1 틀림(T2). 빗댄 p100(34건 5.3분)의 ×1.5–3.5로 잡았는데 실제 ×4.9 — 받은 파일이 129건(문제지 66·정답표 63, 2.1~3.8배)이고 옛 회차는 zip·hwp·A/B형·홀짝이 섞여 정리 턴이 건수보다 더 늘었다(지시서에 적은 '모르는 것'이 그대로 일어남). 건수 비례가 아니라 '종류 수'가 시간을 정한다는 조건이 흐렸다. 전송 조건을 1차에 채움 → H_cloud_session_rounds_v2 지지. 품질: 65회차 표, 없는 회차 표시, hwp 8회차는 raw/에 보관하고 변환 안 함을 밝힘 — 5(보고서 확인 뒤 확정)"
+hypotheses = ["H_cloud_session_rounds_v2"]
 
 [[dispatch]]
 id = "p102"
