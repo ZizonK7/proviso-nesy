@@ -9146,7 +9146,7 @@ minutes = [30, 70]
 turns = [80, 160]
 tokens_class = ["T2"]
 tokens_m = [8, 25]
-rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_doc_work_v2", "H_template_doc_turns"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_doc_work_v2"]
 reason = "본뜰 문서가 있는 문서 묶음(p33–p37: 문서 1건 ≈ 40–65턴)과 닮았지만 한 노트가 그 문서보다 짧고(표 하나·후보 몇 줄) 세트마다 '글 뽑기 → 풀기 → 대조 → 쓰기' 4~8턴이라 17건 × 5–9턴 + 요약 ≈ 80–160턴. 분당 턴은 기본 띠(3.3–6.6)보다 글 읽기·긴 쓰기 때문에 느릴 것(2.5–4) → 30–70분, 두 구간에 걸쳐 긴 쪽 '신경 끄기'. 토큰은 맥락이 세트 글로 계속 자라(노트 17개 + 지문) 턴당 10만~15만 → 8–25M(T2). 모르는 것: 문학·화작·언매에서 양식이 안 맞아 에이전트가 머뭇대면 턴이 는다"
 hypotheses = ["H_template_doc_turns"]
 [dispatch.calc]
