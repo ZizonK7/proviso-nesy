@@ -10204,3 +10204,51 @@ tokens_m = 26.8  # 캐시 생성 149.4만 + 캐시 읽기 2527.0만 + 입력 206
 wrong = []
 reason = "말한 구간 '다른 일'(16–24분) 맞음(18.6분). 턴 103 범위(95–145) 안, 토큰 26.8M 범위(22–36)·T2 맞음. 열네 회차 연속 분 15–19분 — 국어 회차 분석(11세트, 앞 요약 둘 꼼꼼히)은 '다른 일' 15–19분·90–130턴·20–32M으로 굳었다. 품질: 45/45, 17회차 닫는 절(이어진 것·깨진 것·학년도 표·카드 후보 22개·조심할 점 10개)을 갖춤 — 5"
 hypotheses = []
+
+[[dispatch]]
+id = "p121"
+project = "suneung"
+batch = 36
+date = 2026-10-28
+task = "조사(세션 안 Opus 5.5 high, 새 에이전트): 평가원 독서 지문 8개(과학·기술 단일 4, 인문 (가)(나) 4)의 서술 방식을 뽑아 korean/STYLE_READING.md(규칙 + 실제 문장 예 + 초안 점검표)로 쓴다. 지문 제작의 문체 기준"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "아니오"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p103"
+told = "다른 일"
+minutes = [10, 18]
+turns = [40, 70]
+tokens_class = ["T1"]
+tokens_m = [5, 12]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "지문 8개를 text_ko.py로 읽고(8턴) 문장 통계를 작은 스크립트로 내고(5–10턴) 문서 하나를 쓴다(5–10턴) → 40–70턴. p103(11세트 노트, 55턴·9분)보다 쓰는 양이 적고 읽는 양은 비슷 → 10–18분 '다른 일'. 토큰은 지문 8개가 맥락에 실려 5–12M"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [8.24, 16.5]
+turns = [39.8, 75.4]
+tokens_m = [2.93, 5.85]
