@@ -9059,3 +9059,98 @@ tokens_m = 1.84  # usage: 캐시 읽기 176.4만 + 캐시 쓰기 6.6만 + 입력
 wrong = []
 reason = "말한 구간 '잠깐'(4–10분) 맞음(5.3분). 토큰 1.84M은 손 예측(2–6) 바로 아래, T1 맞음 — 받기만 하고 글을 읽지 않아 p66(2.98M)보다 가벼웠다는 이유가 맞았다. 계산기 0.5–1.1분·0.13–0.25M은 틀림: '입력이 정해진 일' 조각(C_turns_fixed_input ×0.04)이 클라우드 세션에서 curl로 34건을 하나씩 받는 턴을 못 본다 — 클라우드 세션(S_cloud_session=예)에는 fixed_input 감쇠를 쓰지 않거나 받기 건수 조각이 필요(다음 정리 후보). 전송 조건(열린/막힌 주소 목록·회차별 표)을 1차에 채워 옴 → H_cloud_session_rounds_v2 지지. 품질: 17/17 문제지+정답표, 텍스트층에 제목이 없어 첫 쪽을 그림으로 떠서 눈으로 확인, 홀수형 선택·40쪽 원본 보존 같은 결정을 보고서에 적음, fileSeq 표로 재현 가능 — 5"
 hypotheses = ["H_cloud_session_rounds_v2"]
+
+[[dispatch]]
+id = "p101"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "수집(클라우드 세션 'searching', Opus 5.5, 새 세션): 평가원 게시판(수능 1500234·2004 이전 1500235·모의평가 1500236)에서 2021학년도까지의 국어(언어) 영역 문제지와 정답표를 전부 받아 exams/korean/에 커밋·push. p100과 같은 일인데 건수가 ~3배(최대 28개 학년도 × 3회차). 완료 조건: 학년도·회차별 표(받음/없음)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "예"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_web_blocked = "아니오"
+S_read_originals = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+[dispatch.predicted]
+written_before = true
+analog = "p100"
+told = "다른 일"
+minutes = [8, 18]
+tokens_class = ["T1"]
+tokens_m = [3, 8]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2"]
+reason = "빗댄 p100(같은 게시판에서 34건 받기 5.3분·1.84M). 이번은 게시판 세 개를 쪽마다 넘기며 1994~2021학년도 행을 고르고 파일 최대 ~160건(문제지+정답표)을 받는다. 받기는 스크립트로 묶이지만 첫 쪽 확인(그림 떠서 보기)이 학년도 수만큼 늘어 p100의 ×1.5–3.5 → 8–18분 '다른 일', 토큰 3–8M. 모르는 것: 옛 회차가 zip·hwp로만 있거나 홀짝형이 섞여 정리에 시간이 더 들 수 있다"
+hypotheses = ["H_cloud_session_rounds_v2"]
+[dispatch.calc]
+told = "잠깐"
+minutes = [0.99, 1.97]
+tokens_m = [0.35, 0.70]
+
+[[dispatch]]
+id = "p102"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2206 회차 전체(세트 17개, 45문항)를 세트마다 text_ko.py로 읽고 직접 푼 뒤 정답표와 대조, 본보기 양식(2709_04-09.md)대로 세트 노트 17개와 회차 요약(flow/2206.md)을 쓴다. 시간 순 분석의 첫 회차"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p33"
+told = "신경 끄기"
+minutes = [30, 70]
+turns = [80, 160]
+tokens_class = ["T2"]
+tokens_m = [8, 25]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_doc_work_v2", "H_template_doc_turns"]
+reason = "본뜰 문서가 있는 문서 묶음(p33–p37: 문서 1건 ≈ 40–65턴)과 닮았지만 한 노트가 그 문서보다 짧고(표 하나·후보 몇 줄) 세트마다 '글 뽑기 → 풀기 → 대조 → 쓰기' 4~8턴이라 17건 × 5–9턴 + 요약 ≈ 80–160턴. 분당 턴은 기본 띠(3.3–6.6)보다 글 읽기·긴 쓰기 때문에 느릴 것(2.5–4) → 30–70분, 두 구간에 걸쳐 긴 쪽 '신경 끄기'. 토큰은 맥락이 세트 글로 계속 자라(노트 17개 + 지문) 턴당 10만~15만 → 8–25M(T2). 모르는 것: 문학·화작·언매에서 양식이 안 맞아 에이전트가 머뭇대면 턴이 는다"
+hypotheses = ["H_template_doc_turns"]
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [28.8, 57.5]
+turns = [139, 263]
+tokens_m = [10.2, 20.4]
