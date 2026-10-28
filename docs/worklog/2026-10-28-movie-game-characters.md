@@ -26,12 +26,22 @@
 - 에이다 빌드 때 "Cannot break link … CR_MetaHuman_HeadMovement_IK_Proc" 오류가 났지만 결과 에셋은 다 나왔다(공용 컨트롤 리그를 복사하면서 난 것으로 보임, 홈즈는 오류 없음).
 - 빅토리아 옷은 없다. Fab에 메타휴먼용 빅토리아 드레스·하녀복·빈티지 탐정 묶음(긴 코트·조끼)이 있으나 가격·품질은 사용자가 브라우저에서 봐야 한다(fab.com이 에이전트 접근을 403으로 막음). 직접 만든 옷을 wardrobe item으로 넣는 공식 절차가 있다.
 
+### 길 3 (사용자 결정 뒤): 메타휴먼 + 직접 만든 옷 — 통로 뚫기
+사용자(2026-10-28): "사실풍에 시각적 품질 높게, 옷은 우선 직접 만들어 보자" → 메타휴먼 얼굴·몸에 직접 만든 빅토리아 옷을 입히는 통로를 만들었다.
+- 구조(빌드된 BP를 스폰해 확인): `Body`(SkeletalMeshComponent, 뼈대 `metahuman_base_skel`, 성별·체형별 공용 폴더) ← `Face`(자식, 얼굴 뼈대·ABP_Face) ← 그룸 5(머리·눈썹·속눈썹·수염·콧수염), `Outfits` 스켈레탈 메시들은 Body의 자식 + **LeaderPose = Body**. 즉 옷 = 몸 뼈대에 가중치 붙인 스켈레탈 메시.
+- 통로: ① 몸 메시 FBX 내보내기(`AssetTools.export_assets`, 커맨드릿은 **`-AllowCommandletRendering`** 필요 — 없으면 `Assertion failed: MeshObject`로 죽음) → ② 블렌더 5.2 `bl_garment.py`: 몸(LOD0) 복사 → 손·머리·범위 밖 지우고 법선 방향 1~2cm 부풀림(가중치는 몸 것 그대로) + 치마·코트 자락은 회전체를 Data Transfer(가장 가까운 면 보간)로 가중치 받음 + 보닛은 head 뼈에 100% → 옷 부품 + 아머추어만 FBX로(`ignore_leaf_bones=False` — head가 잎 뼈라 빠지지 않게) → ③ `import_mesh.py`에 `MESH_SKEL_FROM=<몸 메시>`를 주면 그 뼈대로 스켈레탈 메시 가져오기(legacy FBX 임포터, 여러 메시가 한 스켈레탈 메시의 재질 섹션으로 합쳐짐) → ④ `char_test.py` bp 항목의 6·7번째 칸: 옷 에셋들을 SkeletalMeshActor로 스폰해 Body에 붙이고 `set_leader_pose_component(Body)`, 기본 옷 컴포넌트(`SkeletalMesh`, `SkeletalMesh1`)는 숨김.
+- 몸 메시는 머리가 없다(얼굴 메시가 목까지 덮음). 몸 메시 꼭대기 1.17m(에이다), 뼈 neck_01 1.31m. 앞 방향은 foot→ball 뼈로 잡았다.
+- 함정: Git Bash에서 `CHAR_TEST=/Game/...` 같은 **환경변수 값도** `C:/Program Files/Git/Game/...`으로 바뀐다 → `MSYS_NO_PATHCONV=1`.
+- 통로 증명: 코드로 지은 거친 드레스(보디스·종 치마·깃·보닛)와 프록코트(몸·자락·깃·바지)가 메타휴먼에 붙어 몸 뼈대를 따른다 — `ue/shots/2026-10-28_char_cloth_{ada,holmes}.jpg`. 여섯 번 돌려 고친 것: 빌드된 몸 메시는 기본 옷 아래(몸통·허벅지)가 잘려 있어 옷 바탕으로 못 씀 → 지오메트리 내보내기(`export_geometry`, Slate 필요라 에디터 `-unattended` + 원격)로 옷 없는 전신을 뽑음 / 회전체 법선 안쪽 / 만든 오브젝트를 아머추어에 붙일 때 부모 체인 0.01 스케일로 100배 축소(`matrix_parent_inverse`) / 허리 둘레를 재면서 A포즈 팔까지 포함해 치마가 집채만 해짐(몸통 가중치 점만) / 팔 소매로 살이 뚫고 나옴(LOD0 강제로도 안 잡힘 — 남은 문제, 표준 해법은 옷 아래 몸 숨김 마스크나 여유 2cm 이상).
+- 사용자 결정(2026-10-28): 코드 생성 옷은 여기까지(품질 안 나옴). **옷은 블렌더로 직접 모델링**(유료 도구·구매보다 먼저). 넘긴 것: `art/metahuman_body/{Ada,Holmes}_body.blend`(옷 없는 전신 몸 + 뼈대, 미터 단위, Body 잠금, Clothes 컬렉션, READ_ME 텍스트), `ue/tools/blender/make_body_template.py`(바탕 만들기), `ue/tools/blender/export_garments.py`(Clothes 컬렉션 → 가중치 자동 이전 → FBX), 가져오기·입히기는 `import_mesh.py`(MESH_SKEL_FROM) + `char_test.py`.
+
 ## 확인한 것 (어떻게)
 - 두 길 모두 221B 같은 자리·같은 빛에서 사진: `ue/shots/2026-10-28_char_pair_{ada,holmes}.jpg` (왼쪽 로컬 AI, 오른쪽 메타휴먼, 살펴보기 시점 fov 58·2.25m).
 - 내 눈(사용자 판정 아님): 같은 2.25m 시점에서 메타휴먼은 얼굴·손·피부가 사람으로 읽히고, 로컬 AI는 옷의 실루엣과 색만 읽히고 얼굴은 뭉개진 덩어리다. 메타휴먼의 약점은 옷(기본 티셔츠·반바지뿐)과 프리셋 얼굴이 이야기의 나이·인상과 다르다는 것(그레이스·올랜도 프리셋은 나이 든 얼굴·흰머리). 로컬 길의 강점은 그림 단계에서 옷·소품·시대가 자유롭다는 것.
 - 따라서 섞는 길이 보인다: 메타휴먼 얼굴·몸(사실풍) + 빅토리아 옷은 그림→3D로 만든 옷 메시를 wardrobe item으로 입히기(공식 절차 있음) 또는 Fab 구매. 다만 이건 화풍 결정(사실풍인가)에 걸려 있다.
 
 ## 확인 못 한 것
+- 직접 만든 옷의 애니메이션 변형(걷기)과 소매 뚫림의 원인(가중치 영향 수 제한인지, 빌드된 몸과 내보낸 몸의 미세 차이인지).
 - 메타휴먼의 걷기·표정: 빌드 결과는 A포즈. 몸 애니메이션은 UE5 마네킹 → 메타휴먼 리타게팅(`Animation/Retargeting/RTG_MH_IKRig`) 또는 Core Data의 `UEFNAnimPreset/Locomotion`을 붙여야 한다. 입 모양(Animator 오디오)도 아직.
 - 로컬 길의 리깅 품질(걷기 애니를 붙여 보지 않았다). UniRig 뼈 이름이 표준이 아니라 리타게팅 매핑이 필요하다.
 - Stable Fast 3D(질감 포함, 8GB)는 HF 로그인 미완으로 안 돌렸다. TRELLIS.2(MIT)는 클라우드 GPU가 필요.

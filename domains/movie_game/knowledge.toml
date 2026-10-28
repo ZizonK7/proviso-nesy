@@ -823,3 +823,17 @@ text = "인물을 만드는 두 길을 같은 PC(RTX 4060 8GB)에서 끝까지 �
 checked = 2026-10-28
 source = "PC 세션(Fable 5.1) 실행 로그·스크린샷 ue/shots/2026-10-28_char_*.jpg. 보고서 docs/worklog/2026-10-28-movie-game-characters.md"
 note = "H_ue5_fits_needs의 '리깅된 인물' 조건과 H_own_art_with_code_frame(직접 그린 그림을 쓰는 길)의 재료. 사용자의 디자인 판정(어느 길, 또는 섞기)은 아직"
+
+[[observation]]
+id = "O_user_realistic_high_quality_own_clothes"
+text = "사용자(2026-10-28, 인물 두 길 비교 사진을 보고): 사실풍으로 가되 시각적 품질이 높아야 한다. 옷 같은 것은 우선 직접 만들어 본다(Fab 구매보다 먼저). 이로써 인물 길은 메타휴먼 얼굴·몸 + 직접 만든 빅토리아 옷으로 정해졌다. md(DECISIONS)에는 사용자 지시로 이번 세션에 적지 않음 — 뒤에 옮길 것"
+checked = 2026-10-28
+source = "PC 세션 대화(사용자 말). 비교 사진 ue/shots/2026-10-28_char_pair_{ada,holmes}.jpg"
+note = "H_ue5_fits_needs(메타휴먼 포함)를 받치는 쪽. H_own_art_with_code_frame(손그림 질감)은 사실풍 결정으로 인물에는 쓰지 않는 쪽으로 기움 — 판정은 아직"
+
+[[observation]]
+id = "O_user_clothes_blender_first"
+text = "사용자(2026-10-28): 옷은 유료 도구(Marvelous Designer/CLO)나 구매보다 먼저 블렌더로 직접 모델링한다. Claude가 코드로 자동 생성한 옷(몸 부풀린 복사본+회전체)은 통로 시험용일 뿐 품질이 안 나온다는 데 동의. Claude 몫은 메타휴먼 몸 메시가 든 .blend 바탕 파일과 가중치·내보내기·UE 입히기 스크립트"
+checked = 2026-10-28
+source = "PC 세션 대화. 통로 증명 사진 ue/shots/2026-10-28_char_cloth_*.jpg"
+note = "O_user_realistic_high_quality_own_clothes의 구체화. 옷의 품질은 이제 사용자의 모델링에 달림"
