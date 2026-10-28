@@ -12,6 +12,7 @@
 - 나머지 브랜치는 main에 커밋이 포함되는지 확인하고 삭제. 원격 변경이 있으면 삭제가 거부되도록 각 브랜치의 확인한 커밋으로 lease를 지정.
 
 ## 확인한 것
+- 정리 도중 원격에 추가된 p104 예측도 병합. 실측 칸 누락으로 완료로 취급되던 문제는 actual.status = "unknown"으로 명시하여 해결(실측 수치는 만들지 않음).
 - python -m unittest discover -s tests -t .: 106개 통과.
 - python -m domains.agent_usage.dispatches: 기록 문제 없음, 228건.
 - python -m proviso validate agent_usage: 문제 없음.

@@ -9279,3 +9279,5 @@ told = "다른 일"
 minutes = [8.24, 16.5]
 turns = [39.8, 75.4]
 tokens_m = [2.93, 5.85]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨. 실측이 올라오기 전에는 완료로 채점하지 않는다.
