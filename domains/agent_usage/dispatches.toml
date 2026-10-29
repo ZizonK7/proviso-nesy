@@ -9432,7 +9432,15 @@ hypotheses = []
 told = "잠깐"
 minutes = [2.23, 4.46]
 [dispatch.actual]
-status = "unknown"
+status = "done"
+minutes = 16.9  # scripts/agent_usage.py 12:03:26 → 12:20:22 (알림 duration 1016초)
+turns = 37
+tokens_m = 6.1  # 캐시 읽기 556만 + 캐시 쓰기 53만 + 출력 1만
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' 맞음(16.9분) — 손 예측 10–16을 살짝 넘김, 계산기 2.2–4.5 '잠깐'은 크게 빗남. 턴 37은 12–22의 1.7배, 토큰 6.1M은 2–4M 넘김(등급 T1은 맞음). 분당 2.2턴(긴 글 턴, 예상 1.3–1.6보다 빠름)이라 속도는 맞고 양(턴)을 낮게 잡았다: 빗댄 p92는 보고서를 한 번에 썼는데 이번 지시서에 '섹션마다 파일에 이어 쓰기'(R_long_doc_save)를 넣어 cat 이어 쓰기 10턴 + cd 10턴이 더 붙었다 — R_turns_analogy_v2의 빗대기가 '같은 쓰기 방식'을 조건으로 안 가졌다(조건 흐림). --turns: 글 13턴 중앙값 10.5초(맥락 205천), Bash:cat 10턴 3.9초, python3 1턴 452초(표 쓰기). 품질: 50건 중 높음 19가 거의 다 맞음(1880년 판의 구멍·사건 5 시간표 모순·사건 2 『월장석』 겹침·난로 단서 겹침), 꾸러미 넷으로 묶어 반영이 쉬웠다, 기억에 기댄 것을 표시 — 5"
+hypotheses = []
 
 [[dispatch]]
 id = "p108"
@@ -9471,7 +9479,12 @@ rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
 reason = "빗댄 p93(같은 종류의 역사 조사 7항목·원문 26건, 4.6분·43턴·2.51M). 항목 8개에 전송 조건(원문 15건)이 있어 p93보다 조금 길게 4–10분 '잠깐'. 클라우드 Haiku 글 조사 3–10분 띠(p71–p93 8/8). 계산기 모름(Haiku 기준값 없음), 비유 계산 턴 31–59"
 hypotheses = ["H_cloud_session_rounds_v2"]
 [dispatch.actual]
-status = "unknown"
+status = "done"
+minutes = 3.9  # get_session created_at 12:03:26 → updated_at 12:07:18
+tokens_m = 1.72  # usage: 캐시 읽기 149.4만 + 캐시 쓰기 7.0만 + 입력 12.1만 + 출력 3.4만. 비용 0.23달러. 턴은 셀 수 없음(클라우드)
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(3.9분, 손 예측 4–10의 아래 끝 바로 밑). 토큰 1.72M은 1.5–5M·T1 안. 클라우드 Haiku 글 조사 3–10분 띠 9/9. 품질: 원문 32건을 열었다지만 27건이 위키백과 등 2차 자료였고, 항목 7(회차명)은 근거가 '목록에 없음'인데 결론을 '안 됨(바꿔라)'로 거꾸로 적었다(메인이 바로잡음), 항목 8은 전부 미확인. 쓸모 있던 것은 석탄산 독약 목록(Hansard 원문)·1861년 위조법 조문·1868년 교도소 안 집행 — 3. 전송 조건(원문 15건)은 채웠으나 '원문'의 질을 조건에 안 적어 2차 자료로 채웠다 — 다음 지시서에는 '1차 자료 n건'을 따로"
+hypotheses = []
 
 [[dispatch]]
 id = "p109"
@@ -9501,5 +9514,51 @@ tokens_m = [3, 8]
 rules = ["R_doc_work_v2", "R_models_doc", "R_say_numbers_v2"]
 reason = "빗댄 p98(비평 26건 반영 → 사건 1 v2, Opus 이어서 2회차: 9.6분·37턴·11.8M). 메인의 일은 반영 쓰기(R_doc_work_v2 '같은 작가 이어서 고쳐 쓰기' 13–25분의 아래쪽, Fable은 분 ×1 R_models_doc)에 기록 관리(실측 셋·보고서·AGENT-LOG·커밋)가 붙어 15–30분 '다른 일'. 시간은 에이전트 둘이 끝난 뒤부터 커밋까지 벽시계로 잰다(기다리는 시간은 뺀다). 턴은 메인의 응답 수 12–25(메인은 한 턴에 긴 글을 쓴다 — plot v1은 한 턴). 토큰은 볼 수 없어 추정만: 지금 맥락 약 15만 × 턴 20 ≈ 3–8M. 근거 없는 숫자이므로 시험 수단이 생길 때까지 참고만"
 hypotheses = []
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p110"
+project = "movie_game"
+batch = 37
+date = 2026-10-29
+task = "비평 2회차(이어서, p107 작업자): 줄거리 v2와 수렴점 v4가 비평 50건을 제대로 반영했는지(반영/다르게/안 함 판정), 새로 생긴 구멍·되풀이, 고증 조사 반영이 맞는지. 고칠 안 표. 보고서는 한 번에 쓴다. 파일은 안 고침"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "일부"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p97"
+told = "잠깐"
+minutes = [6, 10]
+turns = [10, 20]
+tokens_class = ["T1"]
+tokens_m = [4, 8]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2", "R_say_numbers_v2"]
+reason = "빗댄 p97(이어서 비평 3회차, 7.3분·14턴·3.2M)과 p94(이어서 2회차, 5.2분·9턴·1.5M). 배치 34 교훈 '이어서 비평은 읽을 양이 늘어도 10분 안 → 잠깐'. 읽을 것은 v2(440줄)·v4(140줄) 둘이고 50건 대조라 p97 쪽, 보고서를 한 번에 쓰게 해 이어 쓰기 턴을 뺐다 → 6–10분, 10–20턴. 토큰은 이어서라 턴당 맥락 ~25–30만(p107 끝 무렵 23만 + 새로 읽는 580줄) × 15턴 ≈ 4–8M. 계산기 0.5–1.1 '잠깐'은 S_resumed 배수를 p107 턴 37에 걸어 너무 작다"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [0.53, 1.06]
 [dispatch.actual]
 status = "unknown"
