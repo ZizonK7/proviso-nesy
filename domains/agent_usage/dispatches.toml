@@ -9620,3 +9620,41 @@ wrong = ["R_turns_analogy_v2", "R_say_numbers_v2"]
 why = "조건 흐림"
 reason = "말한 구간 '다른 일' 틀림 — 6.0분은 '잠깐'. 손 예측 6–14의 아래 끝(걸친 예측을 긴 쪽으로 말했는데 짧은 쪽에 떨어짐). 토큰 2.05M은 2–6 안. 왜: '1차 자료 8건' 조건이 p108의 1.5–3.5배를 만들 거라 봤는데 작업자는 조건을 정확히 8건으로 채우고 6분에 끝냈다 — 클라우드 Haiku 글 조사 띠 3–10분이 전송 조건의 종류와 상관없이 10/10 유지. 빗대기의 배수가 '조건의 종류'로 늘지 않는다(조건 흐림: 배수는 항목 수·그림 수 같은 양에만). 다음부터 클라우드 Haiku 조사는 조건이 무엇이든 3–10분 '잠깐'. 품질: 1차 자료 8건(1751년 법 원문·Post Office Guide 1881·Grammar of Lithography 1880·Printers' Handbook 1891·Extra Pharmacopoeia 1885·Dickens's Dictionary 1884·1836년 법 제목·1861년 위조법), '근거 → 결론' 순서를 지켰고 결론이 근거를 넘지 않음. 쓸모: 우편환 규칙(이름·서명·창구)이 사건 3 설계를 바꿨고, 클레어 마켓·E 관구 1차 묘사. 1순위(1836년 법 본문)는 PDF가 비어 못 닫음, 1828년 법으로 옮겨진 조문이라는 연결을 못 봄 — 4"
 hypotheses = []
+
+[[dispatch]]
+id = "p112"
+project = "movie_game"
+batch = 37
+date = 2026-10-29
+task = "고증 3차(클라우드 'searching', Haiku 5.5, 새 세션): 남은 핵심 셋 — 1836년 법 본문(집행 간격 조항 폐지, 1순위), 우편환 위조 조문·형량(Post Office 법령), 난로에 다음 날 불을 쌓아 두는 관례(가사서 원문) + 곁다리 셋(클로랄 독약 목록, 그레이트 오먼드 가 관구, 러시아판·라디오 회차명). 전송 조건: 1차 자료 6건"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_read_originals = "예"
+S_web_blocked = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p111"
+told = "잠깐"
+minutes = [3, 10]
+tokens_class = ["T1"]
+tokens_m = [1.5, 4]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "빗댄 p111(같은 모양, 1차 자료 조건, 6.0분·2.05M)과 p108(3.9분·1.72M). 배치 37 교훈: 클라우드 Haiku 글 조사는 조건 종류와 무관하게 3–10분 띠(10/10) → '잠깐'. 항목이 6으로 줄어 p111보다 짧거나 같다. 토큰 1.5–4M. 계산기 모름(Haiku)"
+hypotheses = ["H_cloud_session_rounds_v2"]
+[dispatch.actual]
+status = "unknown"
