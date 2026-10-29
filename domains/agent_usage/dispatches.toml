@@ -9657,4 +9657,9 @@ rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
 reason = "빗댄 p111(같은 모양, 1차 자료 조건, 6.0분·2.05M)과 p108(3.9분·1.72M). 배치 37 교훈: 클라우드 Haiku 글 조사는 조건 종류와 무관하게 3–10분 띠(10/10) → '잠깐'. 항목이 6으로 줄어 p111보다 짧거나 같다. 토큰 1.5–4M. 계산기 모름(Haiku)"
 hypotheses = ["H_cloud_session_rounds_v2"]
 [dispatch.actual]
-status = "unknown"
+status = "done"
+minutes = 3.0  # get_session created_at 14:22:32 → updated_at 14:25:33
+tokens_m = 2.51  # usage: 캐시 읽기 229.9만 + 캐시 쓰기 6.8만 + 입력 11.2만 + 출력 3.1만. 비용 0.22달러. 턴은 셀 수 없음
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(3.0분, 손 예측 3–10의 아래 끝). 토큰 2.51M은 1.5–4 안. 클라우드 Haiku 글 조사 띠 3–10분 11/11 — 배치 37 교훈 ⑤대로 조건 종류와 무관. 품질: 1순위를 닫았다(1828년 법 제4조 → 1836년 법 제1조 폐지, archive.org 법령집·Wikisource 원문 인용), 가사서(Beeton 1861)로 '저녁에 불 쌓기'를 반대 확인해 이야기가 설정을 명시하게 했고, 1884년 우체국 보호법에 우편환 조항이 없음을 원문으로 확인. 못 닫은 셋(클로랄 목록·관구 경계·러시아판)은 1차 자료가 없는 것들. 1차 자료 6건은 조건 6건과 같음(조건 수만큼만 채우는 모양 재확인) — 4"
+hypotheses = []
