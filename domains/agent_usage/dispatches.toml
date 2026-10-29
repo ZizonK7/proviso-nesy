@@ -9387,3 +9387,119 @@ tokens_m = 32.7
 [dispatch.review]
 reason = "말한 구간 '신경 끄기' 맞음(51.6분). 턴 167은 120–220 안, 토큰 32.7M은 30–60 안(T2). 탐색 몫(뼈대 호환 확인 → 리타게팅 선택, BP 부품 묶음을 C++에서 스폰해 붙이기)과 바퀴(C++ 빌드·레벨 빌드·사진·사건 1 전체 자동 플레이 225초)가 예측대로 시간을 채웠다. --turns: PowerShell 17턴이 중앙값 92초(도구 시간 77초 — 빌드·게임 실행을 기다림)로 시간의 절반, 글 76턴은 1.8초. 계산기 '다른 일' 13.9–27.7은 바퀴 길이(S_long_lap)를 모르니 틀림. 품질: 목표 넷 다 됨 + 사건 1 자동 플레이 끝까지 통과 + 숨은 버그 둘(컨트롤러 없는 인물은 걷기 명령이 무시되던 것, 난간에 박힌 시작점) 잡음 — 5"
 hypotheses = []
+
+[[dispatch]]
+id = "p107"
+project = "movie_game"
+batch = 37
+date = 2026-10-29
+task = "비평(세션 안 Opus, 새 에이전트): 메인(이야기 담당, Fable)이 쓴 전체 줄거리 v1(사건 여섯의 진실·인물·단서 후보, 봉인)을 수렴점 v3·사건 1 v2·결정 13–21·논리집 가설에 대 보기 — 구멍·우연·되풀이·누설·역사 의심을 고칠 안 표로. 파일은 안 고침"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "일부"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p92"
+told = "다른 일"
+minutes = [10, 16]
+turns = [12, 22]
+tokens_class = ["T1"]
+tokens_m = [2, 4]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댄 p92(수렴점 v1 비평, 9.2분·14턴·1.4M, 표 26행). 이번은 읽을 글이 두 배(줄거리 366줄 + 수렴점 + 사건 1 v2 + 결정 + 논리집)이고 사건 여섯을 각각 대 보므로 표가 30–40행 → p92의 1.1–1.7배, 10–16분. 10분을 걸치므로 긴 쪽 '다른 일'. 긴 글 한 번에 쓰는 턴이라 분당 1.3–1.6턴(p92 1.5). 토큰은 턴당 맥락이 p92보다 커(읽기 두 배) 2–4M. 계산기 2.2–4.5 '잠깐'은 긴 글 쓰기의 느린 턴을 모른다(p92·p95에서도 넘겼다)"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p108"
+project = "movie_game"
+batch = 37
+date = 2026-10-29
+task = "조사(클라우드 'searching', Haiku 5.5, 새 세션): 줄거리 v1이 기대는 역사·의학 사실 8항목 — 1880년 집행 요일 관례와 사망→집행 2개월, 경찰 E 관구 범위, 소형 인쇄소 석판기·지폐 위조 방식·형량, 클로랄+술 사인, 석탄산 독약 목록, 클레어 마켓 1880년, 「두 번째 의견」 회차명, 하숙집 관례. 전송 조건: 원문 15건 이상"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_read_originals = "예"
+S_web_blocked = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p93"
+told = "잠깐"
+minutes = [4, 10]
+turns = [35, 70]
+tokens_class = ["T1"]
+tokens_m = [1.5, 5]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "빗댄 p93(같은 종류의 역사 조사 7항목·원문 26건, 4.6분·43턴·2.51M). 항목 8개에 전송 조건(원문 15건)이 있어 p93보다 조금 길게 4–10분 '잠깐'. 클라우드 Haiku 글 조사 3–10분 띠(p71–p93 8/8). 계산기 모름(Haiku 기준값 없음), 비유 계산 턴 31–59"
+hypotheses = ["H_cloud_session_rounds_v2"]
+[dispatch.actual]
+status = "unknown"
+
+[[dispatch]]
+id = "p109"
+project = "movie_game"
+batch = 37
+date = 2026-10-29
+task = "메인 자신(이야기 담당, Fable 5.1, 클라우드 세션): 비평(p107)과 조사(p108)를 받아 줄거리 v1 → v2로 고쳐 쓰고, 수렴점 v3에 '바꾼 것' 맞춤, 보고서(worklog)·AGENT-LOG·이 기록 셋의 실측·돌아보기, 커밋·push. 사용자 요청으로 메인의 일을 처음 예측한 기록"
+[dispatch.situation]
+S_main_self = "예"
+S_full_brief = "일부"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_other_model = "예"
+S_short = "예"
+S_no_code = "예"
+S_fix_existing = "예"
+S_resumed = "예"
+S_small_codebase = "예"
+[dispatch.predicted]
+written_before = true
+analog = "p98"
+told = "다른 일"
+minutes = [15, 30]
+turns = [12, 25]
+tokens_class = ["T1"]
+tokens_m = [3, 8]
+rules = ["R_doc_work_v2", "R_models_doc", "R_say_numbers_v2"]
+reason = "빗댄 p98(비평 26건 반영 → 사건 1 v2, Opus 이어서 2회차: 9.6분·37턴·11.8M). 메인의 일은 반영 쓰기(R_doc_work_v2 '같은 작가 이어서 고쳐 쓰기' 13–25분의 아래쪽, Fable은 분 ×1 R_models_doc)에 기록 관리(실측 셋·보고서·AGENT-LOG·커밋)가 붙어 15–30분 '다른 일'. 시간은 에이전트 둘이 끝난 뒤부터 커밋까지 벽시계로 잰다(기다리는 시간은 뺀다). 턴은 메인의 응답 수 12–25(메인은 한 턴에 긴 글을 쓴다 — plot v1은 한 턴). 토큰은 볼 수 없어 추정만: 지금 맥락 약 15만 × 턴 20 ≈ 3–8M. 근거 없는 숫자이므로 시험 수단이 생길 때까지 참고만"
+hypotheses = []
+[dispatch.actual]
+status = "unknown"
