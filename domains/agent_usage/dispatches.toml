@@ -9442,3 +9442,50 @@ tokens_m = 5.86  # 캐시 생성 17.6만 + 캐시 읽기 567.9만 + 입력 122 +
 wrong = ["R_say_numbers_v2", "R_time_turns_v2"]
 why = "바깥 상황"
 reason = "말한 구간 '다른 일'(6–12분) 틀림 — 8.3분은 '잠깐'. 손 범위 안이지만 걸친 범위를 긴 쪽으로 말했는데 짧은 쪽에 떨어졌다(p103과 같은 결). 턴 57은 예측 25–45 위: npm install 시도 3턴(각 74–76초, 프록시 403)과 find 1턴(32초)이 합쳐 4분 가까이를 먹고 우회(저장소 안 KaTeX로 링크)를 찾느라 턴이 12개쯤 늘었다 — 네트워크 정책이라는 바깥 상황. 그걸 빼면 ~45턴·4.5분으로 '잠깐' 쪽. 토큰 5.86M은 3–8 안·T1 맞음. --turns: 글 턴 중앙값 2–3초, Read 7턴 1.9초, 긴 턴은 전부 npm(도구 시간 73초). 계산기 '신경 끄기' 46–91은 S_short에 걸리는 조각이 없어 크게 틀림. 품질: 내용 정확, 핵심 상자에 선생님 팁, 글꼴 대체(npm 막힘)라 PC 재렌더 필요 — 4"
+
+[[dispatch]]
+id = "p108"
+project = "exam_grader"
+batch = 37
+date = 2026-11-02
+task = "수정(같은 에이전트 2회차, 이어서): 08.html 머리의 주제 라벨 삭제 + 재렌더·png 확인, teacher.md 풀이지 형식 선호에 '주제 라벨 없음' 한 줄, session.md 메모"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [2, 5]
+turns = [8, 16]
+tokens_m = [4, 9]
+tokens_class = ["T1"]
+rules = ["R_time_turns_v2", "R_resume_ctx_v2", "R_say_numbers_v2"]
+analog = "p107"
+reason = "p107(8.3분·57턴)의 이어서 회차. 고칠 곳이 셋(html 한 줄, teacher.md 한 줄, session.md 한 줄) + 렌더 1회 + png 확인 + 보고 → 8–16턴. 우회 렌더 링크는 이미 있어 npm 지연이 없다. 분당 4–6턴 → 2–5분 '잠깐'. 토큰은 이어서 보내는 에이전트라 턴 × 앞 회차 끝 맥락(~57만) → 4–9M"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨
