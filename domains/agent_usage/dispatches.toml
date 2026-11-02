@@ -11122,4 +11122,58 @@ hypotheses = []
 told = "신경 끄기"
 minutes = [45.6, 91.2]
 [dispatch.actual]
+status = "done"
+minutes = 1.4  # 알림 duration 81초
+turns = 11  # 누계 151 − 140
+tokens_m = 2.90  # 누계 25.04M − 22.14M. 도구 호출 8
+[dispatch.review]
+report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
+reason = "말한 구간 '잠깐' 맞음(1.4분). 턴 11은 예측 12–22 바로 아래, 토큰 2.90M은 2–4.5 안·T1. 이어서 보내는 풀이지 한 장 다섯 건째(p133·p135·p138: 1.4–1.7분, 11–15턴) — R_third_pass의 ×0.4–0.6보다 더 줄어 첫 회차 p130(57턴)의 ×0.2–0.3. 선생님 말을 그대로 인용해 넘긴 첫 회차"
+[dispatch.turns]
+skip = "같은 에이전트에 이어 보낸 회차라 로그가 누적되어 회차별 동작 표를 가를 수 없음(세션 끝에 누계 표를 p130에 붙일 것)"
+
+[[dispatch]]
+id = "p139"
+project = "exam_grader"
+batch = 40
+date = 2026-11-02
+task = "검토(세션 안 Opus 5.5 xhigh, 새 에이전트 — 사용자 제안 구조 '작성 high → 검토 xhigh'의 첫 시험): 12번 풀이지를 문제 원문·선생님 원문·teacher.md 규칙과 대조해 수학 오류·규칙 위반·군더더기 목록만 낸다. 파일 수정 없음"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [2, 5]
+turns = [6, 12]
+tokens_m = [1, 3]
+tokens_class = ["T1"]
+rules = ["R_fixed_input_v2", "R_say_numbers_v2"]
+reason = "고정 입력 순수 추론에 가깝다(읽을 것: teacher.md 34KB·12.html·12.png·PDF 한 쪽·선생님 원문, 출력 목록 하나, 확인 없음). R_fixed_input_v2의 '한 장 1.5–3분·5–11턴'에 effort xhigh(생각이 길다 — Opus xhigh 기록은 없음, 상태 칸도 없음)를 더해 2–5분·6–12턴 '잠깐'. 토큰은 읽는 양(~60KB)으로 턴 × 10–25만 → 1–3M. effort가 다른 첫 기록이라 숫자는 손으로만"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+[dispatch.actual]
 status = "unknown"  # 예측만 기록됨
