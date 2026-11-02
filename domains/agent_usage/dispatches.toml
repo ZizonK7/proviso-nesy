@@ -9541,4 +9541,57 @@ hypotheses = []
 told = "신경 끄기"
 minutes = [45.6, 91.2]
 [dispatch.actual]
+status = "done"
+minutes = 2.2  # 알림 duration 133초. 로그 누계 27.4분에서 앞 회차들·쉬는 시간 제외
+turns = 22  # 누계 83 − 앞 회차까지 61
+tokens_m = 3.34  # 누계 9.74M − 6.40M. 도구 호출 14
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(2.2분). 턴 22는 예측 26–40 바로 아래, 토큰 3.34M은 4–9 아래(T1 맞음). 분당 10턴으로 기본 띠(5–6)보다 빨랐다 — 렌더 한 번에 두 파일을 넣고, 수정은 턴마다 하나씩 묶어 했다. p108에서 본 '이어서 보내는 작은 수정은 턴을 묶는다'가 새 풀이지 한 장이 끼어도 유지됐다(두 건째). 턴당 맥락 ~15만은 p108(13만)과 비슷 — R_resume_ctx_v2의 '앞 회차 끝 맥락 × 1.6–1.8'은 이 에이전트에는 과하다(맥락이 커지지 않는 작은 회차). 품질: 9번 정확, 그림 포함, 선생님 흐름 반영 — 5. 군더더기 한 문장(일반식과 a 대입식이 같다는 설명)은 다음 회차에 뺀다"
+hypotheses = []
+
+[[dispatch]]
+id = "p110"
+project = "exam_grader"
+batch = 37
+date = 2026-11-02
+task = "구현(같은 에이전트 4회차, 이어서): 10번 풀이지 10.html 새로 쓰기(sin·cos 통일 짧게, y = sin 2x 그림에서 대칭 → 평균을 합으로) + 9번 군더더기 한 문장 삭제 + 재렌더·png 확인, session.md 10번 줄"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "일부"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [2, 4]
+turns = [16, 26]
+tokens_m = [2.5, 5]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v2"]
+analog = "p109"
+reason = "빗댄 p109(새 풀이지 1장 + 수정 묶음, 2.2분·22턴·3.3M). 이번은 새 풀이지 1장(그래프 SVG 포함) + 9번 한 줄 삭제 + session.md로 p109보다 수정 몫이 적다 → ×0.8–1.2 = 16–26턴. 분당 8–10턴(이 에이전트의 묶음 속도) → 2–4분 '잠깐'. 토큰은 턴 × 15–20만 → 2.5–5M"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+[dispatch.actual]
 status = "unknown"  # 예측만 기록됨
