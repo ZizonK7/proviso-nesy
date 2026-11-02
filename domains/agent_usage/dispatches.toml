@@ -11076,3 +11076,50 @@ tokens_m = 2.49  # 누계 22.14M − 19.65M. 도구 호출 7
 [dispatch.review]
 reason = "말한 구간 '잠깐' 맞음(1.1분). 턴 10은 6–12 안, 토큰 2.49M은 1–2.5 안·T1. p136과 같은 종류(SVG 하나 다시 그리기)라 빗댄 ×1이 맞았다. 배율 0.80으로 줄여 한 쪽 유지. 품질 5"
 hypotheses = []
+
+[[dispatch]]
+id = "p138"
+project = "exam_grader"
+batch = 40
+date = 2026-11-02
+task = "구현(같은 작성 에이전트 9회차, 이어서): 12번 풀이지 12.html 새로 쓰기(bₙ을 aₙ으로, 짝·홀 나누기, 제곱수 합 공식, 인수분해 먼저) + 렌더·png 확인, teacher.md 수업 논리 1줄, session.md 12번 줄"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [1.5, 3.5]
+turns = [12, 22]
+tokens_m = [2, 4.5]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v2"]
+analog = "p135"
+reason = "빗댄 p135(=옛 p112, 새 풀이지 1장 + 그림 2, 1.7분·11턴·2.5M)와 p133(=옛 p110, 1.7분·15턴·2.75M). 이번은 그림이 없거나 작아(수열 계산) 그 사이 아래쪽 → 12–22턴, 분당 8–10턴 → 1.5–3.5분 '잠깐', 토큰 턴 × 15–20만 → 2–4.5M"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨
