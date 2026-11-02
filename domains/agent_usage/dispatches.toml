@@ -9387,3 +9387,51 @@ tokens_m = 32.7
 [dispatch.review]
 reason = "말한 구간 '신경 끄기' 맞음(51.6분). 턴 167은 120–220 안, 토큰 32.7M은 30–60 안(T2). 탐색 몫(뼈대 호환 확인 → 리타게팅 선택, BP 부품 묶음을 C++에서 스폰해 붙이기)과 바퀴(C++ 빌드·레벨 빌드·사진·사건 1 전체 자동 플레이 225초)가 예측대로 시간을 채웠다. --turns: PowerShell 17턴이 중앙값 92초(도구 시간 77초 — 빌드·게임 실행을 기다림)로 시간의 절반, 글 76턴은 1.8초. 계산기 '다른 일' 13.9–27.7은 바퀴 길이(S_long_lap)를 모르니 틀림. 품질: 목표 넷 다 됨 + 사건 1 자동 플레이 끝까지 통과 + 숨은 버그 둘(컨트롤러 없는 인물은 걷기 명령이 무시되던 것, 난간에 박힌 시작점) 잡음 — 5"
 hypotheses = []
+
+[[dispatch]]
+id = "p107"
+project = "exam_grader"
+batch = 37
+date = 2026-11-02
+task = "구현(세션 안 Opus 5.5 high, 새 에이전트): 2027 꿀모 시즌2 2회 수업 세션 폴더(lessons/2026-11-07_kkulmo-s2-02) 만들고 8번 풀이지 08.html 한 장을 1회 양식(18.html·sheet.css)대로 쓰고 render.js로 png·pdf 렌더 뒤 png를 눈으로 확인, session.md 머리말. 이후 문항은 같은 에이전트에 이어 보낼 예정"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = false  # 보낸 뒤 약 10분 안에 적음(사용자가 기록을 묻기 전까지 잊었다). 에이전트 결과는 아직 모름
+told = "다른 일"
+minutes = [6, 12]
+turns = [25, 45]
+tokens_m = [3, 8]
+tokens_class = ["T1"]
+rules = ["R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "읽을 것이 정해져 있고(README·teacher.md 34KB·student.md·본보기 html 2장·PDF 한 쪽) 쓸 것은 html 한 장 + session.md 머리말. 읽기 8–12턴 + 쓰기 3–5턴 + 렌더·png 확인 바퀴 1–2회(각 2–4턴) + 보고 → 25–45턴, 분당 4–6턴 → 6–12분. 두 구간에 걸쳐 긴 쪽 '다른 일'. 토큰은 150턴 안쪽 첫 회차, 큰 파일(teacher.md)을 통째 읽으니 턴 × 10–20만 → 3–8M. 계산기는 S_short에 걸리는 조각이 없어 기본 구현 띠(216–426턴)를 내 틀릴 것"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+turns = [216, 426]
+tokens_m = [68.8, 138]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨
