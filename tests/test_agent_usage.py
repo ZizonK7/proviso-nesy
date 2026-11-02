@@ -59,6 +59,28 @@ class AgentUsage(unittest.TestCase):
         self.assertIn("| Read | 1 | 570.0 | 30.0 |", table)
         self.assertNotIn("파일 내용", table)
 
+    def test_turns_toml_block_pastes_into_a_record(self):
+        # 2026-11-02: --turns --toml 출력은 dispatches.toml 기록 끝에 그대로 붙는 [dispatch.turns] 블록이다
+        import tomllib
+        with tempfile.TemporaryDirectory() as d:
+            path = write_transcript(Path(d))
+            block = agent_usage.turn_toml(agent_usage.turn_rows(str(path)))
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                agent_usage.main([str(path), "--turns", "--toml"])
+        turns = tomllib.loads('[[dispatch]]\nid = "x"\n' + block)["dispatch"][0]["turns"]
+        self.assertEqual(turns["Read"], {"n": 1, "sum_s": 570.0, "turn_s": 570.0, "tool_s": 30.0, "out_chars": 38, "ctx_k": 1})
+        self.assertEqual(turns["글"]["n"], 1)
+        self.assertIn("[dispatch.turns]", buf.getvalue())
+        self.assertNotIn("파일 내용", block)
+
+    def test_after_keeps_only_the_resumed_round(self):
+        # 이어 보낸 회차: 01:05 뒤에 시작한 턴만 (첫 턴 01:00:30은 앞 회차)
+        with tempfile.TemporaryDirectory() as d:
+            path = str(write_transcript(Path(d)))
+            self.assertEqual([r["action"] for r in agent_usage.turn_rows(path, after="01:05:00")], ["글"])
+            self.assertEqual(len(agent_usage.turn_rows(path, after="2026-10-14T01:00:00Z")), 2)
+
     def test_bash_action_keeps_only_the_verb(self):
         self.assertEqual(agent_usage._action([{"type": "tool_use", "name": "Bash", "input": {"command": "grep -rn 비밀 src/"}}]),
                          "Bash:grep")

@@ -15,6 +15,8 @@ batman 저장소의 scripts/agent_usage.py를 가져와 고쳤다 (2026-10-14):
 --turns (2026-10-26, 전제 1 시험): 턴마다 (동작 종류, 턴 길이, 도구가 돈 시간, 출력 글자, 그때 맥락 크기)를 숫자로 뽑아
 동작 종류별 중앙값 표를 낸다. "턴은 서로 비슷한 크기다"라는 전제를 가설로 두지 않고 재기 위한 것이다
 (domains/agent_usage/CLAUDE.md "전제 1"). 동작 종류는 도구 이름이고 Bash는 명령의 첫 낱말만 본다. 명령 본문·글은 출력하지 않는다.
+  --turns --toml   같은 숫자를 dispatches.toml 기록 끝에 그대로 붙일 [dispatch.turns] 블록으로 (2026-11-02: 2026-11-03부터 끝난 기록은 필수)
+  --after 시각     이 시각 뒤의 턴만 (이어 보낸 회차를 앞 회차와 가른다). ISO 시각 또는 HH:MM:SS(UTC, 기록 첫날)
 """
 import argparse
 import collections
@@ -126,9 +128,20 @@ def _action(blocks):
     return "+".join(dict.fromkeys(names)) if names else "글"
 
 
-def turn_rows(path):
+def _after_ts(after, first):
+    """--after 값을 시각으로. ISO 시각이면 그대로, HH:MM:SS면 기록 첫 시각의 날짜(UTC)에 붙인다."""
+    ts = parse_ts(after)
+    if ts and ts.tzinfo is None:
+        ts = ts.replace(tzinfo=dt.timezone.utc)
+    if ts is None and first is not None:
+        ts = dt.datetime.combine(first.date(), dt.time.fromisoformat(after), tzinfo=dt.timezone.utc)
+    return ts
+
+
+def turn_rows(path, after=None):
     """턴마다 한 줄: 동작, 턴 길이(초, 이 응답 시각 → 다음 응답 시각), 도구 시간(초, 이 응답 → 도구 결과),
-    출력 글자, 맥락(천 토큰 = 캐시 읽기 + 캐시 생성 + 입력). 마지막 턴의 길이는 기록의 마지막 시각까지."""
+    출력 글자, 맥락(천 토큰 = 캐시 읽기 + 캐시 생성 + 입력). 마지막 턴의 길이는 기록의 마지막 시각까지.
+    after(시각)가 있으면 그 뒤에 시작한 턴만 (이어 보낸 회차)."""
     entries = []
     with open(path, encoding="utf-8", errors="replace") as f:
         for line in f:
@@ -142,8 +155,9 @@ def turn_rows(path):
                     entries.append((ts, d))
     rows = []
     last_ts = entries[-1][0] if entries else None
+    cut = _after_ts(after, entries[0][0] if entries else None) if after else None
     for i, (ts, d) in enumerate(entries):
-        if d.get("type") != "assistant":
+        if d.get("type") != "assistant" or (cut and ts < cut):
             continue
         msg = d["message"]
         blocks = [b for b in (msg.get("content") or []) if isinstance(b, dict)]
@@ -189,12 +203,34 @@ def turn_table(rows):
     return "\n".join(lines)
 
 
+def _toml_num(x):
+    return str(round(x, 1)) if isinstance(x, float) else str(x)
+
+
+def turn_toml(rows):
+    """동작 종류별 숫자를 dispatches.toml 기록에 붙일 [dispatch.turns] 블록으로.
+    n 턴 수 · sum_s 합한 턴 길이(초) · 중앙값: turn_s 턴 길이, tool_s 도구 시간, out_chars 출력 글자, ctx_k 맥락(천 토큰)."""
+    by = collections.defaultdict(list)
+    for r in rows:
+        by[r["action"]].append(r)
+    lines = ["[dispatch.turns]  # scripts/agent_usage.py --turns --toml"]
+    for action, rs in sorted(by.items(), key=lambda kv: -len(kv[1])):
+        vals = {"n": len(rs), "sum_s": round(sum(r["turn_s"] or 0 for r in rs), 1),
+                "turn_s": _median([r["turn_s"] for r in rs]), "tool_s": _median([r["tool_s"] for r in rs]),
+                "out_chars": _median([r["out_chars"] for r in rs]), "ctx_k": _median([r["ctx_k"] for r in rs])}
+        body = ", ".join(f"{k} = {_toml_num(v)}" for k, v in vals.items() if v is not None)
+        lines.append(f"{json.dumps(action, ensure_ascii=False)} = {{ {body} }}")
+    return "\n".join(lines)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("paths", nargs="+")
     ap.add_argument("--label", action="append", default=[], help="ID=이름 (ID는 파일 이름의 앞부분)")
     ap.add_argument("--md", action="store_true", help="마크다운 표로 출력")
     ap.add_argument("--turns", action="store_true", help="턴마다 동작·길이·맥락을 뽑아 동작 종류별 중앙값 표로 (전제 1 시험)")
+    ap.add_argument("--toml", action="store_true", help="--turns 결과를 dispatches.toml에 붙일 [dispatch.turns] 블록으로")
+    ap.add_argument("--after", help="이 시각 뒤의 턴만 (이어 보낸 회차). ISO 시각 또는 HH:MM:SS(UTC)")
     a = ap.parse_args(argv)
     labels = dict(l.split("=", 1) for l in a.label)
     files = []
@@ -208,9 +244,13 @@ def main(argv=None):
         rows.append(s)
     if a.turns:
         for p in sorted(set(files)):
-            rows = turn_rows(p)
-            print(f"### {meta_description(p) or os.path.basename(p)[:15]} — 턴 {len(rows)}")
-            print(turn_table(rows))
+            rows = turn_rows(p, a.after)
+            name = meta_description(p) or os.path.basename(p)[:15]
+            if a.toml:
+                print(f"# {name} — 턴 {len(rows)}\n{turn_toml(rows)}\n")
+            else:
+                print(f"### {name} — 턴 {len(rows)}")
+                print(turn_table(rows))
         return
     if a.md:
         print("| 에이전트 | 시작 | 끝 | 실제 분 | 응답 수 | 도구 호출 | 캐시 생성 | 캐시 읽기 | 입력 | 출력(추정) | 합계 |")

@@ -1,0 +1,28 @@
+# 하위 에이전트 보내기 — 자세한 절차
+
+루트 `CLAUDE.md` "하위 에이전트 운영"의 체크리스트가 순서이고, 여기는 각 단계의 자세한 것이다(2026-11-02 정리 때 루트에서 옮김. 문장은 옮기기 전 그대로이고, 바뀐 곳은 '2026-11-02'로 표시).
+시간·사용량 예측은 [domains/agent_usage/CLAUDE.md](../domains/agent_usage/CLAUDE.md) "고리", 보고서 양식은 [worklog/CLAUDE.md](worklog/CLAUDE.md), 배치별 모델·품질은 [AGENT-LOG.md](AGENT-LOG.md).
+
+## 역할과 언제 쓰나
+- **역할**: 메인(사용자와 대화하는 모델) = 감독. 방향·설계, 지시서 작성, 결과 검토, 문서를 정직하게 유지, 커밋·push. **하위 에이전트** = 지시서 하나를 맡아 구현. 파일은 쓰지만 지시서에 없으면 커밋·push하지 않는다. **사용자** = 의도와 판정.
+- **언제 쓰나** (사용자 지시 2026-10-14): 진행 중이던 작업은 하던 방식 그대로 마친다. **다음 작업부터 이 구조를 적극적으로 써도 된다. 다만 억지로 쓸 필요는 없다** — 작은 일은 메인이 직접, 조사 물량이 많거나 서로 안 겹치는 큰 구현이 생기면 하위 에이전트.
+- **조사는 하위 에이전트가 물량으로, 판단은 메인이**: 작업자마다 다른 각도·범위, 명확한 기준, 엄격한 출력 양식(후보, 출처·근거, 기준별 충족, 확신도, 탈락 이유). 메인은 근거와 대조해 확인하고 결정. 위치를 이미 아는 사실 하나(URL이 열리나, 명령이 도나)는 메인이 직접. 단계는 작업자 → 메인 두 단계.
+- **구현은 한 에이전트에 몰아서**: 관련 작업은 한 에이전트가 끝까지 맡고, 후속 지시는 같은 에이전트에 이어서 보낸다(SendMessage). 병렬은 폴더·코드가 겹치지 않을 때만. 비용이 아니라 일관성이 기준.
+- **하위의 하위 에이전트**: 지시서가 허용할 때만. 썼으면 보고서에 목록(주제, 모델, effort, 난이도, 예상)을 남겨 메인이 기록하게.
+
+## 모델
+- **모델·effort 기본값: Opus 5.5 · effort high** (사용자 지시 2026-10-14). Agent 도구에 `model: "opus"`, `effort: "high"`. 사용자가 바꾸라고 할 때만 바꾼다.
+- **질보다 양인 일은 Haiku 5.5 · effort high** (사용자 지시 2026-10-22. 처음엔 language_learning 대량 조사에서, 같은 날 "조사뿐 아니라 질보다 양인 작업이면 Haiku에게 시켜도 된다"로 넓힘). `model: "haiku"`. 대량 조사, 여러 파일에 같은 고침 반복, 기록 옮겨 적기, 정해진 양식으로 바꾸기 같은 일. 설계·판단·까다로운 구현은 그대로 Opus. agent_usage 숫자는 Opus 기준이라 Haiku는 계산기가 '모름'을 낸다 — 손 예측으로 잡고 기록을 쌓는다(p10–p15가 첫 기록, S_other_model=예).
+
+## 조사 보낼 때
+- **조사는 되도록 클라우드 환경 `searching`에서** (사용자 제안 2026-10-22, 같은 날 gemmin 세션에서 확인). 클라우드 세션에서는 `create_session`(claude-code-remote MCP)에 `environment_id: env_01MZX426uZooVUwnbJ5RV66Q`를 주고 지시서를 prompt로 보낸다. 시험 결과: arXiv·Reddit·Google Scholar·Semantic Scholar·HN 등 9곳이 curl로 다 열렸고 WebSearch가 있다(그동안의 "검색 요약만" 제약이 여기서는 풀린다). 결과는 `get_session`·`list_events`로 읽고, 사용량은 `get_session`의 usage(토큰·cost_usd)로 적는다 — `scripts/agent_usage.py`는 로컬 jsonl만 읽으므로 못 쓴다. 로컬 PC 세션에 이 도구가 있는지는 미확인. **배치 9·10 교훈**: 클라우드 Haiku 세션은 지시서에 **전송 조건**('원문 n건·그림 n장을 실제로 본 뒤에만 보낼 것')이 없으면 1차 보고를 3~5분 만에 얕게 보내고 끝난다(배치 9). 전송 조건을 숫자로 적으면 1차에 조건을 채워 온다(배치 10, 5분에 그림 35장). 열리는 주소 목록(언어 학습 O_scope_batch9)도 같이 적는다. 그림은 스토어 HTML의 이미지 주소를 받아 Read로 보게 한다(설명 글을 요구하면 글만 읽는다). 실측은 get_session의 created_at→updated_at과 usage 합(턴은 못 센다).
+- **조사 환경(2026-10-22)**: 처음엔 네트워크 정책이 원문 열기를 막아 검색 요약만 받아졌다(배치 7). 사용자가 Allowed domains를 넓힌 뒤(배치 8) 원문이 열렸지만 **WebFetch 도구는 프록시를 안 타 DNS 실패**하므로 웹 조사 지시서에 'curl + pdftotext/pandoc/bs4로 읽는다'를 적는다. 사이트 자체 거부: Wiley·OUP·SAGE·ScienceDirect·APA·T&F·Reddit(로그인)·JR동일본·Trustpilot. 네이버 카페 본문은 스크립트 전용(m.blog.naver.com은 됨). **검색 요약만으로 쓴 보고서는 근거로 쓰지 않는다** — 배치 7의 오류(AI 생성 글·다른 앱 혼동·기사 오독·원문과 다른 요약)가 배치 8에서 드러났다. agent_usage 상태 S_web_blocked·S_read_originals.
+
+## 지시서
+- **지시서에 넣을 것**: 목표, 범위(건드릴 폴더·파일), 하지 말 것과 승인이 필요한 일, 완료 조건과 확인 방법, 긴 글은 섹션마다 파일에 이어 쓰기, 보고서 양식, 하위의 하위 에이전트 허용 여부. 이 저장소 규칙(일상어 설명, 공개 저장소 주의, 사실은 코드로 확인)도 전달.
+- 2026-11-02: 지시서에 **보고서 경로**를 정해 적는다. 끝난 기록의 `review.report`에 들어가고, 2026-11-03부터는 비면 검사가 오류를 낸다.
+
+## 끝나면
+- **보고서**: 작업마다 `docs/worklog/YYYY-MM-DD-<주제>.md` — 한 일 / 확인한 것(정확한 명령) / 확인 못 한 것 / 알려진 문제 / 다음 작업자에게. 양식은 [docs/worklog/CLAUDE.md](docs/worklog/CLAUDE.md). 확인하지 않은 건 "확인 못 함"으로 쓴다.
+- **사용량 예측과 기록**: 보내기 전에 [agent_usage](domains/agent_usage/CLAUDE.md) 논리집으로 예측해서 `dispatches.toml`에 적고(`project = "proviso"`), 사용자에게 시간 구간(잠깐/다른 일/신경 끄기)과 분·토큰 숫자, 이유를 말하고 말한 구간을 `predicted.told`에 적는다. 끝나면 `python scripts/agent_usage.py "<세션>/subagents/agent-*.jsonl" --md`로 실측을 넣고 돌아본다. **같은 로그에 `--turns`도 돌려 동작별 턴 길이 표를 돌아보기에 붙인다**(2026-10-26부터, 전제 1 시험: 턴 크기는 동작이 정하는지 재는 중 — agent_usage CLAUDE.md "전제 1 시험"). 배치별 모델·effort·품질(1–5)은 [docs/AGENT-LOG.md](docs/AGENT-LOG.md). 이 PC의 기록 위치는 [scripts/CLAUDE.md](scripts/CLAUDE.md).
+- 2026-11-02: 끝나면 **사용자에게 결과를 말하기 전에 기록부터** 한다(컨테이너가 회수되면 대화 기록이 사라진다). 위 `--turns`는 이제 `--turns --toml`로 돌려 나온 `[dispatch.turns]` 블록을 기록 끝에 붙이고(이유 문장에 섞지 않는다), 잴 수 없으면 `skip = "이유"`. 턴 길이 표와 `review.report`는 2026-11-03부터 끝난 기록에 필수 — 없으면 `python -m domains.agent_usage.dispatches`와 테스트가 오류를 낸다. 까닭: 문서에만 적힌 단계는 빠졌다(p65 이후 세션 안 하위 에이전트 53건 중 `--turns` 4건, 검사가 막는 `review.wrong`은 72/73).

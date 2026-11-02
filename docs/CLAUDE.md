@@ -4,6 +4,8 @@
 - `rule-drafts-v0.md`: 코드 전에 손으로 써 본 규칙 4개(분야 A, ai_company 기록 기반). 양식 검증용. 사용자 검토 결과를 여기에 반영.
 - `knowledge-format-v0.md`: 정보 층위와 분야 A 조건 단어장, 개정된 규칙, 그리고 사용자가 논리를 쌓은 과정(3절). "선호" 층은 3-4절에서 폐지됐다. 5절: 규칙·가설 통합(검증됨 폐지, 성적표, 틀리면 쪼갠다, 2026-10-19). 현재 칸 정의는 [proviso/CLAUDE.md](../proviso/CLAUDE.md).
 - `pieces-v0.md`: 논리 조각(P1~P6)과 상황별 대 보기. 조각 문장의 최신본.
+- `dispatch.md`: 하위 에이전트 보내기의 자세한 절차(역할, 모델, 조사, 지시서, 끝난 뒤 기록). 순서는 루트 CLAUDE.md의 체크리스트. 2026-11-02 루트에서 옮김.
+- `history.md`: 루트 CLAUDE.md에서 옮긴 지난 경위(옮기기 전 글 그대로). CLAUDE.md는 지금 기준만 둔다(2026-11-02 사용자 결정). 분야 경위는 그 폴더 `history.md`.
 - `AGENT-LOG.md`: 하위 에이전트 배치별 모델·effort·품질과 가져온 교훈. 예측과 실측은 `domains/agent_usage/dispatches.toml`. 메인이 쓴다.
 - `worklog/`: 하위 에이전트 작업 보고서(작업마다 하나). 양식은 그 폴더 CLAUDE.md.
 - `experiments/`: 본체 실험 보고서. 스크립트가 생성하고, "사용자 판정" 칸은 사용자가 채운다.

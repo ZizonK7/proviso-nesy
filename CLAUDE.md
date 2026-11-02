@@ -1,6 +1,7 @@
 # proviso-nesy — Claude 작업 문서 (루트)
 
 Claude가 세션 시작 시 자동으로 읽는 작업 문서. 사람용 소개는 [README.md](README.md).
+**이 파일은 지도와 공통 규칙만 둔다.** 분야·작업의 자세한 것은 그 폴더 `CLAUDE.md`(그 폴더 파일을 열면 같이 읽힌다), 지난 경위는 [docs/history.md](docs/history.md).
 
 ## 프로젝트
 SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: [docs/sela-paper-draft.md](docs/sela-paper-draft.md) — 출발점이자 철학의 기준. 원문은 고치지 않고, 바뀐 결정은 이 파일과 docs/에 기록.
@@ -11,14 +12,16 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 - 구조나 결정이 바뀌면 해당 CLAUDE.md를 같은 작업 안에서 갱신. 이 파일은 시간순 기록이 아니라 **현재 기준**으로 유지.
 - 사용자에게는 일상어로 설명. 전문용어는 처음 쓸 때 풀어서.
 - **공개 저장소.** 커밋 전 타인 식별자(uid·이메일·이름), 학생 기록, 비밀값을 훑는다. 원본 데이터·실험 원본 출력은 `out/`(git 제외)에만.
+- **루트는 짧게** (2026-11-02 사용자 결정: 메인 md를 줄이고 작업마다 다른 곳을 자연스럽게 읽게). 여기는 지도·공통 규칙·확정된 결정·체크리스트만 둔다. 분야의 상태와 할 일은 그 폴더 `CLAUDE.md`(그 폴더 파일을 열면 같이 읽힌다), 하위 에이전트 절차의 자세한 것은 [docs/dispatch.md](docs/dispatch.md), 끝난 경위는 [docs/history.md](docs/history.md)나 분야 폴더의 `history.md`. CLAUDE.md에 날짜별 일기를 쌓지 않는다.
+- **꼭 할 단계는 검사가 막게 한다** (2026-11-02). 문서에만 적힌 단계는 빠졌다 — p65 이후 `--turns` 4/53, 검사가 막는 `review.wrong`은 72/73. 새 필수 단계를 만들면 validate·테스트에 같이 넣는다.
 
-## 현재 구조 (2026-10-19)
+## 현재 구조 (2026-11-02)
 | 폴더 | 역할 |
 |---|---|
 | `proviso/` | 코어(분야 모름): 지식 파일 읽기·검사(`schema`), 성적표(`score`), 점검(`audit`), 그래프(`graph`), 조회(`query`), MCP 서버(`mcp_server`, 읽기 전용) |
-| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드(agent_usage: 계산기 `predict`·맞추기 `fit`·홀드아웃 `holdout`). 현재 `flowlog`, `music_player`, `agent_usage`, `language_learning`, `movie_game` |
+| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드(agent_usage: 계산기 `predict`·맞추기 `fit`·홀드아웃 `holdout`). 폴더마다 `CLAUDE.md`(지금 상태), 필요하면 `history.md`(경위). 현재 `flowlog`, `music_player`, `agent_usage`, `language_learning`, `movie_game` |
 | `experiments/` | 본체 실험 (논리집 유무에 따른 Claude 답 비교) |
-| `docs/` | 원안, 설계 기록, 실험 보고서, 하위 에이전트 기록(`AGENT-LOG.md`, `worklog/`) |
+| `docs/` | 원안, 설계 기록, 실험 보고서, 하위 에이전트 절차(`dispatch.md`)와 기록(`AGENT-LOG.md`, `worklog/`), 루트 경위(`history.md`) |
 | `scripts/` | 운영 도구 (하위 에이전트 대화 기록 → 사용량 숫자, `agent_usage` 기록에 씀) |
 | `tests/` | 표준 라이브러리 unittest |
 
@@ -42,59 +45,50 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 - **큰 그림 (사용자, 2026-10-19)**: 충분히 잘게 쪼개면 어떤 분야든 기존 논리를 다시 쓸 수 있다. 그래서 조각 이름·문장에 분야·앱 이름을 쓰지 않고, 같은 뜻은 같은 낱말로 쓴다. 다른 분야로 옮긴 조각은 그 분야에서 다시 가설로 시작한다(성적은 분야별로 따로 쌓는다).
 - 조각 P1~P6과 상황별 대 보기: [docs/pieces-v0.md](docs/pieces-v0.md). P2·P3·P5·P6은 사용자 검토 반영, P1·P4는 명시 확인 없음. 본체 실험 질문 1·2의 판정을 재현했지만 **사후 설명**이다 — 예측 시험은 아직. 조각은 아직 스키마에 없다.
 
-## AI가 스스로 쌓는 논리집: agent_usage (2026-10-16 사용자 결정)
-- 목표(사용자): **AI가 하위 에이전트의 시간과 사용량을 예측해서 이유와 함께 말해 준다.**
-- 고리: 이유를 붙여 예측 → 실측 → 맞음/틀림 이유를 가설로 → 다음 기록으로 확인 → 틀리면 더 잘게 쪼갠다(새 버전).
-- 사용자는 이 분야를 판단하지 않는다("잘 모르겠다"). 대신 **AI가 사용자가 자기 논리집을 쌓는 방식을 보고 따라 해서 스스로 쌓고 스스로 쓴다.** 따라 할 방식 9가지와 절차: [domains/agent_usage/CLAUDE.md](domains/agent_usage/CLAUDE.md).
-- 코어 변경: 규칙·가설에 `against`(반대 근거), 가설에 `evidence`.
-- 가설은 **세운 뒤에 나온 기록으로만 시험**한다(`checks.SEEN_UNTIL`). 조각 v0에서 걸렸던 "사후 설명" 문제를 엔진에서 막는 첫 장치.
-- **계산되는 논리** (2026-10-19, p05): 가설에 효과 칸(무엇에·어떻게·범위·언제·방향·이유)을 붙여, 계산기(`predict`)가 상황 값만으로 숫자와 말할 구간을 낸다. 숫자는 기록에서 기계적으로 맞추고(`fit`), 시간 순서 홀드아웃으로 시험한다. 수치 집착을 막는 장치(방향·크기 성적 분리, 이유 없는 숫자 금지, 보내기 전 조건만, 한 건짜리 조건은 허용하되 '근거 1건' 경고(사용자 결정: 특수한 경우일 수 있고 기본 논리가 틀린 게 보이면 한 건이라도 고친다 — 크기는 다음 기록이 시험), 회귀 금지, 조각 수·범위 폭 상한)는 코드·테스트가 강제한다. 조각 이름·문장에는 분야·앱 이름을 쓰지 않는다(다른 분야에서 다시 쓰게).
-- 쓰는 곳: batman 지휘 모델(batman CLAUDE.md §7, 배치 12부터)과 이 저장소의 하위 에이전트(아래 "하위 에이전트 운영").
+## 분야와 시험장
+지금 상태와 할 일은 각 폴더 `CLAUDE.md`에 있다. 그 분야 일을 하면 그 문서부터 연다.
 
-## 시험장: stock-rader (2026-10-20 사용자 제안)
-- [ZizonK7/stock-rader](https://github.com/ZizonK7/stock-rader)(공개, 이 PC `../stock-rader`): Claude가 혼자 가상 투자(1,000만 원)를 하며 논리 조각화를 시험한다. 매일 클라우드 예약 실행이 조사 → 대 보기 → 예측 → 채점 → 쪼개기를 돈다. 판정자는 시장이다.
-- `agent_usage`에 이어 두 번째로 AI가 스스로 쌓는 분야이고, 같은 방식(성적 붙은 가설, 손 예측 vs 계산기, 세운 뒤 기록으로만 시험)을 따른다. 새로 더한 것은 **조사 범위도 논리집에 넣기**(어디를 봤더니 좋았다/정보가 없었다)다.
-- 사용자 의도와 설계는 그 저장소의 CLAUDE.md와 docs/design.md에 있다. 지식 양식·검사는 이 저장소 코어를 쓴다. 코어를 바꿔야 하면 여기서 바꾼다.
-- 코어 변경 (2026-10-21, stock-rader 2단계): 성적표가 **검사마다 출처**를 받는다(재생과 실측을 따로 보이기). 상세: [proviso/CLAUDE.md](proviso/CLAUDE.md). 기존 세 분야 출력은 그대로.
-- 첫 시험(2026-10-21 main): 시세 모양 계산 조각 8개를 2026-06까지로 맞추고 Claude가 결과를 모르는 2026-07~10을 한 번 재생했다. 계산기는 동전보다 못했다(확률 점수 0.2755 vs 0.25). 조각 7개가 반박됐다. 맞춘 기간은 오르는 시기였고 재생 기간은 내리는 시기였다 — **시기가 바뀌는 것을 가격 모양만으로는 못 알아봤다.** 다음은 조사로 대 보는 '시기' 조각(2단계).
+| 분야 | 무엇 | 자세히 |
+|---|---|---|
+| `flowlog` | Flowlog 앱의 제목 추천(실제 기록 재생 근거 포함). v2(R_P1a/R_P1b)는 설계만이고 앱은 v1 — 앱 수정은 사용자 요청 시 | [domains/flowlog](domains/flowlog/CLAUDE.md) |
+| `music_player` | 알아서 틀기와 재생 순서. 엔진 `audit`이 의도와 다른 동작(같은 곡 재등장)을 잡아 고친 첫 사례 | [domains/music_player](domains/music_player/CLAUDE.md) |
+| `agent_usage` | 사용자 목표(2026-10-16): **AI가 하위 에이전트의 시간과 사용량을 예측해서 이유와 함께 말해 준다.** 사용자는 판정하지 않고, AI가 사용자의 쌓는 방식을 따라 스스로 쌓는다. 판정자는 실측. batman 지휘 모델도 쓴다 | [domains/agent_usage](domains/agent_usage/CLAUDE.md) |
+| `language_learning` | 사용자 목표(2026-10-22): **일본어를 전혀 모르는 사용자가 일본 여행에서 쓸 일본어를 꾸준히 공부할 시스템.** 결정마다 논리집을 보거나 잘 된 케이스를 조사해 근거를 댄다. 앱은 [ZizonK7/language_learning](https://github.com/ZizonK7/language_learning)(공개) | [domains/language_learning](domains/language_learning/CLAUDE.md) |
+| `movie_game` | 셜록 홈즈 추리 게임의 설계 판단(2026-10-26). 게임 저장소 [ZizonK7/movie_game](https://github.com/ZizonK7/movie_game)는 비공개라 코드를 옮겨 적지 않고, 그 저장소의 md는 **제안 → 허락 뒤 수정** | [domains/movie_game](domains/movie_game/CLAUDE.md) |
+| 시험장 stock-rader | [ZizonK7/stock-rader](https://github.com/ZizonK7/stock-rader)(공개, 이 PC `../stock-rader`): Claude가 혼자 가상 투자(1,000만 원)를 하며 논리 조각화를 시험한다. 판정자는 시장. agent_usage와 같은 방식에 '조사 범위도 논리집에 넣기'를 더했다. 지식 양식·검사는 이 저장소 코어를 쓰고, 코어를 바꿔야 하면 여기서 바꾼다 | 그 저장소 `CLAUDE.md`·`docs/design.md`, 코어 변경은 [proviso/CLAUDE.md](proviso/CLAUDE.md) |
 
-## 언어 학습: language_learning (2026-10-22 사용자 결정)
-- 목표(사용자): **일본어를 전혀 모르는 사용자가 일본 여행에서 쓸 일본어를 꾸준히 공부할 시스템.** 앱([ZizonK7/language_learning](https://github.com/ZizonK7/language_learning), 공개, 이 세션 `../language_learning`)일 수도, 수업이나 다른 방법일 수도 있다. 스페인어는 범위 밖. 여행 중 쓸 앱(총무·정산)은 설계만.
-- 결정 방식(사용자): **결정마다 논리집을 보거나 잘 된 케이스를 조사해 근거를 대입한다.** 사용자가 일본어를 모르므로 처음 근거는 조사(연구·앱·한국인 사례·여행 범위·꾸준함 장치)이고, 실사용 판정이 생기면 그것이 위다.
-- 분야 [domains/language_learning/](domains/language_learning/CLAUDE.md): 목표 나무, 앱 동작 사실(코드 @81d1f75), 조사 근거 사실 37, 가설 36, 규칙 22, 판정 기록 8. **설계 결정 v1(2026-10-22, 사용자가 AI에 위임)**: 장면 대화 단위, 줄 종류별 방향(점원 줄은 듣기만·손님 줄은 말하기), 틀+슬롯 재등장, 별도 복습(당일→1→7→여행 전 점검)+소량 재등장+역할극, 가나 보조 트랙, 화면 패턴 12(실제 화면 70장 확인, 강 5·중 7·약 1), ASR 나중. 사용자용 문서는 language_learning 저장소 `docs/study-system-design-v1.md`. **1~4단계 구현 @e2aa189**(배치 11–14, 같은 Opus 에이전트 90분·161M: 장면·줄 데이터, Room v8, 간격표, 카드, 온보딩·홈·알림·복귀·회화집, 역할극·확인 세트·내보내기, 가나 트랙; 순수 Kotlin 테스트 36개 통과. Android 빌드는 이 환경에서 못 해 미확인, AI가 쓴 한글 표기·연상·알림 문구 검토 전). audit 오류 2(의도: 단어 체계가 남는 동안). 조사 보고서는 `out/research/2026-10-22-language-learning/`(git 제외), 작업 보고서는 `docs/worklog/2026-10-22-research-*.md`. 여행 앱 설계(기능 목록)는 같은 저장소 `docs/travel-app-design-v0.md`.
-- **조사 환경(2026-10-22)**: 처음엔 네트워크 정책이 원문 열기를 막아 검색 요약만 받아졌다(배치 7). 사용자가 Allowed domains를 넓힌 뒤(배치 8) 원문이 열렸지만 **WebFetch 도구는 프록시를 안 타 DNS 실패**하므로 웹 조사 지시서에 'curl + pdftotext/pandoc/bs4로 읽는다'를 적는다. 사이트 자체 거부: Wiley·OUP·SAGE·ScienceDirect·APA·T&F·Reddit(로그인)·JR동일본·Trustpilot. 네이버 카페 본문은 스크립트 전용(m.blog.naver.com은 됨). **검색 요약만으로 쓴 보고서는 근거로 쓰지 않는다** — 배치 7의 오류(AI 생성 글·다른 앱 혼동·기사 오독·원문과 다른 요약)가 배치 8에서 드러났다. agent_usage 상태 S_web_blocked·S_read_originals.
-- agent_usage 기록: `project = "language_learning"`(from_project에 없어 S_small_codebase 모름). 배치 7(p10–p15)이 첫 Haiku 기록, 배치 8(p16–p21)은 같은 작업자에 이어 보낸 원문 확인(6/6 맞음). 배치 9(p22–p27)는 첫 클라우드 세션 조사 — 1차 보고가 3~4분에 얕게 와서 이어서 지시로 깊였다(S_cloud_session). 배치 10(p28)은 전송 조건을 적은 스크린샷 회차 — 7.2분에 그림 70장(S_send_gate, H_cloud_session_rounds_v2).
-
-## 지금 상태 (2026-10-19)
-- 분야 3개: `flowlog`(제목 추천, 실제 기록 재생 근거 포함), `music_player`(알아서 틀기, 재생 순서 — 폰 셔플 표시 @25d6b74), `agent_usage`(AI가 스스로 쌓는 사용량 예측).
-- `agent_usage`: 기록 189건(batman 배치 1–36의 d01–d94 + 이 저장소 p01–p64. p40–p64는 2026-10-20 두 세션의 기록을 2026-10-25에 브랜치 병합으로 뒤에 붙인 것 — 번호를 바꿨고 날짜는 10-20이다). 2026-10-19 하루에 첫 전체 정리 → 구조 개편(규칙·가설 통합과 성적표, 시간 세 마디 구간, 틀린 조각 칸) → 계산되는 논리(계산 조각 16개, 홀드아웃)까지 돌았다. 뒤 절반 61건의 말할 구간 적중은 쪼갠 뒤 계산기 51 % < 당시 손 예측 62 % — 보낼 때 둘 다 적어 승패를 센다(첫 6건 p06–p11은 계산기만 맞음). 상세는 [domains/agent_usage/CLAUDE.md](domains/agent_usage/CLAUDE.md)의 "현재 상태"와 "지금 쓰는 규칙 요약".
-- 엔진 점검 `audit`이 알아서 틀기의 "같은 곡 재등장"(의도와 다름)을 잡음 → 사용자 결정대로 music_player @b401048에서 고침 → 점검 통과. 논리 세우기 → 점검 → 의도 구체화 → 수정 → 사실 갱신의 고리를 처음 한 바퀴 돎.
-- **사용자 평가 대기**: 새 알아서 틀기 실사용(R_M1b, 판정이 오면 `[[judgment]]` source="user"), 폰 셔플 표시(R_S1, @25d6b74), music_player 실제 앱 빌드 확인(시뮬레이션만 함, 버전 미변경 v0.3.5).
-- Flowlog v2(R_P1a/R_P1b)는 설계만 — Flowlog 앱은 아직 v1. 앱 수정은 사용자 요청 시.
-- **Flowlog 전체 점검 (2026-10-20, 클라우드 세션, 브랜치 `ccr-2a22e640-e8dn8n`)**: 사용자 요청으로 완성도·보안·공개 여부·디자인·기능·방향·유사 앱을 하위 에이전트 7명(p40–p46)이 조사·구현하고 메인이 판단. Flowlog 같은 브랜치에 기능 셋(지난 활동 직접 추가, CSV/JSON 내보내기, 앱 아이콘 바로가기; 단위 테스트 115개 통과, 기기 미확인) 커밋 81ed74c — main 병합은 사용자 판단. 보고서는 `docs/worklog/2026-10-20-*.md`, 상세 조사 원본은 `docs/flowlog-review-2026-10-20/`(보안 세부는 저장소에 넣지 않음). 결과 보고서 페이지와 "Flowlog River" 디자인 시안 페이지는 사용자에게 전달. 이어서 사용자 결정(Play 출시, 무료 앱 + 서버 저장·웹 구독, 계정 삭제 유보 14일, 디자인 유지)으로 출시 준비 세 회차(p47–p49)를 같은 브랜치에 커밋(7f2918b·d359e05·1947a67): 과장 문구·민감 로그 정리, 정확 알람 권한 흐름, JSON 가져오기, 계정 삭제 유보 흐름과 영구 삭제 함수, 내용 없는 tombstone, App Check, 규칙 사본 보강. 남은 일은 Flowlog `docs/RELEASE_CHECKLIST.md`. 웹 저장소(pfkfks-main, 비공개)도 같은 세션에서 붙여 짝 작업(삭제 요청 페이지·규칙·처리방침·영구 삭제 함수·App Check 배선)을 같은 이름의 브랜치에 커밋(2601e5c, main 미병합 — 그 저장소는 main push가 곧 배포). 웹 저장소의 `docs/flowlog-release-plan.md`(2026-10-13)에 서비스 계정 키 유출 확인과 Flowlog 미병합 브랜치 `ccr-1cb50339-vdsr0x`가 적혀 있어 사용자에게 알림. 이어서(배치 20·7, p50–p58): 웹 main에 계정 삭제 페이지·규칙·처리방침·영구 삭제 함수·App Check 배선·요약 함수 증분화·통계 페이지 경량화·PC 앱 `/app/`(실제 데이터, 타이머 문서 공유, 루틴 알림·집중 모드, 숫자 id 할 일)을 올렸고(최종 main 커밋은 git log), 인덱스·규칙·함수 자동 배포 워크플로는 서비스 계정 권한이 없어 첫 실행 실패(사용자 할 일). Flowlog 브랜치에는 하드닝 브랜치 병합(충돌 3파일), 타이머 문서 공유(앱 쪽), 할 일 증분 가져오기를 커밋(main 미병합, 기기 미확인). 사용자가 콘솔에서 할 일은 Flowlog `docs/RELEASE_CHECKLIST.md` 맨 위.
-- 열린 문제: 운동 종목 추천에서 이름을 계속 타이핑해야 하는 부담(본체 실험 질문 2).
-- **movie_game 분야 (2026-10-26 시작)**: 셜록 홈즈 추리 게임의 설계 판단 논리집. 목표 9, 조사 사실 9, 가설 4(사용자 판정 전). 메인 저장소는 [ZizonK7/movie_game](https://github.com/ZizonK7/movie_game)(비공개, 사용자 확인 2026-10-27 — 코드를 이 저장소에 옮겨 적지 않는다)이고 그쪽 `CLAUDE.md`(메모리)·`DECISIONS.md`(의도)와 역할을 나눈다. 그 저장소의 md는 **제안 → 허락 뒤 수정**(사용자 지시). 사용자 결정: 공간을 걸어 다님(3D), 영어 음성·영국 느낌, 1인 제약은 판단 기준 아님, 가지치기 추리, 두 단계 관찰, 실제 런던·빅토리아, 사건 단위 + 수렴(한 방식만 금지), 수렴점 한 장 + 사건 하나씩, **지금은 플레이 장면 하나 단계**(2026-10-27). PC 세션이 UE 5.8 프로토타입을 만들었고 첫 사건을 넣는 중. 배치 23–26(p65–p75) 보고서 `docs/worklog/2026-10-26-movie-game-design-research.md`. 상세: [domains/movie_game/CLAUDE.md](domains/movie_game/CLAUDE.md).
+- **사용자 평가 대기**: music_player 새 알아서 틀기 실사용(R_M1b)·폰 셔플 표시(R_S1)·실제 앱 빌드, language_learning 사용자 PC 빌드와 실사용. 판정이 오면 `[[judgment]]` source="user".
+- **열린 문제**: 운동 종목 추천에서 이름을 계속 타이핑해야 하는 부담(본체 실험 질문 2).
+- **다른 저장소 일의 기준 문서**: Flowlog 출시 준비는 Flowlog 저장소 `docs/RELEASE_CHECKLIST.md`(사용자가 콘솔에서 할 일은 맨 위). 지난 경위는 [docs/history.md](docs/history.md).
 
 ## 다음 할 일
+0. **브랜치 셋 합치기**(`claude/amazing-carson-owssej`·`claude/busy-mccarthy-yzak4q`·`claude/inspiring-edison-igoees`): `dispatches.toml`의 p107–p121이 서로 겹치므로 번호를 다시 매긴다. 루트 CLAUDE.md는 이 정리본을 따르고, 그쪽에서 바뀐 분야 내용은 그 폴더 CLAUDE.md로(사용자 2026-11-02: 정리 뒤에).
 1. **조각 층을 스키마에 넣기**: 조각 노드(근거 포함), 규칙의 "이루는 조각" 칸, 상황별 대 보기. 같은 조각이 여러 분야에 걸리고 분야별 성적이 따로 보이게. agent_usage의 계산 조각(효과 칸)이 첫 형태. 그 위에서 **처음 보는 질문으로 예측 시험**(사후 설명이 아닌지 확인).
 2. 정리: 가설 검사 결과를 지식에 저장(본체 실험에서 도구가 "지지됨"을 못 보여줌 → 2026-10-19부터 MCP `scorecard`가 성적표를 보여 준다. 결과를 파일에 저장하는 것은 아직), knowledge-format을 확정 양식 문서로 + 원안 대비 변경점 문서. (적용 범위 칸은 조각 층으로 대체)
 3. **일반 지식 넣기**(사용자 제안): 통념 · 사용자 생각 · 연구·실험 근거를 조각으로. 출처 종류·근거 강도, 출처 실재 확인 필수, 필요한 것만, 충돌 시 개인 경험 > 일반 원리. 사용자 생각 출처: 각 저장소 DECISIONS.md(뮤직 플레이어에서 효과 확인 — 있었으면 질문 1을 안 틀렸음).
 4. 학습 고리 자동화: Episode 로그(질문·조회·답·판정·이유) + 지식 추가 제안 → 사용자 승인 → 저장(원안 commit 도구). `agent_usage`의 `dispatches.toml`(예측 → 실측 → 돌아보기)이 첫 Episode 로그 형태 — 판정자가 사용자가 아니라 실측인 경우.
-5. `agent_usage` 이어 가기: 보낼 때마다 계산기 답(`[dispatch.calc]`)과 손 예측을 나란히 적고, 말한 구간(`predicted.told`)·빗댄 기록(`analog`)·새 상태를 적는다. 구간이 빗나가면 `review.wrong`·`why`. 다음 정리에서: 일의 크기를 말해 주는 보내기 전 상태(지시서의 할 일 수) 넣기, 긴 쪽으로 말했는데 일찍 끝난 기록을 '일찍 끝남'으로 따로 세기, audit 경고(쪼개지 않은 개정 12, 시험 수단 없음 2) 처리. batman 배치 37부터 기록을 옮긴다(STATUS에 "proviso sync pending"이 있으면 PC 세션이 처리).
+5. `agent_usage` 이어 가기: 보낼 때마다 아래 체크리스트. 다음 정리에서 할 것은 [domains/agent_usage/CLAUDE.md](domains/agent_usage/CLAUDE.md) 끝. batman 배치 37부터 기록을 옮긴다(STATUS에 "proviso sync pending"이 있으면 PC 세션이 처리).
 6. 그 뒤: 로컬 소형 모델(통역), 원안 Stage 2·3
 
-## 하위 에이전트 운영 (batman 저장소 방식, 2026-10-14 도입)
-- **역할**: 메인(사용자와 대화하는 모델) = 감독. 방향·설계, 지시서 작성, 결과 검토, 문서를 정직하게 유지, 커밋·push. **하위 에이전트** = 지시서 하나를 맡아 구현. 파일은 쓰지만 지시서에 없으면 커밋·push하지 않는다. **사용자** = 의도와 판정.
-- **모델·effort 기본값: Opus 5.5 · effort high** (사용자 지시 2026-10-14). Agent 도구에 `model: "opus"`, `effort: "high"`. 사용자가 바꾸라고 할 때만 바꾼다.
-- **질보다 양인 일은 Haiku 5.5 · effort high** (사용자 지시 2026-10-22. 처음엔 language_learning 대량 조사에서, 같은 날 "조사뿐 아니라 질보다 양인 작업이면 Haiku에게 시켜도 된다"로 넓힘). `model: "haiku"`. 대량 조사, 여러 파일에 같은 고침 반복, 기록 옮겨 적기, 정해진 양식으로 바꾸기 같은 일. 설계·판단·까다로운 구현은 그대로 Opus. agent_usage 숫자는 Opus 기준이라 Haiku는 계산기가 '모름'을 낸다 — 손 예측으로 잡고 기록을 쌓는다(p10–p15가 첫 기록, S_other_model=예).
-- **조사는 되도록 클라우드 환경 `searching`에서** (사용자 제안 2026-10-22, 같은 날 gemmin 세션에서 확인). 클라우드 세션에서는 `create_session`(claude-code-remote MCP)에 `environment_id: env_01MZX426uZooVUwnbJ5RV66Q`를 주고 지시서를 prompt로 보낸다. 시험 결과: arXiv·Reddit·Google Scholar·Semantic Scholar·HN 등 9곳이 curl로 다 열렸고 WebSearch가 있다(그동안의 "검색 요약만" 제약이 여기서는 풀린다). 결과는 `get_session`·`list_events`로 읽고, 사용량은 `get_session`의 usage(토큰·cost_usd)로 적는다 — `scripts/agent_usage.py`는 로컬 jsonl만 읽으므로 못 쓴다. 로컬 PC 세션에 이 도구가 있는지는 미확인. **배치 9·10 교훈**: 클라우드 Haiku 세션은 지시서에 **전송 조건**('원문 n건·그림 n장을 실제로 본 뒤에만 보낼 것')이 없으면 1차 보고를 3~5분 만에 얕게 보내고 끝난다(배치 9). 전송 조건을 숫자로 적으면 1차에 조건을 채워 온다(배치 10, 5분에 그림 35장). 열리는 주소 목록(언어 학습 O_scope_batch9)도 같이 적는다. 그림은 스토어 HTML의 이미지 주소를 받아 Read로 보게 한다(설명 글을 요구하면 글만 읽는다). 실측은 get_session의 created_at→updated_at과 usage 합(턴은 못 센다).
-- **지시서에 넣을 것**: 목표, 범위(건드릴 폴더·파일), 하지 말 것과 승인이 필요한 일, 완료 조건과 확인 방법, 긴 글은 섹션마다 파일에 이어 쓰기, 보고서 양식, 하위의 하위 에이전트 허용 여부. 이 저장소 규칙(일상어 설명, 공개 저장소 주의, 사실은 코드로 확인)도 전달.
-- **보고서**: 작업마다 `docs/worklog/YYYY-MM-DD-<주제>.md` — 한 일 / 확인한 것(정확한 명령) / 확인 못 한 것 / 알려진 문제 / 다음 작업자에게. 양식은 [docs/worklog/CLAUDE.md](docs/worklog/CLAUDE.md). 확인하지 않은 건 "확인 못 함"으로 쓴다.
-- **사용량 예측과 기록**: 보내기 전에 [agent_usage](domains/agent_usage/CLAUDE.md) 논리집으로 예측해서 `dispatches.toml`에 적고(`project = "proviso"`), 사용자에게 시간 구간(잠깐/다른 일/신경 끄기)과 분·토큰 숫자, 이유를 말하고 말한 구간을 `predicted.told`에 적는다. 끝나면 `python scripts/agent_usage.py "<세션>/subagents/agent-*.jsonl" --md`로 실측을 넣고 돌아본다. **같은 로그에 `--turns`도 돌려 동작별 턴 길이 표를 돌아보기에 붙인다**(2026-10-26부터, 전제 1 시험: 턴 크기는 동작이 정하는지 재는 중 — agent_usage CLAUDE.md "전제 1 시험"). 배치별 모델·effort·품질(1–5)은 [docs/AGENT-LOG.md](docs/AGENT-LOG.md). 이 PC의 기록 위치는 [scripts/CLAUDE.md](scripts/CLAUDE.md).
-- **하위의 하위 에이전트**: 지시서가 허용할 때만. 썼으면 보고서에 목록(주제, 모델, effort, 난이도, 예상)을 남겨 메인이 기록하게.
-- **조사는 하위 에이전트가 물량으로, 판단은 메인이**: 작업자마다 다른 각도·범위, 명확한 기준, 엄격한 출력 양식(후보, 출처·근거, 기준별 충족, 확신도, 탈락 이유). 메인은 근거와 대조해 확인하고 결정. 위치를 이미 아는 사실 하나(URL이 열리나, 명령이 도나)는 메인이 직접. 단계는 작업자 → 메인 두 단계.
-- **구현은 한 에이전트에 몰아서**: 관련 작업은 한 에이전트가 끝까지 맡고, 후속 지시는 같은 에이전트에 이어서 보낸다(SendMessage). 병렬은 폴더·코드가 겹치지 않을 때만. 비용이 아니라 일관성이 기준.
-- **언제 쓰나** (사용자 지시 2026-10-14): 진행 중이던 작업은 하던 방식 그대로 마친다. **다음 작업부터 이 구조를 적극적으로 써도 된다. 다만 억지로 쓸 필요는 없다** — 작은 일은 메인이 직접, 조사 물량이 많거나 서로 안 겹치는 큰 구현이 생기면 하위 에이전트.
+## 하위 에이전트 운영
+메인(사용자와 대화하는 모델) = 감독: 방향·설계, 지시서, 결과 검토, 문서를 정직하게 유지, 커밋·push. 하위 에이전트 = 지시서 하나를 구현(지시서에 없으면 커밋·push 안 함). 사용자 = 의도와 판정. 작은 일은 메인이 직접, 조사 물량이 많거나 서로 안 겹치는 큰 구현이면 하위 에이전트. 자세한 절차와 이유: [docs/dispatch.md](docs/dispatch.md).
+- **모델**: 기본 Opus 5.5 · effort high(`model: "opus"`, `effort: "high"`, 사용자 지시 2026-10-14). 질보다 양인 일(대량 조사, 같은 고침 반복, 옮겨 적기, 양식 바꾸기)은 Haiku 5.5 · high(2026-10-22). 사용자가 바꾸라고 할 때만 바꾼다.
+- **조사**는 되도록 클라우드 환경 `searching`에서, 지시서에 전송 조건을 숫자로 적는다(docs/dispatch.md "조사 보낼 때").
+
+**체크리스트** — '검사'가 붙은 단계는 빠지면 `python -m domains.agent_usage.dispatches`와 테스트가 오류를 낸다.
+
+보내기 전
+1. 지시서: 목표, 범위(건드릴 폴더·파일), 하지 말 것과 승인이 필요한 일, 완료 조건과 확인 방법, **보고서 경로**(양식 [docs/worklog/CLAUDE.md](docs/worklog/CLAUDE.md)), 하위의 하위 허용 여부, 이 저장소 규칙(일상어, 공개 저장소, 사실은 코드로).
+2. 예측: 계산기 → 손 예측 → `domains/agent_usage/dispatches.toml`에 기록 → 사용자에게 구간·숫자·이유([agent_usage "고리"](domains/agent_usage/CLAUDE.md) 1). 검사는 칸 모양만 본다(빠져도 안 막음).
+
+끝나면 — 사용자에게 결과를 말하기 전에 기록부터(컨테이너가 회수되면 대화 기록이 사라진다)
+
+3. 실측: `python scripts/agent_usage.py <로그> --md` → `actual`. 검사: 끝난 기록의 실측 시간.
+4. 턴 길이: 같은 로그에 `--turns --toml` → 기록 끝에 `[dispatch.turns]`(잴 수 없으면 `skip = "이유"`). 검사(2026-11-03부터).
+5. 보고서: 작업자의 보고서를 확인하고 경로를 `review.report`에. 검사(2026-11-03부터).
+6. 돌아보기: `review.reason`, 구간이 빗나가면 `review.wrong`·`review.why`. 검사(빗나갔을 때 wrong·why).
+7. 배치 줄: [docs/AGENT-LOG.md](docs/AGENT-LOG.md)에 모델·effort·품질(1–5)·교훈.
+8. 결과 검토 → 커밋·push(메인).
 
 ## 다른 저장소 다루기
 - 사용자 앱(music_player, Flowlog 등)의 **동작은 코드에서 확인**하고 사용자에게는 의도·판단만 묻는다.

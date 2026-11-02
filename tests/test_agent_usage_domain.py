@@ -112,6 +112,38 @@ class Rescore20261019(unittest.TestCase):
         self.assertEqual(dp.zone_verdict({d["id"]: d for d in records}["p01"]), "높게 잡음")
         self.assertEqual(dp.validate(records, kn), [])
 
+    def test_records_from_nov_3_need_turn_table_and_report(self):
+        # 2026-11-02 사용자 결정: 문서에만 적힌 단계는 빠지므로 검사가 막는다. 2026-11-03부터의 끝난 기록만
+        kn = schema.load(KN)
+        records = dp.load()
+        new = {"id": "zz2", "project": "proviso", "batch": 99, "date": "2026-11-03", "task": "t",
+               "predicted": {"minutes": [5, 9], "told": "잠깐"}, "actual": {"minutes": 6, "turns": 10}}
+        errors = dp.validate(records + [new], kn)
+        self.assertTrue(any("zz2" in e and "턴 길이 표" in e for e in errors))
+        self.assertTrue(any("zz2" in e and "review.report" in e for e in errors))
+        # 표를 붙이고 이 저장소에 있는 보고서를 가리키면 통과
+        new["turns"] = {"글": {"n": 7, "sum_s": 20.0, "turn_s": 2.5}, "Bash:git": {"n": 3, "turn_s": 4.0}}
+        new["review"] = {"report": "docs/worklog/CLAUDE.md"}
+        self.assertEqual(dp.validate(records + [new], kn), [])
+        # 잴 수 없으면 이유 한 줄, 다른 저장소 보고서는 "저장소:경로"
+        new["turns"] = {"skip": "클라우드 세션: 대화 기록 없음"}
+        new["review"] = {"report": "movie_game:docs/worklog/2026-11-03-x.md"}
+        self.assertEqual(dp.validate(records + [new], kn), [])
+        # 없는 파일, 빈 이유, 모양이 틀린 표는 잡는다
+        new["review"] = {"report": "docs/worklog/없는-보고서.md"}
+        self.assertTrue(any("파일이 없음" in e for e in dp.validate(records + [new], kn)))
+        new["review"] = {"report": "docs/worklog/CLAUDE.md"}
+        new["turns"] = {"skip": " "}
+        self.assertTrue(any("turns.skip" in e for e in dp.validate(records + [new], kn)))
+        new["turns"] = {"글": {"turn_s": 2.5}}
+        self.assertTrue(any("turns는 동작마다" in e for e in dp.validate(records + [new], kn)))
+        # 아직 안 끝난 기록, 11-02까지의 기록은 요구하지 않는다(브랜치에서 합쳐 올 기록 포함)
+        pending = {**new, "turns": None, "review": {}, "actual": {"status": "unknown"}}
+        del pending["turns"]
+        self.assertEqual(dp.form_errors(pending), [])
+        old = {**pending, "date": "2026-11-02", "actual": {"minutes": 6}}
+        self.assertEqual(dp.form_errors(old), [])
+
     def test_used_check_reads_predictions_written_before(self):
         verdict, detail = checks.used_minutes("R_time_turns_v2")
         self.assertTrue(verdict.startswith(("지지됨", "반박됨")))

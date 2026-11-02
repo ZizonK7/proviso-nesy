@@ -7,6 +7,7 @@
 - 사용자 의도는 DECISIONS.md가 원문이고, 여기 목표 노드는 그것을 논리 구조에 올린 것이다. 의도가 바뀌면 DECISIONS.md가 먼저 바뀌고 이 파일이 따른다.
 - 판단 중 Claude가 추정한 것은 `hypothesis`로, `source`를 밝혀 넣는다. 사용자가 말하지 않은 목표·관찰을 지어내 넣지 않는다.
 - 다른 분야와 같이, 조각 문장에는 분야·앱 이름을 쓰지 않는다(다른 분야에서 다시 쓰게).
+- 게임 저장소의 md는 **제안 → 사용자 허락 뒤 수정**(사용자 지시). 비공개 저장소라 코드를 여기 옮겨 적지 않는다(사용자 확인 2026-10-27). (2026-11-02 루트 CLAUDE.md에서 옮김)
 
 ## 현재 상태 (2026-10-29)
 - 목표 9(G_game 아래 여덟: 디자인 우선·스토리·머리 쓰기·눈썰미·균형·논리·**공간 걷기**·**영어 음성·영국 느낌**), 상태 2, 조사 사실 22(배치 23 화풍·비용 9 + 배치 24 공간·음성·추리 장치 13), 관찰 5, 가설 9(살아 있는 것 8: 사용자 생각 둘 H_wrong_piece_is_pruning·H_two_stage_observation, AI 판단 여섯 H_own_art_with_code_frame·H_pieces_board_serves_reasoning·H_local_reaction_batch_confirm·H_observe_cost_and_question·H_ue5_fits_needs·H_voice_two_pass; H_code_made_look은 전제가 틀려 물림). 판정 기록 없음 — 모두 프로토타입 → 사용자 판정 대기(audit 경고 "시험 수단 없음"은 의도).

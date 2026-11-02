@@ -7,6 +7,7 @@
 """
 from __future__ import annotations
 
+import re
 import sys
 import tomllib
 from collections import Counter
@@ -29,6 +30,13 @@ STATUSES = ("done", "stopped", "unknown")
 WHY = ("조건 흐림", "이유 틀림", "바깥 상황")
 # 이 기록 다음부터(파일 순서) 시간 구간이 빗나가면 review.wrong·review.why가 필수다 (2026-10-19 결정 뒤의 기록)
 WRONG_REQUIRED_AFTER = "p03"
+# 이 날짜부터 끝난 기록은 턴 길이 표([dispatch.turns])와 보고서 경로(review.report)가 필수다 (2026-11-02 사용자 결정).
+# 까닭: 문서에만 적힌 단계는 빠졌다 — p65 이후 세션 안 하위 에이전트 53건 중 --turns 4건. 검사가 막는 단계(review.wrong)는 72/73.
+# 번호가 아니라 날짜로 자른다: 브랜치를 합치며 번호를 다시 매겨도 지난 기록이 걸리지 않게.
+FORM_REQUIRED_FROM = "2026-11-03"
+ROOT = HERE.parent.parent
+# 다른 저장소의 보고서는 "저장소:경로"로 적는다 (예: "movie_game:docs/worklog/2026-11-03-x.md")
+OTHER_REPO = re.compile(r"^[\w.-]+:(?!/)")
 
 
 def zone(minutes: float) -> str:
@@ -132,6 +140,35 @@ def wrong_required(records: list[dict], d: dict) -> bool:
     return zone_verdict(d) not in (None, "맞음")
 
 
+def form_required(d: dict) -> bool:
+    """FORM_REQUIRED_FROM 뒤의 끝난(실측이 있는) 기록인가 — 그러면 turns 칸과 review.report가 필수."""
+    return done(d) and "minutes" in d.get("actual", {}) and str(d.get("date", "")) >= FORM_REQUIRED_FROM
+
+
+def form_errors(d: dict, root: Path = ROOT) -> list[str]:
+    """턴 길이 표와 보고서 경로 검사. 칸이 있으면 날짜와 상관없이 모양을 본다."""
+    did, errors = d.get("id", "?"), []
+    turns = d.get("turns")
+    if turns is None:
+        if form_required(d):
+            errors.append(f"{did}: 턴 길이 표가 없음 — `python scripts/agent_usage.py <로그> --turns --toml` 출력을 기록 끝에 붙이거나, "
+                          f"잴 수 없으면(클라우드 세션 등) [dispatch.turns] 아래 skip = \"이유\"")
+    elif "skip" in turns:
+        if not (isinstance(turns["skip"], str) and turns["skip"].strip()) or len(turns) > 1:
+            errors.append(f"{did}: turns.skip은 못 잰 이유 문장 하나만 (표와 함께 쓰지 않는다)")
+    elif not turns or not all(isinstance(v, dict) and isinstance(v.get("n"), int) and v["n"] > 0 for v in turns.values()):
+        errors.append(f"{did}: turns는 동작마다 {{ n = 턴 수, ... }} 모양이어야 함 (agent_usage.py --turns --toml 출력)")
+    rep = d.get("review", {}).get("report")
+    if rep is None:
+        if form_required(d):
+            errors.append(f"{did}: review.report(작업 보고서 경로)가 없음 — 이 저장소면 docs/worklog/..., 다른 저장소면 \"저장소:경로\"")
+    elif not (isinstance(rep, str) and rep.strip()):
+        errors.append(f"{did}: review.report는 경로 문장이어야 함")
+    elif not OTHER_REPO.match(rep) and not (root / rep).is_file():
+        errors.append(f"{did}: review.report '{rep}' 파일이 없음 (다른 저장소면 \"저장소:경로\")")
+    return errors
+
+
 def validate(records: list[dict], kn: schema.Knowledge) -> list[str]:
     """기록의 문제 목록. 규칙·상태·가설 id는 지식 파일에 있어야 한다."""
     errors, seen = [], set()
@@ -182,6 +219,7 @@ def validate(records: list[dict], kn: schema.Knowledge) -> list[str]:
             errors.append(f"{did}: actual.status는 {STATUSES} 중 하나여야 함")
         if done(d) and "minutes" not in d.get("actual", {}):
             errors.append(f"{did}: 끝난 작업인데 실측 시간이 없음")
+        errors.extend(form_errors(d))
     return errors
 
 
