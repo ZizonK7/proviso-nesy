@@ -289,7 +289,7 @@ class Devices(unittest.TestCase):
 
     def test_split_pieces_say_why_the_condition_matters(self):
         for pid in ("C_turns_research_v2", "C_turns_resumed_v2", "C_turns_no_check", "C_fix_existing_v2",
-                    "C_small_codebase", "C_min_light_model"):
+                    "C_small_codebase", "C_small_codebase_v2", "C_min_light_model"):
             self.assertTrue(self.kn.nodes[pid].data.get("why_condition", "").strip(), pid)
         node = self.kn.nodes["C_fix_existing_v2"]
         saved = node.data.pop("why_condition")
