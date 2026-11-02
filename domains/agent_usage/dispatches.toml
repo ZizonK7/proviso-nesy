@@ -11458,4 +11458,12 @@ hypotheses = []
 told = "신경 끄기"
 minutes = [45.6, 91.2]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨
+status = "done"
+minutes = 1.0  # 알림 duration 61초
+turns = 10  # 누계 186 − 176
+tokens_m = 3.17  # 누계 35.44M − 32.27M. 도구 호출 8
+[dispatch.review]
+report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
+reason = "말한 구간 '잠깐' 맞음(1.0분). 턴 10(예측 7–12), 토큰 3.17M(예측 1.5–3). 13번 한 바퀴 합계: 작성 2.4 + 검토 2.3 + 수정 1.0 = 5.7분"
+[dispatch.turns]
+skip = "같은 에이전트에 이어 보낸 회차라 로그가 누적되어 회차별 동작 표를 가를 수 없음"
