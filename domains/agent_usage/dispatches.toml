@@ -9806,4 +9806,10 @@ hypotheses = []
 told = "신경 끄기"
 minutes = [45.6, 91.2]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨
+status = "done"
+minutes = 1.1  # 알림 duration 66초
+turns = 10  # 누계 140 − 130
+tokens_m = 2.49  # 누계 22.14M − 19.65M. 도구 호출 7
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(1.1분). 턴 10은 6–12 안, 토큰 2.49M은 1–2.5 안·T1. p113과 같은 종류(SVG 하나 다시 그리기)라 빗댄 ×1이 맞았다. 배율 0.80으로 줄여 한 쪽 유지. 품질 5"
+hypotheses = []
