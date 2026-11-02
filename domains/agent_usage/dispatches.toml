@@ -9495,3 +9495,50 @@ tokens_m = 0.54  # 누계 6.40M − 앞 회차 5.86M. 도구 호출 4(sed·pytho
 [dispatch.review]
 reason = "말한 구간 '잠깐' 맞음(0.4분). 턴 4는 예측 8–16의 1/4, 토큰 0.54M은 4–9의 1/8 — 둘 다 크게 위로 틀림. 고칠 곳 셋을 한 턴에 하나씩 하고 png 확인은 렌더 출력만 보고 끝냈다(Read를 따로 안 함). 이어서 보내는 작은 수정은 '고칠 곳 수 ≈ 턴 수'이고 확인 바퀴가 거의 없다 — R_third_pass(×0.4–0.6)를 2회차라 안 썼는데 2회차에도 비슷한 축소가 걸렸다(한 건). 토큰은 턴당 맥락 ~13만으로, 앞 회차 끝 맥락(~57만)을 그대로 곱한 R_resume_ctx_v2가 이번엔 과했다: 캐시 읽기 44만 + 생성 10만. 계산기 46–91분은 여전히 크게 틀림"
 hypotheses = []
+
+[[dispatch]]
+id = "p109"
+project = "exam_grader"
+batch = 37
+date = 2026-11-02
+task = "구현(같은 에이전트 3회차, 이어서): 9번 풀이지 09.html 새로 쓰기(검토된 선생님 풀이·계산 요령 셋) + 렌더·png 확인, 8번 손글씨 메모 정리(하나만 남김), teacher.md에 손글씨 규칙 절과 수업한 논리 2줄, session.md 9번 줄"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "일부"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [5, 8]
+turns = [26, 40]
+tokens_m = [4, 9]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_resume_ctx_v2", "R_say_numbers_v2"]
+analog = "p107"
+reason = "빗댄 p107(풀이지 한 장 8.3분·57턴)에서 npm 시도·우회 찾기(~12턴·4분)를 빼면 ~45턴·4.5분. 3회차라 R_third_pass ×0.4–0.6을 걸되 이번은 새 풀이지 한 장이 통째로 있어 위쪽: PDF 한 쪽 읽기 1–2 + html 쓰기 3–5 + 렌더·Read 2–4 + 8번 pen 수정·재렌더 3–4 + teacher.md·session.md 3–4 + 보고 → 26–40턴. p108처럼 작은 수정은 턴을 묶으니 아래쪽일 수 있다. 분당 5–6턴 → 5–8분, 전부 '잠깐' 안. 토큰은 p108의 턴당 ~13만을 기준으로 턴 × 13–25만 → 4–9M(앞 회차 끝 맥락 57만을 그대로 곱하면 과하다는 p108 교훈)"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨
