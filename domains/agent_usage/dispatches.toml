@@ -9654,3 +9654,50 @@ tokens_m = 1.82  # 누계 14.31M − 12.48M. 도구 호출 7
 [dispatch.review]
 reason = "말한 구간 '잠깐' 맞음(0.7분). 턴 9는 6–12 안, 토큰 1.82M은 1–2.5 안·T1 맞음 — 세 숫자 다 맞은 첫 기록. 빗댄 p108 ×2.25로 고칠 곳 수(파일 3, 문장 8)를 따라갔다. 이 에이전트의 작은 수정 회차 네 건(p108·p109·p110·p111)이 모두 '고칠 곳 수 ≈ 턴 수, 분당 8–10턴, 턴당 맥락 13–20만'. 품질: 지시 목록 밖의 부정문(핵심 상자) 하나를 스스로 찾아 고침 — 5"
 hypotheses = []
+
+[[dispatch]]
+id = "p112"
+project = "exam_grader"
+batch = 37
+date = 2026-11-02
+task = "구현(같은 에이전트 6회차, 이어서): 11번 풀이지 11.html 새로 쓰기(속도 차부터 적분, 그래프로 근 하나 확인, 극점 위치로 거리) + 렌더·png 확인, teacher.md 수업 논리 1줄, session.md 11번 줄"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [2, 4]
+turns = [15, 25]
+tokens_m = [2.5, 5]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v2"]
+analog = "p110"
+reason = "빗댄 p110(새 풀이지 1장 + 그림, 1.7분·15턴·2.75M). 이번은 계산이 길어 한 쪽 맞추기 재렌더가 1–2회 더 있을 수 있고 그림이 둘(차 그래프, 위치)일 수 있어 ×1–1.6 = 15–25턴, 분당 8–10턴 → 2–4분 '잠깐'. 토큰 턴 × 15–20만 → 2.5–5M"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨
