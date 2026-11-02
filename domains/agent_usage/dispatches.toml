@@ -10372,3 +10372,280 @@ tokens_m = 7.9  # 캐시 생성 44.9만 + 캐시 읽기 741.4만 + 입력 108 + 
 wrong = []
 reason = "말한 구간 '다른 일'(10–18분) 맞음(12.7분). 턴 54 범위(40–70) 안, 토큰 7.9M 범위(5–12)·T1 맞음. 읽기 8 + 세기 스크립트 + 문서 하나라는 셈이 그대로 맞았다. 품질: 규칙 17개가 모두 실제 문장 둘과 '하지 않는 것'을 달았고, 예상과 다른 것(인문의 물음 허용 자리)을 따로 적었으며, 우리 초안의 어긋남 셋을 고칠 문장까지 냄 — 5"
 hypotheses = []
+
+# 2026-11-02 병합: 브랜치 claude/inspiring-edison-igoees(2026-10-29 movie_game 전체 줄거리 세션)의 기록. 그 브랜치에서는 p107–p112였으나 다른 브랜치가 같은 번호를 써서 p124–p129로 바꿔 붙임(배치 37은 그대로).
+[[dispatch]]
+id = "p124"
+project = "movie_game"
+batch = 37
+date = 2026-10-29
+task = "비평(세션 안 Opus, 새 에이전트): 메인(이야기 담당, Fable)이 쓴 전체 줄거리 v1(사건 여섯의 진실·인물·단서 후보, 봉인)을 수렴점 v3·사건 1 v2·결정 13–21·논리집 가설에 대 보기 — 구멍·우연·되풀이·누설·역사 의심을 고칠 안 표로. 파일은 안 고침"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "일부"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p92"
+told = "다른 일"
+minutes = [10, 16]
+turns = [12, 22]
+tokens_class = ["T1"]
+tokens_m = [2, 4]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "빗댄 p92(수렴점 v1 비평, 9.2분·14턴·1.4M, 표 26행). 이번은 읽을 글이 두 배(줄거리 366줄 + 수렴점 + 사건 1 v2 + 결정 + 논리집)이고 사건 여섯을 각각 대 보므로 표가 30–40행 → p92의 1.1–1.7배, 10–16분. 10분을 걸치므로 긴 쪽 '다른 일'. 긴 글 한 번에 쓰는 턴이라 분당 1.3–1.6턴(p92 1.5). 토큰은 턴당 맥락이 p92보다 커(읽기 두 배) 2–4M. 계산기 2.2–4.5 '잠깐'은 긴 글 쓰기의 느린 턴을 모른다(p92·p95에서도 넘겼다)"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "done"
+minutes = 16.9  # scripts/agent_usage.py 12:03:26 → 12:20:22 (알림 duration 1016초)
+turns = 37
+tokens_m = 6.1  # 캐시 읽기 556만 + 캐시 쓰기 53만 + 출력 1만
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' 맞음(16.9분) — 손 예측 10–16을 살짝 넘김, 계산기 2.2–4.5 '잠깐'은 크게 빗남. 턴 37은 12–22의 1.7배, 토큰 6.1M은 2–4M 넘김(등급 T1은 맞음). 분당 2.2턴(긴 글 턴, 예상 1.3–1.6보다 빠름)이라 속도는 맞고 양(턴)을 낮게 잡았다: 빗댄 p92는 보고서를 한 번에 썼는데 이번 지시서에 '섹션마다 파일에 이어 쓰기'(R_long_doc_save)를 넣어 cat 이어 쓰기 10턴 + cd 10턴이 더 붙었다 — R_turns_analogy_v2의 빗대기가 '같은 쓰기 방식'을 조건으로 안 가졌다(조건 흐림). --turns: 글 13턴 중앙값 10.5초(맥락 205천), Bash:cat 10턴 3.9초, python3 1턴 452초(표 쓰기). 품질: 50건 중 높음 19가 거의 다 맞음(1880년 판의 구멍·사건 5 시간표 모순·사건 2 『월장석』 겹침·난로 단서 겹침), 꾸러미 넷으로 묶어 반영이 쉬웠다, 기억에 기댄 것을 표시 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p125"
+project = "movie_game"
+batch = 37
+date = 2026-10-29
+task = "조사(클라우드 'searching', Haiku 5.5, 새 세션): 줄거리 v1이 기대는 역사·의학 사실 8항목 — 1880년 집행 요일 관례와 사망→집행 2개월, 경찰 E 관구 범위, 소형 인쇄소 석판기·지폐 위조 방식·형량, 클로랄+술 사인, 석탄산 독약 목록, 클레어 마켓 1880년, 「두 번째 의견」 회차명, 하숙집 관례. 전송 조건: 원문 15건 이상"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_read_originals = "예"
+S_web_blocked = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p93"
+told = "잠깐"
+minutes = [4, 10]
+turns = [35, 70]
+tokens_class = ["T1"]
+tokens_m = [1.5, 5]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "빗댄 p93(같은 종류의 역사 조사 7항목·원문 26건, 4.6분·43턴·2.51M). 항목 8개에 전송 조건(원문 15건)이 있어 p93보다 조금 길게 4–10분 '잠깐'. 클라우드 Haiku 글 조사 3–10분 띠(p71–p93 8/8). 계산기 모름(Haiku 기준값 없음), 비유 계산 턴 31–59"
+hypotheses = ["H_cloud_session_rounds_v2"]
+[dispatch.actual]
+status = "done"
+minutes = 3.9  # get_session created_at 12:03:26 → updated_at 12:07:18
+tokens_m = 1.72  # usage: 캐시 읽기 149.4만 + 캐시 쓰기 7.0만 + 입력 12.1만 + 출력 3.4만. 비용 0.23달러. 턴은 셀 수 없음(클라우드)
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(3.9분, 손 예측 4–10의 아래 끝 바로 밑). 토큰 1.72M은 1.5–5M·T1 안. 클라우드 Haiku 글 조사 3–10분 띠 9/9. 품질: 원문 32건을 열었다지만 27건이 위키백과 등 2차 자료였고, 항목 7(회차명)은 근거가 '목록에 없음'인데 결론을 '안 됨(바꿔라)'로 거꾸로 적었다(메인이 바로잡음), 항목 8은 전부 미확인. 쓸모 있던 것은 석탄산 독약 목록(Hansard 원문)·1861년 위조법 조문·1868년 교도소 안 집행 — 3. 전송 조건(원문 15건)은 채웠으나 '원문'의 질을 조건에 안 적어 2차 자료로 채웠다 — 다음 지시서에는 '1차 자료 n건'을 따로"
+hypotheses = []
+
+[[dispatch]]
+id = "p126"
+project = "movie_game"
+batch = 37
+date = 2026-10-29
+task = "메인 자신(이야기 담당, Fable 5.1, 클라우드 세션): 비평(p124)과 조사(p125)를 받아 줄거리 v1 → v2로 고쳐 쓰고, 수렴점 v3에 '바꾼 것' 맞춤, 보고서(worklog)·AGENT-LOG·이 기록 셋의 실측·돌아보기, 커밋·push. 사용자 요청으로 메인의 일을 처음 예측한 기록"
+[dispatch.situation]
+S_main_self = "예"
+S_full_brief = "일부"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_other_model = "예"
+S_short = "예"
+S_no_code = "예"
+S_fix_existing = "예"
+S_resumed = "예"
+S_small_codebase = "예"
+[dispatch.predicted]
+written_before = true
+analog = "p98"
+told = "다른 일"
+minutes = [15, 30]
+turns = [12, 25]
+tokens_class = ["T1"]
+tokens_m = [3, 8]
+rules = ["R_doc_work_v2", "R_models_doc", "R_say_numbers_v2"]
+reason = "빗댄 p98(비평 26건 반영 → 사건 1 v2, Opus 이어서 2회차: 9.6분·37턴·11.8M). 메인의 일은 반영 쓰기(R_doc_work_v2 '같은 작가 이어서 고쳐 쓰기' 13–25분의 아래쪽, Fable은 분 ×1 R_models_doc)에 기록 관리(실측 셋·보고서·AGENT-LOG·커밋)가 붙어 15–30분 '다른 일'. 시간은 에이전트 둘이 끝난 뒤부터 커밋까지 벽시계로 잰다(기다리는 시간은 뺀다). 턴은 메인의 응답 수 12–25(메인은 한 턴에 긴 글을 쓴다 — plot v1은 한 턴). 토큰은 볼 수 없어 추정만: 지금 맥락 약 15만 × 턴 20 ≈ 3–8M. 근거 없는 숫자이므로 시험 수단이 생길 때까지 참고만"
+hypotheses = []
+[dispatch.actual]
+status = "done"
+minutes = 33  # 벽시계: 에이전트 둘이 끝나 읽기 시작한 12:20 → 보고서·기록까지 쓴 12:53 (기다린 시간 제외). 토큰·턴은 메인이 볼 수 없어 추정: 응답 약 11개
+turns = 11
+[dispatch.review]
+wrong = ["R_doc_work_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' 맞음(33분, 10–40 안) — 손 예측 15–30을 넘김. 왜: 예측은 '비평 1회차 반영 → v2'만 셌는데 실제 일은 v2 + 수렴점 v4 새로 쓰기 + 2회차 비평 보내고 받아 v3 + v4 손질 + 기록 셋·보고서·논리집·CLAUDE.md 둘이었다 — 회차 수(비평 두 바퀴)를 하나로 잡은 조건 흐림. 쓰기 자체는 빨랐다(v2 446줄·v4 140줄·v3 450줄을 각각 한 응답에, 2~4분씩). 메인의 토큰은 볼 수 없다(추정 3–8M은 시험 불가). 다음부터 메인 예측은 '비평 회차 수 × (읽기 + 반영 쓰기) + 기록 몫'으로 센다"
+hypotheses = []
+
+[[dispatch]]
+id = "p127"
+project = "movie_game"
+batch = 37
+date = 2026-10-29
+task = "비평 2회차(이어서, p124 작업자): 줄거리 v2와 수렴점 v4가 비평 50건을 제대로 반영했는지(반영/다르게/안 함 판정), 새로 생긴 구멍·되풀이, 고증 조사 반영이 맞는지. 고칠 안 표. 보고서는 한 번에 쓴다. 파일은 안 고침"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "일부"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p97"
+told = "잠깐"
+minutes = [6, 10]
+turns = [10, 20]
+tokens_class = ["T1"]
+tokens_m = [4, 8]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2", "R_say_numbers_v2"]
+reason = "빗댄 p97(이어서 비평 3회차, 7.3분·14턴·3.2M)과 p94(이어서 2회차, 5.2분·9턴·1.5M). 배치 34 교훈 '이어서 비평은 읽을 양이 늘어도 10분 안 → 잠깐'. 읽을 것은 v2(440줄)·v4(140줄) 둘이고 50건 대조라 p97 쪽, 보고서를 한 번에 쓰게 해 이어 쓰기 턴을 뺐다 → 6–10분, 10–20턴. 토큰은 이어서라 턴당 맥락 ~25–30만(p124 끝 무렵 23만 + 새로 읽는 580줄) × 15턴 ≈ 4–8M. 계산기 0.5–1.1 '잠깐'은 S_resumed 배수를 p124 턴 37에 걸어 너무 작다"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [0.53, 1.06]
+[dispatch.actual]
+status = "done"
+minutes = 8.5  # 알림 duration 509.9초; agent_usage.py 누적 39.1분·50턴·9.66M에서 p124(16.9·37·6.1)을 뺌
+turns = 13
+tokens_m = 3.56
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(8.5분, 손 예측 6–10 안). 턴 13은 10–20 안. 토큰 3.56M은 4–8 바로 아래(T1 맞음). '보고서를 한 번에 쓰라'고 하니 Write 1턴(22천 자, 10.7초)으로 끝나 이어 쓰기 턴이 사라졌다 — p124의 양 오류가 지시서 한 줄로 고쳐짐. 계산기 0.5–1.1은 S_resumed 배수를 앞 회차 턴에 거는 방식이라 이어서 비평엔 너무 작다(p94·p97도 같은 방향). 품질: 50건 대조 표가 문장 근거를 달았고(제대로 30·남음 18·다르게 1·미처리 1 — 미처리 A1은 메인이 반영표에서 빠뜨린 것을 정확히 잡음), 새 구멍 12 중 높음 5가 모두 맞음(펠의 1880년 동석, 6번 8일 장면의 누설, 장부 동기 모순, 펜윅의 침묵, 우편환 거스름), 메인의 고증 판단에서 과한 문구 둘(회차명 '확인됨', 클레어 마켓 '거리 이름 확인')을 바로잡음 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p128"
+project = "movie_game"
+batch = 37
+date = 2026-10-29
+task = "고증 2차(클라우드 'searching', Haiku 5.5, 새 세션): 줄거리 v3가 기대는 미확인 8항목 — 1751년 살인법 집행 시점 조문의 1880년 유효 여부(1순위)·'세 번의 일요일' 관례, 우편환 유통 방식·액면·위조 조문, 석판 연마 재료가 손에 남는지, 액화 석탄산 상온 상태·조제실 난로 구조, 클로랄 독약 목록 추가 연도, E 관구 범위·클레어 마켓 가게 종류, 하숙집 관례, 다른 영상물 회차명. 전송 조건: 1차 자료(법령·당시 간행물·의학서 원문) 8건 이상 + 원문 20건"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_read_originals = "예"
+S_web_blocked = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p125"
+told = "다른 일"
+minutes = [6, 14]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "빗댄 p125(같은 8항목 1차, 3.9분·1.72M, 원문 32건 중 27건 2차 자료). 이번은 전송 조건에 '1차 자료 8건'을 따로 적어 archive.org·legislation.gov.uk·Hansard 원문을 열어야 하므로 p125의 1.5–3.5배 → 6–14분. 10분을 걸치므로 긴 쪽 '다른 일'(클라우드 Haiku 글 조사 띠 3–10분을 1차 자료 조건이 넘길지가 시험). 토큰 2–6M. 계산기 모름(Haiku)"
+hypotheses = ["H_cloud_session_rounds_v2"]
+[dispatch.actual]
+status = "done"
+minutes = 6.0  # get_session created_at 14:00:39 → updated_at 14:06:37
+tokens_m = 2.05  # usage: 캐시 읽기 182.2만 + 캐시 쓰기 8.7만 + 입력 8.7만 + 출력 5.6만. 비용 0.28달러. 턴은 셀 수 없음
+[dispatch.review]
+wrong = ["R_turns_analogy_v2", "R_say_numbers_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' 틀림 — 6.0분은 '잠깐'. 손 예측 6–14의 아래 끝(걸친 예측을 긴 쪽으로 말했는데 짧은 쪽에 떨어짐). 토큰 2.05M은 2–6 안. 왜: '1차 자료 8건' 조건이 p125의 1.5–3.5배를 만들 거라 봤는데 작업자는 조건을 정확히 8건으로 채우고 6분에 끝냈다 — 클라우드 Haiku 글 조사 띠 3–10분이 전송 조건의 종류와 상관없이 10/10 유지. 빗대기의 배수가 '조건의 종류'로 늘지 않는다(조건 흐림: 배수는 항목 수·그림 수 같은 양에만). 다음부터 클라우드 Haiku 조사는 조건이 무엇이든 3–10분 '잠깐'. 품질: 1차 자료 8건(1751년 법 원문·Post Office Guide 1881·Grammar of Lithography 1880·Printers' Handbook 1891·Extra Pharmacopoeia 1885·Dickens's Dictionary 1884·1836년 법 제목·1861년 위조법), '근거 → 결론' 순서를 지켰고 결론이 근거를 넘지 않음. 쓸모: 우편환 규칙(이름·서명·창구)이 사건 3 설계를 바꿨고, 클레어 마켓·E 관구 1차 묘사. 1순위(1836년 법 본문)는 PDF가 비어 못 닫음, 1828년 법으로 옮겨진 조문이라는 연결을 못 봄 — 4"
+hypotheses = []
+
+[[dispatch]]
+id = "p129"
+project = "movie_game"
+batch = 37
+date = 2026-10-29
+task = "고증 3차(클라우드 'searching', Haiku 5.5, 새 세션): 남은 핵심 셋 — 1836년 법 본문(집행 간격 조항 폐지, 1순위), 우편환 위조 조문·형량(Post Office 법령), 난로에 다음 날 불을 쌓아 두는 관례(가사서 원문) + 곁다리 셋(클로랄 독약 목록, 그레이트 오먼드 가 관구, 러시아판·라디오 회차명). 전송 조건: 1차 자료 6건"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_read_originals = "예"
+S_web_blocked = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p128"
+told = "잠깐"
+minutes = [3, 10]
+tokens_class = ["T1"]
+tokens_m = [1.5, 4]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "빗댄 p128(같은 모양, 1차 자료 조건, 6.0분·2.05M)과 p125(3.9분·1.72M). 배치 37 교훈: 클라우드 Haiku 글 조사는 조건 종류와 무관하게 3–10분 띠(10/10) → '잠깐'. 항목이 6으로 줄어 p128보다 짧거나 같다. 토큰 1.5–4M. 계산기 모름(Haiku)"
+hypotheses = ["H_cloud_session_rounds_v2"]
+[dispatch.actual]
+status = "done"
+minutes = 3.0  # get_session created_at 14:22:32 → updated_at 14:25:33
+tokens_m = 2.51  # usage: 캐시 읽기 229.9만 + 캐시 쓰기 6.8만 + 입력 11.2만 + 출력 3.1만. 비용 0.22달러. 턴은 셀 수 없음
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(3.0분, 손 예측 3–10의 아래 끝). 토큰 2.51M은 1.5–4 안. 클라우드 Haiku 글 조사 띠 3–10분 11/11 — 배치 37 교훈 ⑤대로 조건 종류와 무관. 품질: 1순위를 닫았다(1828년 법 제4조 → 1836년 법 제1조 폐지, archive.org 법령집·Wikisource 원문 인용), 가사서(Beeton 1861)로 '저녁에 불 쌓기'를 반대 확인해 이야기가 설정을 명시하게 했고, 1884년 우체국 보호법에 우편환 조항이 없음을 원문으로 확인. 못 닫은 셋(클로랄 목록·관구 경계·러시아판)은 1차 자료가 없는 것들. 1차 자료 6건은 조건 6건과 같음(조건 수만큼만 채우는 모양 재확인) — 4"
+hypotheses = []
