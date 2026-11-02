@@ -9700,4 +9700,10 @@ hypotheses = []
 told = "신경 끄기"
 minutes = [45.6, 91.2]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨
+status = "done"
+minutes = 1.7  # 알림 duration 103초
+turns = 11  # 누계 118 − 107
+tokens_m = 2.46  # 누계 16.77M − 14.31M. 도구 호출 8
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(1.7분). 턴 11은 15–25 밖, 토큰 2.46M은 2.5–5 밖·T1. p110과 거의 같은 모양(새 풀이지 1장 + 그림 2, 한 쪽 넘침 고치기 재렌더 1회) — 이어서 보내는 풀이지 한 장은 1.7–2.2분·15–22턴으로 네 건째 안정. 품질: 정확, 수직선 그림까지 — 5"
+hypotheses = []
