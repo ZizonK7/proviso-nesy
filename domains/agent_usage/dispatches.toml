@@ -10649,3 +10649,430 @@ tokens_m = 2.51  # usage: 캐시 읽기 229.9만 + 캐시 쓰기 6.8만 + 입력
 [dispatch.review]
 reason = "말한 구간 '잠깐' 맞음(3.0분, 손 예측 3–10의 아래 끝). 토큰 2.51M은 1.5–4 안. 클라우드 Haiku 글 조사 띠 3–10분 11/11 — 배치 37 교훈 ⑤대로 조건 종류와 무관. 품질: 1순위를 닫았다(1828년 법 제4조 → 1836년 법 제1조 폐지, archive.org 법령집·Wikisource 원문 인용), 가사서(Beeton 1861)로 '저녁에 불 쌓기'를 반대 확인해 이야기가 설정을 명시하게 했고, 1884년 우체국 보호법에 우편환 조항이 없음을 원문으로 확인. 못 닫은 셋(클로랄 목록·관구 경계·러시아판)은 1차 자료가 없는 것들. 1차 자료 6건은 조건 6건과 같음(조건 수만큼만 채우는 모양 재확인) — 4"
 hypotheses = []
+
+# 2026-11-02 병합: 브랜치 claude/amazing-carson-owssej(2026-11-02 exam_grader 풀이지 세션)의 기록. 그 브랜치에서는 p107–p114·배치 37이었으나 다른 브랜치가 같은 번호를 써서 p130–p137·배치 39로 바꿔 붙임.
+[[dispatch]]
+id = "p130"
+project = "exam_grader"
+batch = 39
+date = 2026-11-02
+task = "구현(세션 안 Opus 5.5 high, 새 에이전트): 2027 꿀모 시즌2 2회 수업 세션 폴더(lessons/2026-11-07_kkulmo-s2-02) 만들고 8번 풀이지 08.html 한 장을 1회 양식(18.html·sheet.css)대로 쓰고 render.js로 png·pdf 렌더 뒤 png를 눈으로 확인, session.md 머리말. 이후 문항은 같은 에이전트에 이어 보낼 예정"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = false  # 보낸 뒤 약 10분 안에 적음(사용자가 기록을 묻기 전까지 잊었다). 에이전트 결과는 아직 모름
+told = "다른 일"
+minutes = [6, 12]
+turns = [25, 45]
+tokens_m = [3, 8]
+tokens_class = ["T1"]
+rules = ["R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+reason = "읽을 것이 정해져 있고(README·teacher.md 34KB·student.md·본보기 html 2장·PDF 한 쪽) 쓸 것은 html 한 장 + session.md 머리말. 읽기 8–12턴 + 쓰기 3–5턴 + 렌더·png 확인 바퀴 1–2회(각 2–4턴) + 보고 → 25–45턴, 분당 4–6턴 → 6–12분. 두 구간에 걸쳐 긴 쪽 '다른 일'. 토큰은 150턴 안쪽 첫 회차, 큰 파일(teacher.md)을 통째 읽으니 턴 × 10–20만 → 3–8M. 계산기는 S_short에 걸리는 조각이 없어 기본 구현 띠(216–426턴)를 내 틀릴 것"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+turns = [216, 426]
+tokens_m = [68.8, 138]
+[dispatch.actual]
+status = "done"
+minutes = 8.3  # agent_usage.py 06:52:48 → 07:01:04 (알림 duration 496초 = 8.3분)
+turns = 57
+tokens_m = 5.86  # 캐시 생성 17.6만 + 캐시 읽기 567.9만 + 입력 122 + 출력(추정) 0.5만. 도구 호출 36
+[dispatch.review]
+wrong = ["R_say_numbers_v2", "R_time_turns_v2"]
+why = "바깥 상황"
+reason = "말한 구간 '다른 일'(6–12분) 틀림 — 8.3분은 '잠깐'. 손 범위 안이지만 걸친 범위를 긴 쪽으로 말했는데 짧은 쪽에 떨어졌다(p103과 같은 결). 턴 57은 예측 25–45 위: npm install 시도 3턴(각 74–76초, 프록시 403)과 find 1턴(32초)이 합쳐 4분 가까이를 먹고 우회(저장소 안 KaTeX로 링크)를 찾느라 턴이 12개쯤 늘었다 — 네트워크 정책이라는 바깥 상황. 그걸 빼면 ~45턴·4.5분으로 '잠깐' 쪽. 토큰 5.86M은 3–8 안·T1 맞음. --turns: 글 턴 중앙값 2–3초, Read 7턴 1.9초, 긴 턴은 전부 npm(도구 시간 73초). 계산기 '신경 끄기' 46–91은 S_short에 걸리는 조각이 없어 크게 틀림. 품질: 내용 정확, 핵심 상자에 선생님 팁, 글꼴 대체(npm 막힘)라 PC 재렌더 필요 — 4"
+
+[[dispatch]]
+id = "p131"
+project = "exam_grader"
+batch = 39
+date = 2026-11-02
+task = "수정(같은 에이전트 2회차, 이어서): 08.html 머리의 주제 라벨 삭제 + 재렌더·png 확인, teacher.md 풀이지 형식 선호에 '주제 라벨 없음' 한 줄, session.md 메모"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [2, 5]
+turns = [8, 16]
+tokens_m = [4, 9]
+tokens_class = ["T1"]
+rules = ["R_time_turns_v2", "R_resume_ctx_v2", "R_say_numbers_v2"]
+analog = "p130"
+reason = "p130(8.3분·57턴)의 이어서 회차. 고칠 곳이 셋(html 한 줄, teacher.md 한 줄, session.md 한 줄) + 렌더 1회 + png 확인 + 보고 → 8–16턴. 우회 렌더 링크는 이미 있어 npm 지연이 없다. 분당 4–6턴 → 2–5분 '잠깐'. 토큰은 이어서 보내는 에이전트라 턴 × 앞 회차 끝 맥락(~57만) → 4–9M"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+[dispatch.actual]
+status = "done"
+minutes = 0.4  # 알림 duration 23초. 로그 누계 15.2분(06:52:48 → 07:08:01)에서 앞 회차 몫 8.3분 + 쉬는 시간을 뺀 값
+turns = 4  # 누계 61 − 앞 회차 57
+tokens_m = 0.54  # 누계 6.40M − 앞 회차 5.86M. 도구 호출 4(sed·python·render·보고)
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(0.4분). 턴 4는 예측 8–16의 1/4, 토큰 0.54M은 4–9의 1/8 — 둘 다 크게 위로 틀림. 고칠 곳 셋을 한 턴에 하나씩 하고 png 확인은 렌더 출력만 보고 끝냈다(Read를 따로 안 함). 이어서 보내는 작은 수정은 '고칠 곳 수 ≈ 턴 수'이고 확인 바퀴가 거의 없다 — R_third_pass(×0.4–0.6)를 2회차라 안 썼는데 2회차에도 비슷한 축소가 걸렸다(한 건). 토큰은 턴당 맥락 ~13만으로, 앞 회차 끝 맥락(~57만)을 그대로 곱한 R_resume_ctx_v2가 이번엔 과했다: 캐시 읽기 44만 + 생성 10만. 계산기 46–91분은 여전히 크게 틀림"
+hypotheses = []
+
+[[dispatch]]
+id = "p132"
+project = "exam_grader"
+batch = 39
+date = 2026-11-02
+task = "구현(같은 에이전트 3회차, 이어서): 9번 풀이지 09.html 새로 쓰기(검토된 선생님 풀이·계산 요령 셋) + 렌더·png 확인, 8번 손글씨 메모 정리(하나만 남김), teacher.md에 손글씨 규칙 절과 수업한 논리 2줄, session.md 9번 줄"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "일부"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [5, 8]
+turns = [26, 40]
+tokens_m = [4, 9]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_resume_ctx_v2", "R_say_numbers_v2"]
+analog = "p130"
+reason = "빗댄 p130(풀이지 한 장 8.3분·57턴)에서 npm 시도·우회 찾기(~12턴·4분)를 빼면 ~45턴·4.5분. 3회차라 R_third_pass ×0.4–0.6을 걸되 이번은 새 풀이지 한 장이 통째로 있어 위쪽: PDF 한 쪽 읽기 1–2 + html 쓰기 3–5 + 렌더·Read 2–4 + 8번 pen 수정·재렌더 3–4 + teacher.md·session.md 3–4 + 보고 → 26–40턴. p131처럼 작은 수정은 턴을 묶으니 아래쪽일 수 있다. 분당 5–6턴 → 5–8분, 전부 '잠깐' 안. 토큰은 p131의 턴당 ~13만을 기준으로 턴 × 13–25만 → 4–9M(앞 회차 끝 맥락 57만을 그대로 곱하면 과하다는 p131 교훈)"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+[dispatch.actual]
+status = "done"
+minutes = 2.2  # 알림 duration 133초. 로그 누계 27.4분에서 앞 회차들·쉬는 시간 제외
+turns = 22  # 누계 83 − 앞 회차까지 61
+tokens_m = 3.34  # 누계 9.74M − 6.40M. 도구 호출 14
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(2.2분). 턴 22는 예측 26–40 바로 아래, 토큰 3.34M은 4–9 아래(T1 맞음). 분당 10턴으로 기본 띠(5–6)보다 빨랐다 — 렌더 한 번에 두 파일을 넣고, 수정은 턴마다 하나씩 묶어 했다. p131에서 본 '이어서 보내는 작은 수정은 턴을 묶는다'가 새 풀이지 한 장이 끼어도 유지됐다(두 건째). 턴당 맥락 ~15만은 p131(13만)과 비슷 — R_resume_ctx_v2의 '앞 회차 끝 맥락 × 1.6–1.8'은 이 에이전트에는 과하다(맥락이 커지지 않는 작은 회차). 품질: 9번 정확, 그림 포함, 선생님 흐름 반영 — 5. 군더더기 한 문장(일반식과 a 대입식이 같다는 설명)은 다음 회차에 뺀다"
+hypotheses = []
+
+[[dispatch]]
+id = "p133"
+project = "exam_grader"
+batch = 39
+date = 2026-11-02
+task = "구현(같은 에이전트 4회차, 이어서): 10번 풀이지 10.html 새로 쓰기(sin·cos 통일 짧게, y = sin 2x 그림에서 대칭 → 평균을 합으로) + 9번 군더더기 한 문장 삭제 + 재렌더·png 확인, session.md 10번 줄"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "일부"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [2, 4]
+turns = [16, 26]
+tokens_m = [2.5, 5]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v2"]
+analog = "p132"
+reason = "빗댄 p132(새 풀이지 1장 + 수정 묶음, 2.2분·22턴·3.3M). 이번은 새 풀이지 1장(그래프 SVG 포함) + 9번 한 줄 삭제 + session.md로 p132보다 수정 몫이 적다 → ×0.8–1.2 = 16–26턴. 분당 8–10턴(이 에이전트의 묶음 속도) → 2–4분 '잠깐'. 토큰은 턴 × 15–20만 → 2.5–5M"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+[dispatch.actual]
+status = "done"
+minutes = 1.7  # 알림 duration 102초
+turns = 15  # 누계 98 − 83
+tokens_m = 2.75  # 누계 12.48M − 9.74M. 도구 호출 10
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(1.7분). 턴 15는 예측 16–26 바로 아래, 토큰 2.75M은 2.5–5 안·T1 맞음. 분당 9턴, 턴당 맥락 ~18만 — p131·p132와 같은 결: 이어서 보내는 풀이지 한 장은 15–22턴·2–3분이고 맥락은 회차마다 거의 안 커진다(세 건째). 그림 라벨 겹침 고치기 재렌더 2회가 포함됐는데도 턴이 적었다. 품질: 10번 정확, 그래프 그림 좋음, 규칙(옮긴다 표현 금지)을 스스로 지킴 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p134"
+project = "exam_grader"
+batch = 39
+date = 2026-11-02
+task = "수정(같은 에이전트 5회차, 이어서): 9·10번 풀이지의 'A하지 않고 B' 문장을 B만 남기게 고치고 손글씨 출처 삭제, teacher.md 형식 선호 2줄·피드백 기록 1줄, 재렌더·png 확인"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [1, 3]
+turns = [6, 12]
+tokens_m = [1, 2.5]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v2"]
+analog = "p131"
+reason = "빗댄 p131(작은 수정 셋, 0.4분·4턴·0.54M). 이번은 파일 셋에 문장 고치기 6–8곳 + 렌더 + png 2장 확인이라 p131의 ×1.5–3 = 6–12턴, 분당 5–8턴 → 1–3분 '잠깐'. 토큰은 턴 × 15–20만 → 1–2.5M"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+[dispatch.actual]
+status = "done"
+minutes = 0.7  # 알림 duration 39초
+turns = 9  # 누계 107 − 98
+tokens_m = 1.82  # 누계 14.31M − 12.48M. 도구 호출 7
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(0.7분). 턴 9는 6–12 안, 토큰 1.82M은 1–2.5 안·T1 맞음 — 세 숫자 다 맞은 첫 기록. 빗댄 p131 ×2.25로 고칠 곳 수(파일 3, 문장 8)를 따라갔다. 이 에이전트의 작은 수정 회차 네 건(p131·p132·p133·p134)이 모두 '고칠 곳 수 ≈ 턴 수, 분당 8–10턴, 턴당 맥락 13–20만'. 품질: 지시 목록 밖의 부정문(핵심 상자) 하나를 스스로 찾아 고침 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p135"
+project = "exam_grader"
+batch = 39
+date = 2026-11-02
+task = "구현(같은 에이전트 6회차, 이어서): 11번 풀이지 11.html 새로 쓰기(속도 차부터 적분, 그래프로 근 하나 확인, 극점 위치로 거리) + 렌더·png 확인, teacher.md 수업 논리 1줄, session.md 11번 줄"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [2, 4]
+turns = [15, 25]
+tokens_m = [2.5, 5]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v2"]
+analog = "p133"
+reason = "빗댄 p133(새 풀이지 1장 + 그림, 1.7분·15턴·2.75M). 이번은 계산이 길어 한 쪽 맞추기 재렌더가 1–2회 더 있을 수 있고 그림이 둘(차 그래프, 위치)일 수 있어 ×1–1.6 = 15–25턴, 분당 8–10턴 → 2–4분 '잠깐'. 토큰 턴 × 15–20만 → 2.5–5M"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+[dispatch.actual]
+status = "done"
+minutes = 1.7  # 알림 duration 103초
+turns = 11  # 누계 118 − 107
+tokens_m = 2.46  # 누계 16.77M − 14.31M. 도구 호출 8
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(1.7분). 턴 11은 15–25 밖, 토큰 2.46M은 2.5–5 밖·T1. p133과 거의 같은 모양(새 풀이지 1장 + 그림 2, 한 쪽 넘침 고치기 재렌더 1회) — 이어서 보내는 풀이지 한 장은 1.7–2.2분·15–22턴으로 네 건째 안정. 품질: 정확, 수직선 그림까지 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p136"
+project = "exam_grader"
+batch = 39
+date = 2026-11-02
+task = "수정(같은 에이전트 7회차, 이어서): 11번 단계 3의 수직선 그림을 위치 x₁(t) 사차함수 그래프로 바꾸기 + 재렌더·png 확인, teacher.md 수업 논리에 9월 모평 9번 출처 1줄"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [1, 3]
+turns = [6, 12]
+tokens_m = [1, 2.5]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v2"]
+analog = "p134"
+reason = "빗댄 p134(수정 묶음, 0.7분·9턴·1.8M). 이번은 SVG 하나를 새로 그리는 것(좌표 계산 + 라벨 겹침 고치기 재렌더 1–2회)이라 p134과 비슷하거나 조금 위 → 6–12턴, 1–3분 '잠깐', 토큰 1–2.5M"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+[dispatch.actual]
+status = "done"
+minutes = 1.2  # 알림 duration 74초
+turns = 12  # 누계 130 − 118
+tokens_m = 2.88  # 누계 19.64M − 16.77M. 도구 호출 8
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(1.2분). 턴 12은 6–12 안, 토큰 2.88M은 1–2.5 밖·T1. SVG 새로 그리기 + 라벨 겹침 재렌더 1회가 p134(문장 수정 묶음)과 같은 크기. 품질: 그래프에 극점·세로 막대 셋이 비례대로 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p137"
+project = "exam_grader"
+batch = 39
+date = 2026-11-02
+task = "수정(같은 에이전트 8회차, 이어서): 11번 단계 2의 삼차함수 그림을 완성된 삼차 모양(극대 (0,−16)·극소 (2,−20)·변곡점 대칭, 왼쪽까지)으로 바꾸고 본문 한 줄, 재렌더·png 확인"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [1, 2.5]
+turns = [6, 12]
+tokens_m = [1, 2.5]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v2"]
+analog = "p136"
+reason = "빗댄 p136(SVG 하나 다시 그리기, 1.2분·12턴·2.9M). 같은 종류이고 그림이 더 단순(삼차 곡선 하나) → 6–12턴, 1–2.5분 '잠깐', 토큰 1–2.5M"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+[dispatch.actual]
+status = "done"
+minutes = 1.1  # 알림 duration 66초
+turns = 10  # 누계 140 − 130
+tokens_m = 2.49  # 누계 22.14M − 19.65M. 도구 호출 7
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(1.1분). 턴 10은 6–12 안, 토큰 2.49M은 1–2.5 안·T1. p136과 같은 종류(SVG 하나 다시 그리기)라 빗댄 ×1이 맞았다. 배율 0.80으로 줄여 한 쪽 유지. 품질 5"
+hypotheses = []
