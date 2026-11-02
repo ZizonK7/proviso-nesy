@@ -11346,3 +11346,50 @@ told = "신경 끄기"
 minutes = [45.6, 91.2]
 [dispatch.actual]
 status = "unknown"  # 예측만 기록됨
+
+[[dispatch]]
+id = "p143"
+project = "exam_grader"
+batch = 40
+date = 2026-11-02
+task = "수정(같은 작성 에이전트 12회차, 이어서): 12번 핵심 상자 삭제 + 재렌더, teacher.md 피드백 기록 1줄"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [0.4, 1.2]
+turns = [4, 7]
+tokens_m = [0.5, 1.2]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v2"]
+analog = "p131"
+reason = "빗댄 p131(=옛 p108, 고칠 곳 셋, 0.4분·4턴·0.54M). 이번은 고칠 곳 둘 + 렌더 → 4–7턴, 0.4–1.2분 '잠깐'"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨
