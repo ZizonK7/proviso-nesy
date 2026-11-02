@@ -11235,4 +11235,59 @@ hypotheses = []
 told = "신경 끄기"
 minutes = [45.6, 91.2]
 [dispatch.actual]
+status = "done"
+minutes = 0.9  # 알림 duration 51초
+turns = 8  # 누계 159 − 151
+tokens_m = 2.21  # 누계 27.25M − 25.04M. 도구 호출 6
+[dispatch.review]
+report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
+reason = "말한 구간 '잠깐' 맞음(0.9분). 턴 8은 5–10 안, 토큰 2.21M은 0.8–2 밖·T1. 검토 지적 6개를 한 번에 반영 + 줄 끝 끊김 재렌더 1회. 작성→검토→수정 한 바퀴 합계 1.4 + 1.9 + 0.9 = 4.2분"
+[dispatch.turns]
+skip = "같은 에이전트에 이어 보낸 회차라 로그가 누적되어 회차별 동작 표를 가를 수 없음"
+
+[[dispatch]]
+id = "p141"
+project = "exam_grader"
+batch = 40
+date = 2026-11-02
+task = "구현(같은 작성 에이전트 11회차, 이어서): 13번 풀이지 13.html 새로 쓰기(이차함수 개형, 절댓값/일차는 극한 없음 → 중근, 꼭짓점 (3,−9), k = 9, f(9) = 27) + 그림 + 렌더·png 확인, teacher.md 수업 논리 1줄, session.md 13번 줄"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "모름"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [1.5, 3]
+turns = [11, 18]
+tokens_m = [2, 4]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v2"]
+analog = "p138"
+reason = "빗댄 p138(12번, 1.4분·11턴·2.9M)과 p135(11번 그림 2개, 1.7분·11턴). 이번은 그림 하나(이차함수 개형) 포함 → 11–18턴, 1.5–3분 '잠깐', 토큰 2–4M"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.6, 91.2]
+[dispatch.actual]
 status = "unknown"  # 예측만 기록됨
