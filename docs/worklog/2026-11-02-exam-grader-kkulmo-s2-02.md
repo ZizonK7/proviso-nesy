@@ -1,0 +1,22 @@
+# 2026-11-02 — exam_grader 꿀모 시즌2 2회 수업 풀이지 (11/7 토 수업)
+
+이 세션의 문항 작업을 한 파일에 이어 쓴다. 메인이 선생님 풀이를 검토하고, 풀이지 구현은 하위 에이전트 한 명이 이어 맡는다(exam_grader `lessons/2026-11-07_kkulmo-s2-02/`).
+
+## 회차 1 — 8번 (p107)
+에이전트: 풀이지 작성 (Opus 5.5, high). 하위 에이전트 호출: 없음. 커밋·push: 안 함(메인이 함).
+
+### 한 일
+- `lessons/2026-11-07_kkulmo-s2-02/session.md` 머리말 + 문항별 진행 표(8번 줄만).
+- `solutions/08.html` + `08.png` + `08.pdf`. 거듭제곱근 표현 읽기("A는 B의 n제곱근 ⇔ Aⁿ = B"), k<0 → n 홀수, n=3 → m=−16√2(⑤). 선생님 팁("세제곱의 반대")을 핵심 상자에.
+
+### 확인한 것
+- `node lessons/tools/render.js .../08.html` → png·pdf 생성, KaTeX 오류 없음, A4 한 쪽. 메인이 png를 눈으로 검토: 내용 정확.
+- 문제 글은 PDF 300dpi로 대조, 애매한 글자 없음.
+
+### 확인 못 한 것 / 알려진 문제
+- **npm install이 네트워크 정책(프록시 403)으로 막힘.** 저장소 안 KaTeX(`local/public/vendor/katex`)를 node_modules에 링크해 우회 렌더. Noto Sans KR·Nanum Pen Script가 없어 **png·pdf는 대체 글꼴** — 배포본은 PC에서 `npm install` 뒤 다시 렌더해야 한다(임시 `node_modules/katex` 링크는 지우고).
+- 1회 `solutions/18.html`에 "(10/17 수업)" 표식이 남아 있다(teacher.md 11/1 금지 규칙에 걸림). 손대지 않음.
+
+### 사용량
+- 예측(보낸 뒤 적음, written_before=false): '다른 일' 6–12분, 25–45턴, 3–8M. 계산기: '신경 끄기' 46–91분.
+- 실측: 8.3분('잠깐'), 57턴, 5.86M. 틀린 이유는 dispatches.toml p107 review.
