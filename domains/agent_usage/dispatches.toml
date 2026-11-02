@@ -9284,7 +9284,15 @@ minutes = [8.24, 16.5]
 turns = [39.8, 75.4]
 tokens_m = [2.93, 5.85]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨. 실측이 올라오기 전에는 완료로 채점하지 않는다.
+status = "done"
+minutes = 13.6  # agent_usage.py: 03:13:09 → 03:26:44
+turns = 84
+tokens_m = 13.2  # 캐시 생성 54.1만 + 캐시 읽기 1262.4만 + 입력 168 + 출력(추정) 1.5만. 도구 호출 53
+[dispatch.review]
+wrong = ["R_say_numbers_v2", "R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '잠깐'(7–12분) 틀림 — 13.6분 '다른 일'. 턴 84는 범위(50–80) 위, 토큰 13.2M은 범위(6–12) 위(T2). 빗댄 p103은 v1 노트의 뼈대를 참고해 세트당 5턴이었는데, 이번은 새로 읽고(세트당 7.6턴) 앞 회차 요약과 비교하는 절(8)을 쓰느라 턴·맥락이 커졌다 — '비교 몫'을 세트당 1~2턴으로 잡은 것이 적었다. 분당 6.2턴은 맞음. 교훈: 흐름 비교가 붙은 회차 분석은 11세트 기준 80–100턴·12–16분 '다른 일'. 품질: 45/45, 2206 비교점 9개에 답함, 재등장 후보 표시(NK-A 세 번째), 표현 믿음 반례 없음·경계 사례 1 적음, 2206 문서의 앞뒤 안 맞는 곳을 고치지 않고 짚음 — 5"
+hypotheses = []
 
 [[dispatch]]
 id = "p105"
@@ -9390,4 +9398,977 @@ turns = 167
 tokens_m = 32.7
 [dispatch.review]
 reason = "말한 구간 '신경 끄기' 맞음(51.6분). 턴 167은 120–220 안, 토큰 32.7M은 30–60 안(T2). 탐색 몫(뼈대 호환 확인 → 리타게팅 선택, BP 부품 묶음을 C++에서 스폰해 붙이기)과 바퀴(C++ 빌드·레벨 빌드·사진·사건 1 전체 자동 플레이 225초)가 예측대로 시간을 채웠다. --turns: PowerShell 17턴이 중앙값 92초(도구 시간 77초 — 빌드·게임 실행을 기다림)로 시간의 절반, 글 76턴은 1.8초. 계산기 '다른 일' 13.9–27.7은 바퀴 길이(S_long_lap)를 모르니 틀림. 품질: 목표 넷 다 됨 + 사건 1 자동 플레이 끝까지 통과 + 숨은 버그 둘(컨트롤러 없는 인물은 걷기 명령이 무시되던 것, 난간에 박힌 시작점) 잡음 — 5"
+hypotheses = []
+
+# 2026-11-02 병합: 브랜치 claude/busy-mccarthy-yzak4q(2026-10-28 수능 국어 회차 분석 세션)의 기록. 그 브랜치에서는 p105–p121·배치 35–36이었으나 main이 p105·p106을 다른 작업(movie_game 배치 36)에 써서 p107–p123으로 바꿔 붙임(배치 35는 그대로, p121의 배치 36 → 38). 같은 브랜치의 p104 실측도 넣음(10-28 main 병합 때 C_small_codebase 방향 검사 실패로 되돌려졌던 것). 날짜는 10-28이지만 들어온 순서대로 뒤에 둔다(SEEN_UNTIL은 파일 순서 기준).
+[[dispatch]]
+id = "p107"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2211(2022학년도 수능) 회차를 v2 양식으로(독서·문학 8세트 + 화작 3세트). 앞 두 회차 요약(flow/2206·2209)을 읽고 비교. 시간 순 세 번째 회차"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p104"
+told = "다른 일"
+minutes = [11, 17]
+turns = [75, 105]
+tokens_class = ["T2"]
+tokens_m = [11, 18]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p104(같은 일의 두 번째 회차, 13.6분·84턴·13.2M, 세트당 7.6턴·분당 6.2턴). 이번은 읽을 앞 요약이 둘이라 맥락이 조금 더 크고 비교 절이 같다 → 75–105턴, 분당 6턴 → 11–17분 '다른 일'. 토큰 11–18M(T2)"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [12.6, 25.2]
+turns = [60.8, 115]
+tokens_m = [4.47, 8.94]
+[dispatch.actual]
+status = "done"
+minutes = 14.3  # agent_usage.py: 03:27:58 → 03:42:17
+turns = 80
+tokens_m = 13.3  # 캐시 생성 46.7만 + 캐시 읽기 1284.1만 + 입력 160 + 출력(추정) 1.6만. 도구 호출 47
+[dispatch.review]
+wrong = []
+reason = "말한 구간 '다른 일'(11–17분) 맞음(14.3분). 턴 80은 범위(75–105) 안, 토큰 13.3M은 범위(11–18)·T2 맞음. p104에 빗댄 '세트당 7~8턴·분당 6턴·비교 절 포함'이 그대로 맞았다(세트당 7.3턴, 분당 5.6턴). 품질: 45/45, 세 회차 나란한 표, 카드 후보 표시, 표현 믿음 반례 없음과 경계 사례 둘, 지시 위반(git status 1회, 읽기만)을 스스로 보고 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p108"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2306 회차를 v2 양식으로(독서·문학 8세트 + 화작 3세트). 지침은 korean/ANALYST_PROMPT.md 파일, 앞 세 회차 요약을 읽고 비교. 시간 순 네 번째 회차"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p107"
+told = "다른 일"
+minutes = [12, 18]
+turns = [75, 105]
+tokens_class = ["T2"]
+tokens_m = [12, 19]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p104·p107(13.6분·84턴·13.2M, 14.3분·80턴·13.3M). 같은 일에 읽을 앞 요약이 하나 더(셋) → 맥락이 조금 커 토큰 12–19M, 턴 75–105, 12–18분 '다른 일'. 지침을 파일로 바꾼 것은 턴에 영향 없음(읽기 1턴)"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [12.0, 24.0]
+turns = [57.9, 110]
+tokens_m = [4.26, 8.52]
+[dispatch.actual]
+status = "done"
+minutes = 14.8  # agent_usage.py: 03:43:15 → 03:58:06
+turns = 86
+tokens_m = 14.7  # 캐시 생성 50.3만 + 캐시 읽기 1415.2만 + 입력 172 + 출력(추정) 1.8만. 도구 호출 54
+[dispatch.review]
+wrong = []
+reason = "말한 구간 '다른 일'(12–18분) 맞음(14.8분). 턴 86 범위(75–105) 안, 토큰 14.7M 범위(12–19)·T2 맞음. 세 회차 연속 같은 결(세트당 7~8턴, 분당 5.8턴, 앞 요약이 하나 늘면 토큰 +1~1.5M). 품질: 45/45, 네 회차 나란한 표, 규칙이 흐름을 만드는지(보기 대응 3점이 중간으로 내려가는 수 1→3→5→7) 스스로 짚어 메인 판단으로 올림 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p109"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2309 회차를 v2 양식으로(독서·문학 8세트 + 화작 3세트). 지침 파일 + 앞 네 회차 요약. 시간 순 다섯 번째"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p108"
+told = "다른 일"
+minutes = [12, 19]
+turns = [75, 110]
+tokens_class = ["T2"]
+tokens_m = [13, 21]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p104–p108(13.6·14.3·14.8분, 80–86턴, 13.2–14.7M). 앞 요약이 넷으로 늘고 보기 대응 문항에 칸이 둘 더 붙어 조금씩 커진다 → 12–19분 '다른 일', 75–110턴, 13–21M(T2)"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [12.9, 25.8]
+turns = [62.3, 118]
+tokens_m = [4.58, 9.15]
+[dispatch.actual]
+status = "done"
+minutes = 16.2  # agent_usage.py: 03:58:49 → 04:15:00
+turns = 98
+tokens_m = 17.3  # 캐시 생성 48.8만 + 캐시 읽기 1674.9만 + 입력 196 + 출력(추정) 2.0만. 도구 호출 58
+[dispatch.review]
+wrong = []
+reason = "말한 구간 '다른 일'(12–19분) 맞음(16.2분). 턴 98 범위(75–110) 안, 토큰 17.3M 범위(13–21)·T2 맞음. 회차마다 앞 요약이 하나씩 늘어 분·턴·토큰이 조금씩 는다(13.6→14.3→14.8→16.2분, 13.2→13.3→14.7→17.3M) — 다음 회차부터 '앞 요약 +1 = +1분·+1.5M'로 잡는다. 품질: 45/45, 보기 쪽 범위가 체감과 9/9 맞는다는 첫 근거를 내고 규칙 수정은 메인에 넘김, 2306 요약의 '굵은 글씨 = 표지' 해석을 반박(굵은 글씨는 문항이 인용한 어구 표시) — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p110"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2311(2023학년도 수능) 회차를 v2 양식으로. 지침 파일 + 앞 다섯 회차 요약. 시간 순 여섯 번째"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p109"
+told = "다른 일"
+minutes = [14, 21]
+turns = [85, 120]
+tokens_class = ["T2"]
+tokens_m = [15, 24]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p109(16.2분·98턴·17.3M). 앞 요약 +1(다섯) → +1분·+1.5M, 수능 회차라 세트가 길 수 있음 → 14–21분 '다른 일', 85–120턴, 15–24M(T2)"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [14.7, 29.4]
+turns = [71.0, 134]
+tokens_m = [5.22, 10.4]
+[dispatch.actual]
+status = "done"
+minutes = 15.3  # agent_usage.py: 04:15:32 → 04:30:49
+turns = 106
+tokens_m = 18.7  # 캐시 생성 51.2만 + 캐시 읽기 1816.1만 + 입력 212 + 출력(추정) 2.0만. 도구 호출 60
+[dispatch.review]
+wrong = []
+reason = "말한 구간 '다른 일'(14–21분) 맞음(15.3분). 턴 106 범위(85–120) 안, 토큰 18.7M 범위(15–24)·T2 맞음. '앞 요약 +1 = +1분·+1.5M' 결이 맞았다(토큰 17.3→18.7). 품질: 45/45, 두 회차 합친 보기 규칙 근거(18/18)를 냄, 수능과 모의평가의 차이(갈래 복합 첫 문항)를 조심스럽게 짚음, 상자 속 보기가 글 추출에서 빠지는 도구 구멍을 찾아 그림으로 읽음 — 5. 보고를 영어로 써서 보낸 점은 지시서에 '보고도 한국어'를 더한다"
+hypotheses = []
+
+[[dispatch]]
+id = "p111"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2406 회차를 v2 양식으로. 지침 파일 + 앞 여섯 회차 요약. 시간 순 일곱 번째"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p110"
+told = "다른 일"
+minutes = [14, 22]
+turns = [90, 125]
+tokens_class = ["T2"]
+tokens_m = [17, 26]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p110(15.3분·106턴·18.7M). 앞 요약 +1(여섯) → +1분·+1.5M → 14–22분 '다른 일', 90–125턴, 17–26M(T2). 앞 요약이 계속 늘면 맥락이 커지니 2409부터는 앞 요약 중 최근 셋만 읽게 할지 본다"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [15.9, 31.8]
+turns = [76.7, 145]
+tokens_m = [5.64, 11.3]
+[dispatch.actual]
+status = "done"
+minutes = 15.4  # agent_usage.py: 04:31:52 → 04:47:17
+turns = 107
+tokens_m = 19.9  # 캐시 생성 46.7만 + 캐시 읽기 1936.7만 + 입력 214 + 출력(추정) 1.8만. 도구 호출 62
+[dispatch.review]
+wrong = []
+reason = "말한 구간 '다른 일'(14–22분) 맞음(15.4분). 턴 107 범위(90–125) 안, 토큰 19.9M 범위(17–26)·T2 맞음. 네 회차 연속 범위 안. 분은 15분 안팎에서 멈추고 토큰만 앞 요약 수에 비례해 는다(13.2→19.9M) — 다음부터 앞 요약은 최근 셋만 꼼꼼히 읽게 해 토큰 증가를 막는다. 품질: 45/45, 글 추출이 빠진 네 곳을 찾아 그림으로 메움, 후보 규칙의 첫 반례(30번: 어려움이 선지 쪽에 있음)를 짚음 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p112"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2409 회차를 v2 양식으로. 지침 파일 + 앞 일곱 회차 요약(최근 셋만 꼼꼼히). 시간 순 여덟 번째"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p111"
+told = "다른 일"
+minutes = [14, 22]
+turns = [90, 125]
+tokens_class = ["T2"]
+tokens_m = [17, 26]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p111(15.4분·107턴·19.9M). 앞 요약을 최근 셋만 꼼꼼히 읽게 해 토큰이 더 늘지 않는다고 봄 → 같은 범위 14–22분 '다른 일', 90–125턴, 17–26M(T2)"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [16.0, 32.0]
+turns = [77.5, 147]
+tokens_m = [5.69, 11.4]
+[dispatch.actual]
+status = "done"
+minutes = 17.2  # agent_usage.py: 04:47:50 → 05:05:03
+turns = 97
+tokens_m = 19.4  # 캐시 생성 56.6만 + 캐시 읽기 1881.9만 + 입력 194 + 출력(추정) 1.9만. 도구 호출 60
+[dispatch.review]
+wrong = []
+reason = "말한 구간 '다른 일'(14–22분) 맞음(17.2분). 턴 97 범위(90–125) 안, 토큰 19.4M 범위(17–26)·T2 맞음 — '앞 요약은 최근 둘만 꼼꼼히'로 토큰 증가가 멈췄다(19.9 → 19.4). 다섯 회차 연속 범위 안. 품질: 45/45, 자리가 아니라 꼴을 따라가는 것(4번 → 8번)을 짚음, 글 추출이 틀어진 네 곳을 그림으로 메움 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p113"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "조사·수집(클라우드 세션 'searching', Opus 5.5, 새 세션): EBSi 등 공개 출처에서 국어 17회차(2206~2709)의 문항별 정답률(가능하면 등급대별)과 등급컷 추정치를 로그인 없이 받을 수 있는지 확인하고, 되면 CSV로 받아 커밋·push. 완료 조건: 출처별 열림/막힘·형식 표와 받은 회차 수"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "예"
+S_research = "예"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_web_blocked = "모름"
+S_read_originals = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+[dispatch.predicted]
+written_before = true
+analog = "p66"
+told = "다른 일"
+minutes = [10, 25]
+tokens_class = ["T1"]
+tokens_m = [3, 9]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p66(클라우드 세션에서 가격 페이지·약관 HTML을 하나씩 열어 막힌 곳을 거듭 시도, 7.9분·2.98M)과 p101(게시판 넘기며 받기, 25.8분). EBSi는 JS로 그리는 페이지일 가능성이 커 주소 찾기·API 추측에 시도가 여러 번 들고, 열리면 17회차 × 45문항을 긁어 CSV로 만든다 → 10–25분 '다른 일', 토큰 3–9M. 모르는 것: 로그인 벽이면 5분 안에 보고서만 쓰고 끝난다"
+hypotheses = ["H_cloud_session_rounds_v2"]
+[dispatch.calc]
+told = "잠깐"
+minutes = [3.84, 7.68]
+turns = [33.4, 66.8]
+tokens_m = [3.90, 7.80]
+[dispatch.actual]
+status = "done"
+minutes = 9.4  # get_session: created 05:00:50 → updated 05:10:14 UTC. 1차 보고 하나로 끝(CSV 커밋 방식은 사용자 결정으로 넘김)
+tokens_m = 4.17  # usage: 캐시 읽기 404.3만 + 캐시 쓰기 10.4만 + 입력 68 + 출력 2.4만. 비용 2.13달러. 턴은 세지 않음
+[dispatch.review]
+wrong = ["R_say_numbers_v2", "R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일'(10–25분) 틀림 — 9.4분 '잠깐'(경계 바로 아래). 토큰 4.17M은 범위(3–9)·T1 맞음. 'JS 페이지라 주소 찾기에 시도가 여러 번'이라고 봤는데 메가스터디 API를 빨리 찾아 17회차를 한 번에 받았다(p66의 '막힌 사이트 거듭 시도' 결이 아니라 p100의 '구조 찾으면 묶어 받기' 결). 계산기 3.8–7.7 '잠깐'이 맞음 — 클라우드 수집은 계산기가 손보다 나은 경우가 또 하나(p100·p113). 품질: 출처 둘을 가르고(EBSi 로그인 벽·메가스터디 열림), 제3자 자료를 공개 저장소에 올릴지 스스로 멈춰 사용자 결정으로 넘김 — 5(보고서 확인 뒤 확정)"
+hypotheses = ["H_cloud_session_rounds_v2"]
+
+[[dispatch]]
+id = "p114"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2411(2024학년도 수능) 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 아홉 번째"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p112"
+told = "다른 일"
+minutes = [14, 22]
+turns = [90, 125]
+tokens_class = ["T2"]
+tokens_m = [17, 26]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p111·p112(15.4·17.2분, 107·97턴, 19.9·19.4M). 같은 설정이라 같은 범위. 수능이라 세트가 조금 길 수 있으나 2211·2311에서 차이가 없었다"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [14.5, 29.1]
+turns = [70.2, 133]
+tokens_m = [5.16, 10.3]  # 처음 적은 값(잠깐 1–2분)은 기록 파일이 깨진 상태(p112 실측 블록이 p113 아래로 들어감)에서 나온 것이라 고침
+[dispatch.actual]
+status = "done"
+minutes = 15.9  # agent_usage.py: 05:05:38 → 05:21:34
+turns = 97
+tokens_m = 22.1  # 캐시 생성 60.5만 + 캐시 읽기 2150.9만 + 입력 194 + 출력(추정) 2.1만. 도구 호출 59
+[dispatch.review]
+wrong = []
+reason = "말한 구간 '다른 일'(14–22분) 맞음(15.9분). 턴 97 범위(90–125) 안, 토큰 22.1M 범위(17–26)·T2 맞음. 여섯 회차 연속 범위 안(13.6→17.2분 사이, 80–107턴). 계산기는 같은 상황 값에 다른 답(1–2분)을 내어 점검 과제. 품질: 45/45(27번은 처음 틀리고 정답표 보고 고친 과정을 적음), 수능>9월>6월 어려움 순서를 두 해 연속으로 짚음, 앞 회차의 '수능 vs 모평' 차이 둘이 깨진 것을 정직하게 적음 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p115"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2506 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 열 번째. 정답률은 주지 않는다"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p114"
+told = "다른 일"
+minutes = [14, 22]
+turns = [90, 125]
+tokens_class = ["T2"]
+tokens_m = [18, 27]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p111–p114(15.4·17.2·15.9분, 97–107턴, 19.4–22.1M). 같은 설정. 토큰은 앞 요약 둘만 꼼꼼히 읽어도 후보 목록이 길어져 조금씩 는다 → 18–27M"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [14.5, 29.1]
+turns = [70.2, 133]
+tokens_m = [5.16, 10.3]
+[dispatch.actual]
+status = "done"
+minutes = 16.5  # agent_usage.py: 05:34:08 → 05:50:38
+turns = 92
+tokens_m = 19.9  # 캐시 생성 66.6만 + 캐시 읽기 1923.2만 + 입력 184 + 출력(추정) 2.0만. 도구 호출 52
+[dispatch.review]
+wrong = []
+reason = "말한 구간 '다른 일'(14–22분) 맞음(16.5분). 턴 92 범위(90–125) 안, 토큰 19.9M 범위(18–27)·T2 맞음. 일곱 회차 연속 범위 안 — 이 일은 안정됐다(15–17분·90–107턴·19–22M). 품질: 45/45, '한 번뿐' 판정 기준(두 회차 안 나오면)의 반례를 짚어 메인에 넘김 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p116"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2509 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 열한 번째"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p115"
+told = "다른 일"
+minutes = [14, 22]
+turns = [85, 120]
+tokens_class = ["T2"]
+tokens_m = [18, 27]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p111–p115(15.4–17.2분, 92–107턴, 19.4–22.1M). 같은 설정이 일곱 회차 안정"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [13.8, 27.6]
+turns = [66.6, 126]
+tokens_m = [4.90, 9.79]
+[dispatch.actual]
+status = "done"
+minutes = 18.9  # agent_usage.py: 05:51:11 → 06:10:06
+turns = 123
+tokens_m = 30.0  # 캐시 생성 70.5만 + 캐시 읽기 2927.8만 + 입력 246 + 출력(추정) 2.3만. 도구 호출 74
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일'(14–22분) 맞음(18.9분, 위쪽). 턴 123은 범위(85–120) 위, 토큰 30.0M은 범위(18–27) 위(T2 맞음). 그림으로 봐야 할 곳이 유난히 많았다(학습지 ○/× 칸, 손글씨 둘, 그래프 둘, 자료 셋 — 도구 호출 74, 앞 회차 52–62) — 그림 한 장이 맥락 1~2천 토큰이고 한 턴씩 더 드니 토큰이 1.5배. '그림이 많은 회차'는 보내기 전에 모른다(조건 흐림). 품질: 45/45, 경계 사례를 flow (6)에 다 적음 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p117"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2511(2025학년도 수능) 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 열두 번째"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p116"
+told = "다른 일"
+minutes = [14, 23]
+turns = [90, 130]
+tokens_class = ["T2"]
+tokens_m = [18, 32]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p111–p116(15.4–18.9분, 92–123턴, 19.4–30.0M). 그림이 많은 회차(p116)를 상한에 넣어 범위를 조금 넓힘"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [18.4, 36.8]
+turns = [89.1, 169]
+tokens_m = [6.55, 13.1]
+[dispatch.actual]
+status = "done"
+minutes = 17.1  # agent_usage.py: 06:10:47 → 06:27:53
+turns = 131
+tokens_m = 31.9  # 캐시 생성 60.9만 + 캐시 읽기 3131.1만 + 입력 262 + 출력(추정) 2.3만. 도구 호출 79
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일'(14–23분) 맞음(17.1분). 턴 131은 범위(90–130) 바로 위, 토큰 31.9M은 범위(18–32) 상한. p116처럼 그림을 많이 봤다(도구 호출 79) — 2025학년도부터 화작·독서에 그림 자료(댓글 상자·도식·사진 목록)가 늘어 턴이 는다. 분은 그대로(분당 7.7턴으로 빨라짐). 다음부터 2025학년도 이후 회차는 턴 110–140·토큰 25–35M으로 잡는다. 품질: 45/45, 수능 넷의 공통점 다섯을 표로, 앞 분석자의 틀린 예상(2511 짝수형)을 바로잡음 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p118"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2606 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 열세 번째"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p117"
+told = "다른 일"
+minutes = [15, 23]
+turns = [110, 140]
+tokens_class = ["T2"]
+tokens_m = [25, 36]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p116·p117(18.9·17.1분, 123·131턴, 30.0·31.9M). 2025학년도 이후는 그림 자료가 많아 턴·토큰이 한 단계 위라고 보고 그 띠로 잡음"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [19.6, 39.2]
+turns = [94.8, 179]
+tokens_m = [6.97, 13.9]
+[dispatch.actual]
+status = "done"
+minutes = 17.3  # agent_usage.py: 06:28:29 → 06:45:46
+turns = 103
+tokens_m = 24.3  # 캐시 생성 58.8만 + 캐시 읽기 2368.1만 + 입력 206 + 출력(추정) 2.2만. 도구 호출 65
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일'(15–23분) 맞음(17.3분). 턴 103은 범위(110–140) 아래, 토큰 24.3M은 범위(25–36) 바로 아래 — '2025학년도 이후는 그림이 많다'고 한 단계 올렸는데 이번은 그림이 넷뿐이라 앞 띠(90–130)에 떨어졌다. 그림 수는 보내기 전에 모르니 범위를 둘 합친 90–140으로 넓게 잡는 게 맞다. 분은 열 회차 연속 15–19분. 품질: 45/45, 경계 문항(22)을 양쪽 숫자로 보고, 짜임 변화 셋을 짚음 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p119"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2609 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 열네 번째"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p118"
+told = "다른 일"
+minutes = [15, 22]
+turns = [90, 140]
+tokens_class = ["T2"]
+tokens_m = [20, 34]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p111–p118(15.4–18.9분, 92–131턴, 19.4–31.9M). 그림 수를 모르니 턴·토큰은 두 띠를 합쳐 넓게, 분은 열 회차 연속 15–19분이라 15–22"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [15.4, 30.9]
+turns = [74.6, 141]
+tokens_m = [5.48, 11.0]
+[dispatch.actual]
+status = "done"
+minutes = 18.4  # agent_usage.py: 06:46:20 → 07:04:43
+turns = 116
+tokens_m = 25.3  # 캐시 생성 59.1만 + 캐시 읽기 2472.7만 + 입력 232 + 출력(추정) 2.4만. 도구 호출 71
+[dispatch.review]
+wrong = []
+reason = "말한 구간 '다른 일'(15–22분) 맞음(18.4분). 턴 116 범위(90–140) 안, 토큰 25.3M 범위(20–34)·T2 맞음 — 두 띠를 합친 넓은 범위가 맞았다. 품질: 45/45, '6월 < 9월'이 처음 안 선 것을 경계 문항 처리 두 가지로 보여 줌, 화작의 처음인 것 넷을 짚음 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p120"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2611(2026학년도 수능, 40쪽 중 1~20쪽) 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 열다섯 번째"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p119"
+told = "다른 일"
+minutes = [15, 22]
+turns = [90, 140]
+tokens_class = ["T2"]
+tokens_m = [20, 34]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p111–p119(15.4–18.9분, 92–131턴, 19.4–31.9M). 같은 넓은 범위"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [17.4, 34.7]
+turns = [84.0, 159]
+tokens_m = [6.17, 12.3]
+[dispatch.actual]
+status = "done"
+minutes = 17.5  # agent_usage.py: 07:05:17 → 07:22:47
+turns = 95
+tokens_m = 21.5  # 캐시 생성 62.8만 + 캐시 읽기 2084.8만 + 입력 190 + 출력(추정) 2.2만. 도구 호출 56
+[dispatch.review]
+wrong = []
+reason = "말한 구간 '다른 일'(15–22분) 맞음(17.5분). 턴 95 범위(90–140) 안, 토큰 21.5M 범위(20–34)·T2 맞음. 열두 회차 연속 분은 15–19분. 품질: 45/45, 앞 요약의 '수능 공통점 다섯'이 실제로는 일곱이라고 바로잡고 깨진 것·이어진 것을 가름 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p121"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2706 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 열여섯 번째"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p120"
+told = "다른 일"
+minutes = [15, 22]
+turns = [90, 140]
+tokens_class = ["T2"]
+tokens_m = [20, 34]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p111–p120(15.4–18.9분, 92–131턴, 19.4–31.9M). 같은 넓은 범위"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [14.2, 28.5]
+turns = [68.8, 130]
+tokens_m = [5.06, 10.1]
+[dispatch.actual]
+status = "done"
+minutes = 16.8  # agent_usage.py: 07:23:19 → 07:40:04
+turns = 102
+tokens_m = 22.6  # 캐시 생성 53.0만 + 캐시 읽기 2203.3만 + 입력 204 + 출력(추정) 2.2만. 도구 호출 64
+[dispatch.review]
+wrong = []
+reason = "말한 구간 '다른 일'(15–22분) 맞음(16.8분). 턴 102 범위(90–140) 안, 토큰 22.6M 범위(20–34)·T2 맞음. 열세 회차 연속 15–19분. 품질: 45/45(8번은 처음 틀리고 다시 읽어 고친 과정을 적음), 후보 규칙의 두 번째 반례(어려움이 선지 쪽)를 짚고 경계 셈을 메인에 넘김 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p122"
+project = "suneung"
+batch = 35
+date = 2026-10-28
+task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2709 회차(마지막, 시간 순 열일곱 번째)를 v2 양식으로. 본보기였던 2709_04-09 노트를 같은 양식으로 완성하고 17회차 전체를 닫는 요약까지"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "예"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p121"
+told = "다른 일"
+minutes = [16, 24]
+turns = [95, 145]
+tokens_class = ["T2"]
+tokens_m = [22, 36]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "빗댄 p111–p121(15.4–18.9분, 92–131턴, 19.4–31.9M). 마지막 회차라 17회차 전체를 닫는 절이 하나 더 있어 턴·분을 조금 올림"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [15.3, 30.6]
+turns = [73.8, 140]
+tokens_m = [5.43, 10.9]
+[dispatch.actual]
+status = "done"
+minutes = 18.6  # agent_usage.py: 07:40:46 → 07:59:22
+turns = 103
+tokens_m = 26.8  # 캐시 생성 149.4만 + 캐시 읽기 2527.0만 + 입력 206 + 출력(추정) 2.5만. 도구 호출 61
+[dispatch.review]
+wrong = []
+reason = "말한 구간 '다른 일'(16–24분) 맞음(18.6분). 턴 103 범위(95–145) 안, 토큰 26.8M 범위(22–36)·T2 맞음. 열네 회차 연속 분 15–19분 — 국어 회차 분석(11세트, 앞 요약 둘 꼼꼼히)은 '다른 일' 15–19분·90–130턴·20–32M으로 굳었다. 품질: 45/45, 17회차 닫는 절(이어진 것·깨진 것·학년도 표·카드 후보 22개·조심할 점 10개)을 갖춤 — 5"
+hypotheses = []
+
+[[dispatch]]
+id = "p123"
+project = "suneung"
+batch = 38
+date = 2026-10-28
+task = "조사(세션 안 Opus 5.5 high, 새 에이전트): 평가원 독서 지문 8개(과학·기술 단일 4, 인문 (가)(나) 4)의 서술 방식을 뽑아 korean/STYLE_READING.md(규칙 + 실제 문장 예 + 초안 점검표)로 쓴다. 지문 제작의 문체 기준"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_web = "아니오"
+S_research = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_template_given = "아니오"
+S_long_doc = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p103"
+told = "다른 일"
+minutes = [10, 18]
+turns = [40, 70]
+tokens_class = ["T1"]
+tokens_m = [5, 12]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v2"]
+reason = "지문 8개를 text_ko.py로 읽고(8턴) 문장 통계를 작은 스크립트로 내고(5–10턴) 문서 하나를 쓴다(5–10턴) → 40–70턴. p103(11세트 노트, 55턴·9분)보다 쓰는 양이 적고 읽는 양은 비슷 → 10–18분 '다른 일'. 토큰은 지문 8개가 맥락에 실려 5–12M"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [8.24, 16.5]
+turns = [39.8, 75.4]
+tokens_m = [2.93, 5.85]
+[dispatch.actual]
+status = "done"
+minutes = 12.7  # agent_usage.py: 08:42:07 → 08:54:47
+turns = 54
+tokens_m = 7.9  # 캐시 생성 44.9만 + 캐시 읽기 741.4만 + 입력 108 + 출력(추정) 1.2만. 도구 호출 31
+[dispatch.review]
+wrong = []
+reason = "말한 구간 '다른 일'(10–18분) 맞음(12.7분). 턴 54 범위(40–70) 안, 토큰 7.9M 범위(5–12)·T1 맞음. 읽기 8 + 세기 스크립트 + 문서 하나라는 셈이 그대로 맞았다. 품질: 규칙 17개가 모두 실제 문장 둘과 '하지 않는 것'을 달았고, 예상과 다른 것(인문의 물음 허용 자리)을 따로 적었으며, 우리 초안의 어긋남 셋을 고칠 문장까지 냄 — 5"
 hypotheses = []
