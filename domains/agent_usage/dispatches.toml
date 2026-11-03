@@ -13595,4 +13595,23 @@ added_k = 435
 chose = "보냄"
 why = ["대화 계속", "비용"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 14.9  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 98
+tokens_m = 42.17  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-03T14:43:29Z"
+end = "2026-11-03T14:58:23Z"
+[dispatch.review]
+report = "stock-rader:docs/worklog/2026-11-03-logic-apply.md"
+reason = "말한 구간 '다른 일' 맞음(14.9분, 손 예측 15–35의 아래 끝 바로 밑). 턴 98은 60–130 안. 토큰 42.2M은 15–40을 조금 넘었다: 이어 보낸 회차라 턴당 맥락이 1회차 끝(25만)보다 더 커졌다(R_resume_ctx_v2 방향 맞음, 크기는 위). 분당 6.6턴 — 1회차(4.3)보다 빠르다: 고침 1–3은 1회차 사본 diff가 있어 생각이 짧았다. 계산기 '신경 끄기 31–63분'은 두 배 넘게 길게 봤다. 입력 실수: xhigh인데 S_other_model을 '아니오'로 적었다(p169와 같음). 보낼까: 고른 쪽 47.0M < 직접 추정 68.5M. 품질: 고침 6개 모두 넣고 validate·audit 오류 0·기록 검사·테스트 92개(+7) 통과를 메인이 origin/main에서 다시 돌려 확인. 매일 실행 흉내로 새 칸·거절·report까지 확인. 지시하지 않은 판단 하나(종목 칸을 한 칸으로 묶음)를 스스로 밝혔고 까닭이 맞다(종목마다 나누면 비교군이 판정에 안 들어감). 확인 못 한 것(조사 에이전트가 공포 지수 1년 평균을 찾는지)을 정직하게 남김 — 5"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Bash:cd" = { n = 45, sum_s = 453.0, turn_s = 5.2, tool_s = 0.9, out_chars = 448, ctx_k = 429 }
+"글" = { n = 40, sum_s = 238.0, turn_s = 2.9, out_chars = 0.0, ctx_k = 425.5 }
+"Bash:scratchpad;" = { n = 3, sum_s = 21.1, turn_s = 6.6, tool_s = 1.3, out_chars = 945, ctx_k = 448 }
+"Bash:Seoul" = { n = 2, sum_s = 46.6, turn_s = 23.3, tool_s = 0.7, out_chars = 209.5, ctx_k = 412.0 }
+"Bash:grep" = { n = 2, sum_s = 4.9, turn_s = 2.5, tool_s = 0.8, out_chars = 278.5, ctx_k = 399.0 }
+"Bash:sed" = { n = 2, sum_s = 7.4, turn_s = 3.7, tool_s = 1.6, out_chars = 208.0, ctx_k = 412.5 }
+"Edit" = { n = 1, sum_s = 2.8, turn_s = 2.8, tool_s = 0.0, out_chars = 680, ctx_k = 385 }
+"Bash:cat" = { n = 1, sum_s = 5.5, turn_s = 5.5, tool_s = 0.5, out_chars = 2228, ctx_k = 416 }
+"Write" = { n = 1, sum_s = 2.6, turn_s = 2.6, tool_s = 0.0, out_chars = 6594, ctx_k = 486 }
+"SubagentHandback" = { n = 1, sum_s = 0.3, turn_s = 0.3, tool_s = 0.3, out_chars = 2291, ctx_k = 495 }
