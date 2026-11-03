@@ -131,6 +131,28 @@ class Rescore20261019(unittest.TestCase):
         self.assertEqual(dp.zone_verdict({d["id"]: d for d in records}["p01"]), "높게 잡음")
         self.assertEqual(dp.validate(records, kn), [])
 
+    def test_records_from_nov_4_need_times_and_agent_round(self):
+        # 2026-11-03 사용자 결정: 빗댄 기록 규칙이 '보낼 때 끝나 있던 기록'과 '같은 에이전트의 앞 회차'를 가르려면 필요하다
+        kn = schema.load(KN)
+        records = dp.load()
+        new = {"id": "zz3", "project": "proviso", "batch": 99, "date": "2026-11-04", "task": "t",
+               "predicted": {"minutes": [5, 9], "told": "잠깐"}, "actual": {"minutes": 6, "turns": 10},
+               "turns": {"글": {"n": 7, "sum_s": 20.0, "turn_s": 2.5}}, "review": {"report": "docs/worklog/CLAUDE.md"}}
+        errors = dp.validate(records + [new], kn)
+        self.assertTrue(any("zz3" in e and "actual.start" in e for e in errors))
+        self.assertTrue(any("zz3" in e and "agent" in e for e in errors))
+        new["actual"].update(start="2026-11-04T01:00:00Z", end="2026-11-04T01:06:00Z")
+        new.update(agent="작성", round=1)
+        self.assertEqual(dp.validate(records + [new], kn), [])
+        new["actual"]["start"] = "01:00:00"
+        self.assertTrue(any("UTC ISO" in e for e in dp.validate(records + [new], kn)))
+        new["actual"] = {"minutes": 6, "turns": 10, "time_skip": "클라우드 세션이라 대화 기록이 없음"}
+        self.assertEqual(dp.validate(records + [new], kn), [])
+        new["situation"] = {"S_resumed": "예"}
+        self.assertTrue(any("round" in e for e in dp.validate(records + [new], kn)))
+        # 11-03까지의 기록은 요구하지 않는다
+        self.assertEqual(dp.validate(records, kn), [])
+
     def test_records_from_nov_3_need_turn_table_and_report(self):
         # 2026-11-02 사용자 결정: 문서에만 적힌 단계는 빠지므로 검사가 막는다. 2026-11-03부터의 끝난 기록만
         kn = schema.load(KN)

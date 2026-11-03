@@ -82,7 +82,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 
 끝나면 — 사용자에게 결과를 말하기 전에 기록부터(컨테이너가 회수되면 대화 기록이 사라진다)
 
-3. 실측: `python scripts/agent_usage.py <로그> --md` → `actual`. 검사: 끝난 기록의 실측 시간.
+3. 실측: `python scripts/agent_usage.py <로그> --actual` → `actual`(시작·끝 시각 포함). 기록에 `agent`·`round`도. 검사: 끝난 기록의 실측 시간, 2026-11-04부터 시작·끝 시각과 agent·round.
 4. 턴 길이: 같은 로그에 `--turns --toml` → 기록 끝에 `[dispatch.turns]`(잴 수 없으면 `skip = "이유"`). 검사(2026-11-03부터).
 5. 보고서: 작업자의 보고서를 확인하고 경로를 `review.report`에. 검사(2026-11-03부터).
 6. 돌아보기: `review.reason`, 구간이 빗나가면 `review.wrong`·`review.why`. 검사(빗나갔을 때 wrong·why).

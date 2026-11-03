@@ -38,6 +38,11 @@ WRONG_REQUIRED_AFTER = "p03"
 # 까닭: 문서에만 적힌 단계는 빠졌다 — p65 이후 세션 안 하위 에이전트 53건 중 --turns 4건. 검사가 막는 단계(review.wrong)는 72/73.
 # 번호가 아니라 날짜로 자른다: 브랜치를 합치며 번호를 다시 매겨도 지난 기록이 걸리지 않게.
 FORM_REQUIRED_FROM = "2026-11-03"
+# 이 날짜부터 끝난 기록은 실측의 시작·끝 시각(actual.start/end, UTC ISO)과 에이전트·회차(agent, round)가 필수다 (2026-11-03 사용자 결정).
+# 까닭: 빗댄 기록 규칙이 '보낼 때 이미 끝나 있던 기록'과 '같은 에이전트의 앞 회차'를 정확히 가르려면 필요하다
+# (2026-11-03 시험에서 규칙이 틀린 5건 중 3건이 시각이 없어 같은 배치의 앞 회차를 못 쓴 것).
+TIMES_REQUIRED_FROM = "2026-11-04"
+ISO_UTC = re.compile(r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$")
 # 일의 크기 (2026-11-03 사용자 결정, CLAUDE.md '일의 크기 모델'): 지시서에서 센 수. 기록의 size = { 이름 = 수 } (모르면 칸을 뺀다)
 #   reads 읽을 것 · outputs 만들 것 · chunks 쓸 덩어리(절·단계) · edits 고칠 곳 · checks 확인 횟수 · find_cap 찾는 일의 상한(글, 예 "25 원문")
 SIZE_COUNTS = ("reads", "outputs", "chunks", "edits", "checks")
@@ -178,6 +183,29 @@ def form_errors(d: dict, root: Path = ROOT) -> list[str]:
             errors.append(f"{did}: turns.skip은 못 잰 이유 문장 하나만 (표와 함께 쓰지 않는다)")
     elif not turns or not all(isinstance(v, dict) and isinstance(v.get("n"), int) and v["n"] > 0 for v in turns.values()):
         errors.append(f"{did}: turns는 동작마다 {{ n = 턴 수, ... }} 모양이어야 함 (agent_usage.py --turns --toml 출력)")
+    act = d.get("actual", {})
+    need = done(d) and "minutes" in act and str(d.get("date", "")) >= TIMES_REQUIRED_FROM
+    if "time_skip" in act:
+        if not (isinstance(act["time_skip"], str) and act["time_skip"].strip()):
+            errors.append(f"{did}: actual.time_skip은 시각을 못 적은 이유 문장이어야 함")
+    else:
+        for k in ("start", "end"):
+            if k in act and not (isinstance(act[k], str) and ISO_UTC.match(act[k])):
+                errors.append(f"{did}: actual.{k}는 UTC ISO 시각이어야 함 (예: \"2026-11-04T05:24:13Z\", agent_usage.py --actual)")
+            elif k not in act and need:
+                errors.append(f"{did}: actual.{k}(시작·끝 시각)가 없음 — `python scripts/agent_usage.py <로그> --actual` 출력을 쓰거나, "
+                              f"못 재면 actual.time_skip = \"이유\"")
+        if isinstance(act.get("start"), str) and isinstance(act.get("end"), str) and act["start"] > act["end"]:
+            errors.append(f"{did}: actual.start가 end보다 늦음")
+    agent, rnd = d.get("agent"), d.get("round")
+    if agent is not None and not (isinstance(agent, str) and agent.strip()):
+        errors.append(f"{did}: agent는 같은 에이전트를 가리키는 이름이어야 함 (회차마다 같은 이름)")
+    if rnd is not None and (isinstance(rnd, bool) or not isinstance(rnd, int) or rnd < 1):
+        errors.append(f"{did}: round는 1 이상의 정수여야 함 (처음 보낸 회차 = 1)")
+    if need and (agent is None or rnd is None):
+        errors.append(f"{did}: agent(같은 에이전트 이름)와 round(몇 번째 회차, 처음 = 1)가 없음")
+    if isinstance(rnd, int) and d.get("situation", {}).get("S_resumed") == "예" and rnd < 2:
+        errors.append(f"{did}: 이어 보낸 회차(S_resumed = 예)인데 round가 2보다 작음")
     rep = d.get("review", {}).get("report")
     if rep is None:
         if form_required(d):

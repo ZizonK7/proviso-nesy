@@ -29,6 +29,8 @@
 #   predicted.rules    예측에 쓴 규칙 id (knowledge.toml)
 #   predicted.analog   빗댄 과거 기록 id (2026-10-19부터, 있으면). 배수 가설(H_settled_integration·H_build_tools)이 이 값으로 시험한다
 #   predicted.written_before  보내기 전에 적었는가 (배치 1은 실행 중에 적음)
+#   agent / round      같은 에이전트 이름(회차마다 같게)과 몇 번째 회차(처음 = 1). 2026-11-04부터 끝난 기록에 필수(dispatches.py)
+#   actual.start/end   실측의 시작·끝 시각(UTC ISO, `agent_usage.py --actual`). 못 재면 actual.time_skip = "이유". 2026-11-04부터 필수
 #   size               일의 크기 — 지시서에서 센 수 (2026-11-03부터, knowledge.toml S_specified와 CLAUDE.md '일의 크기 모델').
 #                      { reads 읽을 것, outputs 만들 것, chunks 쓸 덩어리(절·단계), edits 고칠 곳, checks 확인 횟수, find_cap 찾는 일의 상한(글) }.
 #                      지시서에 적힌 것만 세고 모르면 칸을 뺀다. [[dispatch]] 바로 아래(task 다음 줄)에 한 줄 표로 적는다
@@ -11997,6 +11999,8 @@ project = "proviso"
 batch = 41
 date = 2026-11-03
 task = "채우기(세션 안 Opus 5.5 high, 결과를 가림): 기록 269건의 작업 설명(task)만 보고 할 일이 정해져 있나(예/일부/아니오/모름)와 다섯 수(읽을 것·만들 것·쓸 덩어리·고칠 곳·확인)·찾는 일의 상한을 표(TSV)로. 입력 파일 하나, 출력 파일 하나 + 보고서, 코드 없음"
+agent = "크기 채우기"
+round = 1
 size = { reads = 1, outputs = 2, checks = 1 }  # 메인이 쓴 지시서에서(입력 표 하나 · 출력 표 + 보고서 · 자기 확인 하나)
 [dispatch.situation]
 S_full_brief = "예"
@@ -12041,6 +12045,8 @@ status = "done"
 minutes = 7.4  # agent_usage.py 05:24:13 → 05:31:37 (알림 duration 444초)
 turns = 28
 tokens_m = 3.07  # 캐시 생성 33.5만 + 캐시 읽기 272.7만 + 입력 56 + 출력(추정) 0.8만. 도구 호출 17
+start = "2026-11-03T05:24:13Z"
+end = "2026-11-03T05:31:37Z"
 [dispatch.review]
 report = "docs/worklog/2026-11-03-size-backfill.md"
 wrong = ["R_say_numbers_v2"]

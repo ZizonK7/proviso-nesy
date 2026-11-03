@@ -17,6 +17,9 @@ batman 저장소의 scripts/agent_usage.py를 가져와 고쳤다 (2026-10-14):
 (domains/agent_usage/CLAUDE.md "전제 1"). 동작 종류는 도구 이름이고 Bash는 명령의 첫 낱말만 본다. 명령 본문·글은 출력하지 않는다.
   --turns --toml   같은 숫자를 dispatches.toml 기록 끝에 그대로 붙일 [dispatch.turns] 블록으로 (2026-11-02: 2026-11-03부터 끝난 기록은 필수)
   --after 시각     이 시각 뒤의 턴만 (이어 보낸 회차를 앞 회차와 가른다). ISO 시각 또는 HH:MM:SS(UTC, 기록 첫날)
+--actual (2026-11-03): 실측을 dispatches.toml의 [dispatch.actual] 줄로(분·턴·토큰 + 시작·끝 시각 start/end, UTC ISO).
+  이어 보낸 회차는 --after <앞 회차 끝 시각>을 같이 주면 그 회차만 센다(시작 시각도 그 회차의 첫 줄).
+  시작·끝 시각은 빗댄 기록 규칙이 '보낼 때 이미 끝나 있던 기록'을 가르는 데 쓴다(2026-11-04부터 끝난 기록에 필수).
 """
 import argparse
 import collections
@@ -42,7 +45,20 @@ def meta_description(path):
         return None
 
 
-def summarize(path):
+def summarize(path, after=None):
+    """after(시각)가 있으면 그 뒤의 줄만 센다 — 이어 보낸 회차를 앞 회차와 가른다(시작 시각도 그 회차의 첫 줄)."""
+    cut = None
+    if after:
+        with open(path, encoding="utf-8", errors="replace") as f:
+            for line in f:
+                try:
+                    d0 = json.loads(line)
+                except Exception:
+                    continue
+                ts0 = parse_ts(d0.get("timestamp", "")) if isinstance(d0, dict) and d0.get("timestamp") else None
+                if ts0:
+                    cut = _after_ts(after, ts0)
+                    break
     usage = collections.Counter()
     tools = collections.Counter()
     turns = 0
@@ -61,6 +77,8 @@ def summarize(path):
             if not isinstance(d, dict):
                 continue
             ts = parse_ts(d.get("timestamp", "")) if d.get("timestamp") else None
+            if cut and (ts is None or ts < cut):
+                continue
             if ts:
                 first = first or ts
                 last = ts
@@ -96,6 +114,8 @@ def summarize(path):
         "description": meta_description(path),
         "start": first.strftime("%H:%M:%S") if first else "-",
         "end": last.strftime("%H:%M:%S") if last else "-",
+        "start_iso": first.astimezone(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ") if first else None,
+        "end_iso": last.astimezone(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ") if last else None,
         "duration_min": round(dur.total_seconds() / 60, 1) if dur else None,
         "turns": turns,
         "tool_calls": sum(tools.values()),
@@ -231,6 +251,8 @@ def main(argv=None):
     ap.add_argument("--turns", action="store_true", help="턴마다 동작·길이·맥락을 뽑아 동작 종류별 중앙값 표로 (전제 1 시험)")
     ap.add_argument("--toml", action="store_true", help="--turns 결과를 dispatches.toml에 붙일 [dispatch.turns] 블록으로")
     ap.add_argument("--after", help="이 시각 뒤의 턴만 (이어 보낸 회차). ISO 시각 또는 HH:MM:SS(UTC)")
+    ap.add_argument("--actual", action="store_true",
+                    help="dispatches.toml에 붙일 [dispatch.actual] 줄로 (시작·끝 시각 칸 포함, 2026-11-04부터 필수)")
     a = ap.parse_args(argv)
     labels = dict(l.split("=", 1) for l in a.label)
     files = []
@@ -238,7 +260,7 @@ def main(argv=None):
         files.extend(glob.glob(p) or ([p] if os.path.isfile(p) else []))
     rows = []
     for p in sorted(set(files)):
-        s = summarize(p)
+        s = summarize(p, a.after)
         s["name"] = next((v for k, v in labels.items() if s["file"].startswith(k)), None) \
             or s["description"] or s["file"][:15]
         rows.append(s)
@@ -251,6 +273,13 @@ def main(argv=None):
             else:
                 print(f"### {name} — 턴 {len(rows)}")
                 print(turn_table(rows))
+        return
+    if a.actual:
+        for s in rows:
+            print(f"# {s['name']}\n[dispatch.actual]\nstatus = \"done\"\n"
+                  f"minutes = {s['duration_min']}  # 기록의 첫 시각 → 끝 시각. 이어 보낸 회차는 알림의 실행 시간으로 고친다\n"
+                  f"turns = {s['turns']}\ntokens_m = {total(s) / 1e6:.2f}  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)\n"
+                  f"start = \"{s['start_iso']}\"\nend = \"{s['end_iso']}\"\n")
         return
     if a.md:
         print("| 에이전트 | 시작 | 끝 | 실제 분 | 응답 수 | 도구 호출 | 캐시 생성 | 캐시 읽기 | 입력 | 출력(추정) | 합계 |")
