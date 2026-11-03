@@ -1,0 +1,30 @@
+# 일의 크기 모델 — 정해진 일 (2026-11-03 사용자 결정, CLAUDE.md '일의 크기 모델'). 계산은 size.py.
+# 시험 중이라 지식 파일의 조각이 아니다(성적표를 받지 않는다). 미리 정한 시험을 통과하면 계산 조각(knowledge.toml)으로 올린다.
+# 몫의 '모양'(무엇을 세나·왜)은 손으로 적고, 범위(range)와 근거(fit)는 `python -m domains.agent_usage.size --write`가
+#   seen_until까지의 기록(파일 순서; p99까지 = 2026-10-27까지)으로만 맞춰 다시 쓴다(테스트가 같은지 확인한다).
+# 지난 기록의 센 수와 S_specified는 결과를 가린 하위 에이전트가 작업 설명만 보고 채웠다(p145, dispatches.toml 머리 주석).
+seen_until = "p99"
+
+[[term]]
+count = "base"
+reason = "지시서 읽기·둘러보기·보고는 일의 크기와 상관없이 거의 같은 몫이다"
+
+[[term]]
+count = "reads"
+reason = "통째로 읽으라고 적힌 파일마다 읽는 턴이 든다"
+
+[[term]]
+count = "outputs"
+reason = "새로 만들 파일마다 쓰고 저장하고 다시 보는 턴이 든다"
+
+[[term]]
+count = "chunks"
+reason = "새로 쓸 절·단계마다 쓰고 고치는 턴이 든다"
+
+[[term]]
+count = "edits"
+reason = "고칠 자리마다 찾아 읽고 바꾸는 턴이 든다"
+
+[[term]]
+count = "checks"
+reason = "확인(렌더·테스트·빌드)마다 돌리고 결과를 보는 턴이 든다"

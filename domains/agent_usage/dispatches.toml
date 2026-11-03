@@ -25,6 +25,9 @@
 #   predicted.rules    예측에 쓴 규칙 id (knowledge.toml)
 #   predicted.analog   빗댄 과거 기록 id (2026-10-19부터, 있으면). 배수 가설(H_settled_integration·H_build_tools)이 이 값으로 시험한다
 #   predicted.written_before  보내기 전에 적었는가 (배치 1은 실행 중에 적음)
+#   size               일의 크기 — 지시서에서 센 수 (2026-11-03부터, knowledge.toml S_specified와 CLAUDE.md '일의 크기 모델').
+#                      { reads 읽을 것, outputs 만들 것, chunks 쓸 덩어리(절·단계), edits 고칠 곳, checks 확인 횟수, find_cap 찾는 일의 상한(글) }.
+#                      지시서에 적힌 것만 세고 모르면 칸을 뺀다. [[dispatch]] 바로 아래(task 다음 줄)에 한 줄 표로 적는다
 #   situation          상황 대 보기: 상태 id = "예" / "아니오" / "일부" / "모름". 적지 않은 상태는 모름
 #   actual.status      done / stopped(중간에 멈춤) / unknown(끝났는지 모름). done만 판정에 쓴다
 #   actual.tokens_m    합계 토큰(백만). 캐시 생성 + 캐시 읽기 + 입력 + 출력
@@ -11469,3 +11472,51 @@ report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
 reason = "말한 구간 '잠깐' 맞음(1.0분). 턴 10(예측 7–12), 토큰 3.17M(예측 1.5–3). 13번 한 바퀴 합계: 작성 2.4 + 검토 2.3 + 수정 1.0 = 5.7분"
 [dispatch.turns]
 skip = "같은 에이전트에 이어 보낸 회차라 로그가 누적되어 회차별 동작 표를 가를 수 없음"
+
+# ---------- 배치 41 (2026-11-03, 이 저장소: 일의 크기 모델 — 지난 기록 채우기, 결과를 가림) ----------
+[[dispatch]]
+id = "p145"
+project = "proviso"
+batch = 41
+date = 2026-11-03
+task = "채우기(세션 안 Opus 5.5 high, 결과를 가림): 기록 269건의 작업 설명(task)만 보고 할 일이 정해져 있나(예/일부/아니오/모름)와 다섯 수(읽을 것·만들 것·쓸 덩어리·고칠 곳·확인)·찾는 일의 상한을 표(TSV)로. 입력 파일 하나, 출력 파일 하나 + 보고서, 코드 없음"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [6, 15]
+turns = [25, 60]
+tokens_m = [2, 5]
+tokens_class = ["T1"]
+rules = ["R_fixed_input_v2", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+analog = "p59"
+reason = "빗댄 p59(정해진 입력을 읽고 정해진 양식의 정리 문서 하나, 4.1분·34턴·2.8M). 이번은 입력이 한 파일(6만 자)로 비슷하고 출력(269줄 표, 약 3만 자)도 정리 문서와 비슷한 크기지만, 줄마다 판단(예/일부/아니오와 다섯 수)이 들어 생각이 길다 → 턴 ×0.7–1.8, 분당 4–7턴 → 6–15분. 두 구간(잠깐/다른 일)에 걸쳐 긴 쪽 '다른 일'. 토큰: 턴 × 맥락 5–9만(입력 6만 자 + 쓴 표가 쌓임) → 2–5M"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨

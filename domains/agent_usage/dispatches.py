@@ -37,6 +37,10 @@ WRONG_REQUIRED_AFTER = "p03"
 # 까닭: 문서에만 적힌 단계는 빠졌다 — p65 이후 세션 안 하위 에이전트 53건 중 --turns 4건. 검사가 막는 단계(review.wrong)는 72/73.
 # 번호가 아니라 날짜로 자른다: 브랜치를 합치며 번호를 다시 매겨도 지난 기록이 걸리지 않게.
 FORM_REQUIRED_FROM = "2026-11-03"
+# 일의 크기 (2026-11-03 사용자 결정, CLAUDE.md '일의 크기 모델'): 지시서에서 센 수. 기록의 size = { 이름 = 수 } (모르면 칸을 뺀다)
+#   reads 읽을 것 · outputs 만들 것 · chunks 쓸 덩어리(절·단계) · edits 고칠 곳 · checks 확인 횟수 · find_cap 찾는 일의 상한(글, 예 "25 원문")
+SIZE_COUNTS = ("reads", "outputs", "chunks", "edits", "checks")
+SIZE_TEXT = ("find_cap",)
 ROOT = HERE.parent.parent
 # 다른 저장소의 보고서는 "저장소:경로"로 적는다 (예: "movie_game:docs/worklog/2026-11-03-x.md")
 OTHER_REPO = re.compile(r"^[\w.-]+:(?!/)")
@@ -218,6 +222,20 @@ def validate(records: list[dict], kn: schema.Knowledge) -> list[str]:
         if wrong_required(records, d) and not (review.get("why") and (review.get("wrong") or review["why"] == UNKNOWN_WHY)):
             errors.append(f"{did}: 시간 구간이 빗나갔는데 review.wrong(틀린 조각 id)과 review.why({'/'.join(WHY)})가 없음"
                           f" (까닭을 못 찾았으면 why = \"{UNKNOWN_WHY}\", 이때 wrong은 비워도 된다)")
+        size = d.get("size")
+        if size is not None:
+            if not isinstance(size, dict):
+                errors.append(f"{did}: size는 {{ 이름 = 수 }} 표여야 함")
+            else:
+                for k, v in size.items():
+                    if k in SIZE_COUNTS:
+                        if isinstance(v, bool) or not isinstance(v, (int, float)) or v < 0:
+                            errors.append(f"{did}: size.{k}는 0 이상의 수여야 함 (모르면 칸을 뺀다)")
+                    elif k in SIZE_TEXT:
+                        if not isinstance(v, str):
+                            errors.append(f"{did}: size.{k}는 글이어야 함 (예: \"25 원문\")")
+                    else:
+                        errors.append(f"{did}: size의 칸 '{k}'는 {SIZE_COUNTS + SIZE_TEXT} 중 하나여야 함")
         status = d.get("actual", {}).get("status", "done")
         if status not in STATUSES:
             errors.append(f"{did}: actual.status는 {STATUSES} 중 하나여야 함")
