@@ -13904,3 +13904,212 @@ hypotheses = []
 "Bash:cd" = { n = 1, sum_s = 6.0, turn_s = 6.0, tool_s = 1.0, out_chars = 560, ctx_k = 160 }
 "SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 456, ctx_k = 161 }
 
+
+[[dispatch]]
+id = "p168"
+project = "gemmin"
+batch = 45
+date = 2026-11-03
+agent = "plan-change-1103"
+round = 1
+task = "조사(클라우드 'searching', Haiku 5.5, 새 세션): Claude 요금제를 내리거나(Ultra/Max → Pro) 다시 올릴 때(Pro → Ultra/Max) 주간 사용량이 이어지는지 새로 시작하는지, 요금 일할 여부, 주간 초기화 시각이 바뀌는지 — 실제 경험담(Reddit 미러·HN·개인 글) 우선, 공식 도움말 문장 보조. 전송 조건: 경험담 원문 6건 + 공식 원문 2건"
+size = { find_cap = "4 질문·원문 8건" }
+[dispatch.situation]
+S_specified = "아니오"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_read_originals = "예"
+S_web_blocked = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p129"
+told = "잠깐"
+minutes = [2, 6]
+tokens_class = ["T1"]
+tokens_m = [1, 4]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "빗댄 p129(클라우드 Haiku 글 조사, 전송 조건 6건, 3.0분·2.51M)와 배치 37 교훈 '클라우드 Haiku 글 조사는 조건 종류와 무관하게 3–10분 띠'. gemmin의 11-03 같은 모양 세션 18개(경험칙 10, API 8)가 1–3분이었다(gemmin docs/agent-log.md) → 2–6분 '잠깐'. 커뮤니티는 reddit.com 직접은 막히고 미러 스냅샷·HN Algolia로 열린다(11-03 API 조사 6번 세션, 원문 13곳). 토큰 1–4M. 계산기 모름(Haiku)"
+hypotheses = ["H_cloud_session_rounds_v2"]
+[dispatch.calc]
+# 계산기: 모름 (맞는 기준값 조각 없음)
+[dispatch.actual]
+status = "done"
+minutes = 2.1  # get_session created_at 20:14:47 → updated_at 20:16:53 (KST)
+start = "2026-11-03T11:14:47Z"
+end = "2026-11-03T11:16:53Z"
+tokens_m = 1.53  # usage: 캐시 읽기 138.3만 + 캐시 쓰기 6.1만 + 입력 6.1만 + 출력 2.3만. 비용 0.13달러. 턴은 셀 수 없음
+[dispatch.turns]
+skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)이 없다"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-03-plan-change.md"
+reason = "말한 구간 '잠깐' 맞음(2.1분, 손 예측 2–6의 아래 끝). 토큰 1.53M은 1–4 안(T1 맞음). 클라우드 Haiku 글 조사 띠 3–10분보다도 짧다 — gemmin 11-03 같은 모양 세션 18개(1–3분)와 같은 쪽. 전송 조건 '경험담 6 + 공식 2'에서 공식 4건은 채웠지만, 요금제 변경을 직접 겪은 경험담은 5건이라 1건 모자란 채 보냈고 그 사실을 스스로 밝혔다. 품질: 핵심 질문 2·3(올리면 사용량 새로 시작, 결제일이 올린 날로 바뀜)을 공식 문장 원문으로 닫았고, Ultra 개명도 공식으로 확인. 1·4(내릴 때 이어지는지, 바꾼 뒤 초기화 시각)는 공식·경험담 모두 없음을 정직하게 남김. 링크 표기 한 곳이 헷갈림(src8 URL 정정 문구) — 4"
+
+[[dispatch]]
+id = "p169"
+project = "stock-rader"
+batch = 46
+date = 2026-11-03
+task = "점검(gemmin 세션 안 Opus 5.5 xhigh, 새 에이전트, 하위 에이전트 허용): stock-rader 논리집 세 가지 — ① 크기 조각(C_base 등)이 재생·실측 모두 기준선보다 못한 까닭과 쪼갤 조건 후보 ② audit 경고 6건(방향 조각 반박)의 까닭 가르기(조건 흐림/이유 틀림/바깥 상황/까닭 모름) ③ 조사 가설 Q_ 7개가 14일째 '시험 전'인 까닭(데이터 부족인지 연결 누락인지 코드로 확인). 기록·knowledge·코드는 고치지 않고 보고서 하나(제안 diff 포함)만 stock-rader docs/worklog/에 써서 브랜치에 커밋·push"
+agent = "주식 논리집 점검"
+round = 1
+size = { find_cap = "3 주제·경고 6건·가설 7개" }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [10, 25]
+turns = [40, 90]
+tokens_m = [5, 15]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p146"
+reason = "빗댄 p146(읽기 전용 점검 보고서 하나, 4.5분·49턴·6.2M, 분당 10.9턴). 이번은 주제 셋에 기록(jsonl 1,700줄)을 파이썬으로 집계하고 market/ 코드까지 읽어 원인을 찾는 찾는 일이라 턴이 1–2배, xhigh라 턴당 생각이 길어 분당 턴이 p146보다 느리다(분당 4–6턴) → 10–25분, 40–90턴. 하위 에이전트를 쓰면 그만큼 늘 수 있다. 토큰: 턴 × 맥락 12–17만 → 5–15M. 가운데 ~16분 → '다른 일'"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.62, 91.23]
+[dispatch.decide]
+main_ctx_k = 450
+left = 10
+direct_m = 35.4
+send_m = 13.3
+added_k = 169
+chose = "보냄"
+why = ["새 눈", "비용"]
+why_note = "사용자 지시 'opus extra, 점검이니까'. 메인 맥락이 이미 크고 기록 1,700줄·코드를 읽으면 그 뒤 모든 응답에서 다시 읽힌다"
+[dispatch.actual]
+status = "done"
+minutes = 21.9  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 95
+tokens_m = 21.80  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-03T14:17:04Z"
+end = "2026-11-03T14:39:01Z"
+[dispatch.review]
+report = "stock-rader:docs/worklog/2026-11-03-logic-check.md"
+reason = "말한 구간 '다른 일' 맞음(21.9분, 손 예측 10–25 안, 위쪽). 턴 95는 40–90을 조금 넘고, 토큰 21.8M은 5–15를 넘었다(T1 예측 → 실제 더 큼): 턴당 맥락이 24만(p146 13.5만)으로 커졌다 — 기록 jsonl 집계 출력과 market/ 코드를 많이 읽어 맥락이 불었다. xhigh에서 분당 4.3턴(예측 4–6 안). 계산기 '신경 끄기 46–91분'은 두 배 넘게 길게 봤다. 보낼까 판단: 고른 쪽 26.4M < 직접 추정 35.4M. 품질: 세 주제 모두 숫자로 닫음 — 크기 조각은 폭이 아니라 자리(고정 기준값 vs 해마다 두 배 다른 변동성)가 까닭, 쪼갤 후보 셋과 '맞춰 본 것' 표시를 지킴; audit 경고 8줄=조각 6개로 바로잡고 5개는 까닭 모름(시험 수 부족)을 지어내지 않음; Q_ 가설 시험 전의 연결 누락 두 곳을 파일:줄로 짚음(메인이 market/research.py의 conds[0]만 쓰는 것을 확인). 제안 1–3을 사본에서 검사·테스트까지 돌림. 하위 에이전트 0 — 5. 입력 실수(사용자가 짚음): effort xhigh인데 S_other_model을 '아니오'로 적어 계산기가 Opus high로 계산했다 — 이 칸은 Opus high가 아닌 모든 설정에 '예'. 계산기에는 Opus xhigh 배수 규칙이 없다(R_other_models는 Sonnet max·Fable xhigh만)"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 38, sum_s = 289.4, turn_s = 1.8, out_chars = 0.0, ctx_k = 245.5 }
+"Bash:cd" = { n = 32, sum_s = 286.6, turn_s = 4.3, tool_s = 0.8, out_chars = 213.5, ctx_k = 197.0 }
+"Bash:cat" = { n = 11, sum_s = 566.8, turn_s = 41.0, tool_s = 17.3, out_chars = 2045, ctx_k = 221 }
+"Bash:scratchpad;" = { n = 7, sum_s = 88.4, turn_s = 12.4, tool_s = 7.9, out_chars = 665, ctx_k = 292 }
+"Bash:Seoul" = { n = 1, sum_s = 6.8, turn_s = 6.8, tool_s = 5.0, out_chars = 232, ctx_k = 94 }
+"Read" = { n = 1, sum_s = 1.4, turn_s = 1.4, tool_s = 0.0, out_chars = 114, ctx_k = 111 }
+"Bash:mkdir" = { n = 1, sum_s = 32.7, turn_s = 32.7, tool_s = 0.4, out_chars = 2082, ctx_k = 199 }
+"Bash:grep" = { n = 1, sum_s = 4.6, turn_s = 4.6, tool_s = 1.3, out_chars = 341, ctx_k = 294 }
+"Bash:python3" = { n = 1, sum_s = 35.4, turn_s = 35.4, tool_s = 0.2, out_chars = 328, ctx_k = 300 }
+"Write" = { n = 1, sum_s = 2.3, turn_s = 2.3, tool_s = 0.0, out_chars = 17809, ctx_k = 308 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 2562, ctx_k = 336 }
+
+[[dispatch]]
+id = "p170"
+project = "stock-rader"
+batch = 46
+date = 2026-11-03
+task = "반영(gemmin 세션 안 Opus 5.5 xhigh, 같은 에이전트 2회차): p169 점검 보고서의 제안 6개를 stock-rader에 반영 — ① C_drawdown을 '흔들림 큼'으로 쪼개기(versions save → fit --write, test_logic 숫자) ② Q_rate_up_shift also + research_states가 조건을 모두 묻게 ③ research_direction이 버린 수를 성적표에 ④ routine-prompt·daily에 종목 실적 비교군 ⑤ C_base를 '최근 250봉 변동성 배수'로 새 버전(이전 버전 보존) ⑥ S_q_risk_off를 값 기준으로(이전 버전 보존). 검사·테스트 통과 뒤 main에 push"
+agent = "주식 논리집 점검"
+round = 2
+size = { outputs = 6, checks = 4 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "예"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [15, 35]
+turns = [60, 130]
+tokens_m = [15, 40]
+tokens_class = ["T1", "T2"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_resume_ctx_v2", "R_say_numbers_v3"]
+analog = "p169"
+reason = "빗댄 p169(같은 에이전트 1회차, 21.9분·95턴·21.8M, 분당 4.3턴). 이번은 정해진 고침 6개 — 1–3은 1회차에 사본에서 검사·테스트까지 돌려 diff가 있어 빠르고, 4–6은 새로 쓴다(코드·지시문·논리집 새 버전·테스트). 고치고 검사·테스트를 도는 고리가 있어 턴은 1회차의 0.6–1.4배 → 60–130턴, 분당 4턴 → 15–35분. 이어서라 턴당 맥락이 1회차 끝 25만에서 시작해 30만 안팎 → 15–40M"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [31.35, 62.7]
+[dispatch.decide]
+main_ctx_k = 480
+left = 8
+direct_m = 68.5
+send_m = 29.4
+added_k = 435
+chose = "보냄"
+why = ["대화 계속", "비용"]
+[dispatch.actual]
+status = "done"
+minutes = 14.9  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 98
+tokens_m = 42.17  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-03T14:43:29Z"
+end = "2026-11-03T14:58:23Z"
+[dispatch.review]
+report = "stock-rader:docs/worklog/2026-11-03-logic-apply.md"
+reason = "말한 구간 '다른 일' 맞음(14.9분, 손 예측 15–35의 아래 끝 바로 밑). 턴 98은 60–130 안. 토큰 42.2M은 15–40을 조금 넘었다: 이어 보낸 회차라 턴당 맥락이 1회차 끝(25만)보다 더 커졌다(R_resume_ctx_v2 방향 맞음, 크기는 위). 분당 6.6턴 — 1회차(4.3)보다 빠르다: 고침 1–3은 1회차 사본 diff가 있어 생각이 짧았다. 계산기 '신경 끄기 31–63분'은 두 배 넘게 길게 봤다. 입력 실수: xhigh인데 S_other_model을 '아니오'로 적었다(p169와 같음). 보낼까: 고른 쪽 47.0M < 직접 추정 68.5M. 품질: 고침 6개 모두 넣고 validate·audit 오류 0·기록 검사·테스트 92개(+7) 통과를 메인이 origin/main에서 다시 돌려 확인. 매일 실행 흉내로 새 칸·거절·report까지 확인. 지시하지 않은 판단 하나(종목 칸을 한 칸으로 묶음)를 스스로 밝혔고 까닭이 맞다(종목마다 나누면 비교군이 판정에 안 들어감). 확인 못 한 것(조사 에이전트가 공포 지수 1년 평균을 찾는지)을 정직하게 남김 — 5"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Bash:cd" = { n = 45, sum_s = 453.0, turn_s = 5.2, tool_s = 0.9, out_chars = 448, ctx_k = 429 }
+"글" = { n = 40, sum_s = 238.0, turn_s = 2.9, out_chars = 0.0, ctx_k = 425.5 }
+"Bash:scratchpad;" = { n = 3, sum_s = 21.1, turn_s = 6.6, tool_s = 1.3, out_chars = 945, ctx_k = 448 }
+"Bash:Seoul" = { n = 2, sum_s = 46.6, turn_s = 23.3, tool_s = 0.7, out_chars = 209.5, ctx_k = 412.0 }
+"Bash:grep" = { n = 2, sum_s = 4.9, turn_s = 2.5, tool_s = 0.8, out_chars = 278.5, ctx_k = 399.0 }
+"Bash:sed" = { n = 2, sum_s = 7.4, turn_s = 3.7, tool_s = 1.6, out_chars = 208.0, ctx_k = 412.5 }
+"Edit" = { n = 1, sum_s = 2.8, turn_s = 2.8, tool_s = 0.0, out_chars = 680, ctx_k = 385 }
+"Bash:cat" = { n = 1, sum_s = 5.5, turn_s = 5.5, tool_s = 0.5, out_chars = 2228, ctx_k = 416 }
+"Write" = { n = 1, sum_s = 2.6, turn_s = 2.6, tool_s = 0.0, out_chars = 6594, ctx_k = 486 }
+"SubagentHandback" = { n = 1, sum_s = 0.3, turn_s = 0.3, tool_s = 0.3, out_chars = 2291, ctx_k = 495 }
