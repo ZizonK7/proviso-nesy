@@ -13459,3 +13459,62 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-03-plan-change.md"
 reason = "말한 구간 '잠깐' 맞음(2.1분, 손 예측 2–6의 아래 끝). 토큰 1.53M은 1–4 안(T1 맞음). 클라우드 Haiku 글 조사 띠 3–10분보다도 짧다 — gemmin 11-03 같은 모양 세션 18개(1–3분)와 같은 쪽. 전송 조건 '경험담 6 + 공식 2'에서 공식 4건은 채웠지만, 요금제 변경을 직접 겪은 경험담은 5건이라 1건 모자란 채 보냈고 그 사실을 스스로 밝혔다. 품질: 핵심 질문 2·3(올리면 사용량 새로 시작, 결제일이 올린 날로 바뀜)을 공식 문장 원문으로 닫았고, Ultra 개명도 공식으로 확인. 1·4(내릴 때 이어지는지, 바꾼 뒤 초기화 시각)는 공식·경험담 모두 없음을 정직하게 남김. 링크 표기 한 곳이 헷갈림(src8 URL 정정 문구) — 4"
+
+[[dispatch]]
+id = "p169"
+project = "stock-rader"
+batch = 46
+date = 2026-11-03
+task = "점검(gemmin 세션 안 Opus 5.5 xhigh, 새 에이전트, 하위 에이전트 허용): stock-rader 논리집 세 가지 — ① 크기 조각(C_base 등)이 재생·실측 모두 기준선보다 못한 까닭과 쪼갤 조건 후보 ② audit 경고 6건(방향 조각 반박)의 까닭 가르기(조건 흐림/이유 틀림/바깥 상황/까닭 모름) ③ 조사 가설 Q_ 7개가 14일째 '시험 전'인 까닭(데이터 부족인지 연결 누락인지 코드로 확인). 기록·knowledge·코드는 고치지 않고 보고서 하나(제안 diff 포함)만 stock-rader docs/worklog/에 써서 브랜치에 커밋·push"
+agent = "주식 논리집 점검"
+round = 1
+size = { find_cap = "3 주제·경고 6건·가설 7개" }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [10, 25]
+turns = [40, 90]
+tokens_m = [5, 15]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p146"
+reason = "빗댄 p146(읽기 전용 점검 보고서 하나, 4.5분·49턴·6.2M, 분당 10.9턴). 이번은 주제 셋에 기록(jsonl 1,700줄)을 파이썬으로 집계하고 market/ 코드까지 읽어 원인을 찾는 찾는 일이라 턴이 1–2배, xhigh라 턴당 생각이 길어 분당 턴이 p146보다 느리다(분당 4–6턴) → 10–25분, 40–90턴. 하위 에이전트를 쓰면 그만큼 늘 수 있다. 토큰: 턴 × 맥락 12–17만 → 5–15M. 가운데 ~16분 → '다른 일'"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.62, 91.23]
+[dispatch.decide]
+main_ctx_k = 450
+left = 10
+direct_m = 35.4
+send_m = 13.3
+added_k = 169
+chose = "보냄"
+why = ["새 눈", "비용"]
+why_note = "사용자 지시 'opus extra, 점검이니까'. 메인 맥락이 이미 크고 기록 1,700줄·코드를 읽으면 그 뒤 모든 응답에서 다시 읽힌다"
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
