@@ -12060,3 +12060,53 @@ reason = "말한 구간 '다른 일'인데 7.4분 '잠깐'. 분 7.4는 예측 6�
 "Bash:mkdir" = { n = 1, sum_s = 4.5, turn_s = 4.5, tool_s = 0.1, out_chars = 2925, ctx_k = 93 }
 "Write" = { n = 1, sum_s = 15.7, turn_s = 15.7, tool_s = 0.0, out_chars = 4369, ctx_k = 139 }
 "SubagentHandback" = { n = 1, sum_s = 0.8, turn_s = 0.8, tool_s = 0.8, out_chars = 1561, ctx_k = 143 }
+
+# ---------- 배치 42 (2026-11-03, 이 저장소: 레포만 주고 절차를 알아서 쓰는지 — 맥락 없는 새 작업자) ----------
+[[dispatch]]
+id = "p146"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "점검(세션 안 Opus 5.5 high, 새 에이전트, 맥락 없음): 다른 저장소 세션이 '논리집 레포 읽어 봐'만 듣고 하위 에이전트를 보낸다고 치고, 보내기 전·끝난 뒤 절차(예측·기록·돌아보기)를 문서에서 찾아 순서대로 적고 헷갈린 곳을 보고서로. 파일 수정 없음(보고서 하나), 읽기 전용 명령만"
+agent = "콜드 리드 점검"
+round = 1
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [8, 20]
+turns = [30, 70]
+tokens_m = [4, 10]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v3"]
+analog = "p124"
+reason = "빗댄 p124(문서를 읽고 비평 보고서 하나, 16.9분·37턴·6.1M). 이번은 읽을 문서가 더 많고(루트·분야 CLAUDE.md, dispatch.md, scripts·worklog 안내) 읽기 전용 명령을 몇 번 돌리지만 고칠 안 50개 같은 긴 출력은 없다 → 턴 ×0.8–1.9, 분 8–20. 가운데 12.6분 → '다른 일'(R_say_numbers_v3). 찾는 일(아니오)이라 빗댄 기록 규칙은 쓰지 않는다. 토큰: 턴 × 맥락 12–15만 → 4–10M"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [10.0, 20.1]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨
