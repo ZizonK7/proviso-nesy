@@ -11504,3 +11504,903 @@ reason = "말한 구간 '신경 끄기' 맞음(65분, > 40) — 손 예측 120�
 hypotheses = []
 [dispatch.turns]
 skip = "메인 자신의 일이라 하위 에이전트 로그가 없다"
+
+[[dispatch]]
+id = "p146"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 1차례): 먼 분야 20개(sea2_01–sea2_20, 해삼 잠수 채취(머구리) 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p147"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 1차례): 먼 분야 20개(sea2_21–river2_15, 유인 잠수정 조종 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p148"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 1차례): 먼 분야 20개(river2_16–farm2_10, 민물새우 양식 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p149"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 1차례): 먼 분야 20개(farm2_11–forest2_05, 콩 타작 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p150"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 1차례): 먼 분야 20개(forest2_06–forest2_25, 산양삼 재배 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p151"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 1차례): 먼 분야 20개(sky2_01–sky2_20, 열기구 조종 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p152"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 1차례): 먼 분야 20개(sky2_21–under2_15, 산악 구조 헬기 호이스트 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p153"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 1차례): 먼 분야 20개(under2_16–fire2_10, 갱내 광차 운반 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p154"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 1차례): 먼 분야 20개(fire2_11–craft2_05, 불쇼 공연 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p155"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 1차례): 먼 분야 20개(craft2_06–craft2_25, 모시 짜기 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p156"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 2차례): 먼 분야 20개(food2_01–food2_20, 간장 달이기 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p157"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 2차례): 먼 분야 20개(food2_21–animal2_15, 숯불 고깃집 굽기 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p158"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 2차례): 먼 분야 20개(animal2_16–people2_10, 토끼 사육 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p159"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 2차례): 먼 분야 20개(people2_11–rite2_05, 네일아트 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p160"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 2차례): 먼 분야 20개(rite2_06–rite2_25, 장승 깎기 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p161"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 2차례): 먼 분야 20개(stage2_01–stage2_20, 뮤지컬 앙상블 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p162"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 2차례): 먼 분야 20개(stage2_21–machine2_15, 어쿠스틱 기타 제작 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p163"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 2차례): 먼 분야 20개(machine2_16–build2_10, 송전선 활선 작업 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p164"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 2차례): 먼 분야 20개(build2_11–sport2_05, 몰딩 목공 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+
+[[dispatch]]
+id = "p165"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "생성(far_fields 2차, 2차례): 먼 분야 20개(sport2_06–sport2_25, 선발 투수 운영 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [20, 45]
+turns = [25, 45]
+tokens_class = ["T1"]
+tokens_m = [2, 6]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(분야 20개 × 12개를 한 에이전트가 쓰는 첫 일). 계산기는 S_fixed_input으로 '잠깐' 2–4분·10–21턴을 내지만, 출력 몫(분야마다 JSON 약 6천 토큰 × 20 = 12만 토큰)을 모른다. 같은 내용을 API로 만들 때 분야 하나 약 1–2분이었다 → 20개 20–40분 + 지시서 읽기·검사 몇 분. 턴은 읽기 3 + 쓰기 20 + 검사·고침 5–20. 토큰은 맥락이 2만에서 15만까지 자라며 평균 8만 × 35턴 ≈ 3M. 걸치면 긴 쪽 '신경 끄기'. 동시 10개"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다

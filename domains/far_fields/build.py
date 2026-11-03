@@ -45,6 +45,10 @@ note = "사용자 2026-11-03 (기록을 남기는 부분은 부모 세션 제안
 '''
 
 
+UNREVIEWED_PLAN = ("검토하지 않은 AI 생성분(사용자 2026-11-03: 구조만 정확하면 나중에 하나씩 고친다). "
+                   "쓰거나 연결에 뽑힐 때 판정을 붙이고, 그 분야를 실제로 하게 되면 사용자 실사용으로 판정한다")
+
+
 def q(s: str) -> str:
     """TOML 기본 문자열 (JSON 문자열 표기는 TOML에서도 유효하다)."""
     return json.dumps(s, ensure_ascii=False)
@@ -60,7 +64,21 @@ def _read(pattern: str) -> dict[str, dict]:
     return recs
 
 
+AGENT_SLUGS: set[str] = set()
+
+
+def _read_agent() -> dict[str, dict]:
+    """2차: Claude Code 하위 에이전트가 쓴 분야 파일(out/far_fields/agent_gen/<slug>.json). 검토 없음(사용자 지시 2026-11-03)."""
+    recs = {}
+    for path in sorted((OUT / "agent_gen").glob("*.json")):
+        recs[path.stem] = json.loads(path.read_text(encoding="utf-8"))
+    AGENT_SLUGS.update(recs)
+    return recs
+
+
 def _source(slug: str, it: dict) -> str:
+    if slug in AGENT_SLUGS:
+        return f"AI 생성(Opus 5.5, Claude Code 서브에이전트) {GEN_DATE}, 출처 없음(모델 지식), 검토 없음"
     if not slug.startswith("haiku_"):
         return f"AI 생성: claude-opus-5-5 배치 {GEN_DATE}, 출처 없음(모델 지식)"
     kind = {"열람": "원문 열람", "검색 요약": "검색 요약만", "모델 지식": "출처 없음(모델 지식)"}[it["opened"]]
@@ -68,22 +86,24 @@ def _source(slug: str, it: dict) -> str:
 
 
 def build() -> tuple[str, dict]:
-    gens = _read("test_gen.jsonl") | _read("gen_*.jsonl") | _read("haiku_gen.jsonl")
+    gens = _read("test_gen.jsonl") | _read("gen_*.jsonl") | _read("haiku_gen.jsonl") | _read_agent()
     revs = _read("rev_*.jsonl")
-    fields = {f["slug"]: f for f in json.loads((HERE / "fields.json").read_text(encoding="utf-8"))}
+    fields = {f["slug"]: f for name in ("fields.json", "fields2.json")
+              for f in json.loads((HERE / name).read_text(encoding="utf-8"))}
     out = [HEADER, "\n# ---------- 모양 (조각이 조건으로 공유하는 상황) ----------"]
     for sid, text in SHAPES.items():
         out.append(f"[[state]]\nid = {q(sid)}\ntext = {q(text)}\n")
     out.append("# ---------- 조각 (분야별) ----------")
-    judgments, stats = [], {"fields": 0, "pieces": 0, "reviewed": 0, "verdict": {}, "general_bad": 0, "no_review": []}
+    judgments, stats = [], {"fields": 0, "agent_fields": 0, "pieces": 0, "reviewed": 0, "verdict": {}, "general_bad": 0, "no_review": []}
     order = [s for s in fields if s in gens] + sorted(s for s in gens if s not in fields)
     for slug in order:
         data = gens[slug]
         group = fields[slug]["group"] if slug in fields else "웹 조사 10개 분야"
         rev = {r["n"]: r for r in (revs.get(slug) or {}).get("reviews", [])}
-        if slug not in revs:
+        if slug not in revs and slug not in AGENT_SLUGS:
             stats["no_review"].append(slug)
         stats["fields"] += 1
+        stats["agent_fields"] += slug in AGENT_SLUGS
         out.append(f"# {data['field']} ({group})")
         for n, it in enumerate(data["items"], 1):
             nid = f"H_{slug}_{n:02d}"
@@ -98,6 +118,8 @@ def build() -> tuple[str, dict]:
                 f"field = {q(data['field'])}", f"group = {q(group)}", f"rule = {q(it['rule'])}",
                 f"why = {q(it['why'])}", f"breaks = {q(it['breaks'])}", f"confidence = {q(it['confidence'])}",
             ]
+            if slug in AGENT_SLUGS:
+                lines.append(f"test_plan = {q(UNREVIEWED_PLAN)}")
             if text != it["general"]:
                 lines.append(f"general_original = {q(it['general'])}")
             if shapes:

@@ -23,17 +23,21 @@ class FarFieldsTest(unittest.TestCase):
     def test_every_piece_has_text_source_and_field(self):
         for h in self.kn.of("hypothesis"):
             self.assertTrue(h.data["text"].strip(), h.id)
-            self.assertTrue(h.data["source"].startswith(("AI 생성:", "웹 조사:")), h.id)
+            self.assertTrue(h.data["source"].startswith(("AI 생성:", "웹 조사:", "AI 생성(Opus 5.5, Claude Code 서브에이전트)")), h.id)
             for k in ("field", "rule", "why", "breaks", "confidence"):
                 self.assertIn(k, h.data, h.id)
 
-    def test_every_piece_has_ai_judgment_only(self):
-        # 전부 AI가 만들거나 모은 재료다: 판정은 가장 가벼운 출처(ai)만 있어야 한다
+    def test_judgments_are_ai_only_and_unreviewed_have_plan(self):
+        # 전부 AI가 만들거나 모은 재료다: 판정은 가장 가벼운 출처(ai)만 있어야 한다.
+        # 1차(API 생성·웹 조사)는 모두 AI 검토 판정이 있고, 2차(서브에이전트 생성)는 검토 없이 test_plan만 있다(사용자 2026-11-03)
         judged = {j["of"] for j in self.kn.judgments}
-        for h in self.kn.of("hypothesis"):
-            self.assertIn(h.id, judged, h.id)
         self.assertEqual({j["source"] for j in self.kn.judgments}, {"ai"})
-        self.assertEqual(audit.untested(self.kn), [])
+        for h in self.kn.of("hypothesis"):
+            if "서브에이전트" in h.data["source"]:
+                self.assertNotIn(h.id, judged, h.id)
+                self.assertIn("검토하지 않은", h.data.get("test_plan", ""), h.id)
+            else:
+                self.assertIn(h.id, judged, h.id)
 
     def test_shapes_are_from_vocabulary(self):
         self.assertEqual({s.id for s in self.kn.of("state")}, set(SHAPES))
