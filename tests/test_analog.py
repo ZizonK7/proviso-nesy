@@ -77,6 +77,27 @@ class AnalogRule(unittest.TestCase):
         self.assertTrue(group and how)
         self.assertTrue(all(dp.done(c) for c in group))
 
+    def test_same_model_and_effort_first_then_same_model(self):
+        # v2 고침(2026-11-03 사용자 결정): S_other_model 대신 model·effort — 같은 모델·effort → 같은 모델의 다른 effort → 없음(손 예측)
+        def rec(rid, model, effort, minutes, date="2026-11-05"):
+            return {"id": rid, "project": "x", "batch": 1, "date": date, "task": "t", "model": model, "effort": effort,
+                    "situation": {"S_specified": "예", "S_resumed": "아니오", "S_other_model": dp.other_model(model, effort)},
+                    "predicted": {}, "actual": {"minutes": minutes, "turns": 10}}
+        past = [rec("a1", "Opus 5.5", "high", 5.0, "2026-11-04"), rec("a2", "Opus 5.5", "xhigh", 9.0, "2026-11-04"),
+                rec("a3", "Sonnet 5.5", "max", 20.0, "2026-11-04")]
+        new = rec("n1", "Opus 5.5", "xhigh", 1.0)
+        group, how = an.pick(new, past + [new], self.rule, {})
+        self.assertEqual(([c["id"] for c in group], how), (["a2"], "반드시 같은 답 · 같은 모델·effort"))
+        group, how = an.pick(new, [past[0], past[2], new], self.rule, {})
+        self.assertEqual(([c["id"] for c in group], how), (["a1"], "반드시 같은 답 · 같은 모델(effort 다르거나 모름)"))
+        haiku = rec("n2", "Haiku 5.5", "high", 1.0)
+        self.assertEqual(an.pick(haiku, past + [haiku], self.rule, {}), ([], None))   # 다른 모델은 빗대지 않는다
+        # 칸이 없는 옛 기록은 S_other_model로 푼다: 아니오(또는 적지 않음) = Opus 5.5 high
+        old = {**past[0], "id": "a0"}
+        del old["model"], old["effort"]
+        self.assertEqual(dp.setup(old), ("Opus 5.5", "high"))
+        self.assertEqual([c["id"] for c in an.pick(rec("n3", "Opus 5.5", "high", 1.0), [old, past[1]], self.rule, {})[0]], ["a0"])
+
     def test_same_answers_give_the_same_pick(self):
         # 고르기는 기계가 한다: 같은 기록에 두 번 돌려도 같은 묶음
         d = self.records[-1]

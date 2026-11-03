@@ -522,8 +522,10 @@ def decide_cost() -> tuple[str, str]:
 
 def told_zone_v3() -> tuple[str, str]:
     """R_say_numbers_v3: 걸치면 가운데 값의 구간으로 말하기로 바꾼 뒤(2026-11-03, SEEN_UNTIL p145) 말한 구간이 실제 구간과 맞는다.
-    v2(걸치면 긴 쪽) 시절에 말한 기록은 세지 않는다."""
-    return _judge("told_zone_v3", lambda d: "told" in d.get("predicted", {}),
+    v2(걸치면 긴 쪽) 시절에 말한 기록은 세지 않는다 — 파일 순서로 p145 뒤라도 predicted.rules에 R_say_numbers_v2를 적은 기록은
+    v2로 말한 것이다(2026-11-03 병합으로 붙은 p147–p167: v3가 생기기 전에 갈라진 브랜치가 v2로 말했다)."""
+    return _judge("told_zone_v3", lambda d: "told" in d.get("predicted", {})
+                  and "R_say_numbers_v2" not in d["predicted"].get("rules", []),
                   lambda d: d["predicted"]["told"] == dp.zone(d["actual"]["minutes"]),
                   lambda d: f"{d['predicted']['told']} → {dp.zone(d['actual']['minutes'])}")
 

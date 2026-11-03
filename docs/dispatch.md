@@ -15,6 +15,7 @@
 ## 모델
 - **모델·effort 기본값: Opus 5.5 · effort high** (사용자 지시 2026-10-14). Agent 도구에 `model: "opus"`, `effort: "high"`. 사용자가 바꾸라고 할 때만 바꾼다.
 - **질보다 양인 일은 Haiku 5.5 · effort high** (사용자 지시 2026-10-22. 처음엔 language_learning 대량 조사에서, 같은 날 "조사뿐 아니라 질보다 양인 작업이면 Haiku에게 시켜도 된다"로 넓힘). `model: "haiku"`. 대량 조사, 여러 파일에 같은 고침 반복, 기록 옮겨 적기, 정해진 양식으로 바꾸기 같은 일. 설계·판단·까다로운 구현은 그대로 Opus. agent_usage 숫자는 Opus 기준이라 Haiku는 계산기가 '모름'을 낸다 — 손 예측으로 잡고 기록을 쌓는다(p10–p15가 첫 기록, S_other_model=예).
+- **기록에는 모델과 effort를 칸으로** (2026-11-03 사용자 결정): 기록의 `model`·`effort`(2026-11-04부터 필수). '기본 설정인가'(S_other_model)는 이 둘에서 계산하고, 빗댄 기록 규칙은 같은 모델·effort의 지난 일을 먼저 찾는다([agent_usage](../domains/agent_usage/CLAUDE.md) "빗댄 기록 규칙").
 
 ## 조사 보낼 때
 - **조사는 되도록 클라우드 환경 `searching`에서** (사용자 제안 2026-10-22, 같은 날 gemmin 세션에서 확인). 클라우드 세션에서는 `create_session`(claude-code-remote MCP)에 `environment_id: env_01MZX426uZooVUwnbJ5RV66Q`를 주고 지시서를 prompt로 보낸다. 시험 결과: arXiv·Reddit·Google Scholar·Semantic Scholar·HN 등 9곳이 curl로 다 열렸고 WebSearch가 있다(그동안의 "검색 요약만" 제약이 여기서는 풀린다). 결과는 `get_session`·`list_events`로 읽고, 사용량은 `get_session`의 usage(토큰·cost_usd)로 적는다 — `scripts/agent_usage.py`는 로컬 jsonl만 읽으므로 못 쓴다. 로컬 PC 세션에 이 도구가 있는지는 미확인. **배치 9·10 교훈**: 클라우드 Haiku 세션은 지시서에 **전송 조건**('원문 n건·그림 n장을 실제로 본 뒤에만 보낼 것')이 없으면 1차 보고를 3~5분 만에 얕게 보내고 끝난다(배치 9). 전송 조건을 숫자로 적으면 1차에 조건을 채워 온다(배치 10, 5분에 그림 35장). 열리는 주소 목록(언어 학습 O_scope_batch9)도 같이 적는다. 그림은 스토어 HTML의 이미지 주소를 받아 Read로 보게 한다(설명 글을 요구하면 글만 읽는다). 실측은 get_session의 created_at→updated_at과 usage 합(턴은 못 센다).

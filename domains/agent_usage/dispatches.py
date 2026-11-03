@@ -236,6 +236,56 @@ def validate_direct(entries: list[dict]) -> list[str]:
     return errors
 
 
+# 모델·effort (2026-11-03 사용자 결정): 기록에 보낸 모델과 effort를 칸으로 적고, '기본 설정이 아닌가'(S_other_model)는 이 두 칸에서
+# 계산한다(기본 설정 = Opus 5.5 high, knowledge.toml F_setup). 전에는 S_other_model 하나라 Sonnet max·Haiku·Fable xhigh·Opus xhigh가
+# 한 덩어리였다. 지난 기록은 작업 설명에 적힌 것과 S_other_model = 아니오로만 채웠다(dispatches.toml 머리 주석). 이 날짜부터 필수.
+MODELS = ("Opus 5.5", "Sonnet 5.5", "Haiku 5.5", "Fable 5.1")  # 새 모델을 쓰면 여기에 더한다
+EFFORTS = ("low", "medium", "high", "xhigh", "max")
+DEFAULT_SETUP = ("Opus 5.5", "high")
+MODEL_REQUIRED_FROM = "2026-11-04"
+
+
+def other_model(model: str | None, effort: str | None) -> str | None:
+    """두 칸에서 계산한 S_other_model 값('예' = 기본 설정 Opus 5.5 high가 아님). 모르면 None."""
+    if model is None:
+        return None
+    if model != DEFAULT_SETUP[0]:
+        return "예"
+    if effort is None:
+        return None
+    return "아니오" if effort == DEFAULT_SETUP[1] else "예"
+
+
+def setup(d: dict) -> tuple[str | None, str | None]:
+    """기록의 (모델, effort). 칸이 없는 옛 기록은 S_other_model이 아니오면(적지 않으면 기본값 아니오) 기본 설정, 아니면 (None, None)."""
+    if d.get("model"):
+        return d["model"], d.get("effort")
+    if d.get("situation", {}).get("S_other_model", "아니오") == "아니오":
+        return DEFAULT_SETUP
+    return None, None
+
+
+def model_errors(d: dict) -> list[str]:
+    """model·effort 칸 검사: 값, 필수(MODEL_REQUIRED_FROM부터), S_other_model과 맞는가(적지 않으면 기본값 아니오로 본다)."""
+    did, errors = d.get("id", "?"), []
+    model, effort = d.get("model"), d.get("effort")
+    if model is not None and model not in MODELS:
+        errors.append(f"{did}: model은 {MODELS} 중 하나여야 함 (새 모델이면 dispatches.py MODELS에 더한다)")
+    if effort is not None and effort not in EFFORTS:
+        errors.append(f"{did}: effort는 {EFFORTS} 중 하나여야 함")
+    if effort is not None and model is None:
+        errors.append(f"{did}: effort만 있고 model이 없음")
+    if str(d.get("date", "")) >= MODEL_REQUIRED_FROM:
+        main_self = d.get("situation", {}).get("S_main_self") == "예"  # 메인 자신의 일: 세션이 자기 effort를 모를 수 있다
+        if model is None or (effort is None and not main_self):
+            errors.append(f"{did}: model·effort(보낸 모델과 effort)가 없음 — 보낼 일 파일에 적으면 `record send`가 옮기고 "
+                          f"S_other_model도 계산해 넣는다")
+    want, have = other_model(model, effort), d.get("situation", {}).get("S_other_model", "아니오")
+    if want is not None and have != want:
+        errors.append(f"{did}: S_other_model = '{have}'인데 model·effort({model} {effort})로는 '{want}' — 이 상태는 두 칸에서 계산한다")
+    return errors
+
+
 def form_required(d: dict) -> bool:
     """FORM_REQUIRED_FROM 뒤의 끝난(실측이 있는) 기록인가 — 그러면 turns 칸과 review.report가 필수."""
     return done(d) and "minutes" in d.get("actual", {}) and str(d.get("date", "")) >= FORM_REQUIRED_FROM
@@ -365,6 +415,7 @@ def validate(records: list[dict], kn: schema.Knowledge) -> list[str]:
             errors.append(f"{did}: actual.status는 {STATUSES} 중 하나여야 함")
         if done(d) and "minutes" not in d.get("actual", {}):
             errors.append(f"{did}: 끝난 작업인데 실측 시간이 없음")
+        errors.extend(model_errors(d))
         errors.extend(form_errors(d))
     return errors
 

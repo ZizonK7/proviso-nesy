@@ -10,6 +10,8 @@ AI는 지시서를 보고 정해진 질문(상태)에 답만 하고, 고르기�
 - 쓸 수 있는 후보: 보낼 때 이미 끝나 있던 기록(날짜가 앞서거나, 같은 날이면 끝 시각 ≤ 이 기록의 시작 시각; 시각을 모르면
   같은 날 다른 배치이고 파일에서 앞선 것만). 시각은 기록 글의 'HH:MM:SS → HH:MM:SS'(주석이라 원문에서 읽는다).
 - 반드시 같은 답(HARD, '모름'은 다른 답) → 같은 저장소 → SOFT에서 같은 답이 많은 것. 맨 앞이 동점이면 그 묶음의 실제 분의 가운데 값.
+- 모델·effort(same_setup, v2 고침 2026-11-03): HARD 안에서 같은 모델·effort가 먼저, 없으면 같은 모델의 다른 effort. 다른 모델은 쓰지 않는다.
+  칸이 없는 옛 기록은 S_other_model로 푼다(아니오 = Opus 5.5 high, dispatches.setup).
 - 못 찾으면 HARD의 '모름'을 상관없음으로 두고 다시 찾는다. 그래도 없으면 모름(손 예측).
 - 분 범위 = 고른 분 × 범위(analog.toml). 말할 구간은 가운데 값의 구간(dispatches.say_zone).
 """
@@ -90,14 +92,28 @@ def pick(d: dict, records: list[dict], rule: dict, t: dict | None = None) -> tup
         if prev:
             return [max(prev, key=lambda c: c["round"])], "같은 에이전트의 앞 회차"
     for how, wild in (("반드시 같은 답", False), ("'모름'은 상관없음", True)):
-        cands = [c for c in pool if all(_v(c, k) == _v(d, k) or (wild and "모름" in (_v(c, k), _v(d, k)))
-                                        for k in rule["hard"])]
-        if cands:
-            def key(c: dict) -> tuple:
-                return (c.get("project") == d.get("project"), sum(_v(c, k) == _v(d, k) for k in rule["soft"]))
-            best = max(key(c) for c in cands)
-            return [c for c in cands if key(c) == best], how
+        hard = [c for c in pool if all(_v(c, k) == _v(d, k) or (wild and "모름" in (_v(c, k), _v(d, k)))
+                                       for k in rule["hard"])]
+        for label, ok in setup_tiers(d, rule, wild):
+            cands = [c for c in hard if ok(c)]
+            if cands:
+                def key(c: dict) -> tuple:
+                    return (c.get("project") == d.get("project"), sum(_v(c, k) == _v(d, k) for k in rule["soft"]))
+                best = max(key(c) for c in cands)
+                return [c for c in cands if key(c) == best], how + label
     return [], None
+
+
+def setup_tiers(d: dict, rule: dict, wild: bool) -> list[tuple[str, object]]:
+    """모델·effort 기준(rule.same_setup, v2 고침 2026-11-03): 같은 모델·effort → 없으면 같은 모델(effort가 다르거나 모름).
+    다른 모델은 다른 세상이라 빗대지 않는다(손 예측). 이 기록의 모델을 모르면 '모름'처럼 — 첫 바퀴는 못 찾고, 둘째 바퀴는 상관없음."""
+    if not rule.get("same_setup"):
+        return [("", lambda c: True)]
+    model, effort = dp.setup(d)
+    if model is None:
+        return [(" · 모델 모름", lambda c: True)] if wild else []
+    return [(" · 같은 모델·effort", lambda c: effort is not None and dp.setup(c) == (model, effort)),
+            (" · 같은 모델(effort 다르거나 모름)", lambda c: dp.setup(c)[0] == model)]
 
 
 def decided(group: list[dict], how: str | None, rule: dict) -> bool:
@@ -253,7 +269,7 @@ def show(d: dict, records: list[dict], rule: dict) -> str:
     if not decided(group, how, rule):
         return (f"{d['id']}: 동점 {len(group)}건이 서로 크게 벌어져 규칙이 가리지 못함 — 손 예측(AI가 빗댄 기록을 고름)으로 넘긴다. 동점: "
                 + ", ".join(f"{c['id']} {dp.measures(c)['minutes']}분" for c in group[:8]) + (" …" if len(group) > 8 else ""))
-    lines = [f"{d['id']}: {how}으로 찾음, 동점 {len(group)}건 — " + ", ".join(f"{c['id']} {dp.measures(c)['minutes']}분" for c in group[:8])
+    lines = [f"{d['id']}: 찾은 길 '{how}', 동점 {len(group)}건 — " + ", ".join(f"{c['id']} {dp.measures(c)['minutes']}분" for c in group[:8])
              + (" …" if len(group) > 8 else ""),
              f"  가운데 값 {e:g}분" + (f" × {rng[0]:g}–{rng[1]:g} → {e * rng[0]:.1f}–{e * rng[1]:.1f}분 → 말할 구간 {dp.say_zone([e * rng[0], e * rng[1]])}" if rng else "")]
     if dp.done(d) and dp.measures(d)["minutes"]:
@@ -279,9 +295,11 @@ def main(argv: list[str]) -> int:
         if Path(arg).is_file():  # 기록을 덧붙이기 전: 상황 파일(project, date, agent, round, [situation])
             raw = tomllib.loads(Path(arg).read_text(encoding="utf-8"))
             d = {"id": "(새 기록)", "project": raw.get("project", ""), "date": str(raw.get("date", "")), "batch": None,
-                 "agent": raw.get("agent"), "round": raw.get("round"), "situation": raw.get("situation", {}),
-                 "predicted": {}, "actual": {"status": "unknown"}}
-            print(f"상황 파일 {arg} (project {d['project']}, agent {d['agent']}, round {d['round']})")
+                 "agent": raw.get("agent"), "round": raw.get("round"), "model": raw.get("model"), "effort": raw.get("effort"),
+                 "situation": raw.get("situation", {}), "predicted": {}, "actual": {"status": "unknown"}}
+            if rule.get("same_setup") and not d["model"]:
+                print("주의: 상황 파일에 model·effort가 없어 S_other_model로 푼다 — 보낼 모델과 effort를 적는다")
+            print(f"상황 파일 {arg} (project {d['project']}, agent {d['agent']}, round {d['round']}, {d['model']} {d['effort']})")
             print(show(d, records, rule))
             return 0
         found = [d for d in records if d["id"] == arg]

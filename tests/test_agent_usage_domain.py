@@ -145,6 +145,8 @@ class Rescore20261019(unittest.TestCase):
         new.update(agent="작성", round=1)
         self.assertTrue(any("zz3" in e and "decide" in e for e in dp.validate(records + [new], kn)))  # 보낼까 판단도 11-04부터
         new["decide"] = {"main_ctx_k": 300, "left": 50, "direct_m": 20.0, "send_m": 9.0, "chose": "보냄", "why": ["비용"]}
+        self.assertTrue(any("zz3" in e and "model·effort" in e for e in dp.validate(records + [new], kn)))  # 모델·effort도 11-04부터
+        new.update(model="Opus 5.5", effort="high")
         self.assertEqual(dp.validate(records + [new], kn), [])
         new["actual"]["start"] = "01:00:00"
         self.assertTrue(any("UTC ISO" in e for e in dp.validate(records + [new], kn)))
@@ -162,6 +164,30 @@ class Rescore20261019(unittest.TestCase):
         self.assertTrue(any("skip하지 않는다" in e for e in dp.validate(records + [new], kn)))
         # 11-03까지의 기록은 요구하지 않는다
         self.assertEqual(dp.validate(records, kn), [])
+
+    def test_model_and_effort_decide_the_default_setup_state(self):
+        # 2026-11-03 사용자 결정: S_other_model(기본 설정 Opus 5.5 high가 아닌가)은 기록의 model·effort 칸에서 계산한다
+        self.assertEqual([dp.other_model(m, e) for m, e in (("Opus 5.5", "high"), ("Opus 5.5", "xhigh"), ("Haiku 5.5", None),
+                                                             ("Sonnet 5.5", "max"), ("Opus 5.5", None), (None, None))],
+                         ["아니오", "예", "예", "예", None, None])
+        # 칸이 없는 옛 기록: S_other_model이 아니오(적지 않으면 기본값)면 기본 설정, 아니면 모름
+        self.assertEqual(dp.setup({"situation": {}}), ("Opus 5.5", "high"))
+        self.assertEqual(dp.setup({"situation": {"S_other_model": "예"}}), (None, None))
+        self.assertEqual(dp.setup({"model": "Haiku 5.5", "situation": {"S_other_model": "예"}}), ("Haiku 5.5", None))
+        base = {"id": "zz5", "date": "2026-11-03", "model": "Sonnet 5.5", "effort": "max", "situation": {"S_other_model": "예"}}
+        self.assertEqual(dp.model_errors(base), [])
+        self.assertTrue(dp.model_errors({**base, "situation": {}}))                        # 적지 않으면 기본값 아니오 → 어긋남
+        self.assertTrue(dp.model_errors({**base, "model": "GPT"}))                          # 모르는 모델 이름
+        self.assertTrue(dp.model_errors({**base, "effort": "보통"}))
+        self.assertTrue(dp.model_errors({**base, "model": None}))                           # effort만 있음
+        self.assertEqual(dp.model_errors({"id": "zz6", "date": "2026-11-03", "task": "t"}), [])   # 11-03까지는 칸이 없어도 된다
+        self.assertTrue(dp.model_errors({"id": "zz6", "date": "2026-11-04", "task": "t"}))
+        # 메인 자신의 일은 세션이 자기 effort를 모를 수 있어 모델만 있어도 된다
+        self.assertEqual(dp.model_errors({"id": "zz7", "date": "2026-11-04", "model": "Opus 5.5", "situation": {"S_main_self": "예"}}), [])
+        # 지난 기록은 모두 두 칸과 맞는다(채우기 2026-11-03: p139·p142의 '아니오'를 '예'로 고침 — Opus 5.5 xhigh)
+        records = {d["id"]: d for d in dp.load()}
+        self.assertEqual([e for d in records.values() for e in dp.model_errors(d)], [])
+        self.assertEqual([(records[i]["effort"], records[i]["situation"]["S_other_model"]) for i in ("p139", "p142")], [("xhigh", "예")] * 2)
 
     def test_records_from_nov_3_need_turn_table_and_report(self):
         # 2026-11-02 사용자 결정: 문서에만 적힌 단계는 빠지므로 검사가 막는다. 2026-11-03부터의 끝난 기록만
@@ -204,6 +230,15 @@ class Rescore20261019(unittest.TestCase):
         verdict, detail = checks.used_minutes("R_integration")
         self.assertTrue(verdict.startswith(("지지됨", "반박됨")), verdict)
         self.assertIn("p54", detail)
+
+    def test_telling_check_v3_skips_records_told_with_v2(self):
+        # 2026-11-03 병합으로 p145 뒤에 붙은 p147–p167은 v3가 생기기 전에 갈라진 브랜치가 v2(걸치면 긴 쪽)로 말했다 —
+        # 파일 순서로는 시험 쪽이지만 v3의 성적에 넣지 않는다(predicted.rules에 R_say_numbers_v2)
+        verdict, detail = checks.told_zone_v3()
+        test = detail.split("시험 기록")[1]
+        self.assertIn("p146", test)
+        for rid in ("p147", "p148", "p167"):
+            self.assertNotIn(rid + " ", test)
 
     def test_open_ended_bound_uses_lower(self):
         self.assertEqual(dp.midpoint([400]), 400)

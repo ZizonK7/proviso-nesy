@@ -14,9 +14,13 @@ same_agent_first = true
 #   2배 넘게 벌어짐 67건 가운데 값 25 vs 손 53. (같은 날 시험 기록이 생기기 전에 다듬음 — 처음엔 동점이면 모두 넘겼다)
 defer_ties = true
 tie_spread_max = 2
-# 반드시 같은 답 — 일의 큰 모양과 모델·회차가 다르면 시간이 다른 세상이다. '모름'은 다른 답(못 찾으면 상관없음으로 다시)
-hard = ["S_specified", "S_other_model", "S_resumed", "S_web", "S_fixed_input", "S_cloud_session"]
+# 반드시 같은 답 — 일의 큰 모양과 회차가 다르면 시간이 다른 세상이다. '모름'은 다른 답(못 찾으면 상관없음으로 다시)
+hard = ["S_specified", "S_resumed", "S_web", "S_fixed_input", "S_cloud_session"]
+# v2 고침(2026-11-03 사용자 결정, 시험 기록 0건일 때): '기본 설정인가'(S_other_model) 대신 기록의 model·effort 칸으로 —
+#   반드시 같은 답 안에서 같은 모델·effort가 먼저, 없으면 같은 모델의 다른 effort로 넓힌다. 다른 모델은 빗대지 않는다(손 예측).
+#   전에는 S_other_model = 예 하나에 Sonnet max·Haiku·Fable xhigh·Opus xhigh가 섞여 서로를 빗댔다.
+same_setup = true
 # 같은 저장소 다음으로 같은 답이 많은 것을 고른다. 맨 앞이 동점이면 그 묶음의 실제 분의 가운데 값
 soft = ["S_template_given", "S_render", "S_no_code", "S_fix_existing", "S_research", "S_spec_fixed"]
 range = [0.759, 1.51]
-fit = "d01–p145의 정해진 일 중 규칙이 혼자 답하는 기록에서 맞춤: 41/93건 범위 안 (d32b, d39, d41, d40b, d44, d55 …)"
+fit = "d01–p145의 정해진 일 중 규칙이 혼자 답하는 기록에서 맞춤: 46/102건 범위 안 (d32b, d39, d41, d40b, d44, d55 …)"

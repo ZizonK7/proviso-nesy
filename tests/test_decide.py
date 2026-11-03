@@ -51,11 +51,12 @@ class Bundle(unittest.TestCase):
         (self.tmp / "job.toml").write_text("""project = "exam_grader"
 batch = 999
 task = "구현(같은 작성 에이전트 14회차, 이어서): 풀이지 한 장 새로 쓰기 + 렌더 확인"
+model = "Opus 5.5"
+effort = "high"
 agent = "작성"
 round = 14
 [situation]
 S_resumed = "예"
-S_other_model = "아니오"
 S_specified = "예"
 [predicted]
 minutes = [1.5, 3]
@@ -80,6 +81,8 @@ why = ["대화 계속"]
         d = dp.load(self.tmp / "d.toml")[-1]
         self.assertEqual((d["predicted"]["told"], d["decide"]["chose"], d["actual"]["status"]), ("잠깐", "보냄", "unknown"))
         self.assertIn("told", d.get("calc", {}))  # 계산기 답은 그 기록의 상황 값으로
+        # 모델·effort 칸을 옮기고, '기본 설정이 아닌가'(S_other_model)는 두 칸에서 계산해 넣는다
+        self.assertEqual((d["model"], d["effort"], d["situation"]["S_other_model"]), ("Opus 5.5", "high", "아니오"))
         write_log(self.tmp / "agent.jsonl", [("2026-11-04T01:00:00Z", "user", 0), ("2026-11-04T01:00:20Z", "assistant", 60000),
                                               ("2026-11-04T01:00:21Z", "tool", 0), ("2026-11-04T01:02:00Z", "assistant", 70000)])
         rc.finish(rid, self.tmp / "agent.jsonl", report="docs/worklog/CLAUDE.md", path=self.tmp / "d.toml")
@@ -90,6 +93,22 @@ why = ["대화 계속"]
         errors = [e for e in dp.validate(dp.load(self.tmp / "d.toml"), pr.load_kn()) if e.startswith(rid)]
         self.assertEqual(errors, [f"{rid}: 시간 구간이 빗나갔는데 review.wrong(틀린 조각 id)과 review.why(조건 흐림/이유 틀림/바깥 상황/까닭 모름)가 없음 "
                                   f"(까닭을 못 찾았으면 why = \"까닭 모름\", 이때 wrong은 비워도 된다)"] if d["predicted"]["told"] != dp.zone(d["actual"]["minutes"]) else [])
+
+    def test_send_needs_model_and_effort_and_checks_the_default_setup_state(self):
+        job = (self.tmp / "job.toml").read_text(encoding="utf-8")
+        (self.tmp / "no_model.toml").write_text(job.replace('model = "Opus 5.5"\n', ""), encoding="utf-8")
+        with self.assertRaises(SystemExit):
+            rc.send(self.tmp / "no_model.toml", self.tmp / "d.toml", self.tmp / "log.md")
+        # 상황에 S_other_model을 적었으면 두 칸으로 계산한 값과 같아야 한다 (Opus 5.5 xhigh는 기본 설정이 아니다)
+        (self.tmp / "clash.toml").write_text(job.replace('effort = "high"', 'effort = "xhigh"')
+                                             .replace('S_resumed = "예"', 'S_resumed = "예"\nS_other_model = "아니오"'), encoding="utf-8")
+        with self.assertRaises(SystemExit):
+            rc.send(self.tmp / "clash.toml", self.tmp / "d.toml", self.tmp / "log.md")
+        (self.tmp / "haiku.toml").write_text(job.replace('model = "Opus 5.5"', 'model = "Haiku 5.5"'), encoding="utf-8")
+        rc.send(self.tmp / "haiku.toml", self.tmp / "d.toml", self.tmp / "log.md")
+        d = dp.load(self.tmp / "d.toml")[-1]
+        self.assertEqual((d["model"], d["situation"]["S_other_model"]), ("Haiku 5.5", "예"))
+        self.assertEqual(len(dp.load(self.tmp / "d.toml")), len(dp.load()) + 1)  # 막힌 두 번은 아무것도 덧붙이지 않았다
 
     def test_direct_work_is_logged_and_measured_from_the_main_log(self):
         (self.tmp / "direct.toml").write_text("# 직접 한 일\n", encoding="utf-8")

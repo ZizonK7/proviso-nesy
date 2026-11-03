@@ -152,6 +152,7 @@ id = "S_other_model"
 text = "Opus 5.5 high가 아닌 모델·effort로 돈다"
 known_before = true
 default = "아니오"  # F_setup: 하위 에이전트의 기본 설정은 Opus 5.5 high다. 적지 않은 옛 기록(d01–d16)도 이 설정이었다
+note = "2026-11-03 사용자 결정: 기록의 model·effort 칸에서 계산한다(dispatches.other_model — Opus 5.5 high면 아니오, 아니면 예). 손으로 적은 값이 두 칸과 다르면 검사가 막고, record send가 계산해 넣는다. 이 상태 하나로는 Sonnet max·Haiku·Fable xhigh·Opus xhigh가 한 덩어리라, 빗댄 기록 규칙은 두 칸으로 직접 가른다"
 
 [[state]]
 id = "S_resumed"
