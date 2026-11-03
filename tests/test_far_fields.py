@@ -39,6 +39,16 @@ class FarFieldsTest(unittest.TestCase):
             else:
                 self.assertIn(h.id, judged, h.id)
 
+    def test_field_lists_do_not_overlap(self):
+        # 1·2·3차 분야 목록은 이름·slug가 겹치지 않는다
+        import json
+        names, slugs = [], []
+        for name in ("fields.json", "fields2.json", "fields3.json"):
+            for f in json.loads((ROOT / "domains" / "far_fields" / name).read_text(encoding="utf-8")):
+                names.append(f["ko"]); slugs.append(f["slug"])
+        self.assertEqual(len(names), len(set(names)))
+        self.assertEqual(len(slugs), len(set(slugs)))
+
     def test_shapes_are_from_vocabulary(self):
         self.assertEqual({s.id for s in self.kn.of("state")}, set(SHAPES))
         for h in self.kn.of("hypothesis"):

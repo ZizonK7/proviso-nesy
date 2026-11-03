@@ -14119,3 +14119,483 @@ reason = "말한 구간 '다른 일' 맞음(14.9분, 손 예측 15–35의 아�
 "Bash:cat" = { n = 1, sum_s = 5.5, turn_s = 5.5, tool_s = 0.5, out_chars = 2228, ctx_k = 416 }
 "Write" = { n = 1, sum_s = 2.6, turn_s = 2.6, tool_s = 0.0, out_chars = 6594, ctx_k = 486 }
 "SubagentHandback" = { n = 1, sum_s = 0.3, turn_s = 0.3, tool_s = 0.3, out_chars = 2291, ctx_k = 495 }
+
+[[dispatch]]
+id = "p171"
+project = "proviso"
+batch = 47
+date = 2026-11-03
+task = "생성(far_fields 3차): 먼 분야 19개(acad3_01–acad3_19, 출토 유물 해석(고고학) 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+model = "Opus 5.5"
+effort = "high"
+agent = "먼 분야 3차 생성 1"
+round = 1
+size = { outputs = 19, checks = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [11, 18]
+turns = [27, 50]
+tokens_m = [3, 6.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p148"
+reason = "빗댄 p148–p167(2차, 같은 지시서·같은 모델: 분야 20개에 12.1–17.4분·27–53턴·3.0–6.5M, Write 한 턴 약 37초). 이번은 분야 19개라 거의 같다 → 11–18분 '다른 일'. 학문·IT·금융은 몸 쓰는 일보다 모델 지식이 덜 확실할 수 있어 확신도 '중간'이 늘 수 있지만 시간에는 큰 영향 없음"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.decide]
+main_ctx_k = 300
+left = 20
+direct_m = 18.0
+send_m = 7.6
+added_k = 120
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p172"
+project = "proviso"
+batch = 47
+date = 2026-11-03
+task = "생성(far_fields 3차): 먼 분야 19개(acad3_20–acad3_38, 극지 연구 기지 월동 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+model = "Opus 5.5"
+effort = "high"
+agent = "먼 분야 3차 생성 2"
+round = 1
+size = { outputs = 19, checks = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [11, 18]
+turns = [27, 50]
+tokens_m = [3, 6.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p148"
+reason = "빗댄 p148–p167(2차, 같은 지시서·같은 모델: 분야 20개에 12.1–17.4분·27–53턴·3.0–6.5M, Write 한 턴 약 37초). 이번은 분야 19개라 거의 같다 → 11–18분 '다른 일'. 학문·IT·금융은 몸 쓰는 일보다 모델 지식이 덜 확실할 수 있어 확신도 '중간'이 늘 수 있지만 시간에는 큰 영향 없음"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.decide]
+main_ctx_k = 300
+left = 20
+direct_m = 18.0
+send_m = 7.6
+added_k = 120
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p173"
+project = "proviso"
+batch = 47
+date = 2026-11-03
+task = "생성(far_fields 3차): 먼 분야 19개(acad3_39–it3_07, 사료 비판(역사학) 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+model = "Opus 5.5"
+effort = "high"
+agent = "먼 분야 3차 생성 3"
+round = 1
+size = { outputs = 19, checks = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [11, 18]
+turns = [27, 50]
+tokens_m = [3, 6.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p148"
+reason = "빗댄 p148–p167(2차, 같은 지시서·같은 모델: 분야 20개에 12.1–17.4분·27–53턴·3.0–6.5M, Write 한 턴 약 37초). 이번은 분야 19개라 거의 같다 → 11–18분 '다른 일'. 학문·IT·금융은 몸 쓰는 일보다 모델 지식이 덜 확실할 수 있어 확신도 '중간'이 늘 수 있지만 시간에는 큰 영향 없음"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.decide]
+main_ctx_k = 300
+left = 20
+direct_m = 18.0
+send_m = 7.6
+added_k = 120
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p174"
+project = "proviso"
+batch = 47
+date = 2026-11-03
+task = "생성(far_fields 3차): 먼 분야 19개(it3_08–it3_26, 항공 관제 시스템 운영 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+model = "Opus 5.5"
+effort = "high"
+agent = "먼 분야 3차 생성 4"
+round = 1
+size = { outputs = 19, checks = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [11, 18]
+turns = [27, 50]
+tokens_m = [3, 6.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p148"
+reason = "빗댄 p148–p167(2차, 같은 지시서·같은 모델: 분야 20개에 12.1–17.4분·27–53턴·3.0–6.5M, Write 한 턴 약 37초). 이번은 분야 19개라 거의 같다 → 11–18분 '다른 일'. 학문·IT·금융은 몸 쓰는 일보다 모델 지식이 덜 확실할 수 있어 확신도 '중간'이 늘 수 있지만 시간에는 큰 영향 없음"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.decide]
+main_ctx_k = 300
+left = 20
+direct_m = 18.0
+send_m = 7.6
+added_k = 120
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p175"
+project = "proviso"
+batch = 47
+date = 2026-11-03
+task = "생성(far_fields 3차): 먼 분야 19개(it3_27–it3_45, 매장 POS 단말 운영 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+model = "Opus 5.5"
+effort = "high"
+agent = "먼 분야 3차 생성 5"
+round = 1
+size = { outputs = 19, checks = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [11, 18]
+turns = [27, 50]
+tokens_m = [3, 6.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p148"
+reason = "빗댄 p148–p167(2차, 같은 지시서·같은 모델: 분야 20개에 12.1–17.4분·27–53턴·3.0–6.5M, Write 한 턴 약 37초). 이번은 분야 19개라 거의 같다 → 11–18분 '다른 일'. 학문·IT·금융은 몸 쓰는 일보다 모델 지식이 덜 확실할 수 있어 확신도 '중간'이 늘 수 있지만 시간에는 큰 영향 없음"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.decide]
+main_ctx_k = 300
+left = 20
+direct_m = 18.0
+send_m = 7.6
+added_k = 120
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p176"
+project = "proviso"
+batch = 47
+date = 2026-11-03
+task = "생성(far_fields 3차): 먼 분야 19개(it3_46–fin3_14, IT 장비 폐기·데이터 파기 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+model = "Opus 5.5"
+effort = "high"
+agent = "먼 분야 3차 생성 6"
+round = 1
+size = { outputs = 19, checks = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [11, 18]
+turns = [27, 50]
+tokens_m = [3, 6.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p148"
+reason = "빗댄 p148–p167(2차, 같은 지시서·같은 모델: 분야 20개에 12.1–17.4분·27–53턴·3.0–6.5M, Write 한 턴 약 37초). 이번은 분야 19개라 거의 같다 → 11–18분 '다른 일'. 학문·IT·금융은 몸 쓰는 일보다 모델 지식이 덜 확실할 수 있어 확신도 '중간'이 늘 수 있지만 시간에는 큰 영향 없음"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.decide]
+main_ctx_k = 300
+left = 20
+direct_m = 18.0
+send_m = 7.6
+added_k = 120
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p177"
+project = "proviso"
+batch = 47
+date = 2026-11-03
+task = "생성(far_fields 3차): 먼 분야 18개(fin3_15–fin3_32, 채권 추심 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+model = "Opus 5.5"
+effort = "high"
+agent = "먼 분야 3차 생성 7"
+round = 1
+size = { outputs = 18, checks = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [11, 18]
+turns = [27, 50]
+tokens_m = [3, 6.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p148"
+reason = "빗댄 p148–p167(2차, 같은 지시서·같은 모델: 분야 20개에 12.1–17.4분·27–53턴·3.0–6.5M, Write 한 턴 약 37초). 이번은 분야 18개라 거의 같다 → 11–18분 '다른 일'. 학문·IT·금융은 몸 쓰는 일보다 모델 지식이 덜 확실할 수 있어 확신도 '중간'이 늘 수 있지만 시간에는 큰 영향 없음"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.decide]
+main_ctx_k = 300
+left = 20
+direct_m = 18.0
+send_m = 7.6
+added_k = 120
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p178"
+project = "proviso"
+batch = 47
+date = 2026-11-03
+task = "생성(far_fields 3차): 먼 분야 18개(fin3_33–fin3_50, 탄소 배출권 거래 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+model = "Opus 5.5"
+effort = "high"
+agent = "먼 분야 3차 생성 8"
+round = 1
+size = { outputs = 18, checks = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [11, 18]
+turns = [27, 50]
+tokens_m = [3, 6.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p148"
+reason = "빗댄 p148–p167(2차, 같은 지시서·같은 모델: 분야 20개에 12.1–17.4분·27–53턴·3.0–6.5M, Write 한 턴 약 37초). 이번은 분야 18개라 거의 같다 → 11–18분 '다른 일'. 학문·IT·금융은 몸 쓰는 일보다 모델 지식이 덜 확실할 수 있어 확신도 '중간'이 늘 수 있지만 시간에는 큰 영향 없음"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.decide]
+main_ctx_k = 300
+left = 20
+direct_m = 18.0
+send_m = 7.6
+added_k = 120
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)

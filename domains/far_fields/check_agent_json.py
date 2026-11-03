@@ -16,6 +16,7 @@ from .shapes import SHAPES
 
 DIR = OUT / "agent_gen"
 FIELDS2 = Path(__file__).with_name("fields2.json")
+FIELDS3 = Path(__file__).with_name("fields3.json")
 KEYS = ("rule", "why", "breaks", "general", "shapes", "confidence")
 
 
@@ -47,7 +48,7 @@ def problems(path: Path, ko: str | None) -> list[str]:
 
 
 def main(slugs: list[str]) -> int:
-    names = {f["slug"]: f["ko"] for f in json.loads(FIELDS2.read_text(encoding="utf-8"))}
+    names = {f["slug"]: f["ko"] for p in (FIELDS2, FIELDS3) for f in json.loads(p.read_text(encoding="utf-8"))}
     paths = [DIR / f"{s}.json" for s in slugs] if slugs else sorted(DIR.glob("*.json"))
     bad = 0
     for p in paths:

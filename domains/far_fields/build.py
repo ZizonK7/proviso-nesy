@@ -65,6 +65,7 @@ def _read(pattern: str) -> dict[str, dict]:
 
 
 AGENT_SLUGS: set[str] = set()
+THIRD = {f["slug"] for f in json.loads((HERE / "fields3.json").read_text(encoding="utf-8"))}  # 3차: 학문·IT·금융 (2026-11-04)
 
 
 def _read_agent() -> dict[str, dict]:
@@ -78,6 +79,8 @@ def _read_agent() -> dict[str, dict]:
 
 def _source(slug: str, it: dict) -> str:
     if slug in AGENT_SLUGS:
+        if slug in THIRD:
+            return "AI 생성(Opus 5.5, Claude Code 서브에이전트) 3차 2026-11-04, 출처 없음(모델 지식), 검토 없음"
         return f"AI 생성(Opus 5.5, Claude Code 서브에이전트) {GEN_DATE}, 출처 없음(모델 지식), 검토 없음"
     if not slug.startswith("haiku_"):
         return f"AI 생성: claude-opus-5-5 배치 {GEN_DATE}, 출처 없음(모델 지식)"
@@ -88,7 +91,7 @@ def _source(slug: str, it: dict) -> str:
 def build() -> tuple[str, dict]:
     gens = _read("test_gen.jsonl") | _read("gen_*.jsonl") | _read("haiku_gen.jsonl") | _read_agent()
     revs = _read("rev_*.jsonl")
-    fields = {f["slug"]: f for name in ("fields.json", "fields2.json")
+    fields = {f["slug"]: f for name in ("fields.json", "fields2.json", "fields3.json")
               for f in json.loads((HERE / name).read_text(encoding="utf-8"))}
     out = [HEADER, "\n# ---------- 모양 (조각이 조건으로 공유하는 상황) ----------"]
     for sid, text in SHAPES.items():
