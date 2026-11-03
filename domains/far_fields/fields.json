@@ -1,0 +1,1997 @@
+[
+{
+"ko": "오징어 채낚기",
+"slug": "squid_jigging",
+"group": "바다"
+},
+{
+"ko": "참치 연승 어업",
+"slug": "tuna_longlining",
+"group": "바다"
+},
+{
+"ko": "해녀 물질",
+"slug": "haenyeo_diving",
+"group": "바다"
+},
+{
+"ko": "굴 양식",
+"slug": "oyster_farming",
+"group": "바다"
+},
+{
+"ko": "김 양식",
+"slug": "laver_farming",
+"group": "바다"
+},
+{
+"ko": "염전 천일염 생산",
+"slug": "salt_pan",
+"group": "바다"
+},
+{
+"ko": "갯벌 낙지 잡이",
+"slug": "mudflat_octopus",
+"group": "바다"
+},
+{
+"ko": "정치망 어업",
+"slug": "set_net_fishing",
+"group": "바다"
+},
+{
+"ko": "트롤 어선 갑판 작업",
+"slug": "trawler_deckwork",
+"group": "바다"
+},
+{
+"ko": "등대지기",
+"slug": "lighthouse_keeping",
+"group": "바다"
+},
+{
+"ko": "도선사(항만 수로 안내)",
+"slug": "harbor_pilotage",
+"group": "바다"
+},
+{
+"ko": "예인선 조종",
+"slug": "tugboat_handling",
+"group": "바다"
+},
+{
+"ko": "컨테이너 크레인 조작",
+"slug": "container_crane",
+"group": "바다"
+},
+{
+"ko": "수중 용접(상업 잠수)",
+"slug": "underwater_welding",
+"group": "바다"
+},
+{
+"ko": "해변 인명 구조",
+"slug": "lifeguarding",
+"group": "바다"
+},
+{
+"ko": "서핑(파도 고르기)",
+"slug": "surfing",
+"group": "바다"
+},
+{
+"ko": "프리다이빙",
+"slug": "freediving",
+"group": "바다"
+},
+{
+"ko": "수중 동굴 다이빙",
+"slug": "cave_diving",
+"group": "바다"
+},
+{
+"ko": "해상 기름 유출 방제",
+"slug": "oil_spill_response",
+"group": "바다"
+},
+{
+"ko": "폐선 해체",
+"slug": "ship_breaking",
+"group": "바다"
+},
+{
+"ko": "연어 가두리 양식",
+"slug": "salmon_cage_farming",
+"group": "바다"
+},
+{
+"ko": "게 통발 어업",
+"slug": "crab_potting",
+"group": "바다"
+},
+{
+"ko": "플라이 낚시",
+"slug": "fly_fishing",
+"group": "물·강"
+},
+{
+"ko": "얼음 낚시",
+"slug": "ice_fishing",
+"group": "물·강"
+},
+{
+"ko": "고래 관찰 투어 운영",
+"slug": "whale_watching",
+"group": "바다"
+},
+{
+"ko": "미역 채취",
+"slug": "seaweed_harvesting",
+"group": "바다"
+},
+{
+"ko": "진주 양식(핵 삽입)",
+"slug": "pearl_culture",
+"group": "바다"
+},
+{
+"ko": "장거리 카누 패들링",
+"slug": "canoe_paddling",
+"group": "물·강"
+},
+{
+"ko": "선체 도장",
+"slug": "hull_painting",
+"group": "바다"
+},
+{
+"ko": "어시장 경매",
+"slug": "fish_auction",
+"group": "바다"
+},
+{
+"ko": "래프팅 가이드",
+"slug": "rafting_guide",
+"group": "물·강"
+},
+{
+"ko": "목재 물길 운반(유송)",
+"slug": "log_driving",
+"group": "물·강"
+},
+{
+"ko": "우물 파기",
+"slug": "well_digging",
+"group": "지하·광물"
+},
+{
+"ko": "댐 수문 운영",
+"slug": "dam_gate_operation",
+"group": "물·강"
+},
+{
+"ko": "하수 처리장 운전",
+"slug": "sewage_treatment",
+"group": "물·강"
+},
+{
+"ko": "정수장 응집 조절",
+"slug": "water_purification",
+"group": "물·강"
+},
+{
+"ko": "수영장 수질 관리",
+"slug": "pool_maintenance",
+"group": "물·강"
+},
+{
+"ko": "강 바지선 운항",
+"slug": "river_barging",
+"group": "물·강"
+},
+{
+"ko": "운하 갑문 운영",
+"slug": "canal_lock",
+"group": "물·강"
+},
+{
+"ko": "급류 카약",
+"slug": "whitewater_kayaking",
+"group": "물·강"
+},
+{
+"ko": "호수 얼음 채빙",
+"slug": "ice_harvesting",
+"group": "물·강"
+},
+{
+"ko": "홍수 모래주머니 제방 쌓기",
+"slug": "levee_sandbagging",
+"group": "물·강"
+},
+{
+"ko": "카나트 지하수로 관리",
+"slug": "qanat_maintenance",
+"group": "물·강"
+},
+{
+"ko": "수경 재배",
+"slug": "hydroponics",
+"group": "땅·농사"
+},
+{
+"ko": "메기 양식",
+"slug": "catfish_farming",
+"group": "물·강"
+},
+{
+"ko": "벼 모내기와 물 관리",
+"slug": "rice_paddy",
+"group": "땅·농사"
+},
+{
+"ko": "포도 재배와 수확 시기 판단",
+"slug": "grape_harvest",
+"group": "땅·농사"
+},
+{
+"ko": "찻잎 따기와 덖기",
+"slug": "tea_plucking",
+"group": "땅·농사"
+},
+{
+"ko": "커피 체리 수확",
+"slug": "coffee_picking",
+"group": "땅·농사"
+},
+{
+"ko": "사과나무 가지치기",
+"slug": "apple_pruning",
+"group": "땅·농사"
+},
+{
+"ko": "인삼 재배",
+"slug": "ginseng_growing",
+"group": "땅·농사"
+},
+{
+"ko": "표고 원목 재배",
+"slug": "shiitake_logs",
+"group": "땅·농사"
+},
+{
+"ko": "온실 토마토 재배",
+"slug": "greenhouse_tomato",
+"group": "땅·농사"
+},
+{
+"ko": "씨감자 저장",
+"slug": "seed_potato",
+"group": "땅·농사"
+},
+{
+"ko": "고추 건조",
+"slug": "chili_drying",
+"group": "땅·농사"
+},
+{
+"ko": "담뱃잎 건조",
+"slug": "tobacco_curing",
+"group": "땅·농사"
+},
+{
+"ko": "목화 따기",
+"slug": "cotton_picking",
+"group": "땅·농사"
+},
+{
+"ko": "사탕수수 베기",
+"slug": "sugarcane_cutting",
+"group": "땅·농사"
+},
+{
+"ko": "귤나무 접붙이기",
+"slug": "citrus_grafting",
+"group": "땅·농사"
+},
+{
+"ko": "콤바인 밀 수확",
+"slug": "combine_harvesting",
+"group": "땅·농사"
+},
+{
+"ko": "퇴비 더미 관리",
+"slug": "composting",
+"group": "땅·농사"
+},
+{
+"ko": "지렁이 사육 분변토",
+"slug": "vermicomposting",
+"group": "땅·농사"
+},
+{
+"ko": "쌀 도정",
+"slug": "rice_milling",
+"group": "땅·농사"
+},
+{
+"ko": "올리브 수확과 착유",
+"slug": "olive_pressing",
+"group": "땅·농사"
+},
+{
+"ko": "대추야자 인공 수분",
+"slug": "date_pollination",
+"group": "땅·농사"
+},
+{
+"ko": "바닐라 손 수분",
+"slug": "vanilla_pollination",
+"group": "땅·농사"
+},
+{
+"ko": "사프란 꽃술 채취",
+"slug": "saffron_picking",
+"group": "땅·농사"
+},
+{
+"ko": "홉 재배",
+"slug": "hop_growing",
+"group": "땅·농사"
+},
+{
+"ko": "송로버섯 탐지(개 동반)",
+"slug": "truffle_hunting",
+"group": "숲·산·눈"
+},
+{
+"ko": "산나물 채취",
+"slug": "wild_greens",
+"group": "숲·산·눈"
+},
+{
+"ko": "절화 재배",
+"slug": "cut_flowers",
+"group": "땅·농사"
+},
+{
+"ko": "분재 가꾸기",
+"slug": "bonsai",
+"group": "땅·농사"
+},
+{
+"ko": "골프장 잔디 관리",
+"slug": "turf_management",
+"group": "땅·농사"
+},
+{
+"ko": "정원 소나무 손질",
+"slug": "pine_pruning",
+"group": "땅·농사"
+},
+{
+"ko": "묘목 기르기",
+"slug": "seedling_nursery",
+"group": "땅·농사"
+},
+{
+"ko": "토종 씨앗 채종",
+"slug": "seed_saving",
+"group": "땅·농사"
+},
+{
+"ko": "계단식 논둑 보수",
+"slug": "terrace_repair",
+"group": "땅·농사"
+},
+{
+"ko": "화전 이동 경작",
+"slug": "swidden_farming",
+"group": "땅·농사"
+},
+{
+"ko": "메이플 수액 채취",
+"slug": "maple_tapping",
+"group": "숲·산·눈"
+},
+{
+"ko": "고무 수액 채취",
+"slug": "rubber_tapping",
+"group": "땅·농사"
+},
+{
+"ko": "벌목(전기톱 쓰러뜨리기)",
+"slug": "tree_felling",
+"group": "숲·산·눈"
+},
+{
+"ko": "수목 등반 전정",
+"slug": "arborist_climbing",
+"group": "숲·산·눈"
+},
+{
+"ko": "숯 굽기",
+"slug": "charcoal_burning",
+"group": "불·금속"
+},
+{
+"ko": "옻 채취",
+"slug": "lacquer_tapping",
+"group": "숲·산·눈"
+},
+{
+"ko": "송진 채취",
+"slug": "resin_tapping",
+"group": "숲·산·눈"
+},
+{
+"ko": "코르크 껍질 벗기기",
+"slug": "cork_stripping",
+"group": "숲·산·눈"
+},
+{
+"ko": "대나무 벌채",
+"slug": "bamboo_harvest",
+"group": "숲·산·눈"
+},
+{
+"ko": "산림 재적 조사",
+"slug": "timber_cruising",
+"group": "숲·산·눈"
+},
+{
+"ko": "등산로 정비",
+"slug": "trail_building",
+"group": "숲·산·눈"
+},
+{
+"ko": "눈사태 인공 유발 통제",
+"slug": "avalanche_control",
+"group": "숲·산·눈"
+},
+{
+"ko": "스키 패트롤",
+"slug": "ski_patrol",
+"group": "숲·산·눈"
+},
+{
+"ko": "크로스컨트리 스키",
+"slug": "nordic_skiing",
+"group": "숲·산·눈"
+},
+{
+"ko": "야생동물 발자국 추적",
+"slug": "animal_tracking",
+"group": "숲·산·눈"
+},
+{
+"ko": "덫 사냥",
+"slug": "fur_trapping",
+"group": "숲·산·눈"
+},
+{
+"ko": "야생 생존 기술",
+"slug": "wilderness_survival",
+"group": "숲·산·눈"
+},
+{
+"ko": "고층 기상 관측 풍선",
+"slug": "weather_balloon",
+"group": "하늘"
+},
+{
+"ko": "연 만들기와 날리기",
+"slug": "kite_flying",
+"group": "하늘"
+},
+{
+"ko": "낙하산 포장",
+"slug": "parachute_rigging",
+"group": "하늘"
+},
+{
+"ko": "스카이다이빙",
+"slug": "skydiving",
+"group": "하늘"
+},
+{
+"ko": "비둘기 경주",
+"slug": "pigeon_racing",
+"group": "하늘"
+},
+{
+"ko": "매사냥",
+"slug": "falconry",
+"group": "하늘"
+},
+{
+"ko": "항공 관제",
+"slug": "air_traffic_control",
+"group": "하늘"
+},
+{
+"ko": "항공기 정비",
+"slug": "aircraft_maintenance",
+"group": "하늘"
+},
+{
+"ko": "아마추어 천체 관측",
+"slug": "amateur_astronomy",
+"group": "하늘"
+},
+{
+"ko": "불꽃놀이 연출",
+"slug": "fireworks_display",
+"group": "하늘"
+},
+{
+"ko": "고층 유리창 청소",
+"slug": "window_washing",
+"group": "하늘"
+},
+{
+"ko": "송신탑 등반 작업",
+"slug": "tower_climbing",
+"group": "하늘"
+},
+{
+"ko": "공항 램프 조업",
+"slug": "ramp_handling",
+"group": "하늘"
+},
+{
+"ko": "로켓 발사대 운용",
+"slug": "launch_pad",
+"group": "하늘"
+},
+{
+"ko": "위성 안테나 정렬",
+"slug": "dish_alignment",
+"group": "하늘"
+},
+{
+"ko": "탄광 채굴",
+"slug": "coal_mining",
+"group": "지하·광물"
+},
+{
+"ko": "갱도 지보 설치",
+"slug": "mine_timbering",
+"group": "지하·광물"
+},
+{
+"ko": "암반 발파",
+"slug": "blasting",
+"group": "지하·광물"
+},
+{
+"ko": "동굴 탐사",
+"slug": "caving",
+"group": "지하·광물"
+},
+{
+"ko": "터널 굴착기 운전",
+"slug": "tunnel_boring",
+"group": "지하·광물"
+},
+{
+"ko": "사금 채취",
+"slug": "gold_panning",
+"group": "지하·광물"
+},
+{
+"ko": "보석 원석 감별",
+"slug": "gem_grading",
+"group": "지하·광물"
+},
+{
+"ko": "석회암 채석",
+"slug": "quarrying",
+"group": "지하·광물"
+},
+{
+"ko": "유정 시추",
+"slug": "oil_drilling",
+"group": "지하·광물"
+},
+{
+"ko": "정유 공정 운전",
+"slug": "refinery_operation",
+"group": "기계·현대기술"
+},
+{
+"ko": "지하철 선로 보수",
+"slug": "track_maintenance",
+"group": "지하·광물"
+},
+{
+"ko": "광산 구조대",
+"slug": "mine_rescue",
+"group": "지하·광물"
+},
+{
+"ko": "암염 광산 채굴",
+"slug": "salt_mining",
+"group": "지하·광물"
+},
+{
+"ko": "하수관 내시경 점검",
+"slug": "sewer_inspection",
+"group": "지하·광물"
+},
+{
+"ko": "지하 매설물 탐지",
+"slug": "utility_locating",
+"group": "지하·광물"
+},
+{
+"ko": "유적 발굴 현장 작업",
+"slug": "archaeological_dig",
+"group": "지하·광물"
+},
+{
+"ko": "화석 암석 제거 손질",
+"slug": "fossil_prep",
+"group": "지하·광물"
+},
+{
+"ko": "다이아몬드 연마",
+"slug": "diamond_cutting",
+"group": "지하·광물"
+},
+{
+"ko": "옥 조각",
+"slug": "jade_carving",
+"group": "지하·광물"
+},
+{
+"ko": "대장간 단조",
+"slug": "blacksmithing",
+"group": "불·금속"
+},
+{
+"ko": "칼 담금질",
+"slug": "blade_quenching",
+"group": "불·금속"
+},
+{
+"ko": "일본도 접쇠 단련",
+"slug": "sword_folding",
+"group": "불·금속"
+},
+{
+"ko": "청동 주조",
+"slug": "bronze_casting",
+"group": "불·금속"
+},
+{
+"ko": "범종 주조",
+"slug": "bell_casting",
+"group": "불·금속"
+},
+{
+"ko": "금세공",
+"slug": "goldsmithing",
+"group": "불·금속"
+},
+{
+"ko": "은기 두드림 성형",
+"slug": "silversmithing",
+"group": "불·금속"
+},
+{
+"ko": "TIG 용접",
+"slug": "tig_welding",
+"group": "불·금속"
+},
+{
+"ko": "제철 고로 운전",
+"slug": "blast_furnace",
+"group": "불·금속"
+},
+{
+"ko": "유리 불기",
+"slug": "glassblowing",
+"group": "불·금속"
+},
+{
+"ko": "스테인드글라스",
+"slug": "stained_glass",
+"group": "불·금속"
+},
+{
+"ko": "도자기 물레 성형",
+"slug": "pottery_throwing",
+"group": "불·금속"
+},
+{
+"ko": "장작 가마 소성",
+"slug": "wood_kiln",
+"group": "불·금속"
+},
+{
+"ko": "라쿠 소성",
+"slug": "raku_firing",
+"group": "불·금속"
+},
+{
+"ko": "벽돌 굽기",
+"slug": "brick_making",
+"group": "불·금속"
+},
+{
+"ko": "석회 굽기",
+"slug": "lime_burning",
+"group": "불·금속"
+},
+{
+"ko": "말발굽 장제",
+"slug": "farrier_work",
+"group": "동물"
+},
+{
+"ko": "칠보 에나멜",
+"slug": "enameling",
+"group": "불·금속"
+},
+{
+"ko": "차체 판금 수리",
+"slug": "panel_beating",
+"group": "불·금속"
+},
+{
+"ko": "금속 열처리",
+"slug": "heat_treating",
+"group": "불·금속"
+},
+{
+"ko": "샌드블라스팅",
+"slug": "sandblasting",
+"group": "불·금속"
+},
+{
+"ko": "금박 입히기",
+"slug": "gold_leafing",
+"group": "불·금속"
+},
+{
+"ko": "구리 그릇 두드림",
+"slug": "coppersmithing",
+"group": "불·금속"
+},
+{
+"ko": "기계식 시계 수리",
+"slug": "watch_repair",
+"group": "기계·현대기술"
+},
+{
+"ko": "레일 테르밋 용접",
+"slug": "thermite_welding",
+"group": "불·금속"
+},
+{
+"ko": "베틀 직조",
+"slug": "loom_weaving",
+"group": "공예·섬유"
+},
+{
+"ko": "쪽 염색",
+"slug": "indigo_dyeing",
+"group": "공예·섬유"
+},
+{
+"ko": "바틱 납염",
+"slug": "batik_waxing",
+"group": "공예·섬유"
+},
+{
+"ko": "물레 실잣기",
+"slug": "spinning_yarn",
+"group": "공예·섬유"
+},
+{
+"ko": "양모 펠트 만들기",
+"slug": "felt_making",
+"group": "공예·섬유"
+},
+{
+"ko": "가죽 무두질",
+"slug": "leather_tanning",
+"group": "공예·섬유"
+},
+{
+"ko": "안장 제작",
+"slug": "saddle_making",
+"group": "공예·섬유"
+},
+{
+"ko": "수제 구두 제작",
+"slug": "shoemaking",
+"group": "공예·섬유"
+},
+{
+"ko": "양복 재단",
+"slug": "tailoring",
+"group": "공예·섬유"
+},
+{
+"ko": "한복 바느질",
+"slug": "hanbok_sewing",
+"group": "공예·섬유"
+},
+{
+"ko": "자수",
+"slug": "embroidery",
+"group": "공예·섬유"
+},
+{
+"ko": "보빈 레이스",
+"slug": "bobbin_lace",
+"group": "공예·섬유"
+},
+{
+"ko": "바구니 짜기",
+"slug": "basket_weaving",
+"group": "공예·섬유"
+},
+{
+"ko": "한지 뜨기",
+"slug": "hanji_making",
+"group": "공예·섬유"
+},
+{
+"ko": "수제 제본",
+"slug": "bookbinding",
+"group": "공예·섬유"
+},
+{
+"ko": "붓 만들기",
+"slug": "brush_making",
+"group": "공예·섬유"
+},
+{
+"ko": "옻칠 칠기",
+"slug": "lacquerware",
+"group": "공예·섬유"
+},
+{
+"ko": "전통 매듭",
+"slug": "decorative_knotting",
+"group": "공예·섬유"
+},
+{
+"ko": "밧줄 꼬기",
+"slug": "rope_making",
+"group": "공예·섬유"
+},
+{
+"ko": "어망 손질",
+"slug": "net_mending",
+"group": "바다"
+},
+{
+"ko": "페르시아 카펫 매듭",
+"slug": "rug_knotting",
+"group": "공예·섬유"
+},
+{
+"ko": "모자 제작",
+"slug": "millinery",
+"group": "공예·섬유"
+},
+{
+"ko": "가발 제작",
+"slug": "wig_making",
+"group": "공예·섬유"
+},
+{
+"ko": "각궁 제작",
+"slug": "bow_making",
+"group": "공예·섬유"
+},
+{
+"ko": "화살 깃 달기",
+"slug": "fletching",
+"group": "공예·섬유"
+},
+{
+"ko": "피아노 조율",
+"slug": "piano_tuning",
+"group": "공연·예술"
+},
+{
+"ko": "북 가죽 메우기",
+"slug": "drum_heading",
+"group": "공예·섬유"
+},
+{
+"ko": "전각(도장 새기기)",
+"slug": "seal_carving",
+"group": "공예·섬유"
+},
+{
+"ko": "석조 조각",
+"slug": "stone_carving",
+"group": "공예·섬유"
+},
+{
+"ko": "돌담 쌓기(모르타르 없이)",
+"slug": "drystone_walling",
+"group": "건설"
+},
+{
+"ko": "대량 김장",
+"slug": "kimchi_making",
+"group": "음식·발효"
+},
+{
+"ko": "된장 담그기",
+"slug": "soybean_paste",
+"group": "음식·발효"
+},
+{
+"ko": "막걸리 빚기",
+"slug": "makgeolli_brewing",
+"group": "음식·발효"
+},
+{
+"ko": "누룩곰팡이 코지 띄우기",
+"slug": "koji_making",
+"group": "음식·발효"
+},
+{
+"ko": "맥주 양조",
+"slug": "beer_brewing",
+"group": "음식·발효"
+},
+{
+"ko": "위스키 증류",
+"slug": "whisky_distilling",
+"group": "음식·발효"
+},
+{
+"ko": "와인 블렌딩",
+"slug": "wine_blending",
+"group": "음식·발효"
+},
+{
+"ko": "소믈리에 서비스",
+"slug": "sommelier",
+"group": "음식·발효"
+},
+{
+"ko": "커피 로스팅",
+"slug": "coffee_roasting",
+"group": "음식·발효"
+},
+{
+"ko": "에스프레소 추출",
+"slug": "espresso_extraction",
+"group": "음식·발효"
+},
+{
+"ko": "사워도우 빵 굽기",
+"slug": "sourdough_baking",
+"group": "음식·발효"
+},
+{
+"ko": "수타면 뽑기",
+"slug": "hand_pulled_noodles",
+"group": "음식·발효"
+},
+{
+"ko": "초밥 쥐기",
+"slug": "sushi_making",
+"group": "음식·발효"
+},
+{
+"ko": "복어 손질",
+"slug": "fugu_preparation",
+"group": "음식·발효"
+},
+{
+"ko": "정육 발골",
+"slug": "butchery",
+"group": "음식·발효"
+},
+{
+"ko": "햄 건조 숙성",
+"slug": "ham_curing",
+"group": "음식·발효"
+},
+{
+"ko": "구덩이 훈제 바비큐",
+"slug": "pit_barbecue",
+"group": "음식·발효"
+},
+{
+"ko": "탄두르 화덕 요리",
+"slug": "tandoor_cooking",
+"group": "음식·발효"
+},
+{
+"ko": "웍 불맛 볶음",
+"slug": "wok_cooking",
+"group": "음식·발효"
+},
+{
+"ko": "설탕 공예",
+"slug": "sugar_work",
+"group": "음식·발효"
+},
+{
+"ko": "초콜릿 템퍼링",
+"slug": "chocolate_tempering",
+"group": "음식·발효"
+},
+{
+"ko": "두부 만들기",
+"slug": "tofu_making",
+"group": "음식·발효"
+},
+{
+"ko": "떡메치기",
+"slug": "rice_cake",
+"group": "음식·발효"
+},
+{
+"ko": "젓갈 발효",
+"slug": "salted_seafood",
+"group": "음식·발효"
+},
+{
+"ko": "생선 훈연",
+"slug": "fish_smoking",
+"group": "음식·발효"
+},
+{
+"ko": "조청 고기",
+"slug": "grain_syrup",
+"group": "음식·발효"
+},
+{
+"ko": "주방 라인 지휘",
+"slug": "kitchen_expediting",
+"group": "음식·발효"
+},
+{
+"ko": "대량 급식 조리",
+"slug": "mass_catering",
+"group": "음식·발효"
+},
+{
+"ko": "길거리 노점 운영",
+"slug": "street_food",
+"group": "음식·발효"
+},
+{
+"ko": "메밀 소바 제면",
+"slug": "soba_making",
+"group": "음식·발효"
+},
+{
+"ko": "식초 발효",
+"slug": "vinegar_brewing",
+"group": "음식·발효"
+},
+{
+"ko": "향신료 배합",
+"slug": "spice_blending",
+"group": "음식·발효"
+},
+{
+"ko": "차 감별",
+"slug": "tea_tasting",
+"group": "음식·발효"
+},
+{
+"ko": "젤라토 만들기",
+"slug": "gelato_making",
+"group": "음식·발효"
+},
+{
+"ko": "장작 화덕 피자",
+"slug": "pizza_oven",
+"group": "음식·발효"
+},
+{
+"ko": "야생마 길들이기",
+"slug": "horse_breaking",
+"group": "동물"
+},
+{
+"ko": "양몰이 개 다루기",
+"slug": "sheepdog_handling",
+"group": "동물"
+},
+{
+"ko": "양털 깎기",
+"slug": "sheep_shearing",
+"group": "동물"
+},
+{
+"ko": "순록 유목",
+"slug": "reindeer_herding",
+"group": "동물"
+},
+{
+"ko": "낙타 대상 행렬",
+"slug": "camel_caravan",
+"group": "동물"
+},
+{
+"ko": "코끼리 조련(마훗)",
+"slug": "elephant_mahout",
+"group": "동물"
+},
+{
+"ko": "개썰매 몰기",
+"slug": "dog_sledding",
+"group": "동물"
+},
+{
+"ko": "경주마 조교",
+"slug": "racehorse_training",
+"group": "동물"
+},
+{
+"ko": "경마 기수",
+"slug": "jockeying",
+"group": "동물"
+},
+{
+"ko": "로데오 황소 타기",
+"slug": "bull_riding",
+"group": "동물"
+},
+{
+"ko": "돼지 분만 관리",
+"slug": "pig_farrowing",
+"group": "동물"
+},
+{
+"ko": "달걀 부화 관리",
+"slug": "egg_hatching",
+"group": "동물"
+},
+{
+"ko": "오리 떼 방목",
+"slug": "duck_herding",
+"group": "동물"
+},
+{
+"ko": "소 난산 받기",
+"slug": "livestock_calving",
+"group": "동물"
+},
+{
+"ko": "동물원 사육",
+"slug": "zookeeping",
+"group": "동물"
+},
+{
+"ko": "파충류 사육",
+"slug": "reptile_keeping",
+"group": "동물"
+},
+{
+"ko": "뱀독 채취",
+"slug": "venom_milking",
+"group": "동물"
+},
+{
+"ko": "경찰견 훈련",
+"slug": "police_dog",
+"group": "동물"
+},
+{
+"ko": "안내견 훈련",
+"slug": "guide_dog",
+"group": "동물"
+},
+{
+"ko": "반려견 미용",
+"slug": "dog_grooming",
+"group": "동물"
+},
+{
+"ko": "유기묘 보호소 운영",
+"slug": "cat_shelter",
+"group": "동물"
+},
+{
+"ko": "야생동물 재활",
+"slug": "wildlife_rehab",
+"group": "동물"
+},
+{
+"ko": "새 가락지 부착",
+"slug": "bird_banding",
+"group": "동물"
+},
+{
+"ko": "누에치기",
+"slug": "silkworm_rearing",
+"group": "동물"
+},
+{
+"ko": "귀뚜라미 사육",
+"slug": "cricket_farming",
+"group": "동물"
+},
+{
+"ko": "가마우지 낚시",
+"slug": "cormorant_fishing",
+"group": "동물"
+},
+{
+"ko": "돌고래 조련",
+"slug": "dolphin_training",
+"group": "동물"
+},
+{
+"ko": "수족관 수조 관리",
+"slug": "aquarium_keeping",
+"group": "동물"
+},
+{
+"ko": "해충 방제",
+"slug": "pest_control",
+"group": "동물"
+},
+{
+"ko": "뱀 포획 이송",
+"slug": "snake_relocation",
+"group": "동물"
+},
+{
+"ko": "클럽 출입 경비",
+"slug": "bouncing",
+"group": "사람 다루기"
+},
+{
+"ko": "요인 경호",
+"slug": "bodyguarding",
+"group": "사람 다루기"
+},
+{
+"ko": "인질 협상",
+"slug": "hostage_negotiation",
+"group": "사람 다루기"
+},
+{
+"ko": "공연장 군중 통제",
+"slug": "crowd_control",
+"group": "사람 다루기"
+},
+{
+"ko": "구급대원 현장 처치",
+"slug": "paramedic",
+"group": "사람 다루기"
+},
+{
+"ko": "조산(아기 받기)",
+"slug": "midwifery",
+"group": "사람 다루기"
+},
+{
+"ko": "호스피스 간병",
+"slug": "hospice_care",
+"group": "사람 다루기"
+},
+{
+"ko": "요양원 목욕 수발",
+"slug": "elder_bathing",
+"group": "사람 다루기"
+},
+{
+"ko": "이발",
+"slug": "barbering",
+"group": "사람 다루기"
+},
+{
+"ko": "헤어 염색",
+"slug": "hair_coloring",
+"group": "사람 다루기"
+},
+{
+"ko": "특수 분장",
+"slug": "special_effects_makeup",
+"group": "공연·예술"
+},
+{
+"ko": "문신",
+"slug": "tattooing",
+"group": "사람 다루기"
+},
+{
+"ko": "마사지",
+"slug": "massage",
+"group": "사람 다루기"
+},
+{
+"ko": "침술",
+"slug": "acupuncture",
+"group": "사람 다루기"
+},
+{
+"ko": "치과 기공",
+"slug": "dental_technician",
+"group": "사람 다루기"
+},
+{
+"ko": "안경 렌즈 가공",
+"slug": "lens_grinding",
+"group": "사람 다루기"
+},
+{
+"ko": "의수족 제작",
+"slug": "prosthetics",
+"group": "사람 다루기"
+},
+{
+"ko": "호텔 컨시어지",
+"slug": "concierge",
+"group": "사람 다루기"
+},
+{
+"ko": "바텐더",
+"slug": "bartending",
+"group": "사람 다루기"
+},
+{
+"ko": "파인다이닝 서빙",
+"slug": "fine_dining",
+"group": "사람 다루기"
+},
+{
+"ko": "카지노 딜러",
+"slug": "casino_dealing",
+"group": "사람 다루기"
+},
+{
+"ko": "미술품 경매 호가",
+"slug": "art_auctioneer",
+"group": "사람 다루기"
+},
+{
+"ko": "염습(장례 시신 수습)",
+"slug": "funeral_washing",
+"group": "의례·전통"
+},
+{
+"ko": "시신 방부 처리",
+"slug": "embalming",
+"group": "의례·전통"
+},
+{
+"ko": "결혼식 진행",
+"slug": "wedding_planning",
+"group": "의례·전통"
+},
+{
+"ko": "동시 통역",
+"slug": "simultaneous_interpreting",
+"group": "사람 다루기"
+},
+{
+"ko": "수어 통역",
+"slug": "sign_interpreting",
+"group": "사람 다루기"
+},
+{
+"ko": "교도관",
+"slug": "prison_guard",
+"group": "사람 다루기"
+},
+{
+"ko": "축구 심판",
+"slug": "football_refereeing",
+"group": "스포츠"
+},
+{
+"ko": "사막 투어 가이드",
+"slug": "desert_guide",
+"group": "사람 다루기"
+},
+{
+"ko": "굿(무속 의례)",
+"slug": "shaman_ritual",
+"group": "의례·전통"
+},
+{
+"ko": "제사 상차림",
+"slug": "ancestral_rites",
+"group": "의례·전통"
+},
+{
+"ko": "범패(불교 의식 노래)",
+"slug": "buddhist_chant",
+"group": "의례·전통"
+},
+{
+"ko": "일본 다도",
+"slug": "tea_ceremony",
+"group": "의례·전통"
+},
+{
+"ko": "향 만들기",
+"slug": "incense_making",
+"group": "의례·전통"
+},
+{
+"ko": "탱화 그리기",
+"slug": "buddhist_painting",
+"group": "의례·전통"
+},
+{
+"ko": "성가대 지휘",
+"slug": "choir_conducting",
+"group": "의례·전통"
+},
+{
+"ko": "교회 종 순열 타종",
+"slug": "change_ringing",
+"group": "의례·전통"
+},
+{
+"ko": "이콘 그리기",
+"slug": "icon_painting",
+"group": "의례·전통"
+},
+{
+"ko": "토라 두루마리 필사",
+"slug": "torah_scribing",
+"group": "의례·전통"
+},
+{
+"ko": "단청 칠하기",
+"slug": "dancheong_painting",
+"group": "의례·전통"
+},
+{
+"ko": "탈춤",
+"slug": "mask_dance",
+"group": "의례·전통"
+},
+{
+"ko": "판소리",
+"slug": "pansori",
+"group": "의례·전통"
+},
+{
+"ko": "사물놀이",
+"slug": "samulnori",
+"group": "의례·전통"
+},
+{
+"ko": "줄타기",
+"slug": "tightrope_walking",
+"group": "의례·전통"
+},
+{
+"ko": "풍수 터 보기",
+"slug": "feng_shui",
+"group": "의례·전통"
+},
+{
+"ko": "연등 만들기",
+"slug": "lantern_making",
+"group": "의례·전통"
+},
+{
+"ko": "상여 메기",
+"slug": "bier_carrying",
+"group": "의례·전통"
+},
+{
+"ko": "카니발 의상 제작",
+"slug": "carnival_costume",
+"group": "의례·전통"
+},
+{
+"ko": "수피 회전춤",
+"slug": "sufi_whirling",
+"group": "의례·전통"
+},
+{
+"ko": "무대 조명",
+"slug": "stage_lighting",
+"group": "공연·예술"
+},
+{
+"ko": "라이브 음향 믹싱",
+"slug": "live_sound",
+"group": "공연·예술"
+},
+{
+"ko": "무대 리깅",
+"slug": "stage_rigging",
+"group": "공연·예술"
+},
+{
+"ko": "인형극 조종",
+"slug": "puppetry",
+"group": "공연·예술"
+},
+{
+"ko": "마술 손기술",
+"slug": "sleight_of_hand",
+"group": "공연·예술"
+},
+{
+"ko": "서커스 공중그네",
+"slug": "trapeze",
+"group": "공연·예술"
+},
+{
+"ko": "저글링",
+"slug": "juggling",
+"group": "공연·예술"
+},
+{
+"ko": "광대 연기",
+"slug": "clowning",
+"group": "공연·예술"
+},
+{
+"ko": "즉흥 연극",
+"slug": "improv_theater",
+"group": "공연·예술"
+},
+{
+"ko": "스탠드업 코미디",
+"slug": "standup_comedy",
+"group": "공연·예술"
+},
+{
+"ko": "오페라 발성",
+"slug": "opera_singing",
+"group": "공연·예술"
+},
+{
+"ko": "발레",
+"slug": "ballet",
+"group": "공연·예술"
+},
+{
+"ko": "탭댄스",
+"slug": "tap_dance",
+"group": "공연·예술"
+},
+{
+"ko": "플라멩코",
+"slug": "flamenco",
+"group": "공연·예술"
+},
+{
+"ko": "DJ 믹싱",
+"slug": "dj_mixing",
+"group": "공연·예술"
+},
+{
+"ko": "영화 포커스 풀링",
+"slug": "focus_pulling",
+"group": "공연·예술"
+},
+{
+"ko": "폴리 음향 제작",
+"slug": "foley_art",
+"group": "공연·예술"
+},
+{
+"ko": "스턴트 연기",
+"slug": "stunt_work",
+"group": "공연·예술"
+},
+{
+"ko": "무대 소품 제작",
+"slug": "prop_making",
+"group": "공연·예술"
+},
+{
+"ko": "유화 복원",
+"slug": "painting_restoration",
+"group": "공연·예술"
+},
+{
+"ko": "프레스코 벽화",
+"slug": "fresco_painting",
+"group": "공연·예술"
+},
+{
+"ko": "그래피티",
+"slug": "graffiti_art",
+"group": "공연·예술"
+},
+{
+"ko": "암실 흑백 인화",
+"slug": "darkroom_printing",
+"group": "공연·예술"
+},
+{
+"ko": "야생동물 다큐 촬영",
+"slug": "wildlife_filming",
+"group": "공연·예술"
+},
+{
+"ko": "오케스트라 타악기",
+"slug": "orchestral_percussion",
+"group": "공연·예술"
+},
+{
+"ko": "재즈 즉흥 연주",
+"slug": "jazz_improvisation",
+"group": "공연·예술"
+},
+{
+"ko": "파이프 오르간 정비",
+"slug": "organ_maintenance",
+"group": "공연·예술"
+},
+{
+"ko": "성우 더빙",
+"slug": "voice_dubbing",
+"group": "공연·예술"
+},
+{
+"ko": "얼음 조각",
+"slug": "ice_sculpture",
+"group": "공연·예술"
+},
+{
+"ko": "이케바나 꽃꽂이",
+"slug": "ikebana",
+"group": "공연·예술"
+},
+{
+"ko": "자동차 엔진 정비",
+"slug": "engine_repair",
+"group": "기계·현대기술"
+},
+{
+"ko": "오토바이 튜닝",
+"slug": "motorcycle_tuning",
+"group": "기계·현대기술"
+},
+{
+"ko": "자전거 휠 정렬",
+"slug": "wheel_truing",
+"group": "기계·현대기술"
+},
+{
+"ko": "대형 트럭 장거리 운전",
+"slug": "truck_driving",
+"group": "기계·현대기술"
+},
+{
+"ko": "시내버스 운전",
+"slug": "bus_driving",
+"group": "기계·현대기술"
+},
+{
+"ko": "열차 기관사",
+"slug": "train_driving",
+"group": "기계·현대기술"
+},
+{
+"ko": "지게차 운전",
+"slug": "forklift_operation",
+"group": "기계·현대기술"
+},
+{
+"ko": "타워크레인 운전",
+"slug": "tower_crane",
+"group": "건설"
+},
+{
+"ko": "굴삭기 운전",
+"slug": "excavator_operation",
+"group": "건설"
+},
+{
+"ko": "불도저 정지 작업",
+"slug": "grading",
+"group": "건설"
+},
+{
+"ko": "레이싱 피트 크루",
+"slug": "pit_crew",
+"group": "기계·현대기술"
+},
+{
+"ko": "랠리 드라이빙",
+"slug": "rally_driving",
+"group": "스포츠"
+},
+{
+"ko": "엘리베이터 정비",
+"slug": "elevator_repair",
+"group": "기계·현대기술"
+},
+{
+"ko": "에어컨 냉매 정비",
+"slug": "hvac_service",
+"group": "기계·현대기술"
+},
+{
+"ko": "보일러 운전",
+"slug": "boiler_operation",
+"group": "기계·현대기술"
+},
+{
+"ko": "원자로 운전",
+"slug": "reactor_operation",
+"group": "기계·현대기술"
+},
+{
+"ko": "풍력 터빈 정비",
+"slug": "wind_turbine",
+"group": "기계·현대기술"
+},
+{
+"ko": "태양광 패널 지붕 설치",
+"slug": "solar_installation",
+"group": "기계·현대기술"
+},
+{
+"ko": "CNC 가공",
+"slug": "cnc_machining",
+"group": "기계·현대기술"
+},
+{
+"ko": "수동 선반 가공",
+"slug": "lathe_turning",
+"group": "기계·현대기술"
+},
+{
+"ko": "금형 제작",
+"slug": "mold_making",
+"group": "기계·현대기술"
+},
+{
+"ko": "사출 성형",
+"slug": "injection_molding",
+"group": "기계·현대기술"
+},
+{
+"ko": "반도체 클린룸 작업",
+"slug": "clean_room",
+"group": "기계·현대기술"
+},
+{
+"ko": "오프셋 인쇄기 운전",
+"slug": "offset_printing",
+"group": "기계·현대기술"
+},
+{
+"ko": "활판 인쇄",
+"slug": "letterpress",
+"group": "공예·섬유"
+},
+{
+"ko": "재봉틀 수리",
+"slug": "sewing_repair",
+"group": "기계·현대기술"
+},
+{
+"ko": "소형 엔진 수리",
+"slug": "small_engines",
+"group": "기계·현대기술"
+},
+{
+"ko": "자물쇠 열기",
+"slug": "locksmithing",
+"group": "기계·현대기술"
+},
+{
+"ko": "금고 따기",
+"slug": "safecracking",
+"group": "기계·현대기술"
+},
+{
+"ko": "폭발물 처리",
+"slug": "bomb_disposal",
+"group": "기계·현대기술"
+},
+{
+"ko": "철도 신호 보수",
+"slug": "railway_signaling",
+"group": "기계·현대기술"
+},
+{
+"ko": "선박 기관실 운전",
+"slug": "ship_engineering",
+"group": "바다"
+},
+{
+"ko": "공장 라인 설비 정비",
+"slug": "line_maintenance",
+"group": "기계·현대기술"
+},
+{
+"ko": "3D 프린팅 출력",
+"slug": "3d_printing",
+"group": "기계·현대기술"
+},
+{
+"ko": "수력 발전기 정비",
+"slug": "hydro_turbine",
+"group": "물·강"
+},
+{
+"ko": "미장",
+"slug": "plastering",
+"group": "건설"
+},
+{
+"ko": "타일 시공",
+"slug": "tile_setting",
+"group": "건설"
+},
+{
+"ko": "벽돌 쌓기",
+"slug": "bricklaying",
+"group": "건설"
+},
+{
+"ko": "콘크리트 타설",
+"slug": "concrete_pouring",
+"group": "건설"
+},
+{
+"ko": "철근 배근",
+"slug": "rebar_tying",
+"group": "건설"
+},
+{
+"ko": "비계 설치",
+"slug": "scaffolding",
+"group": "건설"
+},
+{
+"ko": "기와 지붕 잇기",
+"slug": "roof_tiling",
+"group": "건설"
+},
+{
+"ko": "초가 지붕 잇기",
+"slug": "thatching",
+"group": "건설"
+},
+{
+"ko": "배관 설비",
+"slug": "plumbing",
+"group": "건설"
+},
+{
+"ko": "아스팔트 포장",
+"slug": "asphalt_paving",
+"group": "건설"
+},
+{
+"ko": "건물 철거",
+"slug": "demolition",
+"group": "건설"
+},
+{
+"ko": "커튼월 유리 설치",
+"slug": "glazing",
+"group": "건설"
+},
+{
+"ko": "도배",
+"slug": "wallpapering",
+"group": "건설"
+},
+{
+"ko": "건물 외벽 도장",
+"slug": "house_painting",
+"group": "건설"
+},
+{
+"ko": "구들 놓기",
+"slug": "ondol_building",
+"group": "건설"
+},
+{
+"ko": "흙벽돌 집짓기",
+"slug": "adobe_building",
+"group": "건설"
+},
+{
+"ko": "이글루 짓기",
+"slug": "igloo_building",
+"group": "건설"
+},
+{
+"ko": "유르트 세우기",
+"slug": "yurt_pitching",
+"group": "건설"
+},
+{
+"ko": "토지 측량",
+"slug": "land_surveying",
+"group": "건설"
+},
+{
+"ko": "방수 시공",
+"slug": "waterproofing",
+"group": "건설"
+},
+{
+"ko": "복싱 코너맨",
+"slug": "boxing_cornerman",
+"group": "스포츠"
+},
+{
+"ko": "씨름",
+"slug": "ssireum",
+"group": "스포츠"
+},
+{
+"ko": "유도",
+"slug": "judo",
+"group": "스포츠"
+},
+{
+"ko": "펜싱",
+"slug": "fencing",
+"group": "스포츠"
+},
+{
+"ko": "양궁",
+"slug": "archery",
+"group": "스포츠"
+},
+{
+"ko": "장거리 사격",
+"slug": "marksmanship",
+"group": "스포츠"
+},
+{
+"ko": "마라톤 페이스 조절",
+"slug": "marathon_pacing",
+"group": "스포츠"
+},
+{
+"ko": "도로 사이클 경주",
+"slug": "road_cycling",
+"group": "스포츠"
+},
+{
+"ko": "기계 체조",
+"slug": "gymnastics",
+"group": "스포츠"
+},
+{
+"ko": "하이 다이빙",
+"slug": "high_diving",
+"group": "스포츠"
+},
+{
+"ko": "골프 캐디",
+"slug": "golf_caddying",
+"group": "스포츠"
+},
+{
+"ko": "피겨 스케이팅",
+"slug": "figure_skating",
+"group": "스포츠"
+},
+{
+"ko": "컬링",
+"slug": "curling",
+"group": "스포츠"
+},
+{
+"ko": "스케이트보드",
+"slug": "skateboarding",
+"group": "스포츠"
+},
+{
+"ko": "장대높이뛰기",
+"slug": "pole_vaulting",
+"group": "스포츠"
+}
+]

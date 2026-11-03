@@ -11467,3 +11467,40 @@ report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
 reason = "말한 구간 '잠깐' 맞음(1.0분). 턴 10(예측 7–12), 토큰 3.17M(예측 1.5–3). 13번 한 바퀴 합계: 작성 2.4 + 검토 2.3 + 수정 1.0 = 5.7분"
 [dispatch.turns]
 skip = "같은 에이전트에 이어 보낸 회차라 로그가 누적되어 회차별 동작 표를 가를 수 없음"
+
+[[dispatch]]
+id = "p145"
+project = "proviso"
+batch = 41
+date = 2026-11-03
+task = "메인 자신(클라우드 세션, Opus 5.5) + Claude API 배치: 먼 분야 399개의 경험칙을 Opus 5.5 배치로 생성·검토해 domains/far_fields 논리집으로 넣기(+ Haiku 웹 조사 10개 분야 변환, 연결 실험 설계). 부모 세션(잼민이)이 사용자 위임으로 보낸 일. 하위 에이전트 없음"
+[dispatch.situation]
+S_main_self = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_other_model = "아니오"
+S_short = "아니오"
+S_no_code = "아니오"
+S_build_tools = "예"
+S_cloud_session = "예"
+[dispatch.predicted]
+written_before = false  # 설계·시험 생성(06:00–06:18 UTC)이 끝난 뒤 06:19에 적었다. 그 앞 몫은 예측 없이 했다
+told = "신경 끄기"
+minutes = [120, 240]
+turns = [40, 90]
+tokens_class = ["T2"]
+tokens_m = [15, 40]
+rules = ["R_say_numbers_v2"]
+reason = "빗댈 기록 없음(API 배치를 쓴 첫 일). 05:55 시작 기준으로 생성 배치 대기 ~60분(문서상 대개 1시간 안) + 검토 배치 ~60분 + 변환·검사·문서·연결 실험 30–60분 → 120–240분. 메인 응답 수는 지금까지 약 25, 남은 몫 15–65. 토큰은 메인이 볼 수 없어 추정만(맥락 약 10만 × 턴 60). API 비용 예측(정가의 절반, usage로 직접 집계): 생성 394건 × 약 $0.09 = $35, 검토 404건 × 약 $0.035 = $14, 시험·분야 목록·옮기기 동기 호출 $2.7 → 합계 $45–70"
+hypotheses = []
+[dispatch.actual]
+status = "done"
+minutes = 65  # 벽시계 약 05:55 → 07:00 UTC(커밋). 시작 시각은 첫 호출 기록이 없어 추정(시험 생성 시작 06:10:45의 약 15분 전)
+turns = 60  # 메인 응답 수 추정. 토큰은 메인이 볼 수 없다
+[dispatch.review]
+report = "docs/worklog/2026-11-03-far-fields.md"
+reason = "말한 구간 '신경 끄기' 맞음(65분, > 40) — 손 예측 120–240분은 크게 넘김(실제 절반). 왜: 배치 대기를 문서 기준 '대개 1시간 안'으로 잡았는데 실제는 생성 394건 8분, 검토 394건 7분이었다. API 비용 예측 $45–70 → 실측 $55.47(+집계 못 한 거절 호출 약 $1~2) 안. 예측과 달리 든 시간: 연결 실험의 분류기 거절(reasoning_extraction)로 양식을 바꿔 세 번 돌림(약 10분). 다음부터 Opus 배치는 수백 건이어도 10–20분으로 잡는다"
+hypotheses = []
+[dispatch.turns]
+skip = "메인 자신의 일이라 하위 에이전트 로그가 없다"

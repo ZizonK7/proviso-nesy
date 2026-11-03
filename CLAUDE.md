@@ -19,7 +19,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 | 폴더 | 역할 |
 |---|---|
 | `proviso/` | 코어(분야 모름): 지식 파일 읽기·검사(`schema`), 성적표(`score`), 점검(`audit`), 그래프(`graph`), 조회(`query`), MCP 서버(`mcp_server`, 읽기 전용) |
-| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드(agent_usage: 계산기 `predict`·맞추기 `fit`·홀드아웃 `holdout`). 폴더마다 `CLAUDE.md`(지금 상태), 필요하면 `history.md`(경위). 현재 `flowlog`, `music_player`, `agent_usage`, `language_learning`, `movie_game` |
+| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드(agent_usage: 계산기 `predict`·맞추기 `fit`·홀드아웃 `holdout`). 폴더마다 `CLAUDE.md`(지금 상태), 필요하면 `history.md`(경위). 현재 `flowlog`, `music_player`, `agent_usage`, `language_learning`, `movie_game`, `far_fields` |
 | `experiments/` | 본체 실험 (논리집 유무에 따른 Claude 답 비교) |
 | `docs/` | 원안, 설계 기록, 실험 보고서, 하위 에이전트 절차(`dispatch.md`)와 기록(`AGENT-LOG.md`, `worklog/`), 루트 경위(`history.md`) |
 | `scripts/` | 운영 도구 (하위 에이전트 대화 기록 → 사용량 숫자, `agent_usage` 기록에 씀) |
@@ -55,6 +55,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 | `agent_usage` | 사용자 목표(2026-10-16): **AI가 하위 에이전트의 시간과 사용량을 예측해서 이유와 함께 말해 준다.** 사용자는 판정하지 않고, AI가 사용자의 쌓는 방식을 따라 스스로 쌓는다. 판정자는 실측. batman 지휘 모델도 쓴다 | [domains/agent_usage](domains/agent_usage/CLAUDE.md) |
 | `language_learning` | 사용자 목표(2026-10-22): **일본어를 전혀 모르는 사용자가 일본 여행에서 쓸 일본어를 꾸준히 공부할 시스템.** 결정마다 논리집을 보거나 잘 된 케이스를 조사해 근거를 댄다. 앱은 [ZizonK7/language_learning](https://github.com/ZizonK7/language_learning)(공개) | [domains/language_learning](domains/language_learning/CLAUDE.md) |
 | `movie_game` | 셜록 홈즈 추리 게임의 설계 판단(2026-10-26). 게임 저장소 [ZizonK7/movie_game](https://github.com/ZizonK7/movie_game)는 비공개라 코드를 옮겨 적지 않고, 그 저장소의 md는 **제안 → 허락 뒤 수정** | [domains/movie_game](domains/movie_game/CLAUDE.md) |
+| `far_fields` | 사용자 목표(2026-11-03): **창의 연결의 재료** — 사용자가 모르고 하지도 않을 먼 분야(약 400개)의 현장 경험칙을 분야 이름 없는 조각으로. 전부 AI가 만들거나 모은 것이라 판정은 AI 검토(가장 가벼운 출처)뿐. 무작위 두 조각 잇기 실험은 [docs/connection-experiment-v0.md](docs/connection-experiment-v0.md) | [domains/far_fields](domains/far_fields/CLAUDE.md) |
 | 시험장 stock-rader | [ZizonK7/stock-rader](https://github.com/ZizonK7/stock-rader)(공개, 이 PC `../stock-rader`): Claude가 혼자 가상 투자(1,000만 원)를 하며 논리 조각화를 시험한다. 판정자는 시장. agent_usage와 같은 방식에 '조사 범위도 논리집에 넣기'를 더했다. 지식 양식·검사는 이 저장소 코어를 쓰고, 코어를 바꿔야 하면 여기서 바꾼다 | 그 저장소 `CLAUDE.md`·`docs/design.md`, 코어 변경은 [proviso/CLAUDE.md](proviso/CLAUDE.md) |
 
 - **사용자 평가 대기**: music_player 새 알아서 틀기 실사용(R_M1b)·폰 셔플 표시(R_S1)·실제 앱 빌드, language_learning 사용자 PC 빌드와 실사용. 판정이 오면 `[[judgment]]` source="user".
@@ -64,7 +65,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 ## 다음 할 일
 1. **조각 층을 스키마에 넣기**: 조각 노드(근거 포함), 규칙의 "이루는 조각" 칸, 상황별 대 보기. 같은 조각이 여러 분야에 걸리고 분야별 성적이 따로 보이게. agent_usage의 계산 조각(효과 칸)이 첫 형태. 그 위에서 **처음 보는 질문으로 예측 시험**(사후 설명이 아닌지 확인).
 2. 정리: 가설 검사 결과를 지식에 저장(본체 실험에서 도구가 "지지됨"을 못 보여줌 → 2026-10-19부터 MCP `scorecard`가 성적표를 보여 준다. 결과를 파일에 저장하는 것은 아직), knowledge-format을 확정 양식 문서로 + 원안 대비 변경점 문서. (적용 범위 칸은 조각 층으로 대체)
-3. **일반 지식 넣기**(사용자 제안): 통념 · 사용자 생각 · 연구·실험 근거를 조각으로. 출처 종류·근거 강도, 출처 실재 확인 필수, 필요한 것만, 충돌 시 개인 경험 > 일반 원리. 사용자 생각 출처: 각 저장소 DECISIONS.md(뮤직 플레이어에서 효과 확인 — 있었으면 질문 1을 안 틀렸음).
+3. **일반 지식 넣기**(사용자 제안, 첫 묶음 = `far_fields` 2026-11-03: 먼 분야 경험칙. 웹 문헌 출처 등급은 아직 스키마에 없어 가설 `source` 글에 적었다): 통념 · 사용자 생각 · 연구·실험 근거를 조각으로. 출처 종류·근거 강도, 출처 실재 확인 필수, 필요한 것만, 충돌 시 개인 경험 > 일반 원리. 사용자 생각 출처: 각 저장소 DECISIONS.md(뮤직 플레이어에서 효과 확인 — 있었으면 질문 1을 안 틀렸음).
 4. 학습 고리 자동화: Episode 로그(질문·조회·답·판정·이유) + 지식 추가 제안 → 사용자 승인 → 저장(원안 commit 도구). `agent_usage`의 `dispatches.toml`(예측 → 실측 → 돌아보기)이 첫 Episode 로그 형태 — 판정자가 사용자가 아니라 실측인 경우.
 5. `agent_usage` 이어 가기: 보낼 때마다 아래 체크리스트. 다음 정리에서 할 것은 [domains/agent_usage/CLAUDE.md](domains/agent_usage/CLAUDE.md) 끝. batman 배치 37부터 기록을 옮긴다(STATUS에 "proviso sync pending"이 있으면 PC 세션이 처리).
 6. 그 뒤: 로컬 소형 모델(통역), 원안 Stage 2·3
