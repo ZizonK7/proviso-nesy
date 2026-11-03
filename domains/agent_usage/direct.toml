@@ -1,0 +1,11 @@
+# 메인이 직접 한 일 — 보낼까 판단에서 '직접'을 고른 일 (2026-11-03 사용자 결정, CLAUDE.md '보낼까 판단').
+# 보낸 일은 dispatches.toml, 직접 한 일은 여기. 둘 다 예측(decide) → 실측 → 돌아보기. 같이 쌓여야 '안 보내는 쪽으로 기우는지'를 따질 수 있다.
+# 적는 문턱: 도구를 대여섯 번 넘게 쓸 일을 직접 하기로 했으면 적는다(작은 일까지 적으면 그 기록이 더 비싸다).
+# 칸:
+#   id               m001부터
+#   project, date, task, situation(선택 — 계산기에 쓴 상황 값)
+#   decide           보낼까 판단(decide.py 출력의 [direct.decide]): main_ctx_k 그때 메인 맥락(천), left 남은 응답 어림,
+#                    direct_m·send_m 두 추정(백만, 기록 단위), chose = "직접", why(비용 / 새 눈 / 대화 계속 / 대화 맥락 / 결과를 가림)
+#   actual           끝나면: 메인 대화 기록에서 `scripts/agent_usage.py <메인 기록> --rounds`로 그 요청의 시작·끝을 보고
+#                    `--actual --after <시작> --until <끝>` → status·minutes·turns(줄)·tokens_m·start·end
+#   review.reason    고른 쪽이 맞았나(다른 쪽 추정과 견줘)

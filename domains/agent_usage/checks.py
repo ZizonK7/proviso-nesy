@@ -493,6 +493,33 @@ def used_tokens(rule_id: str) -> tuple[str, str]:
     return _used(rule_id, "tokens")
 
 
+def decide_cost() -> tuple[str, str]:
+    """R_send_or_not: 보낼까 판단에서 고른 쪽의 실제 비용이 다른 쪽 추정보다 작았나.
+    보냄 = 작업자 실측 토큰 + 메인 몫(보내고 기록하는 줄 × 그때 메인 맥락 + 보고 × 남은 줄, 추정),
+    직접 = 메인이 그 요청에 쓴 실측 토큰 + 실제로 늘어난 맥락(없으면 추정) × 남은 줄. 고르지 않은 쪽은 추정뿐이다."""
+    from . import decide as de
+    p = de.params()
+    rows = []
+    for d in dp.load():
+        dec, a = d.get("decide"), d.get("actual", {})
+        if dec and dp.done(d) and a.get("tokens_m") is not None:
+            lines = dec["left"] * p["lines_per_response"]
+            mine = a["tokens_m"] + (p["send_overhead_lines"] * dec["main_ctx_k"] + p["report_k"] * lines) / 1000
+            rows.append((d["id"], "보냄", mine, dec["direct_m"]))
+    for d in dp.load_direct():
+        dec, a = d.get("decide"), d.get("actual", {})
+        if dec and a.get("status") == "done" and a.get("tokens_m") is not None:
+            lines = dec["left"] * p["lines_per_response"]
+            mine = a["tokens_m"] + a.get("added_k", dec.get("added_k", 0)) * lines / 1000
+            rows.append((d["id"], "직접", mine, dec["send_m"]))
+    detail = "  " + (", ".join(f"{i} {c} 실제 {m:.1f}M vs 다른 쪽 {o:.1f}M{'' if m <= o else ' ✗'}" for i, c, m, o in rows) or "판단 기록 없음")
+    need = 10
+    if len(rows) < need:
+        return f"시험 전 (판단 기록 {len(rows)}/{need} — 보냄 {sum(c == '보냄' for _, c, _, _ in rows)}, 직접 {sum(c == '직접' for _, c, _, _ in rows)})", detail
+    ok = sum(m <= o for _, _, m, o in rows)
+    return f"{'지지됨' if ok / len(rows) >= NEED else '반박됨'} (판단 {len(rows)}건 중 {ok}건에서 고른 쪽이 쌌다)", detail
+
+
 def told_zone_v3() -> tuple[str, str]:
     """R_say_numbers_v3: 걸치면 가운데 값의 구간으로 말하기로 바꾼 뒤(2026-11-03, SEEN_UNTIL p145) 말한 구간이 실제 구간과 맞는다.
     v2(걸치면 긴 쪽) 시절에 말한 기록은 세지 않는다."""
@@ -698,10 +725,11 @@ CHECKS = {
     "used_tokens": used_tokens,
     "told_zone": told_zone,
     "told_zone_v3": told_zone_v3,
+    "decide_cost": decide_cost,
     "piece_direction": piece_direction,
     "piece_size": piece_size,
 }
 # SEEN_UNTIL이 필요 없는 검사: 보내기 전에 적은 예측·말한 구간이 곧 세운 뒤의 시험이다
-NO_CUT = ("used_minutes", "used_turns", "used_tokens", "told_zone")
+NO_CUT = ("used_minutes", "used_turns", "used_tokens", "told_zone", "decide_cost")  # decide_cost: 판단 칸은 규칙이 생긴 뒤에만 적힌다
 # 노드의 seen_until로 자르는 검사 (계산 조각): 조각마다 맞출 때 본 마지막 기록이 다를 수 있다
 NODE_CUT = ("piece_direction", "piece_size")
