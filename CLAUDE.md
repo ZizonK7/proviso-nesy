@@ -19,7 +19,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 | 폴더 | 역할 |
 |---|---|
 | `proviso/` | 코어(분야 모름): 지식 파일 읽기·검사(`schema`), 성적표(`score`), 점검(`audit`), 그래프(`graph`), 조회(`query`), MCP 서버(`mcp_server`, 읽기 전용) |
-| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드(agent_usage: 계산기 `predict`·맞추기 `fit`·홀드아웃 `holdout`). 폴더마다 `CLAUDE.md`(지금 상태), 필요하면 `history.md`(경위). 현재 `flowlog`, `music_player`, `agent_usage`, `language_learning`, `movie_game`, `far_fields` |
+| `domains/<id>/` | 분야 플러그인: `knowledge.toml`(크면 옆에 나눈 파일 `knowledge-*.toml`, 코어가 같이 읽음) + 가설 검사(`checks.py`) + 분야 전용 코드(agent_usage: 계산기 `predict`·맞추기 `fit`·홀드아웃 `holdout`). 폴더마다 `CLAUDE.md`(지금 상태), 필요하면 `history.md`(경위). 현재 `flowlog`, `music_player`, `agent_usage`, `language_learning`, `movie_game`, `far_fields` |
 | `experiments/` | 본체 실험 (논리집 유무에 따른 Claude 답 비교) |
 | `docs/` | 원안, 설계 기록, 실험 보고서, 하위 에이전트 절차(`dispatch.md`)와 기록(`AGENT-LOG.md`, `worklog/`), 루트 경위(`history.md`) |
 | `scripts/` | 운영 도구 (하위 에이전트 대화 기록 → 사용량 숫자, `agent_usage` 기록에 씀) |

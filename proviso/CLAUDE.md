@@ -26,12 +26,17 @@
 - 코어가 검사하는 것(지킬 장치): 효과가 있으면 노드 `reason`과 효과마다 `reason`이 있어야 한다(이유 없는 숫자 금지). `when`의 상태는 `known_before = true`여야 하고 노드 `conditions`에 있어야 한다(보내기 전에 알 수 있는 조건만, 그래프에 이어짐). 곱하기·더하기는 조건과 방향이 있어야 하고 범위가 방향과 맞아야 한다(1을 넘나드는 곱하기는 방향이 없다). 범위 폭(상한/하한)은 `[domain] max_ratio`(기본 2) 이하.
 - 계산(조합)·숫자 맞추기·성적은 분야 코드가 한다(agent_usage: `predict.py`, `fit.py`, `holdout.py`). 코어는 칸 모양만 안다.
 
+## 설계 결정: 지식 파일 나누기 (2026-11-04, far_fields가 14.7MB가 되어 사용자 결정 "분야 별로 나누는 게 좋을거 같아")
+- `schema.load(<분야>/knowledge.toml)`은 같은 폴더의 `knowledge-*.toml`(나눈 파일)도 이름 순서로 읽어 한 `Knowledge`로 합친다. 읽은 파일 이름은 `Knowledge.parts`. CLI·MCP·query·graph·score·audit은 모두 `load`를 거쳐서 그대로 같이 읽는다.
+- 나눈 파일에는 사실·관찰·가설·규칙·판정만 둔다. `[domain]`·목표·상태는 `knowledge.toml` 한 곳에(분야의 뼈대가 흩어지지 않게) — 어기면 validate 오류. id는 모든 파일을 통틀어 하나(중복은 validate 오류), 참조는 파일을 넘어 이어진다.
+- 파일 하나인 분야(flowlog 등)는 동작이 그대로다. 다른 이름의 toml(`dispatches.toml` 등)은 읽지 않는다. stock-rader처럼 이 코어를 쓰는 저장소도 파일 하나면 바뀌는 것이 없다(그 저장소에서 돌려 보지는 않았다).
+
 ## 규칙
 - 여기에는 특정 분야(Flowlog 등)의 단어나 로직을 넣지 않는다. 분야 것은 `domains/<id>/`로. 성적표에 필요한 검사 함수와 출처는 부르는 쪽(CLI·MCP)이 분야에서 불러 넘긴다.
 - 외부 패키지 없이 표준 라이브러리만 (TOML은 `tomllib`, 테스트는 `unittest`). 의존성을 늘리려면 사용자와 먼저 상의.
 - 지식 파일 칸을 바꾸면 `REQUIRED`/`REFS`, `graph.EDGE`, 아래 표, 테스트를 같이 고친다.
 
-## 지식 파일 칸 (domains/<id>/knowledge.toml)
+## 지식 파일 칸 (domains/<id>/knowledge.toml, 나눈 파일 knowledge-*.toml)
 | 종류 | 필수 | 선택 (→ 가리키는 종류) |
 |---|---|---|
 | goal 목표 | text | parent → goal |

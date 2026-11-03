@@ -9,3 +9,51 @@
 #   actual           끝나면: 메인 대화 기록에서 `scripts/agent_usage.py <메인 기록> --rounds`로 그 요청의 시작·끝을 보고
 #                    `--actual --after <시작> --until <끝>` → status·minutes·turns(줄)·tokens_m·start·end
 #   review.reason    고른 쪽이 맞았나(다른 쪽 추정과 견줘)
+
+[[direct]]
+id = "m001"
+project = "proviso"
+date = 2026-11-03
+task = "far_fields knowledge.toml을 묶음별 파일로 나누기: 코어 schema.load가 분야 폴더의 knowledge*.toml을 모두 읽어 합치게, build.py가 묶음별로 쓰게, 검사·테스트·문서"
+[direct.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "예"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[direct.decide]
+main_ctx_k = 300
+left = 10
+direct_m = 20.9
+send_m = 9.4
+added_k = 476
+chose = "직접"
+why = ["대화 맥락"]
+[direct.actual]
+status = "done"
+minutes = 4.1  # record finish (메인 대화 기록)
+turns = 38
+tokens_m = 21.78  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-03T22:49:53Z"
+end = "2026-11-03T22:54:02Z"
+added_k = 29  # 메인 맥락이 실제로 늘어난 양(천 토큰) — 그 뒤 모든 응답에서 다시 읽힌다
+[direct.review]
+reason = "직접 고른 까닭은 대화 맥락(두 파일 구조를 메인이 이미 다 앎). 손 예측 15–30분·15–30줄에 실제 4.1분·38줄 — 시간은 크게 짧고 줄은 넘었다: 짧은 명령을 여러 번 이어 썼다. 토큰은 21.8M으로 보냈을 때 추정 9.4M보다 컸다 — 메인 맥락이 약 30만에서 줄마다 다시 읽혀서다(늘어난 맥락은 2.9만으로 작았다). 비용으로는 보내는 쪽이 쌌을 수 있다(O_undersend 방향과 같음). 대신 코어 변경을 메인이 직접 해서 나누기 전후 같음 확인·검사를 한 흐름으로 끝냈다"

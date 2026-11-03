@@ -103,6 +103,8 @@ class Knowledge:
     nodes: dict[str, Node]
     duplicates: list[str] = field(default_factory=list)
     judgments: list[dict] = field(default_factory=list)
+    parts: list[str] = field(default_factory=list)  # 읽은 파일 이름들 (knowledge.toml + 나눈 파일 knowledge-*.toml)
+    load_errors: list[str] = field(default_factory=list)
 
     def of(self, kind: str) -> list[Node]:
         return [n for n in self.nodes.values() if n.kind == kind]
@@ -125,22 +127,43 @@ def check_names(node: Node) -> list[str]:
     return node.refs("check")
 
 
+PART_GLOB = "knowledge-*.toml"  # 나눈 파일 (2026-11-04): knowledge.toml 옆에 두면 같이 읽는다
+MAIN_ONLY = ("domain", "goal", "state")  # 나눈 파일에는 두지 않는다 — 분야의 뼈대는 knowledge.toml 한 곳에
+
+
 def load(path: Path) -> Knowledge:
-    raw = tomllib.loads(path.read_text(encoding="utf-8"))
+    """분야 지식을 읽는다. path가 knowledge.toml이면 같은 폴더의 knowledge-*.toml(나눈 파일)도 이름 순서로 읽어 합친다.
+
+    나눈 파일에는 사실·관찰·가설·규칙·판정만 둔다([domain]·목표·상태는 knowledge.toml에만). 어기면 validate 오류.
+    id는 모든 파일을 통틀어 하나여야 하고(중복은 validate 오류), 참조도 파일을 넘어 이어진다.
+    """
+    files = [path]
+    if path.name == "knowledge.toml":
+        files += sorted(path.parent.glob(PART_GLOB))
     nodes: dict[str, Node] = {}
-    duplicates = []
-    for kind in KINDS:
-        for item in raw.get(kind, []):
-            node = Node(kind, item.get("id", ""), item)
-            if node.id in nodes:
-                duplicates.append(node.id)
-            nodes[node.id] = node
-    return Knowledge(raw.get("domain", {}), nodes, duplicates, list(raw.get("judgment", [])))
+    duplicates, judgments, errors = [], [], []
+    domain: dict = {}
+    for i, f in enumerate(files):
+        raw = tomllib.loads(f.read_text(encoding="utf-8"))
+        if i == 0:
+            domain = raw.get("domain", {})
+        else:
+            for key in MAIN_ONLY:
+                if key in raw:
+                    errors.append(f"{f.name}: 나눈 파일에 [{key}]가 있음 — domain·goal·state는 {path.name}에만 둔다")
+        for kind in KINDS:
+            for item in raw.get(kind, []):
+                node = Node(kind, item.get("id", ""), item)
+                if node.id in nodes:
+                    duplicates.append(node.id)
+                nodes[node.id] = node
+        judgments += list(raw.get("judgment", []))
+    return Knowledge(domain, nodes, duplicates, judgments, [f.name for f in files], errors)
 
 
 def validate(kn: Knowledge) -> list[str]:
     """문제 목록을 돌려준다. 비어 있으면 통과."""
-    errors = [f"id 중복: {d}" for d in kn.duplicates]
+    errors = list(kn.load_errors) + [f"id 중복: {d}" for d in kn.duplicates]
     for node in kn.nodes.values():
         if not node.id:
             errors.append(f"{KIND_LABEL[node.kind]}에 id가 없음: {node.data}")

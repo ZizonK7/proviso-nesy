@@ -49,6 +49,15 @@ class FarFieldsTest(unittest.TestCase):
         self.assertEqual(len(names), len(set(names)))
         self.assertEqual(len(slugs), len(set(slugs)))
 
+    def test_split_by_group(self):
+        # 묶음별 파일로 나눈다(2026-11-04): 뼈대만 knowledge.toml에, 조각은 묶음 파일에. 파일마다 묶음 하나
+        from domains.far_fields.build import GROUP_FILE
+        self.assertEqual(len(self.kn.parts), 1 + len(GROUP_FILE))
+        main = schema.load.__globals__["tomllib"].loads((KN).read_text(encoding="utf-8"))
+        self.assertNotIn("hypothesis", main)
+        for h in self.kn.of("hypothesis"):
+            self.assertIn(h.data["group"], GROUP_FILE, h.id)
+
     def test_shapes_are_from_vocabulary(self):
         self.assertEqual({s.id for s in self.kn.of("state")}, set(SHAPES))
         for h in self.kn.of("hypothesis"):

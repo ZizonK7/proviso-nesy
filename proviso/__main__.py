@@ -25,7 +25,8 @@ def cmd_validate(domain: str) -> int:
     kn = _load(domain)
     errors = schema.validate(kn)
     counts = ", ".join(f"{schema.KIND_LABEL[k]} {len(kn.of(k))}" for k in schema.KINDS)
-    print(f"[{domain}] {counts}, 판정 기록 {len(kn.judgments)}")
+    parts = f" (파일 {len(kn.parts)}개: knowledge.toml + 나눈 파일)" if len(kn.parts) > 1 else ""
+    print(f"[{domain}] {counts}, 판정 기록 {len(kn.judgments)}{parts}")
     if errors:
         print("문제 발견:")
         for e in errors:

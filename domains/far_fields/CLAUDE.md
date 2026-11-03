@@ -13,7 +13,8 @@
 ## 파일
 | 파일 | 무엇 |
 |---|---|
-| `knowledge.toml` | **자동 생성** (`python -m domains.far_fields.build`). 손으로 고치지 않는다 |
+| `knowledge.toml` | **자동 생성** (`python -m domains.far_fields.build`). 뼈대만: domain·목표 3·모양 36 |
+| `knowledge-<묶음>.toml` | **자동 생성**. 묶음 20개(`build.GROUP_FILE`: sea·river·farm·forest·sky·under·fire·craft·food·animal·people·rite·stage·machine·build·sport·web·academia·it·finance)의 조각과 판정. 파일마다 0.2–0.9MB. 코어가 knowledge.toml과 같이 읽는다(2026-11-04 사용자 결정 '분야 별로 나누는 게 좋을거 같아' — 묶음별로 읽음) |
 | `fields.json` | 1차 분야 목록 399개(ko·slug·group). Opus가 400개를 뽑고 다우징(유사과학)을 뺐다 |
 | `fields2.json` | 2차 분야 목록 400개(slug = 묶음 코드 + 번호, 예 `sea2_01`). 메인이 골랐다. 부적·사주·타로·관상·기 치료는 근거가 없어 뺐다 |
 | `fields3.json` | 3차 분야 목록 150개(`acad3_`·`it3_`·`fin3_`). 사용자 쪽(수학·통계·데이터·AI·프로그래밍 일반·교육·상담)은 뺐다 |
@@ -25,7 +26,7 @@
 | `connect.py` | 연결 실험 (무작위 두 조각) |
 | `checks.py` | 자동 검사 없음. `AUDIT`: 일반화 문장에 분야 낱말이 새면 경고 |
 
-원본 API 응답은 `out/far_fields/`(git 제외)에만 있다. 컨테이너가 회수되면 사라지므로 `knowledge.toml`이 남는 기록이다.
+원본 API 응답과 작업자 결과는 `out/far_fields/`(git 제외)에만 있다. 컨테이너가 회수되면 사라지므로 `knowledge*.toml`이 남는 기록이다. 2026-11-04 나누기는 원본이 있어 `build.py`로 다시 썼다(나누기 전과 노드·판정이 같은지 확인함).
 
 ## 조각 양식 (가설 노드 하나)
 - `text`: **분야·직업·도구·재료·동물 이름이 없는 일반화**. 조건 → 결론 → 이유가 보이게. 연결 실험은 이 칸을 쓴다.
@@ -43,7 +44,7 @@
 - **진료·안전 지침이 아니다.** 생성 지시서에 위험한 절차의 자세한 방법은 쓰지 말라고 넣었다.
 
 ## 지킬 규칙
-- `knowledge.toml`은 손으로 고치지 않는다. 고칠 것이 있으면 jsonl을 다시 만들거나 `build.py`를 고친다(원본 jsonl이 없으면 — 컨테이너 회수 뒤 — toml을 직접 고치되 이 문서에 적는다).
+- `knowledge.toml`·`knowledge-*.toml`은 손으로 고치지 않는다. 고칠 것이 있으면 jsonl을 다시 만들거나 `build.py`를 고친다(원본 jsonl이 없으면 — 컨테이너 회수 뒤 — toml을 직접 고치되 이 문서에 적는다).
 - 사용자가 그 분야를 실제로 하게 되면: 그 분야 조각에 `[[judgment]]` source = "user"를 붙이거나, 그 분야를 제 폴더로 옮겨 사용자 경험 위에서 다시 시작한다.
 - 다른 분야(사용자 생활)로 옮긴 조각은 그 분야에서 다시 가설로 시작한다(루트 '큰 그림').
 - 테스트 `tests/test_far_fields.py`가 막는 것: 모든 조각에 text·source·분야 칸, 1차분은 AI 판정·2차분은 판정 없이 test_plan, 모양은 단어장 안, 분야 낱말 새는 조각 5% 미만.
@@ -53,7 +54,7 @@
 
 ## 남은 일
 - 2차분 내용 검토(사용자 지시로 미룸). 작업자가 확신 낮다고 한 분야: 선유줄불놀이·싸움소 조련·갓 만들기·물레방아 방앗간·종묘제례악. 분야를 넘어 뜻이 비슷한 일반화 정리.
-- `knowledge.toml` 14.7MB(3차 포함). 나누는 안(사용자에게 제안, 아직 안 함): 코어 `schema.load`가 분야 폴더의 `knowledge*.toml`을 모두 읽어 합치게 하고, far_fields는 차수별(`knowledge.toml`·`knowledge2.toml`·`knowledge3.toml`)로 나눈다. 코어를 바꾸는 일이라 사용자 결정 뒤에.
+- 지식 파일은 2026-11-04에 묶음별로 나눴다(합계 14.7MB, 파일마다 0.2–0.9MB). 사용자가 959개 분야마다 파일을 뜻했다면 `GROUP_FILE` 대신 slug로 나누면 된다(코어는 이미 knowledge-*.toml을 몇 개든 읽는다).
 - 사용자 판정: 연결 실험 6쌍([seed-20261103](../../docs/experiments/connections/seed-20261103.md))이 쓸모 있는지. 쓸모 있다고 한 새 조각만 사용자 생활 쪽 논리집에 가설로.
 - 연결 실험을 더: 모양을 하나 공유하는 쌍과 비교, 같은 쌍 여러 번, 사람이 직접 한 것과 비교.
 - 검토 '일부' 805개의 note에 숫자·조건 정정이 많다 — 필요하면 `rule`을 고친 다음 버전으로(지금은 판정 note에만 있다).
