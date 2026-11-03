@@ -16,7 +16,7 @@ defer_ties = true
 tie_spread_max = 2
 # 반드시 같은 답 — 일의 큰 모양과 회차가 다르면 시간이 다른 세상이다. '모름'은 다른 답(못 찾으면 상관없음으로 다시)
 hard = ["S_specified", "S_resumed", "S_web", "S_fixed_input", "S_cloud_session"]
-# v2 고침(2026-11-03 사용자 결정, 시험 기록 0건일 때): '기본 설정인가'(S_other_model) 대신 기록의 model·effort 칸으로 —
+# v2 고침(2026-11-03 사용자 결정, 시험 기록 0건일 때 — main에서 같은 시각에 적힌 p170은 합치기 전이라 보지 못했다): '기본 설정인가'(S_other_model) 대신 기록의 model·effort 칸으로 —
 #   반드시 같은 답 안에서 같은 모델·effort가 먼저, 없으면 같은 모델의 다른 effort로 넓힌다. 다른 모델은 빗대지 않는다(손 예측).
 #   전에는 S_other_model = 예 하나에 Sonnet max·Haiku·Fable xhigh·Opus xhigh가 섞여 서로를 빗댔다.
 same_setup = true

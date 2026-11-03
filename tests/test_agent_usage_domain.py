@@ -184,10 +184,11 @@ class Rescore20261019(unittest.TestCase):
         self.assertTrue(dp.model_errors({"id": "zz6", "date": "2026-11-04", "task": "t"}))
         # 메인 자신의 일은 세션이 자기 effort를 모를 수 있어 모델만 있어도 된다
         self.assertEqual(dp.model_errors({"id": "zz7", "date": "2026-11-04", "model": "Opus 5.5", "situation": {"S_main_self": "예"}}), [])
-        # 지난 기록은 모두 두 칸과 맞는다(채우기 2026-11-03: p139·p142의 '아니오'를 '예'로 고침 — Opus 5.5 xhigh)
+        # 지난 기록은 모두 두 칸과 맞는다(채우기 2026-11-03: p139·p142·p169·p170의 '아니오'를 '예'로 고침 — Opus 5.5 xhigh)
         records = {d["id"]: d for d in dp.load()}
         self.assertEqual([e for d in records.values() for e in dp.model_errors(d)], [])
-        self.assertEqual([(records[i]["effort"], records[i]["situation"]["S_other_model"]) for i in ("p139", "p142")], [("xhigh", "예")] * 2)
+        self.assertEqual([(records[i]["effort"], records[i]["situation"]["S_other_model"]) for i in ("p139", "p142", "p169", "p170")],
+                         [("xhigh", "예")] * 4)
 
     def test_records_from_nov_3_need_turn_table_and_report(self):
         # 2026-11-02 사용자 결정: 문서에만 적힌 단계는 빠지므로 검사가 막는다. 2026-11-03부터의 끝난 기록만
