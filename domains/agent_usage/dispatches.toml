@@ -13406,3 +13406,45 @@ hypotheses = []
 "Bash:cd" = { n = 1, sum_s = 6.0, turn_s = 6.0, tool_s = 1.0, out_chars = 560, ctx_k = 160 }
 "SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 456, ctx_k = 161 }
 
+
+[[dispatch]]
+id = "p168"
+project = "gemmin"
+batch = 45
+date = 2026-11-03
+agent = "plan-change-1103"
+round = 1
+task = "조사(클라우드 'searching', Haiku 5.5, 새 세션): Claude 요금제를 내리거나(Ultra/Max → Pro) 다시 올릴 때(Pro → Ultra/Max) 주간 사용량이 이어지는지 새로 시작하는지, 요금 일할 여부, 주간 초기화 시각이 바뀌는지 — 실제 경험담(Reddit 미러·HN·개인 글) 우선, 공식 도움말 문장 보조. 전송 조건: 경험담 원문 6건 + 공식 원문 2건"
+size = { find_cap = "4 질문·원문 8건" }
+[dispatch.situation]
+S_specified = "아니오"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "예"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_small_codebase = "예"
+S_no_code = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_read_originals = "예"
+S_web_blocked = "아니오"
+[dispatch.predicted]
+written_before = true
+analog = "p129"
+told = "잠깐"
+minutes = [2, 6]
+tokens_class = ["T1"]
+tokens_m = [1, 4]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v2"]
+reason = "빗댄 p129(클라우드 Haiku 글 조사, 전송 조건 6건, 3.0분·2.51M)와 배치 37 교훈 '클라우드 Haiku 글 조사는 조건 종류와 무관하게 3–10분 띠'. gemmin의 11-03 같은 모양 세션 18개(경험칙 10, API 8)가 1–3분이었다(gemmin docs/agent-log.md) → 2–6분 '잠깐'. 커뮤니티는 reddit.com 직접은 막히고 미러 스냅샷·HN Algolia로 열린다(11-03 API 조사 6번 세션, 원문 13곳). 토큰 1–4M. 계산기 모름(Haiku)"
+hypotheses = ["H_cloud_session_rounds_v2"]
+[dispatch.calc]
+# 계산기: 모름 (맞는 기준값 조각 없음)
