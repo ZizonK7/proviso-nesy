@@ -12154,7 +12154,25 @@ hypotheses = []
 told = "잠깐"
 minutes = [2.23, 4.46]
 [dispatch.actual]
-status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+status = "done"
+minutes = 16.4  # scripts/agent_usage.py --md
+turns = 32  # 도구 호출 27
+tokens_m = 4.45
+[dispatch.review]
+report = "docs/worklog/2026-11-03-far-fields-2.md"
+wrong = ["C_turns_fixed_input"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기' 틀림 → 실제 다른 일(16.4분). 턴 32(예측 25–45 맞음), 토큰 4.45M(예측 2–6 맞음). 손 예측은 분야 하나 쓰는 데 API처럼 1–2분이 든다고 봤지만 실제 Write 한 턴 약 37초(분야 20개 ≈ 12분). 계산기(S_fixed_input → 10–21턴·2–4분)는 반대로 적게 잡았다: '입력이 정해진 일'이어도 출력 양(분야 20 × JSON 약 5천 자)이 턴 수를 정한다 — 조건 흐림(출력 파일 수가 빠짐). 다음부터 '파일 n개 쓰기' 일은 턴 ≈ n + 10, 분 ≈ n × 0.6 + 4. 계산기 다음 정리 때 S_many_files(출력 파일 수) 상태 후보"
+hypotheses = []
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Write" = { n = 20, sum_s = 478.1, turn_s = 25.9, tool_s = 0.0, out_chars = 4062.5, ctx_k = 142.0 }
+"글" = { n = 5, sum_s = 63.7, turn_s = 3.4, out_chars = 0, ctx_k = 166 }
+"Bash:sed" = { n = 2, sum_s = 6.4, turn_s = 3.2, tool_s = 0.8, out_chars = 330.5, ctx_k = 67.5 }
+"Bash:python3" = { n = 2, sum_s = 4.3, turn_s = 2.1, tool_s = 0.3, out_chars = 294.0, ctx_k = 183.0 }
+"Bash:grep" = { n = 1, sum_s = 422.4, turn_s = 422.4, tool_s = 0.3, out_chars = 186, ctx_k = 75 }
+"Bash:cd" = { n = 1, sum_s = 8.3, turn_s = 8.3, tool_s = 0.3, out_chars = 720, ctx_k = 184 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 645, ctx_k = 185 }
+
 
 [[dispatch]]
 id = "p157"
@@ -12199,7 +12217,24 @@ hypotheses = []
 told = "잠깐"
 minutes = [2.23, 4.46]
 [dispatch.actual]
-status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+status = "done"
+minutes = 14.8  # scripts/agent_usage.py --md
+turns = 45  # 도구 호출 24
+tokens_m = 5.43
+[dispatch.review]
+report = "docs/worklog/2026-11-03-far-fields-2.md"
+wrong = ["C_turns_fixed_input"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기' 틀림 → 실제 다른 일(14.8분). 턴 45(예측 25–45 맞음), 토큰 5.43M(예측 2–6 맞음). 손 예측은 분야 하나 쓰는 데 API처럼 1–2분이 든다고 봤지만 실제 Write 한 턴 약 37초(분야 20개 ≈ 12분). 계산기(S_fixed_input → 10–21턴·2–4분)는 반대로 적게 잡았다: '입력이 정해진 일'이어도 출력 양(분야 20 × JSON 약 5천 자)이 턴 수를 정한다 — 조건 흐림(출력 파일 수가 빠짐). 다음부터 '파일 n개 쓰기' 일은 턴 ≈ n + 10, 분 ≈ n × 0.6 + 4. 계산기 다음 정리 때 S_many_files(출력 파일 수) 상태 후보"
+hypotheses = []
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 21, sum_s = 765.4, turn_s = 38.0, out_chars = 0, ctx_k = 121 }
+"Write" = { n = 20, sum_s = 105.9, turn_s = 5.4, tool_s = 0.0, out_chars = 4828.5, ctx_k = 119.0 }
+"Bash:sed" = { n = 1, sum_s = 3.7, turn_s = 3.7, tool_s = 0.7, out_chars = 181, ctx_k = 66 }
+"Bash:grep" = { n = 1, sum_s = 2.4, turn_s = 2.4, tool_s = 0.2, out_chars = 387, ctx_k = 74 }
+"Bash:python3" = { n = 1, sum_s = 5.8, turn_s = 5.8, tool_s = 0.3, out_chars = 317, ctx_k = 165 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 477, ctx_k = 165 }
+
 
 [[dispatch]]
 id = "p158"
@@ -12244,7 +12279,24 @@ hypotheses = []
 told = "잠깐"
 minutes = [2.23, 4.46]
 [dispatch.actual]
-status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+status = "done"
+minutes = 12.6  # scripts/agent_usage.py --md
+turns = 29  # 도구 호출 25
+tokens_m = 3.23
+[dispatch.review]
+report = "docs/worklog/2026-11-03-far-fields-2.md"
+wrong = ["C_turns_fixed_input"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기' 틀림 → 실제 다른 일(12.6분). 턴 29(예측 25–45 맞음), 토큰 3.23M(예측 2–6 맞음). 손 예측은 분야 하나 쓰는 데 API처럼 1–2분이 든다고 봤지만 실제 Write 한 턴 약 37초(분야 20개 ≈ 12분). 계산기(S_fixed_input → 10–21턴·2–4분)는 반대로 적게 잡았다: '입력이 정해진 일'이어도 출력 양(분야 20 × JSON 약 5천 자)이 턴 수를 정한다 — 조건 흐림(출력 파일 수가 빠짐). 다음부터 '파일 n개 쓰기' 일은 턴 ≈ n + 10, 분 ≈ n × 0.6 + 4. 계산기 다음 정리 때 S_many_files(출력 파일 수) 상태 후보"
+hypotheses = []
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Write" = { n = 20, sum_s = 622.1, turn_s = 35.1, tool_s = 0.0, out_chars = 4689.5, ctx_k = 112.5 }
+"글" = { n = 4, sum_s = 116.5, turn_s = 36.4, out_chars = 0.0, ctx_k = 104.5 }
+"Bash:grep" = { n = 2, sum_s = 6.3, turn_s = 3.1, tool_s = 0.5, out_chars = 376.0, ctx_k = 69.5 }
+"Bash:sed" = { n = 1, sum_s = 3.0, turn_s = 3.0, tool_s = 0.4, out_chars = 155, ctx_k = 68 }
+"Bash:python3" = { n = 1, sum_s = 2.8, turn_s = 2.8, tool_s = 0.2, out_chars = 337, ctx_k = 154 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 363, ctx_k = 154 }
+
 
 [[dispatch]]
 id = "p159"
@@ -12289,7 +12341,25 @@ hypotheses = []
 told = "잠깐"
 minutes = [2.23, 4.46]
 [dispatch.actual]
-status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+status = "done"
+minutes = 13.4  # scripts/agent_usage.py --md
+turns = 36  # 도구 호출 26
+tokens_m = 3.99
+[dispatch.review]
+report = "docs/worklog/2026-11-03-far-fields-2.md"
+wrong = ["C_turns_fixed_input"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기' 틀림 → 실제 다른 일(13.4분). 턴 36(예측 25–45 맞음), 토큰 3.99M(예측 2–6 맞음). 손 예측은 분야 하나 쓰는 데 API처럼 1–2분이 든다고 봤지만 실제 Write 한 턴 약 37초(분야 20개 ≈ 12분). 계산기(S_fixed_input → 10–21턴·2–4분)는 반대로 적게 잡았다: '입력이 정해진 일'이어도 출력 양(분야 20 × JSON 약 5천 자)이 턴 수를 정한다 — 조건 흐림(출력 파일 수가 빠짐). 다음부터 '파일 n개 쓰기' 일은 턴 ≈ n + 10, 분 ≈ n × 0.6 + 4. 계산기 다음 정리 때 S_many_files(출력 파일 수) 상태 후보"
+hypotheses = []
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Write" = { n = 20, sum_s = 517.5, turn_s = 35.8, tool_s = 0.0, out_chars = 4746.0, ctx_k = 112.5 }
+"글" = { n = 10, sum_s = 223.6, turn_s = 34.6, out_chars = 0.0, ctx_k = 106.5 }
+"Bash:python3" = { n = 2, sum_s = 7.9, turn_s = 3.9, tool_s = 0.3, out_chars = 250.5, ctx_k = 132.5 }
+"Bash:sed" = { n = 1, sum_s = 4.0, turn_s = 4.0, tool_s = 0.8, out_chars = 192, ctx_k = 66 }
+"Bash:grep" = { n = 1, sum_s = 2.4, turn_s = 2.4, tool_s = 0.3, out_chars = 390, ctx_k = 74 }
+"Bash:ls" = { n = 1, sum_s = 45.4, turn_s = 45.4, tool_s = 0.1, out_chars = 163, ctx_k = 78 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 392, ctx_k = 159 }
+
 
 [[dispatch]]
 id = "p160"
@@ -12334,7 +12404,26 @@ hypotheses = []
 told = "잠깐"
 minutes = [2.23, 4.46]
 [dispatch.actual]
-status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+status = "done"
+minutes = 15.4  # scripts/agent_usage.py --md
+turns = 50  # 도구 호출 30
+tokens_m = 6.31
+[dispatch.review]
+report = "docs/worklog/2026-11-03-far-fields-2.md"
+wrong = ["C_turns_fixed_input"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기' 틀림 → 실제 다른 일(15.4분). 턴 50(예측 25–45 넘김), 토큰 6.31M(예측 2–6 넘김). 손 예측은 분야 하나 쓰는 데 API처럼 1–2분이 든다고 봤지만 실제 Write 한 턴 약 37초(분야 20개 ≈ 12분). 계산기(S_fixed_input → 10–21턴·2–4분)는 반대로 적게 잡았다: '입력이 정해진 일'이어도 출력 양(분야 20 × JSON 약 5천 자)이 턴 수를 정한다 — 조건 흐림(출력 파일 수가 빠짐). 다음부터 '파일 n개 쓰기' 일은 턴 ≈ n + 10, 분 ≈ n × 0.6 + 4. 계산기 다음 정리 때 S_many_files(출력 파일 수) 상태 후보"
+hypotheses = []
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 20, sum_s = 517.7, turn_s = 35.5, out_chars = 0.0, ctx_k = 125.0 }
+"Write" = { n = 20, sum_s = 152.6, turn_s = 2.5, tool_s = 0.0, out_chars = 4520.5, ctx_k = 125.0 }
+"Edit" = { n = 3, sum_s = 100.6, turn_s = 33.8, tool_s = 0.0, out_chars = 234, ctx_k = 135 }
+"Bash:grep" = { n = 2, sum_s = 136.5, turn_s = 68.2, tool_s = 0.4, out_chars = 340.5, ctx_k = 70.5 }
+"Bash:python3" = { n = 2, sum_s = 7.5, turn_s = 3.8, tool_s = 0.3, out_chars = 427.5, ctx_k = 166.5 }
+"Bash:sed" = { n = 1, sum_s = 2.7, turn_s = 2.7, tool_s = 0.3, out_chars = 173, ctx_k = 70 }
+"Bash:cd" = { n = 1, sum_s = 5.9, turn_s = 5.9, tool_s = 0.2, out_chars = 808, ctx_k = 176 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 465, ctx_k = 177 }
+
 
 [[dispatch]]
 id = "p161"
@@ -12379,7 +12468,27 @@ hypotheses = []
 told = "잠깐"
 minutes = [2.23, 4.46]
 [dispatch.actual]
-status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+status = "done"
+minutes = 14.4  # scripts/agent_usage.py --md
+turns = 36  # 도구 호출 29
+tokens_m = 4.27
+[dispatch.review]
+report = "docs/worklog/2026-11-03-far-fields-2.md"
+wrong = ["C_turns_fixed_input"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기' 틀림 → 실제 다른 일(14.4분). 턴 36(예측 25–45 맞음), 토큰 4.27M(예측 2–6 맞음). 손 예측은 분야 하나 쓰는 데 API처럼 1–2분이 든다고 봤지만 실제 Write 한 턴 약 37초(분야 20개 ≈ 12분). 계산기(S_fixed_input → 10–21턴·2–4분)는 반대로 적게 잡았다: '입력이 정해진 일'이어도 출력 양(분야 20 × JSON 약 5천 자)이 턴 수를 정한다 — 조건 흐림(출력 파일 수가 빠짐). 다음부터 '파일 n개 쓰기' 일은 턴 ≈ n + 10, 분 ≈ n × 0.6 + 4. 계산기 다음 정리 때 S_many_files(출력 파일 수) 상태 후보"
+hypotheses = []
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Write" = { n = 20, sum_s = 621.2, turn_s = 39.8, tool_s = 0.0, out_chars = 5041.0, ctx_k = 119.0 }
+"글" = { n = 7, sum_s = 171.2, turn_s = 38.2, out_chars = 0, ctx_k = 100 }
+"Bash:grep" = { n = 2, sum_s = 5.1, turn_s = 2.5, tool_s = 0.6, out_chars = 311.5, ctx_k = 75.5 }
+"Bash:python3" = { n = 2, sum_s = 7.3, turn_s = 3.6, tool_s = 0.3, out_chars = 301.0, ctx_k = 164.0 }
+"Bash:sed" = { n = 1, sum_s = 3.7, turn_s = 3.7, tool_s = 0.7, out_chars = 198, ctx_k = 66 }
+"Bash:ls" = { n = 1, sum_s = 1.1, turn_s = 1.1, out_chars = 124, ctx_k = 77 }
+"Edit" = { n = 1, sum_s = 43.6, turn_s = 43.6, tool_s = 0.0, out_chars = 329, ctx_k = 121 }
+"Bash:cd" = { n = 1, sum_s = 5.8, turn_s = 5.8, tool_s = 0.7, out_chars = 509, ctx_k = 165 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 386, ctx_k = 165 }
+
 
 [[dispatch]]
 id = "p162"
@@ -12424,7 +12533,23 @@ hypotheses = []
 told = "잠깐"
 minutes = [2.23, 4.46]
 [dispatch.actual]
-status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+status = "done"
+minutes = 12.1  # scripts/agent_usage.py --md
+turns = 27  # 도구 호출 24
+tokens_m = 3.0
+[dispatch.review]
+report = "docs/worklog/2026-11-03-far-fields-2.md"
+wrong = ["C_turns_fixed_input"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기' 틀림 → 실제 다른 일(12.1분). 턴 27(예측 25–45 맞음), 토큰 3.0M(예측 2–6 맞음). 손 예측은 분야 하나 쓰는 데 API처럼 1–2분이 든다고 봤지만 실제 Write 한 턴 약 37초(분야 20개 ≈ 12분). 계산기(S_fixed_input → 10–21턴·2–4분)는 반대로 적게 잡았다: '입력이 정해진 일'이어도 출력 양(분야 20 × JSON 약 5천 자)이 턴 수를 정한다 — 조건 흐림(출력 파일 수가 빠짐). 다음부터 '파일 n개 쓰기' 일은 턴 ≈ n + 10, 분 ≈ n × 0.6 + 4. 계산기 다음 정리 때 S_many_files(출력 파일 수) 상태 후보"
+hypotheses = []
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Write" = { n = 20, sum_s = 631.8, turn_s = 34.3, tool_s = 0.0, out_chars = 4527.0, ctx_k = 109.5 }
+"글" = { n = 3, sum_s = 76.7, turn_s = 35.1, out_chars = 0, ctx_k = 126 }
+"Bash:grep" = { n = 2, sum_s = 6.3, turn_s = 3.1, tool_s = 0.7, out_chars = 278.5, ctx_k = 69.5 }
+"Bash:python3" = { n = 1, sum_s = 4.4, turn_s = 4.4, tool_s = 0.2, out_chars = 347, ctx_k = 151 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 295, ctx_k = 151 }
+
 
 [[dispatch]]
 id = "p163"
@@ -12469,7 +12594,24 @@ hypotheses = []
 told = "잠깐"
 minutes = [2.23, 4.46]
 [dispatch.actual]
-status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+status = "done"
+minutes = 15.3  # scripts/agent_usage.py --md
+turns = 29  # 도구 호출 27
+tokens_m = 3.69
+[dispatch.review]
+report = "docs/worklog/2026-11-03-far-fields-2.md"
+wrong = ["C_turns_fixed_input"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기' 틀림 → 실제 다른 일(15.3분). 턴 29(예측 25–45 맞음), 토큰 3.69M(예측 2–6 맞음). 손 예측은 분야 하나 쓰는 데 API처럼 1–2분이 든다고 봤지만 실제 Write 한 턴 약 37초(분야 20개 ≈ 12분). 계산기(S_fixed_input → 10–21턴·2–4분)는 반대로 적게 잡았다: '입력이 정해진 일'이어도 출력 양(분야 20 × JSON 약 5천 자)이 턴 수를 정한다 — 조건 흐림(출력 파일 수가 빠짐). 다음부터 '파일 n개 쓰기' 일은 턴 ≈ n + 10, 분 ≈ n × 0.6 + 4. 계산기 다음 정리 때 S_many_files(출력 파일 수) 상태 후보"
+hypotheses = []
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Write" = { n = 20, sum_s = 506.2, turn_s = 27.4, tool_s = 0.0, out_chars = 4119.0, ctx_k = 136.5 }
+"Bash:grep" = { n = 3, sum_s = 330.7, turn_s = 2.7, tool_s = 0.4, out_chars = 218, ctx_k = 75 }
+"글" = { n = 2, sum_s = 35.7, turn_s = 17.9, out_chars = 0.0, ctx_k = 110.0 }
+"Bash:python3" = { n = 2, sum_s = 35.9, turn_s = 17.9, tool_s = 0.4, out_chars = 269.0, ctx_k = 159.5 }
+"Bash:cat" = { n = 1, sum_s = 3.5, turn_s = 3.5, tool_s = 0.8, out_chars = 258, ctx_k = 66 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 442, ctx_k = 176 }
+
 
 [[dispatch]]
 id = "p164"
@@ -12514,7 +12656,24 @@ hypotheses = []
 told = "잠깐"
 minutes = [2.23, 4.46]
 [dispatch.actual]
-status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+status = "done"
+minutes = 14.0  # scripts/agent_usage.py --md
+turns = 29  # 도구 호출 25
+tokens_m = 3.22
+[dispatch.review]
+report = "docs/worklog/2026-11-03-far-fields-2.md"
+wrong = ["C_turns_fixed_input"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기' 틀림 → 실제 다른 일(14.0분). 턴 29(예측 25–45 맞음), 토큰 3.22M(예측 2–6 맞음). 손 예측은 분야 하나 쓰는 데 API처럼 1–2분이 든다고 봤지만 실제 Write 한 턴 약 37초(분야 20개 ≈ 12분). 계산기(S_fixed_input → 10–21턴·2–4분)는 반대로 적게 잡았다: '입력이 정해진 일'이어도 출력 양(분야 20 × JSON 약 5천 자)이 턴 수를 정한다 — 조건 흐림(출력 파일 수가 빠짐). 다음부터 '파일 n개 쓰기' 일은 턴 ≈ n + 10, 분 ≈ n × 0.6 + 4. 계산기 다음 정리 때 S_many_files(출력 파일 수) 상태 후보"
+hypotheses = []
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Write" = { n = 20, sum_s = 693.8, turn_s = 39.8, tool_s = 0.0, out_chars = 4931.0, ctx_k = 114.0 }
+"글" = { n = 4, sum_s = 129.9, turn_s = 42.2, out_chars = 7.5, ctx_k = 82.5 }
+"Bash:grep" = { n = 2, sum_s = 6.0, turn_s = 3.0, tool_s = 0.8, out_chars = 327.0, ctx_k = 69.5 }
+"Bash:sed" = { n = 1, sum_s = 2.8, turn_s = 2.8, tool_s = 0.3, out_chars = 167, ctx_k = 68 }
+"Bash:python3" = { n = 1, sum_s = 5.5, turn_s = 5.5, tool_s = 0.7, out_chars = 315, ctx_k = 156 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 406, ctx_k = 160 }
+
 
 [[dispatch]]
 id = "p165"
@@ -12559,4 +12718,22 @@ hypotheses = []
 told = "잠깐"
 minutes = [2.23, 4.46]
 [dispatch.actual]
-status = "unknown"  # 진행 중. 끝나면 실측으로 바꾼다
+status = "done"
+minutes = 13.4  # scripts/agent_usage.py --md
+turns = 31  # 도구 호출 26
+tokens_m = 3.73
+[dispatch.review]
+report = "docs/worklog/2026-11-03-far-fields-2.md"
+wrong = ["C_turns_fixed_input"]
+why = "조건 흐림"
+reason = "말한 구간 '신경 끄기' 틀림 → 실제 다른 일(13.4분). 턴 31(예측 25–45 맞음), 토큰 3.73M(예측 2–6 맞음). 손 예측은 분야 하나 쓰는 데 API처럼 1–2분이 든다고 봤지만 실제 Write 한 턴 약 37초(분야 20개 ≈ 12분). 계산기(S_fixed_input → 10–21턴·2–4분)는 반대로 적게 잡았다: '입력이 정해진 일'이어도 출력 양(분야 20 × JSON 약 5천 자)이 턴 수를 정한다 — 조건 흐림(출력 파일 수가 빠짐). 다음부터 '파일 n개 쓰기' 일은 턴 ≈ n + 10, 분 ≈ n × 0.6 + 4. 계산기 다음 정리 때 S_many_files(출력 파일 수) 상태 후보"
+hypotheses = []
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Write" = { n = 20, sum_s = 659.3, turn_s = 37.1, tool_s = 0.0, out_chars = 4788.5, ctx_k = 114.0 }
+"글" = { n = 5, sum_s = 125.3, turn_s = 36.3, out_chars = 0, ctx_k = 150 }
+"Bash:python3" = { n = 2, sum_s = 5.0, turn_s = 2.5, tool_s = 0.5, out_chars = 348.5, ctx_k = 154.5 }
+"Bash:sed" = { n = 1, sum_s = 4.3, turn_s = 4.3, tool_s = 0.9, out_chars = 181, ctx_k = 66 }
+"Bash:grep" = { n = 1, sum_s = 2.5, turn_s = 2.5, tool_s = 0.2, out_chars = 420, ctx_k = 74 }
+"Bash:cd" = { n = 1, sum_s = 6.0, turn_s = 6.0, tool_s = 1.0, out_chars = 560, ctx_k = 160 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 456, ctx_k = 161 }
+
