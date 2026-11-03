@@ -1,0 +1,11 @@
+# 빗댄 기록 규칙 — 정해진 일은 가장 가까운 지난 일의 시간을 따른다 (2026-11-03 사용자 결정, CLAUDE.md '빗댄 기록 규칙'). 계산은 analog.py.
+# 시험 중이라 지식 파일의 조각이 아니다(성적표를 받지 않는다). 미리 정한 시험을 통과하면 계산기 기본 경로로 올린다.
+# 기준(hard·soft)의 순서는 이유를 달아 손으로 적고(CLAUDE.md), 범위(range)와 근거(fit)는
+#   `python -m domains.agent_usage.analog --write`가 seen_until까지의 정해진 일 기록으로만 맞춰 다시 쓴다(테스트가 같은지 확인한다).
+seen_until = "p99"
+# 반드시 같은 답 — 일의 큰 모양과 모델·회차가 다르면 시간이 다른 세상이다. '모름'은 다른 답(못 찾으면 상관없음으로 다시)
+hard = ["S_specified", "S_other_model", "S_resumed", "S_web", "S_fixed_input", "S_cloud_session"]
+# 같은 저장소 다음으로 같은 답이 많은 것을 고른다. 맨 앞이 동점이면 그 묶음의 실제 분의 가운데 값
+soft = ["S_template_given", "S_render", "S_no_code", "S_fix_existing", "S_research", "S_spec_fixed"]
+range = [0.721, 1.43]
+fit = "d01–p99의 정해진 일에서 맞춤: 40/126건 범위 안 (d09, d11, d15c, d26, d27, d28 …)"
