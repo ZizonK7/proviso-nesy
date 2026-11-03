@@ -13448,3 +13448,14 @@ reason = "빗댄 p129(클라우드 Haiku 글 조사, 전송 조건 6건, 3.0분�
 hypotheses = ["H_cloud_session_rounds_v2"]
 [dispatch.calc]
 # 계산기: 모름 (맞는 기준값 조각 없음)
+[dispatch.actual]
+status = "done"
+minutes = 2.1  # get_session created_at 20:14:47 → updated_at 20:16:53 (KST)
+start = "2026-11-03T11:14:47Z"
+end = "2026-11-03T11:16:53Z"
+tokens_m = 1.53  # usage: 캐시 읽기 138.3만 + 캐시 쓰기 6.1만 + 입력 6.1만 + 출력 2.3만. 비용 0.13달러. 턴은 셀 수 없음
+[dispatch.turns]
+skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)이 없다"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-03-plan-change.md"
+reason = "말한 구간 '잠깐' 맞음(2.1분, 손 예측 2–6의 아래 끝). 토큰 1.53M은 1–4 안(T1 맞음). 클라우드 Haiku 글 조사 띠 3–10분보다도 짧다 — gemmin 11-03 같은 모양 세션 18개(1–3분)와 같은 쪽. 전송 조건 '경험담 6 + 공식 2'에서 공식 4건은 채웠지만, 요금제 변경을 직접 겪은 경험담은 5건이라 1건 모자란 채 보냈고 그 사실을 스스로 밝혔다. 품질: 핵심 질문 2·3(올리면 사용량 새로 시작, 결제일이 올린 날로 바뀜)을 공식 문장 원문으로 닫았고, Ultra 개명도 공식으로 확인. 1·4(내릴 때 이어지는지, 바꾼 뒤 초기화 시각)는 공식·경험담 모두 없음을 정직하게 남김. 링크 표기 한 곳이 헷갈림(src8 URL 정정 문구) — 4"
