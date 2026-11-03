@@ -81,6 +81,25 @@ class AgentUsage(unittest.TestCase):
             self.assertEqual([r["action"] for r in agent_usage.turn_rows(path, after="01:05:00")], ["글"])
             self.assertEqual(len(agent_usage.turn_rows(path, after="2026-10-14T01:00:00Z")), 2)
 
+    def test_rounds_split_at_new_instructions_and_actual_keeps_one_round(self):
+        # 2026-11-03: 이어 보낸 회차는 한 로그에 쌓인다 — 답한 뒤 들어온 지시마다 새 회차, --after로 그 회차만 잰다
+        lines = [
+            {"type": "user", "timestamp": "2026-11-05T01:00:00Z", "message": {"content": "1회차 지시"}},
+            {"type": "user", "timestamp": "2026-11-05T01:00:00Z", "message": {"content": "붙어 오는 안내"}},
+            {"type": "assistant", "timestamp": "2026-11-05T01:00:20Z", "message": {"usage": {"input_tokens": 1}, "content": [{"type": "text", "text": "가"}]}},
+            {"type": "user", "timestamp": "2026-11-05T01:20:00Z", "message": {"content": [{"type": "text", "text": "2회차 지시"}]}},
+            {"type": "assistant", "timestamp": "2026-11-05T01:20:30Z", "message": {"usage": {"input_tokens": 1}, "content": [{"type": "text", "text": "나"}]}},
+            {"type": "assistant", "timestamp": "2026-11-05T01:22:00Z", "message": {"usage": {"input_tokens": 1}, "content": [{"type": "text", "text": "다"}]}},
+        ]
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "agent-r.jsonl"
+            path.write_text("\n".join(json.dumps(l, ensure_ascii=False) for l in lines), encoding="utf-8")
+            r = agent_usage.rounds(str(path))
+            self.assertEqual(len(r), 2)
+            self.assertEqual((r[1][0].isoformat(), r[1][2]), ("2026-11-05T01:20:00+00:00", 2))
+            s = agent_usage.summarize(str(path), "2026-11-05T01:20:00Z")
+            self.assertEqual((s["turns"], s["start_iso"], s["end_iso"]), (2, "2026-11-05T01:20:00Z", "2026-11-05T01:22:00Z"))
+
     def test_bash_action_keeps_only_the_verb(self):
         self.assertEqual(agent_usage._action([{"type": "tool_use", "name": "Bash", "input": {"command": "grep -rn 비밀 src/"}}]),
                          "Bash:grep")

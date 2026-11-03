@@ -2,6 +2,7 @@
 
 사용법 (저장소 루트):
   python -m domains.agent_usage.predict p04            기록 id 하나 (실측이 있으면 맞았는지도)
+  python -m domains.agent_usage.predict p04 --calc     기록 자신의 상황 값으로 돌린 답을 [dispatch.calc] 줄로 (보내기 전 기록에 붙인다)
   python -m domains.agent_usage.predict 상황.toml      상황 값 파일: project = "...", [situation] 상태 = 값, (선택) analog = "기록 id"
   python -m domains.agent_usage.predict --all          끝난 기록 전부를 지금 조각으로 (맞춰 본 것 / 시험 따로)
 
@@ -12,7 +13,7 @@
 - 기준값이 여럿 맞으면 조건이 가장 많은(가장 좁은) 것 하나. 기준값이 없으면 지어내지 않고 '모름'.
 - 범위 합치기: 조각마다의 범위를 서로 독립인 불확실성으로 보고 로그 폭을 제곱합 제곱근으로 합친다.
   합친 범위가 분야 상한(max_ratio, 2배)을 넘으면 기하 중심 둘레로 자른다 — 사용자에게는 한 구간을 말해야 한다(장치 G).
-- 말할 구간 = 분 범위의 구간, 두 구간에 걸치면 긴 쪽(R_say_numbers_v2).
+- 말할 구간 = 분 범위의 가운데 값(√(하한×상한))이 든 구간(R_say_numbers_v3, 2026-11-03; 그 전에는 걸치면 긴 쪽, v2).
 - 설명: 근거 → 조각 → 조합 → 숫자. 빼도 말할 구간과 토큰 등급이 안 바뀌는 조각은 설명에서 빼고 '쓴 조각' 목록에만 둔다.
 - 비유 조각(analog = true)은 빗댄 기록(predicted.analog)의 실측을 쓴다. 보내기 전에 적은 빗댄 기록이 있을 때만 쓰고,
   성적은 '비유'로 따로 낸다.
@@ -197,7 +198,7 @@ class Prediction:
         m = self.minutes(skip)
         if not m:
             return None
-        return dp.zones_of([round(m[0][0], 6), round(m[0][1], 6)])[-1]
+        return dp.say_zone([round(m[0][0], 6), round(m[0][1], 6)])
 
     def token_class(self, skip: Effect | None = None) -> str | None:
         t = self.tokens(skip)
@@ -392,6 +393,8 @@ def _index(records: list[dict], rid: str) -> int:
 
 
 def main(argv: list[str]) -> int:
+    calc = "--calc" in argv
+    argv = [a for a in argv if a != "--calc"]
     if len(argv) != 1:
         print(__doc__)
         return 2
@@ -399,6 +402,18 @@ def main(argv: list[str]) -> int:
     records = dp.load()
     pieces = live_pieces(kn)
     arg = argv[0]
+    if calc:  # 기록 자신의 상황 값으로 돌린 답을 [dispatch.calc] 줄로 (상황 파일을 따로 만들면 값이 어긋난다 — p138–p144)
+        found = [d for d in records if d["id"] == arg]
+        if not found:
+            print(f"--calc는 기록 id만 받는다(기록을 먼저 덧붙인다): {arg}")
+            return 2
+        p = predict(found[0].get("situation", {}), found[0].get("project", ""), pieces, kn)
+        m = p.minutes()
+        print("[dispatch.calc]")
+        print(f'told = "{p.told()}"' if p.told() else '# 계산기: 모름 (맞는 기준값 조각 없음)')
+        if m:
+            print(f"minutes = [{round(m[0][0], 2):g}, {round(m[0][1], 2):g}]")
+        return 0
     if arg == "--all":
         from . import holdout
         print(holdout.score_table({"지금 조각 (맞춰 본 것: 세울 때 본 기록)": pieces}, [d for d in records if dp.done(d)], kn, records))

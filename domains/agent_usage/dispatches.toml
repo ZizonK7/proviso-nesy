@@ -11,28 +11,41 @@
 # S_small_codebase는 적지 않는다: project 값으로 정해진다(knowledge.toml의 from_project). 예측 칸은 고치지 않았다.
 # 2026-10-23 쪼개기(C_turns_no_check → v2): 새 상태 S_no_code를 사후에 채웠다 — d17·d21·d22·d31·d32·d34·d35·d48·d51·d52·d53·d54·d74 예(지시서에 "코드 없음"),
 # p29 아니오(코드 구현), p38 일부(문서 대조가 중심, 코드 파일 4개 손봄). 보내기 전에 지시서로 알 수 있던 성질이고 예측 칸은 고치지 않았다.
+# 2026-11-03 일의 크기 모델(p145): S_specified(할 일이 지시서에 다 적혀 있나)와 size(센 수)를 지난 기록 269건에 사후에 채웠다 —
+# 결과(분·턴)를 가린 하위 에이전트가 작업 설명(task)만 보고 매겼다(보고서 docs/worklog/2026-11-03-size-backfill.md, 판정 규칙 13개).
+# 예 163 · 아니오 76 · 일부 29 · 모름 1(적지 않음). 빈칸은 0이 아니라 모름이다. 가림을 지키려고 결과를 본 뒤에는 이 값을 고치지 않는다
+# (고칠 일이 생기면 따로 적는다). 둘 다 지시서로 보내기 전에 알 수 있던 값이고 예측 칸은 고치지 않았다.
 # 돌아보기 글의 기록 이름이 batman 쪽 이름과 섞인 곳: d88의 'd51b' = 이 파일의 d58, d89의 'd52b' = d64, d94의 'd64' = d68.
 # 공개 저장소: 작업 설명은 종류만 적는다 (게임 내용·코드는 적지 않음).
 #
 # 칸:
 #   predicted.minutes  [하한, 상한] 분. 하나만 있으면 "이상". 시간 판정은 이 숫자를 세 마디 구간으로 바꿔서 한다
 #                      (잠깐 ≤10분 · 다른 일 10–40분 · 신경 끄기 >40분, 2026-10-19 사용자 결정; dispatches.py가 계산)
-#   predicted.told     사용자에게 말한 구간 (잠깐 / 다른 일 / 신경 끄기). 2026-10-19부터. 범위가 두 구간에 걸치면 긴 쪽(R_say_numbers_v2)
+#   predicted.told     사용자에게 말한 구간 (잠깐 / 다른 일 / 신경 끄기). 2026-10-19부터. 범위가 두 구간에 걸치면 가운데 값(√(하한×상한))이 든 구간
+#                      (R_say_numbers_v3, 2026-11-03부터 — 그 전에는 긴 쪽, v2. 지난 기록의 told와 rules는 그때 것 그대로다)
 #   calc.told / calc.minutes  보내기 전에 돌린 계산기의 말할 구간과 분 범위 (2026-10-19 사용자 결정: 손 예측과 계산기 중 어느 쪽이 나은지 계속 기록). dispatches 출력의 '손 예측 vs 계산기'가 센다
+#                      기록을 덧붙인 뒤 `predict <id> --calc`로 그 기록의 상황 값으로 돌린다(앞 기록의 calc를 베끼지 않는다 — p138–p144는 S_resumed를 빠뜨린 상황 파일로 돌린 값, 2026-11-03 확인)
 #   predicted.time_class  옛 시간 등급(S ≤20 · M 20–45 · L 45–90 · XL >90분). 2026-10-19 전 기록의 역사로만 남고 판정에 쓰지 않는다
 #   predicted.tokens_class  토큰 등급 목록. 범위 예측("T2–T3")은 두 등급을 다 적는다
 #   predicted.turns    [하한, 상한] 턴. 하나만 있으면 "이상"
 #   predicted.rules    예측에 쓴 규칙 id (knowledge.toml)
 #   predicted.analog   빗댄 과거 기록 id (2026-10-19부터, 있으면). 배수 가설(H_settled_integration·H_build_tools)이 이 값으로 시험한다
 #   predicted.written_before  보내기 전에 적었는가 (배치 1은 실행 중에 적음)
+#   agent / round      같은 에이전트 이름(회차마다 같게)과 몇 번째 회차(처음 = 1). 2026-11-04부터 끝난 기록에 필수(dispatches.py)
+#   actual.start/end   실측의 시작·끝 시각(UTC ISO, `agent_usage.py --actual`). 못 재면 actual.time_skip = "이유". 2026-11-04부터 필수
+#   size               일의 크기 — 지시서에서 센 수 (2026-11-03부터, knowledge.toml S_specified와 CLAUDE.md '일의 크기 모델').
+#                      { reads 읽을 것, outputs 만들 것, chunks 쓸 덩어리(절·단계), edits 고칠 곳, checks 확인 횟수, find_cap 찾는 일의 상한(글) }.
+#                      지시서에 적힌 것만 세고 모르면 칸을 뺀다. [[dispatch]] 바로 아래(task 다음 줄)에 한 줄 표로 적는다
 #   situation          상황 대 보기: 상태 id = "예" / "아니오" / "일부" / "모름". 적지 않은 상태는 모름
 #   actual.status      done / stopped(중간에 멈춤) / unknown(끝났는지 모름). done만 판정에 쓴다
 #   actual.tokens_m    합계 토큰(백만). 캐시 생성 + 캐시 읽기 + 입력 + 출력
 #   review.reason      맞음/틀림 이유 (기록 그대로). 맞았을 때도 적는다
 #   review.hypotheses  이 기록과 이어진 가설 id
 #   review.wrong       틀린 조각 id 목록 (규칙·가설·상태). 2026-10-19 결정 뒤(p04부터) 시간 구간이 빗나가면 필수
-#   review.why         틀린 까닭 하나: "조건 흐림"(→ 조건을 더해 쪼갠다) / "이유 틀림"(→ 새 버전) / "바깥 상황"(→ 예외). wrong과 함께 필수
+#   review.why         틀린 까닭 하나: "조건 흐림"(→ 조건을 더해 쪼갠다) / "이유 틀림"(→ 새 버전) / "바깥 상황"(→ 예외)
+#                      / "까닭 모름"(→ 고치지 않고 쌓아 두고 사용자에게 넘긴다, 2026-11-03 사용자 결정). wrong과 함께 필수, 까닭 모름이면 wrong은 비워도 된다
 #                      지난 기록은 손으로 되짚지 않는다. 분이 빗나간 기록의 속도/양 갈래는 dispatches.py가 계산해 보여 준다
+#   review.user        까닭 모름을 넘겼을 때 사용자의 답(문장). 답이 오기 전까지 dispatches.py가 '사용자에게 넘길 것'으로 보여 준다
 #   review.report      작업 보고서 경로. 이 저장소면 "docs/worklog/...md"(파일이 있어야 함), 다른 저장소면 "저장소:경로"
 #   turns              [dispatch.turns] 동작마다 { n 턴 수, sum_s 합한 턴 길이(초), 중앙값 turn_s 턴 길이·tool_s 도구 시간·out_chars 출력 글자·ctx_k 맥락(천) }.
 #                      scripts/agent_usage.py <로그> --turns --toml 출력을 기록 끝에 그대로 붙인다(이어 보낸 회차는 --after). 잴 수 없으면 skip = "이유" 한 줄
@@ -44,7 +57,9 @@ project = "batman"
 batch = 1
 date = 2026-10-13
 task = "기술 설계 문서 + 엔진 프로젝트 뼈대 + 자동 검사"
+size = { outputs = 1, checks = 1 }
 [dispatch.situation]
+S_specified = "일부"
 S_external_check = "예"
 S_mid_notes = "예"
 [dispatch.predicted]
@@ -67,7 +82,9 @@ project = "batman"
 batch = 1
 date = 2026-10-13
 task = "CI 빌드·릴리스 파이프라인 만들고 실제로 돌려 확인"
+size = { checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_external_check = "예"
 S_ci_cold = "예"
 S_check_loop = "예"
@@ -91,6 +108,7 @@ project = "batman"
 batch = 1
 date = 2026-10-13
 task = "긴 원고 전체 쓰기 (~2,700줄) + 생성 파일"
+size = { outputs = 1, chunks = 2700 }
 [dispatch.situation]
 S_long_doc = "예"
 S_unsaved_doc = "예"
@@ -114,7 +132,9 @@ project = "batman"
 batch = 1
 date = 2026-10-13
 task = "설계 문서 2개 + 수치 데이터 파일"
+size = { outputs = 3 }
 [dispatch.situation]
+S_specified = "일부"
 S_long_doc = "예"
 [dispatch.predicted]
 written_before = false
@@ -136,7 +156,9 @@ project = "batman"
 batch = 1
 date = 2026-10-13
 task = "아트 문서 + 에셋 가져오기 + 캐릭터 파이프라인"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "일부"
 S_external_check = "예"
 [dispatch.predicted]
 written_before = false
@@ -158,7 +180,9 @@ project = "batman"
 batch = 1
 date = 2026-10-13
 task = "오디오 문서 + 음악·효과음·음성 생성 파이프라인"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "일부"
 S_external_check = "예"
 [dispatch.predicted]
 written_before = false
@@ -180,7 +204,9 @@ project = "batman"
 batch = 2
 date = 2026-10-13
 task = "첫 플레이 가능판 전체: 전투·레벨 2개·장면 조립·음성·플레이 기록·빌드 확인"
+size = { checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_external_check = "예"
 S_similar_past = "아니오"
 [dispatch.predicted]
@@ -204,7 +230,9 @@ project = "batman"
 batch = 3
 date = 2026-10-14
 task = "CI 트리거 바꾸기 + 릴리스 1회 + 문서"
+size = { outputs = 1, edits = 1, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_external_check = "예"
 S_ci_warm = "예"
 S_check_loop = "아니오"
@@ -228,7 +256,9 @@ project = "batman"
 batch = 4
 date = 2026-10-14
 task = "조작감 수정 3건 (애니메이션 다시 만들기 포함) + 렌더로 검토 자료"
+size = { edits = 3, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_external_check = "예"
 S_check_loop = "아니오"
 [dispatch.predicted]
@@ -252,7 +282,9 @@ project = "batman"
 batch = 4
 date = 2026-10-14
 task = "퍼즐 논리 다시 쓰기 + 음성 몇 줄 + 시각 수정 2건 (전후 렌더)"
+size = { edits = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "일부"
 S_external_check = "예"
 S_check_loop = "아니오"
 [dispatch.predicted]
@@ -275,7 +307,9 @@ project = "batman"
 batch = 5
 date = 2026-10-15
 task = "조작감 수정 2차 (경고 표시·동작 다시 만들기·연출) + 실제 GPU 렌더"
+size = { edits = 3, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_external_check = "예"
 S_check_loop = "아니오"
 S_impl_hour = "예"
@@ -298,7 +332,9 @@ project = "batman"
 batch = 6
 date = 2026-10-15
 task = "d11 이어서: 버그 1건 원인 찾기(캡처) + 소품·이름 수정 2건"
+size = { edits = 2, checks = 1, find_cap = "1 버그 원인" }
 [dispatch.situation]
+S_specified = "일부"
 S_check_loop = "예"
 S_root_cause = "예"
 [dispatch.predicted]
@@ -319,7 +355,9 @@ project = "batman"
 batch = 7
 date = 2026-10-15
 task = "큰 구현: 새 시스템 묶음 한 분야 전체 + 시험용 장면 (병렬, 약속 문서)"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_similar_past = "예"
 S_full_brief = "예"
 S_external_check = "예"
@@ -346,6 +384,7 @@ batch = 7
 date = 2026-10-15
 task = "큰 구현: 새 콘텐츠 한 분야 전체 (레벨·캐릭터 모델·연출·데이터) (병렬, 약속 문서)"
 [dispatch.situation]
+S_specified = "예"
 S_similar_past = "예"
 S_full_brief = "예"
 S_external_check = "예"
@@ -371,7 +410,9 @@ project = "batman"
 batch = 8
 date = 2026-10-15
 task = "d12 이어서: 두 갈래 합친 뒤 실패 수정 + 한 장 전체 자동 플레이 + 가독성 손보기(렌더)"
+size = { checks = 2 }
 [dispatch.situation]
+S_specified = "일부"
 S_integration = "예"
 S_long_lap = "예"
 S_check_loop = "예"
@@ -397,7 +438,9 @@ project = "batman"
 batch = 9
 date = 2026-10-15
 task = "d12 이어서: 간헐 실패 원인 찾기 + 수정 + 반복 검증"
+size = { checks = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_long_lap = "예"
 S_root_cause = "예"
 S_check_loop = "예"
@@ -421,7 +464,9 @@ project = "batman"
 batch = 10
 date = 2026-10-16
 task = "조사: 다른 작품의 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음)"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_web = "예"
 S_research = "예"
 [dispatch.predicted]
@@ -443,7 +488,9 @@ project = "batman"
 batch = 10
 date = 2026-10-16
 task = "조사: 다른 작품의 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음)"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_web = "예"
 S_research = "예"
 [dispatch.predicted]
@@ -465,7 +512,9 @@ project = "batman"
 batch = 10
 date = 2026-10-16
 task = "조사: 글쓰기 원칙 조사 + 후보안 → 보고서 1개 (엄격한 양식, 코드 없음)"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_web = "예"
 S_research = "예"
 S_mid_notes = "예"
@@ -488,7 +537,9 @@ project = "batman"
 batch = 10
 date = 2026-10-16
 task = "조사: 다른 작품의 표현 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음)"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_web = "예"
 S_research = "예"
 [dispatch.predicted]
@@ -510,7 +561,9 @@ project = "batman"
 batch = 10
 date = 2026-10-16
 task = "규칙 수정 + 캐릭터 자세·가독성 수정 (전후 캡처) + 자동 검사"
+size = { edits = 3, checks = 2 }
 [dispatch.situation]
+S_specified = "예"
 S_external_check = "예"
 S_check_loop = "일부"
 [dispatch.predicted]
@@ -533,6 +586,7 @@ batch = 11
 date = 2026-10-16
 task = "큰 문서 재설계 (여러 문서 한꺼번에)"
 [dispatch.situation]
+S_specified = "아니오"
 S_long_doc = "예"
 S_similar_past = "예"
 [dispatch.predicted]
@@ -554,7 +608,9 @@ project = "batman"
 batch = 11
 date = 2026-10-16
 task = "로컬 GPU 이미지 생성 시안 + 화면 시안 1장"
+size = { outputs = 2 }
 [dispatch.situation]
+S_specified = "아니오"
 S_external_check = "예"
 [dispatch.predicted]
 time_class = ["M", "L"]
@@ -575,6 +631,7 @@ batch = 11
 date = 2026-10-16
 task = "큰 문서 재설계 (여러 문서 한꺼번에) — 클라우드에서 다시 시작"
 [dispatch.situation]
+S_specified = "아니오"
 S_long_doc = "예"
 S_unsaved_doc = "아니오"
 S_full_brief = "예"
@@ -607,7 +664,9 @@ project = "batman"
 batch = 12
 date = 2026-10-16
 task = "검토용 자료 묶음 만들기 (정답 제거, 엄격한 양식, 코드 없음)"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_no_code = "예"
 S_research = "일부"
 S_short = "일부"
@@ -635,7 +694,9 @@ project = "batman"
 batch = 12
 date = 2026-10-16
 task = "블라인드 풀이 1 (자료 묶음만 보고 추론, 엄격한 양식) — Opus 5.5 high"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_fixed_input = "예"
 S_research = "예"
 S_short = "예"
@@ -662,7 +723,9 @@ project = "batman"
 batch = 12
 date = 2026-10-16
 task = "블라인드 풀이 2 (같은 일) — Sonnet 5.5 max (F_setup 밖: 첫 실측)"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "예"
 S_fixed_input = "예"
 S_other_model = "예"
@@ -690,7 +753,9 @@ project = "batman"
 batch = 12
 date = 2026-10-16
 task = "블라인드 풀이 3 (같은 일) — Fable 5.1 xhigh (F_setup 밖: 첫 실측)"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "아니오"
 S_fixed_input = "예"
 S_other_model = "예"
@@ -719,6 +784,7 @@ batch = 12
 date = 2026-10-16
 task = "퍼즐 논리 비평 (체크리스트 기반, 엄격한 양식, 코드 없음)"
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_research = "일부"
 S_short = "아니오"
@@ -747,6 +813,7 @@ batch = 12
 date = 2026-10-16
 task = "이야기·인물 비평 (원고 기반, 엄격한 양식, 코드 없음)"
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_research = "일부"
 S_short = "아니오"
@@ -774,7 +841,9 @@ project = "batman"
 batch = 12
 date = 2026-10-16
 task = "큰 문서 재설계의 고쳐 쓰기 (같은 작가 이어서; 비평 노트 ~70항목, 문서 7개)"
+size = { edits = 70 }
 [dispatch.situation]
+S_specified = "예"
 S_resumed = "예"
 S_long_doc = "예"
 S_unsaved_doc = "아니오"
@@ -806,7 +875,9 @@ project = "batman"
 batch = 12
 date = 2026-10-16
 task = "검토용 자료 묶음 다시 만들기 (같은 에이전트 이어서, 개정된 문서에서)"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_resumed = "예"
 S_research = "일부"
 S_short = "예"
@@ -833,7 +904,9 @@ project = "batman"
 batch = 12
 date = 2026-10-16
 task = "블라인드 풀이 2차-1 (고정된 작은 입력, 출력 하나, 확인 없음) — Opus 5.5 high"
+size = { reads = 1, outputs = 1, checks = 0 }
 [dispatch.situation]
+S_specified = "예"
 S_fixed_input = "예"
 S_research = "예"
 S_short = "예"
@@ -860,7 +933,9 @@ project = "batman"
 batch = 12
 date = 2026-10-16
 task = "블라인드 풀이 2차-2 (같은 일) — Sonnet 5.5 max"
+size = { reads = 1, outputs = 1, checks = 0 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "예"
 S_fixed_input = "예"
 S_other_model = "예"
@@ -889,7 +964,9 @@ project = "batman"
 batch = 12
 date = 2026-10-16
 task = "블라인드 풀이 2차-3 (같은 일) — Fable 5.1 xhigh"
+size = { reads = 1, outputs = 1, checks = 0 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "아니오"
 S_fixed_input = "예"
 S_other_model = "예"
@@ -918,7 +995,9 @@ project = "batman"
 batch = 12
 date = 2026-10-16
 task = "큰 문서 재설계의 3차 다듬기 (같은 작가 이어서; 작은 항목 ~33개)"
+size = { edits = 33 }
 [dispatch.situation]
+S_specified = "예"
 S_resumed = "예"
 S_long_doc = "예"
 S_unsaved_doc = "아니오"
@@ -949,7 +1028,9 @@ project = "batman"
 batch = 13
 date = 2026-10-16
 task = "게임 시스템 구현 (데이터 주도 UI·규칙 묶음 + 코드로 만든 시험용 방 + 자동 검사)"
+size = { checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_spec_fixed = "예"
 S_full_brief = "예"
 S_external_check = "예"
@@ -978,7 +1059,9 @@ project = "batman"
 batch = 13
 date = 2026-10-16
 task = "데이터 파일 옮겨 쓰기(설계 문서 → JSON ~1,500줄) + 대사 표 갱신 + 음성 캐스팅과 렌더(외부 모델 받기, CPU 합성)"
+size = { reads = 1, outputs = 1, chunks = 1500, edits = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_spec_fixed = "예"
 S_full_brief = "예"
 S_external_check = "예"
@@ -1006,7 +1089,9 @@ project = "batman"
 batch = 13
 date = 2026-10-16
 task = "기존 레벨 두 곳에 방·소품·마커 추가 + 장면 하나 + 컷신 JSON ~12개 + 챕터 흐름 데이터"
+size = { outputs = 14, edits = 2 }
 [dispatch.situation]
+S_specified = "예"
 S_spec_fixed = "예"
 S_mid_notes = "예"
 S_full_brief = "예"
@@ -1034,7 +1119,9 @@ project = "batman"
 batch = 13
 date = 2026-10-16
 task = "세 브랜치 통합: 시스템을 실제 챕터에 연결, 자동 플레이 검사 두 장, 옛 코드 제거, CI 빌드 (같은 에이전트 이어서)"
+size = { checks = 3 }
 [dispatch.situation]
+S_specified = "예"
 S_integration = "예"
 S_long_lap = "예"
 S_resumed = "예"
@@ -1065,7 +1152,9 @@ project = "batman"
 batch = 14
 date = 2026-10-16
 task = "베타 피드백 수정: UI 배치 버그 + 보드 개편, 월드 표시, 탐정 모드 대비, 조준 대상 고르기, GPU 캡처 확인 + 자동 검사"
+size = { edits = 5, checks = 2 }
 [dispatch.situation]
+S_specified = "예"
 S_fix_existing = "일부"
 S_long_lap = "아니오"
 S_full_brief = "예"
@@ -1101,7 +1190,9 @@ project = "batman"
 batch = 14
 date = 2026-10-16
 task = "같은 에이전트 이어서: 바닥 흔적 조준 범위 고침 + 확인 표시 바꿈 + 자동 검사 + GPU 캡처 2장"
+size = { edits = 2, checks = 2 }
 [dispatch.situation]
+S_specified = "예"
 S_long_lap = "아니오"
 S_resumed = "예"
 S_full_brief = "예"
@@ -1134,7 +1225,9 @@ project = "batman"
 batch = 14
 date = 2026-10-16
 task = "같은 에이전트 세 번째: 대화 패널 마우스 입력 + 증거 고르기 창 개편 + 자동 검사 + GPU 캡처 2장"
+size = { edits = 2, checks = 2 }
 [dispatch.situation]
+S_specified = "예"
 S_long_lap = "아니오"
 S_resumed = "예"
 S_full_brief = "예"
@@ -1166,7 +1259,9 @@ project = "batman"
 batch = 14
 date = 2026-10-16
 task = "UI 디자인 시안 4개(시험용 데이터로 그리는 엔진 안 시제품) + GPU 캡처 + 비교 그림 + 사람용 설명"
+size = { outputs = 6, checks = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_long_lap = "아니오"
 S_full_brief = "예"
 S_external_check = "예"
@@ -1200,7 +1295,9 @@ project = "batman"
 batch = 14
 date = 2026-10-16
 task = "같은 에이전트 이어서: 고정된 화면 구성 하나에 생김새 시안 4개 + 물건별 아이콘 + GPU 캡처 + 비교 그림"
+size = { outputs = 5, checks = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_resumed = "예"
 S_full_brief = "예"
 S_external_check = "예"
@@ -1232,7 +1329,9 @@ project = "batman"
 batch = 14
 date = 2026-10-16
 task = "같은 에이전트 세 번째: 생김새 시안 하나를 세 갈래로 다듬기(배경 렌더, 3D 소품 홀로그램 포함) + GPU 캡처 + 비교 그림"
+size = { outputs = 4, checks = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_resumed = "예"
 S_full_brief = "예"
 S_external_check = "예"
@@ -1264,7 +1363,9 @@ project = "batman"
 batch = 14
 date = 2026-10-16
 task = "같은 에이전트 네 번째: 고른 시안대로 실제 UI 화면 전부 다시 만들기 + 실시간 배경 셰이더 + 데이터 4개에 아이콘 키 + 자동 검사 + GPU 캡처"
+size = { edits = 4, checks = 2 }
 [dispatch.situation]
+S_specified = "예"
 S_resumed = "예"
 S_full_brief = "예"
 S_external_check = "예"
@@ -1297,7 +1398,9 @@ project = "batman"
 batch = 14
 date = 2026-10-16
 task = "같은 에이전트 다섯 번째: UI 사용성 작은 수정 셋(필터·묶음·스크롤 유지) + 도중 추가 1건(화면 위 자막) + 자동 검사 + GPU 캡처"
+size = { edits = 4, checks = 2 }
 [dispatch.situation]
+S_specified = "예"
 S_resumed = "예"
 S_full_brief = "예"
 S_external_check = "예"
@@ -1330,7 +1433,9 @@ project = "batman"
 batch = 15
 date = 2026-10-16
 task = "조사: 다른 작품의 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장)"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_web = "예"
 S_research = "예"
 S_full_brief = "예"
@@ -1366,7 +1471,9 @@ project = "batman"
 batch = 15
 date = 2026-10-16
 task = "조사: 다른 작품의 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장)"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_web = "예"
 S_research = "예"
 S_full_brief = "예"
@@ -1402,7 +1509,9 @@ project = "batman"
 batch = 15
 date = 2026-10-16
 task = "조사: 다른 작품의 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장)"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_web = "예"
 S_research = "예"
 S_full_brief = "예"
@@ -1438,7 +1547,9 @@ project = "batman"
 batch = 15
 date = 2026-10-16
 task = "조사: 다른 작품의 방식 조사 → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장)"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_web = "예"
 S_research = "예"
 S_full_brief = "예"
@@ -1474,7 +1585,9 @@ project = "batman"
 batch = 16
 date = 2026-10-16
 task = "설계 문서 갱신: 결정된 계약을 설계서 네 편에 쓰기 (새 절 여럿 + 기존 절 수정, 코드 없음)"
+size = { edits = 4 }
 [dispatch.situation]
+S_specified = "예"
 S_no_code = "예"
 S_full_brief = "예"
 S_spec_fixed = "일부"
@@ -1511,7 +1624,9 @@ project = "batman"
 batch = 16
 date = 2026-10-16
 task = "한 장의 사건 설계와 대본을 새 틀로 다시 쓰기 (문서만, 코드 없음)"
+size = { outputs = 2 }
 [dispatch.situation]
+S_specified = "일부"
 S_no_code = "예"
 S_full_brief = "예"
 S_spec_fixed = "일부"
@@ -1548,7 +1663,9 @@ project = "batman"
 batch = 17
 date = 2026-10-16
 task = "풀이용 문제지 만들기: 한 장의 플레이어 가시 정보만 추려 문서 하나 + 누설 검사"
+size = { outputs = 1, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_short = "예"
 S_turns = "예"
@@ -1582,6 +1699,7 @@ batch = 17
 date = 2026-10-16
 task = "비평: 한 장의 사건 설계를 규칙 목록에 대 보기 (문서 읽기, 코드 없음)"
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_short = "예"
@@ -1616,6 +1734,7 @@ batch = 17
 date = 2026-10-16
 task = "비평: 한 장의 이야기·대사·한국어 자연스러움 (문서 읽기, 코드 없음)"
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_short = "예"
@@ -1649,7 +1768,9 @@ project = "batman"
 batch = 17
 date = 2026-10-16
 task = "답을 모르는 풀이: 문제지 하나로 사건 한 건 풀기 + 이름 후보 인상 (고정 입력, 출력 하나)"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_short = "예"
@@ -1680,7 +1801,9 @@ project = "batman"
 batch = 17
 date = 2026-10-16
 task = "답을 모르는 풀이: 같은 일 (Sonnet 5.5 max)"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
@@ -1712,7 +1835,9 @@ project = "batman"
 batch = 17
 date = 2026-10-16
 task = "답을 모르는 풀이: 같은 일 (Fable 5.1 xhigh)"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
@@ -1744,7 +1869,9 @@ project = "batman"
 batch = 17
 date = 2026-10-16
 task = "같은 에이전트 두 번째: 비평 통합 노트대로 한 장의 사건 설계·대본 고치기 (문서만)"
+size = { reads = 1, edits = 2 }
 [dispatch.situation]
+S_specified = "예"
 S_resumed = "예"
 S_full_brief = "예"
 S_spec_fixed = "예"
@@ -1778,7 +1905,9 @@ project = "batman"
 batch = 17
 date = 2026-10-16
 task = "같은 에이전트 두 번째: 고친 사건으로 풀이용 문제지 다시 만들기 + 누설 검사"
+size = { outputs = 1, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_resumed = "예"
 S_full_brief = "예"
 S_spec_fixed = "예"
@@ -1811,7 +1940,9 @@ project = "batman"
 batch = 17
 date = 2026-10-16
 task = "답을 모르는 풀이 재실행: 고친 문제지로 사건 한 건 (고정 입력, 출력 하나)"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_short = "예"
@@ -1842,7 +1973,9 @@ project = "batman"
 batch = 17
 date = 2026-10-16
 task = "답을 모르는 풀이 재실행: 같은 일 (Sonnet 5.5 max)"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
@@ -1874,7 +2007,9 @@ project = "batman"
 batch = 17
 date = 2026-10-16
 task = "답을 모르는 풀이 재실행: 같은 일 (Fable 5.1 xhigh)"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
@@ -1906,7 +2041,9 @@ project = "batman"
 batch = 18
 date = 2026-10-16
 task = "구현: 설계서가 화면·칸·신호·검사 행까지 정한 시스템 다섯 개를 기존 UI 위에 만들고 시험실·자동 검사까지 (Godot, 스모크 반복)"
+size = { checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_spec_fixed = "예"
 S_similar_past = "예"
@@ -1941,7 +2078,9 @@ project = "batman"
 batch = 18
 date = 2026-10-16
 task = "데이터: 한 장의 사건 데이터·대사 행·음성 생성 + 검사 스크립트 고치고 넓히기"
+size = { edits = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_spec_fixed = "예"
 S_similar_past = "예"
@@ -1975,7 +2114,9 @@ project = "batman"
 batch = 18
 date = 2026-10-16
 task = "월드: 새 구역(거리·현장 다섯·검문소·정지 장면·컷신 열한 개·전투 넷)을 빌더 코드로 짓고 장 흐름 데이터까지"
+size = { outputs = 13 }
 [dispatch.situation]
+S_specified = "예"
 S_build_tools = "아니오"
 S_full_brief = "예"
 S_spec_fixed = "일부"
@@ -2010,7 +2151,9 @@ project = "batman"
 batch = 18
 date = 2026-10-16
 task = "같은 에이전트 두 번째: 세 브랜치 통합, 한 장 배선, 데이터 모양 맞추기, 끝까지 플레이하는 자동 검사 행, 베타 안내 (Godot, 스모크 반복)"
+size = { outputs = 1, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_integration = "예"
 S_open_seams = "아니오"
 S_resumed = "예"
@@ -2046,7 +2189,9 @@ project = "batman"
 batch = 18
 date = 2026-10-16
 task = "같은 에이전트 두 번째: 준비된 도구로 음성 104줄 렌더 + 목록 확인 + 커밋"
+size = { checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_resumed = "예"
 S_full_brief = "예"
 S_spec_fixed = "예"
@@ -2080,7 +2225,9 @@ project = "batman"
 batch = 19
 date = 2026-10-17
 task = "데이터 파일 세 개의 한국어 글 다듬기(규칙 문서 기준) + 검사 하나 + 스모크 2회. Sonnet 5.5 max"
+size = { reads = 1, edits = 3, checks = 3 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "예"
 S_render = "아니오"
 S_resumed = "아니오"
@@ -2116,7 +2263,9 @@ project = "batman"
 batch = 19
 date = 2026-10-17
 task = "UI 기능 두 개(키보드 탐색, 인물 소개 표시) + 안내 카드 + 컷신 구도 렌더 고치기, 이어서 합친 뒤 후속 한 번. Opus high"
+size = { outputs = 1, edits = 3 }
 [dispatch.situation]
+S_specified = "예"
 S_fix_existing = "일부"
 S_long_lap = "아니오"
 S_render = "예"
@@ -2153,7 +2302,9 @@ project = "batman"
 batch = 20
 date = 2026-10-17
 task = "원인을 넘겨받은 작은 버그 고치기(두 곳) + 재현 스모크, 이어서 지휘 모델이 범위를 넓힌 후속 한 번. Opus high"
+size = { edits = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_fix_existing = "예"
 S_long_lap = "예"
 S_render = "아니오"
@@ -2191,6 +2342,7 @@ batch = 20
 date = 2026-10-17
 task = "컷신 한 장면 구도를 렌더로 찾기(취향 시험 반복), 기존 렌더 도구 있음. Opus high"
 [dispatch.situation]
+S_specified = "아니오"
 S_fix_existing = "예"
 S_long_lap = "아니오"
 S_render = "예"
@@ -2227,7 +2379,9 @@ project = "batman"
 batch = 21
 date = 2026-10-17
 task = "보스전 진행 막힘 원인 찾기와 고치기 + 재현 스모크, 도중에 연출 버그 두 건 추가(렌더 확인). Opus high"
+size = { edits = 2, checks = 2, find_cap = "1 막힘 원인" }
 [dispatch.situation]
+S_specified = "일부"
 S_fix_existing = "예"
 S_long_lap = "아니오"
 S_render = "예"
@@ -2264,7 +2418,9 @@ project = "batman"
 batch = 22
 date = 2026-10-17
 task = "UI 배치 고치기 하나 + 장면 경로 버그 찾기(재현 경로 셋, 렌더) + 스모크 확장. Opus high"
+size = { edits = 1, checks = 2, find_cap = "3 재현 경로" }
 [dispatch.situation]
+S_specified = "일부"
 S_fix_existing = "예"
 S_long_lap = "일부"
 S_render = "예"
@@ -2301,7 +2457,9 @@ project = "batman"
 batch = 23
 date = 2026-10-17
 task = "설계 피치 문서 하나(≤350줄): 설계 문서 ~10절 읽고 두 장의 제안을 쓰기. 코드 없음, 확인 실행 없음. Opus high"
+size = { reads = 10, outputs = 1, checks = 0, find_cap = "350 줄 상한" }
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "일부"
@@ -2334,7 +2492,9 @@ project = "batman"
 batch = 23
 date = 2026-10-17
 task = "같은 피치 문서 (Sonnet 5.5 max)"
+size = { reads = 10, outputs = 1, checks = 0, find_cap = "350 줄 상한" }
 [dispatch.situation]
+S_specified = "아니오"
 S_many_turn_model = "예"
 S_full_brief = "예"
 S_fixed_input = "일부"
@@ -2367,7 +2527,9 @@ project = "batman"
 batch = 23
 date = 2026-10-17
 task = "같은 피치 문서 (Fable 5.1 xhigh)"
+size = { reads = 10, outputs = 1, checks = 0, find_cap = "350 줄 상한" }
 [dispatch.situation]
+S_specified = "아니오"
 S_many_turn_model = "아니오"
 S_full_brief = "예"
 S_fixed_input = "일부"
@@ -2400,7 +2562,9 @@ project = "batman"
 batch = 24
 date = 2026-10-17
 task = "두 장의 사건 설계(설계 문서 두 절)와 대본(개요 → 전체 대본)을 정해진 방향과 피치 셋에서 새로 쓰기. 문서만, 코드 없음, 확인은 grep. Opus high"
+size = { reads = 3, outputs = 1, chunks = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "일부"
 S_no_code = "예"
 S_full_brief = "예"
 S_spec_fixed = "일부"
@@ -2433,7 +2597,9 @@ project = "batman"
 batch = 25
 date = 2026-10-17
 task = "풀이용 문제지 만들기: 두 장의 플레이어 가시 정보(한국어만)를 추려 문서 둘 + 누설 검사. Opus high"
+size = { outputs = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_no_code = "예"
 S_full_brief = "예"
 S_spec_fixed = "예"
@@ -2466,6 +2632,7 @@ batch = 25
 date = 2026-10-17
 task = "비평: 두 장의 사건 설계를 규칙 목록에 대 보기 (문서 읽기, 코드 없음). Opus high"
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "일부"
@@ -2498,6 +2665,7 @@ batch = 25
 date = 2026-10-17
 task = "비평: 두 장의 이야기·대사·한국어 자연스러움 (문서 읽기, 코드 없음). Opus high"
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "일부"
@@ -2529,7 +2697,9 @@ project = "batman"
 batch = 25
 date = 2026-10-17
 task = "답을 모르는 풀이: 한국어 문제지 둘(두 장)로 사건 풀기 + 네 낱말 인상 (고정 입력, 출력 하나). Opus high"
+size = { reads = 2, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -2560,7 +2730,9 @@ project = "batman"
 batch = 25
 date = 2026-10-17
 task = "답을 모르는 풀이: 한국어 문제지 둘(두 장)로 사건 풀기 + 네 낱말 인상 (고정 입력, 출력 하나). Sonnet 5.5 max"
+size = { reads = 2, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
@@ -2592,7 +2764,9 @@ project = "batman"
 batch = 25
 date = 2026-10-17
 task = "답을 모르는 풀이: 한국어 문제지 둘(두 장)로 사건 풀기 + 네 낱말 인상 (고정 입력, 출력 하나). Fable 5.1 xhigh"
+size = { reads = 2, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
@@ -2624,7 +2798,9 @@ project = "batman"
 batch = 24
 date = 2026-10-17
 task = "같은 에이전트 두 번째: 비평 통합 노트(판정 15 + 비평 56건 + 한국어 46행)대로 두 장의 사건 설계·대본 고치기 (문서만). Opus high"
+size = { reads = 1, edits = 117 }
 [dispatch.situation]
+S_specified = "예"
 S_resumed = "예"
 S_full_brief = "예"
 S_spec_fixed = "예"
@@ -2655,7 +2831,9 @@ project = "batman"
 batch = 26
 date = 2026-10-17
 task = "구현: 설계서가 데이터 모양·행까지 정한 추리 시스템 확장(잠긴 진술, 무대 표, 녹화 재생) + 꿈 모드(플레이어·카메라·후처리) + 보스 하나 + 파티클 떼 + 자동 검사 행 (Godot, 스모크 반복). Opus high"
+size = { checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_spec_fixed = "일부"
 S_similar_past = "예"
@@ -2687,7 +2865,9 @@ project = "batman"
 batch = 26
 date = 2026-10-17
 task = "구현: 새 플레이 모드(차량 조작, 스플라인 추적 상대, 연출 감독, 카메라) + 두 봇 자동 검사 (Godot, 스모크 반복). Opus high"
+size = { checks = 2 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_spec_fixed = "일부"
 S_similar_past = "일부"
@@ -2719,7 +2899,9 @@ project = "batman"
 batch = 26
 date = 2026-10-17
 task = "월드: 새 레벨 씬을 빌더 코드로 짓기(여섯 구역, 정지 장면 하나, 아레나, 카메라·마커) + 노드 목록 (Godot, 임포트 한 번씩). Opus high"
+size = { outputs = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_build_tools = "아니오"
 S_full_brief = "예"
 S_spec_fixed = "예"
@@ -2752,7 +2934,9 @@ project = "batman"
 batch = 26
 date = 2026-10-17
 task = "월드: 기존 레벨 빌더에 경로·광장·조사 구역·카메라 추가 + 레벨 스크립트 훅 (Godot, 임포트 한 번씩). Opus high"
+size = { edits = 5, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_build_tools = "예"
 S_full_brief = "예"
 S_spec_fixed = "일부"
@@ -2785,7 +2969,9 @@ project = "batman"
 batch = 26
 date = 2026-10-17
 task = "데이터: 두 장의 사건 데이터·장 흐름·컷신 ~15개·대사 표 + 음성 생성(~160줄, CPU) + 검사 스크립트 규칙 + 자리표시 초상. 설계 문서가 글과 모양을 전부 정함. Opus high"
+size = { outputs = 15, edits = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_spec_fixed = "예"
 S_similar_past = "예"
@@ -2817,7 +3003,9 @@ project = "batman"
 batch = 25
 date = 2026-10-17
 task = "같은 에이전트 두 번째: 고친 두 장으로 풀이용 문제지 다시 만들기 + 누설 검사. Opus high"
+size = { outputs = 1, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_resumed = "예"
 S_full_brief = "예"
 S_spec_fixed = "예"
@@ -2849,7 +3037,9 @@ project = "batman"
 batch = 25
 date = 2026-10-17
 task = "답을 모르는 풀이 재실행: 고친 문제지 둘 (고정 입력, 출력 하나). Opus high"
+size = { reads = 2, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_resumed = "예"
 S_full_brief = "예"
 S_spec_fixed = "예"
@@ -2881,7 +3071,9 @@ project = "batman"
 batch = 25
 date = 2026-10-17
 task = "답을 모르는 풀이 재실행: 같은 일 (Sonnet 5.5 max)"
+size = { reads = 2, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "예"
 S_resumed = "예"
 S_full_brief = "예"
@@ -2914,7 +3106,9 @@ project = "batman"
 batch = 25
 date = 2026-10-17
 task = "답을 모르는 풀이 재실행: 같은 일 (Fable 5.1 xhigh)"
+size = { reads = 2, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "아니오"
 S_resumed = "예"
 S_full_brief = "예"
@@ -2947,7 +3141,9 @@ project = "batman"
 batch = 26
 date = 2026-10-17
 task = "같은 에이전트 두 번째: 다섯 브랜치 통합, 두 장 배선, 데이터 id ↔ 노드 이름 맞추기, 끝까지 플레이하는 자동 검사 행 둘, 베타 안내(한국어), 문서 as built"
+size = { outputs = 2, chunks = 2 }
 [dispatch.situation]
+S_specified = "예"
 S_integration = "예"
 S_open_seams = "예"
 S_resumed = "예"
@@ -2982,7 +3178,9 @@ project = "batman"
 batch = 27
 date = 2026-10-18
 task = "GPU 렌더 점검: 이전 캡처 도구를 본떠 두 장의 캡처 도구 만들기, 새 카메라 약 80개 렌더하고 이미지 판정, 묶음 그림, 봇으로 차량 구간 속도 맞추기, 소리 크기와 프레임 시간 재기, 작은 수정, 자동 검사"
+size = { outputs = 2, checks = 3, find_cap = "80 카메라" }
 [dispatch.situation]
+S_specified = "일부"
 S_render = "예"
 S_full_brief = "예"
 S_spec_fixed = "일부"
@@ -3019,7 +3217,9 @@ project = "batman"
 batch = 27
 date = 2026-10-18
 task = "같은 에이전트 이어서: 캐릭터 얼굴 표현 시안 비교(작은 무대 하나, 각도 셋 × 생김새 넷, 비교 그림 한 장)"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_resumed = "예"
 S_render = "예"
 S_full_brief = "예"
@@ -3055,7 +3255,9 @@ project = "batman"
 batch = 27
 date = 2026-10-18
 task = "같은 에이전트 세 번째: (A) 시안 다시 렌더(밝은 조명, 한 번 실행) (B) 장 여섯의 흐름을 머리 없이 돌려 규칙을 어기는 카메라 목록을 뽑는 검사 도구 + 해당 카메라 고치고 다시 렌더 (C) 앞 회차 남은 것 셋(화면 밝기 둘, 효과음 하나)"
+size = { outputs = 1, edits = 3, checks = 2, find_cap = "6 장" }
 [dispatch.situation]
+S_specified = "일부"
 S_resumed = "예"
 S_render = "예"
 S_full_brief = "예"
@@ -3092,7 +3294,9 @@ project = "batman"
 batch = 28
 date = 2026-10-18
 task = "대사 여섯 줄(다시 녹음 셋·새 줄 셋)과 사건 데이터 필드 약 열두 곳 고치기(글은 지시서가 전부 줌) + 설계 문서 두 절 반영 + 음성 생성(모델 내려받기 포함, CPU) + 스모크. Opus high"
+size = { chunks = 3, edits = 17, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_fix_existing = "예"
 S_long_lap = "일부"
 S_render = "아니오"
@@ -3131,7 +3335,9 @@ project = "batman"
 batch = 28
 date = 2026-10-18
 task = "컷신 대사 사이 간격 줄이기: 재생 코드 두 파일에 선택적 꼬리 값, 음성 목록에 말 끝 시각을 재는 파이썬 도구와 백필(842개), 컷신 데이터 14개에 필드 하나, 스모크 행 넷, 기술 문서. 원인과 설계는 지시서가 줌. Opus high"
+size = { outputs = 2, chunks = 4, edits = 16, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_fix_existing = "예"
 S_long_lap = "일부"
 S_render = "아니오"
@@ -3170,7 +3376,9 @@ project = "batman"
 batch = 29
 date = 2026-10-18
 task = "코드 고침 넷(한 줄짜리 둘: 카메라 부호, 운전 중 안내 끄기; 라디오 대사 훅 하나; 심문 열기 조건 하나: UI + 자동로드 + 검사기 둘 + 풀이기에 새 id 형식, 데이터 키 둘) + 스모크 행 일곱 + 기술 문서 두 절. 원인과 설계는 지시서가 줌. Opus high"
+size = { chunks = 9, edits = 6, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_fix_existing = "예"
 S_long_lap = "일부"
 S_render = "아니오"
@@ -3209,7 +3417,9 @@ project = "batman"
 batch = 29
 date = 2026-10-18
 task = "대사 열 줄(다시 쓰기 넷·새 줄 여섯; 뜻은 지시서가, 말은 에이전트가 씀) + 사건 데이터 필드 약 열여섯 + 설계 문서 두 절 + 음성 생성 열 줄 + 스모크. Opus high"
+size = { chunks = 6, edits = 22, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_fix_existing = "예"
 S_long_lap = "일부"
 S_render = "아니오"
@@ -3248,7 +3458,9 @@ project = "batman"
 batch = 30
 date = 2026-10-18
 task = "두 장 분량 설계 피치 문서 하나 쓰기(≤350줄; 문서 열두 절쯤 읽고 한 문서 작성; 실행 없음). 같은 일을 세 모델이 병렬. Opus high"
+size = { reads = 12, outputs = 1, checks = 0, find_cap = "350 줄 상한" }
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "일부"
@@ -3288,7 +3500,9 @@ project = "batman"
 batch = 30
 date = 2026-10-18
 task = "두 장 분량 설계 피치 문서 하나 쓰기(≤350줄; 같은 지시서). Sonnet 5.5 max"
+size = { reads = 12, outputs = 1, checks = 0, find_cap = "350 줄 상한" }
 [dispatch.situation]
+S_specified = "아니오"
 S_many_turn_model = "예"
 S_full_brief = "예"
 S_fixed_input = "일부"
@@ -3328,7 +3542,9 @@ project = "batman"
 batch = 30
 date = 2026-10-18
 task = "두 장 분량 설계 피치 문서 하나 쓰기(≤350줄; 같은 지시서). Fable 5.1 xhigh"
+size = { reads = 12, outputs = 1, checks = 0, find_cap = "350 줄 상한" }
 [dispatch.situation]
+S_specified = "아니오"
 S_many_turn_model = "아니오"
 S_full_brief = "예"
 S_fixed_input = "일부"
@@ -3368,7 +3584,9 @@ project = "batman"
 batch = 31
 date = 2026-10-18
 task = "수석 작가: 앞 라운드가 설계를 정한 뒤 두 장의 사건 설계 절 둘(하나는 구조 바꾸기, 하나는 다시 쓰기)과 대본 두 장을 전부 쓰기(문서만; 실행 없음; 자기 점검 grep). Opus high"
+size = { outputs = 2, chunks = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_spec_fixed = "일부"
 S_similar_past = "예"
@@ -3407,7 +3625,9 @@ project = "batman"
 batch = 32
 date = 2026-10-18
 task = "풀이용 꾸러미 빌더: 두 장의 플레이어가 보는 한국어 글만 추려 꾸러미 둘 + 안내 + 누설 grep (관례 있음). Opus high"
+size = { outputs = 3, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "예"
@@ -3442,6 +3662,7 @@ batch = 32
 date = 2026-10-18
 task = "추리 비평가: 두 장의 사건 설계를 규칙표와 회고의 요구 사항에 대 보고 결함표 쓰기. Opus high"
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "예"
@@ -3476,6 +3697,7 @@ batch = 32
 date = 2026-10-18
 task = "이야기·인물 비평가: 두 장의 대본을 장면·목소리·한국어(모든 줄 한 가지 읽기)로 비평. Opus high"
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "예"
@@ -3509,7 +3731,9 @@ project = "batman"
 batch = 32
 date = 2026-10-18
 task = "블라인드 풀이 S1: 한국어 꾸러미 둘만 읽고 두 장을 풀기(고정 입력, 한 번 읽고 한 번 씀). Opus high"
+size = { reads = 2, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -3547,7 +3771,9 @@ project = "batman"
 batch = 32
 date = 2026-10-18
 task = "블라인드 풀이 S2: 같은 일. Sonnet max"
+size = { reads = 2, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
@@ -3586,7 +3812,9 @@ project = "batman"
 batch = 32
 date = 2026-10-18
 task = "블라인드 풀이 S3: 같은 일. Fable xhigh"
+size = { reads = 2, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
@@ -3625,7 +3853,9 @@ project = "batman"
 batch = 33
 date = 2026-10-18
 task = "구현 A1: 사건 시스템과 연출 명령(새 조건 형식, 기록 테이프 종류, 카드 반응, 명령 셋, UI 둘, 검사기, 스모크 행). Opus high"
+size = { checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -3663,7 +3893,9 @@ project = "batman"
 batch = 33
 date = 2026-10-18
 task = "구현 A2: 플레이어·차량 모드 셋(오르기, 부상, 자동 운전)과 색 남기기 API, 시험대 위 스모크. Opus high"
+size = { checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -3701,7 +3933,9 @@ project = "batman"
 batch = 33
 date = 2026-10-18
 task = "구현 C: 새 레벨 빌더(공원: 다섯 구역, 놀이기구 셋, 멈춘 방, 화면들). Opus high"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -3739,7 +3973,9 @@ project = "batman"
 batch = 33
 date = 2026-10-18
 task = "구현 D: 새 레벨 빌더(공장 내부와 짧은 강변 길). Opus high"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_build_tools = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -3778,7 +4014,9 @@ project = "batman"
 batch = 32
 date = 2026-10-18
 task = "수석 작가 이어서: 통합 노트(머스트 23·슈드 17·컨시더 8)로 두 장 고쳐 쓰기(문서만). Opus high"
+size = { reads = 1, edits = 48 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -3816,7 +4054,9 @@ project = "batman"
 batch = 34
 date = 2026-10-18
 task = "꾸러미 작성 이어서: 고쳐 쓴 원고에서 두 장 꾸러미 재생성(기존 스크립트), 바뀐 점 요약, 누출 검사. 예측은 Opus high였으나 감독 실수로 Fable xhigh(피치 작가)를 이어 보냄"
+size = { outputs = 3, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -3854,7 +4094,9 @@ project = "batman"
 batch = 34
 date = 2026-10-18
 task = "블라인드 풀이 S1(새 에이전트): 한 장 꾸러미 재풀이. Opus high"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -3892,7 +4134,9 @@ project = "batman"
 batch = 34
 date = 2026-10-18
 task = "블라인드 풀이 S2(새 에이전트): 같은 일. Sonnet max"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
@@ -3931,7 +4175,9 @@ project = "batman"
 batch = 34
 date = 2026-10-18
 task = "블라인드 풀이 S3(새 에이전트): 같은 일. Fable xhigh"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_many_turn_model = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
@@ -3971,6 +4217,7 @@ batch = 35
 date = 2026-10-18
 task = "구현 B: 두 장의 사건·챕터·대사 데이터와 음성 렌더(계약서에 모양이 다 적힘; 새 키의 검사기는 통합 때). Opus high"
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -4008,7 +4255,9 @@ project = "batman"
 batch = 36
 date = 2026-10-18
 task = "통합(시스템 에이전트 이어서): 브랜치 다섯 합치기, id↔노드 매핑, 두 장 흐름 연결, 판정 반영, 스모크 전체. Opus high"
+size = { checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_integration = "예"
 S_open_seams = "아니오"
 S_full_brief = "예"
@@ -4048,7 +4297,9 @@ project = "proviso"
 batch = 1
 date = 2026-10-19
 task = "agent_usage 정리: 기록 124건·가설·규칙을 훑어 지지된 것은 올리고 반박된 것은 개정, 검사·문서 갱신 (문서 + checks.py, 짧은 검사 바퀴). Opus high"
+size = { checks = 1, find_cap = "124 기록" }
 [dispatch.situation]
+S_specified = "일부"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -4087,7 +4338,9 @@ project = "proviso"
 batch = 1
 date = 2026-10-19
 task = "조사: 다른 저장소의 결정 기록에서 사용자 확인이 필요한 결정·의견을 추림 (큰 문서 셋을 GitHub 도구로 읽고 목록 하나, 코드 없음). Opus high"
+size = { reads = 3, outputs = 1 }
 [dispatch.situation]
+S_specified = "일부"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "일부"
@@ -4125,7 +4378,9 @@ project = "proviso"
 batch = 1
 date = 2026-10-19
 task = "조사 이어서(p02 에이전트): 다른 저장소 기록에서 사용자가 좋다/별로라고 한 평가를 모으고, 결과에서 이유 가설을 세움 (읽은 문서 + 상태·검토 기록 일부 더 읽기, 목록 하나). Opus high"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "예"
@@ -4163,7 +4418,9 @@ project = "proviso"
 batch = 2
 date = 2026-10-19
 task = "구조 개편: 규칙·가설을 성적 붙은 가설 하나로(코어 + 분야 셋 옮기기), 돌아보기에 틀린 조각 칸, 숫자만 넓히는 개정 경고, 시간 구간 세 마디로 다시 채점 + 문서·테스트. Opus high"
+size = { edits = 3, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -4207,6 +4464,7 @@ batch = 3
 date = 2026-10-19
 task = "논리집을 계산되게: 가설에 효과 칸(양·속도·더하기), 상황 값으로 예측 계산, 지난 기록 다시 돌리기(앞 절반으로 세우고 뒤 절반으로 시험), 빈틈 쪼개기, 방향(논리)과 크기(숫자) 성적을 따로. Opus high"
 [dispatch.situation]
+S_specified = "일부"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -4247,7 +4505,9 @@ project = "proviso"
 batch = 4
 date = 2026-10-20
 task = "조사(stock-rader용): 한국어 투자 일지·매매 일지·포트폴리오 공개 글을 읽고 문체를 뽑음 → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장). Opus high"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -4295,7 +4555,9 @@ project = "proviso"
 batch = 4
 date = 2026-10-20
 task = "조사(stock-rader용): 영어 포트폴리오 업데이트·트레이딩 저널·운용사 투자자 서한을 읽고 문체를 뽑음 → 보고서 1개 (엄격한 양식, 코드 없음, 섹션마다 저장). p06과 동시. Opus high"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -4343,7 +4605,9 @@ project = "proviso"
 batch = 5
 date = 2026-10-20
 task = "구현(stock-rader 1단계, 새 저장소): 시세 받기(세 출처)·덧붙이기 기록과 검사기·정산·예측 채점(방향·확률 점수·크기, 기준선)·가격 계산 조각과 계산기·맞추기(2026-06-30까지)·7~10월 날짜 순서 재생·논리집(PROVISO 양식)·테스트·문서. Opus high"
+size = { checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -4392,6 +4656,7 @@ batch = 6
 date = 2026-10-21
 task = "구현(stock-rader 2단계, 1단계 코드 위에): 조사 기록 양식·볼 곳 성적표·조사 조각(시기)·손 예측 기록·돌아보기와 버전 나란히 채점·채점 겹침 제거·코인 판단 때 가격·매일 실행 명령·일지/주간 결산 숫자 채우기·예약 실행 지시문 + PROVISO 코어 검사별 출처. Opus high"
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -4445,7 +4710,9 @@ project = "language_learning"
 batch = 7
 date = 2026-10-22
 task = "조사(언어 학습 논리집용): 왕초보 어휘·문자 습득 연구 근거(간격 반복·인출·방향·기억술 등 10주제) → 엄격한 양식 보고서 1개 + worklog. 웹, 코드 없음, 섹션마다 저장. Haiku 5.5 high"
+size = { outputs = 2, find_cap = "10 주제" }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -4494,7 +4761,9 @@ project = "language_learning"
 batch = 7
 date = 2026-10-22
 task = "조사(언어 학습 논리집용): 언어 학습 앱 사례 — 세션 크기·복습 간격 방식·꾸준함 장치·가나 학습 방식과 비판 (앱 8개 이상) → 보고서 1개 + worklog. 웹, 코드 없음. Haiku 5.5 high"
+size = { outputs = 2, find_cap = "8 앱" }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -4543,7 +4812,9 @@ project = "language_learning"
 batch = 7
 date = 2026-10-22
 task = "조사(언어 학습 논리집용): 한국인 일본어 학습자의 실제 경로(교재·강의·후기, 8개 이상) → 보고서 1개 + worklog. 웹(한국어 블로그·카페 포함), 코드 없음. Haiku 5.5 high"
+size = { outputs = 2, find_cap = "8 사례" }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -4592,7 +4863,9 @@ project = "language_learning"
 batch = 7
 date = 2026-10-22
 task = "조사(언어 학습 논리집용): 일본 여행 생존 일본어의 실제 범위(장면 상위 20개·문자 필요 여부, 후보 8개 이상) → 보고서 1개 + worklog. 웹, 코드 없음. Haiku 5.5 high"
+size = { outputs = 2, find_cap = "20 장면·8 후보" }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -4641,7 +4914,9 @@ project = "language_learning"
 batch = 7
 date = 2026-10-22
 task = "조사(언어 학습 논리집용): 혼자 공부를 이어 가게 하는 장치(스트릭·작은 목표·실행 의도 등, 10개 이상)의 연구·앱 데이터 근거 → 보고서 1개 + worklog. 웹, 코드 없음. Haiku 5.5 high"
+size = { outputs = 2, find_cap = "10 장치" }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -4690,7 +4965,9 @@ project = "language_learning"
 batch = 7
 date = 2026-10-22
 task = "조사(여행 앱 설계용): 여행 정산·지출 기록 앱과 일본 현지 도움 앱의 잘 된 기능(10개 이상) + 총무 기능 목록 초안 → 보고서 1개 + worklog. 웹, 코드 없음. Haiku 5.5 high"
+size = { outputs = 2, find_cap = "10 기능" }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -4747,6 +5024,7 @@ batch = 8
 date = 2026-10-22
 task = "이어서(배치 7 p10의 작업자): 연구 근거 보고서의 후보마다 원문을 열어 확인하고 '검색 요약만'을 '열어서 읽음'으로 고치며 수치·판정을 원문에 맞추고, 전에 못 열던 곳(네이버·Reddit·공식 문서 등)에서 후보를 보탬 + worklog 이어 쓰기. 웹, 코드 없음. Haiku 5.5 high"
 [dispatch.situation]
+S_specified = "일부"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -4794,6 +5072,7 @@ batch = 8
 date = 2026-10-22
 task = "이어서(배치 7 p11의 작업자): 앱 사례 보고서의 후보마다 원문을 열어 확인하고 '검색 요약만'을 '열어서 읽음'으로 고치며 수치·판정을 원문에 맞추고, 전에 못 열던 곳(네이버·Reddit·공식 문서 등)에서 후보를 보탬 + worklog 이어 쓰기. 웹, 코드 없음. Haiku 5.5 high"
 [dispatch.situation]
+S_specified = "일부"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -4841,6 +5120,7 @@ batch = 8
 date = 2026-10-22
 task = "이어서(배치 7 p12의 작업자): 한국인 학습자 사례 보고서의 후보마다 원문을 열어 확인하고 '검색 요약만'을 '열어서 읽음'으로 고치며 수치·판정을 원문에 맞추고, 전에 못 열던 곳(네이버·Reddit·공식 문서 등)에서 후보를 보탬 + worklog 이어 쓰기. 웹, 코드 없음. Haiku 5.5 high"
 [dispatch.situation]
+S_specified = "일부"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -4888,6 +5168,7 @@ batch = 8
 date = 2026-10-22
 task = "이어서(배치 7 p13의 작업자): 여행 생존 범위 보고서의 후보마다 원문을 열어 확인하고 '검색 요약만'을 '열어서 읽음'으로 고치며 수치·판정을 원문에 맞추고, 전에 못 열던 곳(네이버·Reddit·공식 문서 등)에서 후보를 보탬 + worklog 이어 쓰기. 웹, 코드 없음. Haiku 5.5 high"
 [dispatch.situation]
+S_specified = "일부"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -4935,6 +5216,7 @@ batch = 8
 date = 2026-10-22
 task = "이어서(배치 7 p14의 작업자): 꾸준함 장치 보고서의 후보마다 원문을 열어 확인하고 '검색 요약만'을 '열어서 읽음'으로 고치며 수치·판정을 원문에 맞추고, 전에 못 열던 곳(네이버·Reddit·공식 문서 등)에서 후보를 보탬 + worklog 이어 쓰기. 웹, 코드 없음. Haiku 5.5 high"
 [dispatch.situation]
+S_specified = "일부"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -4982,6 +5264,7 @@ batch = 8
 date = 2026-10-22
 task = "이어서(배치 7 p15의 작업자): 여행 앱 보고서의 후보마다 원문을 열어 확인하고 '검색 요약만'을 '열어서 읽음'으로 고치며 수치·판정을 원문에 맞추고, 전에 못 열던 곳(네이버·Reddit·공식 문서 등)에서 후보를 보탬 + worklog 이어 쓰기. 웹, 코드 없음. Haiku 5.5 high"
 [dispatch.situation]
+S_specified = "일부"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -5035,7 +5318,9 @@ project = "language_learning"
 batch = 9
 date = 2026-10-22
 task = "조사(클라우드 세션 'searching', Haiku 5.5): speaking_listening — 왕초보 말하기·듣기 습득 연구 → 엄격한 양식 보고서를 세션 메시지로 전달 + 작업 폴더에 파일. 웹, 코드 없음"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -5084,7 +5369,9 @@ project = "language_learning"
 batch = 9
 date = 2026-10-22
 task = "조사(클라우드 세션 'searching', Haiku 5.5): conversation_apps — 대화 중심 앱의 장치(10개 이상) → 엄격한 양식 보고서를 세션 메시지로 전달 + 작업 폴더에 파일. 웹, 코드 없음"
+size = { outputs = 1, find_cap = "10 장치" }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -5133,7 +5420,9 @@ project = "language_learning"
 batch = 9
 date = 2026-10-22
 task = "조사(클라우드 세션 'searching', Haiku 5.5): reuse_structure — 배운 것을 다시 써먹는 구조(연구+사례, 재등장 설계 초안) → 엄격한 양식 보고서를 세션 메시지로 전달 + 작업 폴더에 파일. 웹, 코드 없음"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -5182,7 +5471,9 @@ project = "language_learning"
 batch = 9
 date = 2026-10-22
 task = "조사(클라우드 세션 'searching', Haiku 5.5): ui_patterns — 화면 역할 12개의 다른 앱 비교와 가져올 패턴 표 → 엄격한 양식 보고서를 세션 메시지로 전달 + 작업 폴더에 파일. 웹, 코드 없음"
+size = { outputs = 1, find_cap = "12 화면" }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -5231,7 +5522,9 @@ project = "language_learning"
 batch = 9
 date = 2026-10-22
 task = "조사(클라우드 세션 'searching', Haiku 5.5): travel_dialogues — 여행 장면 대본·듣기 자료와 이용 조건 → 엄격한 양식 보고서를 세션 메시지로 전달 + 작업 폴더에 파일. 웹, 코드 없음"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -5280,7 +5573,9 @@ project = "language_learning"
 batch = 9
 date = 2026-10-22
 task = "조사(클라우드 세션 'searching', Haiku 5.5): experiments_courses — 단기 코스·실험 사례와 8주 설계 초안 → 엄격한 양식 보고서를 세션 메시지로 전달 + 작업 폴더에 파일. 웹, 코드 없음"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -5329,7 +5624,9 @@ project = "language_learning"
 batch = 10
 date = 2026-10-22
 task = "조사(클라우드 세션 'searching', Haiku 5.5, 배치 9 ui_patterns 세션에 이어서 v3): 앱 8개의 스토어 스크린샷 그림 파일을 받아 Read로 직접 보고 화면 역할 12개 표를 실제 화면 근거로 다시 채움. 완료 조건: 앱 5개·30장 이상 본 뒤 전송"
+size = { edits = 12, find_cap = "30 그림·5 앱" }
 [dispatch.situation]
+S_specified = "일부"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -5379,7 +5676,9 @@ project = "language_learning"
 batch = 11
 date = 2026-10-22
 task = "구현(설계 v1 1단계, Opus 5.5 high, 세션 안 에이전트): 결함 4개 고침 + 장면 대화 JSON(장면 7, 줄 70~90, 틀·슬롯, 출처 칸) + Room v8(테이블 4, 마이그레이션) + 순수 Kotlin 간격표·세션 계획 + 테스트 + 카드 3종 화면 + 장면 목록·복습 탭 + 문서·worklog. 빌드 도구 없음(SDK 차단)"
+size = { outputs = 7, chunks = 80, edits = 4, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_no_code = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -5435,7 +5734,9 @@ project = "language_learning"
 batch = 12
 date = 2026-10-22
 task = "구현(설계 v1 2단계, 1단계 에이전트에 이어서, Opus 5.5 high): 온보딩 3화면(여행 날짜·실행 의도·알림 권한) + 홈 다시 짜기(오늘 할 양 한 줄·세션 버튼·최소/권장) + 연속·보호·복귀 규칙(순수 Kotlin+테스트) + AlarmManager 알림 + 완료·축하 화면 + 여행 중 보기(회화집) + 설정 화면 + 문서·worklog. 빌드 도구 없음"
+size = { outputs = 7, edits = 1, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -5484,7 +5785,9 @@ project = "language_learning"
 batch = 13
 date = 2026-10-22
 task = "구현(설계 v1 3단계, 같은 에이전트 3회차, Opus 5.5 high): 주 1회 역할극(장면 섞기, 목표 칩·응답 칩/말하기, 플래너+테스트) + 여행 전 점검 띠 + 2주 확인 세트(결정적 세트+테스트, 추이 표) + 누적 학습 시간 + 여행 뒤 판정 입력 + JSON 내보내기(SAF) + 문서·worklog. 빌드 도구 없음"
+size = { outputs = 1, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -5531,7 +5834,9 @@ project = "language_learning"
 batch = 14
 date = 2026-10-22
 task = "구현(설계 v1 4단계, 같은 에이전트 4회차, Opus 5.5 high): 가나 보조 트랙 — 가나 92자 데이터(한글 소리·연상 한 줄·비슷한 쌍·묶음·규칙 카드 3·읽기 단어)+카드 3종 화면+플래너·테스트, 3단계 열린 질문 고침 2건, 문서·worklog. ASR 없음. 빌드 도구 없음"
+size = { outputs = 5, chunks = 95, edits = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -5578,7 +5883,9 @@ project = "professor_king"
 batch = 15
 date = 2026-10-22
 task = "문서+코드 새로 쓰기(설계 고정·본보기 문서 있음, Opus 5.5 high, 세션 안 하위 에이전트): 자율 수업 과목 0부 3회차 수업 설계 문서(각 ~450줄) + 실습 코드 뼈대 + CPU 검증"
+size = { outputs = 3, chunks = 1350, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -5634,7 +5941,9 @@ project = "professor_king"
 batch = 15
 date = 2026-10-22
 task = "문서+코드 새로 쓰기(설계 고정·본보기 문서 있음, Opus 5.5 high, 세션 안): 자율 수업 과목 1부 전반 6회차(언어 모델 직접 구현, 한 코드베이스로 이어짐) 수업 설계 문서 + 코드 뼈대 + CPU 검증(토크나이저·소형 GPT 몇 백 스텝)"
+size = { outputs = 6, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -5690,7 +5999,9 @@ project = "professor_king"
 batch = 15
 date = 2026-10-22
 task = "문서+코드 새로 쓰기(설계 고정·본보기 문서 있음, Opus 5.5 high, 세션 안): 자율 수업 과목 1부 후반 4회차(공개 모델 미세조정·평가) 수업 설계 문서 + 코드 뼈대. 모델 내려받기가 막혀(403) 무작위 초기화 장난감 모델로 경로만 검증"
+size = { outputs = 4, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -5746,7 +6057,9 @@ project = "professor_king"
 batch = 15
 date = 2026-10-22
 task = "문서+코드 새로 쓰기(설계 고정·본보기 문서 있음, Opus 5.5 high, 세션 안): 자율 수업 과목 2부 6회차(VAE·확산·조건부·잠재 확산·손글씨 모델 비교) 수업 설계 문서 + 코드 뼈대 + CPU 검증(소형 VAE·DDPM 몇 천 스텝)"
+size = { outputs = 6, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -5802,7 +6115,9 @@ project = "professor_king"
 batch = 15
 date = 2026-10-22
 task = "문서+코드 새로 쓰기(설계 고정·본보기 문서 있음, Opus 5.5 high, 세션 안): 자율 수업 과목 3부 4회차(양자화·메모리 예산·캡스톤·보고서) 수업 설계 문서 + 코드 뼈대 + CPU 검증(int8 양자화 오차)"
+size = { outputs = 4, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -5858,7 +6173,9 @@ project = "professor_king"
 batch = 16
 date = 2026-10-23
 task = "기존 문서 고치기(Opus 5.5 high, 세션 안): 수업 설계 문서 24개의 교차 맞춤 — 뒤 회차가 앞 회차를 인용한 누적 문제 맥락을 실제 내용과 대조해 표시 제거·수치 정정, 표기 통일, 코드 import 경로 확인, 각 문서 도입부 자기완결성, 커리큘럼 반영. 새로 쓰기 없음"
+size = { reads = 24, checks = 1, find_cap = "24 문서" }
 [dispatch.situation]
+S_specified = "일부"
 S_no_code = "일부"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -5908,7 +6225,9 @@ project = "professor_king"
 batch = 17
 date = 2026-10-24
 task = "조사(클라우드 세션 'searching', Haiku 5.5, 새 세션): 검색 엔진 수업 재료 — 질의·문서 데이터셋·임베딩/재순위 모델·Windows 패키지·참고 논문의 입수 가능성·라이선스·크기를 원문(HF API·PyPI JSON·arXiv·공식 페이지)을 열어 확인. 완료 조건: 원문 25개 이상 연 뒤 전송, 정해진 표 양식"
+size = { outputs = 1, find_cap = "25 원문" }
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -5961,7 +6280,9 @@ project = "proviso"
 batch = 18
 date = 2026-10-20
 task = "조사: 다른 저장소(안드로이드 앱)의 완성도를 코드로 평가 — 기준 9개, 점수·근거·확신도 양식, 코드 수정 없음. Opus high"
+size = { find_cap = "9 기준" }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "일부"
@@ -6011,6 +6332,7 @@ batch = 18
 date = 2026-10-20
 task = "조사: 다른 저장소(안드로이드 앱)의 보안 점검 — 코드·git 이력·DB 규칙·매니페스트, 심각도 양식, 코드 수정 없음. Opus high"
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "일부"
@@ -6061,7 +6383,9 @@ project = "proviso"
 batch = 18
 date = 2026-10-20
 task = "웹 조사: 같은 종류의 앱(상용·오픈소스) 10개 이상의 장단점과 시장, 엄격 양식. Opus high"
+size = { find_cap = "10 앱" }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "아니오"
@@ -6109,7 +6433,9 @@ project = "proviso"
 batch = 18
 date = 2026-10-20
 task = "웹 조사 + 코드 읽기: 호평받은 앱들의 디자인 원칙 조사와 앱의 현재 UI 평가, 새 시안 방향 셋. Opus high"
+size = { chunks = 3 }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "아니오"
@@ -6157,7 +6483,9 @@ project = "proviso"
 batch = 18
 date = 2026-10-20
 task = "웹 조사: 플랫폼 변화·유지보수 모델·새 기능 아이디어 10개 이상, 엄격 양식. Opus high"
+size = { find_cap = "10 아이디어" }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "아니오"
@@ -6205,7 +6533,9 @@ project = "proviso"
 batch = 18
 date = 2026-10-20
 task = "구현: 다른 저장소(안드로이드 앱, 코틀린 3.9만 줄)에 기능 셋 추가(지난 기록 직접 입력, 파일 내보내기, 앱 바로가기) + 단위 테스트 + 문서. gradle 컴파일·테스트 바퀴 있음. Opus high"
+size = { edits = 3, checks = 2 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "아니오"
@@ -6255,7 +6585,9 @@ project = "proviso"
 batch = 18
 date = 2026-10-20
 task = "구현: 적힌 설계(디자인 조사 보고서의 방향 ②)대로 앱 화면 5개의 HTML 시안 한 장 + 렌더 확인(Playwright 스크린샷). Opus high"
+size = { reads = 1, outputs = 1, chunks = 5, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "아니오"
@@ -6302,7 +6634,9 @@ project = "proviso"
 batch = 19
 date = 2026-10-20
 task = "구현(출시 준비 1차): 다른 저장소(안드로이드 앱)에서 과장 문구 제거, 민감 로그 정리, 정확 알람 권한 흐름(설명 후 한 번 + 권한 변경 수신기) + 단위 테스트. Opus high"
+size = { edits = 3, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -6352,7 +6686,9 @@ project = "proviso"
 batch = 19
 date = 2026-10-20
 task = "구현(출시 준비 2차, 같은 에이전트 이어서): 파일 가져오기(파서·중복 판정·UI), 계정 삭제 유보 흐름(서버 표시·로컬 초기화·재로그인 취소), 지운 기록의 서버 내용 비우기(동기화 코드), 영구 삭제 예약 함수(Node) + 테스트. Opus high"
+size = { edits = 4, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -6400,7 +6736,9 @@ project = "proviso"
 batch = 19
 date = 2026-10-20
 task = "구현(출시 준비 3차, 같은 에이전트 이어서): 앱 무결성 검사(App Check) 붙이기 + 저장소의 규칙 사본 검증 보강과 규칙 테스트 갱신. Opus high"
+size = { edits = 3, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -6450,7 +6788,9 @@ project = "proviso"
 batch = 20
 date = 2026-10-20
 task = "구현(웹 저장소, 비공개): 규칙에 계정 삭제 예약 문서 조항 + 에뮬레이터 테스트, 삭제 요청 웹 페이지, 처리방침 갱신, 영구 삭제 예약 함수를 함수 폴더로 이식 + 인덱스, App Check 웹 공급자 배선, 계획 문서 갱신. Opus high"
+size = { outputs = 1, edits = 6, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -6498,7 +6838,9 @@ project = "proviso"
 batch = 20
 date = 2026-10-20
 task = "구현(웹 저장소): 요약 함수를 전체 읽기에서 날짜별 요약 문서 증분 갱신으로, 루틴 화면 30일 범위, 랜딩 어제·오늘 상세 + 28일 요약, 에뮬레이터 테스트. Opus high"
+size = { edits = 3, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -6546,7 +6888,9 @@ project = "proviso"
 batch = 20
 date = 2026-10-20
 task = "구현(웹 저장소, 같은 에이전트 이어서): 통계 페이지를 어제·오늘 원본 + 28일 일별 요약으로, 주간 차트·운동 패널 제거, 편집은 불러온 날짜만 + 테스트. Opus high"
+size = { edits = 3, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -6594,7 +6938,9 @@ project = "proviso"
 batch = 21
 date = 2026-10-20
 task = "구현(웹 저장소): 가짜 데이터 PC 시안(4탭, 2,500줄)을 /app/로 옮겨 로그인·실제 기록·할 일·직접 추가·통계(요약 경로)·타이머 문서 읽기까지 붙임 + 브라우저 테스트. Opus high"
+size = { reads = 1, edits = 6, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -6645,7 +6991,9 @@ project = "proviso"
 batch = 21
 date = 2026-10-20
 task = "통합(안드로이드 앱 저장소): 2026-10-13 하드닝 브랜치(212파일)를 이번 세션 브랜치(7커밋)에 병합, 충돌 해결(정확 알람 흐름·로그·빌드 설정·문서), 컴파일·테스트 통과. Opus high"
+size = { edits = 4, checks = 2 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "아니오"
@@ -6694,7 +7042,9 @@ project = "proviso"
 batch = 21
 date = 2026-10-20
 task = "구현(안드로이드 앱, 같은 에이전트 이어서): 진행 중 타이머를 서버 문서로 동기화 — 시작·정지·일시정지·제목 변경 때 쓰기, 원격 변경(웹) 듣고 적용, 충돌 규칙 순수 로직 + 테스트, 규칙 사본·테스트. Opus high"
+size = { checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -6742,7 +7092,9 @@ project = "proviso"
 batch = 21
 date = 2026-10-20
 task = "구현(안드로이드 앱, 같은 에이전트 세 번째 회차): 웹에서 바뀐 할 일(완료·삭제·수정·새로 만듦)을 폰이 가져오고 덮어쓰지 않게 — 수정 시각 기준 병합 + 테스트. Opus high"
+size = { checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -6791,7 +7143,9 @@ project = "proviso"
 batch = 21
 date = 2026-10-20
 task = "구현(웹 저장소, 같은 에이전트 이어서): PC 앱에 루틴 블록·브라우저 알림과 집중 모드(집중 타이머·끝 알림) 추가 + 브라우저 테스트. Opus high"
+size = { edits = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -6839,7 +7193,9 @@ project = "proviso"
 batch = 21
 date = 2026-10-20
 task = "구현(웹 저장소, 같은 에이전트 세 번째 회차): PC 앱의 할 일 쓰기를 폰과 맞춤 — 숫자 id로 생성, 삭제는 삭제 표시, updatedAt 통일 + 테스트. Opus high"
+size = { edits = 3, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -6891,7 +7247,9 @@ project = "professor_king"  # 2026-10-25 병합 때 "proviso"에서 고침: 일�
 batch = 22
 date = 2026-10-20
 task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "일부"
@@ -6937,7 +7295,9 @@ project = "professor_king"  # 2026-10-25 병합 때 "proviso"에서 고침: 일�
 batch = 22
 date = 2026-10-20
 task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "일부"
@@ -6983,7 +7343,9 @@ project = "professor_king"  # 2026-10-25 병합 때 "proviso"에서 고침: 일�
 batch = 22
 date = 2026-10-20
 task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽) + 수업 녹취록(약 12만 자)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+size = { reads = 2, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "일부"
@@ -7029,7 +7391,9 @@ project = "professor_king"  # 2026-10-25 병합 때 "proviso"에서 고침: 일�
 batch = 22
 date = 2026-10-20
 task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "일부"
@@ -7075,7 +7439,9 @@ project = "professor_king"  # 2026-10-25 병합 때 "proviso"에서 고침: 일�
 batch = 22
 date = 2026-10-20
 task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "일부"
@@ -7121,7 +7487,9 @@ project = "professor_king"  # 2026-10-25 병합 때 "proviso"에서 고침: 일�
 batch = 22
 date = 2026-10-20
 task = "정리본: 강의 슬라이드 한 편(글자 뽑은 텍스트 + PDF 몇 쪽)을 읽고 정해진 양식의 정리 문서 하나 쓰기(다른 비공개 저장소, 코드 없음). 6개 병렬 중 하나. Opus high"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "일부"
@@ -7169,7 +7537,9 @@ project = "movie_game"
 batch = 23
 date = 2026-10-26
 task = "조사(클라우드 세션 'searching', Haiku 5.5, 새 세션): 추리 게임·영화의 시각 디자인 '느낌 예시' 수집 — 게임 14~20편의 화풍·UI 특징·제작 규모를 스토어 페이지와 원문으로 확인하고 스크린샷 그림을 받아 Read로 직접 봄. 완료 조건: 그림 30장 이상 본 뒤·원문 15건 이상 연 뒤 전송, 정해진 표 양식"
+size = { outputs = 1, find_cap = "30 그림·15 원문" }
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -7219,7 +7589,9 @@ project = "movie_game"
 batch = 23
 date = 2026-10-26
 task = "조사(클라우드 세션 'searching', Haiku 5.5, 새 세션): 화풍 갈래별로 그 느낌을 내는 데 드는 수단과 비용 — 에셋 가격, 외주 단가, AI 그림 도구 가격·약관, 엔진 비용, 소규모 팀 선례의 제작 기간을 원문(가격 페이지·약관·개발자 인터뷰)으로 확인. 완료 조건: 원문 25건 이상 연 뒤 전송, 가격에 날짜·주소"
+size = { find_cap = "25 원문" }
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -7269,7 +7641,9 @@ project = "movie_game"
 batch = 23
 date = 2026-10-26
 task = "이어서(p65 세션, 클라우드 Haiku): 이미 받아 둔 스크린샷 38장과 머리 그림 19장을 Artifact 도구로 파일 57개짜리 아티팩트에 올리고 url·파일 목록을 보고. 메인 환경이 스팀 그림 주소를 못 열어서(네트워크 정책 403) 보낸 회차"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_no_code = "일부"
 S_full_brief = "예"
 S_fixed_input = "예"
@@ -7317,7 +7691,9 @@ project = "movie_game"
 batch = 23
 date = 2026-10-26
 task = "구현: 같은 장면(221B 거실, 의뢰인 첫 대면 — 관찰·추리·결론 네 박자)을 세 갈래(먹선·수채 손그림 + 종이 보드 / 1비트 디더링 / 평면 일러스트 + 이름 타일)로 그린 HTML 시안 한 장 + Playwright 스크린샷 확인. 그림은 인라인 SVG·CSS로만(외부 그림 없음). Opus high, 세션 안 Agent"
+size = { outputs = 1, chunks = 3, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -7371,7 +7747,9 @@ project = "movie_game"
 batch = 24
 date = 2026-10-26
 task = "조사(클라우드 'searching', Haiku 5.5, 새 세션): 빅토리아 런던을 걸어 다니는 3D 공간과 인물을 만드는 데 필요한 것 — 엔진 3D 역량(공식 문서), 런던·빅토리아 에셋 모음, 인물 파이프라인, 안개·비·가스등 분위기 수단, AI 3D 생성 도구 약관, 선례의 제작 방식(개발 블로그). 완료 조건: 원문 25건 이상"
+size = { find_cap = "25 원문" }
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -7421,7 +7799,9 @@ project = "movie_game"
 batch = 24
 date = 2026-10-26
 task = "조사(클라우드 'searching', Haiku 5.5, 새 세션): 영어 음성·영국 느낌에 필요한 것 — 성우 섭외 경로와 계약 틀, AI 음성 도구의 영국 억양·약관, 입 모양·얼굴 애니 수단, 선례의 대사·음성 양, 자막·현지화 파이프라인, 빅토리아 영어 말투 자료(퍼블릭 도메인). 완료 조건: 원문 25건 이상"
+size = { find_cap = "25 원문" }
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -7471,7 +7851,9 @@ project = "movie_game"
 batch = 24
 date = 2026-10-26
 task = "조사(클라우드 'searching', Haiku 5.5, 새 세션): 3D 게임이 관찰·추리를 어떻게 구현했나 — 장치별로 플레이어가 하는 일/게임이 하는 일/필요한 시스템, '다 보여 주는 탐정 시야' 비판, 두 단계 관찰·가지치기와 맞닿는 설계 글(GDC 강연·개발 블로그·설계 비평). 완료 조건: 원문 20건 이상"
+size = { find_cap = "20 원문" }
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -7525,7 +7907,9 @@ project = "movie_game"
 batch = 25
 date = 2026-10-26
 task = "구현: 브라우저 3D 프로토타입 한 장(Three.js UMD, cdnjs) — 밤·비·안개·가스등의 빅토리아 거리 한 블록을 1인칭으로 걷고(WASD·마우스), 221B 문으로 들어가 거실까지. 그림 없이 코드로 생성(캔버스 텍스처·박스 건물). Playwright로 WebGL 렌더 스크린샷 확인(npm으로 받은 로컬 three로 시험). Opus high, 세션 안 Agent"
+size = { outputs = 1, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -7579,7 +7963,9 @@ project = "movie_game"
 batch = 26
 date = 2026-10-27
 task = "조사(클라우드 'searching', Haiku 5.5): 빅토리아 런던 테라스 하우스·상점 전면·거리 소품의 해부와 치수(창 깊이·창틀·띠돌림·처마·지붕·굴뚝·배수관·철책·상점 파시아·가스등·자갈·연석)를 보존 지침·측량 자료 원문으로. 출력은 cm 치수 표. 완료 조건: 원문 20건 이상"
+size = { outputs = 1, find_cap = "20 원문" }
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -7629,7 +8015,9 @@ project = "movie_game"
 batch = 26
 date = 2026-10-27
 task = "조사(클라우드 'searching', Haiku 5.5): 영어 대본 재료 — 퍼블릭 도메인 원작(Gutenberg)에서 인물별 대사 표본 추출(홈즈·왓슨·의뢰인·레스트레이드·허드슨 부인), 말투 특징, 억양 종류와 계층 대응(RP·코크니 등), 시대 어휘 주의, 게임 성우 지시서(캐스팅 브레이크다운) 양식. 완료 조건: 원문 20건 이상(원작 텍스트 5편 이상 포함)"
+size = { find_cap = "20 원문" }
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -7679,7 +8067,9 @@ project = "movie_game"
 batch = 26
 date = 2026-10-27
 task = "조사(클라우드 'searching', Haiku 5.5): 첫 사건의 크기 재료 — 원작 단편 4편의 구조(인물·장소·장면·단서 수, 관찰→추리 사슬, 홈즈의 '첫 대면 추리' 목록)와 추리 게임 선례의 사건 크기(장소·인물·단서 수). 완료 조건: 원문 20건 이상(원작 4편 전문 포함)"
+size = { find_cap = "20 원문" }
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -7729,7 +8119,9 @@ project = "movie_game"
 batch = 27
 date = 2026-10-27
 task = "구현: 첫 장면 '젖은 왼쪽 소매'를 브라우저에서 대충 플레이할 수 있는 한 장(scene01.json 내장) — 방 셋(SVG), 1단계 핫스팟 표시 없음·2단계는 질문+관찰(3초 대가), 조각 주머니, 빈칸 셋 보드(3자리 동시 판정·국소 반응), 대사 자막, 결론 연출, 플레이 로그 + 피드백 설문 → JSON 복사. Playwright 확인. Opus high, 세션 안 Agent"
+size = { outputs = 1, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "일부"
@@ -7783,7 +8175,9 @@ project = "movie_game"
 batch = 28
 date = 2026-10-27
 task = "설계 그림: 2안 '플레이어 = 왓슨'(사용자 제안)을 첫 장면에 대 보고 1안(플레이어 = 홈즈, 홈즈가 먼저 질문 → 플레이어가 이유를 찾음)과 나란히 비교한 한 장(HTML 아티팩트) + 보고서. 선례(대역전재판 추리 무도 등)는 WebSearch로 확인하되 못 열면 '확인 못 함'. Opus high, 세션 안 Agent"
+size = { outputs = 2 }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "예"
@@ -7838,7 +8232,9 @@ project = "movie_game"
 batch = 28
 date = 2026-10-27
 task = "고침: 첫 장면 브라우저 플레이판 세 가지 — 빈칸에 증거 이름 대신 뜻(fill) 넣기, 소매 조각 뜻을 '한쪽만 젖음'으로, Q1을 '홈즈 의심 → 걸린 것 빈칸에 A → 2단계'(1안 나)로. Playwright 검사 갱신·추가. Opus high, 세션 안 Agent"
+size = { edits = 3, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "예"
@@ -7891,7 +8287,9 @@ project = "movie_game"
 batch = 29
 date = 2026-10-27
 task = "조사(클라우드 'searching', Haiku 5.5): 사건 단위 이야기가 끝에서 수렴하는 방식의 사례 — 게임·드라마·소설 12편 이상, 수렴 방식 5가지 이상(한 인물 지휘가 아닌 사례 4편 이상), 초반 사건에 심은 씨앗, 억지/납득 평가. 완료 조건: 원문 18건 이상"
+size = { find_cap = "12 사례·18 원문" }
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -7941,7 +8339,9 @@ project = "movie_game"
 batch = 29
 date = 2026-10-27
 task = "조사(클라우드 'searching', Haiku 5.5): 임시 영어 음성(영국 억양) — RTX 4060에서 돌릴 로컬 TTS 후보(영국 목소리·라이선스·VRAM·윈도 설치), API 대안, 대사 파일 양식과 UE 5.8 가져오기. 완료 조건: 원문 15건 이상(모델 카드·README·LICENSE·UE 문서)"
+size = { find_cap = "15 원문" }
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -7993,7 +8393,9 @@ project = "movie_game"
 batch = 29
 date = 2026-10-27
 task = "검수: 첫 장면 영어 대사·반응·보드 문장(scene01.json)을 빅토리아 시대 영국 영어 말투·인물 목소리·단서 논리·한글 자막 자연스러움으로 검토, 고칠 안만 표로(파일은 안 고침). Opus high, 세션 안 Agent"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "예"
@@ -8048,7 +8450,9 @@ project = "movie_game"
 batch = 29
 date = 2026-10-27
 task = "설계 초안(HTML 한 장): 수렴 방식 예시판(방식 8가지·실제 예·잘 되는/억지 조건·섞는 법) + 수렴점 한 장 빈 틀(DECISIONS 16 칸) + 채운 예시 2개(결정 아님, 두 방식 이상, 한 인물 지휘 기본값 금지, 첫 사건 씨앗 사용) + 사용자가 정할 질문. 입력: p79 조사 보고서(고친 판). Opus high, 세션 안 Agent"
+size = { reads = 1, outputs = 1, chunks = 10 }
 [dispatch.situation]
+S_specified = "일부"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "예"
@@ -8103,7 +8507,9 @@ project = "movie_game"
 batch = 30
 date = 2026-10-27
 task = "구현(이어서 지시, p78 작업자): 플레이판에 홈즈의 앞선 추리 컷씬 둘 — 나) 첫 대면(분필 묻은 소맷부리·주머니의 읽기 책 → 가정교사), 가) 결론 전 한 걸음(숨긴 칸 상자·Mr. L 메모·하커 부인 → 장물아비, 톰이 숨은 까닭). 컷씬 장치(레터박스·단서 비추기·대사), SVG 소품 둘, JSON, 자동 시험. DECISIONS 18. Opus high, SendMessage로 이어서"
+size = { outputs = 2, chunks = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "예"
@@ -8158,7 +8564,9 @@ project = "font"
 batch = 31
 date = 2026-10-27
 task = "손글씨 라벨 붙이기: 시험 대비 수식 풀이 PDF 1–6쪽(후보 칸 약 1175개)을 줄마다 칸별 글자로 적고, 갈라진 글자 합치기(_merges)와 첨자 빼기 목록을 만든다. 메인이 준 확대·검토 도구로 렌더해 확인. 5명이 쪽을 나눠 병렬. Opus high, 세션 안 Agent"
+size = { chunks = 1175, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "아니오"
@@ -8211,7 +8619,9 @@ project = "font"
 batch = 31
 date = 2026-10-27
 task = "손글씨 라벨 붙이기: 시험 대비 수식 풀이 PDF 7–12쪽(후보 칸 약 1174개)을 줄마다 칸별 글자로 적고, 갈라진 글자 합치기(_merges)와 첨자 빼기 목록을 만든다. 메인이 준 확대·검토 도구로 렌더해 확인. 5명이 쪽을 나눠 병렬. Opus high, 세션 안 Agent"
+size = { chunks = 1174, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "아니오"
@@ -8264,7 +8674,9 @@ project = "font"
 batch = 31
 date = 2026-10-27
 task = "손글씨 라벨 붙이기: 시험 대비 수식 풀이 PDF 13–18쪽(후보 칸 약 998개)을 줄마다 칸별 글자로 적고, 갈라진 글자 합치기(_merges)와 첨자 빼기 목록을 만든다. 메인이 준 확대·검토 도구로 렌더해 확인. 5명이 쪽을 나눠 병렬. Opus high, 세션 안 Agent"
+size = { chunks = 998, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "아니오"
@@ -8317,7 +8729,9 @@ project = "font"
 batch = 31
 date = 2026-10-27
 task = "손글씨 라벨 붙이기: 시험 대비 수식 풀이 PDF 19–23쪽(후보 칸 약 1145개)을 줄마다 칸별 글자로 적고, 갈라진 글자 합치기(_merges)와 첨자 빼기 목록을 만든다. 메인이 준 확대·검토 도구로 렌더해 확인. 5명이 쪽을 나눠 병렬. Opus high, 세션 안 Agent"
+size = { chunks = 1145, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "아니오"
@@ -8370,7 +8784,9 @@ project = "font"
 batch = 31
 date = 2026-10-27
 task = "손글씨 라벨 붙이기: 시험 대비 수식 풀이 PDF 24–29쪽(후보 칸 약 1322개)을 줄마다 칸별 글자로 적고, 갈라진 글자 합치기(_merges)와 첨자 빼기 목록을 만든다. 메인이 준 확대·검토 도구로 렌더해 확인. 5명이 쪽을 나눠 병렬. Opus high, 세션 안 Agent"
+size = { chunks = 1322, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "아니오"
@@ -8423,7 +8839,9 @@ project = "movie_game"
 batch = 32
 date = 2026-10-27
 task = "구현(이어서 지시, p78·p83 작업자 — 지시서 안에서는 p84라고 부름. 다른 세션이 p84–p88을 먼저 써서 p89로 옮김): Q1 근거를 소매에서 전보 내용으로 — ada_03 뒤 홈즈가 소리 내어 되묻고('Straight from home, Miss Pryce?') 에이다가 머뭇거림, 그 사이 시선이 전보로(띠 없는 짧은 비춤), 그 뒤 Q1과 관찰이 열림. 소매 속말 줄 정리. '들어가지 않았다' 근거(톱밥은 치맛단에만·신바닥엔 없음, 진흙에 톱밥 없음)와 holmes_05 개정. 시험 갱신. Opus high, SendMessage로 이어서"
+size = { checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "예"
@@ -8476,7 +8894,9 @@ project = "movie_game"
 batch = 32
 date = 2026-10-27
 task = "조사(클라우드 'searching', Haiku 5.5): 실제 게임 화면 사진 — 1인칭 3D 관찰 모드, 3D 게임 안 추리 보드, 탐정이 먼저 추리하는 연출, 빅토리아 런던 3D 거리. 주제마다 6장 이상·전체 32장 이상을 Read로 직접 보고 고른 뒤 비공개 아티팩트로 publish(첫 지시서에 넣음, p67 교훈). 메인이 그 사진으로 정리 페이지를 만든다"
+size = { outputs = 1, find_cap = "32 사진" }
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -8527,7 +8947,9 @@ project = "movie_game"
 batch = 32
 date = 2026-10-27
 task = "구현(이어서 지시 4회차, p78 작업자): 대사 검수(p81) 반영 — 높음·중간 행 전부, 낮음은 한글(하게체 통일·'하커'·Mr L)만. 시험 문장 비교 갱신. Opus high"
+size = { reads = 1, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "일부"
 S_similar_past = "예"
@@ -8580,7 +9002,9 @@ project = "movie_game"
 batch = 33
 date = 2026-10-27
 task = "비평(세션 안 Opus): 메인이 쓴 수렴점 한 장 v1(홈즈의 7년 전 실수, 연역 아님 주제)을 이야기 논리·우연·증상 배치·원작 따라 함·게임 규칙과의 일관성으로 검토, 고칠 안 표. 파일은 안 고침"
+size = { reads = 1, outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -8635,7 +9059,9 @@ project = "movie_game"
 batch = 33
 date = 2026-10-27
 task = "조사(클라우드 Haiku): 수렴점 v1이 기대는 역사 사실 — 1880년대 런던의 검시(coroner's inquest)·재판·사형 집행까지의 기간, 약국 조제실과 조수, 인쇄소, 경찰이 민간 탐정의 공을 가져가는 일이 있었나, 교수형수 가족의 개명. 원문 12건 이상"
+size = { find_cap = "12 원문" }
 [dispatch.situation]
+S_specified = "아니오"
 S_no_code = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -8685,7 +9111,9 @@ project = "movie_game"
 batch = 33
 date = 2026-10-27
 task = "비평 2회차(이어서, p92 작업자): 수렴점 v2가 v1 비평 26건과 역사 확인을 제대로 반영했는지, 새로 생긴 구멍, 남은 '따라 함', 5번·6번 장치의 일관성. 고칠 안 표. 파일은 안 고침"
+size = { outputs = 1, find_cap = "26 비평 항목" }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -8739,7 +9167,9 @@ project = "movie_game"
 batch = 34
 date = 2026-10-27
 task = "쓰기(세션 안 Opus, 봉인): 사건 1 「젖은 왼쪽 소매」를 규칙 시험 장면에서 첫 이야기로 — 구조(조각 12·질문 2·보드 2·컷씬 3) 그대로, 다섯 박자를 대사 60–90줄과 장면 연출로 채움. 봉인 문서 + scene01.json 고침. 지시서 9개 읽을 것, 수렴점 v3의 사건 1 씨앗 4개만"
+size = { reads = 9, outputs = 1, chunks = 75, edits = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -8794,7 +9224,9 @@ project = "movie_game"
 batch = 34
 date = 2026-10-27
 task = "구현(이어서 5회차, p78 작업자): 플레이판이 FLOW를 JSON flow에서 읽게, 새 연출·조건 11개(꼬리 건너뛰기·찾을 때 한마디·관찰 첫 켬 대사·ask 조건·장갑 동작·끝 그림 순서 등), playtest.js 기대값 갱신, 139+ 통과, 아티팩트 재게시"
+size = { edits = 12, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -8850,7 +9282,9 @@ project = "movie_game"
 batch = 34
 date = 2026-10-27
 task = "비평(이어서 3회차, p92 비평가): 사건 1 봉인 문서 v1 + JSON 대사 75줄 — 이야기 논리·시간순·거짓말 이유·조각 읽기 하나·하커 부인이 흘리나·홈즈 앞선 추리 재료·영어 시대 표현·수렴 누설·결정 준수, 고칠 안 표. 파일은 안 고침"
+size = { reads = 2, outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -8905,7 +9339,9 @@ project = "movie_game"
 batch = 34
 date = 2026-10-27
 task = "쓰기(이어서 2회차, p95 작가): 비평 p97 26건 반영 → 봉인 문서 v2 + JSON 고침, 봉인 성격 글을 JSON에서 빼기(결정 21), 참조 점검 재실행"
+size = { edits = 26, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -8960,7 +9396,9 @@ project = "movie_game"
 batch = 34
 date = 2026-10-27
 task = "구현(이어서 6회차, p78 작업자): 플레이판을 v2 데이터에 맞춤 — flow 비배열 칸 건너뛰기, 장갑 동작을 첫 보드 삽입으로 이동, 거리 순서(에이다 앞)·문 앞 줄 조건, I 쪽지 그림, holmes_27, K 한마디 제거, HTML 봉인 낱말 grep 0, 검사 갱신, 재게시"
+size = { edits = 7, checks = 2 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -9016,6 +9454,7 @@ batch = 35
 date = 2026-10-28
 task = "수집(클라우드 세션 'searching', Opus 5.5, 새 세션): 메인 환경에서 평가원 사이트(kice.re.kr·suneung.re.kr·ebsi)가 네트워크 정책 403으로 막혀, searching 환경에서 열리는지 시험하고 열리면 국어 문제지 PDF 17회차(2206~2709)와 정답표를 curl로 받아 exams/korean/에 커밋·push. 완료 조건: 열린/막힌 주소 목록과 회차별 쪽수 표"
 [dispatch.situation]
+S_specified = "일부"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "일부"
@@ -9070,7 +9509,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "수집(클라우드 세션 'searching', Opus 5.5, 새 세션): 평가원 게시판(수능 1500234·2004 이전 1500235·모의평가 1500236)에서 2021학년도까지의 국어(언어) 영역 문제지와 정답표를 전부 받아 exams/korean/에 커밋·push. p100과 같은 일인데 건수가 ~3배(최대 28개 학년도 × 3회차). 완료 조건: 학년도·회차별 표(받음/없음)"
+size = { find_cap = "84 회차" }
 [dispatch.situation]
+S_specified = "일부"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -9126,7 +9567,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2206 회차 전체(세트 17개, 45문항)를 세트마다 text_ko.py로 읽고 직접 푼 뒤 정답표와 대조, 본보기 양식(2709_04-09.md)대로 세트 노트 17개와 회차 요약(flow/2206.md)을 쓴다. 시간 순 분석의 첫 회차"
+size = { reads = 17, outputs = 18, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "일부"
@@ -9184,7 +9627,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2206 회차를 v2 양식(근거의 범위→쉬움/어려움, 화작·매체는 표지, 언매 문법은 배경 지식)으로 다시 쓴다. 세트 17개 + 회차 요약. v1 노트가 있으니 글의 뼈대는 참고 가능"
+size = { outputs = 18 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -9242,7 +9687,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2209 회차를 v2 양식으로(독서·문학 8세트 + 화작 3세트, 언매 제외). 앞 회차 요약(flow/2206.md)을 읽고 흐름을 이어 비교. 시간 순 두 번째 회차"
+size = { reads = 1, outputs = 11 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -9300,7 +9747,9 @@ project = "movie_game"
 batch = 36
 date = 2026-10-29
 task = "구현: 환경 2차 — 벽난로 불(재질 애니메이션 또는 Niagara)·액자 그림·기름등·책 블록·뒷방 공구·찻잔·병을 블렌더·PIL·로컬 그림 모델로 만들어 레벨 스크립트로 배치, 비·안개·하늘 손질, Fab 배치 2차(장 앞뒤·소파·큰 책장), 사진 확인"
+size = { outputs = 7, edits = 4, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -9354,7 +9803,9 @@ project = "movie_game"
 batch = 36
 date = 2026-10-29
 task = "구현: 메타휴먼 인물 걷기 — 빌드된 메타휴먼(몸·얼굴·머리·기본 옷)을 사건 1의 인물 셋과 플레이어 몸에 붙이고, 내장 걷기·서기 애니메이션(필요하면 리타게팅)으로 걷게 함. C++ 인물 클래스 고침 + 레벨 스크립트 모듈 새로 + 사진 확인"
+size = { outputs = 1, edits = 1, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "아니오"
@@ -9407,7 +9858,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2211(2022학년도 수능) 회차를 v2 양식으로(독서·문학 8세트 + 화작 3세트). 앞 두 회차 요약(flow/2206·2209)을 읽고 비교. 시간 순 세 번째 회차"
+size = { reads = 2, outputs = 11 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -9464,7 +9917,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2306 회차를 v2 양식으로(독서·문학 8세트 + 화작 3세트). 지침은 korean/ANALYST_PROMPT.md 파일, 앞 세 회차 요약을 읽고 비교. 시간 순 네 번째 회차"
+size = { reads = 4, outputs = 11 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -9521,7 +9976,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2309 회차를 v2 양식으로(독서·문학 8세트 + 화작 3세트). 지침 파일 + 앞 네 회차 요약. 시간 순 다섯 번째"
+size = { reads = 5, outputs = 11 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -9578,7 +10035,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2311(2023학년도 수능) 회차를 v2 양식으로. 지침 파일 + 앞 다섯 회차 요약. 시간 순 여섯 번째"
+size = { reads = 6 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -9635,7 +10094,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2406 회차를 v2 양식으로. 지침 파일 + 앞 여섯 회차 요약. 시간 순 일곱 번째"
+size = { reads = 7 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -9692,7 +10153,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2409 회차를 v2 양식으로. 지침 파일 + 앞 일곱 회차 요약(최근 셋만 꼼꼼히). 시간 순 여덟 번째"
+size = { reads = 4 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -9750,6 +10213,7 @@ batch = 35
 date = 2026-10-28
 task = "조사·수집(클라우드 세션 'searching', Opus 5.5, 새 세션): EBSi 등 공개 출처에서 국어 17회차(2206~2709)의 문항별 정답률(가능하면 등급대별)과 등급컷 추정치를 로그인 없이 받을 수 있는지 확인하고, 되면 CSV로 받아 커밋·push. 완료 조건: 출처별 열림/막힘·형식 표와 받은 회차 수"
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "일부"
@@ -9806,7 +10270,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2411(2024학년도 수능) 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 아홉 번째"
+size = { reads = 3 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -9863,7 +10329,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2506 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 열 번째. 정답률은 주지 않는다"
+size = { reads = 3 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -9920,7 +10388,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2509 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 열한 번째"
+size = { reads = 3 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -9978,7 +10448,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2511(2025학년도 수능) 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 열두 번째"
+size = { reads = 3 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -10036,7 +10508,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2606 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 열세 번째"
+size = { reads = 3 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -10094,7 +10568,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2609 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 열네 번째"
+size = { reads = 3 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -10151,7 +10627,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2611(2026학년도 수능, 40쪽 중 1~20쪽) 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 열다섯 번째"
+size = { reads = 3 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -10208,7 +10686,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2706 회차를 v2 양식으로. 지침 파일 + 앞 요약(최근 둘 꼼꼼히). 시간 순 열여섯 번째"
+size = { reads = 3 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -10265,7 +10745,9 @@ project = "suneung"
 batch = 35
 date = 2026-10-28
 task = "분석(세션 안 Opus 5.5 high, 새 에이전트): 국어 2709 회차(마지막, 시간 순 열일곱 번째)를 v2 양식으로. 본보기였던 2709_04-09 노트를 같은 양식으로 완성하고 17회차 전체를 닫는 요약까지"
+size = { outputs = 1, edits = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -10322,7 +10804,9 @@ project = "suneung"
 batch = 38
 date = 2026-10-28
 task = "조사(세션 안 Opus 5.5 high, 새 에이전트): 평가원 독서 지문 8개(과학·기술 단일 4, 인문 (가)(나) 4)의 서술 방식을 뽑아 korean/STYLE_READING.md(규칙 + 실제 문장 예 + 초안 점검표)로 쓴다. 지문 제작의 문체 기준"
+size = { reads = 8, outputs = 1, chunks = 3 }
 [dispatch.situation]
+S_specified = "일부"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "일부"
@@ -10380,7 +10864,9 @@ project = "movie_game"
 batch = 37
 date = 2026-10-29
 task = "비평(세션 안 Opus, 새 에이전트): 메인(이야기 담당, Fable)이 쓴 전체 줄거리 v1(사건 여섯의 진실·인물·단서 후보, 봉인)을 수렴점 v3·사건 1 v2·결정 13–21·논리집 가설에 대 보기 — 구멍·우연·되풀이·누설·역사 의심을 고칠 안 표로. 파일은 안 고침"
+size = { outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -10434,7 +10920,9 @@ project = "movie_game"
 batch = 37
 date = 2026-10-29
 task = "조사(클라우드 'searching', Haiku 5.5, 새 세션): 줄거리 v1이 기대는 역사·의학 사실 8항목 — 1880년 집행 요일 관례와 사망→집행 2개월, 경찰 E 관구 범위, 소형 인쇄소 석판기·지폐 위조 방식·형량, 클로랄+술 사인, 석탄산 독약 목록, 클레어 마켓 1880년, 「두 번째 의견」 회차명, 하숙집 관례. 전송 조건: 원문 15건 이상"
+size = { find_cap = "8 항목·15 원문" }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -10478,7 +10966,9 @@ project = "movie_game"
 batch = 37
 date = 2026-10-29
 task = "메인 자신(이야기 담당, Fable 5.1, 클라우드 세션): 비평(p124)과 조사(p125)를 받아 줄거리 v1 → v2로 고쳐 쓰고, 수렴점 v3에 '바꾼 것' 맞춤, 보고서(worklog)·AGENT-LOG·이 기록 셋의 실측·돌아보기, 커밋·push. 사용자 요청으로 메인의 일을 처음 예측한 기록"
+size = { reads = 2, outputs = 1, edits = 6 }
 [dispatch.situation]
+S_specified = "일부"
 S_main_self = "예"
 S_full_brief = "일부"
 S_fixed_input = "아니오"
@@ -10516,7 +11006,9 @@ project = "movie_game"
 batch = 37
 date = 2026-10-29
 task = "비평 2회차(이어서, p124 작업자): 줄거리 v2와 수렴점 v4가 비평 50건을 제대로 반영했는지(반영/다르게/안 함 판정), 새로 생긴 구멍·되풀이, 고증 조사 반영이 맞는지. 고칠 안 표. 보고서는 한 번에 쓴다. 파일은 안 고침"
+size = { outputs = 1, find_cap = "50 비평 항목" }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -10568,7 +11060,9 @@ project = "movie_game"
 batch = 37
 date = 2026-10-29
 task = "고증 2차(클라우드 'searching', Haiku 5.5, 새 세션): 줄거리 v3가 기대는 미확인 8항목 — 1751년 살인법 집행 시점 조문의 1880년 유효 여부(1순위)·'세 번의 일요일' 관례, 우편환 유통 방식·액면·위조 조문, 석판 연마 재료가 손에 남는지, 액화 석탄산 상온 상태·조제실 난로 구조, 클로랄 독약 목록 추가 연도, E 관구 범위·클레어 마켓 가게 종류, 하숙집 관례, 다른 영상물 회차명. 전송 조건: 1차 자료(법령·당시 간행물·의학서 원문) 8건 이상 + 원문 20건"
+size = { find_cap = "8 항목·20 원문" }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -10613,7 +11107,9 @@ project = "movie_game"
 batch = 37
 date = 2026-10-29
 task = "고증 3차(클라우드 'searching', Haiku 5.5, 새 세션): 남은 핵심 셋 — 1836년 법 본문(집행 간격 조항 폐지, 1순위), 우편환 위조 조문·형량(Post Office 법령), 난로에 다음 날 불을 쌓아 두는 관례(가사서 원문) + 곁다리 셋(클로랄 독약 목록, 그레이트 오먼드 가 관구, 러시아판·라디오 회차명). 전송 조건: 1차 자료 6건"
+size = { find_cap = "6 항목·6 1차 자료" }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -10657,7 +11153,9 @@ project = "exam_grader"
 batch = 39
 date = 2026-11-02
 task = "구현(세션 안 Opus 5.5 high, 새 에이전트): 2027 꿀모 시즌2 2회 수업 세션 폴더(lessons/2026-11-07_kkulmo-s2-02) 만들고 8번 풀이지 08.html 한 장을 1회 양식(18.html·sheet.css)대로 쓰고 render.js로 png·pdf 렌더 뒤 png를 눈으로 확인, session.md 머리말. 이후 문항은 같은 에이전트에 이어 보낼 예정"
+size = { reads = 2, outputs = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "아니오"
@@ -10712,7 +11210,9 @@ project = "exam_grader"
 batch = 39
 date = 2026-11-02
 task = "수정(같은 에이전트 2회차, 이어서): 08.html 머리의 주제 라벨 삭제 + 재렌더·png 확인, teacher.md 풀이지 형식 선호에 '주제 라벨 없음' 한 줄, session.md 메모"
+size = { edits = 3, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "아니오"
@@ -10765,7 +11265,9 @@ project = "exam_grader"
 batch = 39
 date = 2026-11-02
 task = "구현(같은 에이전트 3회차, 이어서): 9번 풀이지 09.html 새로 쓰기(검토된 선생님 풀이·계산 요령 셋) + 렌더·png 확인, 8번 손글씨 메모 정리(하나만 남김), teacher.md에 손글씨 규칙 절과 수업한 논리 2줄, session.md 9번 줄"
+size = { outputs = 1, chunks = 3, edits = 5, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -10818,7 +11320,9 @@ project = "exam_grader"
 batch = 39
 date = 2026-11-02
 task = "구현(같은 에이전트 4회차, 이어서): 10번 풀이지 10.html 새로 쓰기(sin·cos 통일 짧게, y = sin 2x 그림에서 대칭 → 평균을 합으로) + 9번 군더더기 한 문장 삭제 + 재렌더·png 확인, session.md 10번 줄"
+size = { outputs = 1, chunks = 2, edits = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -10871,7 +11375,9 @@ project = "exam_grader"
 batch = 39
 date = 2026-11-02
 task = "수정(같은 에이전트 5회차, 이어서): 9·10번 풀이지의 'A하지 않고 B' 문장을 B만 남기게 고치고 손글씨 출처 삭제, teacher.md 형식 선호 2줄·피드백 기록 1줄, 재렌더·png 확인"
+size = { edits = 6, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -10924,7 +11430,9 @@ project = "exam_grader"
 batch = 39
 date = 2026-11-02
 task = "구현(같은 에이전트 6회차, 이어서): 11번 풀이지 11.html 새로 쓰기(속도 차부터 적분, 그래프로 근 하나 확인, 극점 위치로 거리) + 렌더·png 확인, teacher.md 수업 논리 1줄, session.md 11번 줄"
+size = { outputs = 1, chunks = 3, edits = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -10977,7 +11485,9 @@ project = "exam_grader"
 batch = 39
 date = 2026-11-02
 task = "수정(같은 에이전트 7회차, 이어서): 11번 단계 3의 수직선 그림을 위치 x₁(t) 사차함수 그래프로 바꾸기 + 재렌더·png 확인, teacher.md 수업 논리에 9월 모평 9번 출처 1줄"
+size = { edits = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -11030,7 +11540,9 @@ project = "exam_grader"
 batch = 39
 date = 2026-11-02
 task = "수정(같은 에이전트 8회차, 이어서): 11번 단계 2의 삼차함수 그림을 완성된 삼차 모양(극대 (0,−16)·극소 (2,−20)·변곡점 대칭, 왼쪽까지)으로 바꾸고 본문 한 줄, 재렌더·png 확인"
+size = { edits = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -11083,7 +11595,9 @@ project = "exam_grader"
 batch = 40
 date = 2026-11-02
 task = "구현(같은 작성 에이전트 9회차, 이어서): 12번 풀이지 12.html 새로 쓰기(bₙ을 aₙ으로, 짝·홀 나누기, 제곱수 합 공식, 인수분해 먼저) + 렌더·png 확인, teacher.md 수업 논리 1줄, session.md 12번 줄"
+size = { outputs = 1, chunks = 4, edits = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -11138,7 +11652,9 @@ project = "exam_grader"
 batch = 40
 date = 2026-11-02
 task = "검토(세션 안 Opus 5.5 xhigh, 새 에이전트 — 사용자 제안 구조 '작성 high → 검토 xhigh'의 첫 시험): 12번 풀이지를 문제 원문·선생님 원문·teacher.md 규칙과 대조해 수학 오류·규칙 위반·군더더기 목록만 낸다. 파일 수정 없음"
+size = { reads = 4, outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "아니오"
@@ -11196,7 +11712,9 @@ project = "exam_grader"
 batch = 40
 date = 2026-11-02
 task = "수정(같은 작성 에이전트 10회차, 이어서): 검토 에이전트 지적 6개 반영(12번 단계 제목 둘, 핵심 상자 줄이기, b₂ₘ₋₁ 유도를 b₂ₘ + a₂ₘ으로, 줄 끝 끊김 문장 둘, −28·25 표현) + 재렌더·png 확인"
+size = { edits = 6, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -11251,7 +11769,9 @@ project = "exam_grader"
 batch = 40
 date = 2026-11-02
 task = "구현(같은 작성 에이전트 11회차, 이어서): 13번 풀이지 13.html 새로 쓰기(이차함수 개형, 절댓값/일차는 극한 없음 → 중근, 꼭짓점 (3,−9), k = 9, f(9) = 27) + 그림 + 렌더·png 확인, teacher.md 수업 논리 1줄, session.md 13번 줄"
+size = { outputs = 1, chunks = 5, edits = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -11306,7 +11826,9 @@ project = "exam_grader"
 batch = 40
 date = 2026-11-02
 task = "검토(세션 안 Opus 5.5 xhigh, 새 에이전트): 13번 풀이지를 문제 원문·선생님 원문·teacher.md 규칙과 대조해 고칠 점 목록만. 파일 수정 없음"
+size = { reads = 4, outputs = 1 }
 [dispatch.situation]
+S_specified = "아니오"
 S_full_brief = "예"
 S_fixed_input = "예"
 S_similar_past = "예"
@@ -11364,7 +11886,9 @@ project = "exam_grader"
 batch = 40
 date = 2026-11-02
 task = "수정(같은 작성 에이전트 12회차, 이어서): 12번 핵심 상자 삭제 + 재렌더, teacher.md 피드백 기록 1줄"
+size = { edits = 2, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -11419,7 +11943,9 @@ project = "exam_grader"
 batch = 40
 date = 2026-11-02
 task = "수정(같은 작성 에이전트 13회차, 이어서): 13번 검토 지적 8개 반영(손글씨 정리, 제목·상자 중복 제거, 표현 4곳, 그림 점 구분) + 재렌더·png 확인"
+size = { edits = 8, checks = 1 }
 [dispatch.situation]
+S_specified = "예"
 S_full_brief = "예"
 S_fixed_input = "아니오"
 S_similar_past = "예"
@@ -11468,10 +11994,153 @@ reason = "말한 구간 '잠깐' 맞음(1.0분). 턴 10(예측 7–12), 토큰 3
 [dispatch.turns]
 skip = "같은 에이전트에 이어 보낸 회차라 로그가 누적되어 회차별 동작 표를 가를 수 없음"
 
+# ---------- 배치 41 (2026-11-03, 이 저장소: 일의 크기 모델 — 지난 기록 채우기, 결과를 가림) ----------
 [[dispatch]]
 id = "p145"
 project = "proviso"
 batch = 41
+date = 2026-11-03
+task = "채우기(세션 안 Opus 5.5 high, 결과를 가림): 기록 269건의 작업 설명(task)만 보고 할 일이 정해져 있나(예/일부/아니오/모름)와 다섯 수(읽을 것·만들 것·쓸 덩어리·고칠 곳·확인)·찾는 일의 상한을 표(TSV)로. 입력 파일 하나, 출력 파일 하나 + 보고서, 코드 없음"
+agent = "크기 채우기"
+round = 1
+size = { reads = 1, outputs = 2, checks = 1 }  # 메인이 쓴 지시서에서(입력 표 하나 · 출력 표 + 보고서 · 자기 확인 하나)
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [6, 15]
+turns = [25, 60]
+tokens_m = [2, 5]
+tokens_class = ["T1"]
+rules = ["R_fixed_input_v2", "R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v2"]
+analog = "p59"
+reason = "빗댄 p59(정해진 입력을 읽고 정해진 양식의 정리 문서 하나, 4.1분·34턴·2.8M). 이번은 입력이 한 파일(6만 자)로 비슷하고 출력(269줄 표, 약 3만 자)도 정리 문서와 비슷한 크기지만, 줄마다 판단(예/일부/아니오와 다섯 수)이 들어 생각이 길다 → 턴 ×0.7–1.8, 분당 4–7턴 → 6–15분. 두 구간(잠깐/다른 일)에 걸쳐 긴 쪽 '다른 일'. 토큰: 턴 × 맥락 5–9만(입력 6만 자 + 쓴 표가 쌓임) → 2–5M"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.actual]
+status = "done"
+minutes = 7.4  # agent_usage.py 05:24:13 → 05:31:37 (알림 duration 444초)
+turns = 28
+tokens_m = 3.07  # 캐시 생성 33.5만 + 캐시 읽기 272.7만 + 입력 56 + 출력(추정) 0.8만. 도구 호출 17
+start = "2026-11-03T05:24:13Z"
+end = "2026-11-03T05:31:37Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-03-size-backfill.md"
+wrong = ["R_say_numbers_v2"]
+why = "이유 틀림"  # 처음엔 까닭 모름으로 사용자에게 넘김 → 사용자 답(review.user)으로 말하기 규칙이 까닭으로 드러남 → R_say_numbers_v3
+user = "2026-11-03: '저 구간 말하는 알고리즘도 고치자. 지금은 예상 구간 최댓값을 고르는 거잖아' → 말하기 후보 표를 보고 '중앙값으로 가자'(가운데 값의 구간, R_say_numbers_v3)"
+reason = "말한 구간 '다른 일'인데 7.4분 '잠깐'. 분 7.4는 예측 6–15 안, 턴 28은 25–60 안, 토큰 3.07M은 2–5 안(T1) — 범위가 두 구간에 걸쳐 긴 쪽으로 말했고(R_say_numbers_v2) 짧은 쪽에서 끝났다('일찍 끝남'을 따로 세는 칸은 아직 없다, 다음 정리 5). 계산기 '잠깐'은 구간이 맞았지만 분 2.2–4.5는 아래로 빗나갔다. 분당 3.8턴(새로 쓰기·순수 추론 쪽). 턴 표: '글'(생각) 11줄 합 156초·중앙 13.8초로 줄마다 판단한 몫이 길었고, Read 5줄 합 232초는 읽은 뒤 생각한 시간이 앞 줄에 붙은 몫이다(재는 단위 메모, 전제 1)"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 11, sum_s = 155.9, turn_s = 13.8, out_chars = 0, ctx_k = 123 }
+"Bash:cd" = { n = 9, sum_s = 33.0, turn_s = 3.9, tool_s = 0.2, out_chars = 1319, ctx_k = 128 }
+"Read" = { n = 5, sum_s = 231.8, turn_s = 2.4, tool_s = 0.0, out_chars = 153, ctx_k = 66 }
+"Bash:mkdir" = { n = 1, sum_s = 4.5, turn_s = 4.5, tool_s = 0.1, out_chars = 2925, ctx_k = 93 }
+"Write" = { n = 1, sum_s = 15.7, turn_s = 15.7, tool_s = 0.0, out_chars = 4369, ctx_k = 139 }
+"SubagentHandback" = { n = 1, sum_s = 0.8, turn_s = 0.8, tool_s = 0.8, out_chars = 1561, ctx_k = 143 }
+
+# ---------- 배치 42 (2026-11-03, 이 저장소: 레포만 주고 절차를 알아서 쓰는지 — 맥락 없는 새 작업자) ----------
+[[dispatch]]
+id = "p146"
+project = "proviso"
+batch = 42
+date = 2026-11-03
+task = "점검(세션 안 Opus 5.5 high, 새 에이전트, 맥락 없음): 다른 저장소 세션이 '논리집 레포 읽어 봐'만 듣고 하위 에이전트를 보낸다고 치고, 보내기 전·끝난 뒤 절차(예측·기록·돌아보기)를 문서에서 찾아 순서대로 적고 헷갈린 곳을 보고서로. 파일 수정 없음(보고서 하나), 읽기 전용 명령만"
+agent = "콜드 리드 점검"
+round = 1
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [8, 20]
+turns = [30, 70]
+tokens_m = [4, 10]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v3"]
+analog = "p124"
+reason = "빗댄 p124(문서를 읽고 비평 보고서 하나, 16.9분·37턴·6.1M). 이번은 읽을 문서가 더 많고(루트·분야 CLAUDE.md, dispatch.md, scripts·worklog 안내) 읽기 전용 명령을 몇 번 돌리지만 고칠 안 50개 같은 긴 출력은 없다 → 턴 ×0.8–1.9, 분 8–20. 가운데 12.6분 → '다른 일'(R_say_numbers_v3). 찾는 일(아니오)이라 빗댄 기록 규칙은 쓰지 않는다. 토큰: 턴 × 맥락 12–15만 → 4–10M"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [10.0, 20.1]
+[dispatch.actual]
+status = "done"
+minutes = 4.5  # agent_usage.py --actual (알림 duration 272초)
+turns = 49
+tokens_m = 6.22  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-03T07:10:15Z"
+end = "2026-11-03T07:14:46Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-03-cold-read-check.md"
+wrong = ["R_time_turns_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일'(8–20분)인데 4.5분 '잠깐'. 턴 49는 30–70 안, 토큰 6.22M은 4–10 안 — 분만 빗나간 속도 갈래: 분당 10.9턴. 문서를 grep·sed로 조금씩 읽는 작은 턴이 대부분이었다(글 22·grep 7·sed 7, 중앙 1.3–2.3초). 빗댄 p124는 긴 비평을 쓰는 일(분당 2.2턴)이라 모양이 달랐다 — '읽기만 하는 점검·조사는 턴이 작아 빨리 돈다'(p40·p41 분당 11–13턴)가 R_time_turns_v2의 띠에 없다. 이미 '다음 정리 1(전제 1 결론)'의 후보와 같은 갈래. 계산기('다른 일' 10–20분)도 빗나감"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 22, sum_s = 129.7, turn_s = 1.3, out_chars = 0.0, ctx_k = 135.5 }
+"Bash:grep" = { n = 7, sum_s = 31.8, turn_s = 1.8, tool_s = 0.3, out_chars = 260, ctx_k = 136 }
+"Bash:sed" = { n = 7, sum_s = 16.2, turn_s = 2.3, tool_s = 0.2, out_chars = 181, ctx_k = 130 }
+"Bash:cat" = { n = 3, sum_s = 4.1, turn_s = 1.4, tool_s = 0.2, out_chars = 126, ctx_k = 68 }
+"Bash:PYTHONIOENCO" = { n = 3, sum_s = 68.5, turn_s = 4.7, tool_s = 0.8, out_chars = 257, ctx_k = 144 }
+"Bash:ls" = { n = 2, sum_s = 4.1, turn_s = 2.0, tool_s = 0.3, out_chars = 375.0, ctx_k = 102.0 }
+"Read" = { n = 1, sum_s = 1.9, turn_s = 1.9, tool_s = 0.1, out_chars = 127, ctx_k = 71 }
+"Bash:mkdir" = { n = 1, sum_s = 3.1, turn_s = 3.1, tool_s = 0.3, out_chars = 1050, ctx_k = 131 }
+"Bash:python" = { n = 1, sum_s = 8.6, turn_s = 8.6, tool_s = 0.6, out_chars = 429, ctx_k = 147 }
+"Write" = { n = 1, sum_s = 2.3, turn_s = 2.3, tool_s = 0.0, out_chars = 11896, ctx_k = 155 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 2829, ctx_k = 168 }
+
+# 2026-11-03 병합: 브랜치 claude/far-fields-2026-11-03(2026-11-03 먼 분야 경험 논리 세션)의 기록. 그 브랜치에서는 p145·배치 41(메인 + API 배치), p146–p165·배치 42(Opus 서브에이전트 20개)였으나 main이 p145·p146·배치 41·42를 다른 작업에 먼저 써서 p147·배치 43, p148–p167·배치 44로 바꿔 붙임.
+
+[[dispatch]]
+id = "p147"
+project = "proviso"
+batch = 43
 date = 2026-11-03
 task = "메인 자신(클라우드 세션, Opus 5.5) + Claude API 배치: 먼 분야 399개의 경험칙을 Opus 5.5 배치로 생성·검토해 domains/far_fields 논리집으로 넣기(+ Haiku 웹 조사 10개 분야 변환, 연결 실험 설계). 부모 세션(잼민이)이 사용자 위임으로 보낸 일. 하위 에이전트 없음"
 [dispatch.situation]
@@ -11506,9 +12175,9 @@ hypotheses = []
 skip = "메인 자신의 일이라 하위 에이전트 로그가 없다"
 
 [[dispatch]]
-id = "p146"
+id = "p148"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 1차례): 먼 분야 20개(sea2_01–sea2_20, 해삼 잠수 채취(머구리) 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -11566,9 +12235,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p147"
+id = "p149"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 1차례): 먼 분야 20개(sea2_21–river2_15, 유인 잠수정 조종 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -11626,9 +12295,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p148"
+id = "p150"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 1차례): 먼 분야 20개(river2_16–farm2_10, 민물새우 양식 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -11687,9 +12356,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p149"
+id = "p151"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 1차례): 먼 분야 20개(farm2_11–forest2_05, 콩 타작 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -11748,9 +12417,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p150"
+id = "p152"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 1차례): 먼 분야 20개(forest2_06–forest2_25, 산양삼 재배 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -11809,9 +12478,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p151"
+id = "p153"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 1차례): 먼 분야 20개(sky2_01–sky2_20, 열기구 조종 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -11869,9 +12538,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p152"
+id = "p154"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 1차례): 먼 분야 20개(sky2_21–under2_15, 산악 구조 헬기 호이스트 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -11929,9 +12598,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p153"
+id = "p155"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 1차례): 먼 분야 20개(under2_16–fire2_10, 갱내 광차 운반 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -11991,9 +12660,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p154"
+id = "p156"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 1차례): 먼 분야 20개(fire2_11–craft2_05, 불쇼 공연 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -12052,9 +12721,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p155"
+id = "p157"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 1차례): 먼 분야 20개(craft2_06–craft2_25, 모시 짜기 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -12112,9 +12781,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p156"
+id = "p158"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 2차례): 먼 분야 20개(food2_01–food2_20, 간장 달이기 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -12175,9 +12844,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p157"
+id = "p159"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 2차례): 먼 분야 20개(food2_21–animal2_15, 숯불 고깃집 굽기 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -12237,9 +12906,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p158"
+id = "p160"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 2차례): 먼 분야 20개(animal2_16–people2_10, 토끼 사육 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -12299,9 +12968,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p159"
+id = "p161"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 2차례): 먼 분야 20개(people2_11–rite2_05, 네일아트 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -12362,9 +13031,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p160"
+id = "p162"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 2차례): 먼 분야 20개(rite2_06–rite2_25, 장승 깎기 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -12426,9 +13095,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p161"
+id = "p163"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 2차례): 먼 분야 20개(stage2_01–stage2_20, 뮤지컬 앙상블 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -12491,9 +13160,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p162"
+id = "p164"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 2차례): 먼 분야 20개(stage2_21–machine2_15, 어쿠스틱 기타 제작 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -12552,9 +13221,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p163"
+id = "p165"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 2차례): 먼 분야 20개(machine2_16–build2_10, 송전선 활선 작업 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -12614,9 +13283,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p164"
+id = "p166"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 2차례): 먼 분야 20개(build2_11–sport2_05, 몰딩 목공 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]
@@ -12676,9 +13345,9 @@ hypotheses = []
 
 
 [[dispatch]]
-id = "p165"
+id = "p167"
 project = "proviso"
-batch = 42
+batch = 44
 date = 2026-11-03
 task = "생성(far_fields 2차, 2차례): 먼 분야 20개(sport2_06–sport2_25, 선발 투수 운영 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
 [dispatch.situation]

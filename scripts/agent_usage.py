@@ -17,6 +17,11 @@ batman 저장소의 scripts/agent_usage.py를 가져와 고쳤다 (2026-10-14):
 (domains/agent_usage/CLAUDE.md "전제 1"). 동작 종류는 도구 이름이고 Bash는 명령의 첫 낱말만 본다. 명령 본문·글은 출력하지 않는다.
   --turns --toml   같은 숫자를 dispatches.toml 기록 끝에 그대로 붙일 [dispatch.turns] 블록으로 (2026-11-02: 2026-11-03부터 끝난 기록은 필수)
   --after 시각     이 시각 뒤의 턴만 (이어 보낸 회차를 앞 회차와 가른다). ISO 시각 또는 HH:MM:SS(UTC, 기록 첫날)
+--rounds (2026-11-03): 회차 경계(지시가 들어온 시각마다)와 회차마다 시작·끝·응답 줄 수. 이어 보낸 회차는 여기 나온 그 회차의
+  시작 시각을 --after에 주고 --actual·--turns --toml을 돌린다(앞 회차 기록에 끝 시각이 없어도 된다).
+--actual (2026-11-03): 실측을 dispatches.toml의 [dispatch.actual] 줄로(분·턴·토큰 + 시작·끝 시각 start/end, UTC ISO).
+  이어 보낸 회차는 --after <앞 회차 끝 시각>을 같이 주면 그 회차만 센다(시작 시각도 그 회차의 첫 줄).
+  시작·끝 시각은 빗댄 기록 규칙이 '보낼 때 이미 끝나 있던 기록'을 가르는 데 쓴다(2026-11-04부터 끝난 기록에 필수).
 """
 import argparse
 import collections
@@ -42,7 +47,20 @@ def meta_description(path):
         return None
 
 
-def summarize(path):
+def summarize(path, after=None):
+    """after(시각)가 있으면 그 뒤의 줄만 센다 — 이어 보낸 회차를 앞 회차와 가른다(시작 시각도 그 회차의 첫 줄)."""
+    cut = None
+    if after:
+        with open(path, encoding="utf-8", errors="replace") as f:
+            for line in f:
+                try:
+                    d0 = json.loads(line)
+                except Exception:
+                    continue
+                ts0 = parse_ts(d0.get("timestamp", "")) if isinstance(d0, dict) and d0.get("timestamp") else None
+                if ts0:
+                    cut = _after_ts(after, ts0)
+                    break
     usage = collections.Counter()
     tools = collections.Counter()
     turns = 0
@@ -61,6 +79,8 @@ def summarize(path):
             if not isinstance(d, dict):
                 continue
             ts = parse_ts(d.get("timestamp", "")) if d.get("timestamp") else None
+            if cut and (ts is None or ts < cut):
+                continue
             if ts:
                 first = first or ts
                 last = ts
@@ -96,6 +116,8 @@ def summarize(path):
         "description": meta_description(path),
         "start": first.strftime("%H:%M:%S") if first else "-",
         "end": last.strftime("%H:%M:%S") if last else "-",
+        "start_iso": first.astimezone(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ") if first else None,
+        "end_iso": last.astimezone(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ") if last else None,
         "duration_min": round(dur.total_seconds() / 60, 1) if dur else None,
         "turns": turns,
         "tool_calls": sum(tools.values()),
@@ -178,6 +200,32 @@ def turn_rows(path, after=None):
     return rows
 
 
+def rounds(path):
+    """회차 경계: 사람(또는 메인)이 보낸 지시(도구 결과가 아닌 user 줄)마다 새 회차. [(시작, 끝, 응답 줄 수)] (UTC)."""
+    out = []
+    with open(path, encoding="utf-8", errors="replace") as f:
+        for line in f:
+            try:
+                d = json.loads(line)
+            except Exception:
+                continue
+            if not isinstance(d, dict) or not isinstance(d.get("message"), dict):
+                continue
+            ts = parse_ts(d.get("timestamp", "")) if d.get("timestamp") else None
+            if not ts:
+                continue
+            content = d["message"].get("content")
+            is_instruction = d.get("type") == "user" and (
+                isinstance(content, str) or (isinstance(content, list) and any(
+                    isinstance(b, dict) and b.get("type") == "text" for b in content)
+                    and not any(isinstance(b, dict) and b.get("type") == "tool_result" for b in content)))
+            if not out or (is_instruction and out[-1][2] > 0):  # 답한 뒤에 들어온 지시만 새 회차(첫 지시에 붙는 안내 줄은 같은 회차)
+                out.append([ts, ts, 0])
+            out[-1][1] = ts
+            out[-1][2] += d.get("type") == "assistant"
+    return [(s, e, n) for s, e, n in out]
+
+
 def _median(xs):
     xs = sorted(x for x in xs if x is not None)
     return None if not xs else (xs[len(xs) // 2] if len(xs) % 2 else (xs[len(xs) // 2 - 1] + xs[len(xs) // 2]) / 2)
@@ -231,6 +279,10 @@ def main(argv=None):
     ap.add_argument("--turns", action="store_true", help="턴마다 동작·길이·맥락을 뽑아 동작 종류별 중앙값 표로 (전제 1 시험)")
     ap.add_argument("--toml", action="store_true", help="--turns 결과를 dispatches.toml에 붙일 [dispatch.turns] 블록으로")
     ap.add_argument("--after", help="이 시각 뒤의 턴만 (이어 보낸 회차). ISO 시각 또는 HH:MM:SS(UTC)")
+    ap.add_argument("--rounds", action="store_true",
+                    help="회차 경계(지시가 들어온 시각마다)를 보여 준다 — 이어 보낸 회차의 --after에 그 회차 시작 시각을 준다")
+    ap.add_argument("--actual", action="store_true",
+                    help="dispatches.toml에 붙일 [dispatch.actual] 줄로 (시작·끝 시각 칸 포함, 2026-11-04부터 필수)")
     a = ap.parse_args(argv)
     labels = dict(l.split("=", 1) for l in a.label)
     files = []
@@ -238,10 +290,18 @@ def main(argv=None):
         files.extend(glob.glob(p) or ([p] if os.path.isfile(p) else []))
     rows = []
     for p in sorted(set(files)):
-        s = summarize(p)
+        s = summarize(p, a.after)
         s["name"] = next((v for k, v in labels.items() if s["file"].startswith(k)), None) \
             or s["description"] or s["file"][:15]
         rows.append(s)
+    if a.rounds:
+        iso = lambda x: x.astimezone(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        for p in sorted(set(files)):
+            print(f"# {meta_description(p) or os.path.basename(p)[:15]}")
+            for i, (s, e, n) in enumerate(rounds(p), 1):
+                print(f"회차 {i}: {iso(s)} → {iso(e)} · {round((e - s).total_seconds() / 60, 1)}분 · 응답 줄 {n}"
+                      + (f"   (이 회차만: --after {iso(s)})" if i > 1 else ""))
+        return
     if a.turns:
         for p in sorted(set(files)):
             rows = turn_rows(p, a.after)
@@ -251,6 +311,13 @@ def main(argv=None):
             else:
                 print(f"### {name} — 턴 {len(rows)}")
                 print(turn_table(rows))
+        return
+    if a.actual:
+        for s in rows:
+            print(f"# {s['name']}\n[dispatch.actual]\nstatus = \"done\"\n"
+                  f"minutes = {s['duration_min']}  # 기록의 첫 시각 → 끝 시각. 이어 보낸 회차는 알림의 실행 시간으로 고친다\n"
+                  f"turns = {s['turns']}\ntokens_m = {total(s) / 1e6:.2f}  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)\n"
+                  f"start = \"{s['start_iso']}\"\nend = \"{s['end_iso']}\"\n")
         return
     if a.md:
         print("| 에이전트 | 시작 | 끝 | 실제 분 | 응답 수 | 도구 호출 | 캐시 생성 | 캐시 읽기 | 입력 | 출력(추정) | 합계 |")

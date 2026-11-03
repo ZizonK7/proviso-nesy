@@ -7,6 +7,7 @@
 """
 from __future__ import annotations
 
+import math
 import re
 import sys
 import tomllib
@@ -27,13 +28,25 @@ TOKEN_CLASSES = ("T1", "T2", "T3", "T4")
 SITUATION_VALUES = ("예", "아니오", "일부", "모름")
 STATUSES = ("done", "stopped", "unknown")
 # 돌아보기의 '틀린 조각' 갈래: 조건 흐림 → 쪼갠다 / 이유 틀림 → 새 버전 / 바깥 상황 → 예외
-WHY = ("조건 흐림", "이유 틀림", "바깥 상황")
+# / 까닭 모름 → 고치지 않고 쌓아 두고 사용자에게 넘긴다 (2026-11-03 사용자 결정. 까닭: 칸이 셋뿐이면 흔들림에도 까닭을
+#   지어 붙이게 된다 — p09는 '일찍 끝남' 칸이 없어 형식상 '조건 흐림'을 적었다). 까닭 모름이면 review.wrong은 비워도 된다
+UNKNOWN_WHY = "까닭 모름"
+WHY = ("조건 흐림", "이유 틀림", "바깥 상황", UNKNOWN_WHY)
 # 이 기록 다음부터(파일 순서) 시간 구간이 빗나가면 review.wrong·review.why가 필수다 (2026-10-19 결정 뒤의 기록)
 WRONG_REQUIRED_AFTER = "p03"
 # 이 날짜부터 끝난 기록은 턴 길이 표([dispatch.turns])와 보고서 경로(review.report)가 필수다 (2026-11-02 사용자 결정).
 # 까닭: 문서에만 적힌 단계는 빠졌다 — p65 이후 세션 안 하위 에이전트 53건 중 --turns 4건. 검사가 막는 단계(review.wrong)는 72/73.
 # 번호가 아니라 날짜로 자른다: 브랜치를 합치며 번호를 다시 매겨도 지난 기록이 걸리지 않게.
 FORM_REQUIRED_FROM = "2026-11-03"
+# 이 날짜부터 끝난 기록은 실측의 시작·끝 시각(actual.start/end, UTC ISO)과 에이전트·회차(agent, round)가 필수다 (2026-11-03 사용자 결정).
+# 까닭: 빗댄 기록 규칙이 '보낼 때 이미 끝나 있던 기록'과 '같은 에이전트의 앞 회차'를 정확히 가르려면 필요하다
+# (2026-11-03 시험에서 규칙이 틀린 5건 중 3건이 시각이 없어 같은 배치의 앞 회차를 못 쓴 것).
+TIMES_REQUIRED_FROM = "2026-11-04"
+ISO_UTC = re.compile(r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$")
+# 일의 크기 (2026-11-03 사용자 결정, CLAUDE.md '일의 크기 모델'): 지시서에서 센 수. 기록의 size = { 이름 = 수 } (모르면 칸을 뺀다)
+#   reads 읽을 것 · outputs 만들 것 · chunks 쓸 덩어리(절·단계) · edits 고칠 곳 · checks 확인 횟수 · find_cap 찾는 일의 상한(글, 예 "25 원문")
+SIZE_COUNTS = ("reads", "outputs", "chunks", "edits", "checks")
+SIZE_TEXT = ("find_cap",)
 ROOT = HERE.parent.parent
 # 다른 저장소의 보고서는 "저장소:경로"로 적는다 (예: "movie_game:docs/worklog/2026-11-03-x.md")
 OTHER_REPO = re.compile(r"^[\w.-]+:(?!/)")
@@ -45,6 +58,18 @@ def zone(minutes: float) -> str:
         if minutes <= upper:
             return name
     return ZONES[-1]
+
+
+def say_zone(bounds: list[float]) -> str | None:
+    """사용자에게 말할 구간 (R_say_numbers_v3, 2026-11-03 사용자 결정): 예측 분 범위의 가운데 값(√(하한×상한))이 든 구간.
+    6–15분 → 가운데 9.5분 → 잠깐. 하나만 있는 열린 범위('이상')는 가운데가 없어 예전처럼 덮는 구간 중 긴 쪽.
+    2026-11-03 전에는 걸치면 긴 쪽이었다(R_say_numbers_v2) — 지난 기록의 predicted.told는 그때 말한 그대로 둔다."""
+    zs = zones_of(bounds)
+    if not zs:
+        return None
+    if len(bounds) < 2:
+        return zs[-1]
+    return zone(math.sqrt(max(bounds[0], 0) * bounds[1]))
 
 
 def zones_of(bounds: list[float]) -> list[str]:
@@ -140,6 +165,21 @@ def wrong_required(records: list[dict], d: dict) -> bool:
     return zone_verdict(d) not in (None, "맞음")
 
 
+AGENT_LOG = ROOT / "docs" / "AGENT-LOG.md"
+BATCH_HEAD = re.compile(r"^## 배치 (\d+)(?:\s*[–-]\s*(\d+))?", re.M)
+
+
+def logged_batches(path: Path = AGENT_LOG) -> set[int]:
+    """docs/AGENT-LOG.md의 배치 머리('## 배치 N' 또는 '## 배치 N–M')에 적힌 배치 번호."""
+    if not path.is_file():
+        return set()
+    out = set()
+    for m in BATCH_HEAD.finditer(path.read_text(encoding="utf-8")):
+        lo = int(m.group(1))
+        out.update(range(lo, int(m.group(2) or lo) + 1))
+    return out
+
+
 def form_required(d: dict) -> bool:
     """FORM_REQUIRED_FROM 뒤의 끝난(실측이 있는) 기록인가 — 그러면 turns 칸과 review.report가 필수."""
     return done(d) and "minutes" in d.get("actual", {}) and str(d.get("date", "")) >= FORM_REQUIRED_FROM
@@ -158,6 +198,36 @@ def form_errors(d: dict, root: Path = ROOT) -> list[str]:
             errors.append(f"{did}: turns.skip은 못 잰 이유 문장 하나만 (표와 함께 쓰지 않는다)")
     elif not turns or not all(isinstance(v, dict) and isinstance(v.get("n"), int) and v["n"] > 0 for v in turns.values()):
         errors.append(f"{did}: turns는 동작마다 {{ n = 턴 수, ... }} 모양이어야 함 (agent_usage.py --turns --toml 출력)")
+    act = d.get("actual", {})
+    need = done(d) and "minutes" in act and str(d.get("date", "")) >= TIMES_REQUIRED_FROM
+    if "time_skip" in act:
+        if not (isinstance(act["time_skip"], str) and act["time_skip"].strip()):
+            errors.append(f"{did}: actual.time_skip은 시각을 못 적은 이유 문장이어야 함")
+    else:
+        for k in ("start", "end"):
+            if k in act and not (isinstance(act[k], str) and ISO_UTC.match(act[k])):
+                errors.append(f"{did}: actual.{k}는 UTC ISO 시각이어야 함 (예: \"2026-11-04T05:24:13Z\", agent_usage.py --actual)")
+            elif k not in act and need:
+                errors.append(f"{did}: actual.{k}(시작·끝 시각)가 없음 — `python scripts/agent_usage.py <로그> --actual` 출력을 쓰거나, "
+                              f"못 재면 actual.time_skip = \"이유\"")
+        if isinstance(act.get("start"), str) and isinstance(act.get("end"), str) and act["start"] > act["end"]:
+            errors.append(f"{did}: actual.start가 end보다 늦음")
+    agent, rnd = d.get("agent"), d.get("round")
+    if agent is not None and not (isinstance(agent, str) and agent.strip()):
+        errors.append(f"{did}: agent는 같은 에이전트를 가리키는 이름이어야 함 (회차마다 같은 이름)")
+    if rnd is not None and (isinstance(rnd, bool) or not isinstance(rnd, int) or rnd < 1):
+        errors.append(f"{did}: round는 1 이상의 정수여야 함 (처음 보낸 회차 = 1)")
+    if need and (agent is None or rnd is None):
+        errors.append(f"{did}: agent(같은 에이전트 이름)와 round(몇 번째 회차, 처음 = 1)가 없음")
+    if isinstance(rnd, int) and d.get("situation", {}).get("S_resumed") == "예" and rnd < 2:
+        errors.append(f"{did}: 이어 보낸 회차(S_resumed = 예)인데 round가 2보다 작음")
+    if need and d.get("project") != "batman" and isinstance(d.get("batch"), int) and d["batch"] not in logged_batches(root / "docs" / "AGENT-LOG.md"):
+        errors.append(f"{did}: 배치 {d['batch']} 줄이 docs/AGENT-LOG.md에 없음 — '## 배치 {d['batch']} · 날짜 · 주제' 머리와 표 한 줄"
+                      f"(모델·effort·품질 1–5·메모)과 교훈 (batman 기록은 batman 쪽 AGENT-LOG)")
+    if (need and isinstance(turns, dict) and "skip" in turns and isinstance(rnd, int) and rnd >= 2
+            and d.get("situation", {}).get("S_cloud_session") != "예"):
+        errors.append(f"{did}: 이어 보낸 회차의 턴 길이 표는 skip하지 않는다 — `agent_usage.py <로그> --rounds`로 이 회차 시작 시각을 보고 "
+                      f"`--turns --toml --after <그 시각>`")
     rep = d.get("review", {}).get("report")
     if rep is None:
         if form_required(d):
@@ -212,8 +282,23 @@ def validate(records: list[dict], kn: schema.Knowledge) -> list[str]:
             expect(did, wid, ("rule", "hypothesis", "state"))
         if "why" in review and review["why"] not in WHY:
             errors.append(f"{did}: review.why는 {WHY} 중 하나여야 함")
-        if wrong_required(records, d) and not (review.get("wrong") and review.get("why")):
-            errors.append(f"{did}: 시간 구간이 빗나갔는데 review.wrong(틀린 조각 id)과 review.why({'/'.join(WHY)})가 없음")
+        if wrong_required(records, d) and not (review.get("why") and (review.get("wrong") or review["why"] == UNKNOWN_WHY)):
+            errors.append(f"{did}: 시간 구간이 빗나갔는데 review.wrong(틀린 조각 id)과 review.why({'/'.join(WHY)})가 없음"
+                          f" (까닭을 못 찾았으면 why = \"{UNKNOWN_WHY}\", 이때 wrong은 비워도 된다)")
+        size = d.get("size")
+        if size is not None:
+            if not isinstance(size, dict):
+                errors.append(f"{did}: size는 {{ 이름 = 수 }} 표여야 함")
+            else:
+                for k, v in size.items():
+                    if k in SIZE_COUNTS:
+                        if isinstance(v, bool) or not isinstance(v, (int, float)) or v < 0:
+                            errors.append(f"{did}: size.{k}는 0 이상의 수여야 함 (모르면 칸을 뺀다)")
+                    elif k in SIZE_TEXT:
+                        if not isinstance(v, str):
+                            errors.append(f"{did}: size.{k}는 글이어야 함 (예: \"25 원문\")")
+                    else:
+                        errors.append(f"{did}: size의 칸 '{k}'는 {SIZE_COUNTS + SIZE_TEXT} 중 하나여야 함")
         status = d.get("actual", {}).get("status", "done")
         if status not in STATUSES:
             errors.append(f"{did}: actual.status는 {STATUSES} 중 하나여야 함")
@@ -297,6 +382,13 @@ def hand_vs_calc(records: list[dict]) -> dict:
     return out
 
 
+def for_user(records: list[dict]) -> list[str]:
+    """돌아보기에서 까닭을 못 찾은(why = 까닭 모름) 기록 중 사용자의 답(review.user)이 아직 없는 것.
+    사용자에게 넘긴다(2026-11-03 사용자 결정: 이 분야는 사용자가 판정하지 않지만, 까닭 모름만은 넘긴다)."""
+    return [d["id"] for d in records
+            if d.get("review", {}).get("why") == UNKNOWN_WHY and not d["review"].get("user")]
+
+
 def report(records: list[dict]) -> str:
     """예측·실측 비교표와 맞음/빗나감 집계. 시간은 세 마디 구간으로 (분 숫자로 다시 채점)."""
     head = ("| id | 배치 | 예측 분 | 예측 구간 | 말한 구간 | 실제 | 판정 | 예측 토큰 | 실제 | 판정 | 턴 | 분당 토큰 | 턴당 맥락 |\n"
@@ -333,7 +425,7 @@ def report(records: list[dict]) -> str:
     span = r["걸침"]
     lines.append(f"  걸침(두 구간 이상): {sum(span.values())}건 — 실제 낙하: "
                  + (", ".join(f"{k} {span[k]}" for k in ("짧은 쪽", "가운데", "긴 쪽", "밖") if span[k]) or "없음")
-                 + " (긴 쪽으로 말했다면 맞은 것은 '긴 쪽')")
+                 + " (2026-11-03 전에는 걸치면 긴 쪽으로 말했다 — 그때 맞은 것은 '긴 쪽'. 지금은 가운데 값의 구간, R_say_numbers_v3)")
     lines.append(f"  분 범위가 없어 뺀 기록 {len(r['분 범위 없음'])}건: {', '.join(r['분 범위 없음']) or '없음'}")
     lines.append(f"  말한 구간(predicted.told)이 있는 끝난 기록: {sum(r['말한 구간'].values())}건"
                  + (f" — 맞음 {r['말한 구간']['맞음']}, 빗나감 {r['말한 구간']['빗나감']}" if r["말한 구간"] else ""))
@@ -341,6 +433,8 @@ def report(records: list[dict]) -> str:
     lines.append(f"손 예측 vs 계산기 (보내기 전에 둘 다 적은 끝난 기록 {sum(hv.values())}건, 말한 구간 기준): "
                  + (", ".join(f"{k} {hv[k]}" for k in ("둘 다 맞음", "손만 맞음", "계산기만 맞음", "둘 다 틀림") if hv[k]) or "아직 없음")
                  + " · 지난 기록 홀드아웃(뒤 절반 61건): 손 62 %, 계산기 51 % (holdout)")
+    asks = for_user(records)
+    lines.append(f"사용자에게 넘길 것 (까닭 모름, 답 아직 없음): {', '.join(asks) if asks else '없음'}")
     lines.append(f"분 범위 적중(숫자 그대로): 맞음 {r['분 범위']['맞음']}, 빗나감 {r['분 범위']['빗나감']}")
     miss = r["분 빗나감"]
     lines.append("분 빗나감의 갈래 (턴 범위가 맞았으면 속도 조각 탓, 틀렸으면 양 조각 탓):")

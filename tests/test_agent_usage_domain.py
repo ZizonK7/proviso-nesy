@@ -61,6 +61,16 @@ class Classes(unittest.TestCase):
         self.assertEqual(dp.zones_of([90]), ["신경 끄기"])  # 하나만 있으면 '이상'
         self.assertEqual(dp.zones_of([]), [])
 
+    def test_say_the_zone_of_the_middle_value(self):
+        # 2026-11-03 사용자 결정(R_say_numbers_v3): 걸치면 범위의 가운데 값(√(하한×상한))이 든 구간으로 말한다
+        self.assertEqual(dp.say_zone([6, 15]), "잠깐")      # 가운데 9.5분 (p145: 긴 쪽 '다른 일'로 말했는데 7.4분)
+        self.assertEqual(dp.say_zone([8, 18]), "다른 일")   # 가운데 12분
+        self.assertEqual(dp.say_zone([30, 55]), "신경 끄기")  # 가운데 40.6분
+        self.assertEqual(dp.say_zone([5, 50]), "다른 일")   # 세 구간에 걸쳐도 가운데 15.8분
+        self.assertEqual(dp.say_zone([5, 9]), "잠깐")       # 걸치지 않으면 그 구간
+        self.assertEqual(dp.say_zone([90]), "신경 끄기")    # 열린 범위('이상')는 가운데가 없어 긴 쪽
+        self.assertIsNone(dp.say_zone([]))
+
     def test_judge_range_and_direction(self):
         self.assertEqual(dp.judge(["다른 일", "신경 끄기"], "신경 끄기", dp.ZONES), "맞음")
         self.assertEqual(dp.judge(["잠깐"], "신경 끄기", dp.ZONES), "낮게 잡음")
@@ -108,8 +118,47 @@ class Rescore20261019(unittest.TestCase):
         self.assertEqual(dp.validate(records + [late], kn), [])
         late["review"]["why"] = "몰라"
         self.assertTrue(any("review.why" in e for e in dp.validate(records + [late], kn)))
+        # 2026-11-03 사용자 결정: 까닭을 못 찾으면 '까닭 모름' — 틀린 조각을 몰라도 되고, 사용자에게 넘길 목록에 뜬다
+        late["review"] = {"why": "까닭 모름"}
+        self.assertEqual(dp.validate(records + [late], kn), [])
+        self.assertIn("zz1", dp.for_user(records + [late]))
+        late["review"]["user"] = "사용자 답"
+        self.assertNotIn("zz1", dp.for_user(records + [late]))
+        # 다른 까닭은 여전히 틀린 조각이 있어야 한다
+        late["review"] = {"why": "조건 흐림"}
+        self.assertTrue(any("zz1" in e and "review.wrong" in e for e in dp.validate(records + [late], kn)))
         # 지난 기록(p03까지)은 빗나가도 요구하지 않는다: p01은 구간을 빗나갔지만 오류가 없다
         self.assertEqual(dp.zone_verdict({d["id"]: d for d in records}["p01"]), "높게 잡음")
+        self.assertEqual(dp.validate(records, kn), [])
+
+    def test_records_from_nov_4_need_times_and_agent_round(self):
+        # 2026-11-03 사용자 결정: 빗댄 기록 규칙이 '보낼 때 끝나 있던 기록'과 '같은 에이전트의 앞 회차'를 가르려면 필요하다
+        kn = schema.load(KN)
+        records = dp.load()
+        new = {"id": "zz3", "project": "proviso", "batch": 41, "date": "2026-11-04", "task": "t",
+               "predicted": {"minutes": [5, 9], "told": "잠깐"}, "actual": {"minutes": 6, "turns": 10},
+               "turns": {"글": {"n": 7, "sum_s": 20.0, "turn_s": 2.5}}, "review": {"report": "docs/worklog/CLAUDE.md"}}
+        errors = dp.validate(records + [new], kn)
+        self.assertTrue(any("zz3" in e and "actual.start" in e for e in errors))
+        self.assertTrue(any("zz3" in e and "agent" in e for e in errors))
+        new["actual"].update(start="2026-11-04T01:00:00Z", end="2026-11-04T01:06:00Z")
+        new.update(agent="작성", round=1)
+        self.assertEqual(dp.validate(records + [new], kn), [])
+        new["actual"]["start"] = "01:00:00"
+        self.assertTrue(any("UTC ISO" in e for e in dp.validate(records + [new], kn)))
+        new["actual"] = {"minutes": 6, "turns": 10, "time_skip": "클라우드 세션이라 대화 기록이 없음"}
+        self.assertEqual(dp.validate(records + [new], kn), [])
+        new["situation"] = {"S_resumed": "예"}
+        self.assertTrue(any("round" in e for e in dp.validate(records + [new], kn)))
+        # 배치 줄이 AGENT-LOG에 없으면 막는다(batman 기록은 batman 쪽이라 뺀다)
+        new["situation"] = {}
+        new["batch"] = 999
+        self.assertTrue(any("배치 999" in e for e in dp.validate(records + [new], kn)))
+        self.assertEqual([e for e in dp.validate(records + [{**new, "project": "batman"}], kn) if "배치 999" in e], [])
+        # 이어 보낸 회차(round ≥ 2)의 턴 길이 표는 skip하지 않는다 — --rounds로 그 회차를 가른다
+        new.update(batch=41, round=2, situation={"S_resumed": "예"}, turns={"skip": "같은 에이전트에 이어 보내 로그가 누적"})
+        self.assertTrue(any("skip하지 않는다" in e for e in dp.validate(records + [new], kn)))
+        # 11-03까지의 기록은 요구하지 않는다
         self.assertEqual(dp.validate(records, kn), [])
 
     def test_records_from_nov_3_need_turn_table_and_report(self):

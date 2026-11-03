@@ -17,7 +17,7 @@
 - `python -m proviso validate far_fields` → 문제 없음 (목표 3, 상태 36, 가설 4925, 판정 4925).
 - `python -m proviso audit far_fields` → 오류 0, 경고 13(분야 낱말 새는 것). 시험 수단 없음 0.
 - `python -m unittest discover -s tests -t .` → 114개 통과.
-- `python -m domains.agent_usage.dispatches` → p145 문제 없음.
+- `python -m domains.agent_usage.dispatches` → p147(브랜치에서는 p145) 문제 없음.
 - `grep -l sk-ant out/far_fields/*` → 없음. 저장한 응답·커밋 파일에 키 없음.
 - 비용: `python -m domains.far_fields.generate cost <이름> [--batch]`로 usage 합 → 합계 $55.47 (CLAUDE.md 표).
 

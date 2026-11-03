@@ -61,4 +61,4 @@
 ## 다른 폴더와의 관계
 - 루트 `CLAUDE.md` 분야 표·'다음 할 일 3(일반 지식 넣기)'.
 - 원 자료: Haiku 조사 [ZizonK7/gemmin](https://github.com/ZizonK7/gemmin) 브랜치 `claude/laughing-curie-rrb9ap`, `docs/research/2026-11-03-domain-heuristics/`.
-- 경위 기록: [docs/worklog/2026-11-03-far-fields.md](../../docs/worklog/2026-11-03-far-fields.md), 예측·실측 `domains/agent_usage/dispatches.toml` p145.
+- 경위 기록: [docs/worklog/2026-11-03-far-fields.md](../../docs/worklog/2026-11-03-far-fields.md), 예측·실측 `domains/agent_usage/dispatches.toml` p147(1차)·p148–p167(2차).
