@@ -108,6 +108,15 @@ class Rescore20261019(unittest.TestCase):
         self.assertEqual(dp.validate(records + [late], kn), [])
         late["review"]["why"] = "몰라"
         self.assertTrue(any("review.why" in e for e in dp.validate(records + [late], kn)))
+        # 2026-11-03 사용자 결정: 까닭을 못 찾으면 '까닭 모름' — 틀린 조각을 몰라도 되고, 사용자에게 넘길 목록에 뜬다
+        late["review"] = {"why": "까닭 모름"}
+        self.assertEqual(dp.validate(records + [late], kn), [])
+        self.assertIn("zz1", dp.for_user(records + [late]))
+        late["review"]["user"] = "사용자 답"
+        self.assertNotIn("zz1", dp.for_user(records + [late]))
+        # 다른 까닭은 여전히 틀린 조각이 있어야 한다
+        late["review"] = {"why": "조건 흐림"}
+        self.assertTrue(any("zz1" in e and "review.wrong" in e for e in dp.validate(records + [late], kn)))
         # 지난 기록(p03까지)은 빗나가도 요구하지 않는다: p01은 구간을 빗나갔지만 오류가 없다
         self.assertEqual(dp.zone_verdict({d["id"]: d for d in records}["p01"]), "높게 잡음")
         self.assertEqual(dp.validate(records, kn), [])

@@ -27,7 +27,10 @@ TOKEN_CLASSES = ("T1", "T2", "T3", "T4")
 SITUATION_VALUES = ("예", "아니오", "일부", "모름")
 STATUSES = ("done", "stopped", "unknown")
 # 돌아보기의 '틀린 조각' 갈래: 조건 흐림 → 쪼갠다 / 이유 틀림 → 새 버전 / 바깥 상황 → 예외
-WHY = ("조건 흐림", "이유 틀림", "바깥 상황")
+# / 까닭 모름 → 고치지 않고 쌓아 두고 사용자에게 넘긴다 (2026-11-03 사용자 결정. 까닭: 칸이 셋뿐이면 흔들림에도 까닭을
+#   지어 붙이게 된다 — p09는 '일찍 끝남' 칸이 없어 형식상 '조건 흐림'을 적었다). 까닭 모름이면 review.wrong은 비워도 된다
+UNKNOWN_WHY = "까닭 모름"
+WHY = ("조건 흐림", "이유 틀림", "바깥 상황", UNKNOWN_WHY)
 # 이 기록 다음부터(파일 순서) 시간 구간이 빗나가면 review.wrong·review.why가 필수다 (2026-10-19 결정 뒤의 기록)
 WRONG_REQUIRED_AFTER = "p03"
 # 이 날짜부터 끝난 기록은 턴 길이 표([dispatch.turns])와 보고서 경로(review.report)가 필수다 (2026-11-02 사용자 결정).
@@ -212,8 +215,9 @@ def validate(records: list[dict], kn: schema.Knowledge) -> list[str]:
             expect(did, wid, ("rule", "hypothesis", "state"))
         if "why" in review and review["why"] not in WHY:
             errors.append(f"{did}: review.why는 {WHY} 중 하나여야 함")
-        if wrong_required(records, d) and not (review.get("wrong") and review.get("why")):
-            errors.append(f"{did}: 시간 구간이 빗나갔는데 review.wrong(틀린 조각 id)과 review.why({'/'.join(WHY)})가 없음")
+        if wrong_required(records, d) and not (review.get("why") and (review.get("wrong") or review["why"] == UNKNOWN_WHY)):
+            errors.append(f"{did}: 시간 구간이 빗나갔는데 review.wrong(틀린 조각 id)과 review.why({'/'.join(WHY)})가 없음"
+                          f" (까닭을 못 찾았으면 why = \"{UNKNOWN_WHY}\", 이때 wrong은 비워도 된다)")
         status = d.get("actual", {}).get("status", "done")
         if status not in STATUSES:
             errors.append(f"{did}: actual.status는 {STATUSES} 중 하나여야 함")
@@ -297,6 +301,13 @@ def hand_vs_calc(records: list[dict]) -> dict:
     return out
 
 
+def for_user(records: list[dict]) -> list[str]:
+    """돌아보기에서 까닭을 못 찾은(why = 까닭 모름) 기록 중 사용자의 답(review.user)이 아직 없는 것.
+    사용자에게 넘긴다(2026-11-03 사용자 결정: 이 분야는 사용자가 판정하지 않지만, 까닭 모름만은 넘긴다)."""
+    return [d["id"] for d in records
+            if d.get("review", {}).get("why") == UNKNOWN_WHY and not d["review"].get("user")]
+
+
 def report(records: list[dict]) -> str:
     """예측·실측 비교표와 맞음/빗나감 집계. 시간은 세 마디 구간으로 (분 숫자로 다시 채점)."""
     head = ("| id | 배치 | 예측 분 | 예측 구간 | 말한 구간 | 실제 | 판정 | 예측 토큰 | 실제 | 판정 | 턴 | 분당 토큰 | 턴당 맥락 |\n"
@@ -341,6 +352,8 @@ def report(records: list[dict]) -> str:
     lines.append(f"손 예측 vs 계산기 (보내기 전에 둘 다 적은 끝난 기록 {sum(hv.values())}건, 말한 구간 기준): "
                  + (", ".join(f"{k} {hv[k]}" for k in ("둘 다 맞음", "손만 맞음", "계산기만 맞음", "둘 다 틀림") if hv[k]) or "아직 없음")
                  + " · 지난 기록 홀드아웃(뒤 절반 61건): 손 62 %, 계산기 51 % (holdout)")
+    asks = for_user(records)
+    lines.append(f"사용자에게 넘길 것 (까닭 모름, 답 아직 없음): {', '.join(asks) if asks else '없음'}")
     lines.append(f"분 범위 적중(숫자 그대로): 맞음 {r['분 범위']['맞음']}, 빗나감 {r['분 범위']['빗나감']}")
     miss = r["분 빗나감"]
     lines.append("분 빗나감의 갈래 (턴 범위가 맞았으면 속도 조각 탓, 틀렸으면 양 조각 탓):")
