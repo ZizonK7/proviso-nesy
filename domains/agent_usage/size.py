@@ -133,7 +133,7 @@ def outcome(d: dict, terms: dict, pieces: list[pr.Piece], kn) -> dict:
     m = dp.measures(d)
     t = turns_range(terms, counts(d) or {})
     mins = minutes_range(d, t, pieces, kn) if t else None
-    told = dp.zones_of([round(mins[0], 6), round(mins[1], 6)])[-1] if mins else None
+    told = dp.say_zone([round(mins[0], 6), round(mins[1], 6)]) if mins else None
     zone = dp.zone(m["minutes"])
     return {"told": told, "zone": zone, "told_hit": (told == zone) if told else None,
             "min_hit": dp.in_range(m["minutes"], list(mins)) if mins else None,

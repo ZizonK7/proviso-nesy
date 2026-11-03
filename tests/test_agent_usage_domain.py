@@ -61,6 +61,16 @@ class Classes(unittest.TestCase):
         self.assertEqual(dp.zones_of([90]), ["신경 끄기"])  # 하나만 있으면 '이상'
         self.assertEqual(dp.zones_of([]), [])
 
+    def test_say_the_zone_of_the_middle_value(self):
+        # 2026-11-03 사용자 결정(R_say_numbers_v3): 걸치면 범위의 가운데 값(√(하한×상한))이 든 구간으로 말한다
+        self.assertEqual(dp.say_zone([6, 15]), "잠깐")      # 가운데 9.5분 (p145: 긴 쪽 '다른 일'로 말했는데 7.4분)
+        self.assertEqual(dp.say_zone([8, 18]), "다른 일")   # 가운데 12분
+        self.assertEqual(dp.say_zone([30, 55]), "신경 끄기")  # 가운데 40.6분
+        self.assertEqual(dp.say_zone([5, 50]), "다른 일")   # 세 구간에 걸쳐도 가운데 15.8분
+        self.assertEqual(dp.say_zone([5, 9]), "잠깐")       # 걸치지 않으면 그 구간
+        self.assertEqual(dp.say_zone([90]), "신경 끄기")    # 열린 범위('이상')는 가운데가 없어 긴 쪽
+        self.assertIsNone(dp.say_zone([]))
+
     def test_judge_range_and_direction(self):
         self.assertEqual(dp.judge(["다른 일", "신경 끄기"], "신경 끄기", dp.ZONES), "맞음")
         self.assertEqual(dp.judge(["잠깐"], "신경 끄기", dp.ZONES), "낮게 잡음")

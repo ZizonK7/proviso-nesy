@@ -46,6 +46,8 @@ SEEN_UNTIL = {
     "settled_integration": "d94",
     "build_tools_minutes": "d94",
     "doc_spec_minutes": "d94",
+    # 2026-11-03 사용자 결정(구간 말하기를 가운데 값으로): p145 다음부터 말한 구간을 시험한다
+    "told_zone_v3": "p145",
 }
 NEED = 0.8
 SOURCE = "measured"  # 이 분야의 자동 검사는 실측 기록으로 판정한다 (score.py가 출처로 보여 준다)
@@ -491,8 +493,16 @@ def used_tokens(rule_id: str) -> tuple[str, str]:
     return _used(rule_id, "tokens")
 
 
+def told_zone_v3() -> tuple[str, str]:
+    """R_say_numbers_v3: 걸치면 가운데 값의 구간으로 말하기로 바꾼 뒤(2026-11-03, SEEN_UNTIL p145) 말한 구간이 실제 구간과 맞는다.
+    v2(걸치면 긴 쪽) 시절에 말한 기록은 세지 않는다."""
+    return _judge("told_zone_v3", lambda d: "told" in d.get("predicted", {}),
+                  lambda d: d["predicted"]["told"] == dp.zone(d["actual"]["minutes"]),
+                  lambda d: f"{d['predicted']['told']} → {dp.zone(d['actual']['minutes'])}")
+
+
 def told_zone() -> tuple[str, str]:
-    """R_say_numbers_v2: 사용자에게 말한 구간(predicted.told)이 실제 구간과 맞는다."""
+    """R_say_numbers_v2: 사용자에게 말한 구간(predicted.told)이 실제 구간과 맞는다 (말한 기록 전부 — v2 시절 말하기)."""
     rows = [d for d in dp.load() if dp.done(d) and "told" in d["predicted"]]
     if not rows:
         return "시험 전 (말한 구간을 적은 끝난 기록이 없음)", "  말한 구간: 없음"
@@ -687,6 +697,7 @@ CHECKS = {
     "used_turns": used_turns,
     "used_tokens": used_tokens,
     "told_zone": told_zone,
+    "told_zone_v3": told_zone_v3,
     "piece_direction": piece_direction,
     "piece_size": piece_size,
 }

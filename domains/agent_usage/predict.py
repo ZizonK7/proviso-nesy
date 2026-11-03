@@ -12,7 +12,7 @@
 - 기준값이 여럿 맞으면 조건이 가장 많은(가장 좁은) 것 하나. 기준값이 없으면 지어내지 않고 '모름'.
 - 범위 합치기: 조각마다의 범위를 서로 독립인 불확실성으로 보고 로그 폭을 제곱합 제곱근으로 합친다.
   합친 범위가 분야 상한(max_ratio, 2배)을 넘으면 기하 중심 둘레로 자른다 — 사용자에게는 한 구간을 말해야 한다(장치 G).
-- 말할 구간 = 분 범위의 구간, 두 구간에 걸치면 긴 쪽(R_say_numbers_v2).
+- 말할 구간 = 분 범위의 가운데 값(√(하한×상한))이 든 구간(R_say_numbers_v3, 2026-11-03; 그 전에는 걸치면 긴 쪽, v2).
 - 설명: 근거 → 조각 → 조합 → 숫자. 빼도 말할 구간과 토큰 등급이 안 바뀌는 조각은 설명에서 빼고 '쓴 조각' 목록에만 둔다.
 - 비유 조각(analog = true)은 빗댄 기록(predicted.analog)의 실측을 쓴다. 보내기 전에 적은 빗댄 기록이 있을 때만 쓰고,
   성적은 '비유'로 따로 낸다.
@@ -197,7 +197,7 @@ class Prediction:
         m = self.minutes(skip)
         if not m:
             return None
-        return dp.zones_of([round(m[0][0], 6), round(m[0][1], 6)])[-1]
+        return dp.say_zone([round(m[0][0], 6), round(m[0][1], 6)])
 
     def token_class(self, skip: Effect | None = None) -> str | None:
         t = self.tokens(skip)

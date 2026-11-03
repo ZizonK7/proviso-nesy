@@ -7,6 +7,7 @@
 """
 from __future__ import annotations
 
+import math
 import re
 import sys
 import tomllib
@@ -52,6 +53,18 @@ def zone(minutes: float) -> str:
         if minutes <= upper:
             return name
     return ZONES[-1]
+
+
+def say_zone(bounds: list[float]) -> str | None:
+    """사용자에게 말할 구간 (R_say_numbers_v3, 2026-11-03 사용자 결정): 예측 분 범위의 가운데 값(√(하한×상한))이 든 구간.
+    6–15분 → 가운데 9.5분 → 잠깐. 하나만 있는 열린 범위('이상')는 가운데가 없어 예전처럼 덮는 구간 중 긴 쪽.
+    2026-11-03 전에는 걸치면 긴 쪽이었다(R_say_numbers_v2) — 지난 기록의 predicted.told는 그때 말한 그대로 둔다."""
+    zs = zones_of(bounds)
+    if not zs:
+        return None
+    if len(bounds) < 2:
+        return zs[-1]
+    return zone(math.sqrt(max(bounds[0], 0) * bounds[1]))
 
 
 def zones_of(bounds: list[float]) -> list[str]:
@@ -362,7 +375,7 @@ def report(records: list[dict]) -> str:
     span = r["걸침"]
     lines.append(f"  걸침(두 구간 이상): {sum(span.values())}건 — 실제 낙하: "
                  + (", ".join(f"{k} {span[k]}" for k in ("짧은 쪽", "가운데", "긴 쪽", "밖") if span[k]) or "없음")
-                 + " (긴 쪽으로 말했다면 맞은 것은 '긴 쪽')")
+                 + " (2026-11-03 전에는 걸치면 긴 쪽으로 말했다 — 그때 맞은 것은 '긴 쪽'. 지금은 가운데 값의 구간, R_say_numbers_v3)")
     lines.append(f"  분 범위가 없어 뺀 기록 {len(r['분 범위 없음'])}건: {', '.join(r['분 범위 없음']) or '없음'}")
     lines.append(f"  말한 구간(predicted.told)이 있는 끝난 기록: {sum(r['말한 구간'].values())}건"
                  + (f" — 맞음 {r['말한 구간']['맞음']}, 빗나감 {r['말한 구간']['빗나감']}" if r["말한 구간"] else ""))
