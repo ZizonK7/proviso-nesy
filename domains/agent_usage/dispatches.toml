@@ -21,8 +21,10 @@
 # 칸:
 #   predicted.minutes  [하한, 상한] 분. 하나만 있으면 "이상". 시간 판정은 이 숫자를 세 마디 구간으로 바꿔서 한다
 #                      (잠깐 ≤10분 · 다른 일 10–40분 · 신경 끄기 >40분, 2026-10-19 사용자 결정; dispatches.py가 계산)
-#   predicted.told     사용자에게 말한 구간 (잠깐 / 다른 일 / 신경 끄기). 2026-10-19부터. 범위가 두 구간에 걸치면 긴 쪽(R_say_numbers_v2)
+#   predicted.told     사용자에게 말한 구간 (잠깐 / 다른 일 / 신경 끄기). 2026-10-19부터. 범위가 두 구간에 걸치면 가운데 값(√(하한×상한))이 든 구간
+#                      (R_say_numbers_v3, 2026-11-03부터 — 그 전에는 긴 쪽, v2. 지난 기록의 told와 rules는 그때 것 그대로다)
 #   calc.told / calc.minutes  보내기 전에 돌린 계산기의 말할 구간과 분 범위 (2026-10-19 사용자 결정: 손 예측과 계산기 중 어느 쪽이 나은지 계속 기록). dispatches 출력의 '손 예측 vs 계산기'가 센다
+#                      기록을 덧붙인 뒤 `predict <id> --calc`로 그 기록의 상황 값으로 돌린다(앞 기록의 calc를 베끼지 않는다 — p138–p144는 S_resumed를 빠뜨린 상황 파일로 돌린 값, 2026-11-03 확인)
 #   predicted.time_class  옛 시간 등급(S ≤20 · M 20–45 · L 45–90 · XL >90분). 2026-10-19 전 기록의 역사로만 남고 판정에 쓰지 않는다
 #   predicted.tokens_class  토큰 등급 목록. 범위 예측("T2–T3")은 두 등급을 다 적는다
 #   predicted.turns    [하한, 상한] 턴. 하나만 있으면 "이상"
@@ -12109,4 +12111,26 @@ hypotheses = []
 told = "다른 일"
 minutes = [10.0, 20.1]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨
+status = "done"
+minutes = 4.5  # agent_usage.py --actual (알림 duration 272초)
+turns = 49
+tokens_m = 6.22  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-03T07:10:15Z"
+end = "2026-11-03T07:14:46Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-03-cold-read-check.md"
+wrong = ["R_time_turns_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일'(8–20분)인데 4.5분 '잠깐'. 턴 49는 30–70 안, 토큰 6.22M은 4–10 안 — 분만 빗나간 속도 갈래: 분당 10.9턴. 문서를 grep·sed로 조금씩 읽는 작은 턴이 대부분이었다(글 22·grep 7·sed 7, 중앙 1.3–2.3초). 빗댄 p124는 긴 비평을 쓰는 일(분당 2.2턴)이라 모양이 달랐다 — '읽기만 하는 점검·조사는 턴이 작아 빨리 돈다'(p40·p41 분당 11–13턴)가 R_time_turns_v2의 띠에 없다. 이미 '다음 정리 1(전제 1 결론)'의 후보와 같은 갈래. 계산기('다른 일' 10–20분)도 빗나감"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 22, sum_s = 129.7, turn_s = 1.3, out_chars = 0.0, ctx_k = 135.5 }
+"Bash:grep" = { n = 7, sum_s = 31.8, turn_s = 1.8, tool_s = 0.3, out_chars = 260, ctx_k = 136 }
+"Bash:sed" = { n = 7, sum_s = 16.2, turn_s = 2.3, tool_s = 0.2, out_chars = 181, ctx_k = 130 }
+"Bash:cat" = { n = 3, sum_s = 4.1, turn_s = 1.4, tool_s = 0.2, out_chars = 126, ctx_k = 68 }
+"Bash:PYTHONIOENCO" = { n = 3, sum_s = 68.5, turn_s = 4.7, tool_s = 0.8, out_chars = 257, ctx_k = 144 }
+"Bash:ls" = { n = 2, sum_s = 4.1, turn_s = 2.0, tool_s = 0.3, out_chars = 375.0, ctx_k = 102.0 }
+"Read" = { n = 1, sum_s = 1.9, turn_s = 1.9, tool_s = 0.1, out_chars = 127, ctx_k = 71 }
+"Bash:mkdir" = { n = 1, sum_s = 3.1, turn_s = 3.1, tool_s = 0.3, out_chars = 1050, ctx_k = 131 }
+"Bash:python" = { n = 1, sum_s = 8.6, turn_s = 8.6, tool_s = 0.6, out_chars = 429, ctx_k = 147 }
+"Write" = { n = 1, sum_s = 2.3, turn_s = 2.3, tool_s = 0.0, out_chars = 11896, ctx_k = 155 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 2829, ctx_k = 168 }

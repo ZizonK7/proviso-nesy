@@ -4,6 +4,7 @@
   python -m domains.agent_usage.analog             맞춘 범위와 미리 정한 시험
   python -m domains.agent_usage.analog --write     … 그리고 analog.toml의 범위·근거 칸을 seen_until까지의 기록으로 다시 쓴다
   python -m domains.agent_usage.analog <기록 id>    그 기록에서 규칙이 고른 지난 기록과 계산
+  python -m domains.agent_usage.analog <상황 파일>   기록을 덧붙이기 전에(파일이 있으면 파일이 먼저: project·date·agent·round·[situation])
 
 AI는 지시서를 보고 정해진 질문(상태)에 답만 하고, 고르기는 기계가 한다 — 답이 같으면 누가 돌려도 같은 기록이 나온다.
 - 쓸 수 있는 후보: 보낼 때 이미 끝나 있던 기록(날짜가 앞서거나, 같은 날이면 끝 시각 ≤ 이 기록의 시작 시각; 시각을 모르면
@@ -64,6 +65,8 @@ def available(c: dict, d: dict, t: dict, order: dict[str, int]) -> bool:
     """후보 c가 기록 d를 보낼 때 이미 끝나 결과가 적혀 있었나."""
     if c["id"] == d["id"] or not dp.done(c) or not dp.measures(c)["minutes"]:
         return False
+    if d["id"] not in order:  # 지금 보내는 새 기록(상황 파일): 이미 끝나 결과가 적힌 기록은 다 쓸 수 있다
+        return True
     if c["id"] in t and d["id"] in t and _iso(t[c["id"]][1]) and _iso(t[d["id"]][0]):
         return t[c["id"]][1] <= t[d["id"]][0]  # 날짜까지 붙은 시각: 그대로 견준다
     cd, dd = str(c.get("date", "")), str(d.get("date", ""))
@@ -98,11 +101,15 @@ def pick(d: dict, records: list[dict], rule: dict, t: dict | None = None) -> tup
 
 
 def decided(group: list[dict], how: str | None, rule: dict) -> bool:
-    """규칙이 혼자 답하는가: 같은 에이전트의 앞 회차를 찾았거나 맨 앞이 한 건으로 딱 떨어질 때. 동점이 여럿이면 스위치가 가리지 못한
-    것이라 손 예측(AI가 빗댄 기록을 고름)으로 넘긴다(rule.defer_ties, v2 — 맞추기 쪽 근거는 CLAUDE.md '빗댄 기록 규칙')."""
+    """규칙이 혼자 답하는가: 같은 에이전트의 앞 회차를 찾았거나, 맨 앞이 한 건이거나, 동점끼리 서로 비슷할 때(최대/최소 ≤
+    rule.tie_spread_max). 동점끼리 크게 벌어지면 스위치가 가리지 못한 것이라 손 예측(AI가 빗댄 기록을 고름)으로 넘긴다
+    (rule.defer_ties, v2 — 맞추기 쪽 근거는 CLAUDE.md '빗댄 기록 규칙')."""
     if not group:
         return False
-    return how == "같은 에이전트의 앞 회차" or len(group) == 1 or not rule.get("defer_ties")
+    if how == "같은 에이전트의 앞 회차" or len(group) == 1 or not rule.get("defer_ties"):
+        return True
+    ms = [dp.measures(c)["minutes"] for c in group]  # 동점끼리 비슷하면(최대/최소 ≤ tie_spread_max) 가운데 값으로 답한다
+    return max(ms) / min(ms) <= float(rule.get("tie_spread_max", 0))
 
 
 def estimate(group: list[dict]) -> float | None:
@@ -202,7 +209,7 @@ def evaluate(rows: list[dict], records: list[dict], rule: dict, kn, t: dict, a_r
 
 def _lines(s: dict) -> list[str]:
     n = s["n"]
-    return [f"  규칙(동점이 여럿이면 손 예측으로): {_pct(s['rule'], n)} — 규칙이 혼자 답함 {s['decided']}건 중 {s['decided_hit']} 맞음"
+    return [f"  규칙(동점끼리 크게 벌어지면 손 예측으로): {_pct(s['rule'], n)} — 규칙이 혼자 답함 {s['decided']}건 중 {s['decided_hit']} 맞음"
             f"(같은 에이전트의 앞 회차 {s['same_agent']}) · 손 예측으로 넘김 {s['deferred']}건 중 {s['deferred_hit']} 맞음",
             f"  AI가 고른 빗댄 기록: {_pct(s['ai'], n)} · 손 예측(당시): {_pct(s['hand'], n)} · 스위치만 계산기: {_pct(s['calc'], n)}"]
 
@@ -244,7 +251,7 @@ def show(d: dict, records: list[dict], rule: dict) -> str:
         return f"{d['id']}: 비슷한 지난 일 없음 — 손 예측"
     e = estimate(group)
     if not decided(group, how, rule):
-        return (f"{d['id']}: 동점 {len(group)}건이라 규칙이 가리지 못함 — 손 예측(AI가 빗댄 기록을 고름)으로 넘긴다. 동점: "
+        return (f"{d['id']}: 동점 {len(group)}건이 서로 크게 벌어져 규칙이 가리지 못함 — 손 예측(AI가 빗댄 기록을 고름)으로 넘긴다. 동점: "
                 + ", ".join(f"{c['id']} {dp.measures(c)['minutes']}분" for c in group[:8]) + (" …" if len(group) > 8 else ""))
     lines = [f"{d['id']}: {how}으로 찾음, 동점 {len(group)}건 — " + ", ".join(f"{c['id']} {dp.measures(c)['minutes']}분" for c in group[:8])
              + (" …" if len(group) > 8 else ""),
@@ -268,8 +275,21 @@ def main(argv: list[str]) -> int:
     records = dp.load()
     rule = load_rule()
     if argv and not argv[0].startswith("--"):
-        found = [d for d in records if d["id"] == argv[0]]
-        print(show(found[0], records, rule) if found else f"기록 id가 아님: {argv[0]}")
+        arg = argv[0]
+        if Path(arg).is_file():  # 기록을 덧붙이기 전: 상황 파일(project, date, agent, round, [situation])
+            raw = tomllib.loads(Path(arg).read_text(encoding="utf-8"))
+            d = {"id": "(새 기록)", "project": raw.get("project", ""), "date": str(raw.get("date", "")), "batch": None,
+                 "agent": raw.get("agent"), "round": raw.get("round"), "situation": raw.get("situation", {}),
+                 "predicted": {}, "actual": {"status": "unknown"}}
+            print(f"상황 파일 {arg} (project {d['project']}, agent {d['agent']}, round {d['round']})")
+            print(show(d, records, rule))
+            return 0
+        found = [d for d in records if d["id"] == arg]
+        if not found:
+            print(f"기록 id도 상황 파일도 아님: {arg}")
+            return 2
+        print(f"기록 {arg} — {found[0].get('task', '')[:70]}")
+        print(show(found[0], records, rule))
         return 0
     max_ratio = float(kn.domain.get("max_ratio", 2))
     train, _ = split(records, rule["seen_until"])

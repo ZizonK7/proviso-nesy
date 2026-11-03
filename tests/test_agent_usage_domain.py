@@ -135,7 +135,7 @@ class Rescore20261019(unittest.TestCase):
         # 2026-11-03 사용자 결정: 빗댄 기록 규칙이 '보낼 때 끝나 있던 기록'과 '같은 에이전트의 앞 회차'를 가르려면 필요하다
         kn = schema.load(KN)
         records = dp.load()
-        new = {"id": "zz3", "project": "proviso", "batch": 99, "date": "2026-11-04", "task": "t",
+        new = {"id": "zz3", "project": "proviso", "batch": 41, "date": "2026-11-04", "task": "t",
                "predicted": {"minutes": [5, 9], "told": "잠깐"}, "actual": {"minutes": 6, "turns": 10},
                "turns": {"글": {"n": 7, "sum_s": 20.0, "turn_s": 2.5}}, "review": {"report": "docs/worklog/CLAUDE.md"}}
         errors = dp.validate(records + [new], kn)
@@ -150,6 +150,14 @@ class Rescore20261019(unittest.TestCase):
         self.assertEqual(dp.validate(records + [new], kn), [])
         new["situation"] = {"S_resumed": "예"}
         self.assertTrue(any("round" in e for e in dp.validate(records + [new], kn)))
+        # 배치 줄이 AGENT-LOG에 없으면 막는다(batman 기록은 batman 쪽이라 뺀다)
+        new["situation"] = {}
+        new["batch"] = 999
+        self.assertTrue(any("배치 999" in e for e in dp.validate(records + [new], kn)))
+        self.assertEqual([e for e in dp.validate(records + [{**new, "project": "batman"}], kn) if "배치 999" in e], [])
+        # 이어 보낸 회차(round ≥ 2)의 턴 길이 표는 skip하지 않는다 — --rounds로 그 회차를 가른다
+        new.update(batch=41, round=2, situation={"S_resumed": "예"}, turns={"skip": "같은 에이전트에 이어 보내 로그가 누적"})
+        self.assertTrue(any("skip하지 않는다" in e for e in dp.validate(records + [new], kn)))
         # 11-03까지의 기록은 요구하지 않는다
         self.assertEqual(dp.validate(records, kn), [])
 

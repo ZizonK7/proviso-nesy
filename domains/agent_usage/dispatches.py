@@ -165,6 +165,21 @@ def wrong_required(records: list[dict], d: dict) -> bool:
     return zone_verdict(d) not in (None, "맞음")
 
 
+AGENT_LOG = ROOT / "docs" / "AGENT-LOG.md"
+BATCH_HEAD = re.compile(r"^## 배치 (\d+)(?:\s*[–-]\s*(\d+))?", re.M)
+
+
+def logged_batches(path: Path = AGENT_LOG) -> set[int]:
+    """docs/AGENT-LOG.md의 배치 머리('## 배치 N' 또는 '## 배치 N–M')에 적힌 배치 번호."""
+    if not path.is_file():
+        return set()
+    out = set()
+    for m in BATCH_HEAD.finditer(path.read_text(encoding="utf-8")):
+        lo = int(m.group(1))
+        out.update(range(lo, int(m.group(2) or lo) + 1))
+    return out
+
+
 def form_required(d: dict) -> bool:
     """FORM_REQUIRED_FROM 뒤의 끝난(실측이 있는) 기록인가 — 그러면 turns 칸과 review.report가 필수."""
     return done(d) and "minutes" in d.get("actual", {}) and str(d.get("date", "")) >= FORM_REQUIRED_FROM
@@ -206,6 +221,13 @@ def form_errors(d: dict, root: Path = ROOT) -> list[str]:
         errors.append(f"{did}: agent(같은 에이전트 이름)와 round(몇 번째 회차, 처음 = 1)가 없음")
     if isinstance(rnd, int) and d.get("situation", {}).get("S_resumed") == "예" and rnd < 2:
         errors.append(f"{did}: 이어 보낸 회차(S_resumed = 예)인데 round가 2보다 작음")
+    if need and d.get("project") != "batman" and isinstance(d.get("batch"), int) and d["batch"] not in logged_batches(root / "docs" / "AGENT-LOG.md"):
+        errors.append(f"{did}: 배치 {d['batch']} 줄이 docs/AGENT-LOG.md에 없음 — '## 배치 {d['batch']} · 날짜 · 주제' 머리와 표 한 줄"
+                      f"(모델·effort·품질 1–5·메모)과 교훈 (batman 기록은 batman 쪽 AGENT-LOG)")
+    if (need and isinstance(turns, dict) and "skip" in turns and isinstance(rnd, int) and rnd >= 2
+            and d.get("situation", {}).get("S_cloud_session") != "예"):
+        errors.append(f"{did}: 이어 보낸 회차의 턴 길이 표는 skip하지 않는다 — `agent_usage.py <로그> --rounds`로 이 회차 시작 시각을 보고 "
+                      f"`--turns --toml --after <그 시각>`")
     rep = d.get("review", {}).get("report")
     if rep is None:
         if form_required(d):

@@ -60,11 +60,22 @@ class AnalogRule(unittest.TestCase):
 
     def test_ties_go_to_the_hand_prediction(self):
         # v2: 맨 앞이 동점 여럿이면 스위치가 가리지 못한 것 → 규칙은 답하지 않는다(손 예측 몫)
-        one, two = [{"id": "a"}], [{"id": "a"}, {"id": "b"}]
+        def r(m):
+            return {"id": str(m), "actual": {"minutes": m, "turns": 10}, "predicted": {}}
+        one, tight, wide = [r(3.0)], [r(1.4), r(1.7), r(2.4)], [r(2.0), r(9.0)]
         self.assertTrue(an.decided(one, "반드시 같은 답", self.rule))
-        self.assertFalse(an.decided(two, "반드시 같은 답", self.rule))
-        self.assertTrue(an.decided(two, "반드시 같은 답", {**self.rule, "defer_ties": False}))
+        self.assertTrue(an.decided(tight, "반드시 같은 답", self.rule))   # 동점끼리 2배 안: 가운데 값으로 답한다
+        self.assertFalse(an.decided(wide, "반드시 같은 답", self.rule))   # 크게 벌어지면 손 예측으로
+        self.assertTrue(an.decided(wide, "반드시 같은 답", {**self.rule, "defer_ties": False}))
         self.assertFalse(an.decided([], None, self.rule))
+
+    def test_a_new_record_from_a_situation_file_can_use_every_finished_record(self):
+        # 기록을 덧붙이기 전(상황 파일): 지금 보내는 일이라 이미 끝난 기록은 모두 후보다
+        new = {"id": "(새 기록)", "project": "exam_grader", "date": "", "batch": None,
+               "situation": dict(next(d for d in self.records if d["id"] == "p141")["situation"]), "predicted": {}, "actual": {}}
+        group, how = an.pick(new, self.records, self.rule, self.t)
+        self.assertTrue(group and how)
+        self.assertTrue(all(dp.done(c) for c in group))
 
     def test_same_answers_give_the_same_pick(self):
         # 고르기는 기계가 한다: 같은 기록에 두 번 돌려도 같은 묶음

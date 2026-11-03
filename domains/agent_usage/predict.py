@@ -2,6 +2,7 @@
 
 사용법 (저장소 루트):
   python -m domains.agent_usage.predict p04            기록 id 하나 (실측이 있으면 맞았는지도)
+  python -m domains.agent_usage.predict p04 --calc     기록 자신의 상황 값으로 돌린 답을 [dispatch.calc] 줄로 (보내기 전 기록에 붙인다)
   python -m domains.agent_usage.predict 상황.toml      상황 값 파일: project = "...", [situation] 상태 = 값, (선택) analog = "기록 id"
   python -m domains.agent_usage.predict --all          끝난 기록 전부를 지금 조각으로 (맞춰 본 것 / 시험 따로)
 
@@ -392,6 +393,8 @@ def _index(records: list[dict], rid: str) -> int:
 
 
 def main(argv: list[str]) -> int:
+    calc = "--calc" in argv
+    argv = [a for a in argv if a != "--calc"]
     if len(argv) != 1:
         print(__doc__)
         return 2
@@ -399,6 +402,18 @@ def main(argv: list[str]) -> int:
     records = dp.load()
     pieces = live_pieces(kn)
     arg = argv[0]
+    if calc:  # 기록 자신의 상황 값으로 돌린 답을 [dispatch.calc] 줄로 (상황 파일을 따로 만들면 값이 어긋난다 — p138–p144)
+        found = [d for d in records if d["id"] == arg]
+        if not found:
+            print(f"--calc는 기록 id만 받는다(기록을 먼저 덧붙인다): {arg}")
+            return 2
+        p = predict(found[0].get("situation", {}), found[0].get("project", ""), pieces, kn)
+        m = p.minutes()
+        print("[dispatch.calc]")
+        print(f'told = "{p.told()}"' if p.told() else '# 계산기: 모름 (맞는 기준값 조각 없음)')
+        if m:
+            print(f"minutes = [{round(m[0][0], 2):g}, {round(m[0][1], 2):g}]")
+        return 0
     if arg == "--all":
         from . import holdout
         print(holdout.score_table({"지금 조각 (맞춰 본 것: 세울 때 본 기록)": pieces}, [d for d in records if dp.done(d)], kn, records))

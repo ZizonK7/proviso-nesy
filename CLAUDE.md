@@ -78,20 +78,21 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 
 보내기 전
 1. 지시서: 목표, 범위(건드릴 폴더·파일), 하지 말 것과 승인이 필요한 일, 완료 조건과 확인 방법, **보고서 경로**(양식 [docs/worklog/CLAUDE.md](docs/worklog/CLAUDE.md)), 하위의 하위 허용 여부, 이 저장소 규칙(일상어, 공개 저장소, 사실은 코드로).
-2. 예측: 계산기 → 손 예측 → `domains/agent_usage/dispatches.toml`에 기록 → 사용자에게 구간·숫자·이유([agent_usage "고리"](domains/agent_usage/CLAUDE.md) 1). 검사는 칸 모양만 본다(빠져도 안 막음).
+2. 예측: `domains/agent_usage/dispatches.toml`에 기록을 먼저 덧붙인다(상황 값은 가장 비슷한 지난 기록에서 복사해 바꾸고, `agent`·`round`도) → 계산기 `predict <id> --calc`(앞 기록의 calc를 베끼지 않는다) → 정해진 일이면 빗댄 기록 규칙 `analog <id>`(시험 중, 참고) → 손 예측 → 사용자에게 구간(걸치면 가운데 값의 구간)·숫자·이유. 보내기 전 점검 넷, 도중 지시, 끝난 뒤 validate·audit·테스트 같은 자세한 단계는 [agent_usage "고리"](domains/agent_usage/CLAUDE.md). 검사는 칸 모양만 본다(빠져도 안 막음).
 
 끝나면 — 사용자에게 결과를 말하기 전에 기록부터(컨테이너가 회수되면 대화 기록이 사라진다)
 
-3. 실측: `python scripts/agent_usage.py <로그> --actual` → `actual`(시작·끝 시각 포함). 기록에 `agent`·`round`도. 검사: 끝난 기록의 실측 시간, 2026-11-04부터 시작·끝 시각과 agent·round.
+3. 실측: `python scripts/agent_usage.py <로그> --actual` → `actual`(시작·끝 시각 포함; 이어 보낸 회차는 `--rounds`로 본 그 회차 시작 시각을 `--after`에). 기록에 `agent`·`round`도. 검사: 끝난 기록의 실측 시간, 2026-11-04부터 시작·끝 시각과 agent·round.
 4. 턴 길이: 같은 로그에 `--turns --toml` → 기록 끝에 `[dispatch.turns]`(잴 수 없으면 `skip = "이유"`). 검사(2026-11-03부터).
 5. 보고서: 작업자의 보고서를 확인하고 경로를 `review.report`에. 검사(2026-11-03부터).
 6. 돌아보기: `review.reason`, 구간이 빗나가면 `review.wrong`·`review.why`. 검사(빗나갔을 때 wrong·why).
-7. 배치 줄: [docs/AGENT-LOG.md](docs/AGENT-LOG.md)에 모델·effort·품질(1–5)·교훈.
+7. 배치 줄: [docs/AGENT-LOG.md](docs/AGENT-LOG.md)에 `## 배치 N · 날짜 · 주제` 머리와 모델·effort·품질(1–5)·교훈. 검사(2026-11-04부터, batman 기록은 batman 쪽).
 8. 결과 검토 → 커밋·push(메인).
 
 ## 다른 저장소 다루기
 - 사용자 앱(music_player, Flowlog 등)의 **동작은 코드에서 확인**하고 사용자에게는 의도·판단만 묻는다.
 - 고칠 때: 이 PC에 클론이 없으면 임시 폴더에 받아 작업 → 그 저장소 관례(DECISIONS.md 등)대로 기록 → main에 push(사용자 방식). 비공개 저장소 코드는 여기에 옮겨 적지 않는다.
+- **다른 저장소에서 일하는 세션이 이 레포에 기록할 때** (2026-11-03, 사용자가 다른 저장소에서 "논리집 레포 읽어 봐"라고만 하는 일이 많다): 하위 에이전트를 보내면 기록은 이 레포에 남긴다 — `domains/agent_usage/dispatches.toml`(`project = "<그 저장소>"`), `docs/AGENT-LOG.md`의 배치 줄, 보고서는 그 저장소에 두고 `review.report = "저장소:경로"`(또는 이 레포 `docs/worklog/`). 이 레포를 그 세션에 붙여(PC는 `../proviso-nesy`, 클라우드는 저장소 붙이기) 그 세션의 작업 브랜치에 커밋·push한다. 기록 id는 이 레포 기본 브랜치의 마지막 번호 다음부터 — 여러 세션이 동시에 적으면 번호가 겹치니, 합칠 때 뒤 묶음을 다시 매기고 머리 주석에 원래 번호를 남긴다([docs/worklog/2026-11-02-branch-merge.md](docs/worklog/2026-11-02-branch-merge.md)). 이 레포를 붙일 수 없으면 그 저장소에 기록 초안과 "proviso sync pending: 배치 N"을 남기고 나중에 이 레포 세션이 옮긴다(batman 방식).
 - batman(비공개, 이 PC `../batman`): 지휘 모델이 `agent_usage`로 예측한다(batman CLAUDE.md §7, 2026-10-16). 그 저장소에 다른 세션이 떠 있을 수 있으니, 고칠 때는 공유 폴더를 건드리지 말고 별도 worktree에서 작업한다. 커밋 작성자는 그 저장소의 기존 커밋에 맞춘다(`git log -1 --format='%an <%ae>'`로 확인. 이 PC의 전역 git 이름은 저장소마다 다를 수 있다).
 
 ## 보류
