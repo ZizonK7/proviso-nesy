@@ -78,12 +78,13 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 **체크리스트** — '검사'가 붙은 단계는 빠지면 `python -m domains.agent_usage.dispatches`와 테스트가 오류를 낸다.
 
 보내기 전
+0. 보낼까: 도구를 대여섯 번 넘게 쓸 일이면 `python -m domains.agent_usage.decide`로 직접 할 때와 보낼 때의 토큰을 견준다(감으로 두면 안 보내는 쪽으로 기운다). 직접 하면 `record direct`로 `direct.toml`에([agent_usage "보낼까 판단"](domains/agent_usage/CLAUDE.md)). 검사: 2026-11-04부터 보낸 기록의 `decide` 칸.
 1. 지시서: 목표, 범위(건드릴 폴더·파일), 하지 말 것과 승인이 필요한 일, 완료 조건과 확인 방법, **보고서 경로**(양식 [docs/worklog/CLAUDE.md](docs/worklog/CLAUDE.md)), 하위의 하위 허용 여부, 이 저장소 규칙(일상어, 공개 저장소, 사실은 코드로).
-2. 예측: `domains/agent_usage/dispatches.toml`에 기록을 먼저 덧붙인다(상황 값은 가장 비슷한 지난 기록에서 복사해 바꾸고, `agent`·`round`도) → 계산기 `predict <id> --calc`(앞 기록의 calc를 베끼지 않는다) → 정해진 일이면 빗댄 기록 규칙 `analog <id>`(시험 중, 참고) → 손 예측 → 사용자에게 구간(걸치면 가운데 값의 구간)·숫자·이유. 보내기 전 점검 넷, 도중 지시, 끝난 뒤 validate·audit·테스트 같은 자세한 단계는 [agent_usage "고리"](domains/agent_usage/CLAUDE.md). 검사는 칸 모양만 본다(빠져도 안 막음).
+2. 예측(묶음 명령 `python -m domains.agent_usage.record send <보낼 일 파일>`이 아래를 한 번에): `domains/agent_usage/dispatches.toml`에 기록을 먼저 덧붙인다(상황 값은 가장 비슷한 지난 기록에서 복사해 바꾸고, `agent`·`round`도) → 계산기 `predict <id> --calc`(앞 기록의 calc를 베끼지 않는다) → 정해진 일이면 빗댄 기록 규칙 `analog <id>`(시험 중, 참고) → 손 예측 → 사용자에게 구간(걸치면 가운데 값의 구간)·숫자·이유. 보내기 전 점검 넷, 도중 지시, 끝난 뒤 validate·audit·테스트 같은 자세한 단계는 [agent_usage "고리"](domains/agent_usage/CLAUDE.md). 검사는 칸 모양만 본다(빠져도 안 막음).
 
 끝나면 — 사용자에게 결과를 말하기 전에 기록부터(컨테이너가 회수되면 대화 기록이 사라진다)
 
-3. 실측: `python scripts/agent_usage.py <로그> --actual` → `actual`(시작·끝 시각 포함; 이어 보낸 회차는 `--rounds`로 본 그 회차 시작 시각을 `--after`에). 기록에 `agent`·`round`도. 검사: 끝난 기록의 실측 시간, 2026-11-04부터 시작·끝 시각과 agent·round.
+3. 실측(묶음 명령 `record finish <id> <로그> [--after] [--report]`가 3–5를 채운다): `python scripts/agent_usage.py <로그> --actual` → `actual`(시작·끝 시각 포함; 이어 보낸 회차는 `--rounds`로 본 그 회차 시작 시각을 `--after`에). 기록에 `agent`·`round`도. 검사: 끝난 기록의 실측 시간, 2026-11-04부터 시작·끝 시각과 agent·round.
 4. 턴 길이: 같은 로그에 `--turns --toml` → 기록 끝에 `[dispatch.turns]`(잴 수 없으면 `skip = "이유"`). 검사(2026-11-03부터).
 5. 보고서: 작업자의 보고서를 확인하고 경로를 `review.report`에. 검사(2026-11-03부터).
 6. 돌아보기: `review.reason`, 구간이 빗나가면 `review.wrong`·`review.why`. 검사(빗나갔을 때 wrong·why).

@@ -165,6 +165,11 @@ def wrong_required(records: list[dict], d: dict) -> bool:
     return zone_verdict(d) not in (None, "맞음")
 
 
+# 보낼까 판단 (2026-11-03 사용자 결정, decide.py): 이 날짜부터 보낸 기록에 [dispatch.decide]가 필수(batman 기록 제외).
+# 직접 한 일은 direct.toml에 같은 모양의 decide 칸과 함께 적는다(기록이 없으면 검사할 대상도 없어 막지 못한다 — 문턱은 CLAUDE.md)
+DECIDE_REQUIRED_FROM = "2026-11-04"
+DECIDE_WHY = ("비용", "새 눈", "대화 계속", "대화 맥락", "결과를 가림")
+DIRECT_TOML = HERE / "direct.toml"
 AGENT_LOG = ROOT / "docs" / "AGENT-LOG.md"
 BATCH_HEAD = re.compile(r"^## 배치 (\d+)(?:\s*[–-]\s*(\d+))?", re.M)
 
@@ -178,6 +183,57 @@ def logged_batches(path: Path = AGENT_LOG) -> set[int]:
         lo = int(m.group(1))
         out.update(range(lo, int(m.group(2) or lo) + 1))
     return out
+
+
+def decide_errors(did: str, dec, chose: str) -> list[str]:
+    """보낼까 판단 칸(decide)의 모양. 비용만 까닭으로 들었는데 비용으로는 다른 쪽이 싸면 오류 — 다른 까닭을 적거나 다른 쪽을 고른다."""
+    if not isinstance(dec, dict):
+        return [f"{did}: decide는 표여야 함 (decide.py 출력)"]
+    errors = []
+    for k in ("main_ctx_k", "left", "direct_m", "send_m") + (("added_k",) if "added_k" in dec else ()):
+        if isinstance(dec.get(k), bool) or not isinstance(dec.get(k), (int, float)) or dec[k] < 0:
+            errors.append(f"{did}: decide.{k}는 0 이상의 수여야 함 (`python -m domains.agent_usage.decide`)")
+    if dec.get("chose") != chose:
+        errors.append(f"{did}: decide.chose는 여기서 \"{chose}\"여야 함")
+    why = dec.get("why")
+    if not (isinstance(why, list) and why and all(w in DECIDE_WHY for w in why)):
+        errors.append(f"{did}: decide.why는 {DECIDE_WHY} 중 하나 이상의 목록")
+    elif why == ["비용"] and not errors:
+        mine, other = (dec["send_m"], dec["direct_m"]) if chose == "보냄" else (dec["direct_m"], dec["send_m"])
+        if mine > other:
+            errors.append(f"{did}: 비용만 까닭으로 들었는데 비용으로는 다른 쪽이 싸다({mine} > {other}) — 다른 까닭을 적거나 다른 쪽을 고른다")
+    return errors
+
+
+def load_direct(path: Path = DIRECT_TOML) -> list[dict]:
+    """메인이 직접 한 일(보낼까 판단에서 '직접'을 고른 일)."""
+    return tomllib.loads(path.read_text(encoding="utf-8")).get("direct", []) if path.is_file() else []
+
+
+def validate_direct(entries: list[dict]) -> list[str]:
+    errors, seen = [], set()
+    for d in entries:
+        did = d.get("id", "?")
+        if not re.fullmatch(r"m\d{3,}", str(did)):
+            errors.append(f"{did}: 직접 한 일의 id는 m001 꼴")
+        if did in seen:
+            errors.append(f"{did}: id가 겹침")
+        seen.add(did)
+        for k in ("project", "date", "task"):
+            if k not in d:
+                errors.append(f"{did}: {k}가 없음")
+        errors.extend(decide_errors(did, d.get("decide"), "직접"))
+        act = d.get("actual", {})
+        if act.get("status", "unknown") not in STATUSES:
+            errors.append(f"{did}: actual.status는 {STATUSES} 중 하나")
+        if act.get("status") == "done":
+            for k in ("minutes", "turns", "tokens_m"):
+                if not isinstance(act.get(k), (int, float)) or isinstance(act.get(k), bool):
+                    errors.append(f"{did}: 끝난 일인데 actual.{k}가 없음 (메인 대화 기록 `--rounds`로 그 요청의 시각을 보고 `--actual --after --until`)")
+            for k in ("start", "end"):
+                if not (isinstance(act.get(k), str) and ISO_UTC.match(act[k])):
+                    errors.append(f"{did}: 끝난 일인데 actual.{k}(UTC ISO)가 없음")
+    return errors
 
 
 def form_required(d: dict) -> bool:
@@ -228,6 +284,11 @@ def form_errors(d: dict, root: Path = ROOT) -> list[str]:
             and d.get("situation", {}).get("S_cloud_session") != "예"):
         errors.append(f"{did}: 이어 보낸 회차의 턴 길이 표는 skip하지 않는다 — `agent_usage.py <로그> --rounds`로 이 회차 시작 시각을 보고 "
                       f"`--turns --toml --after <그 시각>`")
+    if "decide" in d:
+        errors.extend(decide_errors(did, d["decide"], "보냄"))
+    elif str(d.get("date", "")) >= DECIDE_REQUIRED_FROM and d.get("project") != "batman":
+        errors.append(f"{did}: 보낼까 판단(decide)이 없음 — `python -m domains.agent_usage.decide <상황 파일>` 출력의 [dispatch.decide] "
+                      f"(묶음 명령 `record send`가 붙여 준다)")
     rep = d.get("review", {}).get("report")
     if rep is None:
         if form_required(d):
@@ -450,7 +511,7 @@ def report(records: list[dict]) -> str:
 def main() -> int:
     records = load()
     kn = schema.load(HERE / "knowledge.toml")
-    errors = validate(records, kn)
+    errors = validate(records, kn) + validate_direct(load_direct())
     if errors:
         print("기록에 문제 있음:")
         for e in errors:

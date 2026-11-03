@@ -143,6 +143,8 @@ class Rescore20261019(unittest.TestCase):
         self.assertTrue(any("zz3" in e and "agent" in e for e in errors))
         new["actual"].update(start="2026-11-04T01:00:00Z", end="2026-11-04T01:06:00Z")
         new.update(agent="작성", round=1)
+        self.assertTrue(any("zz3" in e and "decide" in e for e in dp.validate(records + [new], kn)))  # 보낼까 판단도 11-04부터
+        new["decide"] = {"main_ctx_k": 300, "left": 50, "direct_m": 20.0, "send_m": 9.0, "chose": "보냄", "why": ["비용"]}
         self.assertEqual(dp.validate(records + [new], kn), [])
         new["actual"]["start"] = "01:00:00"
         self.assertTrue(any("UTC ISO" in e for e in dp.validate(records + [new], kn)))

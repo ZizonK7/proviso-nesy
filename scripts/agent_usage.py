@@ -47,10 +47,11 @@ def meta_description(path):
         return None
 
 
-def summarize(path, after=None):
-    """after(시각)가 있으면 그 뒤의 줄만 센다 — 이어 보낸 회차를 앞 회차와 가른다(시작 시각도 그 회차의 첫 줄)."""
-    cut = None
-    if after:
+def summarize(path, after=None, until=None):
+    """after(시각)가 있으면 그 뒤의 줄만 센다 — 이어 보낸 회차를 앞 회차와 가른다(시작 시각도 그 회차의 첫 줄).
+    until(시각)이 있으면 그 시각까지만 — 메인이 직접 한 일처럼 기록이 그 뒤로 이어질 때 그 요청만 잰다."""
+    cut = end_cut = None
+    if after or until:
         with open(path, encoding="utf-8", errors="replace") as f:
             for line in f:
                 try:
@@ -59,7 +60,8 @@ def summarize(path, after=None):
                     continue
                 ts0 = parse_ts(d0.get("timestamp", "")) if isinstance(d0, dict) and d0.get("timestamp") else None
                 if ts0:
-                    cut = _after_ts(after, ts0)
+                    cut = _after_ts(after, ts0) if after else None
+                    end_cut = _after_ts(until, ts0) if until else None
                     break
     usage = collections.Counter()
     tools = collections.Counter()
@@ -81,6 +83,8 @@ def summarize(path, after=None):
             ts = parse_ts(d.get("timestamp", "")) if d.get("timestamp") else None
             if cut and (ts is None or ts < cut):
                 continue
+            if end_cut and ts and ts > end_cut:
+                break
             if ts:
                 first = first or ts
                 last = ts
@@ -279,6 +283,7 @@ def main(argv=None):
     ap.add_argument("--turns", action="store_true", help="턴마다 동작·길이·맥락을 뽑아 동작 종류별 중앙값 표로 (전제 1 시험)")
     ap.add_argument("--toml", action="store_true", help="--turns 결과를 dispatches.toml에 붙일 [dispatch.turns] 블록으로")
     ap.add_argument("--after", help="이 시각 뒤의 턴만 (이어 보낸 회차). ISO 시각 또는 HH:MM:SS(UTC)")
+    ap.add_argument("--until", help="이 시각까지의 줄만 (--actual과 함께, 메인이 직접 한 일을 잴 때). ISO 시각 또는 HH:MM:SS(UTC)")
     ap.add_argument("--rounds", action="store_true",
                     help="회차 경계(지시가 들어온 시각마다)를 보여 준다 — 이어 보낸 회차의 --after에 그 회차 시작 시각을 준다")
     ap.add_argument("--actual", action="store_true",
@@ -290,7 +295,7 @@ def main(argv=None):
         files.extend(glob.glob(p) or ([p] if os.path.isfile(p) else []))
     rows = []
     for p in sorted(set(files)):
-        s = summarize(p, a.after)
+        s = summarize(p, a.after, a.until)
         s["name"] = next((v for k, v in labels.items() if s["file"].startswith(k)), None) \
             or s["description"] or s["file"][:15]
         rows.append(s)
