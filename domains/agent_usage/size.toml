@@ -5,26 +5,38 @@
 # 지난 기록의 센 수와 S_specified는 결과를 가린 하위 에이전트가 작업 설명만 보고 채웠다(p145, dispatches.toml 머리 주석).
 seen_until = "p99"
 
+
 [[term]]
 count = "base"
 reason = "지시서 읽기·둘러보기·보고는 일의 크기와 상관없이 거의 같은 몫이다"
+range = [65.7, 113]
+fit = "d01–p99에서 맞춤: 11/88건 범위 안 (d29, d31, d44, d60, d61, d62 …)"
 
 [[term]]
 count = "reads"
 reason = "통째로 읽으라고 적힌 파일마다 읽는 턴이 든다"
+fit = "d01–p99에서 맞춤: 0/19건 범위 안 — 값이 없거나 흩어져 세울 수 없음"
 
 [[term]]
 count = "outputs"
 reason = "새로 만들 파일마다 쓰고 저장하고 다시 보는 턴이 든다"
+range = [13.7, 17]
+fit = "d01–p99에서 맞춤: 4/42건 범위 안 (d41, d63, p34, p35)"
 
 [[term]]
 count = "chunks"
 reason = "새로 쓸 절·단계마다 쓰고 고치는 턴이 든다"
+range = [0.05, 0.0662]
+fit = "d01–p99에서 맞춤: 2/18건 범위 안 (p84, p85)"
 
 [[term]]
 count = "edits"
 reason = "고칠 자리마다 찾아 읽고 바꾸는 턴이 든다"
+range = [9.71, 13.8]
+fit = "d01–p99에서 맞춤: 4/38건 범위 안 (d29, d31, d62, d72)"
 
 [[term]]
 count = "checks"
 reason = "확인(렌더·테스트·빌드)마다 돌리고 결과를 보는 턴이 든다"
+range = [45.4, 82.7]
+fit = "d01–p99에서 맞춤: 8/63건 범위 안 (d29, d60, d61, d62, d72, p51 …)"
