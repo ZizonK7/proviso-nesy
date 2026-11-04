@@ -14399,4 +14399,24 @@ added_k = 725
 chose = "보냄"
 why = ["대화 계속", "결과를 가림"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 17.3  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 159
+tokens_m = 38.43  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T01:38:53Z"
+end = "2026-11-04T01:56:10Z"
+[dispatch.review]
+report = "stock-rader:docs/worklog/2026-11-04-calc-apply.md"
+reason = "말한 구간 '다른 일' 맞음(17.3분, 손 예측 12–30 안). 턴 159(60–140 안), 토큰 38.43M(25–60 안). 빗댄 p170(diff가 있는 2회차)이 맞았다 — 앞 회차 diff를 이어받아 대조·문서·흉내 내기·보고서만 한 일은 1회차의 절반 토큰. 계산기는 Opus xhigh 기준값이 없어 '모름'. 보낼까 판단: 고른 쪽 실제 41.1M < 직접 추정 77.9M. 품질: 결정 10개를 diff와 대조한 표, 흉내 내기 둘(빈 기록·진짜 기록 복사), 결정과 다르게 한 곳 8개를 까닭과 함께 '메인 판단 필요'로 올리고 결정대로 두지 않은 것은 없음; 출발점 식의 꼬리 위험(0.9987)을 스스로 짚어 메인이 0.10–0.90 자르기를 더함 — 5"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Bash:cd" = { n = 75, sum_s = 555.5, turn_s = 2.8, tool_s = 0.2, out_chars = 232, ctx_k = 243 }
+"글" = { n = 65, sum_s = 384.1, turn_s = 1.2, out_chars = 0, ctx_k = 246 }
+"Bash:sed" = { n = 5, sum_s = 50.0, turn_s = 3.1, tool_s = 1.0, out_chars = 181, ctx_k = 146 }
+"Bash:cat" = { n = 4, sum_s = 11.9, turn_s = 3.0, tool_s = 1.7, out_chars = 1583.0, ctx_k = 151.0 }
+"Edit" = { n = 3, sum_s = 5.8, turn_s = 1.8, tool_s = 0.0, out_chars = 771, ctx_k = 277 }
+"Bash:mkdir" = { n = 2, sum_s = 16.8, turn_s = 8.4, tool_s = 2.0, out_chars = 1813.0, ctx_k = 230.0 }
+"Bash:ls" = { n = 1, sum_s = 2.2, turn_s = 2.2, tool_s = 0.5, out_chars = 253, ctx_k = 72 }
+"Bash:p182;" = { n = 1, sum_s = 2.3, turn_s = 2.3, tool_s = 0.7, out_chars = 310, ctx_k = 186 }
+"Bash:Seoul" = { n = 1, sum_s = 3.5, turn_s = 3.5, tool_s = 0.6, out_chars = 260, ctx_k = 353 }
+"Write" = { n = 1, sum_s = 4.0, turn_s = 4.0, tool_s = 0.0, out_chars = 18686, ctx_k = 361 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 2642, ctx_k = 377 }
