@@ -14935,4 +14935,19 @@ added_k = 630
 chose = "보냄"
 why = ["결과를 가림", "대화 계속"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 6.8  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 61
+tokens_m = 11.16  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T05:00:32Z"
+end = "2026-11-04T05:07:18Z"
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(6.8분, 손 6–12 안). 계산기(신경 끄기 31–63분)는 크게 빗나감 — S_fixed_input 아니오면 기본 조각 216–426턴이 그대로 남는 구멍(오늘 p183·p184와 같음; 사용자가 f0a1818에서 files 칸·C_turns_files_scale로 손보기 시작). 품질 4: 규칙 문서 12개 고침, 불확실 4개(2차 3문제의 1·2단계 배분, 1단계 압축 수업정리의 1단계 문제, 심수기 시험 형식 규칙 충돌, 공방·인과 해석)를 모아 옴"
+report = "Professor_King:작업보고/2026-11-04_수업정리복습_구조규칙.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 28, sum_s = 198.0, turn_s = 1.6, out_chars = 0.0, ctx_k = 195.0 }
+"Bash:cd" = { n = 28, sum_s = 194.0, turn_s = 3.3, tool_s = 0.2, out_chars = 251.5, ctx_k = 203.0 }
+"Bash:cat" = { n = 2, sum_s = 3.9, turn_s = 2.0, tool_s = 0.2, out_chars = 2882.5, ctx_k = 143.5 }
+"Bash:date" = { n = 1, sum_s = 5.0, turn_s = 5.0, tool_s = 2.9, out_chars = 315, ctx_k = 85 }
+"Bash:mkdir" = { n = 1, sum_s = 1.9, turn_s = 1.9, tool_s = 0.2, out_chars = 611, ctx_k = 192 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 1264, ctx_k = 247 }
