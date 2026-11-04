@@ -53,7 +53,7 @@ SIZE_TEXT = ("find_cap",)
 #   "필요한 만큼"이면 칸을 뺀다(모름, 0이 아님). 메인이 실제 지시서에서 센다. FILES_REQUIRED_FROM부터 보낸 기록에 필수(batman·메인 자신 제외).
 #   계산기의 비율 조각(C_turns_files_scale)이 빗댄 기록의 같은 칸과 비를 낸다
 FILES_COUNTS = ("write", "edit")
-FILES_REQUIRED_FROM = "2026-11-05"
+FILES_REQUIRED_FROM = "2026-11-04"
 ROOT = HERE.parent.parent
 # 다른 저장소의 보고서는 "저장소:경로"로 적는다 (예: "movie_game:docs/worklog/2026-11-03-x.md")
 OTHER_REPO = re.compile(r"^[\w.-]+:(?!/)")

@@ -12,7 +12,7 @@
       직접 한 일의 실측(메인이 그 요청에 쓴 분·줄·토큰)을 채운다.
 돌아보기(review.reason, 빗나가면 wrong·why)와 배치 줄의 표·교훈은 판단이 필요해 메인이 손으로 쓴다.
 
-보낼 일 파일(TOML): project, batch, task, model, effort, agent, round, [files](write, edit — 쓰는 파일 수, 2026-11-05부터 필수),
+보낼 일 파일(TOML): project, batch, task, model, effort, agent, round, [files](write, edit — 쓰는 파일 수, 2026-11-04부터 필수),
 (date, id, size), [situation], [predicted](minutes, turns, tokens_m, rules, analog, reason; told은 비우면 가운데 값의 구간),
 (선택) [decide](why, left, main_ctx_k).
 model·effort는 보낼 모델과 effort(dispatches.MODELS·EFFORTS). S_other_model은 이 둘에서 계산해 상황에 넣는다(적으면 같아야 한다).

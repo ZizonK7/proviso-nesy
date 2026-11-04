@@ -23,11 +23,11 @@ class SizeRecords(unittest.TestCase):
         rec["size"] = {"pages": 3}
         self.assertTrue(any("size의 칸" in e for e in dp.validate(records + [rec], kn)))
 
-    def test_file_counts_are_checked_and_required_from_nov_5(self):
-        # 2026-11-04 사용자 결정: 쓰는 파일 수 files = { write, edit } — 단위는 파일, 읽는 파일은 안 센다, 2026-11-05부터 필수
+    def test_file_counts_are_checked_and_required_from_nov_4(self):
+        # 2026-11-04 사용자 결정: 쓰는 파일 수 files = { write, edit } — 단위는 파일, 읽는 파일은 안 센다, 2026-11-04부터 필수
         kn = schema.load(KN)
         records = dp.load()
-        rec = {"id": "zz9", "project": "proviso", "batch": 99, "date": "2026-11-05", "task": "t", "model": "Opus 5.5", "effort": "high",
+        rec = {"id": "zz9", "project": "proviso", "batch": 99, "date": dp.FILES_REQUIRED_FROM, "task": "t", "model": "Opus 5.5", "effort": "high",
                "predicted": {"minutes": [5, 9], "told": "잠깐"}, "actual": {"status": "unknown"},
                "decide": {"main_ctx_k": 100, "left": 50, "direct_m": 9.0, "send_m": 6.0, "chose": "보냄", "why": ["비용"]},
                "situation": {"S_fixed_input": "아니오"}}
@@ -49,9 +49,9 @@ class SizeRecords(unittest.TestCase):
         self.assertEqual(dp.validate(records + [rec], kn), [])
         # 그 전 날짜와 batman·메인 자신의 일은 없어도 된다
         del rec["files"]
-        rec["date"] = "2026-11-04"
+        rec["date"] = "2026-11-03"
         self.assertEqual(dp.validate(records + [rec], kn), [])
-        rec["date"] = "2026-11-05"
+        rec["date"] = dp.FILES_REQUIRED_FROM
         rec["situation"]["S_main_self"] = "예"
         rec["model"] = "Fable 5.1"
         del rec["effort"]

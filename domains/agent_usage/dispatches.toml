@@ -22,7 +22,10 @@
 # 넷을 고쳤다: p139·p142·p169·p170(Opus 5.5 xhigh인데 S_other_model = 아니오 → 예; p169 돌아보기가 짚은 입력 실수와 같다 — 그 기록들의
 # 계산기 답(calc)은 잘못된 값으로 돌린 그대로 둔다). 이제 S_other_model은 두 칸에서 계산한다(어긋나면 dispatches.py가 막는다). 예측 칸은 고치지 않았다.
 # 2026-11-04 쓰는 파일 수 칸(사용자 결정, CLAUDE.md '파일 수 비율 조각'): files = { write, edit }. p183–p186에 결과를 본 뒤 작업 설명에서
-# 채웠다(edit 15·12·5·2 — 다시 나눈 md 파일 수; 맞춰 본 것이지 시험이 아니다, C_turns_files_scale의 seen_until = p186). p148–p167(파일 20개씩)은
+# 채웠다(edit 15·12·5·2 — 다시 나눈 md 파일 수; 맞춰 본 것이지 시험이 아니다, C_turns_files_scale의 seen_until = p186).
+# 같은 날 다른 세션이 칸을 모른 채 보낸 p187–p189도 작업 설명에서 채웠다 — p187·p189는 결과가 나오기 전(unknown)이라 가림이 지켜졌고(시험 기록),
+# p188은 끝난 뒤이지만 지시서가 파일 수를 안 정해 빈 표(모름). 사용자 결정으로 필수 시작일을 11-05에서 11-04로 당겼다.
+# 같은 날 메인 세션이 보낸 p179–p182는 결과를 본 뒤 채웠다(맞춰 본 것, 시험 아님): p179·p180 보고서 하나(write 1), p181·p182는 지시서가 파일 수를 안 정함(빈 표). p148–p167(파일 20개씩)은
 # S_fixed_input = 예로 적혀 있어 정의(출력 하나)와 어긋나므로 files를 넣지 않는다(넣으면 검사가 막는다) — 그 대 보기도 고치지 않는다(예측 칸은 그대로).
 # 돌아보기 글의 기록 이름이 batman 쪽 이름과 섞인 곳: d88의 'd51b' = 이 파일의 d58, d89의 'd52b' = d64, d94의 'd64' = d68.
 # 공개 저장소: 작업 설명은 종류만 적는다 (게임 내용·코드는 적지 않음).
@@ -47,7 +50,7 @@
 #   size               일의 크기 — 지시서에서 센 수 (2026-11-03부터, knowledge.toml S_specified와 CLAUDE.md '일의 크기 모델').
 #                      { reads 읽을 것, outputs 만들 것, chunks 쓸 덩어리(절·단계), edits 고칠 곳, checks 확인 횟수, find_cap 찾는 일의 상한(글) }.
 #                      지시서에 적힌 것만 세고 모르면 칸을 뺀다. [[dispatch]] 바로 아래(task 다음 줄)에 한 줄 표로 적는다
-#   files              쓰는 파일 수 (2026-11-04 사용자 결정, 2026-11-05부터 보낸 기록에 필수 — batman·메인 자신 제외):
+#   files              쓰는 파일 수 (2026-11-04 사용자 결정, 2026-11-04부터 보낸 기록에 필수 — batman·메인 자신 제외):
 #                      { write 새로 만들거나 통째로 다시 쓰는 파일 수, edit 일부만 고치는 파일 수 }. 단위는 파일 하나뿐(절·항목·줄은 안 센다 —
 #                      size의 edits·chunks에 단위가 섞여 실패한 까닭). 읽는 파일은 안 센다. 지시서에 이름이나 개수로 적힌 것만; 스크립트 한 번이
 #                      여러 파일을 뱉으면 쓰기가 아니라 확인 1; 지시서가 "필요한 만큼"이면 files = {}(모름, 0이 아님). 메인이 실제 지시서에서 센다.
@@ -14139,6 +14142,7 @@ effort = "xhigh"
 agent = "계산기 문제 분석"
 round = 1
 size = { find_cap = "문제점 목록(상한 없음) · 보고서 1" }
+files = { write = 1 }  # 2026-11-04 결과 본 뒤 채움(보고서 하나) — 맞춰 본 것, 시험 아님
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -14218,6 +14222,7 @@ effort = "xhigh"
 agent = "주식 계산기 문제 분석"
 round = 1
 size = { find_cap = "문제점 목록(상한 없음) · 보고서 1" }
+files = { write = 1 }  # 2026-11-04 결과 본 뒤 채움(보고서 하나) — 맞춰 본 것, 시험 아님
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -14291,6 +14296,7 @@ effort = "xhigh"
 agent = "계산기 분석 반영"
 round = 1
 size = { outputs = 1, edits = 10, checks = 5 }
+files = {}  # 2026-11-04 결과 본 뒤 채움: 지시서(결정 D1–D10 반영)가 파일 수를 안 정함(모름)
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -14362,6 +14368,7 @@ effort = "xhigh"
 agent = "계산기 분석 반영"
 round = 2
 size = { reads = 22, outputs = 1, edits = 7, checks = 6 }
+files = {}  # 2026-11-04 결과 본 뒤 채움: 지시서가 파일 수를 안 정함(모름)
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -14747,6 +14754,7 @@ effort = "high"
 agent = "대회 공방 최종 회차"
 round = 1
 size = { reads = 8, outputs = 2, edits = 2 }
+files = { write = 2, edit = 2 }  # 2026-11-04 보낸 뒤 결과 전에 작업 설명에서 채움: 수업정리 2개 새로, 커리큘럼·수업방향 고침
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -14807,6 +14815,7 @@ effort = "medium"
 agent = "review-design-1104"
 round = 1
 size = { find_cap = "4 질문·원문 8건" }
+files = {}  # 2026-11-04 보낸 뒤 채움: 지시서가 쓸 파일 수를 안 정함(모름)
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -14868,6 +14877,7 @@ effort = "high"
 agent = "수업정리 복습 구조 규칙"
 round = 1
 size = { reads = 6, edits = 7 }
+files = { edit = 3 }  # 2026-11-04 보낸 뒤 결과 전에 작업 설명에서 채움: CLAUDE.md·자동화절차.md·수업방향.md 세 파일 (size.edits 7은 절 수)
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"

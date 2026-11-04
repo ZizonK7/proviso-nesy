@@ -147,6 +147,8 @@ class Rescore20261019(unittest.TestCase):
         new["decide"] = {"main_ctx_k": 300, "left": 50, "direct_m": 20.0, "send_m": 9.0, "chose": "보냄", "why": ["비용"]}
         self.assertTrue(any("zz3" in e and "model·effort" in e for e in dp.validate(records + [new], kn)))  # 모델·effort도 11-04부터
         new.update(model="Opus 5.5", effort="high")
+        self.assertTrue(any("zz3" in e and "files" in e for e in dp.validate(records + [new], kn)))  # 쓰는 파일 수도 11-04부터
+        new["files"] = {"write": 1}
         self.assertEqual(dp.validate(records + [new], kn), [])
         new["actual"]["start"] = "01:00:00"
         self.assertTrue(any("UTC ISO" in e for e in dp.validate(records + [new], kn)))
