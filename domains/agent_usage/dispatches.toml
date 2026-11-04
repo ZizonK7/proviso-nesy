@@ -21,6 +21,9 @@
 # Opus 5.5 high로 푼다, dispatches.setup). p168–p170은 main에서 합쳐 온 뒤 같은 규칙으로 채웠다. 채우며 '기본 설정인가'가 두 칸과 어긋난
 # 넷을 고쳤다: p139·p142·p169·p170(Opus 5.5 xhigh인데 S_other_model = 아니오 → 예; p169 돌아보기가 짚은 입력 실수와 같다 — 그 기록들의
 # 계산기 답(calc)은 잘못된 값으로 돌린 그대로 둔다). 이제 S_other_model은 두 칸에서 계산한다(어긋나면 dispatches.py가 막는다). 예측 칸은 고치지 않았다.
+# 2026-11-04 쓰는 파일 수 칸(사용자 결정, CLAUDE.md '파일 수 비율 조각'): files = { write, edit }. p183–p186에 결과를 본 뒤 작업 설명에서
+# 채웠다(edit 15·12·5·2 — 다시 나눈 md 파일 수; 맞춰 본 것이지 시험이 아니다, C_turns_files_scale의 seen_until = p186). p148–p167(파일 20개씩)은
+# S_fixed_input = 예로 적혀 있어 정의(출력 하나)와 어긋나므로 files를 넣지 않는다(넣으면 검사가 막는다) — 그 대 보기도 고치지 않는다(예측 칸은 그대로).
 # 돌아보기 글의 기록 이름이 batman 쪽 이름과 섞인 곳: d88의 'd51b' = 이 파일의 d58, d89의 'd52b' = d64, d94의 'd64' = d68.
 # 공개 저장소: 작업 설명은 종류만 적는다 (게임 내용·코드는 적지 않음).
 #
@@ -44,6 +47,11 @@
 #   size               일의 크기 — 지시서에서 센 수 (2026-11-03부터, knowledge.toml S_specified와 CLAUDE.md '일의 크기 모델').
 #                      { reads 읽을 것, outputs 만들 것, chunks 쓸 덩어리(절·단계), edits 고칠 곳, checks 확인 횟수, find_cap 찾는 일의 상한(글) }.
 #                      지시서에 적힌 것만 세고 모르면 칸을 뺀다. [[dispatch]] 바로 아래(task 다음 줄)에 한 줄 표로 적는다
+#   files              쓰는 파일 수 (2026-11-04 사용자 결정, 2026-11-05부터 보낸 기록에 필수 — batman·메인 자신 제외):
+#                      { write 새로 만들거나 통째로 다시 쓰는 파일 수, edit 일부만 고치는 파일 수 }. 단위는 파일 하나뿐(절·항목·줄은 안 센다 —
+#                      size의 edits·chunks에 단위가 섞여 실패한 까닭). 읽는 파일은 안 센다. 지시서에 이름이나 개수로 적힌 것만; 스크립트 한 번이
+#                      여러 파일을 뱉으면 쓰기가 아니라 확인 1; 지시서가 "필요한 만큼"이면 files = {}(모름, 0이 아님). 메인이 실제 지시서에서 센다.
+#                      S_fixed_input = 예인데 write + edit ≥ 2면 검사가 막는다. 계산기의 비율 조각(C_turns_files_scale)이 빗댄 기록과 비를 낸다
 #   situation          상황 대 보기: 상태 id = "예" / "아니오" / "일부" / "모름". 적지 않은 상태는 모름
 #   actual.status      done / stopped(중간에 멈춤) / unknown(끝났는지 모름). done만 판정에 쓴다
 #   actual.tokens_m    합계 토큰(백만). 캐시 생성 + 캐시 읽기 + 입력 + 출력
@@ -14432,6 +14440,7 @@ effort = "high"
 agent = "수업정리 재분할 심수기"
 round = 1
 size = { edits = 15, reads = 5 }
+files = { edit = 15 }  # 2026-11-04 사후 채움(작업 설명의 md 파일 수) — 맞춰 본 것, 시험 아님
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"  # 2026-11-04 사후 정정: 보낼 때 "예"로 적었으나 상태 정의(출력 하나·순수 추론)와 어긋남 — 출력이 파일 5–15개
@@ -14509,6 +14518,7 @@ effort = "high"
 agent = "수업정리 재분할 확개응자분실논비사"
 round = 1
 size = { edits = 12, reads = 4 }
+files = { edit = 12 }  # 2026-11-04 사후 채움(작업 설명의 md 파일 수) — 맞춰 본 것, 시험 아님
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"  # 2026-11-04 사후 정정: 보낼 때 "예"로 적었으나 상태 정의(출력 하나·순수 추론)와 어긋남 — 출력이 파일 5–15개
@@ -14584,6 +14594,7 @@ effort = "high"
 agent = "수업정리 재분할 심수기"
 round = 2
 size = { edits = 5, reads = 5 }
+files = { edit = 5 }  # 2026-11-04 사후 채움(작업 설명의 md 파일 수) — 맞춰 본 것, 시험 아님
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"  # 2026-11-04 사후 정정: 보낼 때 "예"로 적었으나 상태 정의(출력 하나·순수 추론)와 어긋남 — 출력이 파일 5–15개
@@ -14660,6 +14671,7 @@ effort = "high"
 agent = "수업정리 재분할 확개응자분실논비사"
 round = 2
 size = { edits = 2, reads = 2 }
+files = { edit = 2 }  # 2026-11-04 사후 채움(작업 설명의 md 파일 수) — 맞춰 본 것, 시험 아님
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"  # 2026-11-04 사후 정정: 보낼 때 "예"로 적었으나 상태 정의(출력 하나·순수 추론)와 어긋남 — 출력이 파일 5–15개

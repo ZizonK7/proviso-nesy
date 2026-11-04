@@ -47,6 +47,13 @@ ISO_UTC = re.compile(r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$")
 #   reads 읽을 것 · outputs 만들 것 · chunks 쓸 덩어리(절·단계) · edits 고칠 곳 · checks 확인 횟수 · find_cap 찾는 일의 상한(글, 예 "25 원문")
 SIZE_COUNTS = ("reads", "outputs", "chunks", "edits", "checks")
 SIZE_TEXT = ("find_cap",)
+# 쓰는 파일 수 (2026-11-04 사용자 결정, CLAUDE.md '파일 수 비율 조각'): 기록의 files = { write = 새로 만들거나 통째로 다시 쓰는 파일 수,
+#   edit = 일부만 고치는 파일 수 }. 단위는 파일 하나뿐 — 절·항목·줄은 세지 않는다(size의 chunks·edits에 섞여 실패한 까닭).
+#   읽는 파일은 세지 않는다. 지시서에 이름이나 개수로 적힌 것만; 스크립트 한 번이 여러 파일을 뱉으면 쓰기가 아니라 확인(size.checks) 1;
+#   "필요한 만큼"이면 칸을 뺀다(모름, 0이 아님). 메인이 실제 지시서에서 센다. FILES_REQUIRED_FROM부터 보낸 기록에 필수(batman·메인 자신 제외).
+#   계산기의 비율 조각(C_turns_files_scale)이 빗댄 기록의 같은 칸과 비를 낸다
+FILES_COUNTS = ("write", "edit")
+FILES_REQUIRED_FROM = "2026-11-05"
 ROOT = HERE.parent.parent
 # 다른 저장소의 보고서는 "저장소:경로"로 적는다 (예: "movie_game:docs/worklog/2026-11-03-x.md")
 OTHER_REPO = re.compile(r"^[\w.-]+:(?!/)")
@@ -286,6 +293,33 @@ def model_errors(d: dict) -> list[str]:
     return errors
 
 
+def files_errors(d: dict) -> list[str]:
+    """쓰는 파일 수(files) 검사: 모양, 필수(FILES_REQUIRED_FROM부터), '정해진 입력'(출력 하나) 상태와 어긋나면 막는다."""
+    did, errors = d.get("id", "?"), []
+    files = d.get("files")
+    sit = d.get("situation", {})
+    if files is None:
+        if (str(d.get("date", "")) >= FILES_REQUIRED_FROM and d.get("project") != "batman"
+                and sit.get("S_main_self") != "예"):
+            errors.append(f"{did}: files(쓰는 파일 수: write 새로·통째로 쓰는 파일, edit 일부 고치는 파일)가 없음 — 지시서에서 세어 "
+                          f"보낼 일 파일에 적으면 `record send`가 옮긴다. 지시서가 수를 안 정하면 files = {{}}")
+        return errors
+    if not isinstance(files, dict):
+        return [f"{did}: files는 {{ write = 수, edit = 수 }} 표여야 함"]
+    total = 0
+    for k, v in files.items():
+        if k not in FILES_COUNTS:
+            errors.append(f"{did}: files의 칸 '{k}'는 {FILES_COUNTS} 중 하나여야 함 (단위는 파일 — 절·항목·줄은 size에)")
+        elif isinstance(v, bool) or not isinstance(v, int) or v < 0:
+            errors.append(f"{did}: files.{k}는 0 이상의 정수(파일 수)여야 함 (모르면 칸을 뺀다)")
+        else:
+            total += v
+    if sit.get("S_fixed_input") == "예" and total >= 2:
+        errors.append(f"{did}: S_fixed_input = 예(출력 하나인 순수 추론)인데 쓰는 파일이 {total}개 — 파일이 여럿이면 아니오 "
+                      f"(p183–p186이 이렇게 대 보기를 틀려 계산기가 10배 작게 봤다)")
+    return errors
+
+
 def form_required(d: dict) -> bool:
     """FORM_REQUIRED_FROM 뒤의 끝난(실측이 있는) 기록인가 — 그러면 turns 칸과 review.report가 필수."""
     return done(d) and "minutes" in d.get("actual", {}) and str(d.get("date", "")) >= FORM_REQUIRED_FROM
@@ -417,6 +451,7 @@ def validate(records: list[dict], kn: schema.Knowledge) -> list[str]:
             errors.append(f"{did}: 끝난 작업인데 실측 시간이 없음")
         errors.extend(model_errors(d))
         errors.extend(form_errors(d))
+        errors.extend(files_errors(d))
     return errors
 
 

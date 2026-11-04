@@ -55,6 +55,8 @@ model = "Opus 5.5"
 effort = "high"
 agent = "작성"
 round = 14
+[files]
+write = 1
 [situation]
 S_resumed = "예"
 S_specified = "예"
@@ -90,9 +92,29 @@ why = ["대화 계속"]
         self.assertEqual((d["actual"]["status"], d["actual"]["start"], d["actual"]["turns"]), ("done", "2026-11-04T01:00:00Z", 2))
         self.assertIn("turns", d)
         self.assertEqual(d["review"]["report"], "docs/worklog/CLAUDE.md")
-        errors = [e for e in dp.validate(dp.load(self.tmp / "d.toml"), pr.load_kn()) if e.startswith(rid)]
+        # 배치 줄 검사는 저장소의 docs/AGENT-LOG.md를 보므로(임시 복사본이 아님) 여기서는 뺀다
+        errors = [e for e in dp.validate(dp.load(self.tmp / "d.toml"), pr.load_kn()) if e.startswith(rid) and "AGENT-LOG" not in e]
         self.assertEqual(errors, [f"{rid}: 시간 구간이 빗나갔는데 review.wrong(틀린 조각 id)과 review.why(조건 흐림/이유 틀림/바깥 상황/까닭 모름)가 없음 "
                                   f"(까닭을 못 찾았으면 why = \"까닭 모름\", 이때 wrong은 비워도 된다)"] if d["predicted"]["told"] != dp.zone(d["actual"]["minutes"]) else [])
+
+    def test_send_needs_the_file_count_from_nov_5(self):
+        # 2026-11-04 사용자 결정: 쓰는 파일 수(files)는 실제 지시서에서 세어 보낼 때 적는다 — 2026-11-05부터 없으면 막는다
+        job = (self.tmp / "job.toml").read_text(encoding="utf-8")
+        no_files = job.replace("[files]\nwrite = 1\n", "")
+        (self.tmp / "late.toml").write_text(no_files.replace("batch = 999", 'batch = 999\ndate = "2026-11-05"'), encoding="utf-8")
+        with self.assertRaises(SystemExit) as cm:
+            rc.send(self.tmp / "late.toml", self.tmp / "d.toml", self.tmp / "log.md")
+        self.assertIn("[files]", str(cm.exception))
+        (self.tmp / "early.toml").write_text(no_files.replace("batch = 999", 'batch = 999\ndate = "2026-11-04"'), encoding="utf-8")
+        rc.send(self.tmp / "early.toml", self.tmp / "d.toml", self.tmp / "log.md")  # 그 전 날짜는 없어도 된다
+        # 정해진 입력(출력 하나)인데 파일이 여럿이면 보낼 때 막는다
+        (self.tmp / "clash_files.toml").write_text(job.replace("write = 1", "write = 3").replace('S_resumed = "예"', 'S_resumed = "예"\nS_fixed_input = "예"'),
+                                                   encoding="utf-8")
+        with self.assertRaises(SystemExit) as cm:
+            rc.send(self.tmp / "clash_files.toml", self.tmp / "d.toml", self.tmp / "log.md")
+        self.assertIn("S_fixed_input", str(cm.exception))
+        d = dp.load(self.tmp / "d.toml")[-1]
+        self.assertEqual(d["files"], {"write": 1}) if "files" in d else None
 
     def test_send_needs_model_and_effort_and_checks_the_default_setup_state(self):
         job = (self.tmp / "job.toml").read_text(encoding="utf-8")

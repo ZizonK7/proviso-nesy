@@ -44,7 +44,8 @@ VERDICTS = ("지지", "반박", "일부")
 # 효과 칸(2026-10-19, 계산되는 논리): 가설·규칙이 기계가 읽는 효과를 가질 수 있다.
 #   [[hypothesis.effect]] / [[rule.effect]] — on(무엇에) · op(어떻게) · range([하한, 상한]) · when(언제: 상태 id = 값) · reason(왜)
 # 코어는 무엇에(on)의 이름을 모른다: 분야가 [domain] quantities로 밝힌다. 상황 값도 분야의 situation_values.
-OPS = {"base": "기준값", "mul": "곱하기", "add": "더하기"}
+OPS = {"base": "기준값", "mul": "곱하기", "add": "더하기", "scale": "비율"}
+# scale(비율, 2026-11-04): 빗댄 사례의 수 대비 이번 수(count 칸이 가리키는 기록 칸)로 곱한다. 범위 숫자가 없다 — 배수는 두 기록의 수에서 나온다
 DIRS = {"up": "늘린다", "down": "줄인다"}
 MAX_RATIO = 2.0  # 범위 폭 상한(상한/하한). 분야가 [domain] max_ratio로 바꿀 수 있다. 숫자만 넓혀 맞추는 것을 막는다
 
@@ -233,7 +234,14 @@ def _effect_errors(kn: Knowledge, node: Node) -> list[str]:
         rng = e.get("range")
         ok_range = (isinstance(rng, list) and len(rng) == 2 and all(isinstance(x, (int, float)) for x in rng)
                     and 0 < rng[0] <= rng[1])
-        if not ok_range:
+        if op == "scale":  # 비율 조각: 숫자가 없다. 어느 수(count)로 비를 내는지만 적는다
+            if rng is not None:
+                errors.append(f"{where}: 비율(scale) 조각은 range가 없다 — 배수는 빗댄 사례의 수 대비 이번 수에서 나온다")
+            if not (isinstance(e.get("count"), str) and e["count"].strip()):
+                errors.append(f"{where}: 비율(scale) 조각은 count(비를 낼 기록 칸 이름)가 있어야 함")
+            if e.get("dir") is not None:
+                errors.append(f"{where}: 비율(scale) 조각은 방향 주장(dir)이 없다 — 방향은 두 수의 비가 정한다")
+        elif not ok_range:
             errors.append(f"{where}: range는 [하한, 상한] (0 < 하한 ≤ 상한)이어야 함")
         elif rng[1] / rng[0] > max_ratio + 1e-9:
             errors.append(f"{where}: 범위 폭 {rng[1] / rng[0]:.2f}배가 상한 {max_ratio:g}배를 넘음 — 넓혀서 맞추지 말고 조건을 찾는다")

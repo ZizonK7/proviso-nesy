@@ -202,6 +202,10 @@ class Devices(unittest.TestCase):
     def setUp(self):
         self.kn = pr.load_kn()
         self.records = dp.load()
+        self.pieces = pr.live_pieces(self.kn)
+
+    def rec(self, rid):
+        return next(d for d in self.records if d["id"] == rid)
 
     def test_outside_situation_records_are_excepted_but_shown(self):
         # 돌아보기 까닭이 '바깥 상황'인 기록은 계산 조각 시험에서 빠지되, 성적표와 audit에 늘 보인다
@@ -281,11 +285,14 @@ class Devices(unittest.TestCase):
         self.assertTrue(any("R_tok_v2 → R_tok_v3" in w for w in audit.unsplit_revisions(self.kn)))
 
     def test_seen_until_principle_final_pieces_are_untested_now(self):
-        # 세운 시점은 p05다. p05까지의 기록은 '맞춰 본 것'일 뿐 시험에 들어가지 않는다(시험은 p06부터 쌓인다)
+        # 세운 시점은 p05다. p05까지의 기록은 '맞춰 본 것'일 뿐 시험에 들어가지 않는다(시험은 p06부터 쌓인다).
+        # 비율 조각(2026-11-04)은 세운 때가 p186이다 — 숫자가 없어 fit final 구역 밖에 있고 seen_until만 따로다
+        built = {"C_turns_files_scale": "p186"}
         for p in pr.live_pieces(self.kn):
-            self.assertEqual(p.seen_until, "p05", p.id)
+            cut = built.get(p.id, "p05")
+            self.assertEqual(p.seen_until, cut, p.id)
             verdict, detail = checks.piece_size(p.id)
-            self.assertTrue(verdict.startswith("시험 전") or "시험(p05 다음부터)" in detail, (p.id, verdict, detail))
+            self.assertTrue(verdict.startswith("시험 전") or f"시험({cut} 다음부터)" in detail, (p.id, verdict, detail))
 
     def test_split_pieces_say_why_the_condition_matters(self):
         for pid in ("C_turns_research_v2", "C_turns_resumed_v2", "C_turns_no_check", "C_fix_existing_v2",
@@ -303,6 +310,62 @@ class Devices(unittest.TestCase):
             self.assertEqual(o["status"], "retired")
             self.assertEqual(o["replaced_by"], [new])
             self.assertTrue(set(n["conditions"]) - set(o["conditions"]), new)
+
+    def test_scale_piece_has_no_number_and_needs_a_count(self):
+        # 비율 조각(op = scale, 2026-11-04): 배수는 두 기록의 수에서 나온다 — range·dir 금지, count 필수
+        good = 'on="turns"\nop="scale"\ncount="files"\nwhen={S_a="예"}\nreason="왜"'
+        self.assertEqual(schema.validate(load_text(piece_toml(good))), [])
+        errs = schema.validate(load_text(piece_toml(good + "\nrange=[1,1]")))
+        self.assertTrue(any("range가 없다" in e for e in errs), errs)
+        errs = schema.validate(load_text(piece_toml(good.replace('count="files"\n', ""))))
+        self.assertTrue(any("count" in e for e in errs), errs)
+        errs = schema.validate(load_text(piece_toml(good + '\ndir="up"')))
+        self.assertTrue(any("dir" in e for e in errs), errs)
+
+    def test_count_ratio_takes_the_larger_ratio_of_shared_counts(self):
+        self.assertEqual(pr.count_ratio({"write": 9}, {"write": 6}), 1.5)
+        self.assertEqual(pr.count_ratio({"write": 3, "edit": 4}, {"write": 6, "edit": 2}), 2.0)  # 각각의 비 중 큰 쪽
+        self.assertIsNone(pr.count_ratio({"write": 9}, {"edit": 6}))     # 겹치는 칸이 없다
+        self.assertIsNone(pr.count_ratio({"write": 9}, None))            # 빗댄 기록에 칸이 없다 → 안 걸린다
+        self.assertIsNone(pr.count_ratio({"write": 0}, {"write": 6}))    # 0은 '없음'이라 비를 내지 않는다
+        self.assertIsNone(pr.count_ratio({}, {"write": 6}))
+
+    def test_scale_piece_rides_only_on_the_analog_base(self):
+        # 빗댄 기록 p185(edit 5, 53턴)에 파일 10개짜리 이번 일을 대면 턴 기준값이 ×2, 파일 수가 없으면 조각이 안 걸린다
+        a = self.rec("p185")
+        sit = {**a["situation"]}
+        with_files = pr.predict(sit, "gemmin", self.pieces, self.kn, a, {"files": {"edit": 10}})
+        scale = [m for m in with_files.q["turns"].muls if m.op == "scale"]
+        self.assertEqual([(m.piece, m.lo, m.hi) for m in scale], [("C_turns_files_scale", 2.0, 2.0)])
+        self.assertIn("이번 files ÷ 빗댄 기록의 files = ×2.00", pr.explain(with_files, self.pieces))
+        without = pr.predict(sit, "gemmin", self.pieces, self.kn, a)
+        self.assertEqual(without.q["turns"].muls, [])
+        lo_w, hi_w = with_files.q["turns"].range()
+        lo, hi = without.q["turns"].range()
+        self.assertAlmostEqual(lo_w / lo, 2.0)
+        self.assertAlmostEqual(hi_w / hi, 2.0)
+        # 빗댄 기록이 없으면(스위치 계산) 비율 조각은 어디에도 없다
+        plain = pr.predict(sit, "gemmin", self.pieces, self.kn)
+        self.assertFalse(any(e.op == "scale" for e in plain.used()))
+
+    def test_scale_piece_is_scored_on_records_with_analog_and_counts(self):
+        # 시험(세우기 전에 정함): 방향 = 비율을 곱한 비유 계산이 곱하지 않은 것보다 실측에 가까운 기록이 절반 넘게, 크기 = 비유 범위 안
+        a = self.rec("p185")
+        def fake(rid, edit, turns):
+            return {"id": rid, "project": "gemmin", "batch": 1, "date": "2026-11-06", "task": "t", "files": {"edit": edit},
+                    "situation": {**a["situation"]}, "predicted": {"analog": "p185", "minutes": [1, 2]},
+                    "actual": {"status": "done", "minutes": 10, "turns": turns}}
+        recs = [fake("zz1", 10, 106), fake("zz2", 15, 150), fake("zz3", 5, 53)]  # zz3은 수가 같아(×1) 시험이 아니다
+        rows = [r for r in ho.piece_scores(self.pieces, recs, self.kn, self.records + recs) if r["piece"] == "C_turns_files_scale"]
+        self.assertEqual(len(rows), 1)
+        self.assertEqual((rows[0]["with"], rows[0]["size_n"], rows[0]["size_hits"], rows[0]["direction"]), (["zz1", "zz2"], 2, 2, "지지"))
+        rows = [r for r in ho.piece_scores(self.pieces, recs[:1], self.kn, self.records + recs) if r["piece"] == "C_turns_files_scale"]
+        self.assertEqual(rows[0]["direction"], "시험 전")  # 1건으로는 판정하지 않는다
+        # 지금 기록에는 걸린 것이 없다 — audit이 '0건' 경고를 낸다(오류 아님)
+        verdict, _ = checks.piece_size("C_turns_files_scale")
+        self.assertTrue(verdict.startswith("시험 전"))
+        _, warns = checks.audit_pieces(self.kn)
+        self.assertTrue(any("C_turns_files_scale" in w and "0건" in w for w in warns), warns)
 
     def test_pieces_name_no_project_or_app(self):
         names = ("proviso", "batman", "flowlog", "music", "godot", "sonnet", "fable", "opus")
