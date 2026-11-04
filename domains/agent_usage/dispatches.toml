@@ -14834,4 +14834,14 @@ added_k = 2
 chose = "보냄"
 why = ["결과를 가림"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 3.9  # get_session created_at 04:50:20 → 마지막 답장 04:54:13 (UTC). 완료 알림 duration 233초
+start = "2026-11-04T04:50:20Z"
+end = "2026-11-04T04:54:13Z"
+tokens_m = 3.14  # 세션 usage: 캐시 읽기 134만 + 캐시 쓰기 54만 + 입력 117만 + 출력 8.8만(생각 3.6만). 비용 0.50달러. 응답 28개, 하위 web-fetch 6개
+[dispatch.turns]
+skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)이 없다"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-04-review-design.md"
+reason = "말한 구간 '잠깐' 맞음(3.9분, 손 예측 2–4 안). 토큰 3.14M은 손 1–3M보다 조금 위(T1 맞음) — 하위 web-fetch 6개가 PDF 바이너리를 받아 입력이 커졌다. 계산기는 Haiku 기준값이 없어 모름. 전송 조건(연구 원문 6건 + 실무 2건) 중 연구 원문은 부분 열람 4건으로 모자랐고 스스로 밝혔다 — 핵심 논문 PDF(Purdue 학습실·Cepeda·Rowland)가 바이너리·403·503. 품질 3: 질문 A(2차 문제 난이도)는 '성공 가능한 어려움 + 즉시 피드백'으로 방향이 분명하지만 숫자는 검색 요약값, 질문 B(증명 복습)는 직접 근거 없음을 밝히고 3단계(핵심 아이디어 백지 → 빈칸 채우기 → 변형 문제) 추론 권고. 1일·1주 간격은 출발점으로 타당, 3–4주 뒤 한 번 더는 원문 미확인 추론"
+
