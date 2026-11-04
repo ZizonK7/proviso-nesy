@@ -15684,8 +15684,21 @@ added_k = 394
 chose = "보냄"
 why = ["대화 계속", "대화 맥락"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
-
+status = "done"
+minutes = 3.1  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 25
+tokens_m = 11.09  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T07:43:08Z"
+end = "2026-11-04T07:46:13Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
+reason = "말한 구간 '잠깐' 맞음(3.1분). 턴 25는 25–40 바닥, 토큰 11.1M은 6–11 위쪽 끝. 세 장을 한 회차에 묶으니 장당 1분·8턴 — 한 장씩 보낼 때(1.4–3.5분)보다 장당 훨씬 짧다(R_variants: 공통 부분 한 번). 그림 둘(19 개형, 20 도형)에도 배율 축소 없이 한 쪽. 메인 png 검토 셋 다 통과"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Read" = { n = 12, sum_s = 53.0, turn_s = 0.6, tool_s = 0.0, out_chars = 100.0, ctx_k = 436.0 }
+"글" = { n = 6, sum_s = 87.1, turn_s = 7.0, out_chars = 0.0, ctx_k = 437.0 }
+"Bash:cd" = { n = 5, sum_s = 28.8, turn_s = 6.7, tool_s = 2.3, out_chars = 603, ctx_k = 436 }
+"Bash:mkdir" = { n = 1, sum_s = 6.8, turn_s = 6.8, tool_s = 3.2, out_chars = 13680, ctx_k = 438 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 1299, ctx_k = 466 }
 [[dispatch]]
 id = "p200"
 project = "exam_grader"
@@ -15744,5 +15757,80 @@ send_m = 6.4
 added_k = 84
 chose = "보냄"
 why = ["새 눈"]
+[dispatch.actual]
+status = "done"
+minutes = 3.0  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 19
+tokens_m = 1.69  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T07:43:30Z"
+end = "2026-11-04T07:46:29Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
+reason = "말한 구간 '잠깐' 맞음(3.0분). p196·p142와 같은 크기(16–17턴·1.5M). 지적 12개(수학 통과) — 메인 수용 11, 보류 1(sheet.css 전역). 메인이 못 본 것: 핵심 상자의 '에서만'(t = 2에서도 바뀜), 극값이 둘이라는 근거, (가)의 이유 빠짐"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 7, sum_s = 23.1, turn_s = 1.1, out_chars = 0, ctx_k = 93 }
+"Read" = { n = 7, sum_s = 141.3, turn_s = 3.8, tool_s = 0.0, out_chars = 100, ctx_k = 88 }
+"Bash:cd" = { n = 3, sum_s = 10.0, turn_s = 3.0, tool_s = 0.8, out_chars = 348, ctx_k = 92 }
+"Bash:grep" = { n = 1, sum_s = 2.7, turn_s = 2.7, tool_s = 0.2, out_chars = 272, ctx_k = 103 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 2050, ctx_k = 106 }
+
+[[dispatch]]
+id = "p201"
+project = "exam_grader"
+batch = 58
+date = 2026-11-04
+task = "수정(같은 작성 에이전트 18회차, 이어서): 15번 검토 지적 11개 반영(극값 둘 근거, (가) 이유, 핵심 상자 고침, 손글씨 둘 일반형, 식·제목·라벨 손질) + 재렌더·png 확인"
+model = "Opus 5.5"
+effort = "high"
+agent = "꿀모 S2 2회 풀이지 작성"
+round = 18
+size = { reads = 3 }
+files = { write = 0, edit = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "예"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [1.5, 3]
+turns = [10, 20]
+tokens_m = [3, 7]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p197"
+reason = "빗댄 p197(14번 검토 반영 12개 + 그림 라벨, 2.7분·18턴·6.9M). 같은 크기 → 10–20턴, 1.5–3분 '잠깐', 3–7M"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [7.48, 14.96]
+[dispatch.decide]
+main_ctx_k = 400
+left = 60
+direct_m = 72.8
+send_m = 9.2
+added_k = 528
+chose = "보냄"
+why = ["대화 계속", "메인 맥락 보호"]
 [dispatch.actual]
 status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
