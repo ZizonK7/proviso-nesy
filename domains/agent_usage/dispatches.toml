@@ -14794,8 +14794,28 @@ added_k = 576
 chose = "보냄"
 why = ["결과를 가림", "대화 계속"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
-
+status = "done"
+minutes = 26.2  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 71
+tokens_m = 17.47  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T04:38:27Z"
+end = "2026-11-04T05:04:37Z"
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(26.2분, 손 20–35 안). 계산기(10–20분, 다른 일)도 구간은 맞았고 분은 아래로 벗어남. 턴 71은 손 120–220·계산기 둘 다보다 적다 — 긴 턴(파일 2개를 각각 한 번에 씀)이라 턴 수는 적고 턴당 시간이 길었다. 토큰 17.5M(기록 단위)은 손 40–80M보다 작음. 품질 4: 3-1 1단계 4블록·문제 6, 2단계 3블록·문제 5 / 3-2 1단계 5블록·문제 6, 2단계 3블록·문제 7. 새 실험은 숫자를 지어내지 않고 판정 기준으로 둠. 사용자 확인 거리 4개(피처 바꾸는 위치가 DO NOT MODIFY 기준선과 얽힘, 자분실 옛 경로, 최종 파일명·패키지, 가정 숫자 표시)"
+report = "Professor_King:작업보고/2026-11-04_은하_최종회차.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 31, sum_s = 881.0, turn_s = 1.1, out_chars = 0, ctx_k = 224 }
+"Bash:cd" = { n = 24, sum_s = 86.8, turn_s = 3.0, tool_s = 0.2, out_chars = 170.5, ctx_k = 287.0 }
+"Bash:python3" = { n = 5, sum_s = 486.8, turn_s = 13.8, tool_s = 0.5, out_chars = 266, ctx_k = 200 }
+"Bash:cat" = { n = 2, sum_s = 23.4, turn_s = 11.7, tool_s = 0.5, out_chars = 29165.5, ctx_k = 235.0 }
+"Bash:bukekk7f8.tx" = { n = 2, sum_s = 17.0, turn_s = 8.5, tool_s = 1.0, out_chars = 147.5, ctx_k = 185.0 }
+"Bash:date" = { n = 1, sum_s = 5.2, turn_s = 5.2, tool_s = 3.1, out_chars = 286, ctx_k = 84 }
+"Bash:ls" = { n = 1, sum_s = 3.4, turn_s = 3.4, tool_s = 0.7, out_chars = 313, ctx_k = 160 }
+"Bash:sed" = { n = 1, sum_s = 3.4, turn_s = 3.4, tool_s = 1.1, out_chars = 127, ctx_k = 182 }
+"Bash:git" = { n = 1, sum_s = 3.7, turn_s = 3.7, tool_s = 0.3, out_chars = 245, ctx_k = 197 }
+"Bash:mkdir" = { n = 1, sum_s = 52.6, turn_s = 52.6, tool_s = 0.2, out_chars = 53104, ctx_k = 224 }
+"Bash:Seoul" = { n = 1, sum_s = 3.1, turn_s = 3.1, tool_s = 0.5, out_chars = 779, ctx_k = 375 }
+"SubagentHandback" = { n = 1, sum_s = 0.3, turn_s = 0.3, tool_s = 0.3, out_chars = 1280, ctx_k = 379 }
 [[dispatch]]
 id = "p188"
 project = "gemmin"
