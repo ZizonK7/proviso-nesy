@@ -15598,4 +15598,151 @@ added_k = 382
 chose = "보냄"
 why = ["대화 계속", "대화 맥락"]
 [dispatch.actual]
+status = "done"
+minutes = 2928.3  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 238
+tokens_m = 55.40  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-02T06:52:48Z"
+end = "2026-11-04T07:41:07Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
+reason = "말한 구간 '잠깐' 맞음. 빗댄 p195(14번, 그림 둘)와 같은 크기 — 그림 둘짜리 풀이지는 3–4분·15턴 안팎에 재렌더 4회가 기본. 에이전트가 메인 지시서의 부정문 핵심 상자를 스스로 고쳐 씀"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 76, sum_s = 551.0, turn_s = 4.4, out_chars = 0.0, ctx_k = 228.5 }
+"Bash:cd" = { n = 75, sum_s = 424.1, turn_s = 4.5, tool_s = 2.0, out_chars = 1003, ctx_k = 245 }
+"Read" = { n = 50, sum_s = 409.9, turn_s = 5.6, tool_s = 0.1, out_chars = 88.0, ctx_k = 255.5 }
+"SubagentHandback" = { n = 16, sum_s = 173901.7, turn_s = 339.8, tool_s = 0.2, out_chars = 1285.5, ctx_k = 261.0 }
+"Bash:grep" = { n = 4, sum_s = 40.6, turn_s = 5.4, tool_s = 1.4, out_chars = 261.0, ctx_k = 100.5 }
+"Bash:ls" = { n = 4, sum_s = 33.9, turn_s = 5.9, tool_s = 1.8, out_chars = 375.0, ctx_k = 107.5 }
+"Bash:cat" = { n = 3, sum_s = 32.2, turn_s = 9.3, tool_s = 8.5, out_chars = 380, ctx_k = 110 }
+"Bash:mkdir" = { n = 2, sum_s = 25.0, turn_s = 12.5, tool_s = 1.6, out_chars = 695.0, ctx_k = 101.0 }
+"Bash:(npm" = { n = 1, sum_s = 73.7, turn_s = 73.7, tool_s = 72.6, out_chars = 481, ctx_k = 93 }
+"Bash:npm" = { n = 1, sum_s = 75.2, turn_s = 75.2, tool_s = 73.8, out_chars = 293, ctx_k = 99 }
+"Bash:npm_config_n" = { n = 1, sum_s = 76.2, turn_s = 76.2, tool_s = 74.3, out_chars = 197, ctx_k = 102 }
+"Bash:curl" = { n = 1, sum_s = 5.7, turn_s = 5.7, tool_s = 3.5, out_chars = 443, ctx_k = 104 }
+"Bash:find" = { n = 1, sum_s = 32.3, turn_s = 32.3, tool_s = 30.6, out_chars = 348, ctx_k = 105 }
+"Bash:rm" = { n = 1, sum_s = 3.8, turn_s = 3.8, tool_s = 2.7, out_chars = 582, ctx_k = 118 }
+"Bash:sed" = { n = 1, sum_s = 2.9, turn_s = 2.9, tool_s = 0.7, out_chars = 108, ctx_k = 125 }
+"Bash:python3" = { n = 1, sum_s = 4.4, turn_s = 4.4, tool_s = 3.1, out_chars = 744, ctx_k = 126 }
+
+[[dispatch]]
+id = "p199"
+project = "exam_grader"
+batch = 58
+date = 2026-11-04
+task = "구현(세션 안 Opus 5.5 high, 작성 에이전트 이어서 17회차): 19·20·21번 풀이지 세 장 한 번에(19 삼차 최대·최소, 20 빈칸 도형 그림 1, 21 적분 조건) + 렌더·png 확인, teacher.md 수업 논리 2줄, session.md 3줄"
+model = "Opus 5.5"
+effort = "high"
+agent = "꿀모 S2 2회 풀이지 작성"
+round = 17
+size = { reads = 3 }
+files = { write = 3, edit = 2 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "예"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [5, 8]
+turns = [25, 40]
+tokens_m = [6, 11]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p195"
+reason = "빗댄 p195·p198(그림 둘 풀이지 한 장 3.5분·15턴·5.3M)와 p138(그림 없는 한 장 1.4분·11턴·2.9M). 세 장 = 그림 없는 둘(19·21) + 그림 하나(20) ≈ 1.5 + 1.5 + 3 → 25–40턴, 5–8분 '잠깐', 6–11M. 같은 회차에 세 장을 묶는 건 첫 기록(R_variants 시험)"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [10.89, 21.77]
+[dispatch.decide]
+main_ctx_k = 400
+left = 60
+direct_m = 66.1
+send_m = 12.7
+added_k = 394
+chose = "보냄"
+why = ["대화 계속", "대화 맥락"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p200"
+project = "exam_grader"
+batch = 58
+date = 2026-11-04
+task = "검토(세션 안 Opus 5.5 xhigh, 새 에이전트): 15번 풀이지를 문제 원문·선생님 원문·teacher.md 규칙과 대조해 고칠 점 목록만. 파일 수정 없음"
+model = "Opus 5.5"
+effort = "xhigh"
+agent = "15번 풀이지 검토 (xhigh)"
+round = 1
+size = { reads = 5 }
+files = { write = 0, edit = 0 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [1.5, 3.5]
+turns = [12, 20]
+tokens_m = [1, 2.5]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_say_numbers_v3"]
+analog = "p196"
+reason = "빗댄 p196(14번 검토, 2.9분·17턴·1.5M). 같은 지시서·같은 읽을 양 → 12–20턴, 1.5–3.5분 '잠깐', 1–2.5M"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [6.04, 12.08]
+[dispatch.decide]
+main_ctx_k = 420
+left = 60
+direct_m = 17.3
+send_m = 6.4
+added_k = 84
+chose = "보냄"
+why = ["새 눈"]
+[dispatch.actual]
 status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
