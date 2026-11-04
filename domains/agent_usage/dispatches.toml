@@ -15454,7 +15454,29 @@ added_k = 327
 chose = "보냄"
 why = ["결과를 가림", "대화 계속"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 9.9  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 93
+tokens_m = 19.47  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T09:00:08Z"
+end = "2026-11-04T09:10:04Z"
+[dispatch.review]
+wrong = ["R_say_numbers_v3"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' → 실제 '잠깐'(9.9분). 손 20–40·계산기 46–91 모두 위로 빗나갔고, 빗댄 기록 규칙(p195 15.1분 × 0.76–1.51 → 11.5–22.8분)이 가장 가까웠다(그래도 조금 위). 두 레포·세 곳 잇기를 무겁게 봤는데 기존 schedule·todo 경로(파서·캐시·스크립트)를 그대로 본뜨는 일이라 p195와 같은 크기였다. 빌드 루프가 없는 것도 짧게 만든 쪽. 토큰 19.5M(기록 단위)은 20–50 하한 바로 아래. 품질 4(빌드 전 잠정): 파일 이름 충돌(AGENTS.md)을 스스로 잡아 sessions.md로 바꾸고, 옛·새 스크립트 JSON 동일 비교, 틀린 형식 검사, 순수 계산 테스트 8개를 kotlinc로 돌림. 화면 코드는 컴파일 못 함"
+report = "docs/worklog/2026-11-04-gemmin-app-sessions.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 39, sum_s = 286.6, turn_s = 2.4, out_chars = 0, ctx_k = 221 }
+"Bash:cd" = { n = 35, sum_s = 167.6, turn_s = 3.1, tool_s = 0.2, out_chars = 268, ctx_k = 217 }
+"Write" = { n = 6, sum_s = 19.1, turn_s = 3.2, tool_s = 0.0, out_chars = 5556.0, ctx_k = 230.5 }
+"Read" = { n = 3, sum_s = 5.1, turn_s = 2.1, tool_s = 0.0, out_chars = 112, ctx_k = 102 }
+"Bash:scratchpad;" = { n = 3, sum_s = 39.7, turn_s = 17.0, tool_s = 11.9, out_chars = 1369, ctx_k = 249 }
+"Bash:awk" = { n = 2, sum_s = 6.4, turn_s = 3.2, tool_s = 0.7, out_chars = 166.0, ctx_k = 195.0 }
+"Bash:wt-gemmin;" = { n = 1, sum_s = 3.3, turn_s = 3.3, tool_s = 1.0, out_chars = 265, ctx_k = 171 }
+"Bash:git" = { n = 1, sum_s = 2.8, turn_s = 2.8, tool_s = 0.3, out_chars = 103, ctx_k = 191 }
+"Bash:sed" = { n = 1, sum_s = 46.8, turn_s = 46.8, tool_s = 0.4, out_chars = 262, ctx_k = 199 }
+"Bash:ls" = { n = 1, sum_s = 14.0, turn_s = 14.0, tool_s = 8.0, out_chars = 226, ctx_k = 200 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 2065, ctx_k = 272 }
 
 # 2026-11-04 번호 다시 매김: 아래 p197·p198(배치 59)은 stock-rader 세션이 p183·p184(배치 51)로 적어 두었던 기록인데, gemmin 세션이 같은 번호를 먼저 main에 올려 뒤 번호로 옮겼다(docs/worklog/2026-11-02-branch-merge.md 방식).
 
