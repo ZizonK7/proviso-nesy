@@ -15215,8 +15215,24 @@ added_k = 655
 chose = "보냄"
 why = ["결과를 가림", "대화 계속"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
-
+status = "done"
+minutes = 26.2  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 187
+tokens_m = 56.45  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T05:27:52Z"
+end = "2026-11-04T05:54:07Z"
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' 맞음(26분), 분은 손 15–25의 위를 조금 넘음. 계산기 31–63분(신경 끄기)은 구간 틀림. 빗댄 p183(옮기기)·p185(절 추가)의 합으로 잡았는데 §9 시험 문제를 회차당 17–20개 새로 쓰고 복습도 통째로 다시 쓰는 양이라 '절 추가'보다 컸다 — 쓰는 문제 수가 조건에 없었다. 품질 4: §9 1단계 7–9·2단계 9–12, 2차 4문제 19–20분, 예상시간 칸. 불확실 3(옛 2차 문제가 §9로 가서 이미 푼 문제 섞임, 1차 처리 추가, 사본 문제 미이관)"
+report = "Professor_King:작업보고/2026-11-04_심수기_시험문제복습.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Bash:cd" = { n = 91, sum_s = 902.8, turn_s = 3.8, tool_s = 0.2, out_chars = 324, ctx_k = 303 }
+"글" = { n = 86, sum_s = 618.3, turn_s = 2.3, out_chars = 0.0, ctx_k = 302.5 }
+"Bash:python3" = { n = 7, sum_s = 37.0, turn_s = 5.1, tool_s = 0.2, out_chars = 595, ctx_k = 327 }
+"Bash:date" = { n = 1, sum_s = 4.2, turn_s = 4.2, tool_s = 2.1, out_chars = 312, ctx_k = 84 }
+"Bash:mkdir" = { n = 1, sum_s = 9.8, turn_s = 9.8, tool_s = 0.2, out_chars = 1681, ctx_k = 201 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 1221, ctx_k = 456 }
 [[dispatch]]
 id = "p194"
 project = "gemmin"
@@ -15276,4 +15292,26 @@ added_k = 713
 chose = "보냄"
 why = ["결과를 가림", "대화 계속"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 24.7  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 185
+tokens_m = 60.38  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T05:27:52Z"
+end = "2026-11-04T05:52:37Z"
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' 맞음(24.7분), 분은 손 12–20 위. 계산기 31–63분은 구간 틀림. p193과 같은 까닭 — 회차당 새 문제 4–11개를 쓰는 양이 빠졌다. 자분실은 R 대신 Python으로 숫자를 재현해 허용 범위를 둠. 품질 4"
+report = "Professor_King:작업보고/2026-11-04_확개응자분실논비사_시험문제복습.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Bash:cd" = { n = 96, sum_s = 734.3, turn_s = 3.1, tool_s = 0.2, out_chars = 242.0, ctx_k = 326.0 }
+"글" = { n = 79, sum_s = 697.6, turn_s = 1.5, out_chars = 0, ctx_k = 328 }
+"Bash:mkdir" = { n = 2, sum_s = 7.4, turn_s = 3.7, tool_s = 0.5, out_chars = 1730.5, ctx_k = 258.5 }
+"Bash:date" = { n = 1, sum_s = 4.2, turn_s = 4.2, tool_s = 2.2, out_chars = 286, ctx_k = 84 }
+"Bash:pip" = { n = 1, sum_s = 11.2, turn_s = 11.2, tool_s = 9.4, out_chars = 179, ctx_k = 252 }
+"Bash:sed" = { n = 1, sum_s = 3.7, turn_s = 3.7, tool_s = 1.3, out_chars = 194, ctx_k = 331 }
+"Bash:which" = { n = 1, sum_s = 5.4, turn_s = 5.4, tool_s = 2.0, out_chars = 188, ctx_k = 346 }
+"Bash:python3" = { n = 1, sum_s = 3.6, turn_s = 3.6, tool_s = 0.8, out_chars = 262, ctx_k = 352 }
+"Bash:Seoul" = { n = 1, sum_s = 3.3, turn_s = 3.3, tool_s = 0.5, out_chars = 191, ctx_k = 495 }
+"Bash:cat" = { n = 1, sum_s = 11.3, turn_s = 11.3, tool_s = 2.4, out_chars = 2891, ctx_k = 497 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 1124, ctx_k = 499 }
