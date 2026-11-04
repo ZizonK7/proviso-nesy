@@ -15315,3 +15315,83 @@ report = "Professor_King:작업보고/2026-11-04_확개응자분실논비사_시
 "Bash:Seoul" = { n = 1, sum_s = 3.3, turn_s = 3.3, tool_s = 0.5, out_chars = 191, ctx_k = 495 }
 "Bash:cat" = { n = 1, sum_s = 11.3, turn_s = 11.3, tool_s = 2.4, out_chars = 2891, ctx_k = 497 }
 "SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 1124, ctx_k = 499 }
+
+[[dispatch]]
+id = "p195"
+project = "gemmin"
+batch = 58
+date = 2026-11-04
+task = "새(gemmin 세션 안 Opus 5.5 high, 새 에이전트): 확개응 HW6 11문항을 문제는 기본 폰트(reportlab), 풀이는 font 레포 stitch(사용자 손글씨 data/)로 겹쳐 쓴 A4 PDF로. 스크립트 gemmin tools/hw-handwriting/, 보고서 proviso-nesy docs/worklog/. 커밋 없음"
+model = "Opus 5.5"
+effort = "high"
+agent = "HW6 손글씨 PDF"
+round = 1
+size = { reads = 6, outputs = 1, checks = 11 }
+files = { write = 3 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "예"
+S_integration = "예"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [25, 45]
+turns = [120, 220]
+tokens_m = [40, 80]
+tokens_class = ["T2"]
+rules = ["R_say_numbers_v3"]
+reason = "손 예측(보내기 전): 처음 쓰는 파이프라인(reportlab 문제 쪽 + compose.PdfOverlay 손글씨)이고 11문항 풀이를 Composer 식으로 옮겨야 한다. 쪽마다 렌더링해 보고 겹침·넘침을 고치는 루프가 있어 p193·p194(24분)보다 길게. 토큰은 기록 단위"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.62, 91.23]
+[dispatch.decide]
+main_ctx_k = 900
+left = 50
+direct_m = 250.7
+send_m = 66.1
+added_k = 576
+chose = "보냄"
+why = ["결과를 가림", "대화 계속"]
+[dispatch.actual]
+status = "done"
+minutes = 15.1  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 109
+tokens_m = 21.53  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T06:51:15Z"
+end = "2026-11-04T07:06:23Z"
+[dispatch.review]
+wrong = ["R_say_numbers_v3"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' 맞음(15.1분). 분은 손 25–45 아래, 계산기 46–91 훨씬 아래. 둘 다 '처음 쓰는 파이프라인'을 무겁게 봤는데 font 레포 compose·examples/hw5_problem4.py가 사실상 템플릿이라 작업자는 11문항 풀이 옮겨 쓰기 + 렌더링 두 번 고침으로 끝냈다. S_build_tools=예가 과했다. 토큰 21.5M(기록 단위)도 40–80 아래. 품질 4: 13쪽 겹침·빈칸 없음, 검산 38개 통과, 없는 글자(Y·Q·∫·π)는 획 변형으로 메모리 생성"
+report = "proviso-nesy:docs/worklog/2026-11-04-hw6-handwriting.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 35, sum_s = 304.1, turn_s = 1.3, out_chars = 0, ctx_k = 208 }
+"Read" = { n = 34, sum_s = 194.0, turn_s = 0.7, tool_s = 0.0, out_chars = 106.0, ctx_k = 217.0 }
+"Bash:cd" = { n = 31, sum_s = 334.7, turn_s = 6.8, tool_s = 0.8, out_chars = 208, ctx_k = 159 }
+"Bash:mkdir" = { n = 3, sum_s = 42.0, turn_s = 2.6, tool_s = 0.3, out_chars = 452, ctx_k = 149 }
+"Bash:cat" = { n = 2, sum_s = 7.9, turn_s = 3.9, tool_s = 0.4, out_chars = 2705.5, ctx_k = 241.5 }
+"Bash:date" = { n = 1, sum_s = 2.3, turn_s = 2.3, tool_s = 0.6, out_chars = 188, ctx_k = 96 }
+"Write" = { n = 1, sum_s = 3.6, turn_s = 3.6, tool_s = 0.0, out_chars = 50065, ctx_k = 176 }
+"Bash:END=$(date" = { n = 1, sum_s = 15.5, turn_s = 15.5, tool_s = 0.2, out_chars = 3456, ctx_k = 254 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 2043, ctx_k = 257 }
