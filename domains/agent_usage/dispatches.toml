@@ -14271,3 +14271,61 @@ reason = "말한 구간 '다른 일' 맞음(31.8분, 손 예측 15–35 안, 위
 "Bash:mkdir" = { n = 1, sum_s = 2.0, turn_s = 2.0, tool_s = 0.1, out_chars = 380, ctx_k = 201 }
 "Bash:wc" = { n = 1, sum_s = 18.7, turn_s = 18.7, tool_s = 0.7, out_chars = 244, ctx_k = 321 }
 "SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 3702, ctx_k = 441 }
+
+[[dispatch]]
+id = "p181"
+project = "stock-rader"
+batch = 50
+date = 2026-11-04
+task = "구현(메인 세션 안 Opus 5.5 xhigh, 새 에이전트, 하위 에이전트 불허): stock-rader 계산기 분석 반영 — 메인 결정 10개(방향 기본값 동전 C_base_coin·R_weights v2·코인 1봉 출발점 조각·예측 layer/info/analog 칸·baseline:all·성적표 동점/구간/층 검사·R_layer_v0·씨앗 조각 Q_overnight_lead·지시문·문서)를 코드·논리집·지시문·문서에 넣고 테스트·검사 통과, 보고서 하나. 커밋 없음"
+model = "Opus 5.5"
+effort = "xhigh"
+agent = "계산기 분석 반영"
+round = 1
+size = { outputs = 1, edits = 10, checks = 5 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "일부"
+S_small_codebase = "예"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [30, 60]
+turns = [150, 300]
+tokens_m = [50, 110]
+tokens_class = ["T2", "T3"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p170"
+reason = "빗댄 p170(stock-rader 제안 6개 반영, Opus xhigh 2회차: 14.9분·98턴·42.2M, 분당 6.6턴, 턴당 맥락 43만). 이번은 새 에이전트(앞 회차 맥락 없음)이고 결정 10개에 코드 7곳·논리집·지시문·문서·테스트가 걸려 p170의 1.5–3배 턴(150–300). 새 에이전트라 읽는 몫이 더해져 분당 5–6턴 → 30–60분. 맥락 30–40만 × 턴 → 50–110M. 가운데 42분 → '신경 끄기'. 계산기는 Opus xhigh 기준값이 없어 '모름'"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 230
+left = 20
+direct_m = 133.4
+send_m = 76.7
+added_k = 579
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
