@@ -1,0 +1,113 @@
+# 공부 시간 예측(study_time) — 수업정리·복습 한 회차에 걸릴 시간을 예상하고 실측과 견주는 논리집
+# 출처: 2026-11-04 gemmin 세션 대화(사용자 결정), gemmin docs/research/2026-11-04-review-design.md(웹 조사, 확신 낮음)
+# 회차별 예상·실측 표는 Professor_King `공부시간.md`(사람이 보는 원본)에 있고, 여기는 판단의 논리 구조만 둔다.
+
+[domain]
+id = "study_time"
+name = "공부 시간 예측 (수업정리·복습 회차)"
+
+# ---------- 목표 ----------
+[[goal]]
+id = "G_predict_study_time"
+text = "수업정리·복습을 만드는 에이전트가 한 회차에 걸릴 공부 시간을 근거와 함께 적고, 사용자의 실측(Flowlog 기록 또는 사용자 말)과 견줘 예측을 고쳐 간다"
+source = "user"
+
+[[goal]]
+id = "G_review_not_burden"
+text = "복습(특히 일주일 뒤 2차)이 그 주 공부를 밀리게 하거나 부담을 키우지 않는다"
+parent = "G_predict_study_time"
+source = "user"
+
+# ---------- 상태 (상황 대 보기) ----------
+[[state]]
+id = "S_has_stage2"
+text = "그 회차 수업정리에 2단계(증명·유도)가 있다"
+known_before = true
+
+[[state]]
+id = "S_proof_blocks"
+text = "2단계에 증명·유도 블록이 둘 이상 있다"
+known_before = true
+
+[[state]]
+id = "S_review_first"
+text = "하루 뒤 1차 복습(블록 제목만 보고 떠올리기, 문제 없음)이다"
+known_before = true
+
+[[state]]
+id = "S_review_second"
+text = "일주일 뒤 2차 복습(수업정리에 없는 새 문제, 같은 난이도)이다"
+known_before = true
+
+[[state]]
+id = "S_dev_tag_on"
+text = "Flowlog에 '개발'을 켜 둔 채 공부해서 실측 시간이 공부만의 시간이 아니다"
+known_before = false
+note = "2026-11-04 사용자: 이 변수는 우선 무시한다. 실측에 섞였으면 그 기록을 판정에서 뺀다"
+
+# ---------- 관찰 ----------
+[[observation]]
+id = "O_review1_7_2_22min"
+text = "심수기 7-2 1차 복습(블록 제목 보고 떠올리기, 1단계 8블록)에 22분 17초 걸렸다. 비서는 15분으로 잡았었다"
+source = "user"
+date = 2026-10-30
+
+[[observation]]
+id = "O_user_block_75"
+text = "사용자가 말하는 한 블록(집중 한 타임)은 75분이다"
+source = "user"
+date = 2026-10-22
+
+[[observation]]
+id = "O_user_review_burden"
+text = "사용자: 2차 복습 문제를 쉽게 하면 어떨까 한 까닭은 '일주일 뒤에까지 복습을 하려면 공부하던 게 밀리거나 부담이 커질 수 있을 것 같아서'다. 결정: 난이도는 같게, 문제 수와 시간이 과해지지 않게"
+source = "user"
+date = 2026-11-04
+
+[[observation]]
+id = "O_research_difficulty_2026_11_04"
+text = "웹 조사(Haiku, 연구 원문 부분 열람 4건·실무 글 4건, 핵심 논문은 검색 요약만): 인출 연습은 '성공 가능한 수준의 어려움 + 즉시 피드백'일 때 효과가 크고, 너무 쉬우면 효과가 준다. 증명 복습을 직접 검증한 연구는 못 찾음. 1일·1주 간격은 출발점으로 타당"
+source = "ai"
+date = 2026-11-04
+note = "gemmin docs/research/2026-11-04-review-design.md. 숫자(g≈0.73 등)는 검색 요약값이라 쓰지 않는다"
+
+# ---------- 가설 ----------
+[[hypothesis]]
+id = "H_review1_minutes_per_block"
+text = "1차 복습(제목만 보고 떠올리기)은 1단계 블록 하나에 2–3분 걸린다. 8블록이면 15–25분"
+source = "ai"
+conditions = ["S_review_first"]
+evidence = ["O_review1_7_2_22min"]
+serves = ["G_predict_study_time"]
+test_plan = "다음 1차 복습 실측(Professor_King 공부시간.md)이 블록 수 × 2–3분 안에 드는지. 2단계 블록이 더해지면(S_has_stage2) 따로 센다"
+note = "근거 1건(7-2: 8블록 22.3분 = 블록당 2.8분). 방향은 이 한 건에서, 크기는 다음 기록이 시험"
+
+[[hypothesis]]
+id = "H_review2_short_same_difficulty"
+text = "2차 복습은 문제를 쉽게 내지 않고(같은 난이도, 다른 상황) 문제 수를 3개 안팎·15–20분 상한으로 잡으면, 부담이 커지지 않으면서 효과가 남는다"
+source = "ai"
+conditions = ["S_review_second"]
+evidence = ["O_user_review_burden", "O_research_difficulty_2026_11_04"]
+serves = ["G_review_not_burden", "G_predict_study_time"]
+test_plan = "2차 복습 실측이 20분 안에 들고, 사용자가 '밀렸다·부담됐다'고 말하지 않는지(사용자 판정 source=\"user\"). 효과(기억)는 다음 시험·2단계 공부에서 사용자가 판정"
+note = "2026-11-04 사용자 결정에 조사 방향을 붙인 것. 효과 쪽 근거는 확신 낮음(원문 미열람)"
+
+[[hypothesis]]
+id = "H_easy_review_loses_effect"
+text = "복습 문제를 처음 공부 때보다 쉽게 내면 인출 노력이 줄어 기억 효과가 떨어진다"
+source = "ai"
+conditions = ["S_review_second"]
+evidence = ["O_research_difficulty_2026_11_04"]
+serves = ["G_predict_study_time"]
+test_plan = "이 논리집에서는 직접 시험하지 않는다(쉬운 복습을 일부러 돌리지 않음). 사용자가 쉬운 복습을 해 본 날이 있으면 그때 판정"
+note = "조사 출처가 검색 요약이라 가장 가벼운 근거. 방향만 쓴다"
+
+[[hypothesis]]
+id = "H_proof_review_three_ways"
+text = "증명·유도 블록의 복습은 전체 증명을 백지에 다시 쓰는 것보다 '핵심 아이디어 떠올리기 → 중간 단계 빈칸 채우기 → 같은 아이디어 변형 문제' 중 하나가 시간 대비 효과가 낫다"
+source = "ai"
+conditions = ["S_review_second", "S_proof_blocks"]
+evidence = ["O_research_difficulty_2026_11_04"]
+serves = ["G_review_not_burden"]
+test_plan = "2단계 복습 실측 시간과 사용자 판정. 전체 증명 재작성을 해 본 날과 견준다"
+note = "조사에서 직접 근거를 못 찾은 추론 권고. 2026-11-04 사용자가 받아들여 Professor_King 규칙에 넣음"
