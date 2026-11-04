@@ -15599,10 +15599,10 @@ chose = "보냄"
 why = ["대화 계속", "대화 맥락"]
 [dispatch.actual]
 status = "done"
-minutes = 2928.3  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
-turns = 238
-tokens_m = 55.40  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
-start = "2026-11-02T06:52:48Z"
+minutes = 3.2  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 19
+tokens_m = 7.83  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T07:37:54Z"
 end = "2026-11-04T07:41:07Z"
 [dispatch.review]
 report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
