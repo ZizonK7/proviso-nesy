@@ -15083,7 +15083,12 @@ added_k = 610
 chose = "보냄"
 why = ["결과를 가림", "대화 계속"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "stopped"  # 보낸 지 8분쯤 뒤 메인이 TaskStop — 지시서가 사용자 뜻("예제" = 블록 안 확인 문제)을 잘못 읽어 확인 문제를 빼고 있었다. 판정에서 뺀다
+[dispatch.turns]
+skip = "중단된 회차 — 재지 않음"
+[dispatch.review]
+report = "Professor_King:CLAUDE.md §9 피드백 기록 2026-11-04(예제 = 확인 문제)"
+reason = "메인의 해석 실수로 중단. 사용자 말 '블럭마다 예제'를 튜터가 보이는 예로 읽고 '확인 문제 삭제'로 지시했다. 같은 낱말이 레포에서 다른 뜻(§3 예시 절)으로 쓰여 헷갈렸다 — 다음부터 구조를 바꾸는 지시서는 보내기 전에 사용자에게 한 줄로 확인한다. 바깥 상황이 아니라 지시서 결함이므로 시간 예측 판정 대상이 아니다"
 
 [[dispatch]]
 id = "p192"
@@ -15141,6 +15146,133 @@ left = 50
 direct_m = 233.2
 send_m = 65.1
 added_k = 610
+chose = "보냄"
+why = ["결과를 가림", "대화 계속"]
+[dispatch.actual]
+status = "stopped"  # 보낸 지 8분쯤 뒤 메인이 TaskStop — 지시서가 사용자 뜻("예제" = 블록 안 확인 문제)을 잘못 읽어 확인 문제를 빼고 있었다. 판정에서 뺀다
+[dispatch.turns]
+skip = "중단된 회차 — 재지 않음"
+[dispatch.review]
+report = "Professor_King:CLAUDE.md §9 피드백 기록 2026-11-04(예제 = 확인 문제)"
+reason = "메인의 해석 실수로 중단. 사용자 말 '블럭마다 예제'를 튜터가 보이는 예로 읽고 '확인 문제 삭제'로 지시했다. 같은 낱말이 레포에서 다른 뜻(§3 예시 절)으로 쓰여 헷갈렸다 — 다음부터 구조를 바꾸는 지시서는 보내기 전에 사용자에게 한 줄로 확인한다. 바깥 상황이 아니라 지시서 결함이므로 시간 예측 판정 대상이 아니다"
+
+[[dispatch]]
+id = "p193"
+project = "gemmin"
+batch = 57
+date = 2026-11-04
+task = "추가(gemmin 세션 안 Opus 5.5 high, 새 에이전트, worktree): Professor_King 심수기 기말 범위 6회차(7-2~10-2) — 블록은 그대로 두고 수업정리 맨 뒤 §9 시험 느낌 문제 절(1단계→2단계, 2단계 심화 블록 합치기)과 예상시간 칸을 더하고, 복습 md를 새 규칙(1차 백지 떠올리기, 2차 새 문제 같은 난이도 15–20분·최대 30분·1단계 우선)으로 다시 씀. 12파일. 브랜치 push, main 안 합침"
+model = "Opus 5.5"
+effort = "high"
+agent = "새 구조 재작성 심수기"
+round = 1
+size = { reads = 6 }
+files = { write = 12 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [15, 25]
+turns = [80, 150]
+tokens_m = [30, 60]
+tokens_class = ["T2", "T3"]
+rules = ["R_doc_work_v2", "R_say_numbers_v3"]
+analog = "p183"
+reason = "손 예측(보내기 전): 블록은 안 건드리고 §9 문제 절 추가 + 복습 md 다시 쓰기라 p183(15파일 옮기기 15.5분)·p185(복습 5개에 절 추가 9.9분)의 합 정도. 회차당 2.5–4분. 토큰은 기록 단위"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [31.35, 62.7]
+[dispatch.decide]
+main_ctx_k = 836
+left = 50
+direct_m = 192.9
+send_m = 51.3
+added_k = 655
+chose = "보냄"
+why = ["결과를 가림", "대화 계속"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p194"
+project = "gemmin"
+batch = 57
+date = 2026-11-04
+task = "추가(gemmin 세션 안 Opus 5.5 high, 새 에이전트, worktree): Professor_King 확개응 9-2·10-1, 자분실 9·10, 논비사 10-1 — 블록은 그대로 두고 수업정리 맨 뒤 §9 시험 느낌 문제 절과 예상시간 칸을 더하고, 복습 md를 새 규칙으로 다시 씀. 10파일. 브랜치 push, main 안 합침"
+model = "Opus 5.5"
+effort = "high"
+agent = "새 구조 재작성 확개응자분실논비사"
+round = 1
+size = { reads = 5 }
+files = { write = 10 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [12, 20]
+turns = [60, 120]
+tokens_m = [25, 50]
+tokens_class = ["T2"]
+rules = ["R_doc_work_v2", "R_say_numbers_v3"]
+analog = "p183"
+reason = "손 예측(보내기 전): 블록은 안 건드리고 §9 문제 절 추가 + 복습 md 다시 쓰기라 p183(15파일 옮기기 15.5분)·p185(복습 5개에 절 추가 9.9분)의 합 정도. 회차당 2.5–4분. 토큰은 기록 단위"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [31.35, 62.7]
+[dispatch.decide]
+main_ctx_k = 836
+left = 50
+direct_m = 172.5
+send_m = 44.2
+added_k = 713
 chose = "보냄"
 why = ["결과를 가림", "대화 계속"]
 [dispatch.actual]
