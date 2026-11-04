@@ -19,7 +19,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 | 폴더 | 역할 |
 |---|---|
 | `proviso/` | 코어(분야 모름): 지식 파일 읽기·검사(`schema`), 성적표(`score`), 점검(`audit`), 그래프(`graph`), 조회(`query`), MCP 서버(`mcp_server`, 읽기 전용) |
-| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드(agent_usage: 계산기 `predict`·맞추기 `fit`·홀드아웃 `holdout`). 폴더마다 `CLAUDE.md`(지금 상태), 필요하면 `history.md`(경위). 현재 `flowlog`, `music_player`, `agent_usage`, `language_learning`, `movie_game`, `far_fields` |
+| `domains/<id>/` | 분야 플러그인: `knowledge.toml` + 가설 검사(`checks.py`) + 분야 전용 코드(agent_usage: 계산기 `predict`·맞추기 `fit`·홀드아웃 `holdout`). 폴더마다 `CLAUDE.md`(지금 상태), 필요하면 `history.md`(경위). 현재 `flowlog`, `music_player`, `agent_usage`, `language_learning`, `movie_game`, `far_fields`, `study_time` |
 | `experiments/` | 본체 실험 (논리집 유무에 따른 Claude 답 비교) |
 | `docs/` | 원안, 설계 기록, 실험 보고서, 하위 에이전트 절차(`dispatch.md`)와 기록(`AGENT-LOG.md`, `worklog/`), 루트 경위(`history.md`) |
 | `scripts/` | 운영 도구 (하위 에이전트 대화 기록 → 사용량 숫자, `agent_usage` 기록에 씀) |
@@ -55,6 +55,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 | `agent_usage` | 사용자 목표(2026-10-16): **AI가 하위 에이전트의 시간과 사용량을 예측해서 이유와 함께 말해 준다.** 사용자는 판정하지 않고, AI가 사용자의 쌓는 방식을 따라 스스로 쌓는다. 판정자는 실측. batman 지휘 모델도 쓴다 | [domains/agent_usage](domains/agent_usage/CLAUDE.md) |
 | `language_learning` | 사용자 목표(2026-10-22): **일본어를 전혀 모르는 사용자가 일본 여행에서 쓸 일본어를 꾸준히 공부할 시스템.** 결정마다 논리집을 보거나 잘 된 케이스를 조사해 근거를 댄다. 앱은 [ZizonK7/language_learning](https://github.com/ZizonK7/language_learning)(공개) | [domains/language_learning](domains/language_learning/CLAUDE.md) |
 | `movie_game` | 셜록 홈즈 추리 게임의 설계 판단(2026-10-26). 게임 저장소 [ZizonK7/movie_game](https://github.com/ZizonK7/movie_game)는 비공개라 코드를 옮겨 적지 않고, 그 저장소의 md는 **제안 → 허락 뒤 수정** | [domains/movie_game](domains/movie_game/CLAUDE.md) |
+| `study_time` | 사용자 목표(2026-11-04): **수업정리·복습 한 회차의 공부 시간을 에이전트가 근거와 함께 예상하고, 사용자 실측(Flowlog·말)과 견줘 고친다.** 회차별 표는 Professor_King `공부시간.md`, 여기는 논리만. 2차 복습 '같은 난이도·3문제·15–20분' 결정의 근거도 여기 | [domains/study_time](domains/study_time/CLAUDE.md) |
 | `far_fields` | 사용자 목표(2026-11-03): **창의 연결의 재료** — 사용자가 모르고 하지도 않을 먼 분야(809개, 조각 9,725)의 현장 경험칙을 분야 이름 없는 조각으로. 전부 AI가 만들거나 모은 것이라 판정은 AI 검토(가장 가벼운 출처)뿐이고, 2차 400개는 검토 없이 넣었다(사용자 결정). 무작위 두 조각 잇기 실험은 [docs/connection-experiment-v0.md](docs/connection-experiment-v0.md) | [domains/far_fields](domains/far_fields/CLAUDE.md) |
 | 시험장 stock-rader | [ZizonK7/stock-rader](https://github.com/ZizonK7/stock-rader)(공개, 이 PC `../stock-rader`): Claude가 혼자 가상 투자(1,000만 원)를 하며 논리 조각화를 시험한다. 판정자는 시장. agent_usage와 같은 방식에 '조사 범위도 논리집에 넣기'를 더했다. 지식 양식·검사는 이 저장소 코어를 쓰고, 코어를 바꿔야 하면 여기서 바꾼다 | 그 저장소 `CLAUDE.md`·`docs/design.md`, 코어 변경은 [proviso/CLAUDE.md](proviso/CLAUDE.md) |
 

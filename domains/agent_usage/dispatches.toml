@@ -14802,8 +14802,28 @@ added_k = 576
 chose = "보냄"
 why = ["결과를 가림", "대화 계속"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
-
+status = "done"
+minutes = 26.2  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 71
+tokens_m = 17.47  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T04:38:27Z"
+end = "2026-11-04T05:04:37Z"
+[dispatch.review]
+reason = "말한 구간 '다른 일' 맞음(26.2분, 손 20–35 안). 계산기(10–20분, 다른 일)도 구간은 맞았고 분은 아래로 벗어남. 턴 71은 손 120–220·계산기 둘 다보다 적다 — 긴 턴(파일 2개를 각각 한 번에 씀)이라 턴 수는 적고 턴당 시간이 길었다. 토큰 17.5M(기록 단위)은 손 40–80M보다 작음. 품질 4: 3-1 1단계 4블록·문제 6, 2단계 3블록·문제 5 / 3-2 1단계 5블록·문제 6, 2단계 3블록·문제 7. 새 실험은 숫자를 지어내지 않고 판정 기준으로 둠. 사용자 확인 거리 4개(피처 바꾸는 위치가 DO NOT MODIFY 기준선과 얽힘, 자분실 옛 경로, 최종 파일명·패키지, 가정 숫자 표시)"
+report = "Professor_King:작업보고/2026-11-04_은하_최종회차.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 31, sum_s = 881.0, turn_s = 1.1, out_chars = 0, ctx_k = 224 }
+"Bash:cd" = { n = 24, sum_s = 86.8, turn_s = 3.0, tool_s = 0.2, out_chars = 170.5, ctx_k = 287.0 }
+"Bash:python3" = { n = 5, sum_s = 486.8, turn_s = 13.8, tool_s = 0.5, out_chars = 266, ctx_k = 200 }
+"Bash:cat" = { n = 2, sum_s = 23.4, turn_s = 11.7, tool_s = 0.5, out_chars = 29165.5, ctx_k = 235.0 }
+"Bash:bukekk7f8.tx" = { n = 2, sum_s = 17.0, turn_s = 8.5, tool_s = 1.0, out_chars = 147.5, ctx_k = 185.0 }
+"Bash:date" = { n = 1, sum_s = 5.2, turn_s = 5.2, tool_s = 3.1, out_chars = 286, ctx_k = 84 }
+"Bash:ls" = { n = 1, sum_s = 3.4, turn_s = 3.4, tool_s = 0.7, out_chars = 313, ctx_k = 160 }
+"Bash:sed" = { n = 1, sum_s = 3.4, turn_s = 3.4, tool_s = 1.1, out_chars = 127, ctx_k = 182 }
+"Bash:git" = { n = 1, sum_s = 3.7, turn_s = 3.7, tool_s = 0.3, out_chars = 245, ctx_k = 197 }
+"Bash:mkdir" = { n = 1, sum_s = 52.6, turn_s = 52.6, tool_s = 0.2, out_chars = 53104, ctx_k = 224 }
+"Bash:Seoul" = { n = 1, sum_s = 3.1, turn_s = 3.1, tool_s = 0.5, out_chars = 779, ctx_k = 375 }
+"SubagentHandback" = { n = 1, sum_s = 0.3, turn_s = 0.3, tool_s = 0.3, out_chars = 1280, ctx_k = 379 }
 [[dispatch]]
 id = "p188"
 project = "gemmin"
@@ -14924,5 +14944,664 @@ send_m = 29.2
 added_k = 630
 chose = "보냄"
 why = ["결과를 가림", "대화 계속"]
+[dispatch.actual]
+status = "done"
+minutes = 6.8  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 61
+tokens_m = 11.16  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T05:00:32Z"
+end = "2026-11-04T05:07:18Z"
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(6.8분, 손 6–12 안). 계산기(신경 끄기 31–63분)는 크게 빗나감 — S_fixed_input 아니오면 기본 조각 216–426턴이 그대로 남는 구멍(오늘 p183·p184와 같음; 사용자가 f0a1818에서 files 칸·C_turns_files_scale로 손보기 시작). 품질 4: 규칙 문서 12개 고침, 불확실 4개(2차 3문제의 1·2단계 배분, 1단계 압축 수업정리의 1단계 문제, 심수기 시험 형식 규칙 충돌, 공방·인과 해석)를 모아 옴"
+report = "Professor_King:작업보고/2026-11-04_수업정리복습_구조규칙.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 28, sum_s = 198.0, turn_s = 1.6, out_chars = 0.0, ctx_k = 195.0 }
+"Bash:cd" = { n = 28, sum_s = 194.0, turn_s = 3.3, tool_s = 0.2, out_chars = 251.5, ctx_k = 203.0 }
+"Bash:cat" = { n = 2, sum_s = 3.9, turn_s = 2.0, tool_s = 0.2, out_chars = 2882.5, ctx_k = 143.5 }
+"Bash:date" = { n = 1, sum_s = 5.0, turn_s = 5.0, tool_s = 2.9, out_chars = 315, ctx_k = 85 }
+"Bash:mkdir" = { n = 1, sum_s = 1.9, turn_s = 1.9, tool_s = 0.2, out_chars = 611, ctx_k = 192 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 1264, ctx_k = 247 }
+
+[[dispatch]]
+id = "p190"
+project = "gemmin"
+batch = 55
+date = 2026-11-04
+task = "규칙 수정 2회차(같은 에이전트 이어서, 같은 worktree): 사용자 답 4개 반영 — 2차 복습 시간 표현(예상 15–20분·최대 30분, 배분은 에이전트 판단·1단계 우선), 압축 수업정리에도 1단계 문제, 심수기 '충돌' 문구 삭제·구분 한 줄, 공방·인과 변경 4파일 되돌리기. 브랜치 push"
+model = "Opus 5.5"
+effort = "high"
+agent = "수업정리 복습 구조 규칙"
+round = 2
+size = { edits = 5 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "예"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [2, 4]
+turns = [10, 25]
+tokens_m = [5, 10]
+tokens_class = ["T1"]
+rules = ["R_doc_work_v2", "R_say_numbers_v3"]
+analog = "p186"
+reason = "손 예측(보낸 직후 적음 — 보내기 전엔 말하지 않았다, 사용자가 짚음): 고칠 곳을 번호로 다 적어 준 이어 보내기(p186 6.1분·31줄과 10-29 '고칠 곳을 적어 준 md 수정' 2분 사이). 되돌리기 4파일은 git 명령 한 번 → 2–4분 잠깐, 10–25턴, 5–10M"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [7.48, 14.96]
+[dispatch.decide]
+main_ctx_k = 795
+left = 50
+direct_m = 96.1
+send_m = 15.5
+added_k = 774
+chose = "보냄"
+why = ["대화 계속"]
+[dispatch.actual]
+status = "done"
+minutes = 1.0  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 10
+tokens_m = 2.54  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T05:13:38Z"
+end = "2026-11-04T05:14:35Z"
+[dispatch.review]
+reason = "말한 구간 '잠깐' 맞음(1.0분, 손 2–4의 아래). 계산기(다른 일 7.5–15분)는 빗나감 — 이어 보낸 회차에 고칠 곳을 번호로 다 적어 준 일은 1분이면 끝난다(10-29 exam_grader 수정 회차들 0.3–2.4분과 같은 띠). 품질 5: 답 4개 그대로 반영, 되돌리기 4파일, 불확실 0. 이 회차는 보내기 전에 예측을 안 적고 보낸 뒤 적었다(사용자 지적)"
+report = "Professor_King:작업보고/2026-11-04_수업정리복습_구조규칙.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Bash:cd" = { n = 6, sum_s = 37.6, turn_s = 3.9, tool_s = 1.0, out_chars = 734.0, ctx_k = 253.0 }
+"글" = { n = 3, sum_s = 14.8, turn_s = 5.6, out_chars = 0, ctx_k = 255 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 420, ctx_k = 259 }
+
+[[dispatch]]
+id = "p191"
+project = "gemmin"
+batch = 56
+date = 2026-11-04
+task = "재작성(gemmin 세션 안 Opus 5.5 high, 새 에이전트, worktree): Professor_King 심수기 기말 범위 6회차(7-2·8-2·9-1·9-2·10-1·10-2)의 수업정리·복습 12개를 새 구조(블록마다 예제, 블록 확인 문제 없음, 맨 뒤 §9 시험 느낌 문제 1·2단계, 복습 = 1차 백지 떠올리기 + 2차 새 문제 같은 난이도 15–20분·최대 30분)로 다시 씀. 예상시간 칸 포함. 브랜치 push, main 안 합침"
+model = "Opus 5.5"
+effort = "high"
+agent = "새 구조 재작성 심수기"
+round = 1
+size = { reads = 6 }
+files = { write = 12 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [25, 40]
+turns = [150, 250]
+tokens_m = [50, 100]
+tokens_class = ["T2", "T3"]
+rules = ["R_doc_work_v2", "R_say_numbers_v3"]
+analog = "p183"
+reason = "손 예측(보내기 전): 오늘 p183(15파일 옮기기 15.5분·148턴·52M)·p187(새 수업정리 2개 26분·71턴·17M)을 빗댐. 이번은 회차마다 수업정리를 블록(예제 추가·확인 문제 제거)과 문제 절로 다시 짜고 복습 md를 새 문제로 다시 쓰니 회차당 4–7분, 옮기기보다 쓰기가 많아 턴·토큰은 p183의 1–1.5배"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [31.35, 62.7]
+[dispatch.decide]
+main_ctx_k = 806
+left = 50
+direct_m = 276.2
+send_m = 79.3
+added_k = 610
+chose = "보냄"
+why = ["결과를 가림", "대화 계속"]
+[dispatch.actual]
+status = "stopped"  # 보낸 지 8분쯤 뒤 메인이 TaskStop — 지시서가 사용자 뜻("예제" = 블록 안 확인 문제)을 잘못 읽어 확인 문제를 빼고 있었다. 판정에서 뺀다
+[dispatch.turns]
+skip = "중단된 회차 — 재지 않음"
+[dispatch.review]
+report = "Professor_King:CLAUDE.md §9 피드백 기록 2026-11-04(예제 = 확인 문제)"
+reason = "메인의 해석 실수로 중단. 사용자 말 '블럭마다 예제'를 튜터가 보이는 예로 읽고 '확인 문제 삭제'로 지시했다. 같은 낱말이 레포에서 다른 뜻(§3 예시 절)으로 쓰여 헷갈렸다 — 다음부터 구조를 바꾸는 지시서는 보내기 전에 사용자에게 한 줄로 확인한다. 바깥 상황이 아니라 지시서 결함이므로 시간 예측 판정 대상이 아니다"
+
+[[dispatch]]
+id = "p192"
+project = "gemmin"
+batch = 56
+date = 2026-11-04
+task = "재작성(gemmin 세션 안 Opus 5.5 high, 새 에이전트, worktree): Professor_King 확개응 9-2·10-1, 자분실 9·10, 논비사 10-1의 수업정리·복습 10개를 같은 새 구조로 다시 씀(자분실·논비사는 1단계만, 자분실은 코드 문제 규칙 유지). 브랜치 push, main 안 합침"
+model = "Opus 5.5"
+effort = "high"
+agent = "새 구조 재작성 확개응자분실논비사"
+round = 1
+size = { reads = 5 }
+files = { write = 10 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [20, 35]
+turns = [120, 200]
+tokens_m = [40, 80]
+tokens_class = ["T2", "T3"]
+rules = ["R_doc_work_v2", "R_say_numbers_v3"]
+analog = "p183"
+reason = "손 예측(보내기 전): 오늘 p183(15파일 옮기기 15.5분·148턴·52M)·p187(새 수업정리 2개 26분·71턴·17M)을 빗댐. 이번은 회차마다 수업정리를 블록(예제 추가·확인 문제 제거)과 문제 절로 다시 짜고 복습 md를 새 문제로 다시 쓰니 회차당 4–7분, 옮기기보다 쓰기가 많아 턴·토큰은 p183의 1–1.5배"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [31.35, 62.7]
+[dispatch.decide]
+main_ctx_k = 806
+left = 50
+direct_m = 233.2
+send_m = 65.1
+added_k = 610
+chose = "보냄"
+why = ["결과를 가림", "대화 계속"]
+[dispatch.actual]
+status = "stopped"  # 보낸 지 8분쯤 뒤 메인이 TaskStop — 지시서가 사용자 뜻("예제" = 블록 안 확인 문제)을 잘못 읽어 확인 문제를 빼고 있었다. 판정에서 뺀다
+[dispatch.turns]
+skip = "중단된 회차 — 재지 않음"
+[dispatch.review]
+report = "Professor_King:CLAUDE.md §9 피드백 기록 2026-11-04(예제 = 확인 문제)"
+reason = "메인의 해석 실수로 중단. 사용자 말 '블럭마다 예제'를 튜터가 보이는 예로 읽고 '확인 문제 삭제'로 지시했다. 같은 낱말이 레포에서 다른 뜻(§3 예시 절)으로 쓰여 헷갈렸다 — 다음부터 구조를 바꾸는 지시서는 보내기 전에 사용자에게 한 줄로 확인한다. 바깥 상황이 아니라 지시서 결함이므로 시간 예측 판정 대상이 아니다"
+
+[[dispatch]]
+id = "p193"
+project = "gemmin"
+batch = 57
+date = 2026-11-04
+task = "추가(gemmin 세션 안 Opus 5.5 high, 새 에이전트, worktree): Professor_King 심수기 기말 범위 6회차(7-2~10-2) — 블록은 그대로 두고 수업정리 맨 뒤 §9 시험 느낌 문제 절(1단계→2단계, 2단계 심화 블록 합치기)과 예상시간 칸을 더하고, 복습 md를 새 규칙(1차 백지 떠올리기, 2차 새 문제 같은 난이도 15–20분·최대 30분·1단계 우선)으로 다시 씀. 12파일. 브랜치 push, main 안 합침"
+model = "Opus 5.5"
+effort = "high"
+agent = "새 구조 재작성 심수기"
+round = 1
+size = { reads = 6 }
+files = { write = 12 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [15, 25]
+turns = [80, 150]
+tokens_m = [30, 60]
+tokens_class = ["T2", "T3"]
+rules = ["R_doc_work_v2", "R_say_numbers_v3"]
+analog = "p183"
+reason = "손 예측(보내기 전): 블록은 안 건드리고 §9 문제 절 추가 + 복습 md 다시 쓰기라 p183(15파일 옮기기 15.5분)·p185(복습 5개에 절 추가 9.9분)의 합 정도. 회차당 2.5–4분. 토큰은 기록 단위"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [31.35, 62.7]
+[dispatch.decide]
+main_ctx_k = 836
+left = 50
+direct_m = 192.9
+send_m = 51.3
+added_k = 655
+chose = "보냄"
+why = ["결과를 가림", "대화 계속"]
+[dispatch.actual]
+status = "done"
+minutes = 26.2  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 187
+tokens_m = 56.45  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T05:27:52Z"
+end = "2026-11-04T05:54:07Z"
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' 맞음(26분), 분은 손 15–25의 위를 조금 넘음. 계산기 31–63분(신경 끄기)은 구간 틀림. 빗댄 p183(옮기기)·p185(절 추가)의 합으로 잡았는데 §9 시험 문제를 회차당 17–20개 새로 쓰고 복습도 통째로 다시 쓰는 양이라 '절 추가'보다 컸다 — 쓰는 문제 수가 조건에 없었다. 품질 4: §9 1단계 7–9·2단계 9–12, 2차 4문제 19–20분, 예상시간 칸. 불확실 3(옛 2차 문제가 §9로 가서 이미 푼 문제 섞임, 1차 처리 추가, 사본 문제 미이관)"
+report = "Professor_King:작업보고/2026-11-04_심수기_시험문제복습.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Bash:cd" = { n = 91, sum_s = 902.8, turn_s = 3.8, tool_s = 0.2, out_chars = 324, ctx_k = 303 }
+"글" = { n = 86, sum_s = 618.3, turn_s = 2.3, out_chars = 0.0, ctx_k = 302.5 }
+"Bash:python3" = { n = 7, sum_s = 37.0, turn_s = 5.1, tool_s = 0.2, out_chars = 595, ctx_k = 327 }
+"Bash:date" = { n = 1, sum_s = 4.2, turn_s = 4.2, tool_s = 2.1, out_chars = 312, ctx_k = 84 }
+"Bash:mkdir" = { n = 1, sum_s = 9.8, turn_s = 9.8, tool_s = 0.2, out_chars = 1681, ctx_k = 201 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 1221, ctx_k = 456 }
+[[dispatch]]
+id = "p194"
+project = "gemmin"
+batch = 57
+date = 2026-11-04
+task = "추가(gemmin 세션 안 Opus 5.5 high, 새 에이전트, worktree): Professor_King 확개응 9-2·10-1, 자분실 9·10, 논비사 10-1 — 블록은 그대로 두고 수업정리 맨 뒤 §9 시험 느낌 문제 절과 예상시간 칸을 더하고, 복습 md를 새 규칙으로 다시 씀. 10파일. 브랜치 push, main 안 합침"
+model = "Opus 5.5"
+effort = "high"
+agent = "새 구조 재작성 확개응자분실논비사"
+round = 1
+size = { reads = 5 }
+files = { write = 10 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [12, 20]
+turns = [60, 120]
+tokens_m = [25, 50]
+tokens_class = ["T2"]
+rules = ["R_doc_work_v2", "R_say_numbers_v3"]
+analog = "p183"
+reason = "손 예측(보내기 전): 블록은 안 건드리고 §9 문제 절 추가 + 복습 md 다시 쓰기라 p183(15파일 옮기기 15.5분)·p185(복습 5개에 절 추가 9.9분)의 합 정도. 회차당 2.5–4분. 토큰은 기록 단위"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [31.35, 62.7]
+[dispatch.decide]
+main_ctx_k = 836
+left = 50
+direct_m = 172.5
+send_m = 44.2
+added_k = 713
+chose = "보냄"
+why = ["결과를 가림", "대화 계속"]
+[dispatch.actual]
+status = "done"
+minutes = 24.7  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 185
+tokens_m = 60.38  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T05:27:52Z"
+end = "2026-11-04T05:52:37Z"
+[dispatch.review]
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' 맞음(24.7분), 분은 손 12–20 위. 계산기 31–63분은 구간 틀림. p193과 같은 까닭 — 회차당 새 문제 4–11개를 쓰는 양이 빠졌다. 자분실은 R 대신 Python으로 숫자를 재현해 허용 범위를 둠. 품질 4"
+report = "Professor_King:작업보고/2026-11-04_확개응자분실논비사_시험문제복습.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Bash:cd" = { n = 96, sum_s = 734.3, turn_s = 3.1, tool_s = 0.2, out_chars = 242.0, ctx_k = 326.0 }
+"글" = { n = 79, sum_s = 697.6, turn_s = 1.5, out_chars = 0, ctx_k = 328 }
+"Bash:mkdir" = { n = 2, sum_s = 7.4, turn_s = 3.7, tool_s = 0.5, out_chars = 1730.5, ctx_k = 258.5 }
+"Bash:date" = { n = 1, sum_s = 4.2, turn_s = 4.2, tool_s = 2.2, out_chars = 286, ctx_k = 84 }
+"Bash:pip" = { n = 1, sum_s = 11.2, turn_s = 11.2, tool_s = 9.4, out_chars = 179, ctx_k = 252 }
+"Bash:sed" = { n = 1, sum_s = 3.7, turn_s = 3.7, tool_s = 1.3, out_chars = 194, ctx_k = 331 }
+"Bash:which" = { n = 1, sum_s = 5.4, turn_s = 5.4, tool_s = 2.0, out_chars = 188, ctx_k = 346 }
+"Bash:python3" = { n = 1, sum_s = 3.6, turn_s = 3.6, tool_s = 0.8, out_chars = 262, ctx_k = 352 }
+"Bash:Seoul" = { n = 1, sum_s = 3.3, turn_s = 3.3, tool_s = 0.5, out_chars = 191, ctx_k = 495 }
+"Bash:cat" = { n = 1, sum_s = 11.3, turn_s = 11.3, tool_s = 2.4, out_chars = 2891, ctx_k = 497 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 1124, ctx_k = 499 }
+
+[[dispatch]]
+id = "p195"
+project = "gemmin"
+batch = 58
+date = 2026-11-04
+task = "새(gemmin 세션 안 Opus 5.5 high, 새 에이전트): 확개응 HW6 11문항을 문제는 기본 폰트(reportlab), 풀이는 font 레포 stitch(사용자 손글씨 data/)로 겹쳐 쓴 A4 PDF로. 스크립트 gemmin tools/hw-handwriting/, 보고서 proviso-nesy docs/worklog/. 커밋 없음"
+model = "Opus 5.5"
+effort = "high"
+agent = "HW6 손글씨 PDF"
+round = 1
+size = { reads = 6, outputs = 1, checks = 11 }
+files = { write = 3 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "예"
+S_integration = "예"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [25, 45]
+turns = [120, 220]
+tokens_m = [40, 80]
+tokens_class = ["T2"]
+rules = ["R_say_numbers_v3"]
+reason = "손 예측(보내기 전): 처음 쓰는 파이프라인(reportlab 문제 쪽 + compose.PdfOverlay 손글씨)이고 11문항 풀이를 Composer 식으로 옮겨야 한다. 쪽마다 렌더링해 보고 겹침·넘침을 고치는 루프가 있어 p193·p194(24분)보다 길게. 토큰은 기록 단위"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.62, 91.23]
+[dispatch.decide]
+main_ctx_k = 900
+left = 50
+direct_m = 250.7
+send_m = 66.1
+added_k = 576
+chose = "보냄"
+why = ["결과를 가림", "대화 계속"]
+[dispatch.actual]
+status = "done"
+minutes = 15.1  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 109
+tokens_m = 21.53  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T06:51:15Z"
+end = "2026-11-04T07:06:23Z"
+[dispatch.review]
+wrong = ["R_say_numbers_v3"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' 맞음(15.1분). 분은 손 25–45 아래, 계산기 46–91 훨씬 아래. 둘 다 '처음 쓰는 파이프라인'을 무겁게 봤는데 font 레포 compose·examples/hw5_problem4.py가 사실상 템플릿이라 작업자는 11문항 풀이 옮겨 쓰기 + 렌더링 두 번 고침으로 끝냈다. S_build_tools=예가 과했다. 토큰 21.5M(기록 단위)도 40–80 아래. 품질 4: 13쪽 겹침·빈칸 없음, 검산 38개 통과, 없는 글자(Y·Q·∫·π)는 획 변형으로 메모리 생성"
+report = "proviso-nesy:docs/worklog/2026-11-04-hw6-handwriting.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 35, sum_s = 304.1, turn_s = 1.3, out_chars = 0, ctx_k = 208 }
+"Read" = { n = 34, sum_s = 194.0, turn_s = 0.7, tool_s = 0.0, out_chars = 106.0, ctx_k = 217.0 }
+"Bash:cd" = { n = 31, sum_s = 334.7, turn_s = 6.8, tool_s = 0.8, out_chars = 208, ctx_k = 159 }
+"Bash:mkdir" = { n = 3, sum_s = 42.0, turn_s = 2.6, tool_s = 0.3, out_chars = 452, ctx_k = 149 }
+"Bash:cat" = { n = 2, sum_s = 7.9, turn_s = 3.9, tool_s = 0.4, out_chars = 2705.5, ctx_k = 241.5 }
+"Bash:date" = { n = 1, sum_s = 2.3, turn_s = 2.3, tool_s = 0.6, out_chars = 188, ctx_k = 96 }
+"Write" = { n = 1, sum_s = 3.6, turn_s = 3.6, tool_s = 0.0, out_chars = 50065, ctx_k = 176 }
+"Bash:END=$(date" = { n = 1, sum_s = 15.5, turn_s = 15.5, tool_s = 0.2, out_chars = 3456, ctx_k = 254 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 2043, ctx_k = 257 }
+
+[[dispatch]]
+id = "p196"
+project = "gemmin"
+batch = 59
+date = 2026-11-04
+task = "새(gemmin 세션 안 Opus 5.5 high, 새 에이전트): gemmin-app에 '세션' 화면(돌고 있는/끝난 에이전트, 손·계산기 예측, 시작·예상 종료·실측)을 사용자 시안에서 구름만 빼고 구현 + 데이터 경로(gemmin agents.md → gemmin-sync → worker 'agents' 문서 → 앱). 두 레포 모두 브랜치 design/sessions에 push, 빌드는 못 돌림"
+model = "Opus 5.5"
+effort = "high"
+agent = "세션 화면"
+round = 1
+size = { reads = 20, outputs = 1, checks = 4 }
+files = { write = 5, edit = 13 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "예"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [20, 40]
+turns = [100, 200]
+tokens_m = [20, 50]
+tokens_class = ["T2"]
+rules = ["R_say_numbers_v3"]
+reason = "손 예측(보내기 전): 새 화면 하나(시안 있음) + 새 데이터 문서 하나를 세 곳(gemmin 변환 스크립트·worker·앱 파서)에 잇는다. 기존 화면·파서 코드를 본떠 쓸 수 있고 빌드 검증 루프가 없어(SDK 없음) 렌더 루프는 없다. 10-28 오늘 화면 12분(기록 밖)보다 두 레포·데이터 경로만큼 크게. p195 15분·109턴·21.5M을 하한 쪽 기준으로"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.62, 91.23]
+[dispatch.decide]
+main_ctx_k = 200
+left = 50
+direct_m = 84.1
+send_m = 34.1
+added_k = 327
+chose = "보냄"
+why = ["결과를 가림", "대화 계속"]
+[dispatch.actual]
+status = "done"
+minutes = 9.9  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 93
+tokens_m = 19.47  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T09:00:08Z"
+end = "2026-11-04T09:10:04Z"
+[dispatch.review]
+wrong = ["R_say_numbers_v3"]
+why = "조건 흐림"
+reason = "말한 구간 '다른 일' → 실제 '잠깐'(9.9분). 손 20–40·계산기 46–91 모두 위로 빗나갔고, 빗댄 기록 규칙(p195 15.1분 × 0.76–1.51 → 11.5–22.8분)이 가장 가까웠다(그래도 조금 위). 두 레포·세 곳 잇기를 무겁게 봤는데 기존 schedule·todo 경로(파서·캐시·스크립트)를 그대로 본뜨는 일이라 p195와 같은 크기였다. 빌드 루프가 없는 것도 짧게 만든 쪽. 토큰 19.5M(기록 단위)은 20–50 하한 바로 아래. 품질 4(빌드 전 잠정): 파일 이름 충돌(AGENTS.md)을 스스로 잡아 sessions.md로 바꾸고, 옛·새 스크립트 JSON 동일 비교, 틀린 형식 검사, 순수 계산 테스트 8개를 kotlinc로 돌림. 화면 코드는 컴파일 못 함"
+report = "docs/worklog/2026-11-04-gemmin-app-sessions.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 39, sum_s = 286.6, turn_s = 2.4, out_chars = 0, ctx_k = 221 }
+"Bash:cd" = { n = 35, sum_s = 167.6, turn_s = 3.1, tool_s = 0.2, out_chars = 268, ctx_k = 217 }
+"Write" = { n = 6, sum_s = 19.1, turn_s = 3.2, tool_s = 0.0, out_chars = 5556.0, ctx_k = 230.5 }
+"Read" = { n = 3, sum_s = 5.1, turn_s = 2.1, tool_s = 0.0, out_chars = 112, ctx_k = 102 }
+"Bash:scratchpad;" = { n = 3, sum_s = 39.7, turn_s = 17.0, tool_s = 11.9, out_chars = 1369, ctx_k = 249 }
+"Bash:awk" = { n = 2, sum_s = 6.4, turn_s = 3.2, tool_s = 0.7, out_chars = 166.0, ctx_k = 195.0 }
+"Bash:wt-gemmin;" = { n = 1, sum_s = 3.3, turn_s = 3.3, tool_s = 1.0, out_chars = 265, ctx_k = 171 }
+"Bash:git" = { n = 1, sum_s = 2.8, turn_s = 2.8, tool_s = 0.3, out_chars = 103, ctx_k = 191 }
+"Bash:sed" = { n = 1, sum_s = 46.8, turn_s = 46.8, tool_s = 0.4, out_chars = 262, ctx_k = 199 }
+"Bash:ls" = { n = 1, sum_s = 14.0, turn_s = 14.0, tool_s = 8.0, out_chars = 226, ctx_k = 200 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 2065, ctx_k = 272 }
+
+# 2026-11-04 번호 다시 매김: 아래 p197·p198(배치 59)은 stock-rader 세션이 p183·p184(배치 51)로 적어 두었던 기록인데, gemmin 세션이 같은 번호를 먼저 main에 올려 뒤 번호로 옮겼다(docs/worklog/2026-11-02-branch-merge.md 방식).
+
+[[dispatch]]
+id = "p197"
+project = "stock-rader"
+batch = 59
+date = 2026-11-04
+task = "구현(팀 A, 메인 세션 안 Opus 5.5 xhigh, 새 에이전트, 별도 worktree, 하위 에이전트 불허): 체결을 판단 뒤 첫 시가로, 예측·채점 기준을 체결가로(base_kind fill), 계산기 조각을 시가→종가 수익률로 다시 맞춤(v5), 출발점 조각 은퇴, 테스트·문서, 브랜치 커밋. 보고서 하나"
+model = "Opus 5.5"
+effort = "xhigh"
+agent = "빠른 정보 팀 A 체결·기준"
+round = 1
+size = { outputs = 1, edits = 9, checks = 6 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "일부"
+S_small_codebase = "예"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [30, 60]
+turns = [150, 300]
+tokens_m = [50, 110]
+tokens_class = ["T2", "T3"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p181"
+reason = "빗댄 p181(같은 저장소 결정 10개 구현 1회차: 끊기기 전 24.7분·177턴·63.6M으로 코드·논리집을 거의 끝냄, 분당 7.2턴)과 p182(마무리 17.3분·159턴·38.4M). 이번은 결정 셋이지만 체결·채점·맞추기라는 핵심 경로를 바꾸고 fit을 다시 돌려 숫자 변화를 적어야 해 p181 전체와 비슷한 크기 → 150–300턴, 분당 5–7턴 → 30–60분, 맥락 30–40만 → 50–110M. 가운데 42분 → '신경 끄기'. 계산기 '모름'"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 290
+left = 15
+direct_m = 140.3
+send_m = 77.2
+added_k = 579
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p198"
+project = "stock-rader"
+batch = 59
+date = 2026-11-04
+task = "구현(팀 B, 메인 세션 안 Opus 5.5 xhigh, 새 에이전트, 별도 worktree, 하위 에이전트 불허): 조사 각도를 오늘 판단용(간밤 반응·오늘 일정과 예상치·전일 수급·종목 밤사이 소식)으로 개편, 조사 기록에 numbers·as_of, 숫자 상태와 문턱 조건을 코드가 계산, 씨앗 조각 셋(간밤 격차·놀람·수급), 볼 곳 숫자 출처, 지시문 4·5절, 테스트·문서, 브랜치 커밋. 보고서 하나"
+model = "Opus 5.5"
+effort = "xhigh"
+agent = "빠른 정보 팀 B 조사·숫자"
+round = 1
+size = { outputs = 1, edits = 9, checks = 6 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "일부"
+S_small_codebase = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [25, 50]
+turns = [120, 250]
+tokens_m = [40, 90]
+tokens_class = ["T2", "T3"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p181"
+reason = "빗댄 p181(결정 10개 구현 1회차, 24.7분·177턴·63.6M에서 끊김). 이번은 코드(연구 질문·숫자 상태·검사)와 논리집(상태·씨앗 셋)·볼 곳·지시문 두 절이라 p181보다 조금 작다 → 120–250턴, 분당 5–7턴 → 25–50분, 40–90M. 근거 확인에 웹이 되면 턴이 늘 수 있다. 가운데 35분 → 다른 일. 계산기 모름"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 290
+left = 15
+direct_m = 117.0
+send_m = 63.0
+added_k = 573
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
 [dispatch.actual]
 status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
