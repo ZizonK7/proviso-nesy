@@ -12,9 +12,11 @@
       직접 한 일의 실측(메인이 그 요청에 쓴 분·줄·토큰)을 채운다.
 돌아보기(review.reason, 빗나가면 wrong·why)와 배치 줄의 표·교훈은 판단이 필요해 메인이 손으로 쓴다.
 
-보낼 일 파일(TOML): project, batch, task, model, effort, agent, round, (date, id, size), [situation], [predicted](minutes, turns, tokens_m,
-rules, analog, reason; told은 비우면 가운데 값의 구간), (선택) [decide](why, left, main_ctx_k).
+보낼 일 파일(TOML): project, batch, task, model, effort, agent, round, [files](write, edit — 쓰는 파일 수, 2026-11-05부터 필수),
+(date, id, size), [situation], [predicted](minutes, turns, tokens_m, rules, analog, reason; told은 비우면 가운데 값의 구간),
+(선택) [decide](why, left, main_ctx_k).
 model·effort는 보낼 모델과 effort(dispatches.MODELS·EFFORTS). S_other_model은 이 둘에서 계산해 상황에 넣는다(적으면 같아야 한다).
+files는 실제 지시서에서 센다(dispatches.py FILES_COUNTS 주석): 지시서가 수를 안 정하면 files = {}(모름).
 """
 from __future__ import annotations
 
@@ -89,12 +91,19 @@ def send(job_path: Path, path: Path = dp.HERE / "dispatches.toml", log_path: Pat
     if any(d["id"] == rid for d in records):
         raise SystemExit(f"기록 id {rid}가 이미 있음")
     date = job.get("date") or dt.datetime.now(dt.timezone.utc).date()
+    if "files" not in job and str(date) >= dp.FILES_REQUIRED_FROM:
+        raise SystemExit("보낼 일 파일에 [files]가 없음 — 지시서에서 쓰는 파일 수를 센다: write = 새로 만들거나 통째로 다시 쓰는 파일, "
+                         "edit = 일부 고치는 파일 (읽는 파일·절·항목은 안 센다). 지시서가 수를 안 정하면 files = {}")
     situation, predicted, project = dict(job["situation"]), dict(job["predicted"]), job["project"]
     other = dp.other_model(job["model"], job["effort"])
     if situation.get("S_other_model", other) != other:
         raise SystemExit(f"상황의 S_other_model '{situation['S_other_model']}'이 {job['model']} {job['effort']}로 계산한 '{other}'와 다름 "
                          f"— 상황에서 빼면 계산해 넣는다")
     situation["S_other_model"] = other
+    if "files" in job:
+        bad = dp.files_errors({"id": rid, "date": str(date), "project": project, "files": job["files"], "situation": situation})
+        if bad:
+            raise SystemExit("\n".join(bad))
     kn = pr.load_kn()
     pred = pr.predict(situation, project, pr.live_pieces(kn), kn)
     calc_m = pred.minutes()
@@ -112,6 +121,8 @@ def send(job_path: Path, path: Path = dp.HERE / "dispatches.toml", log_path: Pat
              f"agent = {_v(job['agent'])}", f"round = {job['round']}"]
     if job.get("size"):
         lines.append(f"size = {_v(job['size'])}")
+    if "files" in job:
+        lines.append(f"files = {_v(job['files'])}")
     lines.append("[dispatch.situation]")
     lines += [f"{k} = {_v(v)}" for k, v in situation.items()]
     lines += ["[dispatch.predicted]", "written_before = true", f"told = {_v(told)}"]

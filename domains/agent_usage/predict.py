@@ -3,7 +3,8 @@
 사용법 (저장소 루트):
   python -m domains.agent_usage.predict p04            기록 id 하나 (실측이 있으면 맞았는지도)
   python -m domains.agent_usage.predict p04 --calc     기록 자신의 상황 값으로 돌린 답을 [dispatch.calc] 줄로 (보내기 전 기록에 붙인다)
-  python -m domains.agent_usage.predict 상황.toml      상황 값 파일: project = "...", [situation] 상태 = 값, (선택) analog = "기록 id"
+  python -m domains.agent_usage.predict 상황.toml      상황 값 파일: project = "...", [situation] 상태 = 값, (선택) analog = "기록 id",
+                                                       (선택) [files] write = 쓰는 파일 수, edit = 고치는 파일 수 (비율 조각이 쓴다)
   python -m domains.agent_usage.predict --all          끝난 기록 전부를 지금 조각으로 (맞춰 본 것 / 시험 따로)
 
 계산 (2026-10-19, 계산되는 논리):
@@ -17,13 +18,16 @@
 - 설명: 근거 → 조각 → 조합 → 숫자. 빼도 말할 구간과 토큰 등급이 안 바뀌는 조각은 설명에서 빼고 '쓴 조각' 목록에만 둔다.
 - 비유 조각(analog = true)은 빗댄 기록(predicted.analog)의 실측을 쓴다. 보내기 전에 적은 빗댄 기록이 있을 때만 쓰고,
   성적은 '비유'로 따로 낸다.
+- 비율 조각(op = scale, 2026-11-04 사용자 결정): 비유 기준값에만 얹는 유일한 곱하기. 배수 = 이번 기록의 수 ÷ 빗댄 기록의 수
+  (count 칸이 가리키는 기록 칸, 지금은 files = { write, edit } — 쓰는 파일 수). 두 기록에 그 칸이 다 있을 때만 걸리고,
+  write·edit 각각의 비 중 큰 쪽을 쓴다(합산 몫은 근거 없음). 범위 숫자가 없어 fit.py가 맞추지 않는다.
 """
 from __future__ import annotations
 
 import math
 import sys
 import tomllib
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 from proviso import schema
@@ -33,7 +37,7 @@ from . import dispatches as dp
 HERE = Path(__file__).resolve().parent
 QUANTITY_LABEL = {"turns": "턴", "turns_per_min": "분당 턴", "add_minutes": "더하는 분",
                   "ctx_k": "턴당 맥락(천 토큰)", "minutes": "분"}
-OP_LABEL = {"base": "기준", "mul": "×", "add": "+"}
+OP_LABEL = {"base": "기준", "mul": "×", "add": "+", "scale": "×비율"}
 
 
 @dataclass(frozen=True)
@@ -47,6 +51,7 @@ class Effect:
     dir: str | None = None
     analog: bool = False
     reason: str = ""
+    count: str | None = None  # 비율 조각: 비를 낼 기록 칸(예: files)
 
     @property
     def center(self) -> float:
@@ -68,7 +73,7 @@ def _effect(piece_id: str, e: dict) -> Effect:
     rng = e.get("range", [1, 1])
     when = tuple((sid, tuple(vals)) for sid, vals in schema.when_items(e))
     return Effect(piece_id, e["on"], e["op"], float(rng[0]), float(rng[1]), when,
-                  e.get("dir"), bool(e.get("analog", False)), e.get("reason", ""))
+                  e.get("dir"), bool(e.get("analog", False)), e.get("reason", ""), e.get("count"))
 
 
 def piece_of(item: dict) -> Piece:
@@ -112,6 +117,25 @@ def matches(effect: Effect, sit: dict[str, str]) -> bool:
 
 def specificity(effect: Effect) -> int:
     return len(effect.when)
+
+
+def count_ratio(mine: dict | None, theirs: dict | None) -> float | None:
+    """비율 조각의 배수: 이번 수 ÷ 빗댄 기록의 수. 두 쪽에 다 있고 0보다 큰 칸마다 비를 내고 큰 쪽.
+    한쪽이라도 칸이 없거나(모름) 겹치는 칸이 없으면 None(안 걸린다). 0은 '없음'이라 비를 내지 않는다."""
+    if not isinstance(mine, dict) or not isinstance(theirs, dict):
+        return None
+    ratios = []
+    for k, v in mine.items():
+        w = theirs.get(k)
+        if (isinstance(v, (int, float)) and not isinstance(v, bool) and isinstance(w, (int, float))
+                and not isinstance(w, bool) and v > 0 and w > 0):
+            ratios.append(v / w)
+    return max(ratios) if ratios else None
+
+
+def scaled(e: Effect, ratio: float) -> Effect:
+    """비율 조각을 배수가 정해진 곱하기로 (설명과 성적에서 조각 id는 그대로)."""
+    return replace(e, lo=ratio, hi=ratio)
 
 
 # ---------- 범위 계산 ----------
@@ -211,8 +235,9 @@ class Prediction:
 
 
 def predict(situation: dict, project: str, pieces: list[Piece], kn: schema.Knowledge,
-            analog: dict | None = None) -> Prediction:
-    """상황 값과 프로젝트로 계산. analog(빗댄 기록, 끝난 것)를 주면 비유 조각도 쓴다."""
+            analog: dict | None = None, counts: dict | None = None) -> Prediction:
+    """상황 값과 프로젝트로 계산. analog(빗댄 기록, 끝난 것)를 주면 비유 조각도 쓴다.
+    counts = 이번 기록의 센 수 칸들(예: {"files": {"write": 9}}) — 비율 조각이 빗댄 기록의 같은 칸과 비를 낸다."""
     sit = resolve(situation, project, kn)
     q = {name: Quantity() for name in QUANTITY_LABEL if name != "add_minutes"}
     effects = [e for p in pieces for e in p.effects]
@@ -225,7 +250,14 @@ def predict(situation: dict, project: str, pieces: list[Piece], kn: schema.Knowl
         elif plain:
             qty.base = max(plain, key=specificity)  # 같으면 파일에서 앞선 것
         # 비유 기준값에는 곱하기를 얹지 않는다: 빗댄 기록의 실측이 이미 그 모양을 담고 있다(두 번 세지 않는다)
-        if not (qty.base and qty.base.analog):
+        # 예외는 비율 조각(scale): 빗댄 기록과 이번 일의 수(파일 수)가 다른 만큼만 곱한다
+        if qty.base and qty.base.analog:
+            for e in effects:
+                if e.on == name and e.op == "scale" and matches(e, sit):
+                    ratio = count_ratio((counts or {}).get(e.count), analog.get(e.count))
+                    if ratio is not None:
+                        qty.muls.append(scaled(e, ratio))
+        else:
             qty.muls = [e for e in effects if e.on == name and e.op == "mul" and matches(e, sit)]
     adds = [e for e in effects if e.on == "add_minutes" and e.op == "add" and matches(e, sit)]
     return Prediction(sit, q, adds, float(kn.domain.get("max_ratio", schema.MAX_RATIO)), analog)
@@ -285,6 +317,8 @@ def _piece_line(e: Effect, pieces: dict[str, Piece], value: float | None = None)
     rng = f"[{e.lo:g}, {e.hi:g}]"
     if e.analog:
         rng = f"빗댄 기록의 실측 {value:g} × {rng}"
+    elif e.op == "scale":
+        rng = f"이번 {e.count} ÷ 빗댄 기록의 {e.count} = ×{e.lo:.2f}"
     cond = ", ".join(f"{sid}={'/'.join(v)}" for sid, v in e.when) or "조건 없음"
     fit = f" · 근거: {_fit_of(p, e)}" if p and p.fit else ""
     return (f"    {_label(e, pieces)} ({QUANTITY_LABEL[e.on]} {OP_LABEL[e.op]} {rng}; {cond})\n"
@@ -368,7 +402,7 @@ def report_record(d: dict, records: list[dict], pieces: list[Piece], kn: schema.
                      + (f" (분 빗나감 갈래: {o['split'][0]}·{o['split'][1]})" if o["split"] else ""))
     analog = analog_of(d, records)
     if analog is not None:
-        ap = predict(d.get("situation", {}), d.get("project", ""), pieces, kn, analog)
+        ap = predict(d.get("situation", {}), d.get("project", ""), pieces, kn, analog, counts_of(d))
         if any(e.analog for e in ap.used()):
             lines.append("")
             lines.append(f"비유 계산 (보내기 전에 적은 빗댄 기록 {analog['id']}의 실측을 씀 — 성적은 '비유'로 따로):")
@@ -381,6 +415,11 @@ def report_record(d: dict, records: list[dict], pieces: list[Piece], kn: schema.
         hand = p.get("told") or (dp.zones_of(p["minutes"]) or ["–"])[-1]
         lines.append(f"\n당시 손 예측: 분 {dp._bounds(p['minutes'])} (말한/말할 구간 {hand}), 턴 {dp._bounds(p.get('turns', []))}")
     return "\n".join(lines)
+
+
+def counts_of(d: dict) -> dict:
+    """기록에서 비율 조각이 비를 낼 수 있는 칸들 (지금은 files)."""
+    return {k: d[k] for k in ("files",) if isinstance(d.get(k), dict)}
 
 
 def _hit(v: bool | None) -> str:
@@ -429,6 +468,8 @@ def main(argv: list[str]) -> int:
     raw = tomllib.loads(path.read_text(encoding="utf-8"))
     d = {"id": path.stem, "project": raw.get("project", ""), "task": raw.get("task", ""),
          "situation": raw.get("situation", {}), "predicted": {"analog": raw.get("analog")}, "actual": {"status": "unknown"}}
+    if isinstance(raw.get("files"), dict):
+        d["files"] = raw["files"]
     print(report_record(d, records, pieces, kn))
     return 0
 

@@ -592,7 +592,7 @@ def _piece_rows(node_id: str) -> tuple[list[dict], list[dict], str | None]:
     key = (piece.seen_until, tuple(p.id for p in pieces), len(records))
     if key not in _ROWS:
         fit, test = _cut_split(records, piece.seen_until)
-        _ROWS[key] = (holdout.piece_scores(pieces, test, kn), holdout.piece_scores(pieces, fit, kn))
+        _ROWS[key] = (holdout.piece_scores(pieces, test, kn, records), holdout.piece_scores(pieces, fit, kn, records))
     test_rows, fit_rows = _ROWS[key]
     return ([r for r in test_rows if r["piece"] == node_id], [r for r in fit_rows if r["piece"] == node_id], piece.seen_until)
 
@@ -600,6 +600,8 @@ def _piece_rows(node_id: str) -> tuple[list[dict], list[dict], str | None]:
 def _eff_name(r: dict) -> str:
     from . import predict as pr
     e = r["effect"]
+    if e.op == "scale":
+        return f"{pr.QUANTITY_LABEL[e.on]} {pr.OP_LABEL[e.op]}({e.count})"
     return f"{pr.QUANTITY_LABEL[e.on]} {pr.OP_LABEL[e.op]}{e.lo:g}–{e.hi:g}"
 
 
@@ -664,6 +666,8 @@ def audit_pieces(kn) -> tuple[list[str], list[str]]:
     by_id = {p.id: p for p in pieces}
     for fp in fitted:
         for e_now, e_fit in zip(by_id[fp.id].effects, fp.effects):
+            if e_fit.op == "scale":
+                continue  # 비율 조각: 맞출 숫자가 없다(아래에서 근거 수만 본다)
             if (e_now.lo, e_now.hi) != (e_fit.lo, e_fit.hi):
                 errors.append(f"[계산 조각] {fp.id}: 범위 [{e_now.lo:g}, {e_now.hi:g}]가 기록에서 맞춘 값 [{e_fit.lo:g}, {e_fit.hi:g}]와 다름 "
                               "— 숫자는 손으로 넣거나 넓히지 않는다(fit.py final --write)")
@@ -675,20 +679,33 @@ def audit_pieces(kn) -> tuple[list[str], list[str]]:
                              "방향은 이유 문장이 정하고 크기는 아직 모른다(범위 = 가장 넓은 창). 다음 기록이 시험한다(D)")
             if not st.dir_ok:
                 errors.append(f"[계산 조각] {fp.id}: {pr.QUANTITY_LABEL[e_fit.on]} 효과의 맞춘 범위가 주장한 방향과 어긋남 — 이유 틀림 후보(A)")
+    # 비율 조각(scale): 숫자가 없어 D(설명하는 기록)를 숫자로 못 따진다. 대신 세울 때 본 기록에서 걸린 수를 적는다 —
+    # 0건이면 경고(시험 전, 다음 기록이 시험한다). 범위가 없으므로 '외워서 맞추는' 쪽(F)에는 들지 않는다
+    for p in pieces:
+        for e in p.effects:
+            if e.op != "scale":
+                continue
+            seen, _ = _cut_split(records, p.seen_until)
+            rows = [r for r in holdout.piece_scores([p] + [q for q in pieces if q is not p], seen, kn, records)
+                    if r["piece"] == p.id and r["effect"].op == "scale"]
+            n = rows[0]["size_n"] if rows else 0
+            if n == 0:
+                warns.append(f"[계산 조각] {p.id}: 비율 조각이 세울 때 본 기록({p.seen_until}까지)에서 걸린 것이 0건 — "
+                             "방향은 이유 문장이 정하고 크기는 다음 기록이 시험한다(D)")
     cut = pieces[0].seen_until
     fit_recs, test_recs = _cut_split(records, cut)
     explained = sum(1 for _, o in holdout.evaluate(pieces, fit_recs, kn, records) if o["told_hit"])
-    n_eff = sum(len(p.effects) for p in pieces)
+    n_eff = sum(1 for p in pieces for e in p.effects if e.op != "scale")
     if n_eff * EFFECT_PER_RECORDS > explained:
         errors.append(f"[계산 조각] 효과 {n_eff}개가 설명한 기록 {explained}건에 비해 많다 (상한: 설명한 기록 ÷ {EFFECT_PER_RECORDS}) — 외워서 맞추는 쪽이다(F)")
     ex = exceptions_after(records, cut)
     if ex:
         warns.append(f"[계산 조각] 바깥 상황 예외로 시험에서 뺀 기록 {len(ex)}건: {', '.join(ex)} — "
                      "같은 종류가 반복되면 예외가 아니라 빠진 조건이다(조건을 더해 쪼갠다)")
-    for r in holdout.piece_scores(pieces, test_recs, kn):
+    for r in holdout.piece_scores(pieces, test_recs, kn, records):
         if r["direction"] == "반박":
             errors.append(f"[계산 조각] {r['piece']}: 방향 주장이 시험 기록에서 틀림({r['rough']}) — 이유(논리)가 깨졌다, why = 이유 틀림 후보(A)")
-    for r in holdout.piece_scores(pieces, fit_recs, kn):
+    for r in holdout.piece_scores(pieces, fit_recs, kn, records):
         if r["direction"] == "반박":
             warns.append(f"[계산 조각] {r['piece']}: 맞춰 본 기록에서도 방향이 안 맞음({r['rough']}) — 같은 기준값끼리의 거친 비교")
     return errors, warns

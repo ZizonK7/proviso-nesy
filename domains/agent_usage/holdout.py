@@ -60,7 +60,7 @@ def evaluate(pieces: list[pr.Piece], records: list[dict], kn: schema.Knowledge,
         a = pr.analog_of(d, all_records) if analog else None
         if analog and a is None:
             continue
-        p = pr.predict(d.get("situation", {}), d.get("project", ""), pieces, kn, a)
+        p = pr.predict(d.get("situation", {}), d.get("project", ""), pieces, kn, a, pr.counts_of(d))
         if analog and not any(e.analog for e in p.used()):
             continue
         out.append((d, pr.outcome(p, d)))
@@ -135,13 +135,18 @@ def _ratio_without(e: pr.Effect, pred: pr.Prediction, d: dict) -> float | None:
     return actual / math.sqrt(r[0] * r[1])
 
 
-def piece_scores(pieces: list[pr.Piece], records: list[dict], kn: schema.Knowledge) -> list[dict]:
-    """조건 조각(곱하기·더하기)마다 방향·크기 성적, 기준값은 크기만. records = 시험 기록."""
+def piece_scores(pieces: list[pr.Piece], records: list[dict], kn: schema.Knowledge,
+                 all_records: list[dict] | None = None) -> list[dict]:
+    """조건 조각(곱하기·더하기)마다 방향·크기 성적, 기준값은 크기만. records = 시험 기록.
+    비율 조각(scale)은 비유 계산에서만 걸리므로 all_records(빗댄 기록을 찾을 전체)가 있어야 성적이 난다."""
     preds = [(d, pr.predict(d.get("situation", {}), d.get("project", ""), pieces, kn)) for d in records]
     out = []
     for p in pieces:
         for e in p.effects:
             if e.analog:
+                continue
+            if e.op == "scale":
+                out.append(_scale_scores(p, e, pieces, records, kn, all_records or records))
                 continue
             row = {"piece": p.id, "effect": e, "with": [], "without": [], "size_hits": 0, "size_n": 0,
                    "direction": "없음 (기준값)" if e.op == "base" else "시험 전", "rough": ""}
@@ -183,6 +188,44 @@ def piece_scores(pieces: list[pr.Piece], records: list[dict], kn: schema.Knowled
     return out
 
 
+def _scale_scores(p: pr.Piece, e: pr.Effect, pieces: list[pr.Piece], records: list[dict], kn: schema.Knowledge,
+                  all_records: list[dict]) -> dict:
+    """비율 조각의 성적 (2026-11-04, 세우기 전에 정한 시험 — CLAUDE.md '파일 수 비율 조각').
+    걸리는 기록 = 보내기 전에 적은 빗댄 기록과 count 칸이 둘 다 있는 끝난 기록.
+    방향: 비율을 곱한 비유 계산이 곱하지 않은 것보다 실측에 가까운 기록이 절반을 넘으면 지지(둘 다 2건 이상일 때 판정).
+    크기: 실측 ÷ (빗댄 기록의 실측 × 비율)이 비유 기준값 조각의 범위 안인 수."""
+    row = {"piece": p.id, "effect": e, "with": [], "without": [], "size_hits": 0, "size_n": 0,
+           "direction": "시험 전", "rough": "빗댄 기록과 수가 둘 다 있는 기록 없음"}
+    closer = 0
+    for d in records:
+        a = pr.analog_of(d, all_records)
+        if a is None:
+            continue
+        pred = pr.predict(d.get("situation", {}), d.get("project", ""), pieces, kn, a, pr.counts_of(d))
+        used = [m for m in pred.q[e.on].muls if m.piece == e.piece and m.op == "scale"]
+        base = pred.q[e.on].base
+        actual = pr._actual(d, e.on)
+        if not used or base is None or not base.analog or actual is None:
+            continue
+        ratio = used[0].lo
+        a_val = pred.q[e.on].base_value
+        if ratio == 1 or not a_val:
+            continue  # 수가 같으면 조각이 아무것도 바꾸지 않는다 — 시험이 아니다
+        row["with"].append(d["id"])
+        r_with = actual / (a_val * ratio)
+        r_without = actual / a_val
+        row["size_n"] += 1
+        row["size_hits"] += base.lo <= r_with <= base.hi
+        closer += abs(math.log(r_with)) < abs(math.log(r_without))
+    n = row["size_n"]
+    if n >= 2:
+        row["direction"] = "지지" if closer * 2 > n else "반박"
+        row["rough"] = f"비율을 곱해 실측에 가까워진 기록 {closer}/{n}"
+    elif n == 1:
+        row["rough"] = f"걸린 기록 1건(가까워짐 {closer}) — 2건부터 판정"
+    return row
+
+
 def _direction(e: pr.Effect, groups: dict[str, list[list[float]]]) -> tuple[str, str]:
     """조건 있음/없음 비교. 같은 기준값 묶음 안에서 비교하고 묶음 수로 무게를 둔다."""
     add = e.op == "add"
@@ -215,8 +258,11 @@ def piece_table(rows: list[dict]) -> str:
     for r in rows:
         e = r["effect"]
         claim = {"up": "늘린다", "down": "줄인다"}.get(e.dir or "", "–")
+        if e.op == "scale":
+            claim = f"{e.count} 수에 비례"
         size = _pct(r["size_hits"], r["size_n"]) if r["size_n"] else "시험 전"
-        lines.append(f"| {r['piece']} | {pr.QUANTITY_LABEL[e.on]} | {pr.OP_LABEL[e.op]} | {e.lo:g}–{e.hi:g} | {claim} "
+        rng = f"{e.count} 비" if e.op == "scale" else f"{e.lo:g}–{e.hi:g}"
+        lines.append(f"| {r['piece']} | {pr.QUANTITY_LABEL[e.on]} | {pr.OP_LABEL[e.op]} | {rng} | {claim} "
                      f"| {r['direction']} | {size} | {r['rough']} |")
     return "\n".join(lines)
 

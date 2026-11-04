@@ -105,8 +105,9 @@ def fit(pieces: list[pr.Piece], records: list[dict], kn: schema.Knowledge,
     all_records = all_records or records
     recs = [d for d in records if dp.done(d)]
     sits = {d["id"]: pr.resolve(d.get("situation", {}), d.get("project", ""), kn) for d in recs}
-    effs = [e for p in pieces for e in p.effects]
-    new: dict[pr.Effect, pr.Effect] = {e: e for e in effs}
+    # 비율 조각(scale)은 범위 숫자가 없어 맞추지 않는다(배수는 두 기록의 수에서 나온다) — 그대로 둔다
+    new: dict[pr.Effect, pr.Effect] = {e: e for p in pieces for e in p.effects}
+    effs = [e for p in pieces for e in p.effects if e.op != "scale"]
     stats: dict[pr.Effect, Stat] = {e: Stat() for e in effs}
 
     def cur(e: pr.Effect) -> pr.Effect:
@@ -193,6 +194,9 @@ def fit(pieces: list[pr.Piece], records: list[dict], kn: schema.Knowledge,
     for p in out:
         parts = []
         for e_old, e_new in zip([e for op in pieces if op.id == p.id for e in op.effects], p.effects):
+            if e_old.op == "scale":
+                parts.append(f"{pr.QUANTITY_LABEL[e_new.on]} 비율(맞출 숫자 없음)")
+                continue
             st = stats[e_old]
             parts.append(f"{pr.QUANTITY_LABEL[e_new.on]} {len(st.explained)}/{len(st.matched)}건"
                          + (f" ({', '.join(st.explained[:6])}{' …' if len(st.explained) > 6 else ''})" if st.explained else ""))
@@ -312,6 +316,9 @@ def show(fitted: list[pr.Piece], stats: dict) -> str:
     for p in fitted:
         lines.append(f"{p.id}: {p.text}")
         for e in p.effects:
+            if e.op == "scale":
+                lines.append(f"  {pr.QUANTITY_LABEL[e.on]} {pr.OP_LABEL[e.op]}({e.count}) 맞출 숫자 없음")
+                continue
             st = stats[e]
             flag = "" if st.dir_ok else "  ← 방향이 데이터와 어긋남"
             short = "  ← 근거 1건(크기는 다음 기록이 시험)" if len(st.explained) == 1 else (
