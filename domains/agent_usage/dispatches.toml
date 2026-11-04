@@ -15395,3 +15395,63 @@ report = "proviso-nesy:docs/worklog/2026-11-04-hw6-handwriting.md"
 "Write" = { n = 1, sum_s = 3.6, turn_s = 3.6, tool_s = 0.0, out_chars = 50065, ctx_k = 176 }
 "Bash:END=$(date" = { n = 1, sum_s = 15.5, turn_s = 15.5, tool_s = 0.2, out_chars = 3456, ctx_k = 254 }
 "SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 2043, ctx_k = 257 }
+
+[[dispatch]]
+id = "p196"
+project = "gemmin"
+batch = 59
+date = 2026-11-04
+task = "새(gemmin 세션 안 Opus 5.5 high, 새 에이전트): gemmin-app에 '세션' 화면(돌고 있는/끝난 에이전트, 손·계산기 예측, 시작·예상 종료·실측)을 사용자 시안에서 구름만 빼고 구현 + 데이터 경로(gemmin agents.md → gemmin-sync → worker 'agents' 문서 → 앱). 두 레포 모두 브랜치 design/sessions에 push, 빌드는 못 돌림"
+model = "Opus 5.5"
+effort = "high"
+agent = "세션 화면"
+round = 1
+size = { reads = 20, outputs = 1, checks = 4 }
+files = { write = 5, edit = 13 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "예"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [20, 40]
+turns = [100, 200]
+tokens_m = [20, 50]
+tokens_class = ["T2"]
+rules = ["R_say_numbers_v3"]
+reason = "손 예측(보내기 전): 새 화면 하나(시안 있음) + 새 데이터 문서 하나를 세 곳(gemmin 변환 스크립트·worker·앱 파서)에 잇는다. 기존 화면·파서 코드를 본떠 쓸 수 있고 빌드 검증 루프가 없어(SDK 없음) 렌더 루프는 없다. 10-28 오늘 화면 12분(기록 밖)보다 두 레포·데이터 경로만큼 크게. p195 15분·109턴·21.5M을 하한 쪽 기준으로"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.62, 91.23]
+[dispatch.decide]
+main_ctx_k = 200
+left = 50
+direct_m = 84.1
+send_m = 34.1
+added_k = 327
+chose = "보냄"
+why = ["결과를 가림", "대화 계속"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
