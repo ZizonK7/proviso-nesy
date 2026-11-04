@@ -14951,3 +14951,63 @@ report = "Professor_King:작업보고/2026-11-04_수업정리복습_구조규칙
 "Bash:date" = { n = 1, sum_s = 5.0, turn_s = 5.0, tool_s = 2.9, out_chars = 315, ctx_k = 85 }
 "Bash:mkdir" = { n = 1, sum_s = 1.9, turn_s = 1.9, tool_s = 0.2, out_chars = 611, ctx_k = 192 }
 "SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 1264, ctx_k = 247 }
+
+[[dispatch]]
+id = "p190"
+project = "gemmin"
+batch = 55
+date = 2026-11-04
+task = "규칙 수정 2회차(같은 에이전트 이어서, 같은 worktree): 사용자 답 4개 반영 — 2차 복습 시간 표현(예상 15–20분·최대 30분, 배분은 에이전트 판단·1단계 우선), 압축 수업정리에도 1단계 문제, 심수기 '충돌' 문구 삭제·구분 한 줄, 공방·인과 변경 4파일 되돌리기. 브랜치 push"
+model = "Opus 5.5"
+effort = "high"
+agent = "수업정리 복습 구조 규칙"
+round = 2
+size = { edits = 5 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "예"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [2, 4]
+turns = [10, 25]
+tokens_m = [5, 10]
+tokens_class = ["T1"]
+rules = ["R_doc_work_v2", "R_say_numbers_v3"]
+analog = "p186"
+reason = "손 예측(보낸 직후 적음 — 보내기 전엔 말하지 않았다, 사용자가 짚음): 고칠 곳을 번호로 다 적어 준 이어 보내기(p186 6.1분·31줄과 10-29 '고칠 곳을 적어 준 md 수정' 2분 사이). 되돌리기 4파일은 git 명령 한 번 → 2–4분 잠깐, 10–25턴, 5–10M"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [7.48, 14.96]
+[dispatch.decide]
+main_ctx_k = 795
+left = 50
+direct_m = 96.1
+send_m = 15.5
+added_k = 774
+chose = "보냄"
+why = ["대화 계속"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
