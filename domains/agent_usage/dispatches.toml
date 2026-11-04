@@ -15831,7 +15831,7 @@ direct_m = 72.8
 send_m = 9.2
 added_k = 528
 chose = "보냄"
-why = ["대화 계속", "메인 맥락 보호"]
+why = ["대화 계속", "대화 맥락"]
 [dispatch.actual]
 status = "done"
 minutes = 1.6  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
