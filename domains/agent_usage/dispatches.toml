@@ -15455,3 +15455,121 @@ chose = "보냄"
 why = ["결과를 가림", "대화 계속"]
 [dispatch.actual]
 status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+# 2026-11-04 번호 다시 매김: 아래 p197·p198(배치 59)은 stock-rader 세션이 p183·p184(배치 51)로 적어 두었던 기록인데, gemmin 세션이 같은 번호를 먼저 main에 올려 뒤 번호로 옮겼다(docs/worklog/2026-11-02-branch-merge.md 방식).
+
+[[dispatch]]
+id = "p197"
+project = "stock-rader"
+batch = 59
+date = 2026-11-04
+task = "구현(팀 A, 메인 세션 안 Opus 5.5 xhigh, 새 에이전트, 별도 worktree, 하위 에이전트 불허): 체결을 판단 뒤 첫 시가로, 예측·채점 기준을 체결가로(base_kind fill), 계산기 조각을 시가→종가 수익률로 다시 맞춤(v5), 출발점 조각 은퇴, 테스트·문서, 브랜치 커밋. 보고서 하나"
+model = "Opus 5.5"
+effort = "xhigh"
+agent = "빠른 정보 팀 A 체결·기준"
+round = 1
+size = { outputs = 1, edits = 9, checks = 6 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "일부"
+S_small_codebase = "예"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [30, 60]
+turns = [150, 300]
+tokens_m = [50, 110]
+tokens_class = ["T2", "T3"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p181"
+reason = "빗댄 p181(같은 저장소 결정 10개 구현 1회차: 끊기기 전 24.7분·177턴·63.6M으로 코드·논리집을 거의 끝냄, 분당 7.2턴)과 p182(마무리 17.3분·159턴·38.4M). 이번은 결정 셋이지만 체결·채점·맞추기라는 핵심 경로를 바꾸고 fit을 다시 돌려 숫자 변화를 적어야 해 p181 전체와 비슷한 크기 → 150–300턴, 분당 5–7턴 → 30–60분, 맥락 30–40만 → 50–110M. 가운데 42분 → '신경 끄기'. 계산기 '모름'"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 290
+left = 15
+direct_m = 140.3
+send_m = 77.2
+added_k = 579
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p198"
+project = "stock-rader"
+batch = 59
+date = 2026-11-04
+task = "구현(팀 B, 메인 세션 안 Opus 5.5 xhigh, 새 에이전트, 별도 worktree, 하위 에이전트 불허): 조사 각도를 오늘 판단용(간밤 반응·오늘 일정과 예상치·전일 수급·종목 밤사이 소식)으로 개편, 조사 기록에 numbers·as_of, 숫자 상태와 문턱 조건을 코드가 계산, 씨앗 조각 셋(간밤 격차·놀람·수급), 볼 곳 숫자 출처, 지시문 4·5절, 테스트·문서, 브랜치 커밋. 보고서 하나"
+model = "Opus 5.5"
+effort = "xhigh"
+agent = "빠른 정보 팀 B 조사·숫자"
+round = 1
+size = { outputs = 1, edits = 9, checks = 6 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "일부"
+S_small_codebase = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [25, 50]
+turns = [120, 250]
+tokens_m = [40, 90]
+tokens_class = ["T2", "T3"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p181"
+reason = "빗댄 p181(결정 10개 구현 1회차, 24.7분·177턴·63.6M에서 끊김). 이번은 코드(연구 질문·숫자 상태·검사)와 논리집(상태·씨앗 셋)·볼 곳·지시문 두 절이라 p181보다 조금 작다 → 120–250턴, 분당 5–7턴 → 25–50분, 40–90M. 근거 확인에 웹이 되면 턴이 늘 수 있다. 가운데 35분 → 다른 일. 계산기 모름"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 290
+left = 15
+direct_m = 117.0
+send_m = 63.0
+added_k = 573
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
