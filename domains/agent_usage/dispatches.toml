@@ -15538,3 +15538,64 @@ reason = "말한 구간 '잠깐' 맞음(2.7분). 지적 12개 반영 + 한 쪽 �
 "Read" = { n = 4, sum_s = 44.8, turn_s = 11.2, tool_s = 0.1, out_chars = 94.0, ctx_k = 382.5 }
 "Bash:cd" = { n = 4, sum_s = 34.1, turn_s = 8.1, tool_s = 2.6, out_chars = 1415.5, ctx_k = 383.5 }
 "SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 1478, ctx_k = 392 }
+
+[[dispatch]]
+id = "p198"
+project = "exam_grader"
+batch = 58
+date = 2026-11-04
+task = "구현(세션 안 Opus 5.5 high, 작성 에이전트 이어서 16회차): 꿀모 S2 2회 15번 풀이지 15.html 새로 쓰기(y = f(x) 옆에 y = 2f′(t) 포물선, 조건 (가)→변곡점·극소, (나)→극대, 한 칸 k로 식 세워 f(3) = −8) + SVG 2개 + 렌더·png 확인, teacher.md 수업 논리 1줄, session.md 15번 줄"
+model = "Opus 5.5"
+effort = "high"
+agent = "꿀모 S2 2회 풀이지 작성"
+round = 16
+size = { reads = 3 }
+files = { write = 1, edit = 2 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "예"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [2.5, 4.5]
+turns = [13, 22]
+tokens_m = [3, 6]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p195"
+reason = "빗댄 p195(14번, 그림 둘, 3.5분·15턴·5.3M). 15번도 그림 둘(f 그래프 + 2f′(t) 포물선)이고 단계 넷·계산이 있어 같은 크기 → 13–22턴, 2.5–4.5분 '잠깐', 3–6M"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [10.89, 21.77]
+[dispatch.decide]
+main_ctx_k = 400
+left = 60
+direct_m = 55.8
+send_m = 8.8
+added_k = 382
+chose = "보냄"
+why = ["대화 계속", "대화 맥락"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
