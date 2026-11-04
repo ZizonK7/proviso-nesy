@@ -15450,4 +15450,78 @@ added_k = 84
 chose = "보냄"
 why = ["새 눈"]
 [dispatch.actual]
+status = "done"
+minutes = 2.9  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 17
+tokens_m = 1.51  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T07:24:55Z"
+end = "2026-11-04T07:27:51Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
+reason = "말한 구간 '잠깐' 맞음. 12·13번 검토(p139·p142)와 같은 크기. 지적 12개(수학 통과) — 메인 전부 수용: 부정확한 문장(곱=1을 점대칭이라 한 것) 삭제, 손글씨에 조건, H 정의, 그림 라벨 키우기·직선 식 라벨, 문제 글 쉼표, 핵심 상자 판단만. 세 번째 검토도 메인이 못 본 것을 잡음(부정확한 한 문장) — 품질 5"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 6, sum_s = 26.0, turn_s = 1.9, out_chars = 0.0, ctx_k = 92.5 }
+"Read" = { n = 6, sum_s = 129.3, turn_s = 3.0, tool_s = 0.0, out_chars = 95.5, ctx_k = 73.0 }
+"Bash:cd" = { n = 4, sum_s = 18.4, turn_s = 3.8, tool_s = 0.5, out_chars = 395.5, ctx_k = 98.5 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 2310, ctx_k = 107 }
+
+[[dispatch]]
+id = "p197"
+project = "exam_grader"
+batch = 58
+date = 2026-11-04
+task = "수정(같은 작성 에이전트 15회차, 이어서): 14번 검토 지적 12개 반영(문장 삭제·조건 추가·H 정의·그림 라벨·직선 식·쉼표·핵심 상자) + 재렌더·png 확인"
+model = "Opus 5.5"
+effort = "high"
+agent = "꿀모 S2 2회 풀이지 작성"
+round = 15
+size = { reads = 3 }
+files = { write = 0, edit = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "예"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [1, 2.5]
+turns = [7, 13]
+tokens_m = [1.5, 3.5]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p144"
+reason = "빗댄 p144(13번 검토 반영 6개 + 그림, 1.0분·10턴·3.2M). 이번은 12개이고 그림 라벨 손질이 둘이라 조금 위 → 7–13턴, 1–2.5분 '잠깐', 1.5–3.5M"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [7.48, 14.96]
+[dispatch.decide]
+main_ctx_k = 400
+left = 60
+direct_m = 48.8
+send_m = 6.9
+added_k = 360
+chose = "보냄"
+why = ["대화 계속", "메인 맥락 보호"]
+[dispatch.actual]
 status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
