@@ -14723,3 +14723,115 @@ report = "Professor_King:작업보고/2026-11-04_확개응_2단계복습.md"
 "Bash:date" = { n = 1, sum_s = 9.7, turn_s = 9.7, tool_s = 7.1, out_chars = 405, ctx_k = 549 }
 "Bash:mkdir" = { n = 1, sum_s = 3.0, turn_s = 3.0, tool_s = 0.2, out_chars = 10493, ctx_k = 590 }
 "SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 831, ctx_k = 622 }
+
+[[dispatch]]
+id = "p187"
+project = "gemmin"
+batch = 53
+date = 2026-11-04
+task = "작성(gemmin 세션 안 Opus 5.5 high, 새 에이전트, worktree): Professor_King 대회 공방(은하) 최종 보고서용 회차 2개 — 3-1 오차 분석·피처(9.1 ablation, 11절, 14절), 3-2 손실·모델 비교·마무리(10·12·13·15·16절). 새 틀: 1단계 공부(예제 = Claude 실측) → 1단계 문제(= 보고서 절 채우기, 코드 없이 받아야 할 숫자·표 모양) → 2단계 공부 → 2단계 문제(설명·유도). 기존 1-1~2-2 수업정리와 커리큘럼 '완벽 ver' 1~8, 템플릿 Part II를 근거로. 수업정리 2개 + 커리큘럼·수업방향 갱신. 브랜치 push, main 안 합침"
+model = "Opus 5.5"
+effort = "high"
+agent = "대회 공방 최종 회차"
+round = 1
+size = { reads = 8, outputs = 2, edits = 2 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "일부"
+S_resumed = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [20, 35]
+turns = [120, 220]
+tokens_m = [40, 80]
+tokens_class = ["T2", "T3"]
+rules = ["R_doc_work_v2", "R_say_numbers_v3"]
+analog = "p119"
+reason = "손 예측(보내기 전): 긴 구조화 md를 주어진 입력(기존 수업정리 4개·커리큘럼·템플릿)에서 새로 쓰는 일. 빗댄 기록 p104–p122(국어 회차 v2 양식 분석: 15–18분, 80–130턴, 13–30M)가 가장 가깝고, 이번은 파일 2개를 새로 쓰고 2단계 문제까지 만드니 1.3–2배 → 20–35분, 120–220턴, 40–80M(기록 단위). 오늘 p183(15파일 옮기기 15.5분·148턴·52M)과 같은 띠. 토큰은 기록 단위(줄마다 더한 값)로 적음"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [10.05, 20.09]
+[dispatch.decide]
+main_ctx_k = 676
+left = 50
+direct_m = 214.3
+send_m = 63.8
+added_k = 576
+chose = "보냄"
+why = ["결과를 가림", "대화 계속"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p188"
+project = "gemmin"
+batch = 54
+date = 2026-11-04
+task = "조사(클라우드 'searching', Haiku 5.5, 새 세션): 간격 복습 설계 근거 — ① 복습(일주일 뒤) 문제를 처음 공부 문제보다 쉽게 내야 하나 어렵게 내야 하나(desirable difficulty, retrieval practice 난이도, 성공률과 기억의 관계) ② 백지 복습(free recall)의 효과와 방법 ③ 증명·유도(수학)에서의 retrieval practice·간격 복습 방법 ④ 1일·1주 간격의 근거. 전송 조건: 연구 원문·리뷰 6건 + 교육 실무 글 2건 원문 열람"
+model = "Haiku 5.5"
+effort = "medium"
+agent = "review-design-1104"
+round = 1
+size = { find_cap = "4 질문·원문 8건" }
+[dispatch.situation]
+S_specified = "아니오"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_read_originals = "예"
+S_web_blocked = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [2, 4]
+turns = [20, 40]
+tokens_m = [1, 3]
+tokens_class = ["T1"]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v3"]
+analog = "p168"
+reason = "손 예측(보내기 전): 빗댄 p168(클라우드 Haiku 글 조사, 전송 조건 8건, 2.1분·1.53M)과 11-03 같은 모양 세션 18개(1–3분). 원문 열람 8건을 조건으로 걸었으니 위쪽 → 2–4분 '잠깐', 1–3M(세션 사용량 단위). 턴은 셀 수 없어 참고값"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 690
+left = 50
+direct_m = 19.8
+send_m = 9.1
+added_k = 2
+chose = "보냄"
+why = ["결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
