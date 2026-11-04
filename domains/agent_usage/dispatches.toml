@@ -14328,4 +14328,75 @@ added_k = 579
 chose = "보냄"
 why = ["대화 계속", "결과를 가림"]
 [dispatch.actual]
+status = "stopped"  # 24.7분 시점에 컨테이너 재시작으로 끊김(작업 트리의 diff는 남음 — 코드·논리집·지시문 거의 완성, 문서·보고서 전). 이어서 p182(같은 에이전트 이름, 2회차, 새 맥락)
+minutes = 24.7  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 177
+tokens_m = 63.55  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T01:11:09Z"
+end = "2026-11-04T01:35:48Z"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Bash:cd" = { n = 93, sum_s = 767.3, turn_s = 2.3, tool_s = 0.3, out_chars = 293, ctx_k = 388 }
+"글" = { n = 73, sum_s = 552.0, turn_s = 2.8, out_chars = 0, ctx_k = 406 }
+"Bash:cat" = { n = 5, sum_s = 13.5, turn_s = 2.1, tool_s = 0.3, out_chars = 2917, ctx_k = 462 }
+"Bash:sed" = { n = 3, sum_s = 101.6, turn_s = 5.5, tool_s = 0.2, out_chars = 85, ctx_k = 293 }
+"Bash:wc" = { n = 1, sum_s = 1.6, turn_s = 1.6, tool_s = 0.2, out_chars = 238, ctx_k = 281 }
+"Bash:ls" = { n = 1, sum_s = 38.4, turn_s = 38.4, tool_s = 0.1, out_chars = 275, ctx_k = 300 }
+"Bash:mkdir" = { n = 1, sum_s = 3.4, turn_s = 3.4, tool_s = 0.2, out_chars = 6210, ctx_k = 454 }
+
+[[dispatch]]
+id = "p182"
+project = "stock-rader"
+batch = 50
+date = 2026-11-04
+task = "구현 마무리(메인 세션 안 Opus 5.5 xhigh, 앞 회차 diff를 이어받는 새 에이전트, 하위 에이전트 불허): p181이 컨테이너 재시작으로 끊긴 뒤 남은 diff(22개 파일, 검사·테스트 통과)를 결정 D1–D10에 대조해 빠진 것 채우기, 하루 흐름 --root 흉내 내기, 문서 7개, 보고서 하나. 커밋 없음"
+model = "Opus 5.5"
+effort = "xhigh"
+agent = "계산기 분석 반영"
+round = 2
+size = { reads = 22, outputs = 1, edits = 7, checks = 6 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "일부"
+S_small_codebase = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [12, 30]
+turns = [60, 140]
+tokens_m = [25, 60]
+tokens_class = ["T2", "T3"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p170"
+reason = "빗댄 p170(같은 저장소, diff가 이미 있는 고침 2회차: 14.9분·98턴·42.2M, 분당 6.6턴). 이번도 diff가 이미 있고(앞 회차 177턴이 코드·논리집·지시문을 거의 끝냄) 남은 일은 대조·문서 7개·흉내 내기·보고서라 턴 60–140, 분당 5–7턴 → 12–30분. 새 맥락이라 diff 22개 파일을 읽는 몫이 더해져 턴당 맥락 30–40만 → 25–60M. 가운데 19분 → '다른 일'. 계산기는 Opus xhigh 기준값이 없어 '모름'"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 250
+left = 15
+direct_m = 77.9
+send_m = 41.4
+added_k = 725
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
 status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
