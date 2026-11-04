@@ -14119,3 +14119,155 @@ reason = "말한 구간 '다른 일' 맞음(14.9분, 손 예측 15–35의 아�
 "Bash:cat" = { n = 1, sum_s = 5.5, turn_s = 5.5, tool_s = 0.5, out_chars = 2228, ctx_k = 416 }
 "Write" = { n = 1, sum_s = 2.6, turn_s = 2.6, tool_s = 0.0, out_chars = 6594, ctx_k = 486 }
 "SubagentHandback" = { n = 1, sum_s = 0.3, turn_s = 0.3, tool_s = 0.3, out_chars = 2291, ctx_k = 495 }
+
+[[dispatch]]
+id = "p179"
+project = "proviso"
+batch = 48
+date = 2026-11-04
+task = "분석(메인 세션 안 Opus 5.5 xhigh, 새 에이전트, 하위 에이전트 불허): agent_usage 계산기(predict.py·계산 조각·fit·holdout)의 문제점을 기록 295건(+브랜치 8건)으로 숫자와 코드 위치를 붙여 분석. 사용자 방향(스위치가 같은 지난 일 → 비슷한 일 → 손 예측의 층 구조를 참고하되 주식·코인 같은 예측 분야에 맞게 다시 설계)에 비추어 고칠 방향과 수집 방식 변경 후보까지. 코드·지식·기록은 고치지 않고 보고서 하나(docs/worklog/)만"
+model = "Opus 5.5"
+effort = "xhigh"
+agent = "계산기 문제 분석"
+round = 1
+size = { find_cap = "문제점 목록(상한 없음) · 보고서 1" }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [15, 35]
+turns = [60, 130]
+tokens_m = [12, 30]
+tokens_class = ["T1", "T2"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p169"
+reason = "빗댄 p169(Opus xhigh 점검 보고서 하나, 21.9분·95턴·21.8M, 분당 4.3턴, 턴당 맥락 24만). 이번도 코드(predict·fit·holdout·analog 약 1,500줄)와 지식·기록 파일을 읽고 파이썬으로 집계해 원인을 찾는 찾는 일이라 턴은 p169와 같거나 조금 많다(60–130). xhigh라 분당 4–5턴 → 15–35분. 맥락은 기록 파일이 커서 p169처럼 20만 안팎 → 12–30M. 가운데 23분 → '다른 일'. 계산기는 Opus xhigh 배수가 없어 '모름'이 예상된다"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 85
+left = 20
+direct_m = 33.6
+send_m = 20.0
+added_k = 310
+chose = "보냄"
+why = ["새 눈", "결과를 가림"]
+[dispatch.actual]
+status = "done"
+minutes = 18.0  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 129
+tokens_m = 28.45  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-03T23:51:02Z"
+end = "2026-11-04T00:09:03Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-04-calculator-analysis.md"
+reason = "말한 구간 '다른 일' 맞음(18.0분, 손 예측 15–35 안). 턴 129(60–130 안, 위 끝), 토큰 28.45M(12–30 안, 위쪽): 빗댄 p169(같은 Opus xhigh 점검)가 그대로 맞았다 — 분당 7.2턴으로 p169(4.3)보다 빠른데 턴당 맥락 22만으로 비슷해 토큰은 턴 수만큼 늘었다. 계산기는 Opus xhigh 기준값이 없어 '모름'(예상대로). 보낼까 판단: 고른 쪽 실제 29.5M < 직접 추정 33.6M. 품질: 질문 A–G를 모두 숫자와 파일:줄로 닫고, 메인의 미리 본 숫자 5줄을 모두 재현한 뒤 해석 둘을 바로잡았다(최종본 46 %는 in-sample이 아니라 p05 앞 71 %/뒤 27 %의 섞임; 정해진 입력 조각은 양을 못 보는 게 아니라 작은 퍼즐 8건으로 맞춘 조각의 라벨 흐림). 사후 탐색(층 구조 대 보기·일 종류 낱말)은 스스로 '판정 아님'으로 표시. 금지 사항(쓰기 명령·다른 파일·커밋) 모두 지킴 — 5. 메인의 실수: 사용자가 말한 '지금 계산기'는 stock-rader의 주식 계산기였는데 이 저장소의 agent_usage 계산기로 읽고 보냈다(사용자가 결과를 본 뒤 바로잡음, 2026-11-04). 보고서는 참고 자료로 남기고 주식 계산기 분석은 p180으로 따로 보낸다"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 56, sum_s = 492.7, turn_s = 2.7, out_chars = 0.0, ctx_k = 248.5 }
+"Bash:cat" = { n = 27, sum_s = 184.8, turn_s = 6.0, tool_s = 0.6, out_chars = 1617, ctx_k = 228 }
+"Bash:PYTHONIOENCO" = { n = 12, sum_s = 168.5, turn_s = 6.4, tool_s = 0.5, out_chars = 626.0, ctx_k = 276.0 }
+"Bash:sed" = { n = 10, sum_s = 63.9, turn_s = 1.9, tool_s = 0.3, out_chars = 123.5, ctx_k = 150.5 }
+"Bash:scratchpad" = { n = 8, sum_s = 44.7, turn_s = 2.1, tool_s = 0.5, out_chars = 293.0, ctx_k = 181.0 }
+"Bash:grep" = { n = 7, sum_s = 43.0, turn_s = 1.9, tool_s = 0.2, out_chars = 260, ctx_k = 207 }
+"Bash:cd" = { n = 2, sum_s = 26.3, turn_s = 13.1, tool_s = 0.7, out_chars = 1415.5, ctx_k = 256.0 }
+"Bash:python3" = { n = 2, sum_s = 27.6, turn_s = 13.8, tool_s = 0.2, out_chars = 893.5, ctx_k = 340.5 }
+"Read" = { n = 1, sum_s = 1.6, turn_s = 1.6, tool_s = 0.0, out_chars = 116, ctx_k = 58 }
+"Bash:git" = { n = 1, sum_s = 1.3, turn_s = 1.3, tool_s = 0.1, out_chars = 229, ctx_k = 63 }
+"Bash:mkdir" = { n = 1, sum_s = 13.1, turn_s = 13.1, tool_s = 0.2, out_chars = 2381, ctx_k = 220 }
+"Bash:for" = { n = 1, sum_s = 12.5, turn_s = 12.5, tool_s = 1.4, out_chars = 209, ctx_k = 252 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 5684, ctx_k = 344 }
+
+[[dispatch]]
+id = "p180"
+project = "stock-rader"
+batch = 49
+date = 2026-11-04
+task = "분석(메인 세션 안 Opus 5.5 xhigh, 새 에이전트, 하위 에이전트 불허): stock-rader 주식 계산기(market/calc.py·pieces·fit·checks·scoring, 계산 조각 C_*)의 문제점을 재생 기록과 실측 기록(2026-10-21~11-04)으로 숫자와 코드 위치를 붙여 분석. 사용자 방향(스위치가 같은 지난 날 → 비슷한 날 → 손 예측의 층 구조를 참고하되 주식·코인 예측 분야에 맞게 다시 설계)에 비추어 고칠 방향과 기록·수집 방식 변경 후보까지. 코드·논리집·기록은 고치지 않고 보고서 하나(stock-rader docs/worklog/)만"
+model = "Opus 5.5"
+effort = "xhigh"
+agent = "주식 계산기 문제 분석"
+round = 1
+size = { find_cap = "문제점 목록(상한 없음) · 보고서 1" }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [15, 35]
+turns = [70, 140]
+tokens_m = [15, 35]
+tokens_class = ["T1", "T2"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p179"
+reason = "빗댄 p179(같은 모양: Opus xhigh 계산기 분석 보고서 하나, 18.0분·129턴·28.5M, 분당 7.2턴, 턴당 맥락 22만)와 p169(같은 저장소 점검, 21.9분·95턴·21.8M). 이번은 stock-rader 쪽이라 코드가 조금 더 많고(market/ 약 4,600줄 중 계산기 관련 1,500줄) 재생 680건·실측 425건 채점을 집계해야 해 턴은 p179와 같거나 조금 많다(70–140). 분당 4–7턴 → 15–35분. 맥락 20만 안팎 → 15–35M. 가운데 23분 → '다른 일'. 계산기는 Opus xhigh 기준값이 없어 '모름'"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 150
+left = 20
+direct_m = 45.5
+send_m = 24.6
+added_k = 343
+chose = "보냄"
+why = ["새 눈", "결과를 가림"]
+[dispatch.actual]
+status = "done"
+minutes = 31.8  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 131
+tokens_m = 34.92  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-04T00:19:19Z"
+end = "2026-11-04T00:51:10Z"
+[dispatch.review]
+report = "stock-rader:docs/worklog/2026-11-04-calc-analysis.md"
+reason = "말한 구간 '다른 일' 맞음(31.8분, 손 예측 15–35 안, 위쪽). 턴 131(70–140 안), 토큰 34.9M(15–35 안, 위 끝): 빗댄 p179와 같은 모양인데 10년치 시세를 날짜 순서대로 대 보는 집계(20,939번)와 부트스트랩을 돌려 p179(18분)보다 길었다 — 분당 4.1턴(p179 7.2, p169 4.3)으로 xhigh 점검 속도로 돌아갔다. 계산기는 Opus xhigh 기준값이 없어 '모름'. 보낼까 판단: 고른 쪽 실제 36.6M < 직접 추정 45.5M. 품질: 질문 A–G를 숫자·파일:줄로 닫고, 층 구조를 walk-forward로 대 봐 '방향에서는 답하면 안 된다'를 부트스트랩 구간으로 보였다. 메인의 미리 본 것 9줄을 모두 재현하고 둘을 바로잡음(재생 기간이 내리는 시기라는 말은 코인에는 틀림, H_hand_vs_calc 지지는 코인 1봉의 판단 시점 정보 몫). 시험 전 규칙 초안(R_layer_v0)과 기대·버릴 조건까지 미리 적음. 금지 사항 모두 지킴 — 5"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 59, sum_s = 641.9, turn_s = 2.5, out_chars = 0, ctx_k = 283 }
+"Bash:cd" = { n = 51, sum_s = 778.4, turn_s = 3.6, tool_s = 0.3, out_chars = 303, ctx_k = 229 }
+"Bash:cat" = { n = 17, sum_s = 467.9, turn_s = 16.4, tool_s = 1.5, out_chars = 3023, ctx_k = 290 }
+"Read" = { n = 1, sum_s = 0.9, turn_s = 0.9, tool_s = 0.0, out_chars = 116, ctx_k = 58 }
+"Bash:mkdir" = { n = 1, sum_s = 2.0, turn_s = 2.0, tool_s = 0.1, out_chars = 380, ctx_k = 201 }
+"Bash:wc" = { n = 1, sum_s = 18.7, turn_s = 18.7, tool_s = 0.7, out_chars = 244, ctx_k = 321 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 3702, ctx_k = 441 }
