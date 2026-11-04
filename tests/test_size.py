@@ -37,6 +37,10 @@ class SizeRecords(unittest.TestCase):
         self.assertEqual(dp.validate(records + [rec], kn), [])  # 지시서가 수를 안 정하면 빈 표(모름)
         rec["files"] = {"write": 3, "edit": 2}
         self.assertEqual(dp.validate(records + [rec], kn), [])
+        rec["files"] = {"write": 3, "after": True}  # 결과를 본 뒤 채운 수 — 비율 조각 시험에서 빠진다
+        self.assertEqual(dp.validate(records + [rec], kn), [])
+        rec["files"] = {"write": 3, "after": False}
+        self.assertTrue(any("files.after" in e for e in dp.validate(records + [rec], kn)))
         rec["files"] = {"reads": 3}
         self.assertTrue(any("files의 칸" in e for e in dp.validate(records + [rec], kn)))
         rec["files"] = {"write": 1.5}

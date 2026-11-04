@@ -25,7 +25,10 @@
 # 채웠다(edit 15·12·5·2 — 다시 나눈 md 파일 수; 맞춰 본 것이지 시험이 아니다, C_turns_files_scale의 seen_until = p186).
 # 같은 날 다른 세션이 칸을 모른 채 보낸 p187–p189도 작업 설명에서 채웠다 — p187·p189는 결과가 나오기 전(unknown)이라 가림이 지켜졌고(시험 기록),
 # p188은 끝난 뒤이지만 지시서가 파일 수를 안 정해 빈 표(모름). 사용자 결정으로 필수 시작일을 11-05에서 11-04로 당겼다.
-# 같은 날 메인 세션이 보낸 p179–p182는 결과를 본 뒤 채웠다(맞춰 본 것, 시험 아님): p179·p180 보고서 하나(write 1), p181·p182는 지시서가 파일 수를 안 정함(빈 표). p148–p167(파일 20개씩)은
+# 같은 날 메인 세션이 보낸 p179–p182는 결과를 본 뒤 채웠다(맞춰 본 것, 시험 아님): p179·p180 보고서 하나(write 1), p181·p182는 지시서가 파일 수를 안 정함(빈 표).
+# p190(끝난 뒤, 맞춰 본 것: 규칙 파일 셋. 되돌릴 4파일은 명령 한 번이라 세지 않는다 — 처음 7로 적었다가 규칙대로 3으로 고침)과
+# p197·p198(결과 전, 보고서 하나 — 고칠 파일 수는 지시서에 없어 비움)도 작업 설명에서 채웠다. 결과를 본 뒤 채운 것에는 files.after = true를 붙여
+# 비율 조각의 시험에서 뺀다(p179–p186·p188·p190). 결과 전에 적은 p187·p189·p197·p198과 gemmin 세션이 보낼 때 적은 p191–p196이 시험 기록이다. p191–p196은 gemmin 세션이 보낼 때 직접 적었다. p148–p167(파일 20개씩)은
 # S_fixed_input = 예로 적혀 있어 정의(출력 하나)와 어긋나므로 files를 넣지 않는다(넣으면 검사가 막는다) — 그 대 보기도 고치지 않는다(예측 칸은 그대로).
 # 돌아보기 글의 기록 이름이 batman 쪽 이름과 섞인 곳: d88의 'd51b' = 이 파일의 d58, d89의 'd52b' = d64, d94의 'd64' = d68.
 # 공개 저장소: 작업 설명은 종류만 적는다 (게임 내용·코드는 적지 않음).
@@ -54,7 +57,8 @@
 #                      { write 새로 만들거나 통째로 다시 쓰는 파일 수, edit 일부만 고치는 파일 수 }. 단위는 파일 하나뿐(절·항목·줄은 안 센다 —
 #                      size의 edits·chunks에 단위가 섞여 실패한 까닭). 읽는 파일은 안 센다. 지시서에 이름이나 개수로 적힌 것만; 스크립트 한 번이
 #                      여러 파일을 뱉으면 쓰기가 아니라 확인 1; 지시서가 "필요한 만큼"이면 files = {}(모름, 0이 아님). 메인이 실제 지시서에서 센다.
-#                      S_fixed_input = 예인데 write + edit ≥ 2면 검사가 막는다. 계산기의 비율 조각(C_turns_files_scale)이 빗댄 기록과 비를 낸다
+#                      S_fixed_input = 예인데 write + edit ≥ 2면 검사가 막는다. 계산기의 비율 조각(C_turns_files_scale)이 빗댄 기록과 비를 낸다.
+#                      결과를 본 뒤 채운 수에는 after = true를 붙인다 — 비율 조각의 시험에서 빠진다(맞춰 본 것)
 #   situation          상황 대 보기: 상태 id = "예" / "아니오" / "일부" / "모름". 적지 않은 상태는 모름
 #   actual.status      done / stopped(중간에 멈춤) / unknown(끝났는지 모름). done만 판정에 쓴다
 #   actual.tokens_m    합계 토큰(백만). 캐시 생성 + 캐시 읽기 + 입력 + 출력
@@ -14142,7 +14146,7 @@ effort = "xhigh"
 agent = "계산기 문제 분석"
 round = 1
 size = { find_cap = "문제점 목록(상한 없음) · 보고서 1" }
-files = { write = 1 }  # 2026-11-04 결과 본 뒤 채움(보고서 하나) — 맞춰 본 것, 시험 아님
+files = { write = 1, after = true }  # 2026-11-04 결과 본 뒤 채움(보고서 하나) — 맞춰 본 것, 시험 아님
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -14222,7 +14226,7 @@ effort = "xhigh"
 agent = "주식 계산기 문제 분석"
 round = 1
 size = { find_cap = "문제점 목록(상한 없음) · 보고서 1" }
-files = { write = 1 }  # 2026-11-04 결과 본 뒤 채움(보고서 하나) — 맞춰 본 것, 시험 아님
+files = { write = 1, after = true }  # 2026-11-04 결과 본 뒤 채움(보고서 하나) — 맞춰 본 것, 시험 아님
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -14296,7 +14300,7 @@ effort = "xhigh"
 agent = "계산기 분석 반영"
 round = 1
 size = { outputs = 1, edits = 10, checks = 5 }
-files = {}  # 2026-11-04 결과 본 뒤 채움: 지시서(결정 D1–D10 반영)가 파일 수를 안 정함(모름)
+files = { after = true }  # 2026-11-04 결과 본 뒤 채움: 지시서(결정 D1–D10 반영)가 파일 수를 안 정함(모름)
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -14368,7 +14372,7 @@ effort = "xhigh"
 agent = "계산기 분석 반영"
 round = 2
 size = { reads = 22, outputs = 1, edits = 7, checks = 6 }
-files = {}  # 2026-11-04 결과 본 뒤 채움: 지시서가 파일 수를 안 정함(모름)
+files = { after = true }  # 2026-11-04 결과 본 뒤 채움: 지시서가 파일 수를 안 정함(모름)
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -14447,7 +14451,7 @@ effort = "high"
 agent = "수업정리 재분할 심수기"
 round = 1
 size = { edits = 15, reads = 5 }
-files = { edit = 15 }  # 2026-11-04 사후 채움(작업 설명의 md 파일 수) — 맞춰 본 것, 시험 아님
+files = { edit = 15, after = true }  # 2026-11-04 사후 채움(작업 설명의 md 파일 수) — 맞춰 본 것, 시험 아님
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"  # 2026-11-04 사후 정정: 보낼 때 "예"로 적었으나 상태 정의(출력 하나·순수 추론)와 어긋남 — 출력이 파일 5–15개
@@ -14525,7 +14529,7 @@ effort = "high"
 agent = "수업정리 재분할 확개응자분실논비사"
 round = 1
 size = { edits = 12, reads = 4 }
-files = { edit = 12 }  # 2026-11-04 사후 채움(작업 설명의 md 파일 수) — 맞춰 본 것, 시험 아님
+files = { edit = 12, after = true }  # 2026-11-04 사후 채움(작업 설명의 md 파일 수) — 맞춰 본 것, 시험 아님
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"  # 2026-11-04 사후 정정: 보낼 때 "예"로 적었으나 상태 정의(출력 하나·순수 추론)와 어긋남 — 출력이 파일 5–15개
@@ -14601,7 +14605,7 @@ effort = "high"
 agent = "수업정리 재분할 심수기"
 round = 2
 size = { edits = 5, reads = 5 }
-files = { edit = 5 }  # 2026-11-04 사후 채움(작업 설명의 md 파일 수) — 맞춰 본 것, 시험 아님
+files = { edit = 5, after = true }  # 2026-11-04 사후 채움(작업 설명의 md 파일 수) — 맞춰 본 것, 시험 아님
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"  # 2026-11-04 사후 정정: 보낼 때 "예"로 적었으나 상태 정의(출력 하나·순수 추론)와 어긋남 — 출력이 파일 5–15개
@@ -14678,7 +14682,7 @@ effort = "high"
 agent = "수업정리 재분할 확개응자분실논비사"
 round = 2
 size = { edits = 2, reads = 2 }
-files = { edit = 2 }  # 2026-11-04 사후 채움(작업 설명의 md 파일 수) — 맞춰 본 것, 시험 아님
+files = { edit = 2, after = true }  # 2026-11-04 사후 채움(작업 설명의 md 파일 수) — 맞춰 본 것, 시험 아님
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"  # 2026-11-04 사후 정정: 보낼 때 "예"로 적었으나 상태 정의(출력 하나·순수 추론)와 어긋남 — 출력이 파일 5–15개
@@ -14835,7 +14839,7 @@ effort = "medium"
 agent = "review-design-1104"
 round = 1
 size = { find_cap = "4 질문·원문 8건" }
-files = {}  # 2026-11-04 보낸 뒤 채움: 지시서가 쓸 파일 수를 안 정함(모름)
+files = { after = true }  # 2026-11-04 보낸 뒤 채움: 지시서가 쓸 파일 수를 안 정함(모름)
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -14973,6 +14977,7 @@ effort = "high"
 agent = "수업정리 복습 구조 규칙"
 round = 2
 size = { edits = 5 }
+files = { edit = 3, after = true }  # 2026-11-04 결과 본 뒤 작업 설명에서 채움(규칙 파일 셋; 되돌릴 4파일은 명령 한 번이라 안 셈) — 맞춰 본 것, 시험 아님
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -15501,6 +15506,7 @@ effort = "xhigh"
 agent = "빠른 정보 팀 A 체결·기준"
 round = 1
 size = { outputs = 1, edits = 9, checks = 6 }
+files = { write = 1 }  # 2026-11-04 결과 전에 작업 설명에서 채움: 보고서 하나. 고칠 파일 수는 지시서에 없어 비움
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"
@@ -15559,6 +15565,7 @@ effort = "xhigh"
 agent = "빠른 정보 팀 B 조사·숫자"
 round = 1
 size = { outputs = 1, edits = 9, checks = 6 }
+files = { write = 1 }  # 2026-11-04 결과 전에 작업 설명에서 채움: 보고서 하나. 고칠 파일 수는 지시서에 없어 비움
 [dispatch.situation]
 S_full_brief = "예"
 S_fixed_input = "아니오"

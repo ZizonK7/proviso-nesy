@@ -356,16 +356,23 @@ class Devices(unittest.TestCase):
                     "situation": {**a["situation"]}, "predicted": {"analog": "p185", "minutes": [1, 2]},
                     "actual": {"status": "done", "minutes": 10, "turns": turns}}
         recs = [fake("zz1", 10, 106), fake("zz2", 15, 150), fake("zz3", 5, 53)]  # zz3은 수가 같아(×1) 시험이 아니다
-        rows = [r for r in ho.piece_scores(self.pieces, recs, self.kn, self.records + recs) if r["piece"] == "C_turns_files_scale"]
+        after = fake("zz4", 20, 999)
+        after["files"]["after"] = True  # 결과를 본 뒤 채운 수 — 시험에서 뺀다
+        rows = [r for r in ho.piece_scores(self.pieces, recs + [after], self.kn, self.records + recs + [after])
+                if r["piece"] == "C_turns_files_scale"]
         self.assertEqual(len(rows), 1)
         self.assertEqual((rows[0]["with"], rows[0]["size_n"], rows[0]["size_hits"], rows[0]["direction"]), (["zz1", "zz2"], 2, 2, "지지"))
         rows = [r for r in ho.piece_scores(self.pieces, recs[:1], self.kn, self.records + recs) if r["piece"] == "C_turns_files_scale"]
         self.assertEqual(rows[0]["direction"], "시험 전")  # 1건으로는 판정하지 않는다
-        # 지금 기록에는 걸린 것이 없다 — audit이 '0건' 경고를 낸다(오류 아님)
-        verdict, _ = checks.piece_size("C_turns_files_scale")
-        self.assertTrue(verdict.startswith("시험 전"))
+        # 세울 때 본 기록(p186까지)에는 걸린 것이 없다(p183–p186의 files는 결과를 본 뒤 채운 것) — audit이 '0건' 경고를 낸다(오류 아님)
         _, warns = checks.audit_pieces(self.kn)
         self.assertTrue(any("C_turns_files_scale" in w and "0건" in w for w in warns), warns)
+        # 결과를 본 뒤 채운 기록은 시험에서 빠진다: 실제 기록에서 after = true인 것은 '걸린 기록'에 없다
+        test_rows, _, _ = checks._piece_rows("C_turns_files_scale")
+        flagged = {d["id"] for d in self.records if (d.get("files") or {}).get("after") is True}
+        self.assertTrue(flagged)
+        for r in test_rows:
+            self.assertFalse(set(r["with"]) & flagged, r["with"])
 
     def test_pieces_name_no_project_or_app(self):
         names = ("proviso", "batman", "flowlog", "music", "godot", "sonnet", "fable", "opus")

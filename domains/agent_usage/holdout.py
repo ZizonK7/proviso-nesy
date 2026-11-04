@@ -191,7 +191,7 @@ def piece_scores(pieces: list[pr.Piece], records: list[dict], kn: schema.Knowled
 def _scale_scores(p: pr.Piece, e: pr.Effect, pieces: list[pr.Piece], records: list[dict], kn: schema.Knowledge,
                   all_records: list[dict]) -> dict:
     """비율 조각의 성적 (2026-11-04, 세우기 전에 정한 시험 — CLAUDE.md '파일 수 비율 조각').
-    걸리는 기록 = 보내기 전에 적은 빗댄 기록과 count 칸이 둘 다 있는 끝난 기록.
+    걸리는 기록 = 보내기 전에 적은 빗댄 기록과 count 칸이 둘 다 있는 끝난 기록. 수를 결과를 본 뒤 채운 기록(칸의 after = true)은 뺀다.
     방향: 비율을 곱한 비유 계산이 곱하지 않은 것보다 실측에 가까운 기록이 절반을 넘으면 지지(둘 다 2건 이상일 때 판정).
     크기: 실측 ÷ (빗댄 기록의 실측 × 비율)이 비유 기준값 조각의 범위 안인 수."""
     row = {"piece": p.id, "effect": e, "with": [], "without": [], "size_hits": 0, "size_n": 0,
@@ -199,7 +199,7 @@ def _scale_scores(p: pr.Piece, e: pr.Effect, pieces: list[pr.Piece], records: li
     closer = 0
     for d in records:
         a = pr.analog_of(d, all_records)
-        if a is None:
+        if a is None or (d.get(e.count) or {}).get("after") is True:
             continue
         pred = pr.predict(d.get("situation", {}), d.get("project", ""), pieces, kn, a, pr.counts_of(d))
         used = [m for m in pred.q[e.on].muls if m.piece == e.piece and m.op == "scale"]

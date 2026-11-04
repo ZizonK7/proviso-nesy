@@ -51,8 +51,10 @@ SIZE_TEXT = ("find_cap",)
 #   edit = 일부만 고치는 파일 수 }. 단위는 파일 하나뿐 — 절·항목·줄은 세지 않는다(size의 chunks·edits에 섞여 실패한 까닭).
 #   읽는 파일은 세지 않는다. 지시서에 이름이나 개수로 적힌 것만; 스크립트 한 번이 여러 파일을 뱉으면 쓰기가 아니라 확인(size.checks) 1;
 #   "필요한 만큼"이면 칸을 뺀다(모름, 0이 아님). 메인이 실제 지시서에서 센다. FILES_REQUIRED_FROM부터 보낸 기록에 필수(batman·메인 자신 제외).
-#   계산기의 비율 조각(C_turns_files_scale)이 빗댄 기록의 같은 칸과 비를 낸다
+#   계산기의 비율 조각(C_turns_files_scale)이 빗댄 기록의 같은 칸과 비를 낸다.
+#   after = true: 결과(실측)를 본 뒤에 채운 수 — 비율 조각의 시험에서 뺀다(holdout._scale_scores). 보내기 전·결과 전에 적은 것만 시험이다
 FILES_COUNTS = ("write", "edit")
+FILES_FLAGS = ("after",)
 FILES_REQUIRED_FROM = "2026-11-04"
 ROOT = HERE.parent.parent
 # 다른 저장소의 보고서는 "저장소:경로"로 적는다 (예: "movie_game:docs/worklog/2026-11-03-x.md")
@@ -308,7 +310,10 @@ def files_errors(d: dict) -> list[str]:
         return [f"{did}: files는 {{ write = 수, edit = 수 }} 표여야 함"]
     total = 0
     for k, v in files.items():
-        if k not in FILES_COUNTS:
+        if k in FILES_FLAGS:
+            if v is not True:
+                errors.append(f"{did}: files.{k}는 true만 (결과를 본 뒤 채웠을 때만 적고, 아니면 칸을 뺀다)")
+        elif k not in FILES_COUNTS:
             errors.append(f"{did}: files의 칸 '{k}'는 {FILES_COUNTS} 중 하나여야 함 (단위는 파일 — 절·항목·줄은 size에)")
         elif isinstance(v, bool) or not isinstance(v, int) or v < 0:
             errors.append(f"{did}: files.{k}는 0 이상의 정수(파일 수)여야 함 (모르면 칸을 뺀다)")
