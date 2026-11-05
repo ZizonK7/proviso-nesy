@@ -16801,8 +16801,32 @@ added_k = 272
 chose = "보냄"
 why = ["대화 계속", "결과를 가림"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
-
+status = "done"
+minutes = 18.9  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 104
+tokens_m = 23.07  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-05T10:18:08Z"
+end = "2026-11-05T10:37:01Z"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-05-study-partner-creative.md"
+reason = "말한 구간 '다른 일' 맞음(약 18분, 손 20–45 아래, 계산기 10–20 안). 담당 세션에 Agent 도구가 없어 팀원 넷을 같은 환경의 클라우드 새 세션(Opus 5.5, effort 지정 못 함)으로 보냈다 — 지시서가 '서브 에이전트'로 가정한 게 틀렸다(백그라운드 서브 에이전트에는 Agent 도구가 없을 수 있다). 팀원 각 1.5–1.8분(도구 없는 한 턴)이라 손 예측의 '팀원 5–10분'이 과했다. 되돌리기 1회(C)가 1.3분 만에 돌아옴 — 첫 지시서에 '되돌리기는 미리 정한 단계, 보내는 세션 id'를 넣어 세션이 따랐다(배치 65에선 거절). 품질 4: 12조각 모두 규칙까지 갔고 고른 5개가 조사의 실패 조건과 부딪히는 곳을 밝힘. 자기평가 억지 점수가 거의 1–2라 믿기 어렵다고 스스로 적음"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 42, sum_s = 254.2, turn_s = 0.9, out_chars = 0.0, ctx_k = 232.5 }
+"Bash:cd" = { n = 28, sum_s = 339.5, turn_s = 5.2, tool_s = 0.6, out_chars = 212.5, ctx_k = 266.5 }
+"mcp__claude-code-remote__list_events" = { n = 8, sum_s = 59.2, turn_s = 4.1, tool_s = 0.2, out_chars = 85.0, ctx_k = 237.0 }
+"mcp__claude-code-remote__create_session" = { n = 4, sum_s = 96.5, turn_s = 28.3, tool_s = 2.5, out_chars = 4476.5, ctx_k = 188.0 }
+"Bash:date" = { n = 3, sum_s = 29.9, turn_s = 2.7, tool_s = 0.6, out_chars = 103, ctx_k = 305 }
+"ToolSearch" = { n = 3, sum_s = 16.7, turn_s = 4.5, tool_s = 0.1, out_chars = 49, ctx_k = 106 }
+"mcp__claude-code-remote__get_session" = { n = 3, sum_s = 19.2, turn_s = 2.9, tool_s = 0.1, out_chars = 50, ctx_k = 205 }
+"Read" = { n = 2, sum_s = 7.8, turn_s = 3.9, tool_s = 0.0, out_chars = 106.5, ctx_k = 151.0 }
+"Bash:sleep" = { n = 2, sum_s = 8.4, turn_s = 4.2, tool_s = 0.8, out_chars = 138.0, ctx_k = 217.5 }
+"Write" = { n = 2, sum_s = 10.2, turn_s = 5.1, tool_s = 0.0, out_chars = 6647.5, ctx_k = 263.0 }
+"Bash:timeout" = { n = 2, sum_s = 255.2, turn_s = 127.6, tool_s = 120.4, out_chars = 115.0, ctx_k = 258.5 }
+"Bash:cat" = { n = 1, sum_s = 15.3, turn_s = 15.3, tool_s = 0.1, out_chars = 230, ctx_k = 115 }
+"Bash:sed" = { n = 1, sum_s = 4.1, turn_s = 4.1, tool_s = 1.0, out_chars = 190, ctx_k = 119 }
+"Bash:mkdir" = { n = 1, sum_s = 6.4, turn_s = 6.4, tool_s = 1.1, out_chars = 1977, ctx_k = 157 }
+"mcp__claude-code-remote__send_message" = { n = 1, sum_s = 4.0, turn_s = 4.0, tool_s = 0.3, out_chars = 952, ctx_k = 263 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 3155, ctx_k = 311 }
 [[dispatch]]
 id = "p216"
 project = "gemmin"
