@@ -18950,3 +18950,64 @@ reason = "말한 구간 '잠깐' 맞음. 10개 반영 + 재렌더 2회. 28번 �
 "글" = { n = 2, sum_s = 21.9, turn_s = 10.9, out_chars = 0.0, ctx_k = 579.0 }
 "Bash:cd" = { n = 2, sum_s = 6.7, turn_s = 3.4, tool_s = 2.4, out_chars = 2244.5, ctx_k = 579.0 }
 "SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 1133, ctx_k = 585 }
+
+[[dispatch]]
+id = "p237"
+project = "proviso"
+batch = 69
+date = 2026-11-05
+task = "작성(메인 세션 안 Opus 5.5 high, 새 에이전트, 하위 에이전트 불허): agent_usage 계산기 설명서 — 구조(조각·조합·맞추기·시험 장치)와 기록 데이터(칸·건수·채운 시기·치우침)를 논문·수능 국어 지문 문체로, 숫자는 명령으로 다시 뽑아 HTML 한 편 → Chromium으로 PDF, 쪽 그림으로 확인. 보고서 docs/worklog"
+model = "Opus 5.5"
+effort = "high"
+agent = "계산기 설명서"
+round = 1
+size = { outputs = 2, checks = 2 }
+files = { write = 2, edit = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "예"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "일부"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "일부"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [25, 50]
+turns = [130, 220]
+tokens_m = [30, 70]
+tokens_class = ["T2", "T3"]
+rules = ["R_turns_analogy_v2", "R_doc_work_v2", "R_tok_long_v5", "R_say_numbers_v3"]
+analog = "p179"
+reason = "빗댄 p179(같은 계산기를 코드·기록에서 분석해 보고서 한 편, xhigh 18.0분·129줄·28.5M). 이번은 high라 줄당 더 빠르지만, 글이 길고(논문 문체 10–15쪽) 숫자를 명령으로 다시 뽑고 HTML→PDF 렌더·쪽 그림 확인 바퀴가 더해진다 → 줄 ×1.0–1.7(130–220). R_doc_work_v2 '설계가 정해진 새로 쓰기 20–45분·130–160줄'에 숫자 뽑기·렌더 몫을 더해 25–50분. 토큰: 첫 회차·150줄 넘는 새로 쓰기에 코드·기록을 맥락에 둠 → 줄 × 23–32만 → 30–70M. 가운데 35분 → '다른 일'."
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [16.08, 32.15]
+[dispatch.decide]
+main_ctx_k = 274
+left = 25
+direct_m = 103.1
+send_m = 48.8
+added_k = 422
+chose = "보냄"
+why = ["비용"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
