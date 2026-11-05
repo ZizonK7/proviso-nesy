@@ -24,9 +24,10 @@ Claude가 세션 시작 시 자동으로 읽는 작업 문서. 사람용 소개�
 | `experiments/` | 본체 실험 (논리집 유무에 따른 Claude 답 비교) |
 | `docs/` | 원안, 설계 기록, 실험 보고서, 하위 에이전트 절차(`dispatch.md`)와 기록(`AGENT-LOG.md`, `worklog/`), 루트 경위(`history.md`) |
 | `scripts/` | 운영 도구 (하위 에이전트 대화 기록 → 사용량 숫자, `agent_usage` 기록에 씀) |
+| `eda/` | 논리집 데이터 탐색: `python -m eda.export`가 지식·작업 기록·피드백을 `out/eda/*.csv`로 펼치고, `start.ipynb`가 둘러본다(노트북만 pandas 필요) |
 | `tests/` | 표준 라이브러리 unittest |
 
-명령 (저장소 루트): `python -m proviso validate|graph|check|audit <분야>` · `python -m unittest discover -s tests -t .` · `python -m experiments.run_body_v0` · `python -m domains.flowlog.replay <백업>` · `python -m domains.agent_usage.dispatches` · `python -m domains.agent_usage.predict <기록 id | 상황 파일>` · `python -m domains.agent_usage.holdout`. Git Bash에서 한글이 깨지면 `PYTHONIOENCODING=utf-8`. 외부 패키지 없음(Python 3.11+).
+명령 (저장소 루트): `python -m proviso validate|graph|check|audit <분야>` · `python -m unittest discover -s tests -t .` · `python -m experiments.run_body_v0` · `python -m domains.flowlog.replay <백업>` · `python -m domains.agent_usage.dispatches` · `python -m domains.agent_usage.predict <기록 id | 상황 파일>` · `python -m domains.agent_usage.holdout` · `python -m eda.export`. Git Bash에서 한글이 깨지면 `PYTHONIOENCODING=utf-8`. 외부 패키지 없음(Python 3.11+).
 
 ## 확정된 설계 결정 (원안 대비 변경 포함)
 상세와 경위: [docs/knowledge-format-v0.md](docs/knowledge-format-v0.md)

@@ -1,0 +1,4 @@
+# EDA 노트북(eda/start.ipynb)용. 내보내기(python -m eda.export)는 표준 라이브러리만 쓰므로 이것 없이도 돈다.
+pandas>=2.2
+matplotlib>=3.8
+jupyterlab>=4.0

@@ -27,6 +27,7 @@ AI가 일을 시작하기 전에 그 일에 걸리는 피드백을 읽고 들어
 | `experiments/` | 논리집이 있을 때와 없을 때 Claude의 답을 비교한 실험 |
 | `docs/` | 원안 논문, 설계 기록, 실험 보고서, 하위 에이전트 작업 보고서 |
 | `scripts/` | 하위 에이전트 대화 기록에서 사용량 숫자를 뽑는 도구 |
+| `eda/` | 쌓인 데이터를 표로 펼쳐 둘러보는 노트북(탐색적 데이터 분석) |
 | `tests/` | 테스트 |
 
 ## 분야
@@ -57,11 +58,12 @@ python -m domains.agent_usage.dispatches   # 하위 에이전트 예측과 실�
 python -m domains.agent_usage.predict p04  # 계산기: 상황 값으로 시간 계산과 근거
 python -m domains.agent_usage.holdout      # 앞 기록으로 세운 조각을 뒤 기록으로 시험
 python -m domains.flowlog.replay <백업 파일> # 실제 Flowlog 백업으로 추천 적중률 (백업은 저장소 밖)
+python -m eda.export                       # 논리집·작업 기록·피드백을 out/eda/*.csv로 (EDA용)
 python -m unittest discover -s tests -t .
 python -m experiments.run_body_v0          # 본체 실험 (Claude Code 필요, 사용량을 쓰고 보고서를 다시 씀)
 ```
 
-Windows Git Bash에서 한글이 깨지면 `PYTHONIOENCODING=utf-8`을 앞에 붙입니다. 논리집을 Claude Code 도구로 쓰려면 `proviso/mcp_server.py` 맨 위의 등록 방법을 따릅니다.
+Windows Git Bash에서 한글이 깨지면 `PYTHONIOENCODING=utf-8`을 앞에 붙입니다. EDA 노트북 `eda/start.ipynb`는 `pip install -r eda/requirements.txt`(pandas·matplotlib·jupyterlab) 뒤 `jupyter lab`으로 엽니다. 논리집을 Claude Code 도구로 쓰려면 `proviso/mcp_server.py` 맨 위의 등록 방법을 따릅니다.
 
 ## 논리 조각
 
