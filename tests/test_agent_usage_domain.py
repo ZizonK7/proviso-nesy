@@ -224,6 +224,31 @@ class Rescore20261019(unittest.TestCase):
         old = {**pending, "date": "2026-11-02", "actual": {"minutes": 6}}
         self.assertEqual(dp.form_errors(old), [])
 
+    def test_records_from_nov_6_need_log_numbers(self):
+        # 2026-11-05 사용자 결정: 로그 숫자([dispatch.log])는 2026-11-06부터 끝난 기록에 필수 — 턴 길이 표와 같은 방식
+        from scripts.agent_usage import LOG_KEYS
+        new = {"id": "zz8", "project": "proviso", "batch": 99, "date": dp.LOG_REQUIRED_FROM, "task": "t",
+               "predicted": {"minutes": [5, 9], "told": "잠깐"}, "actual": {"minutes": 6, "turns": 10}}
+        self.assertTrue(any("로그 숫자" in e for e in dp.log_errors(new)))
+        self.assertTrue(any("zz8" in e and "로그 숫자" in e for e in dp.validate(dp.load() + [new], schema.load(KN))))
+        self.assertEqual(dp.log_errors({**new, "log": {"skip": "대화 기록 없음"}}), [])
+        self.assertEqual(dp.log_errors({**new, "log": dict.fromkeys(LOG_KEYS, 0)}), [])
+        self.assertEqual(dp.log_errors({**new, "date": "2026-11-05"}), [])                       # 그 전 날짜는 없어도 된다
+        self.assertEqual(dp.log_errors({**new, "actual": {"status": "unknown"}}), [])            # 안 끝난 기록도
+        self.assertTrue(dp.log_errors({**new, "log": {"blocks": 3}}))                            # 칸이 빠짐
+        self.assertTrue(dp.log_errors({**new, "log": {**dict.fromkeys(LOG_KEYS, 0), "write": -1}}))
+        self.assertTrue(dp.log_errors({**new, "log": {"skip": " "}}))
+        # 이어 보낸 회차는 skip 못 한다(클라우드 세션 빼고) — 턴 표와 같다
+        resumed = {**new, "round": 2, "log": {"skip": "한 로그에 쌓임"}}
+        self.assertTrue(dp.log_errors(resumed))
+        self.assertEqual(dp.log_errors({**resumed, "situation": {"S_cloud_session": "예"}}), [])
+        # p237은 채웠고(2026-11-05 채움), 블록 수가 실측 턴과 같다
+        p237 = next(d for d in dp.load() if d["id"] == "p237")
+        self.assertEqual(set(p237["log"]), set(LOG_KEYS))
+        self.assertEqual(p237["log"]["blocks"], p237["actual"]["turns"])
+        fl = dp.files_vs_log(dp.load())
+        self.assertGreaterEqual(fl["write"]["같음"], 1)
+
     def test_used_check_reads_predictions_written_before(self):
         verdict, detail = checks.used_minutes("R_time_turns_v2")
         self.assertTrue(verdict.startswith(("지지됨", "반박됨")))

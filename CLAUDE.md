@@ -86,7 +86,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 끝나면 — 사용자에게 결과를 말하기 전에 기록부터(컨테이너가 회수되면 대화 기록이 사라진다)
 
 3. 실측(묶음 명령 `record finish <id> <로그> [--after] [--report]`가 3–5를 채운다): `python scripts/agent_usage.py <로그> --actual` → `actual`(시작·끝 시각 포함; 이어 보낸 회차는 `--rounds`로 본 그 회차 시작 시각을 `--after`에). 기록에 `agent`·`round`도. 검사: 끝난 기록의 실측 시간, 2026-11-04부터 시작·끝 시각과 agent·round.
-4. 턴 길이: 같은 로그에 `--turns --toml` → 기록 끝에 `[dispatch.turns]`(잴 수 없으면 `skip = "이유"`). 검사(2026-11-03부터).
+4. 턴 길이: 같은 로그에 `--turns --toml` → 기록 끝에 `[dispatch.turns]`(잴 수 없으면 `skip = "이유"`). 검사(2026-11-03부터). 로그 숫자 `[dispatch.log]`도 `record finish`가 붙인다 — 검사(2026-11-06부터).
 5. 보고서: 작업자의 보고서를 확인하고 경로를 `review.report`에. 검사(2026-11-03부터).
 6. 돌아보기: `review.reason`, 구간이 빗나가면 `review.wrong`·`review.why`. 검사(빗나갔을 때 wrong·why).
 7. 배치 줄: [docs/AGENT-LOG.md](docs/AGENT-LOG.md)에 `## 배치 N · 날짜 · 주제` 머리와 모델·effort·품질(1–5)·교훈. 검사(2026-11-04부터, batman 기록은 batman 쪽).

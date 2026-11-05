@@ -73,6 +73,21 @@
 #   turns              [dispatch.turns] 동작마다 { n 턴 수, sum_s 합한 턴 길이(초), 중앙값 turn_s 턴 길이·tool_s 도구 시간·out_chars 출력 글자·ctx_k 맥락(천) }.
 #                      scripts/agent_usage.py <로그> --turns --toml 출력을 기록 끝에 그대로 붙인다(이어 보낸 회차는 --after). 잴 수 없으면 skip = "이유" 한 줄
 #                      review.report와 turns는 2026-11-03부터 끝난 기록에 필수 — 없으면 dispatches.py가 오류(2026-11-02 사용자 결정)
+#                      Bash 줄의 이름: p238(2026-11-05)부터 실제 동작(앞의 cd·환경 변수·time 등을 뗀 낱말, agent_usage.bash_verb). 그 전 표는 첫 낱말
+#                      그대로(Bash:cd·Bash:PYTHONPATH=.·Bash:out; 등) — 다시 재지 않는다
+#   log                [dispatch.log] 로그에서 뽑은 숫자 (2026-11-05 사용자 결정, 2026-11-06부터 끝난 기록에 필수 — 못 재면 skip = "이유", 이어 보낸 회차는 skip 못 함).
+#                      `record finish`가 실측과 같은 창(--after·--until)으로 턴 표 뒤에 붙인다(`agent_usage.py <로그> --log --toml`). 실측(결과)이지
+#                      예측 입력이 아니다 — 계산기·맞추기는 읽지 않는다. 칸 이름은 scripts/agent_usage.py LOG_KEYS:
+#                      responses 서로 다른 응답 수 · blocks 응답 줄(블록) 수(= actual.turns) ·
+#                      write Write로 쓴 파일 수(Write와 Edit를 둘 다 받으면 write) · edit Edit·NotebookEdit만 받은 파일 수 (둘 다 임시 파일 — /tmp·~/.claude 아래 — 뺌;
+#                      지시서에서 센 files와 dispatches 출력이 견준다) · scratch_files 쓰거나 고친 임시 파일 수 ·
+#                      write_chars Write 글자 합 · edit_chars Edit 새 글 글자 합 · write_lines Write 줄 합 (임시 파일 뺌) ·
+#                      read_calls Read 호출 · read_files Read한 서로 다른 파일 · read_chars Read 결과 글자(그림 뺌) · images 도구 결과의 그림 수 ·
+#                      bash_calls · bash_out_chars Bash 결과 글자 · grep_calls · glob_calls · web_search · web_fetch · agent_calls(Agent·Task) · other_tool_calls 그 밖 ·
+#                      tool_errors 오류로 끝난 도구 결과 · repeat_cmds 똑같은 Bash 명령을 다시 돌린 횟수(명령마다 횟수 − 1의 합) ·
+#                      ctx_start_k·ctx_max_k·ctx_end_k 응답마다 맥락(입력 + 캐시 생성 + 캐시 읽기, 천 토큰)의 처음·최대·끝 ·
+#                      thinking_blocks 생각 블록 수 · thinking_s 기록이 남긴 생각 시간 합(초, thinkingDurationMs) ·
+#                      brief_chars·brief_lines 이 회차를 시작한 지시의 글자·줄 수 (보내기 전에 알 수 있는 값을 로그에서 읽은 것)
 
 [[dispatch]]
 id = "d01"
@@ -19037,6 +19052,36 @@ reason = "말한 구간 '다른 일' 맞음(21.8분). 손 예측 분 25–50의 
 "Bash:export" = { n = 1, sum_s = 7.9, turn_s = 7.9, tool_s = 0.7, out_chars = 242, ctx_k = 295 }
 "Edit" = { n = 1, sum_s = 3.3, turn_s = 3.3, tool_s = 0.0, out_chars = 403, ctx_k = 446 }
 "SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 5505, ctx_k = 452 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 74
+blocks = 163
+write = 2
+edit = 1
+scratch_files = 1
+write_chars = 73424
+edit_chars = 231
+write_lines = 762
+read_calls = 40
+read_files = 19
+read_chars = 36283
+images = 38
+bash_calls = 60
+bash_out_chars = 274507
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 1
+tool_errors = 1
+repeat_cmds = 0
+ctx_start_k = 62
+ctx_max_k = 452
+ctx_end_k = 452
+thinking_blocks = 55
+thinking_s = 292.8
+brief_chars = 11198
+brief_lines = 50
 
 [[dispatch]]
 id = "p238"
@@ -19097,4 +19142,56 @@ added_k = 433
 chose = "보냄"
 why = ["비용"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 13.1  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 85
+tokens_m = 14.69  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-05T13:43:29Z"
+end = "2026-11-05T13:56:36Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-05-log-numbers.md"
+reason = "말한 구간 '다른 일' 맞음(13.1분, 경계 10분에서 멀지 않음). 손 예측 분 15–30·줄 100–180·토큰 25–55M 모두 아래로 빗나감(실제 85줄·14.7M), 계산기 13.9–27.7분도 살짝 위. 빗댄 p197(xhigh 184줄)의 ×0.46줄 — 할 일이 칸 이름·검사 날짜·테스트 모양까지 목록으로 다 적혔고 시험판 스크립트가 있어서, 작업자가 읽고 헤맬 몫이 거의 없었다. ×0.55를 하한으로 잡은 것이 높았다. 또 작업자가 파일 고침을 거의 다 Bash(python 고침 스크립트 13번)로 해서 도구 호출이 40번뿐 — 새 [dispatch.log]의 write 1·edit 0·read_calls 0은 이 때문이고, 로그의 Write/Edit만으로는 고친 파일 수를 못 센다는 첫 사례. 품질: 메인이 테스트(153 중 152, 남은 1은 알려진 실패)·기록 검사·식별자 훑기 확인. 지시서 밖으로 생각 시간 thinking_s를 더함(로그에 이미 있는 값)."
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 45, sum_s = 257.8, turn_s = 1.6, out_chars = 0, ctx_k = 182 }
+"Bash:python3" = { n = 13, sum_s = 121.7, turn_s = 5.4, tool_s = 0.4, out_chars = 1483, ctx_k = 177 }
+"Bash:python" = { n = 5, sum_s = 288.3, turn_s = 20.6, tool_s = 56.2, out_chars = 170, ctx_k = 191 }
+"Bash:cat" = { n = 4, sum_s = 19.2, turn_s = 3.2, tool_s = 0.8, out_chars = 134.5, ctx_k = 107.0 }
+"Bash:grep" = { n = 4, sum_s = 9.5, turn_s = 2.4, tool_s = 0.3, out_chars = 248.5, ctx_k = 177.5 }
+"Bash:sed" = { n = 4, sum_s = 8.5, turn_s = 1.8, tool_s = 0.2, out_chars = 140.5, ctx_k = 121.5 }
+"Bash:git" = { n = 3, sum_s = 18.9, turn_s = 2.8, tool_s = 1.0, out_chars = 295, ctx_k = 137 }
+"Bash:ls" = { n = 2, sum_s = 5.6, turn_s = 2.8, tool_s = 0.3, out_chars = 581.5, ctx_k = 150.0 }
+"Bash:cp" = { n = 1, sum_s = 2.6, turn_s = 2.6, tool_s = 0.6, out_chars = 594, ctx_k = 180 }
+"Write" = { n = 1, sum_s = 2.3, turn_s = 2.3, tool_s = 0.0, out_chars = 6646, ctx_k = 202 }
+"Bash:sleep" = { n = 1, sum_s = 2.8, turn_s = 2.8, tool_s = 0.0, out_chars = 333, ctx_k = 209 }
+"Bash:until" = { n = 1, sum_s = 46.6, turn_s = 46.6, tool_s = 43.2, out_chars = 298, ctx_k = 210 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 5653, ctx_k = 215 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 37
+blocks = 85
+write = 1
+edit = 0
+scratch_files = 0
+write_chars = 6456
+edit_chars = 0
+write_lines = 88
+read_calls = 0
+read_files = 0
+read_chars = 0
+images = 0
+bash_calls = 38
+bash_out_chars = 111517
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 1
+tool_errors = 1
+repeat_cmds = 0
+ctx_start_k = 61
+ctx_max_k = 215
+ctx_end_k = 215
+thinking_blocks = 26
+thinking_s = 147.9
+brief_chars = 7501
+brief_lines = 38

@@ -91,6 +91,7 @@ why = ["대화 계속"]
         d = dp.load(self.tmp / "d.toml")[-1]
         self.assertEqual((d["actual"]["status"], d["actual"]["start"], d["actual"]["turns"]), ("done", "2026-11-04T01:00:00Z", 2))
         self.assertIn("turns", d)
+        self.assertEqual((d["log"]["blocks"], d["log"]["responses"], d["log"]["read_calls"]), (2, 2, 2))  # 로그 숫자(2026-11-05)
         self.assertEqual(d["review"]["report"], "docs/worklog/CLAUDE.md")
         # 배치 줄 검사는 저장소의 docs/AGENT-LOG.md를 보므로(임시 복사본이 아님) 여기서는 뺀다
         errors = [e for e in dp.validate(dp.load(self.tmp / "d.toml"), pr.load_kn()) if e.startswith(rid) and "AGENT-LOG" not in e]
@@ -144,6 +145,7 @@ why = ["대화 계속"]
         self.assertIn("m001", out)
         e = dp.load_direct(self.tmp / "direct.toml")[0]
         self.assertEqual((e["decide"]["chose"], e["actual"]["status"], e["actual"]["turns"], e["actual"]["added_k"]), ("직접", "done", 2, 12))
+        self.assertEqual((e["log"]["blocks"], e["log"]["ctx_start_k"], e["log"]["ctx_end_k"]), (2, 800, 812))  # 같은 창의 로그 숫자
         self.assertEqual(dp.validate_direct(dp.load_direct(self.tmp / "direct.toml")), [])
 
 

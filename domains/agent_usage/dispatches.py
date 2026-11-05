@@ -15,6 +15,7 @@ from collections import Counter
 from pathlib import Path
 
 from proviso import schema
+from scripts.agent_usage import LOG_KEYS
 
 HERE = Path(__file__).resolve().parent
 
@@ -56,6 +57,10 @@ SIZE_TEXT = ("find_cap",)
 FILES_COUNTS = ("write", "edit")
 FILES_FLAGS = ("after",)
 FILES_REQUIRED_FROM = "2026-11-04"
+# 로그 숫자 (2026-11-05 사용자 결정: 작업자 로그에서 싸게 얻는 숫자는 다 자동으로 뽑아 쌓는다). [dispatch.log] — 칸은 scripts/agent_usage.py
+#   LOG_KEYS(뜻은 log_numbers 설명과 dispatches.toml 머리 주석). 실측(결과)이지 예측 입력이 아니다 — 계산기·맞추기는 읽지 않는다.
+#   `record finish`가 채운다. 이 날짜부터 끝난 기록에 필수(턴 길이 표와 같은 방식: 못 재면 skip = "이유", 이어 보낸 회차는 skip 못 함)
+LOG_REQUIRED_FROM = "2026-11-06"
 ROOT = HERE.parent.parent
 # 다른 저장소의 보고서는 "저장소:경로"로 적는다 (예: "movie_game:docs/worklog/2026-11-03-x.md")
 OTHER_REPO = re.compile(r"^[\w.-]+:(?!/)")
@@ -242,6 +247,7 @@ def validate_direct(entries: list[dict]) -> list[str]:
             for k in ("start", "end"):
                 if not (isinstance(act.get(k), str) and ISO_UTC.match(act[k])):
                     errors.append(f"{did}: 끝난 일인데 actual.{k}(UTC ISO)가 없음")
+        errors.extend(log_errors(d, required=False))
     return errors
 
 
@@ -328,6 +334,57 @@ def files_errors(d: dict) -> list[str]:
 def form_required(d: dict) -> bool:
     """FORM_REQUIRED_FROM 뒤의 끝난(실측이 있는) 기록인가 — 그러면 turns 칸과 review.report가 필수."""
     return done(d) and "minutes" in d.get("actual", {}) and str(d.get("date", "")) >= FORM_REQUIRED_FROM
+
+
+def log_required(d: dict) -> bool:
+    """LOG_REQUIRED_FROM 뒤의 끝난(실측이 있는) 기록인가 — 그러면 [dispatch.log]가 필수 (form_required와 같은 모양)."""
+    return done(d) and "minutes" in d.get("actual", {}) and str(d.get("date", "")) >= LOG_REQUIRED_FROM
+
+
+def log_errors(d: dict, required: bool | None = None) -> list[str]:
+    """로그 숫자([dispatch.log]) 검사. 칸이 있으면 날짜와 상관없이 모양을 본다(LOG_KEYS가 다 있고 0 이상의 수, 또는 skip 한 줄).
+    required를 안 주면 log_required(d) — 직접 한 일(direct.toml)은 모양만 본다(required=False)."""
+    did, log = d.get("id", "?"), d.get("log")
+    need = log_required(d) if required is None else required
+    if log is None:
+        return [f"{did}: 로그 숫자([dispatch.log])가 없음 — `python -m domains.agent_usage.record finish <id> <로그>`가 붙인다"
+                f"(또는 `scripts/agent_usage.py <로그> --log --toml`). 잴 수 없으면 [dispatch.log] 아래 skip = \"이유\""] if need else []
+    if not isinstance(log, dict):
+        return [f"{did}: log는 표여야 함 (agent_usage.py --log --toml 출력)"]
+    if "skip" in log:
+        errors = []
+        if not (isinstance(log["skip"], str) and log["skip"].strip()) or len(log) > 1:
+            errors.append(f"{did}: log.skip은 못 잰 이유 문장 하나만 (숫자와 함께 쓰지 않는다)")
+        rnd = d.get("round")
+        if need and isinstance(rnd, int) and rnd >= 2 and d.get("situation", {}).get("S_cloud_session") != "예":
+            errors.append(f"{did}: 이어 보낸 회차의 로그 숫자는 skip하지 않는다 — `agent_usage.py <로그> --rounds`로 이 회차 시작 시각을 보고 "
+                          f"`--log --toml --after <그 시각>`")
+        return errors
+    errors = []
+    missing = [k for k in LOG_KEYS if k not in log]
+    if missing:
+        errors.append(f"{did}: log에 칸이 빠짐: {', '.join(missing)} (agent_usage.py --log --toml 출력을 그대로)")
+    unknown = [k for k in log if k not in LOG_KEYS]
+    if unknown:
+        errors.append(f"{did}: log의 칸 {', '.join(unknown)}는 LOG_KEYS(scripts/agent_usage.py)에 없음")
+    bad = [k for k in LOG_KEYS if k in log and (isinstance(log[k], bool) or not isinstance(log[k], (int, float)) or log[k] < 0)]
+    if bad:
+        errors.append(f"{did}: log.{', '.join(bad)}는 0 이상의 수여야 함")
+    return errors
+
+
+def files_vs_log(records: list[dict]) -> dict[str, Counter]:
+    """지시서에서 센 files(write·edit)와 로그에서 잰 log.write·log.edit를 둘 다 가진 기록끼리 견준다 (2026-11-05).
+    칸마다 같음 / 로그가 많음 / 로그가 적음 수. files에 그 칸이 없으면(모름) 그 칸은 안 센다."""
+    out = {k: Counter() for k in FILES_COUNTS}
+    for d in records:
+        files, log = d.get("files"), d.get("log")
+        if not (isinstance(files, dict) and isinstance(log, dict)) or "skip" in log:
+            continue
+        for k in FILES_COUNTS:
+            if isinstance(files.get(k), int) and isinstance(log.get(k), int):
+                out[k]["같음" if files[k] == log[k] else ("로그가 많음" if log[k] > files[k] else "로그가 적음")] += 1
+    return out
 
 
 def form_errors(d: dict, root: Path = ROOT) -> list[str]:
@@ -456,6 +513,7 @@ def validate(records: list[dict], kn: schema.Knowledge) -> list[str]:
             errors.append(f"{did}: 끝난 작업인데 실측 시간이 없음")
         errors.extend(model_errors(d))
         errors.extend(form_errors(d))
+        errors.extend(log_errors(d))
         errors.extend(files_errors(d))
     return errors
 
@@ -596,6 +654,10 @@ def report(records: list[dict]) -> str:
         lines.append(f"| 실제가 범위 {direction} | {' | '.join(map(str, row))} | {sum(row)} |")
     lines.append(f"  '양' 중 턴이 분과 반대로 빗나간 기록(속도도 틀림): {', '.join(r['양 반대 방향']) or '없음'}")
     lines.append(f"토큰 등급 — 전체: {_tally(tokens)} · 보내기 전에 적은 것만: {_tally(tokens_before)}")
+    fl = files_vs_log(records)
+    lines.append("쓰는 파일 수 — 지시서에서 센 files vs 로그에서 잰 log (둘 다 있는 기록): "
+                 + " · ".join(f"{k} {sum(c.values())}건(" + (", ".join(f"{n} {c[n]}" for n in ("같음", "로그가 많음", "로그가 적음") if c[n]) or "없음") + ")"
+                              for k, c in fl.items()))
     return "\n".join(lines)
 
 

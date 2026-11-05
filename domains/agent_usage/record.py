@@ -5,11 +5,12 @@
       기록을 덧붙인다: 상황 값·손 예측(파일) + 계산기 답(그 기록의 상황 값으로) + 보낼까 판단(decide) + 배치 머리(AGENT-LOG에 없으면).
       그리고 빗댄 기록 규칙(정해진 일이면)과 사용자에게 할 말을 보여 준다. 기록 id는 다음 빈 번호(파일에 id가 있으면 그것).
   python -m domains.agent_usage.record finish <기록 id> <작업자 대화 기록> [--after 시각] [--report 경로]
-      실측(분·줄·토큰·시작·끝)과 턴 길이 표를 그 기록에 채운다. 이어 보낸 회차는 --after(`agent_usage.py --rounds`로 본 그 회차 시작).
+      실측(분·줄·토큰·시작·끝)과 턴 길이 표, 로그 숫자([dispatch.log], 2026-11-05)를 그 기록에 채운다.
+      이어 보낸 회차는 --after(`agent_usage.py --rounds`로 본 그 회차 시작). 이미 있는 턴 표·로그 숫자는 다시 쓰지 않는다.
   python -m domains.agent_usage.record direct <직접 할 일 파일>
       직접 하기로 한 일을 direct.toml에 덧붙인다(보낼까 판단과 함께).
   python -m domains.agent_usage.record finish <m001> <메인 대화 기록> --after 시작 --until 끝
-      직접 한 일의 실측(메인이 그 요청에 쓴 분·줄·토큰)을 채운다.
+      직접 한 일의 실측(메인이 그 요청에 쓴 분·줄·토큰)과 같은 창의 로그 숫자([direct.log])를 채운다.
 돌아보기(review.reason, 빗나가면 wrong·why)와 배치 줄의 표·교훈은 판단이 필요해 메인이 손으로 쓴다.
 
 보낼 일 파일(TOML): project, batch, task, model, effort, agent, round, [files](write, edit — 쓰는 파일 수, 2026-11-04부터 필수),
@@ -227,6 +228,9 @@ def finish(rid: str, log: Path, after: str | None = None, until: str | None = No
             block = block.rstrip("\n") + f"\n[dispatch.review]\nreport = {_v(report)}\n"
     if not is_direct and not re.search(r"^\[dispatch\.turns\]", block, flags=re.M):
         block = block.rstrip("\n") + "\n" + au.turn_toml(au.turn_rows(str(log), after)) + "\n"
+    if not re.search(rf"^\[{header}\.log\]", block, flags=re.M):  # 로그 숫자(2026-11-05) — 실측과 같은 창, 턴 표 뒤
+        body = block.rstrip("\n")
+        block = body + "\n" + au.log_toml(au.log_numbers(str(log), after, until), header) + (block[len(body):] or "\n")
     path.write_text(text[:a] + block + text[b:], encoding="utf-8")
     d = next(r for r in (dp.load_direct(path) if is_direct else dp.load(path)) if r["id"] == rid)
     out = [f"{rid} 실측: {s['duration_min']}분 · {s['turns']}줄 · {au.total(s) / 1e6:.2f}M ({path.name}에 채움)"]
