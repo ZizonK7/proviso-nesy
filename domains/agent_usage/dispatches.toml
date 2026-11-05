@@ -16059,8 +16059,20 @@ added_k = 357
 chose = "보냄"
 why = ["대화 계속", "대화 맥락"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
-
+status = "done"
+minutes = 2.9  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 26
+tokens_m = 13.41  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-05T08:37:39Z"
+end = "2026-11-05T08:40:31Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 9, sum_s = 66.6, turn_s = 4.9, out_chars = 0, ctx_k = 518 }
+"Bash:cd" = { n = 8, sum_s = 40.9, turn_s = 5.4, tool_s = 1.2, out_chars = 881.5, ctx_k = 519.0 }
+"Read" = { n = 7, sum_s = 43.4, turn_s = 6.6, tool_s = 0.0, out_chars = 100, ctx_k = 519 }
+"Bash:cat" = { n = 1, sum_s = 5.8, turn_s = 5.8, tool_s = 2.2, out_chars = 6959, ctx_k = 509 }
+"SubagentHandback" = { n = 1, sum_s = 8.3, turn_s = 8.3, tool_s = 0.1, out_chars = 1196, ctx_k = 525 }
 [[dispatch]]
 id = "p205"
 project = "exam_grader"
@@ -16119,5 +16131,66 @@ send_m = 9.2
 added_k = 746
 chose = "보냄"
 why = ["대화 계속", "대화 맥락"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p206"
+project = "exam_grader"
+batch = 58
+date = 2026-11-05
+task = "검토(세션 안 Opus 5.5 xhigh, 새 에이전트): 27번 풀이지를 문제 원문·선생님 원문·teacher.md 규칙과 대조해 고칠 점 목록만. 파일 수정 없음"
+model = "Opus 5.5"
+effort = "xhigh"
+agent = "27번 풀이지 검토 (xhigh)"
+round = 1
+size = { reads = 5 }
+files = { write = 0, edit = 0 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [1.5, 3.5]
+turns = [12, 20]
+tokens_m = [1, 2.5]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_say_numbers_v3"]
+analog = "p203"
+reason = "빗댄 p203(22번 검토, 1.6분·15턴·1.3M)·p200(3.0분). 그림 하나 → 12–20턴, 1.5–3.5분 '잠깐', 1–2.5M"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [6.04, 12.08]
+[dispatch.decide]
+main_ctx_k = 420
+left = 60
+direct_m = 17.3
+send_m = 6.4
+added_k = 84
+chose = "보냄"
+why = ["새 눈"]
 [dispatch.actual]
 status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
