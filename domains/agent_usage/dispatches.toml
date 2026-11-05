@@ -88,6 +88,25 @@
 #                      ctx_start_k·ctx_max_k·ctx_end_k 응답마다 맥락(입력 + 캐시 생성 + 캐시 읽기, 천 토큰)의 처음·최대·끝 ·
 #                      thinking_blocks 생각 블록 수 · thinking_s 기록이 남긴 생각 시간 합(초, thinkingDurationMs) ·
 #                      brief_chars·brief_lines 이 회차를 시작한 지시의 글자·줄 수 (보내기 전에 알 수 있는 값을 로그에서 읽은 것)
+#   session            클라우드 세션으로 보낸 일(S_cloud_session = 예)의 세션 id(session_…, 사람 식별자가 아니다). 보낼 일 파일에 적으면 record send가 옮긴다.
+#                      2026-11-06부터 클라우드 일에 필수. p168·p188·p200–p219는 2026-11-05에 세션 목록에서 제목·만든 시각(±3분)으로 찾아 사후에 채웠다(p239)
+#   git                [dispatch.git] git으로 잰 작업자 변경 (2026-11-05 사용자 결정, 2026-11-06부터 끝난 로컬 기록에 필수 — 저장소 밖 일이면 skip = "저장소 밖 일").
+#                      로그의 write·edit는 Write·Edit 도구만 세서 Bash로 바꾼 파일을 놓친다(p238: 11개를 고쳤는데 로그 1). domains/agent_usage/measure.py.
+#                      보낼 때(record send가 기록 파일·배치 머리를 쓴 뒤 — 메인의 보내기 전 기록도 기준에 든다): repo 저장소 폴더 이름만 · head 커밋 ·
+#                      dirty 그때 더러운(고쳐졌거나 추적 안 된, .gitignore 따름) 파일 수 · dirty_hashes ["경로 해시 8자:내용 해시 12자"](경로도 해시 — 비공개 저장소 이름 보호).
+#                      끝날 때(record finish가 아무것도 쓰기 전에): 지금 더럽고 보낼 때 깨끗했거나 내용이 달라진 파일 — git_write 새 파일 · git_edit 있던 파일 고침 ·
+#                      git_delete 지움 · git_lines_added·git_lines_removed numstat(새 파일은 그 줄 수, 보낼 때 더러웠던 파일은 그때 내용과) ·
+#                      git_commits 보낼 때 HEAD 뒤 커밋 수(메인의 보내기 전 기록 커밋도 든다 — 그래서 커밋된 파일은 작업자 파일로 세지 않는다).
+#                      named_files·named_lines·named_bytes·named_dirs 지시서(그 회차 첫 지시)에 경로로 적힌 것 중 보낼 때 HEAD에 있던 파일 수·줄·바이트와
+#                      폴더 수 — 계산은 끝날 때지만 보내기 전에 알 수 있는 양이다(경로는 저장하지 않는다).
+#                      알려진 오염: 작업자가 도는 동안 메인이 같은 저장소를 커밋 없이 고치거나, finish 전에 작업자 변경을 커밋하면 수가 틀린다
+#   cloud              [dispatch.cloud] 클라우드 세션의 result 사건 숫자 합 (2026-11-05, 2026-11-06부터 끝난 클라우드 기록에 필수 — 못 재면 skip).
+#                      메인이 MCP list_events(session, kinds=["result"])로 읽고 `record cloud <id> <숫자.json>`(사건 출력을 그대로 줘도 된다).
+#                      results 사건 수 · duration_ms 사건마다 실행 시간 합 · duration_api_ms API 시간 · num_turns 턴 합 · total_cost_usd 달러 ·
+#                      web_search_requests·web_fetch_requests 서버 도구 호출 · subagents_spawned 그 세션이 띄운 하위 에이전트 · stop_reason·subtype 마지막 사건 ·
+#                      models."이름" = { input_tokens, output_tokens, cache_read_tokens, cache_creation_tokens, thinking_tokens, web_search, cost_usd }.
+#                      modelUsage·total_cost_usd·duration_api_ms·spawned는 세션 안에서 누적이라 사건끼리 더하지 않는다(사건마다 값은 model_usage_since_last_result).
+#                      p168·p188·p200–p219는 2026-11-05에 사후에 채웠다(그 기록 창 안에 끝난 사건만 — p218의 3분 뒤 보완 회차는 담당 p215 몫이라 뺐다)
 
 [[dispatch]]
 id = "d01"
@@ -13946,6 +13965,7 @@ round = 1
 task = "조사(클라우드 'searching', Haiku 5.5, 새 세션): Claude 요금제를 내리거나(Ultra/Max → Pro) 다시 올릴 때(Pro → Ultra/Max) 주간 사용량이 이어지는지 새로 시작하는지, 요금 일할 여부, 주간 초기화 시각이 바뀌는지 — 실제 경험담(Reddit 미러·HN·개인 글) 우선, 공식 도움말 문장 보조. 전송 조건: 경험담 원문 6건 + 공식 원문 2건"
 model = "Haiku 5.5"
 size = { find_cap = "4 질문·원문 8건" }
+session = "session_01VdPEurHG1GwexSAEGWW3Rt"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -13989,6 +14009,18 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-03-plan-change.md"
 reason = "말한 구간 '잠깐' 맞음(2.1분, 손 예측 2–6의 아래 끝). 토큰 1.53M은 1–4 안(T1 맞음). 클라우드 Haiku 글 조사 띠 3–10분보다도 짧다 — gemmin 11-03 같은 모양 세션 18개(1–3분)와 같은 쪽. 전송 조건 '경험담 6 + 공식 2'에서 공식 4건은 채웠지만, 요금제 변경을 직접 겪은 경험담은 5건이라 1건 모자란 채 보냈고 그 사실을 스스로 밝혔다. 품질: 핵심 질문 2·3(올리면 사용량 새로 시작, 결제일이 올린 날로 바뀜)을 공식 문장 원문으로 닫았고, Ultra 개명도 공식으로 확인. 1·4(내릴 때 이어지는지, 바꾼 뒤 초기화 시각)는 공식·경험담 모두 없음을 정직하게 남김. 링크 표기 한 곳이 헷갈림(src8 URL 정정 문구) — 4"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 1
+duration_ms = 123449
+duration_api_ms = 117622
+num_turns = 20
+total_cost_usd = 0.131404
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 0
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-haiku-5-5" = { input_tokens = 61096, output_tokens = 22839, cache_read_tokens = 1383066, cache_creation_tokens = 60918, thinking_tokens = 9896, web_search = 4, cost_usd = 0.131404 }
 
 [[dispatch]]
 id = "p169"
@@ -15454,6 +15486,7 @@ agent = "review-design-1104"
 round = 1
 size = { find_cap = "4 질문·원문 8건" }
 files = { after = true }  # 2026-11-04 보낸 뒤 채움: 지시서가 쓸 파일 수를 안 정함(모름)
+session = "session_01VdPEupVDJEZqcUfP3aTxL5"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -15503,6 +15536,18 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-04-review-design.md"
 reason = "말한 구간 '잠깐' 맞음(3.9분, 손 예측 2–4 안). 토큰 3.14M은 손 1–3M보다 조금 위(T1 맞음) — 하위 web-fetch 6개가 PDF 바이너리를 받아 입력이 커졌다. 계산기는 Haiku 기준값이 없어 모름. 전송 조건(연구 원문 6건 + 실무 2건) 중 연구 원문은 부분 열람 4건으로 모자랐고 스스로 밝혔다 — 핵심 논문 PDF(Purdue 학습실·Cepeda·Rowland)가 바이너리·403·503. 품질 3: 질문 A(2차 문제 난이도)는 '성공 가능한 어려움 + 즉시 피드백'으로 방향이 분명하지만 숫자는 검색 요약값, 질문 B(증명 복습)는 직접 근거 없음을 밝히고 3단계(핵심 아이디어 백지 → 빈칸 채우기 → 변형 문제) 추론 권고. 1일·1주 간격은 출발점으로 타당, 3–4주 뒤 한 번 더는 원문 미확인 추론"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 1
+duration_ms = 233355
+duration_api_ms = 440952
+num_turns = 28
+total_cost_usd = 0.502724
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 6
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-haiku-5-5" = { input_tokens = 1165782, output_tokens = 88187, cache_read_tokens = 1342283, cache_creation_tokens = 540235, thinking_tokens = 36485, web_search = 19, cost_usd = 0.502724 }
 
 [[dispatch]]
 id = "p189"
@@ -16373,6 +16418,7 @@ agent = "phd-plan-A"
 round = 1
 size = { find_cap = "질문 4개·원문 6건" }
 files = {  }
+session = "session_01VdPEupivoRwvYARsGqcWQm"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -16422,6 +16468,18 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-05-phd-plan.md"
 reason = "말한 구간 '잠깐' 맞음(2.0분). 손 3–7분보다 짧음 — 질문 4개·원문 6건이어도 하위 web-fetch 6개를 한 번에 돌려 p188(3.9분)보다 빨랐다. 토큰 1.14M 손 1–4 안. 계산기 모름(Haiku 기준값 없음). 품질 4: 병무청 원문으로 편입 나이(35세), 2023 편입자부터 박사과정 2년 인정 + 학위 후 1년 지정업체, 국외출장 의무복무 통틀어 1년(수학·유예 중 5개월)을 확인. 정원 결정 이력·학회/인턴 출국 허용·해외 박사 후 편입은 확인 못 함을 밝힘. 2026 배정 530명은 검색 요약만"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 1
+duration_ms = 117942
+duration_api_ms = 293129
+num_turns = 13
+total_cost_usd = 0.161326
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 6
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-haiku-5-5" = { input_tokens = 295939, output_tokens = 53984, cache_read_tokens = 435837, cache_creation_tokens = 350378, thinking_tokens = 22473, web_search = 4, cost_usd = 0.161326 }
 
 [[dispatch]]
 id = "p201"
@@ -16435,6 +16493,7 @@ agent = "phd-plan-B"
 round = 1
 size = { find_cap = "질문 4개·원문 6건" }
 files = {  }
+session = "session_01VdPEupQexQjres6GVU8vYW"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -16484,6 +16543,18 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-05-phd-plan.md"
 reason = "말한 구간 '잠깐' 맞음(1.6분). 손 3–7분보다 짧음. 토큰 1.01M 손 1–4 안. 품질 2: 핵심 질문(AI/CS 교수 임용의 국내·해외 박사 비율, 국내 박사의 해외 진출 빈도)을 모두 '확인 못 함'. 쓸 만한 건 전체 교수 임용 외국박사 비중(2009 44.1% → 2014 18.8%, 오래됨)·2024 신규 박사 무직 29.6%·NeurIPS 2025 한국 1,120건 정도. 공개 통계가 얇아 대학알리미·교수 프로필 직접 집계가 맞다(세션 제안)"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 1
+duration_ms = 93791
+duration_api_ms = 166228
+num_turns = 15
+total_cost_usd = 0.124748
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 5
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-haiku-5-5" = { input_tokens = 162015, output_tokens = 34242, cache_read_tokens = 638433, cache_creation_tokens = 176761, thinking_tokens = 9282, web_search = 6, cost_usd = 0.124748 }
 
 [[dispatch]]
 id = "p202"
@@ -16497,6 +16568,7 @@ agent = "phd-plan-C"
 round = 1
 size = { find_cap = "질문 4개·원문 6건" }
 files = {  }
+session = "session_01VdPEusvnksjEG3ZrNnz7ne"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -16546,6 +16618,18 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-05-phd-plan.md"
 reason = "말한 구간 '잠깐' 맞음(2.3분). 손 3–7분보다 짧음. 토큰 1.64M 손 1–4 안. 품질 3: 서울대 데이터사이언스대학원(2021·2022·2026)·POSTECH 2026-27 요강 원문으로 평가 단계(서류 → 면접·구술, POSTECH 박사는 지도교수 추천서)를 확인. 학점 기준·통계 복수전공 요구는 국내 원문에 없음, 선수 과목은 해외 학과·교수 페이지 4건(선형대수·확률·통계·실해석 권장). KAIST·연세·고려는 503. 끝 알림을 최종 답보다 먼저 보내 메인이 두 번 읽었다"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 1
+duration_ms = 138651
+duration_api_ms = 230280
+num_turns = 18
+total_cost_usd = 0.290337
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 3
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-haiku-5-5" = { input_tokens = 453899, output_tokens = 37223, cache_read_tokens = 888420, cache_creation_tokens = 263070, thinking_tokens = 11999, web_search = 6, cost_usd = 0.290337 }
 
 [[dispatch]]
 id = "p203"
@@ -16639,6 +16723,7 @@ agent = "phd-cases-A"
 round = 1
 size = { find_cap = "질문 1–2개·원문 8건" }
 files = {  }
+session = "session_01VdPEurVzEBbQCRBtP5d81W"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -16688,6 +16773,18 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-05-phd-cases.md"
 reason = "말한 구간 '잠깐' 맞음(3.1분), 손 2–5분 안. 토큰 1.10M 손 0.8–3 안. 계산기 모름(Haiku 기준값 없음). 품질 3: 해외 재학 중 전문연·해외 박사 뒤 귀국 전문연 사례는 둘 다 '찾지 못함'으로 정직하게 닫았고, 국외여행 통틀어 1년(병무청)·무허가 출국은 편입 취소(서울대 2012 공지)·박사 연기 28세(KAIST)를 원문으로 확인. law.go.kr 조문은 텍스트가 안 열려 법령 근거는 비었다"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 1
+duration_ms = 182507
+duration_api_ms = 359205
+num_turns = 11
+total_cost_usd = 0.389122
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 3
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-haiku-5-5" = { input_tokens = 352526, output_tokens = 78320, cache_read_tokens = 294211, cache_creation_tokens = 370867, thinking_tokens = 43699, web_search = 7, cost_usd = 0.389122 }
 
 [[dispatch]]
 id = "p205"
@@ -16701,6 +16798,7 @@ agent = "phd-cases-B"
 round = 1
 size = { find_cap = "질문 1–2개·원문 8건" }
 files = {  }
+session = "session_01VdPEuosRFhxzp4U45Au3pp"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -16750,6 +16848,18 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-05-phd-cases.md"
 reason = "말한 구간 '잠깐' 맞음(2.3분), 손 2–5분 안. 토큰 0.81M 손 0.8–3 안(아래 끝). 품질 4: 버클리 교수 전문연 이력은 못 찾았지만 CV 12건을 직접 열어 채정병(전문연 → 아이오와주립대 포닥 → 테네시대 교수)·김진수(POSTECH 박사, 대체복무 KIOST·POSTECH → 해외 포닥 → 홍콩시립대)·김대준(서울대 박사과정 중 대체복무) 사례를 건졌고 담당 검색 대조에서 셋 다 맞았다. 버클리 교수진을 학과별로 훑지 못한 것이 빈 곳"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 1
+duration_ms = 133174
+duration_api_ms = 226777
+num_turns = 12
+total_cost_usd = 0.139256
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 3
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-haiku-5-5" = { input_tokens = 194469, output_tokens = 44544, cache_read_tokens = 408109, cache_creation_tokens = 165368, thinking_tokens = 21491, web_search = 7, cost_usd = 0.139256 }
 
 [[dispatch]]
 id = "p206"
@@ -16763,6 +16873,7 @@ agent = "phd-cases-C"
 round = 1
 size = { find_cap = "질문 1–2개·원문 8건" }
 files = {  }
+session = "session_01VdPEusS29ADixSSKxTTnAg"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -16812,6 +16923,18 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-05-phd-cases.md"
 reason = "말한 구간 '잠깐' 맞음(5.6분). 손 2–5분보다 조금 길다 — 하위 에이전트 없이 혼자 원문 약 25건을 차례로 열어 턴 25(다른 셋은 11–12턴, web-fetch를 한 번에 돌림). 토큰 1.91M 손 0.8–3 안. 품질 4: 2025 고려대 대학원 안내서로 2023 이후 제도(2년 안 학위·당연전직 3개월·국외 3개월 복무 인정·공동연구는 기관장 협약)를 확인하고 김박사넷 후기 약 20건을 구제도/새 제도로 갈라 정리. 블로그·브런치는 0건, AI·CS 후기와 2023 이후 지정업체 1년 경험은 못 찾음"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 1
+duration_ms = 334118
+duration_api_ms = 278318
+num_turns = 25
+total_cost_usd = 0.281793
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 0
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-haiku-5-5" = { input_tokens = 165294, output_tokens = 45224, cache_read_tokens = 1622322, cache_creation_tokens = 81929, thinking_tokens = 21643, web_search = 10, cost_usd = 0.281793 }
 
 [[dispatch]]
 id = "p207"
@@ -16825,6 +16948,7 @@ agent = "phd-cases-D"
 round = 1
 size = { find_cap = "질문 1–2개·원문 8건" }
 files = {  }
+session = "session_01VdPEurS2cUFA4TVBrQdq2B"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -16874,6 +16998,18 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-05-phd-cases.md"
 reason = "말한 구간 '잠깐' 맞음(1.8분), 손 2–5분보다 조금 짧음. 토큰 0.64M 손 0.8–3보다 적음. 품질 2: 영어권 CV에서 전문연 이력은 0건, 연 9건 중 쓸 만한 건 로펌 페이지(연기 나이 박사 29·수료 예정 30세, 병무청 원문과 대조 필요)와 Physics Today 2016 정도. CV PDF 두 건은 텍스트 추출 실패. 원문 8건 조건은 채웠지만 '찾을 것이 원래 드문' 질문이라 빨리 비고 끝났다"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 1
+duration_ms = 103354
+duration_api_ms = 161513
+num_turns = 12
+total_cost_usd = 0.110502
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 3
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-haiku-5-5" = { input_tokens = 101739, output_tokens = 29161, cache_read_tokens = 350505, cache_creation_tokens = 158675, thinking_tokens = 11837, web_search = 6, cost_usd = 0.110502 }
 
 [[dispatch]]
 id = "p208"
@@ -17041,6 +17177,7 @@ agent = "study-partner-A"
 round = 1
 size = { find_cap = "질문 1–2묶음·원문 8건" }
 files = {  }
+session = "session_01VdPEupGNdSjQT3CyEpMuqa"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -17090,6 +17227,18 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-05-study-partner.md"
 reason = "말한 구간 '잠깐' 맞음(2.2분, 손 2–6분 안). 토큰 0.80M은 손 1–3M 아래로 빗나감. 계산기 모름(Haiku 기준값 없음). 품질 3: Focusmate(25/50/75분, 시작·끝 체크인, 카메라, 무료 주 3회·Plus $8–12, 효과 161%는 자체 설문)·Beeminder(빨간 선, $0→5→10→30)·열품타(스토어 설명)·챌린저스(기사 둘, 규칙 서로 다름)를 원문으로 확인. StickK 403·Flow Club 502라 StickK는 위키뿐, 캠스터디·카톡 벌금 스터디는 원문 0건. 토큰이 아래로 빗나간 까닭(시간 구간은 맞아 wrong 칸은 비움): 서비스 공식 페이지는 짧고 하위 web-fetch 없이 직접 열어 캐시 읽기가 적었다(64만). 같은 날 p200–p202(1.0–1.6M)는 하위 web-fetch 3–6개를 돌렸다 — 하위를 안 쓰는 조사는 1M 아래로 내려간다"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 1
+duration_ms = 131440
+duration_api_ms = 143724
+num_turns = 19
+total_cost_usd = 0.09759
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 0
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-haiku-5-5" = { input_tokens = 90037, output_tokens = 26797, cache_read_tokens = 635925, cache_creation_tokens = 44143, thinking_tokens = 6704, web_search = 6, cost_usd = 0.09759 }
 
 [[dispatch]]
 id = "p211"
@@ -17103,6 +17252,7 @@ agent = "study-partner-B"
 round = 1
 size = { find_cap = "질문 1–2묶음·원문 8건" }
 files = {  }
+session = "session_01VdPEurmd51i1ePMc9dBaSM"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -17152,6 +17302,18 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-05-study-partner.md"
 reason = "말한 구간 '잠깐' 맞음(3.0분, 손 2–6분 안). 토큰 2.50M 손 1–3M 안. 품질 4: Sacerdote·Zimmerman·Kremer & Levy(음주 룸메이트 GPA −0.25)·Carrell 2008(부정행위 승수 약 3)·Carrell 2013(설계 그룹 역효과)·Mehta 외(공부 시간이 옮음)·Harkin 2016(138편, d=0.40, 공개·기록 시 더 큼, 수용본 전문)을 원문·초록으로 확인. Bond & Titus 수치는 2차로 표시, 미루기 전염 직접 연구는 '못 찾음'. 담당이 send_message로 보낸 추가 질문 5(가르치며 배우기)는 '사용자 지시가 아니다'라며 따르지 않았다 — 담당이 직접 검색으로 채움"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 2
+duration_ms = 182990
+duration_api_ms = 186254
+num_turns = 35
+total_cost_usd = 0.267133
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 0
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-haiku-5-5" = { input_tokens = 176138, output_tokens = 33651, cache_read_tokens = 2225140, cache_creation_tokens = 62424, thinking_tokens = 10278, web_search = 13, cost_usd = 0.267133 }
 
 [[dispatch]]
 id = "p212"
@@ -17165,6 +17327,7 @@ agent = "study-partner-C"
 round = 1
 size = { find_cap = "질문 1–2묶음·원문 8건" }
 files = {  }
+session = "session_01VdPEupNUENfCeAmKzSpQGm"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -17214,6 +17377,18 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-05-study-partner.md"
 reason = "말한 구간 '잠깐' 맞음(2.7분, 손 2–6분 안). 토큰 1.56M 손 1–3M 안. 품질 5: 수치 원출처 질문에 정확히 답함 — ASTD 65/95%는 코치 블로그뿐(원출처 없음), Matthews는 2007 학회 발표·149명·요약 PDF는 평균 점수, Ariely & Wertenbroch 재현 실패(프리프린트 원문), CARES 가입 11%·효과 3.3–5.8%p·가입자 66% 실패, Kaur 외 28% 선택·생산량 2%(검색 요약의 9%를 하위집단 수치로 바로잡음). 담당 검색으로 철회(2026-09) 보도까지 이어짐"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 1
+duration_ms = 159736
+duration_api_ms = 272057
+num_turns = 22
+total_cost_usd = 0.262935
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 5
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-haiku-5-5" = { input_tokens = 366004, output_tokens = 48801, cache_read_tokens = 956676, cache_creation_tokens = 191527, thinking_tokens = 17982, web_search = 10, cost_usd = 0.262935 }
 
 [[dispatch]]
 id = "p213"
@@ -17227,6 +17402,7 @@ agent = "study-partner-D"
 round = 1
 size = { find_cap = "질문 1–2묶음·원문 8건" }
 files = {  }
+session = "session_01VdPEuq7phjCPqcJrc1L9U6"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -17276,6 +17452,18 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-05-study-partner.md"
 reason = "말한 구간 '잠깐' 맞음(3.2분, 손 2–6분 안). 토큰 1.18M 손 1–3M 안. 품질 2: 12건을 열었지만 Reddit 전부 막힘(미러 403·reddit.com 불가), 한국어 개인 후기 0건(다음 카페·오르비 403) — 남은 건 상업 블로그·기사·모집글·WaniKani 포럼 1글 등 1건짜리 후기. 같은 과목/다른 과목, 벌금 크기별 비교는 못 찾음을 정직하게 밝힘. 담당이 send_message로 보낸 '같은 수업 듣는 두 사람' 조건은 따르지 않음"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 2
+duration_ms = 196460
+duration_api_ms = 319613
+num_turns = 20
+total_cost_usd = 0.260534
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 5
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-haiku-5-5" = { input_tokens = 183287, output_tokens = 63796, cache_read_tokens = 722089, cache_creation_tokens = 209496, thinking_tokens = 19501, web_search = 12, cost_usd = 0.260534 }
 
 [[dispatch]]
 id = "p214"
@@ -17453,6 +17641,7 @@ agent = "study-creative-a"
 round = 1
 size = { find_cap = "조각 3개·네 각도·되돌리기 최대 1바퀴" }
 files = {  }
+session = "session_01VdPEusXfiRBSU68kVs84oQ"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -17502,6 +17691,18 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-05-study-partner-creative.md"
 reason = "말한 구간 '잠깐' 맞음(1.6분). 손 3–10분은 아래로 빗나감, 토큰 0.08M은 손 0.05–0.5M 안. 계산기 모름. 품질 4: 세 조각 모두 네 각도를 다 시도했고 설계 셋(질문 알 72시간·다음 고리 먼저·보내기 문턱)이 모두 확인 방법까지 구체적. 다음 고리 먼저(전환 순간 = 주가 바뀌는 때, 둘이 같은 주에 동시에 쉬지 않기)가 뼈대에 없는 장치. 보내기 문턱의 부딪히기 각도는 실제 충돌 상황을 찾기보다 '안 부딪힌다'로 끝나 약함 — 되돌리기는 안 함. 분이 손 아래로 빗나간 까닭: 도구 없는 한 턴(약 90초 스트리밍)으로 끝났다 — 클라우드 새 세션의 Opus 글쓰기는 출력 9천 토큰이 1.5분이고 세션 띄우는 시간은 몇 초. 담당 세션에 Agent 도구가 없어 클라우드 새 세션으로 보냈고 effort는 지정 못 함(get_session에 effort_level 없음)"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 1
+duration_ms = 92353
+duration_api_ms = 86722
+num_turns = 1
+total_cost_usd = 0.334977
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 0
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-opus-5-5" = { input_tokens = 2, output_tokens = 8991, cache_read_tokens = 51627, cache_creation_tokens = 18103, thinking_tokens = 3734, web_search = 0, cost_usd = 0.334977 }
 
 [[dispatch]]
 id = "p217"
@@ -17515,6 +17716,7 @@ agent = "study-creative-b"
 round = 1
 size = { find_cap = "조각 3개·네 각도·되돌리기 최대 1바퀴" }
 files = {  }
+session = "session_01VdPEupeY8LJqtgTM7brXxc"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -17564,6 +17766,18 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-05-study-partner-creative.md"
 reason = "말한 구간 '잠깐' 맞음(1.8분). 손 3–10분은 아래로 빗나감, 토큰 0.08M 손 안. 계산기 모름. 품질 4: 설계 셋(첫 바퀴 블록·오려면 지금 신호·모드 태그) 모두 네 각도·확인 방법·부딪히는 곳을 갖춤. 오려면 지금 신호(목요일 기록으로 기계적 신호 → 금요일까지 친구 시간을 범위로 부름, 신호 주엔 벌금 대신 구조 블록)와 모드 태그(말없이 바뀌는 것을 막는 상태 표시)가 뼈대에 없는 장치. 되돌리기 안 함. 분이 손 아래로 빗나간 까닭은 p216과 같음(도구 없는 한 턴)"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 1
+duration_ms = 104645
+duration_api_ms = 100312
+num_turns = 1
+total_cost_usd = 0.314751
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 0
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-opus-5-5" = { input_tokens = 2, output_tokens = 9366, cache_read_tokens = 54756, cache_creation_tokens = 14559, thinking_tokens = 3392, web_search = 0, cost_usd = 0.314751 }
 
 [[dispatch]]
 id = "p218"
@@ -17577,6 +17791,7 @@ agent = "study-creative-c"
 round = 1
 size = { find_cap = "조각 3개·네 각도·되돌리기 최대 1바퀴" }
 files = {  }
+session = "session_01VdPEusAxXcUrwwtbMff5Ke"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -17626,6 +17841,18 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-05-study-partner-creative.md"
 reason = "말한 구간 '잠깐' 맞음(1회차 1.8분). 손 3–10분은 아래로 빗나감, 토큰 0.08M 손 안. 계산기 모름. 1회차 품질 3 → 되돌리기 1바퀴 뒤 4. 1회차: 수위 표시줄 + 공회전 방지(모이는 시각은 지키고, 둘 다 블록 제목 목록을 냈을 때만 토론·아니면 말 없는 각자 정리)는 통과. 0블록 사면 규칙(벌칙은 보고 안 함에만, 0블록 보고엔 정해진 답 하나)은 '보고만 하고 공부 안 하기' 구멍을 '방법 없음'으로 남겼고, 측정값 조각의 25분 회상 짝은 뼈대(같은 시간 각자 복습)를 칸 크기로 다시 말한 것이라 되돌림. 2회차(담당 send_message 10:27:33 → 최종 답 10:28:53, 1.3분, 이 회차 토큰 0.17M = 캐시 읽기 14.8만 + 쓰기 1.1만 + 출력 0.69만; 세션 누계 0.25M, 0.57달러): 주간 '한 단계 물러나기'(주 최소에 못 미치면 벌 대신 상대가 다음 주 같이 할 블록 둘을 제안, 노쇼만 벌칙)로 구멍을 막았고, 측정값 조각은 '어긋남 주문서'(블록별 랩, 기준보다 오래 걸린 블록은 상대가 설명할 것·너무 빠른 블록은 확인받을 것, 기준선은 2주 뒤 개인 가운데값으로)로 바꿔 날짜 어긋남도 다룸. 지시서에 '되돌리기는 미리 정한 단계, 담당 세션 id'를 넣어 두니 클라우드 세션이 다른 세션 메시지를 따랐다(배치 65에서는 거절). 분이 손 아래로 빗나간 까닭은 p216과 같음"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 1
+duration_ms = 103757
+duration_api_ms = 99563
+num_turns = 1
+total_cost_usd = 0.312995
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 0
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-opus-5-5" = { input_tokens = 2, output_tokens = 9211, cache_read_tokens = 54756, cache_creation_tokens = 14727, thinking_tokens = 4049, web_search = 0, cost_usd = 0.312995 }
 
 [[dispatch]]
 id = "p219"
@@ -17639,6 +17866,7 @@ agent = "study-creative-d"
 round = 1
 size = { find_cap = "조각 3개·네 각도·되돌리기 최대 1바퀴" }
 files = {  }
+session = "session_01VdPEur41Y5r2RQ9CP5zS5w"
 [dispatch.situation]
 S_specified = "아니오"
 S_full_brief = "예"
@@ -17690,6 +17918,18 @@ report = "gemmin:docs/research/2026-11-05-study-partner-creative.md"
 reason = "말한 구간 '잠깐' 맞음(1.5분). 손 3–10분은 아래로 빗나감, 토큰 0.08M 손 안. 계산기 모름. 품질 4: 설계 셋(한 솥 문제·어깨부터 가봉·한 칸 제목). 어깨부터 가봉(위 칸이 비면 아래 칸은 채워져도 무효, 2주째엔 가장 위에서 무너진 칸 하나만 고침)이 가장 단단하고, 한 솥 문제는 베끼기와 정면으로 부딪힘을 스스로 밝힘. 한 칸 제목은 억지 3으로 정직하게 낮춤. 한 솥 문제는 2차 복습 문제가 이미 복습 파일에 미리 쓰여 있다는 사실을 지시서가 안 알려 준 탓에 '같이 생성'을 전제로 함(담당이 종합에서 바로잡음). 되돌리기 안 함. 분이 손 아래로 빗나간 까닭은 p216과 같음"
 
 # 2026-11-05 번호 다시 매김: 아래 p220–p236(배치 68)은 exam_grader 세션(브랜치 claude/amazing-carson-owssej)이 p195–p211(배치 58)로 적어 두었던 기록. 같은 번호를 main(p195–p198·배치 58)과 gemmin 세션(p199–p211)이 먼저 써서 뒤 번호로 옮겼다(+25, docs/worklog/2026-11-05-branch-merge.md). 글 안의 p138–p144는 원래 main 기록이라 그대로.
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 1
+duration_ms = 86619
+duration_api_ms = 83292
+num_turns = 1
+total_cost_usd = 0.282363
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 0
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-opus-5-5" = { input_tokens = 2, output_tokens = 7787, cache_read_tokens = 54756, cache_creation_tokens = 14458, thinking_tokens = 2609, web_search = 0, cost_usd = 0.282363 }
 [[dispatch]]
 id = "p220"
 project = "exam_grader"
@@ -19254,5 +19494,80 @@ send_m = 37.2
 added_k = 401
 chose = "보냄"
 why = ["비용"]
+# 보낼 때 기준(repo·head·dirty)은 사후에 채움(2026-11-05 메인): 이 도구가 생기기 전에 보낸 기록이라 보낸 때 HEAD(e1951fb)와 깨끗한 작업 트리를 git 기록으로 확인해 넣음. 아래 수는 record finish가 잼
+[dispatch.git]
+repo = "proviso-nesy"
+head = "e1951fb4cc5714270b5a7823655a5d797729dc09"
+dirty = 0
+dirty_hashes = []
+git_write = 3
+git_edit = 7
+git_delete = 0
+git_lines_added = 1132
+git_lines_removed = 8
+git_commits = 0
+named_files = 15
+named_lines = 23652
+named_bytes = 1310832
+named_dirs = 2
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 16.0  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 125
+tokens_m = 33.87  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-05T14:06:27Z"
+end = "2026-11-05T14:22:25Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-05-remaining-numbers.md"
+reason = "말한 구간 '다른 일' 맞음(16.0분). 분 15–35·줄 90–180·토큰 20–55M 모두 범위 안(125줄·33.9M). 빗댄 p238의 ×1.47줄 — 갈래 셋과 클라우드 세션 18개 사건 읽기(되살리기)가 더해진 몫을 맞게 봤다. 새 [dispatch.git]가 첫 실제 기록에서 일했다: 로그는 write 3·edit 2인데 git은 write 3·edit 7(Bash로 고친 파일을 잡음), 지시서에서 센 files는 write 2·edit 8. 보낼 때 기준은 도구가 생기기 전이라 메인이 git 기록(e1951fb, 깨끗한 트리)으로 사후에 채움. 되살린 클라우드 17건은 세션 시간 ÷ 기록 분이 0.96–1.02로 맞음(메인 확인). 품질: 누적값(modelUsage·비용)을 더하면 두 번 센다는 것을 스스로 찾아 사건마다 몫으로 셈, 비공개 저장소 파일 이름이 공개 저장소에 안 남게 경로를 해시로."
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 46, sum_s = 344.3, turn_s = 3.0, out_chars = 0.0, ctx_k = 312.0 }
+"mcp__claude-code-remote__list_events" = { n = 20, sum_s = 214.7, turn_s = 5.1, tool_s = 1.6, out_chars = 85.0, ctx_k = 213.5 }
+"Bash:cat" = { n = 19, sum_s = 22.7, turn_s = 0.9, tool_s = 0.6, out_chars = 706, ctx_k = 234 }
+"Bash:python3" = { n = 7, sum_s = 139.9, turn_s = 3.7, tool_s = 0.2, out_chars = 1831, ctx_k = 366 }
+"Bash:sed" = { n = 6, sum_s = 46.3, turn_s = 3.0, tool_s = 0.8, out_chars = 125.0, ctx_k = 233.5 }
+"Bash:grep" = { n = 5, sum_s = 38.7, turn_s = 3.5, tool_s = 0.5, out_chars = 188, ctx_k = 320 }
+"Bash:git" = { n = 3, sum_s = 19.5, turn_s = 5.6, tool_s = 0.7, out_chars = 276, ctx_k = 372 }
+"Write" = { n = 3, sum_s = 19.1, turn_s = 3.0, tool_s = 0.0, out_chars = 13161, ctx_k = 381 }
+"Bash:mkdir" = { n = 2, sum_s = 12.8, turn_s = 6.4, tool_s = 1.0, out_chars = 790.0, ctx_k = 155.5 }
+"Bash:rm" = { n = 2, sum_s = 11.3, turn_s = 5.7, tool_s = 0.8, out_chars = 1083.5, ctx_k = 358.5 }
+"Edit" = { n = 2, sum_s = 27.6, turn_s = 13.8, tool_s = 0.1, out_chars = 1647.0, ctx_k = 372.5 }
+"Bash:python" = { n = 2, sum_s = 29.0, turn_s = 14.5, tool_s = 3.6, out_chars = 284.0, ctx_k = 388.5 }
+"Bash:tail" = { n = 1, sum_s = 2.9, turn_s = 2.9, tool_s = 0.8, out_chars = 493, ctx_k = 139 }
+"ToolSearch" = { n = 1, sum_s = 1.5, turn_s = 1.5, tool_s = 0.0, out_chars = 113, ctx_k = 142 }
+"mcp__claude-code-remote__list_sessions" = { n = 1, sum_s = 3.9, turn_s = 3.9, tool_s = 0.5, out_chars = 14, ctx_k = 144 }
+"Bash:head" = { n = 1, sum_s = 3.5, turn_s = 3.5, tool_s = 1.4, out_chars = 317, ctx_k = 145 }
+"Bash:ls" = { n = 1, sum_s = 5.9, turn_s = 5.9, tool_s = 0.9, out_chars = 435, ctx_k = 375 }
+"Bash:cp" = { n = 1, sum_s = 6.4, turn_s = 6.4, tool_s = 4.1, out_chars = 836, ctx_k = 376 }
+"Bash:awk" = { n = 1, sum_s = 5.1, turn_s = 5.1, tool_s = 1.5, out_chars = 390, ctx_k = 378 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 6791, ctx_k = 409 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 57
+blocks = 125
+write = 3
+edit = 2
+scratch_files = 0
+write_chars = 34818
+edit_chars = 2846
+write_lines = 605
+read_calls = 0
+read_files = 0
+read_chars = 0
+images = 0
+bash_calls = 51
+bash_out_chars = 113495
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 23
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 61
+ctx_max_k = 409
+ctx_end_k = 409
+thinking_blocks = 45
+thinking_s = 256.2
+brief_chars = 8650
+brief_lines = 37

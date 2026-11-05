@@ -4,9 +4,13 @@
   python -m domains.agent_usage.record send <보낼 일 파일>
       기록을 덧붙인다: 상황 값·손 예측(파일) + 계산기 답(그 기록의 상황 값으로) + 보낼까 판단(decide) + 배치 머리(AGENT-LOG에 없으면).
       그리고 빗댄 기록 규칙(정해진 일이면)과 사용자에게 할 말을 보여 준다. 기록 id는 다음 빈 번호(파일에 id가 있으면 그것).
-  python -m domains.agent_usage.record finish <기록 id> <작업자 대화 기록> [--after 시각] [--report 경로]
-      실측(분·줄·토큰·시작·끝)과 턴 길이 표, 로그 숫자([dispatch.log], 2026-11-05)를 그 기록에 채운다.
+  python -m domains.agent_usage.record finish <기록 id> <작업자 대화 기록> [--after 시각] [--report 경로] [--repo 경로]
+      실측(분·줄·토큰·시작·끝)과 턴 길이 표, 로그 숫자([dispatch.log], 2026-11-05), git 숫자([dispatch.git], 2026-11-05)를 그 기록에 채운다.
       이어 보낸 회차는 --after(`agent_usage.py --rounds`로 본 그 회차 시작). 이미 있는 턴 표·로그 숫자는 다시 쓰지 않는다.
+      git: 보낼 때 찍은 기준(send)과 지금을 견준다 — 아무것도 쓰기 전에. 저장소는 기준의 이름으로 찾고(이 저장소, 그 옆 폴더), 못 찾으면 --repo.
+  python -m domains.agent_usage.record cloud <기록 id> <숫자.json> [--until 시각]
+      클라우드 세션 일의 result 사건 숫자를 [dispatch.cloud]로(2026-11-05). JSON은 measure.CLOUD_* 칸(사건의 칸 이름 그대로, 합한 값)
+      또는 MCP list_events(kinds=["result"]) 출력 그대로 — 그러면 여기서 합한다(--until: 그 시각까지 끝난 사건만). session 칸이 있으면 기록에도.
   python -m domains.agent_usage.record direct <직접 할 일 파일>
       직접 하기로 한 일을 direct.toml에 덧붙인다(보낼까 판단과 함께).
   python -m domains.agent_usage.record finish <m001> <메인 대화 기록> --after 시작 --until 끝
@@ -15,7 +19,9 @@
 
 보낼 일 파일(TOML): project, batch, task, model, effort, agent, round, [files](write, edit — 쓰는 파일 수, 2026-11-04부터 필수),
 (date, id, size), [situation], [predicted](minutes, turns, tokens_m, rules, analog, reason; told은 비우면 가운데 값의 구간),
-(선택) [decide](why, left, main_ctx_k).
+(선택) [decide](why, left, main_ctx_k),
+(선택) repo = "<경로>" — 작업자가 일할 git 저장소(기본: 기록 파일이 든 저장소 = 이 저장소). 보낼 때 기준([dispatch.git])을 찍는다,
+session = "session_…" — 클라우드 세션으로 보낸 일(S_cloud_session = 예)의 세션 id. 2026-11-06부터 클라우드 일에 필수.
 model·effort는 보낼 모델과 effort(dispatches.MODELS·EFFORTS). S_other_model은 이 둘에서 계산해 상황에 넣는다(적으면 같아야 한다).
 files는 실제 지시서에서 센다(dispatches.py FILES_COUNTS 주석): 지시서가 수를 안 정하면 files = {}(모름).
 """
@@ -34,6 +40,7 @@ from scripts import agent_usage as au
 from . import analog as an
 from . import decide as de
 from . import dispatches as dp
+from . import measure as ms
 from . import predict as pr
 
 HERE = Path(__file__).resolve().parent
@@ -120,6 +127,14 @@ def send(job_path: Path, path: Path = dp.HERE / "dispatches.toml", log_path: Pat
     lines = ["", "[[dispatch]]", f'id = "{rid}"', f"project = {_v(project)}", f"batch = {job['batch']}", f"date = {_v(date)}",
              f"task = {_v(job['task'])}", f"model = {_v(job['model'])}", f"effort = {_v(job['effort'])}",
              f"agent = {_v(job['agent'])}", f"round = {job['round']}"]
+    cloud = situation.get("S_cloud_session") == "예"
+    if "session" in job:
+        if not (isinstance(job["session"], str) and ms.SESSION_ID.match(job["session"])):
+            raise SystemExit("session은 클라우드 세션 id(session_…)여야 함")
+        lines.append(f"session = {_v(job['session'])}")
+    elif cloud and str(date) >= dp.CLOUD_REQUIRED_FROM:
+        raise SystemExit("클라우드 세션으로 보내는 일(S_cloud_session = 예)은 보낼 일 파일에 session = \"session_…\"(만든 세션 id)를 적는다 "
+                         "— 끝나면 그 세션의 result 사건 숫자를 `record cloud`로 옮긴다")
     if job.get("size"):
         lines.append(f"size = {_v(job['size'])}")
     if "files" in job:
@@ -147,6 +162,8 @@ def send(job_path: Path, path: Path = dp.HERE / "dispatches.toml", log_path: Pat
         log += (f"\n\n## 배치 {job['batch']} · {date} · {job['task'][:40]}\n"
                 f"- (보낸 뒤 결과가 나오면 표 한 줄 — 모델·effort·품질 1–5·메모 — 과 교훈을 적는다)\n")
         log_path.write_text(log, encoding="utf-8")
+    if not cloud:  # 보낼 때 기준(2026-11-05): 기록 파일과 배치 머리를 쓴 뒤에 찍는다 — 메인의 보내기 전 기록도 기준에 들어간다
+        _git_send(path, Path(job["repo"]) if job.get("repo") else None)
     out = [f"기록 {rid}를 덧붙였다 ({path.name}). 사용자에게: 말할 구간 '{told}'({dp.ZONE_SAY.get(told, '')}), "
            f"분 {predicted.get('minutes')}, 토큰 {predicted.get('tokens_m')}M — 이유: {predicted.get('reason', '')[:80]}",
            f"계산기: {pred.told() or '모름'}" + (f" {calc_m[0][0]:.1f}–{calc_m[0][1]:.1f}분" if calc_m else ""),
@@ -155,6 +172,71 @@ def send(job_path: Path, path: Path = dp.HERE / "dispatches.toml", log_path: Pat
         d = next(r for r in dp.load(path) if r["id"] == rid)
         out.append("빗댄 기록 규칙(시험 중, 참고): " + an.show(d, dp.load(path), an.load_rule()))
     return "\n".join(out)
+
+
+GIT_TABLE = re.compile(r"^\[dispatch\.git\]\n(?:[^\[\n][^\n]*\n)*", flags=re.M)
+
+
+def _git_table(block: dict) -> str:
+    return "\n".join(["[dispatch.git]"] + ms.git_lines(block)) + "\n"
+
+
+def _git_send(path: Path, repo: Path | None) -> None:
+    """[dispatch.git] 기준 찍기를 파일 끝 기록(방금 덧붙인 것)의 [dispatch.actual] 앞에 넣는다.
+    repo가 없으면 기록 파일이 든 저장소(= 이 저장소). 기록 파일 자신은 기준 표가 들어가기 전 내용으로 해시한다(finish가 표를 떼고 견준다)."""
+    text = path.read_text(encoding="utf-8")
+    top = ms.toplevel(repo or path)
+    overrides = {}
+    if top is not None:
+        try:
+            overrides[path.resolve().relative_to(top.resolve()).as_posix()] = text.encode("utf-8")
+        except ValueError:
+            pass
+    snap = ms.snapshot(top, overrides) if top is not None else {"skip": "저장소 밖 일"}
+    i = text.rindex("[dispatch.actual]\n")
+    path.write_text(text[:i] + _git_table(snap) + text[i:], encoding="utf-8")
+
+
+def _find_repo(name: str, path: Path) -> Path | None:
+    """기준의 저장소 이름으로 폴더를 찾는다: 기록 파일이 든 저장소, 이 저장소, 그 옆 폴더(이 PC의 ../stock-rader 같은)."""
+    for c in (path, dp.ROOT, dp.ROOT.parent / name):
+        top = ms.toplevel(c) if Path(c).exists() else None
+        if top is not None and top.name == name:
+            return top
+    return None
+
+
+def _git_finish(d: dict, text: str, a: int, b: int, path: Path, log: Path, after, until, repo: Path | None) -> dict | None:
+    """끝날 때 [dispatch.git] 숫자. 기록 파일에 아무것도 쓰기 전에 부른다. 클라우드 세션 일이면 None(git 대신 [dispatch.cloud])."""
+    snap = d.get("git")
+    if d.get("situation", {}).get("S_cloud_session") == "예":
+        return None
+    if snap is None:
+        return {"skip": "보낼 때 기준을 안 찍음 (record send가 기준을 찍기 전 기록)"}
+    if "skip" in snap or "git_write" in snap:
+        return None  # 이미 끝난 표
+    top = ms.toplevel(repo) if repo else _find_repo(snap["repo"], path)
+    if top is None:
+        return {**snap, "skip": "기준 저장소를 못 찾음 — record finish … --repo <경로>"}
+    overrides = {}
+    try:
+        rel = path.resolve().relative_to(top.resolve()).as_posix()
+        block = GIT_TABLE.sub("", text[a:b], count=1)
+        overrides[rel] = (text[:a] + block + text[b:]).encode("utf-8")
+    except ValueError:
+        pass
+    counts = ms.compare(top, snap, overrides)
+    if "skip" in counts:
+        return {**snap, **counts}
+    return {**snap, **counts, **ms.named(top, snap["head"], au.brief_text(str(log), after, until))}
+
+
+def _put_git(block: str, g: dict) -> str:
+    m = GIT_TABLE.search(block)
+    if m:
+        return block[:m.start()] + _git_table(g) + block[m.end():]
+    i = block.find("[dispatch.actual]\n")
+    return block[:i] + _git_table(g) + block[i:] if i >= 0 else block.rstrip("\n") + "\n" + _git_table(g)
 
 
 def direct(job_path: Path, path: Path = dp.DIRECT_TOML) -> str:
@@ -203,7 +285,7 @@ def _replace_table(block: str, table: str, new_lines: list[str]) -> str:
 
 
 def finish(rid: str, log: Path, after: str | None = None, until: str | None = None, report: str | None = None,
-           path: Path | None = None) -> str:
+           path: Path | None = None, repo: Path | None = None) -> str:
     is_direct = bool(re.fullmatch(r"m\d+", rid))
     path = path or (dp.DIRECT_TOML if is_direct else dp.HERE / "dispatches.toml")
     header = "direct" if is_direct else "dispatch"
@@ -219,7 +301,12 @@ def finish(rid: str, log: Path, after: str | None = None, until: str | None = No
             act.append(f"added_k = {round(grew)}  # 메인 맥락이 실제로 늘어난 양(천 토큰) — 그 뒤 모든 응답에서 다시 읽힌다")
     text = path.read_text(encoding="utf-8")
     a, b = _block(text, header, rid)
+    git = None
+    if not is_direct:  # git 비교는 기록 파일에 아무것도 쓰기 전에 (2026-11-05)
+        git = _git_finish(next(r for r in dp.load(path) if r["id"] == rid), text, a, b, path, log, after, until, repo)
     block = _replace_table(text[a:b], f"{header}.actual", act)
+    if git is not None:
+        block = _put_git(block, git)
     if report and not is_direct:
         rev = re.search(r"^\[dispatch\.review\]$.*?(?=^\[|\Z)", block, flags=re.M | re.S)
         if rev and not re.search(r"^report = ", rev.group(0), flags=re.M):
@@ -234,6 +321,10 @@ def finish(rid: str, log: Path, after: str | None = None, until: str | None = No
     path.write_text(text[:a] + block + text[b:], encoding="utf-8")
     d = next(r for r in (dp.load_direct(path) if is_direct else dp.load(path)) if r["id"] == rid)
     out = [f"{rid} 실측: {s['duration_min']}분 · {s['turns']}줄 · {au.total(s) / 1e6:.2f}M ({path.name}에 채움)"]
+    if git is not None:
+        out.append("  git: " + (f"건너뜀 — {git['skip']}" if "skip" in git else
+                                 f"새 {git['git_write']} · 고침 {git['git_edit']} · 지움 {git['git_delete']} 파일, +{git['git_lines_added']}/−{git['git_lines_removed']}줄, "
+                                 f"커밋 {git['git_commits']} · 지시서에 적힌 파일 {git['named_files']}개 {git['named_lines']}줄"))
     if not is_direct:
         told, zone = d.get("predicted", {}).get("told"), dp.zone(s["duration_min"])
         out.append(f"  말한 구간 '{told}' → 실제 '{zone}'" + ("" if told == zone else " — 빗나감: review.wrong·why를 적는다"))
@@ -253,6 +344,52 @@ def finish(rid: str, log: Path, after: str | None = None, until: str | None = No
     return "\n".join(out)
 
 
+def _load_numbers(src: Path, until: str | None) -> dict:
+    """숫자 JSON, 또는 list_events 출력({"ccr": {"data": [...]}} — 앞뒤에 다른 글이 붙어 있어도 된다)이면 여기서 합한다."""
+    text = src.read_text(encoding="utf-8")
+    try:
+        raw = json.loads(text)
+    except json.JSONDecodeError:
+        i = text.find('{"ccr"')
+        if i < 0:
+            raise SystemExit(f"{src}: JSON을 못 읽음")
+        raw, _ = json.JSONDecoder().raw_decode(text[i:])
+    if isinstance(raw, dict) and ("ccr" in raw or "data" in raw):
+        return ms.cloud_from_events(raw, until)
+    return raw
+
+
+def cloud(rid: str, src: Path, path: Path | None = None, until: str | None = None) -> str:
+    """클라우드 세션의 result 사건 숫자를 [dispatch.cloud]로 (2026-11-05). 결과 글은 받지도 적지도 않는다."""
+    path = path or dp.HERE / "dispatches.toml"
+    n = _load_numbers(src, until)
+    errors = ms.cloud_errors(n) if isinstance(n, dict) else ["숫자 JSON은 표여야 함"]
+    if errors:
+        raise SystemExit("숫자 JSON 문제:\n  - " + "\n  - ".join(errors))
+    d = next((r for r in dp.load(path) if r["id"] == rid), None)
+    if d is None:
+        raise SystemExit(f"{rid} 기록을 못 찾음")
+    if d.get("situation", {}).get("S_cloud_session") != "예":
+        raise SystemExit(f"{rid}는 클라우드 세션 일(S_cloud_session = 예)이 아님 — 로컬 일은 record finish가 [dispatch.git]·[dispatch.log]를 붙인다")
+    if "cloud" in d:
+        raise SystemExit(f"{rid}에 [dispatch.cloud]가 이미 있음 (숫자는 고치지 않는다)")
+    if n.get("session") and d.get("session") and n["session"] != d["session"]:
+        raise SystemExit(f"{rid}의 session {d['session']}과 JSON의 session이 다름")
+    text = path.read_text(encoding="utf-8")
+    a, b = _block(text, "dispatch", rid)
+    block = text[a:b]
+    if n.get("session") and not d.get("session"):
+        i = re.search(r"^\[dispatch\.", block, flags=re.M).start()
+        block = block[:i] + f"session = {_v(n['session'])}\n" + block[i:]
+    body = block.rstrip("\n")
+    table = "\n".join(["[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)"] + ms.cloud_lines(n))
+    block = body + "\n" + table + (block[len(body):] or "\n")
+    path.write_text(text[:a] + block + text[b:], encoding="utf-8")
+    m = sum(u["outputTokens"] for u in n["models"].values())
+    return (f"{rid} 클라우드 숫자: 사건 {n['results']} · {n['duration_ms'] / 60000:.1f}분 · 턴 {n['num_turns']} · 출력 {m:,} 토큰 · "
+            f"${n['total_cost_usd']:.2f} ({path.name}에 채움)")
+
+
 def _arg(argv: list[str], name: str) -> str | None:
     return argv[argv.index(name) + 1] if name in argv and argv.index(name) + 1 < len(argv) else None
 
@@ -267,7 +404,11 @@ def main(argv: list[str]) -> int:
     elif cmd == "direct":
         print(direct(Path(argv[1])))
     elif cmd == "finish" and len(argv) >= 3:
-        print(finish(argv[1], Path(argv[2]), _arg(argv, "--after"), _arg(argv, "--until"), _arg(argv, "--report")))
+        repo = _arg(argv, "--repo")
+        print(finish(argv[1], Path(argv[2]), _arg(argv, "--after"), _arg(argv, "--until"), _arg(argv, "--report"),
+                     repo=Path(repo) if repo else None))
+    elif cmd == "cloud" and len(argv) >= 3:
+        print(cloud(argv[1], Path(argv[2]), until=_arg(argv, "--until")))
     else:
         print(__doc__)
         return 2

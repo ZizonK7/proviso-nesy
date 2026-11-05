@@ -234,6 +234,17 @@ def _instruction_text(d):
     return None
 
 
+def brief_text(path, after=None, until=None):
+    """창 안의 첫 지시 글(log_numbers의 brief_chars와 같은 글). 저장하거나 출력하지 않는다 — 지시서에 적힌 파일의 크기를 재는
+    데만 쓴다(domains/agent_usage/measure.named, 2026-11-05)."""
+    for _, d in _window(path, after, until):
+        if isinstance(d.get("message"), dict):
+            text = _instruction_text(d)
+            if text is not None:
+                return text
+    return ""
+
+
 def log_numbers(path, after=None, until=None):
     """작업자 대화 기록 하나에서 숫자만 (2026-11-05). 창은 --actual과 같다(after·until). 글·명령·경로는 돌려주지 않는다.
     responses 서로 다른 응답(message id) 수 · blocks 응답 줄(블록) 수 = --actual의 turns

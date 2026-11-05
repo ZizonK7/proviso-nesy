@@ -17,6 +17,8 @@ from pathlib import Path
 from proviso import schema
 from scripts.agent_usage import LOG_KEYS
 
+from . import measure as ms
+
 HERE = Path(__file__).resolve().parent
 
 # 시간 구간 세 마디 (사용자 결정 2026-10-19): 사용자가 할 일로 말한다.
@@ -61,6 +63,11 @@ FILES_REQUIRED_FROM = "2026-11-04"
 #   LOG_KEYS(뜻은 log_numbers 설명과 dispatches.toml 머리 주석). 실측(결과)이지 예측 입력이 아니다 — 계산기·맞추기는 읽지 않는다.
 #   `record finish`가 채운다. 이 날짜부터 끝난 기록에 필수(턴 길이 표와 같은 방식: 못 재면 skip = "이유", 이어 보낸 회차는 skip 못 함)
 LOG_REQUIRED_FROM = "2026-11-06"
+# git 숫자와 클라우드 숫자 (2026-11-05 사용자 결정: 싸게 얻는 숫자는 다 자동으로, measure.py). 이 날짜부터 끝난 기록에 필수 —
+#   로컬 일은 [dispatch.git](record send가 기준을 찍고 record finish가 견준다; 저장소 밖 일이면 skip = "저장소 밖 일"),
+#   클라우드 세션 일(S_cloud_session = 예)은 [dispatch.cloud](record cloud, 못 재면 skip). 클라우드 일은 보낼 때 session(세션 id)도 필수
+GIT_REQUIRED_FROM = "2026-11-06"
+CLOUD_REQUIRED_FROM = "2026-11-06"
 ROOT = HERE.parent.parent
 # 다른 저장소의 보고서는 "저장소:경로"로 적는다 (예: "movie_game:docs/worklog/2026-11-03-x.md")
 OTHER_REPO = re.compile(r"^[\w.-]+:(?!/)")
@@ -373,6 +380,120 @@ def log_errors(d: dict, required: bool | None = None) -> list[str]:
     return errors
 
 
+def _is_cloud(d: dict) -> bool:
+    return d.get("situation", {}).get("S_cloud_session") == "예"
+
+
+def git_required(d: dict) -> bool:
+    """GIT_REQUIRED_FROM 뒤의 끝난 로컬 기록인가 — 그러면 [dispatch.git] 숫자(또는 skip)가 필수."""
+    return done(d) and "minutes" in d.get("actual", {}) and str(d.get("date", "")) >= GIT_REQUIRED_FROM and not _is_cloud(d)
+
+
+def cloud_required(d: dict) -> bool:
+    """CLOUD_REQUIRED_FROM 뒤의 끝난 클라우드 세션 기록인가 — 그러면 [dispatch.cloud](또는 skip)가 필수."""
+    return done(d) and "minutes" in d.get("actual", {}) and str(d.get("date", "")) >= CLOUD_REQUIRED_FROM and _is_cloud(d)
+
+
+def _nonneg_int(v) -> bool:
+    return isinstance(v, int) and not isinstance(v, bool) and v >= 0
+
+
+def git_errors(d: dict) -> list[str]:
+    """[dispatch.git] 검사. 칸이 있으면 날짜와 상관없이 모양을 본다: 보낼 때 기준(repo·head·dirty·dirty_hashes)은 넷이 같이,
+    끝날 때 숫자(measure.GIT_KEYS)는 모두 같이(기준도 있어야), skip은 이유 문장(기준과는 같이 둘 수 있고 숫자와는 안 된다)."""
+    did, g = d.get("id", "?"), d.get("git")
+    if g is None:
+        if git_required(d):
+            return [f"{did}: git 숫자([dispatch.git])가 없음 — `record send`가 기준을 찍고 `record finish`가 채운다. "
+                    f"저장소 밖 일이면 [dispatch.git] 아래 skip = \"저장소 밖 일\""]
+        return []
+    if not isinstance(g, dict):
+        return [f"{did}: git은 표여야 함"]
+    errors = []
+    unknown = [k for k in g if k not in ("skip",) + ms.GIT_SEND_KEYS + ms.GIT_KEYS]
+    if unknown:
+        errors.append(f"{did}: git의 칸 {', '.join(unknown)}는 measure.GIT_SEND_KEYS·GIT_KEYS에 없음")
+    if "skip" in g and not (isinstance(g["skip"], str) and g["skip"].strip()):
+        errors.append(f"{did}: git.skip은 못 잰 이유 문장이어야 함")
+    sent = [k for k in ms.GIT_SEND_KEYS if k in g]
+    if sent and len(sent) < len(ms.GIT_SEND_KEYS):
+        errors.append(f"{did}: git 기준 칸은 {', '.join(ms.GIT_SEND_KEYS)} 넷이 같이 있어야 함")
+    if "repo" in g and not (isinstance(g["repo"], str) and re.fullmatch(r"[\w.-]+", g["repo"])):
+        errors.append(f"{did}: git.repo는 저장소 폴더 이름만(경로 없이)")
+    if "head" in g and not (isinstance(g["head"], str) and re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", g["head"])):
+        errors.append(f"{did}: git.head는 커밋 해시여야 함")
+    if "dirty" in g and not _nonneg_int(g["dirty"]):
+        errors.append(f"{did}: git.dirty는 0 이상의 정수여야 함")
+    hashes = g.get("dirty_hashes")
+    if hashes is not None and not (isinstance(hashes, list) and all(isinstance(h, str) and ms.HASH_ITEM.match(h) for h in hashes)
+                                   and (not _nonneg_int(g.get("dirty")) or len(hashes) == g["dirty"])):
+        errors.append(f"{did}: git.dirty_hashes는 \"경로 해시 8자:내용 해시 12자\" 목록이고 길이가 dirty와 같아야 함")
+    counted = [k for k in ms.GIT_KEYS if k in g]
+    if counted:
+        if "skip" in g:
+            errors.append(f"{did}: git.skip은 숫자와 같이 쓰지 않는다")
+        missing = [k for k in ms.GIT_KEYS if k not in g]
+        if missing:
+            errors.append(f"{did}: git에 칸이 빠짐: {', '.join(missing)} (record finish 출력을 그대로)")
+        if len(sent) < len(ms.GIT_SEND_KEYS):
+            errors.append(f"{did}: git 숫자는 보낼 때 기준(repo·head·dirty·dirty_hashes)과 같이 있어야 함")
+        bad = [k for k in counted if not _nonneg_int(g[k])]
+        if bad:
+            errors.append(f"{did}: git.{', '.join(bad)}는 0 이상의 정수여야 함")
+    elif git_required(d) and "skip" not in g:
+        errors.append(f"{did}: git에 끝날 때 숫자가 없음 — `record finish <id> <로그>`가 채운다(기준 저장소를 못 찾으면 --repo)")
+    return errors
+
+
+def cloud_record_errors(d: dict) -> list[str]:
+    """클라우드 세션 기록 검사: session 칸(보낼 때, CLOUD_REQUIRED_FROM부터 필수)과 [dispatch.cloud](끝난 기록에 필수, 못 재면 skip)."""
+    did, errors = d.get("id", "?"), []
+    sess = d.get("session")
+    if sess is not None and not (isinstance(sess, str) and ms.SESSION_ID.match(sess)):
+        errors.append(f"{did}: session은 클라우드 세션 id(session_…)여야 함")
+    if sess is None and _is_cloud(d) and str(d.get("date", "")) >= CLOUD_REQUIRED_FROM:
+        errors.append(f"{did}: 클라우드 세션 일인데 session(세션 id)이 없음 — 보낼 일 파일에 session = \"session_…\"")
+    c = d.get("cloud")
+    if c is None:
+        if cloud_required(d):
+            errors.append(f"{did}: 클라우드 숫자([dispatch.cloud])가 없음 — 그 세션의 result 사건(list_events, kinds=[\"result\"])을 "
+                          f"`python -m domains.agent_usage.record cloud <id> <숫자.json>`으로. 못 재면 [dispatch.cloud] 아래 skip = \"이유\"")
+        return errors
+    if not isinstance(c, dict):
+        return errors + [f"{did}: cloud는 표여야 함"]
+    if "skip" in c:
+        if not (isinstance(c["skip"], str) and c["skip"].strip()) or len(c) > 1:
+            errors.append(f"{did}: cloud.skip은 못 잰 이유 문장 하나만 (숫자와 함께 쓰지 않는다)")
+        return errors
+    models = c.get("models")
+    back = {**{k: c.get(k) for k in ms.CLOUD_NUM_KEYS + ms.CLOUD_TEXT_KEYS if k in c},
+            "models": {name: {src: u.get(dst) for src, dst in ms.CLOUD_MODEL_KEYS.items() if dst in u}
+                       for name, u in models.items() if isinstance(u, dict)} if isinstance(models, dict) else models}
+    if "models" not in c:
+        back.pop("models")
+    extra = [k for k in c if k not in ms.CLOUD_NUM_KEYS + ms.CLOUD_TEXT_KEYS + ("models",)]
+    extra += [f"models.{n}.{k}" for n, u in (models or {}).items() if isinstance(u, dict) for k in u
+              if k not in ms.CLOUD_MODEL_KEYS.values()]
+    if extra:
+        errors.append(f"{did}: cloud의 모르는 칸: {', '.join(extra)}")
+    errors += [f"{did}: cloud — {e}" for e in ms.cloud_errors(back)]
+    return errors
+
+
+def files_vs_git(records: list[dict]) -> dict[str, Counter]:
+    """지시서에서 센 files(write·edit)와 git으로 잰 git_write·git_edit를 둘 다 가진 기록끼리 견준다 (2026-11-05)."""
+    out = {k: Counter() for k in FILES_COUNTS}
+    for d in records:
+        files, g = d.get("files"), d.get("git")
+        if not (isinstance(files, dict) and isinstance(g, dict)) or "skip" in g:
+            continue
+        for k in FILES_COUNTS:
+            if isinstance(files.get(k), int) and isinstance(g.get(f"git_{k}"), int):
+                n = g[f"git_{k}"]
+                out[k]["같음" if files[k] == n else ("git이 많음" if n > files[k] else "git이 적음")] += 1
+    return out
+
+
 def files_vs_log(records: list[dict]) -> dict[str, Counter]:
     """지시서에서 센 files(write·edit)와 로그에서 잰 log.write·log.edit를 둘 다 가진 기록끼리 견준다 (2026-11-05).
     칸마다 같음 / 로그가 많음 / 로그가 적음 수. files에 그 칸이 없으면(모름) 그 칸은 안 센다."""
@@ -514,6 +635,8 @@ def validate(records: list[dict], kn: schema.Knowledge) -> list[str]:
         errors.extend(model_errors(d))
         errors.extend(form_errors(d))
         errors.extend(log_errors(d))
+        errors.extend(git_errors(d))
+        errors.extend(cloud_record_errors(d))
         errors.extend(files_errors(d))
     return errors
 
@@ -658,6 +781,10 @@ def report(records: list[dict]) -> str:
     lines.append("쓰는 파일 수 — 지시서에서 센 files vs 로그에서 잰 log (둘 다 있는 기록): "
                  + " · ".join(f"{k} {sum(c.values())}건(" + (", ".join(f"{n} {c[n]}" for n in ("같음", "로그가 많음", "로그가 적음") if c[n]) or "없음") + ")"
                               for k, c in fl.items()))
+    fg = files_vs_git(records)
+    lines.append("쓰는 파일 수 — 지시서에서 센 files vs git으로 잰 [dispatch.git] (둘 다 있는 기록): "
+                 + " · ".join(f"{k} {sum(c.values())}건(" + (", ".join(f"{n} {c[n]}" for n in ("같음", "git이 많음", "git이 적음") if c[n]) or "없음") + ")"
+                              for k, c in fg.items()))
     return "\n".join(lines)
 
 

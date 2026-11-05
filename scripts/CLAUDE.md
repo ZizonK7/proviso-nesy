@@ -12,6 +12,7 @@ proviso 본체(코어·분야)가 아니라 작업을 굴리는 데 쓰는 도�
   - `--rounds` (2026-11-03): 회차 경계(답한 뒤에 들어온 지시마다 새 회차)와 회차마다 시작·끝 시각·응답 줄 수. 이어 보낸 회차의 `--after`에 줄 시각을 여기서 얻는다(앞 회차 기록에 끝 시각이 없어도 된다).
   - `--actual` (2026-11-03): 실측을 `dispatches.toml`의 `[dispatch.actual]` 줄로(분·턴·토큰 + 시작·끝 시각 `start`/`end`, UTC ISO). 2026-11-04부터 끝난 기록에 시각이 필수 — 빗댄 기록 규칙(`domains/agent_usage/analog.py`)이 '보낼 때 끝나 있던 기록'을 가르는 데 쓴다.
   - `--log` (2026-11-05): 로그에서 싸게 얻는 숫자 전부(`LOG_KEYS`: 파일·읽기·명령·맥락·생각 시간·지시 길이 등, 뜻은 `log_numbers` 설명). `--toml`이면 `[dispatch.log]` 블록 — `record finish`가 붙이고 2026-11-06부터 끝난 기록에 필수. 실측이지 예측 입력이 아니다.
+  - `brief_text(로그, after, until)` (2026-11-05): 창 안의 첫 지시 글을 돌려준다(출력·저장하지 않음). `domains/agent_usage/measure.named`가 지시서에 적힌 파일의 크기를 재는 데만 쓴다(`[dispatch.git]` named_*).
   - 대화 내용은 출력하지 않는다. 숫자만.
   - 기록 파일은 세션 폴더에 남지만, 정리될 수 있으니 배치가 끝나면 바로 기록한다.
 - `claude_http.py` (2026-11-03): Claude API를 표준 라이브러리(urllib)로 부른다(외부 패키지 없음 규칙). 키는 환경 변수 `API`에서만 읽고 출력·저장하지 않는다(공개 저장소). `cost(usage, batch=)`는 claude-opus-5-5 가격으로 usage를 달러로(배치는 절반). 쓰는 곳: `domains/far_fields`.
