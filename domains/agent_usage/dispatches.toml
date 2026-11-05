@@ -14136,6 +14136,605 @@ reason = "말한 구간 '다른 일' 맞음(14.9분, 손 예측 15–35의 아�
 "SubagentHandback" = { n = 1, sum_s = 0.3, turn_s = 0.3, tool_s = 0.3, out_chars = 2291, ctx_k = 495 }
 
 [[dispatch]]
+id = "p171"
+project = "proviso"
+batch = 47
+date = 2026-11-03
+task = "생성(far_fields 3차): 먼 분야 19개(acad3_01–acad3_19, 출토 유물 해석(고고학) 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+model = "Opus 5.5"
+effort = "high"
+agent = "먼 분야 3차 생성 1"
+round = 1
+size = { outputs = 19, checks = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [11, 18]
+turns = [27, 50]
+tokens_m = [3, 6.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p148"
+reason = "빗댄 p148–p167(2차, 같은 지시서·같은 모델: 분야 20개에 12.1–17.4분·27–53턴·3.0–6.5M, Write 한 턴 약 37초). 이번은 분야 19개라 거의 같다 → 11–18분 '다른 일'. 학문·IT·금융은 몸 쓰는 일보다 모델 지식이 덜 확실할 수 있어 확신도 '중간'이 늘 수 있지만 시간에는 큰 영향 없음"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.decide]
+main_ctx_k = 300
+left = 20
+direct_m = 18.0
+send_m = 7.6
+added_k = 120
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "done"
+minutes = 14.6  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 36
+tokens_m = 4.48  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-03T22:26:28Z"
+end = "2026-11-03T22:41:02Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-04-far-fields-3.md"
+reason = "말한 구간 '다른 일' 맞음(14.6분, 손 예측 11–18 안). 턴 36(예측 27–50 안), 토큰 4.48M(예측 3–6.5 안). 빗댄 2차(p148–p167, 같은 지시서·모델·분야 수 18–20)가 그대로 맞았다 — 파일 n개 쓰기는 n × 0.6 + 4분. 계산기 '잠깐 2.2–4.5분'은 또 짧았다(출력 파일 수를 모름, 배치 44 교훈 그대로). 빗댄 기록 규칙은 p145(7.4분)를 골라 '잠깐'으로 빗나갔다 — 같은 모델·effort 안에서 정해진 일 하나만 남아 크기가 다른 일을 골랐다. 품질: 모양 검사 문제 0, 작업자가 분야 낱말 샘을 스스로 고치고 확신 낮은 곳을 짚어 옴 — 4(내용 검토 없음)"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Write" = { n = 19, sum_s = 582.4, turn_s = 42.3, tool_s = 0.0, out_chars = 5280, ctx_k = 127 }
+"글" = { n = 8, sum_s = 141.1, turn_s = 3.8, out_chars = 0.0, ctx_k = 109.0 }
+"Bash:python3" = { n = 5, sum_s = 140.6, turn_s = 43.3, tool_s = 0.3, out_chars = 149, ctx_k = 127 }
+"Bash:grep" = { n = 1, sum_s = 1.3, turn_s = 1.3, out_chars = 206, ctx_k = 67 }
+"Bash:sed" = { n = 1, sum_s = 2.6, turn_s = 2.6, tool_s = 0.3, out_chars = 333, ctx_k = 72 }
+"Bash:cd" = { n = 1, sum_s = 2.6, turn_s = 2.6, tool_s = 0.4, out_chars = 734, ctx_k = 177 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 431, ctx_k = 179 }
+[[dispatch]]
+id = "p172"
+project = "proviso"
+batch = 47
+date = 2026-11-03
+task = "생성(far_fields 3차): 먼 분야 19개(acad3_20–acad3_38, 극지 연구 기지 월동 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+model = "Opus 5.5"
+effort = "high"
+agent = "먼 분야 3차 생성 2"
+round = 1
+size = { outputs = 19, checks = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [11, 18]
+turns = [27, 50]
+tokens_m = [3, 6.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p148"
+reason = "빗댄 p148–p167(2차, 같은 지시서·같은 모델: 분야 20개에 12.1–17.4분·27–53턴·3.0–6.5M, Write 한 턴 약 37초). 이번은 분야 19개라 거의 같다 → 11–18분 '다른 일'. 학문·IT·금융은 몸 쓰는 일보다 모델 지식이 덜 확실할 수 있어 확신도 '중간'이 늘 수 있지만 시간에는 큰 영향 없음"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.decide]
+main_ctx_k = 300
+left = 20
+direct_m = 18.0
+send_m = 7.6
+added_k = 120
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "done"
+minutes = 12.9  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 35
+tokens_m = 4.31  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-03T22:26:28Z"
+end = "2026-11-03T22:39:22Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-04-far-fields-3.md"
+reason = "말한 구간 '다른 일' 맞음(12.9분, 손 예측 11–18 안). 턴 35(예측 27–50 안), 토큰 4.31M(예측 3–6.5 안). 빗댄 2차(p148–p167, 같은 지시서·모델·분야 수 18–20)가 그대로 맞았다 — 파일 n개 쓰기는 n × 0.6 + 4분. 계산기 '잠깐 2.2–4.5분'은 또 짧았다(출력 파일 수를 모름, 배치 44 교훈 그대로). 빗댄 기록 규칙은 p145(7.4분)를 골라 '잠깐'으로 빗나갔다 — 같은 모델·effort 안에서 정해진 일 하나만 남아 크기가 다른 일을 골랐다. 품질: 모양 검사 문제 0, 작업자가 분야 낱말 샘을 스스로 고치고 확신 낮은 곳을 짚어 옴 — 4(내용 검토 없음)"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Write" = { n = 19, sum_s = 479.5, turn_s = 37.1, tool_s = 0.0, out_chars = 4871, ctx_k = 126 }
+"글" = { n = 10, sum_s = 232.9, turn_s = 35.4, out_chars = 0.0, ctx_k = 125.5 }
+"Bash:python3" = { n = 2, sum_s = 6.5, turn_s = 3.2, tool_s = 0.3, out_chars = 320.0, ctx_k = 166.0 }
+"Bash:grep" = { n = 1, sum_s = 2.7, turn_s = 2.7, tool_s = 0.6, out_chars = 416, ctx_k = 67 }
+"Bash:sed" = { n = 1, sum_s = 2.6, turn_s = 2.6, tool_s = 0.1, out_chars = 298, ctx_k = 70 }
+"Bash:ls" = { n = 1, sum_s = 44.9, turn_s = 44.9, out_chars = 120, ctx_k = 78 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 392, ctx_k = 167 }
+[[dispatch]]
+id = "p173"
+project = "proviso"
+batch = 47
+date = 2026-11-03
+task = "생성(far_fields 3차): 먼 분야 19개(acad3_39–it3_07, 사료 비판(역사학) 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+model = "Opus 5.5"
+effort = "high"
+agent = "먼 분야 3차 생성 3"
+round = 1
+size = { outputs = 19, checks = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [11, 18]
+turns = [27, 50]
+tokens_m = [3, 6.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p148"
+reason = "빗댄 p148–p167(2차, 같은 지시서·같은 모델: 분야 20개에 12.1–17.4분·27–53턴·3.0–6.5M, Write 한 턴 약 37초). 이번은 분야 19개라 거의 같다 → 11–18분 '다른 일'. 학문·IT·금융은 몸 쓰는 일보다 모델 지식이 덜 확실할 수 있어 확신도 '중간'이 늘 수 있지만 시간에는 큰 영향 없음"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.decide]
+main_ctx_k = 300
+left = 20
+direct_m = 18.0
+send_m = 7.6
+added_k = 120
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "done"
+minutes = 14.9  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 49
+tokens_m = 6.59  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-03T22:26:28Z"
+end = "2026-11-03T22:41:24Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-04-far-fields-3.md"
+reason = "말한 구간 '다른 일' 맞음(14.9분, 손 예측 11–18 안). 턴 49(예측 27–50 안), 토큰 6.59M(예측 3–6.5 밖). 빗댄 2차(p148–p167, 같은 지시서·모델·분야 수 18–20)가 그대로 맞았다 — 파일 n개 쓰기는 n × 0.6 + 4분. 계산기 '잠깐 2.2–4.5분'은 또 짧았다(출력 파일 수를 모름, 배치 44 교훈 그대로). 빗댄 기록 규칙은 p145(7.4분)를 골라 '잠깐'으로 빗나갔다 — 같은 모델·effort 안에서 정해진 일 하나만 남아 크기가 다른 일을 골랐다. 품질: 모양 검사 문제 0, 작업자가 분야 낱말 샘을 스스로 고치고 확신 낮은 곳을 짚어 옴 — 4(내용 검토 없음)"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 22, sum_s = 825.4, turn_s = 42.5, out_chars = 0.0, ctx_k = 133.5 }
+"Write" = { n = 19, sum_s = 44.0, turn_s = 2.1, tool_s = 0.0, out_chars = 5267, ctx_k = 131 }
+"Bash:grep" = { n = 3, sum_s = 9.0, turn_s = 2.7, tool_s = 0.3, out_chars = 354, ctx_k = 91 }
+"Bash:python3" = { n = 2, sum_s = 5.1, turn_s = 2.5, tool_s = 0.2, out_chars = 399.0, ctx_k = 178.5 }
+"Bash:sed" = { n = 1, sum_s = 3.4, turn_s = 3.4, tool_s = 0.2, out_chars = 198, ctx_k = 70 }
+"Bash:cd" = { n = 1, sum_s = 5.5, turn_s = 5.5, tool_s = 0.2, out_chars = 943, ctx_k = 179 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 444, ctx_k = 180 }
+[[dispatch]]
+id = "p174"
+project = "proviso"
+batch = 47
+date = 2026-11-03
+task = "생성(far_fields 3차): 먼 분야 19개(it3_08–it3_26, 항공 관제 시스템 운영 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+model = "Opus 5.5"
+effort = "high"
+agent = "먼 분야 3차 생성 4"
+round = 1
+size = { outputs = 19, checks = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [11, 18]
+turns = [27, 50]
+tokens_m = [3, 6.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p148"
+reason = "빗댄 p148–p167(2차, 같은 지시서·같은 모델: 분야 20개에 12.1–17.4분·27–53턴·3.0–6.5M, Write 한 턴 약 37초). 이번은 분야 19개라 거의 같다 → 11–18분 '다른 일'. 학문·IT·금융은 몸 쓰는 일보다 모델 지식이 덜 확실할 수 있어 확신도 '중간'이 늘 수 있지만 시간에는 큰 영향 없음"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.decide]
+main_ctx_k = 300
+left = 20
+direct_m = 18.0
+send_m = 7.6
+added_k = 120
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "done"
+minutes = 16.4  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 34
+tokens_m = 4.39  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-03T22:26:28Z"
+end = "2026-11-03T22:42:54Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-04-far-fields-3.md"
+reason = "말한 구간 '다른 일' 맞음(16.4분, 손 예측 11–18 안). 턴 34(예측 27–50 안), 토큰 4.39M(예측 3–6.5 안). 빗댄 2차(p148–p167, 같은 지시서·모델·분야 수 18–20)가 그대로 맞았다 — 파일 n개 쓰기는 n × 0.6 + 4분. 계산기 '잠깐 2.2–4.5분'은 또 짧았다(출력 파일 수를 모름, 배치 44 교훈 그대로). 빗댄 기록 규칙은 p145(7.4분)를 골라 '잠깐'으로 빗나갔다 — 같은 모델·effort 안에서 정해진 일 하나만 남아 크기가 다른 일을 골랐다. 품질: 모양 검사 문제 0, 작업자가 분야 낱말 샘을 스스로 고치고 확신 낮은 곳을 짚어 옴 — 4(내용 검토 없음)"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Write" = { n = 19, sum_s = 691.0, turn_s = 44.4, tool_s = 0.0, out_chars = 5672, ctx_k = 129 }
+"글" = { n = 8, sum_s = 142.8, turn_s = 2.9, out_chars = 0.0, ctx_k = 126.0 }
+"Bash:grep" = { n = 2, sum_s = 89.6, turn_s = 44.8, tool_s = 0.2, out_chars = 308.0, ctx_k = 71.0 }
+"Bash:python3" = { n = 2, sum_s = 54.3, turn_s = 27.2, tool_s = 0.3, out_chars = 269.0, ctx_k = 149.0 }
+"Bash:sed" = { n = 1, sum_s = 2.2, turn_s = 2.2, tool_s = 0.3, out_chars = 201, ctx_k = 70 }
+"Bash:S=$(for" = { n = 1, sum_s = 3.0, turn_s = 3.0, tool_s = 0.3, out_chars = 641, ctx_k = 186 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 434, ctx_k = 189 }
+[[dispatch]]
+id = "p175"
+project = "proviso"
+batch = 47
+date = 2026-11-03
+task = "생성(far_fields 3차): 먼 분야 19개(it3_27–it3_45, 매장 POS 단말 운영 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+model = "Opus 5.5"
+effort = "high"
+agent = "먼 분야 3차 생성 5"
+round = 1
+size = { outputs = 19, checks = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [11, 18]
+turns = [27, 50]
+tokens_m = [3, 6.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p148"
+reason = "빗댄 p148–p167(2차, 같은 지시서·같은 모델: 분야 20개에 12.1–17.4분·27–53턴·3.0–6.5M, Write 한 턴 약 37초). 이번은 분야 19개라 거의 같다 → 11–18분 '다른 일'. 학문·IT·금융은 몸 쓰는 일보다 모델 지식이 덜 확실할 수 있어 확신도 '중간'이 늘 수 있지만 시간에는 큰 영향 없음"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.decide]
+main_ctx_k = 300
+left = 20
+direct_m = 18.0
+send_m = 7.6
+added_k = 120
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "done"
+minutes = 13.8  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 35
+tokens_m = 4.38  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-03T22:26:29Z"
+end = "2026-11-03T22:40:19Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-04-far-fields-3.md"
+reason = "말한 구간 '다른 일' 맞음(13.8분, 손 예측 11–18 안). 턴 35(예측 27–50 안), 토큰 4.38M(예측 3–6.5 안). 빗댄 2차(p148–p167, 같은 지시서·모델·분야 수 18–20)가 그대로 맞았다 — 파일 n개 쓰기는 n × 0.6 + 4분. 계산기 '잠깐 2.2–4.5분'은 또 짧았다(출력 파일 수를 모름, 배치 44 교훈 그대로). 빗댄 기록 규칙은 p145(7.4분)를 골라 '잠깐'으로 빗나갔다 — 같은 모델·effort 안에서 정해진 일 하나만 남아 크기가 다른 일을 골랐다. 품질: 모양 검사 문제 0, 작업자가 분야 낱말 샘을 스스로 고치고 확신 낮은 곳을 짚어 옴 — 4(내용 검토 없음)"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Write" = { n = 19, sum_s = 504.0, turn_s = 39.5, tool_s = 0.0, out_chars = 5148, ctx_k = 118 }
+"글" = { n = 9, sum_s = 216.4, turn_s = 38.7, out_chars = 0, ctx_k = 132 }
+"Bash:python3" = { n = 3, sum_s = 51.3, turn_s = 6.1, tool_s = 0.3, out_chars = 659, ctx_k = 171 }
+"Bash:grep" = { n = 1, sum_s = 3.2, turn_s = 3.2, tool_s = 0.4, out_chars = 336, ctx_k = 67 }
+"Bash:sed" = { n = 1, sum_s = 2.4, turn_s = 2.4, tool_s = 0.1, out_chars = 363, ctx_k = 70 }
+"Bash:ls" = { n = 1, sum_s = 49.2, turn_s = 49.2, tool_s = 0.1, out_chars = 144, ctx_k = 78 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 528, ctx_k = 177 }
+[[dispatch]]
+id = "p176"
+project = "proviso"
+batch = 47
+date = 2026-11-03
+task = "생성(far_fields 3차): 먼 분야 19개(it3_46–fin3_14, IT 장비 폐기·데이터 파기 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+model = "Opus 5.5"
+effort = "high"
+agent = "먼 분야 3차 생성 6"
+round = 1
+size = { outputs = 19, checks = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [11, 18]
+turns = [27, 50]
+tokens_m = [3, 6.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p148"
+reason = "빗댄 p148–p167(2차, 같은 지시서·같은 모델: 분야 20개에 12.1–17.4분·27–53턴·3.0–6.5M, Write 한 턴 약 37초). 이번은 분야 19개라 거의 같다 → 11–18분 '다른 일'. 학문·IT·금융은 몸 쓰는 일보다 모델 지식이 덜 확실할 수 있어 확신도 '중간'이 늘 수 있지만 시간에는 큰 영향 없음"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.decide]
+main_ctx_k = 300
+left = 20
+direct_m = 18.0
+send_m = 7.6
+added_k = 120
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "done"
+minutes = 14.0  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 33
+tokens_m = 4.04  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-03T22:26:29Z"
+end = "2026-11-03T22:40:28Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-04-far-fields-3.md"
+reason = "말한 구간 '다른 일' 맞음(14.0분, 손 예측 11–18 안). 턴 33(예측 27–50 안), 토큰 4.04M(예측 3–6.5 안). 빗댄 2차(p148–p167, 같은 지시서·모델·분야 수 18–20)가 그대로 맞았다 — 파일 n개 쓰기는 n × 0.6 + 4분. 계산기 '잠깐 2.2–4.5분'은 또 짧았다(출력 파일 수를 모름, 배치 44 교훈 그대로). 빗댄 기록 규칙은 p145(7.4분)를 골라 '잠깐'으로 빗나갔다 — 같은 모델·effort 안에서 정해진 일 하나만 남아 크기가 다른 일을 골랐다. 품질: 모양 검사 문제 0, 작업자가 분야 낱말 샘을 스스로 고치고 확신 낮은 곳을 짚어 옴 — 4(내용 검토 없음)"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Write" = { n = 19, sum_s = 483.3, turn_s = 40.3, tool_s = 0.0, out_chars = 5317, ctx_k = 123 }
+"글" = { n = 9, sum_s = 297.7, turn_s = 41.2, out_chars = 0, ctx_k = 123 }
+"Bash:python3" = { n = 2, sum_s = 49.6, turn_s = 24.8, tool_s = 0.4, out_chars = 209.5, ctx_k = 147.5 }
+"Bash:grep" = { n = 1, sum_s = 3.4, turn_s = 3.4, tool_s = 0.5, out_chars = 387, ctx_k = 67 }
+"Bash:sed" = { n = 1, sum_s = 2.5, turn_s = 2.5, tool_s = 0.2, out_chars = 372, ctx_k = 70 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 376, ctx_k = 172 }
+[[dispatch]]
+id = "p177"
+project = "proviso"
+batch = 47
+date = 2026-11-03
+task = "생성(far_fields 3차): 먼 분야 18개(fin3_15–fin3_32, 채권 추심 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+model = "Opus 5.5"
+effort = "high"
+agent = "먼 분야 3차 생성 7"
+round = 1
+size = { outputs = 18, checks = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [11, 18]
+turns = [27, 50]
+tokens_m = [3, 6.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p148"
+reason = "빗댄 p148–p167(2차, 같은 지시서·같은 모델: 분야 20개에 12.1–17.4분·27–53턴·3.0–6.5M, Write 한 턴 약 37초). 이번은 분야 18개라 거의 같다 → 11–18분 '다른 일'. 학문·IT·금융은 몸 쓰는 일보다 모델 지식이 덜 확실할 수 있어 확신도 '중간'이 늘 수 있지만 시간에는 큰 영향 없음"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.decide]
+main_ctx_k = 300
+left = 20
+direct_m = 18.0
+send_m = 7.6
+added_k = 120
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "done"
+minutes = 14.1  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 32
+tokens_m = 3.90  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-03T22:26:29Z"
+end = "2026-11-03T22:40:32Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-04-far-fields-3.md"
+reason = "말한 구간 '다른 일' 맞음(14.1분, 손 예측 11–18 안). 턴 32(예측 27–50 안), 토큰 3.90M(예측 3–6.5 안). 빗댄 2차(p148–p167, 같은 지시서·모델·분야 수 18–20)가 그대로 맞았다 — 파일 n개 쓰기는 n × 0.6 + 4분. 계산기 '잠깐 2.2–4.5분'은 또 짧았다(출력 파일 수를 모름, 배치 44 교훈 그대로). 빗댄 기록 규칙은 p145(7.4분)를 골라 '잠깐'으로 빗나갔다 — 같은 모델·effort 안에서 정해진 일 하나만 남아 크기가 다른 일을 골랐다. 품질: 모양 검사 문제 0, 작업자가 분야 낱말 샘을 스스로 고치고 확신 낮은 곳을 짚어 옴 — 4(내용 검토 없음)"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Write" = { n = 18, sum_s = 592.0, turn_s = 43.0, tool_s = 0.0, out_chars = 5521.5, ctx_k = 121.5 }
+"글" = { n = 7, sum_s = 225.7, turn_s = 43.2, out_chars = 0, ctx_k = 112 }
+"Bash:python3" = { n = 3, sum_s = 13.3, turn_s = 3.9, tool_s = 0.6, out_chars = 413, ctx_k = 173 }
+"Bash:grep" = { n = 2, sum_s = 6.4, turn_s = 3.2, tool_s = 0.6, out_chars = 366.5, ctx_k = 71.0 }
+"Bash:sed" = { n = 1, sum_s = 3.1, turn_s = 3.1, tool_s = 0.5, out_chars = 205, ctx_k = 70 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 516, ctx_k = 174 }
+[[dispatch]]
+id = "p178"
+project = "proviso"
+batch = 47
+date = 2026-11-03
+task = "생성(far_fields 3차): 먼 분야 18개(fin3_33–fin3_50, 탄소 배출권 거래 외) × 경험칙 12개를 generate.py 생성 지시서·JSON 모양대로 파일에 쓰기 + 모양 검사. 검토 없음(사용자 지시)"
+model = "Opus 5.5"
+effort = "high"
+agent = "먼 분야 3차 생성 8"
+round = 1
+size = { outputs = 18, checks = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [11, 18]
+turns = [27, 50]
+tokens_m = [3, 6.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p148"
+reason = "빗댄 p148–p167(2차, 같은 지시서·같은 모델: 분야 20개에 12.1–17.4분·27–53턴·3.0–6.5M, Write 한 턴 약 37초). 이번은 분야 18개라 거의 같다 → 11–18분 '다른 일'. 학문·IT·금융은 몸 쓰는 일보다 모델 지식이 덜 확실할 수 있어 확신도 '중간'이 늘 수 있지만 시간에는 큰 영향 없음"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [2.23, 4.46]
+[dispatch.decide]
+main_ctx_k = 300
+left = 20
+direct_m = 18.0
+send_m = 7.6
+added_k = 120
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "done"
+minutes = 12.2  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 32
+tokens_m = 3.82  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-03T22:26:29Z"
+end = "2026-11-03T22:38:38Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-04-far-fields-3.md"
+reason = "말한 구간 '다른 일' 맞음(12.2분, 손 예측 11–18 안). 턴 32(예측 27–50 안), 토큰 3.82M(예측 3–6.5 안). 빗댄 2차(p148–p167, 같은 지시서·모델·분야 수 18–20)가 그대로 맞았다 — 파일 n개 쓰기는 n × 0.6 + 4분. 계산기 '잠깐 2.2–4.5분'은 또 짧았다(출력 파일 수를 모름, 배치 44 교훈 그대로). 빗댄 기록 규칙은 p145(7.4분)를 골라 '잠깐'으로 빗나갔다 — 같은 모델·effort 안에서 정해진 일 하나만 남아 크기가 다른 일을 골랐다. 품질: 모양 검사 문제 0, 작업자가 분야 낱말 샘을 스스로 고치고 확신 낮은 곳을 짚어 옴 — 4(내용 검토 없음)"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Write" = { n = 18, sum_s = 539.7, turn_s = 36.0, tool_s = 0.0, out_chars = 4919.0, ctx_k = 118.0 }
+"글" = { n = 7, sum_s = 168.2, turn_s = 37.4, out_chars = 0, ctx_k = 118 }
+"Bash:python3" = { n = 3, sum_s = 10.1, turn_s = 2.6, tool_s = 0.3, out_chars = 497, ctx_k = 163 }
+"Bash:grep" = { n = 1, sum_s = 3.3, turn_s = 3.3, tool_s = 0.6, out_chars = 313, ctx_k = 67 }
+"Bash:sed" = { n = 1, sum_s = 2.8, turn_s = 2.8, tool_s = 0.7, out_chars = 316, ctx_k = 70 }
+"Bash:cat" = { n = 1, sum_s = 2.2, turn_s = 2.2, tool_s = 0.3, out_chars = 110, ctx_k = 77 }
+"SubagentHandback" = { n = 1, sum_s = 0.3, turn_s = 0.3, tool_s = 0.3, out_chars = 489, ctx_k = 165 }
+
+[[dispatch]]
 id = "p179"
 project = "proviso"
 batch = 48

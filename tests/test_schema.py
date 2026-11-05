@@ -75,3 +75,48 @@ class Validation(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SplitFilesTest(unittest.TestCase):
+    """knowledge.toml 옆의 knowledge-*.toml(나눈 파일)을 같이 읽는다 (2026-11-04)."""
+
+    def _write(self, d, files):
+        for name, text in files.items():
+            (d / name).write_text(text, encoding="utf-8")
+        return schema.load(d / "knowledge.toml")
+
+    def test_parts_are_merged_and_refs_cross_files(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as t:
+            d = Path(t)
+            kn = self._write(d, {
+                "knowledge.toml": '[domain]\nid = "x"\n[[state]]\nid = "S_a"\ntext = "상태"\n',
+                "knowledge-b.toml": '[[hypothesis]]\nid = "H_1"\ntext = "가설"\nsource = "ai"\nconditions = ["S_a"]\n'
+                                    '[[judgment]]\nof = "H_1"\nsource = "ai"\nverdict = "지지"\ndate = 2026-11-04\nnote = "n"\n',
+            })
+            self.assertEqual(kn.parts, ["knowledge.toml", "knowledge-b.toml"])
+            self.assertIn("H_1", kn.nodes)
+            self.assertEqual(len(kn.judgments), 1)
+            self.assertEqual(schema.validate(kn), [])
+
+    def test_duplicate_id_across_files_and_skeleton_in_part_are_errors(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as t:
+            d = Path(t)
+            h = '[[hypothesis]]\nid = "H_1"\ntext = "가설"\nsource = "ai"\n'
+            kn = self._write(d, {
+                "knowledge.toml": '[domain]\nid = "x"\n' + h,
+                "knowledge-b.toml": h + '[[goal]]\nid = "G_x"\ntext = "목표"\n',
+            })
+            errors = schema.validate(kn)
+            self.assertTrue(any("id 중복: H_1" in e for e in errors), errors)
+            self.assertTrue(any("knowledge-b.toml" in e and "[goal]" in e for e in errors), errors)
+
+    def test_other_file_names_are_not_read(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as t:
+            d = Path(t)
+            (d / "notes.toml").write_text('[[hypothesis]]\nid = "H_x"\ntext = "t"\nsource = "s"\n', encoding="utf-8")
+            kn = self._write(d, {"knowledge.toml": '[domain]\nid = "x"\n'})
+            self.assertNotIn("H_x", kn.nodes)
+            self.assertEqual(schema.load(d / "notes.toml").parts, ["notes.toml"])

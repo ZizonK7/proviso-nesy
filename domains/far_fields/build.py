@@ -49,6 +49,19 @@ UNREVIEWED_PLAN = ("검토하지 않은 AI 생성분(사용자 2026-11-03: 구�
                    "쓰거나 연결에 뽑힐 때 판정을 붙이고, 그 분야를 실제로 하게 되면 사용자 실사용으로 판정한다")
 
 
+# 묶음(fields*.json의 group) → 나눈 파일 이름 knowledge-<이름>.toml
+GROUP_FILE = {
+    "바다": "sea", "물·강": "river", "땅·농사": "farm", "숲·산·눈": "forest", "하늘": "sky", "지하·광물": "under",
+    "불·금속": "fire", "공예·섬유": "craft", "음식·발효": "food", "동물": "animal", "사람 다루기": "people",
+    "의례·전통": "rite", "공연·예술": "stage", "기계·현대기술": "machine", "건설": "build", "스포츠": "sport",
+    "웹 조사 10개 분야": "web", "학문": "academia", "IT": "it", "금융": "finance",
+}
+PART_HEADER = """# 먼 분야 경험 논리 — 묶음 '{group}'의 조각과 판정
+# 자동 생성 파일: 손으로 고치지 말고 build.py를 다시 돌린다. 분야 뼈대(domain·목표·모양)는 knowledge.toml, 설명은 같은 폴더 CLAUDE.md.
+
+"""
+
+
 def q(s: str) -> str:
     """TOML 기본 문자열 (JSON 문자열 표기는 TOML에서도 유효하다)."""
     return json.dumps(s, ensure_ascii=False)
@@ -65,6 +78,7 @@ def _read(pattern: str) -> dict[str, dict]:
 
 
 AGENT_SLUGS: set[str] = set()
+THIRD = {f["slug"] for f in json.loads((HERE / "fields3.json").read_text(encoding="utf-8"))}  # 3차: 학문·IT·금융 (2026-11-04)
 
 
 def _read_agent() -> dict[str, dict]:
@@ -78,6 +92,8 @@ def _read_agent() -> dict[str, dict]:
 
 def _source(slug: str, it: dict) -> str:
     if slug in AGENT_SLUGS:
+        if slug in THIRD:
+            return "AI 생성(Opus 5.5, Claude Code 서브에이전트) 3차 2026-11-04, 출처 없음(모델 지식), 검토 없음"
         return f"AI 생성(Opus 5.5, Claude Code 서브에이전트) {GEN_DATE}, 출처 없음(모델 지식), 검토 없음"
     if not slug.startswith("haiku_"):
         return f"AI 생성: claude-opus-5-5 배치 {GEN_DATE}, 출처 없음(모델 지식)"
@@ -88,12 +104,14 @@ def _source(slug: str, it: dict) -> str:
 def build() -> tuple[str, dict]:
     gens = _read("test_gen.jsonl") | _read("gen_*.jsonl") | _read("haiku_gen.jsonl") | _read_agent()
     revs = _read("rev_*.jsonl")
-    fields = {f["slug"]: f for name in ("fields.json", "fields2.json")
+    fields = {f["slug"]: f for name in ("fields.json", "fields2.json", "fields3.json")
               for f in json.loads((HERE / name).read_text(encoding="utf-8"))}
     out = [HEADER, "\n# ---------- 모양 (조각이 조건으로 공유하는 상황) ----------"]
     for sid, text in SHAPES.items():
         out.append(f"[[state]]\nid = {q(sid)}\ntext = {q(text)}\n")
-    out.append("# ---------- 조각 (분야별) ----------")
+    out.append("# 조각과 판정은 묶음별 파일 knowledge-<묶음>.toml에 있다 (2026-11-04 사용자 결정 '분야 별로 나누는 게 좋을거 같아'). 코어가 같이 읽는다")
+    parts: dict[str, list[str]] = {}  # 파일 이름 → 조각 줄
+    part_j: dict[str, list[str]] = {}  # 파일 이름 → 판정 줄
     judgments, stats = [], {"fields": 0, "agent_fields": 0, "pieces": 0, "reviewed": 0, "verdict": {}, "general_bad": 0, "no_review": []}
     order = [s for s in fields if s in gens] + sorted(s for s in gens if s not in fields)
     for slug in order:
@@ -104,7 +122,10 @@ def build() -> tuple[str, dict]:
             stats["no_review"].append(slug)
         stats["fields"] += 1
         stats["agent_fields"] += slug in AGENT_SLUGS
-        out.append(f"# {data['field']} ({group})")
+        fname = f"knowledge-{GROUP_FILE[group]}.toml"
+        out_p = parts.setdefault(fname, [])
+        judgments = part_j.setdefault(fname, [])
+        out_p.append(f"# {data['field']} ({group})")
         for n, it in enumerate(data["items"], 1):
             nid = f"H_{slug}_{n:02d}"
             r = rev.get(n)
@@ -124,7 +145,7 @@ def build() -> tuple[str, dict]:
                 lines.append(f"general_original = {q(it['general'])}")
             if shapes:
                 lines.append("conditions = [" + ", ".join(q(s) for s in shapes) + "]")
-            out.append("\n".join(lines) + "\n")
+            out_p.append("\n".join(lines) + "\n")
             stats["pieces"] += 1
             if r:
                 stats["reviewed"] += 1
@@ -135,12 +156,20 @@ def build() -> tuple[str, dict]:
                     note += " [일반화 문장 문제 있음]"
                 judgments.append(f"[[judgment]]\nof = {q(nid)}\nsource = \"ai\"\nverdict = {q(r['verdict'])}\n"
                                  f"date = {GEN_DATE}\nnote = {q(note)}\n")
-    out.append("# ---------- 판정 기록 (AI 검토) ----------")
-    out += judgments
-    return "\n".join(out), stats
+    files = {"knowledge.toml": "\n".join(out) + "\n"}
+    for fname in sorted(parts):
+        head = PART_HEADER.format(group=next(g for g, c in GROUP_FILE.items() if f"knowledge-{c}.toml" == fname))
+        body = parts[fname] + (["# ---------- 판정 기록 (AI 검토) ----------"] + part_j[fname] if part_j[fname] else [])
+        files[fname] = head + "\n".join(body)
+    return files, stats
 
 
 if __name__ == "__main__":
-    text, stats = build()
-    (HERE / "knowledge.toml").write_text(text, encoding="utf-8")
+    files, stats = build()
+    for old in HERE.glob("knowledge-*.toml"):  # 묶음이 바뀌어도 낡은 파일이 남지 않게
+        if old.name not in files:
+            old.unlink()
+    for fname, text in files.items():
+        (HERE / fname).write_text(text, encoding="utf-8")
+    stats["files"] = len(files)
     print(json.dumps(stats, ensure_ascii=False))
