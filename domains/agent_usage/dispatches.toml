@@ -15984,3 +15984,64 @@ chose = "보냄"
 why = ["새 눈"]
 [dispatch.actual]
 status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p204"
+project = "exam_grader"
+batch = 58
+date = 2026-11-05
+task = "구현(세션 안 Opus 5.5 high, 작성 에이전트 이어서 20회차): 27번 풀이지 27.html(접선과 y = x의 각 θ를 tan 뺄셈으로, 높이 1인 직각삼각형으로 AB = 1/sin θ, 극한 2) + SVG 1 + 렌더·png 확인, teacher.md 수업 논리 1줄, session.md 27번 줄"
+model = "Opus 5.5"
+effort = "high"
+agent = "꿀모 S2 2회 풀이지 작성"
+round = 20
+size = { reads = 3 }
+files = { write = 1, edit = 2 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "예"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [1.5, 3.5]
+turns = [11, 20]
+tokens_m = [2.5, 5]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p141"
+reason = "빗댄 p141(13번, 그림 하나, 2.4분·14턴·4.1M)과 p202(22번, 2.1분·14턴). 27번은 그림 하나 + 짧은 계산 → 11–20턴, 1.5–3.5분 '잠깐', 2.5–5M"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [10.89, 21.77]
+[dispatch.decide]
+main_ctx_k = 400
+left = 60
+direct_m = 51.4
+send_m = 8.1
+added_k = 357
+chose = "보냄"
+why = ["대화 계속", "대화 맥락"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
