@@ -16067,6 +16067,7 @@ start = "2026-11-05T08:37:39Z"
 end = "2026-11-05T08:40:31Z"
 [dispatch.review]
 report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
+reason = "말한 구간 '잠깐' 맞음(2.7분). 턴 26은 11–20 위(그림 라벨 고치기 재렌더 4회), 토큰 13.4M은 2.5–5 크게 위 — 20회차 이어 보내기라 턴당 맥락 ~50만. R_resume_ctx_v2대로 회차가 쌓이면 토큰이 커진다: 이 에이전트는 다음 세션에서 새로 시작하는 게 낫다"
 [dispatch.turns]  # scripts/agent_usage.py --turns --toml
 "글" = { n = 9, sum_s = 66.6, turn_s = 4.9, out_chars = 0, ctx_k = 518 }
 "Bash:cd" = { n = 8, sum_s = 40.9, turn_s = 5.4, tool_s = 1.2, out_chars = 881.5, ctx_k = 519.0 }
@@ -16133,13 +16134,14 @@ chose = "보냄"
 why = ["대화 계속", "대화 맥락"]
 [dispatch.actual]
 status = "done"
-minutes = 0.9  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
-turns = 8
-tokens_m = 4.28  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
-start = "2026-11-05T08:41:00Z"
-end = "2026-11-05T08:41:55Z"
+minutes = 1.1  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 10
+tokens_m = 5.32  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-05T08:40:31Z"
+end = "2026-11-05T08:41:37Z"
 [dispatch.review]
 report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
+reason = "말한 구간 '잠깐' 맞음. 지적 7개 + 표 넘침 손질. 로그 회차가 잘게 쪼개져(50·51) --until로 잘라 쟀다"
 [dispatch.turns]  # scripts/agent_usage.py --turns --toml
 "Bash:cd" = { n = 3, sum_s = 9.2, turn_s = 1.2, tool_s = 2.2, out_chars = 1194, ctx_k = 535 }
 "Read" = { n = 3, sum_s = 19.1, turn_s = 5.3, tool_s = 0.2, out_chars = 100, ctx_k = 535 }
@@ -16265,4 +16267,16 @@ added_k = 696
 chose = "보냄"
 why = ["대화 계속", "대화 맥락"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 0.3  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 3
+tokens_m = 1.62  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-05T08:41:44Z"
+end = "2026-11-05T08:42:03Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
+reason = "말한 구간 '잠깐' 맞음. 손글씨 하나 삭제 = 도구 3번"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Bash:cd" = { n = 1, sum_s = 1.2, turn_s = 1.2, out_chars = 1385, ctx_k = 537 }
+"Read" = { n = 1, sum_s = 7.0, turn_s = 7.0, tool_s = 2.1, out_chars = 100, ctx_k = 537 }
+"SubagentHandback" = { n = 1, sum_s = 1.1, turn_s = 1.1, tool_s = 1.1, out_chars = 174, ctx_k = 540 }
