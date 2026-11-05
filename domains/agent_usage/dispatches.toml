@@ -19037,3 +19037,64 @@ reason = "말한 구간 '다른 일' 맞음(21.8분). 손 예측 분 25–50의 
 "Bash:export" = { n = 1, sum_s = 7.9, turn_s = 7.9, tool_s = 0.7, out_chars = 242, ctx_k = 295 }
 "Edit" = { n = 1, sum_s = 3.3, turn_s = 3.3, tool_s = 0.0, out_chars = 403, ctx_k = 446 }
 "SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 5505, ctx_k = 452 }
+
+[[dispatch]]
+id = "p238"
+project = "proviso"
+batch = 70
+date = 2026-11-05
+task = "구현(메인 세션 안 Opus 5.5 high, 새 에이전트, 하위 에이전트 불허): 작업자 대화 기록에서 숫자를 더 뽑아 record finish가 [dispatch.log]로 붙이게(실제 쓴·고친 파일 수, 쓴 글자, 응답 수, 읽은 파일·글·그림, 도구별 호출 수, 오류·되풀이, 맥락 시작·최대·끝, 지시서 길이), Bash 동작 분류를 cd·환경변수 뒤 첫 낱말로, 검사(2026-11-06부터 필수)·테스트·문서, p237에 채움"
+model = "Opus 5.5"
+effort = "high"
+agent = "기록 숫자 뽑기"
+round = 1
+size = { outputs = 1, edits = 7, checks = 2 }
+files = { write = 2, edit = 7 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [15, 30]
+turns = [100, 180]
+tokens_m = [25, 55]
+tokens_class = ["T2"]
+rules = ["R_turns_analogy_v2", "R_tok_long_v5", "R_say_numbers_v3"]
+analog = "p197"
+reason = "빗댄 p197(다른 저장소 코드 고침 + 테스트, xhigh 26.2분·184줄·61.4M). 이번은 high이고 할 일이 목록으로 다 적혔으며(뽑을 숫자·칸 이름·검사 날짜·테스트 모양), 시험판 스크립트가 있다 → 줄 ×0.55–1.0(100–180), 분은 high라 분당 줄이 빨라 15–30. 고칠 파일 7(도구·record·dispatches·기록 머리·문서 둘·테스트) + 새로 2(테스트 고정 기록, 보고서). 토큰: 기존 코드 고치기 줄 × 25–30만 → 25–55M. 가운데 21분 → '다른 일'."
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [13.86, 27.71]
+[dispatch.decide]
+main_ctx_k = 345
+left = 20
+direct_m = 92.6
+send_m = 40.7
+added_k = 433
+chose = "보냄"
+why = ["비용"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
