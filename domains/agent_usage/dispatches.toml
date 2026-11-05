@@ -15651,3 +15651,63 @@ reason = "말한 구간 '다른 일' 맞음(28.6분, 손 예측 25–50 안). �
 "ToolSearch" = { n = 1, sum_s = 1.7, turn_s = 1.7, tool_s = 0.0, out_chars = 56, ctx_k = 309 }
 "Edit" = { n = 1, sum_s = 0.6, turn_s = 0.6, tool_s = 0.0, out_chars = 600, ctx_k = 330 }
 "SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 3520, ctx_k = 507 }
+
+[[dispatch]]
+id = "p199"
+project = "gemmin"
+batch = 61
+date = 2026-11-05
+task = "새(gemmin 세션 안 Opus 5.5 high, 새 에이전트): font 레포에 사용자 태블릿 필기 PDF 2개(심수기 노트 8쪽·4쪽, 한글·영어·수식 섞임)를 넣기 — 획 추출·줄/글자 분할·라벨, 한글은 음절 한 글자 단위 라벨(_merges로 쪼개진 음절 묶기), LABELING.md 한글 규칙 고침, 데이터는 data/에. font 작업 브랜치 push, 보고서 gemmin"
+model = "Opus 5.5"
+effort = "high"
+agent = "font 한글 노트 데이터"
+round = 1
+size = { reads = 8, outputs = 2, checks = 6 }
+files = { write = 30, edit = 4 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "예"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "신경 끄기"
+minutes = [30, 70]
+turns = [150, 350]
+tokens_m = [30, 90]
+tokens_class = ["T2", "T3"]
+rules = ["R_say_numbers_v3"]
+reason = "손 예측(보내기 전): 도구(extract·segment·make_sheets·apply_labels)는 레포에 있어 새 파이프라인은 아니다(p195 교훈). 대신 12쪽을 시트 그림으로 보며 줄마다 상자 수를 맞춰 라벨을 손으로 써야 하고, 한글 음절은 자모가 옆 상자로 갈라져 _merges가 많다. 쪽당 3~5분 + 규칙 문서·검사. 토큰은 그림 읽기가 많아 기록 단위로 크게"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.62, 91.23]
+[dispatch.decide]
+main_ctx_k = 330
+left = 30
+direct_m = 133.8
+send_m = 55.6
+added_k = 334
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
