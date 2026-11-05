@@ -9,6 +9,7 @@
 - `history.md`: 루트 CLAUDE.md에서 옮긴 지난 경위(옮기기 전 글 그대로). CLAUDE.md는 지금 기준만 둔다(2026-11-02 사용자 결정). 분야 경위는 그 폴더 `history.md`.
 - `AGENT-LOG.md`: 하위 에이전트 배치별 모델·effort·품질과 가져온 교훈. 예측과 실측은 `domains/agent_usage/dispatches.toml`. 메인이 쓴다.
 - `worklog/`: 하위 에이전트 작업 보고서(작업마다 하나). 양식은 그 폴더 CLAUDE.md.
+- `worklog/2026-11-06-spec-fixed-regression.md`: 설계 사전 고정(`S_spec_fixed`)과 턴 수의 탐색 회귀. 표본·보정·민감도·한계·주 분석 재현 코드. 무작위 개입 실험 결과와 구분한다.
 - `agent-usage-calculator-explainer.html` · `.pdf`: agent_usage 계산기 해설서(구조·기록 데이터·시험 장치·개입 지점, 논문 문체, A4 17쪽) — 2026-11-05 스냅숏이라 숫자는 그날 것(p237). HTML이 원본, PDF는 Chromium 렌더.
 - `experiments/`: 본체 실험 보고서. 스크립트가 생성하고, "사용자 판정" 칸은 사용자가 채운다.
 - 설계 결정이 원안과 달라지면 원안을 고치지 말고 여기에 별도 문서(예: `design-decisions.md`)로 "무엇을, 왜 바꿨는지" 기록.
