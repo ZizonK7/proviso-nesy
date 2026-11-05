@@ -42,14 +42,14 @@ API, PDF, git, 검토, 게임, 고증, 공개저장소, 그림, 글꼴, 기록, 
 - 메인 파일의 `키워드:` 줄은 색인과 별개로, 일의 설명(지시서·task 문장)에서 그 파일을 찾아 주는 낱말이다(`python -m feedback topics "<일 설명>"`).
 
 ## 명령 (저장소 루트)
-- `python -m feedback check` — 백서·메인 모양 검사: 칸 여섯, 색인 낱말, 번호 중복, 메인 ≤10, 메인 줄의 번호가 백서에 있고 `자리`가 맞는가, 색인 표가 최신인가. **테스트가 같이 돈다.**
-- `python -m feedback index --write` — 백서의 색인 표(낱말 → 항목)를 다시 만든다. 항목을 더하면 돌린다.
-- `python -m feedback topics "<일 설명>"` — 그 일에 읽을 메인 파일 목록(키워드 매칭, `common`은 늘).
+- `python -m feedback check` — 백서·메인 모양 검사: 칸 여섯, 색인 낱말, 번호 중복·순서, 메인 ≤10·`키워드:`·`읽는 때:` 줄·`common.md`, 메인 줄의 번호가 백서에 있고 `자리`가 맞는가(거꾸로도), 색인 표가 최신인가. 문제가 있으면 종료 코드 1. **테스트가 같이 돈다**(`tests/test_feedback.py`).
+- `python -m feedback index --write` — 백서의 색인 표(낱말 → 항목)를 다시 만든다. 항목을 더하면 돌린다. `--write` 없이는 표를 보여 주기만 한다.
+- `python -m feedback topics "<일 설명>"` — 그 일에 읽을 메인 파일 목록(키워드가 글에 들어 있으면 — 대소문자 무시 부분 문자열, `common`은 늘). 보낼 일 파일에 붙일 `[feedback] read` 줄도 찍는다.
 - `python -m feedback find <낱말>...` — 색인 낱말로 백서 항목 찾기(에이전트의 "주의할 점이 있었나?").
 
-## 강제 (2026-11-06부터, `python -m domains.agent_usage.dispatches`와 테스트가 막는다)
-- **읽기**: 보낼 일 파일에 `[feedback] read = ["common", "brief", …]`(읽은 메인 파일 이름). `record send`가 `topics(task)`로 고른 파일이 다 들어 있지 않으면 보내지 못한다. 기록에는 `[dispatch.feedback] read = […]`로 남고, 지시서에 그 파일들의 경로를 적어 작업자도 읽게 한다.
-- **쓰기**: 끝난 기록의 `review.feedback` — 이번 일에서 새로 올린 피드백 번호 목록(`["F102"]`, 백서에 있어야 함) 또는 `"없음: <이유>"`(한 줄). 비우면 검사가 막는다. 새 항목은 백서에 적고 `index --write`, 메인에 올리면 그 파일에도.
+## 강제 (2026-11-06부터, `python -m domains.agent_usage.dispatches`와 테스트가 막는다 — batman 기록 제외, 코드는 `dispatches.feedback_errors`)
+- **읽기**: 보낼 일 파일에 `[feedback] read = ["common", "brief", …]`(읽은 메인 파일 이름). `record send`가 `topics(task)`로 고른 파일이 다 들어 있지 않으면 보내지 못한다. 기록에는 `[dispatch.feedback] read = […]`로 남고, 보낸 뒤 출력에 그 파일들의 경로와 F 줄이 찍힌다 — 지시서에 붙여 작업자도 읽게 한다.
+- **쓰기**: 끝난 기록의 `review.feedback` — 이번 일에서 새로 올린 피드백 번호 목록(`["F102"]`, 백서에 있어야 함) 또는 `"없음: <이유>"`(한 줄, 이유 5자 이상). 비우면 검사가 막는다. `record finish … --feedback "F102,F103"`(또는 `--feedback "없음: 이유"`)가 적고, 안 주면 출력의 '남은 일'에 뜬다. 새 항목은 백서에 적고 `index --write`, 메인에 올리면 그 파일에도.
 - 직접 한 일(`direct.toml`)도 같은 두 칸(`feedback.read`, `review.feedback`).
 - 다른 저장소 세션은 시작할 때 `main/common.md`와 자기 일의 메인 파일을 읽는다(루트 CLAUDE.md "다른 저장소 다루기").
 

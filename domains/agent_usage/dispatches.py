@@ -14,6 +14,7 @@ import tomllib
 from collections import Counter
 from pathlib import Path
 
+import feedback as fb
 from proviso import schema
 from scripts.agent_usage import LOG_KEYS
 
@@ -68,6 +69,13 @@ LOG_REQUIRED_FROM = "2026-11-06"
 #   클라우드 세션 일(S_cloud_session = 예)은 [dispatch.cloud](record cloud, 못 재면 skip). 클라우드 일은 보낼 때 session(세션 id)도 필수
 GIT_REQUIRED_FROM = "2026-11-06"
 CLOUD_REQUIRED_FROM = "2026-11-06"
+# 피드백 읽기·쓰기 (2026-11-05 사용자 결정: 이 저장소의 목적이 "이전 실수들을 통해 발전한다"로 바뀜, feedback/CLAUDE.md "강제").
+#   보낸 기록에 [dispatch.feedback] read = [읽은 메인 피드백 파일 이름] — common과 `python -m feedback topics <task>`가 고른 파일이 다 들어 있어야 한다.
+#   끝난 기록에 review.feedback = 이번 일에서 올린 피드백 번호 목록(["F102"], 백서에 있어야 함) 또는 "없음: 이유".
+#   까닭: 문서에만 적힌 단계는 빠졌다(F051, 4/53 vs 72/73). 이 날짜부터 필수(batman 기록 제외), 직접 한 일(direct.toml)도 같은 두 칸
+FEEDBACK_REQUIRED_FROM = "2026-11-06"
+FEEDBACK_NONE = "없음: "
+FEEDBACK_NONE_MIN = 5  # '없음: ' 뒤 이유의 최소 글자 수
 ROOT = HERE.parent.parent
 # 다른 저장소의 보고서는 "저장소:경로"로 적는다 (예: "movie_game:docs/worklog/2026-11-03-x.md")
 OTHER_REPO = re.compile(r"^[\w.-]+:(?!/)")
@@ -255,6 +263,7 @@ def validate_direct(entries: list[dict]) -> list[str]:
                 if not (isinstance(act.get(k), str) and ISO_UTC.match(act[k])):
                     errors.append(f"{did}: 끝난 일인데 actual.{k}(UTC ISO)가 없음")
         errors.extend(log_errors(d, required=False))
+        errors.extend(feedback_errors(d, prefix="direct"))
     return errors
 
 
@@ -508,6 +517,57 @@ def files_vs_log(records: list[dict]) -> dict[str, Counter]:
     return out
 
 
+def feedback_errors(d: dict, root: Path = ROOT, prefix: str = "dispatch") -> list[str]:
+    """피드백 읽기(feedback.read)와 쓰기(review.feedback) 검사. 칸이 있으면 날짜와 상관없이 모양을 본다.
+    (가) 읽기: 문자열 목록, 각각 실제 메인 파일, common 포함, `feedback.topics(task)`가 고른 파일이 다 들어 있다 —
+         없으면 FEEDBACK_REQUIRED_FROM부터 오류(batman 기록 제외).
+    (나) 쓰기: 끝난 기록(실측 분이 있음)이면 FEEDBACK_REQUIRED_FROM부터 review.feedback이 F 번호 목록(백서에 있는 번호)이거나
+         '없음: 이유'(이유 FEEDBACK_NONE_MIN자 이상)."""
+    did, errors = d.get("id", "?"), []
+    main_dir, paper = root / "feedback" / "main", root / "feedback" / "whitepaper.md"
+    late = str(d.get("date", "")) >= FEEDBACK_REQUIRED_FROM and d.get("project") != "batman"
+    fbt = d.get("feedback")
+    read = fbt.get("read") if isinstance(fbt, dict) else None
+    if fbt is not None and not isinstance(fbt, dict):
+        errors.append(f"{did}: feedback은 [{prefix}.feedback] 표여야 함 (read = [...])")
+    elif read is None:
+        if late:
+            errors.append(f"{did}: 피드백 읽기가 없음 — 보낼 일 파일에 [feedback] read = [...] — `python -m feedback topics` 가 고른 파일을 "
+                          f"읽고 적는다 (기록에는 [{prefix}.feedback])")
+    elif not (isinstance(read, list) and read and all(isinstance(s, str) for s in read)):
+        errors.append(f"{did}: feedback.read는 읽은 메인 피드백 파일 이름(문자열) 목록이어야 함 (예: [\"common\", \"brief\"])")
+    else:
+        stems = set(fb.main_files(main_dir))
+        for s in read:
+            if s not in stems:
+                errors.append(f"{did}: feedback.read의 '{s}'는 feedback/main/에 없는 파일")
+        if fb.COMMON not in read:
+            errors.append(f"{did}: feedback.read에 '{fb.COMMON}'이 없음 (모든 일에 읽는다)")
+        missing = [s for s in fb.topics(str(d.get("task", "")), main_dir) if s not in read]
+        if missing:
+            errors.append(f"{did}: feedback.read에 {', '.join(missing)}가 빠짐 — task에 키워드가 걸린 메인 피드백 "
+                          f"(`python -m feedback topics`)을 읽고 적는다")
+    rev = d.get("review", {}).get("feedback") if isinstance(d.get("review"), dict) else None
+    finished = done(d) and "minutes" in d.get("actual", {})
+    if rev is None:
+        if finished and late:
+            errors.append(f"{did}: review.feedback이 없음 — 이번 일에서 올린 피드백 번호 또는 '없음: 이유' "
+                          f"(`record finish … --feedback \"F102\"` 또는 `--feedback \"없음: 이유\"`)")
+    elif isinstance(rev, str):
+        if not (rev.startswith(FEEDBACK_NONE) and len(rev[len(FEEDBACK_NONE):].strip()) >= FEEDBACK_NONE_MIN):
+            errors.append(f"{did}: review.feedback 글은 '{FEEDBACK_NONE}이유'(이유 {FEEDBACK_NONE_MIN}자 이상) 꼴이어야 함")
+    elif isinstance(rev, list) and rev and all(isinstance(i, str) for i in rev):
+        known = {e["id"] for e in fb.entries(paper)} if paper.is_file() else set()
+        for i in rev:
+            if not re.fullmatch(r"F\d+", i):
+                errors.append(f"{did}: review.feedback의 '{i}'는 F 번호(F102 꼴)가 아님")
+            elif i not in known:
+                errors.append(f"{did}: review.feedback의 {i}가 백서(feedback/whitepaper.md)에 없음 — 항목을 적고 `python -m feedback index --write`")
+    else:
+        errors.append(f"{did}: review.feedback은 F 번호 목록([\"F102\"]) 또는 '{FEEDBACK_NONE}이유' 글이어야 함")
+    return errors
+
+
 def form_errors(d: dict, root: Path = ROOT) -> list[str]:
     """턴 길이 표와 보고서 경로 검사. 칸이 있으면 날짜와 상관없이 모양을 본다."""
     did, errors = d.get("id", "?"), []
@@ -638,6 +698,7 @@ def validate(records: list[dict], kn: schema.Knowledge) -> list[str]:
         errors.extend(git_errors(d))
         errors.extend(cloud_record_errors(d))
         errors.extend(files_errors(d))
+        errors.extend(feedback_errors(d))
     return errors
 
 

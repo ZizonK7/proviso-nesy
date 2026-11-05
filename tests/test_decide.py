@@ -70,6 +70,8 @@ reason = "빗댄 p141"
 [decide]
 main_ctx_k = 800
 why = ["대화 계속"]
+[feedback]
+read = ["common", "exam_grader", "images", "parallel", "professor_king"]
 """, encoding="utf-8")
 
     def tearDown(self):
@@ -87,7 +89,7 @@ why = ["대화 계속"]
         self.assertEqual((d["model"], d["effort"], d["situation"]["S_other_model"]), ("Opus 5.5", "high", "아니오"))
         write_log(self.tmp / "agent.jsonl", [("2026-11-04T01:00:00Z", "user", 0), ("2026-11-04T01:00:20Z", "assistant", 60000),
                                               ("2026-11-04T01:00:21Z", "tool", 0), ("2026-11-04T01:02:00Z", "assistant", 70000)])
-        rc.finish(rid, self.tmp / "agent.jsonl", report="docs/worklog/CLAUDE.md", path=self.tmp / "d.toml")
+        rc.finish(rid, self.tmp / "agent.jsonl", report="docs/worklog/CLAUDE.md", path=self.tmp / "d.toml", feedback="없음: 시험용 가짜 기록")
         d = dp.load(self.tmp / "d.toml")[-1]
         self.assertEqual((d["actual"]["status"], d["actual"]["start"], d["actual"]["turns"]), ("done", "2026-11-04T01:00:00Z", 2))
         self.assertIn("turns", d)
@@ -136,12 +138,13 @@ why = ["대화 계속"]
     def test_direct_work_is_logged_and_measured_from_the_main_log(self):
         (self.tmp / "direct.toml").write_text("# 직접 한 일\n", encoding="utf-8")
         (self.tmp / "dj.toml").write_text('project = "proviso"\ntask = "문서 두 곳 고치기"\n[predicted]\nturns = [4, 8]\ntokens_m = [0.3, 0.6]\n'
-                                          '[decide]\nmain_ctx_k = 800\n', encoding="utf-8")
+                                          '[decide]\nmain_ctx_k = 800\n[feedback]\nread = ["common", "docs"]\n', encoding="utf-8")
         rc.direct(self.tmp / "dj.toml", self.tmp / "direct.toml")
         write_log(self.tmp / "main.jsonl", [("2026-11-04T02:00:00Z", "user", 0), ("2026-11-04T02:00:10Z", "assistant", 800000),
                                              ("2026-11-04T02:00:11Z", "tool", 0), ("2026-11-04T02:01:00Z", "assistant", 812000),
                                              ("2026-11-04T02:05:00Z", "user", 0), ("2026-11-04T02:05:10Z", "assistant", 815000)])
-        out = rc.finish("m001", self.tmp / "main.jsonl", "2026-11-04T02:00:00Z", "2026-11-04T02:01:00Z", path=self.tmp / "direct.toml")
+        out = rc.finish("m001", self.tmp / "main.jsonl", "2026-11-04T02:00:00Z", "2026-11-04T02:01:00Z", path=self.tmp / "direct.toml",
+                        feedback="없음: 시험용 가짜 기록")
         self.assertIn("m001", out)
         e = dp.load_direct(self.tmp / "direct.toml")[0]
         self.assertEqual((e["decide"]["chose"], e["actual"]["status"], e["actual"]["turns"], e["actual"]["added_k"]), ("직접", "done", 2, 12))

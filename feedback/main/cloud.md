@@ -1,5 +1,5 @@
 # 메인 피드백 — 클라우드 세션 보내기 (create_session · send_message)
-키워드: 클라우드세션, searching, 세션
+키워드: 클라우드세션, searching, create_session, send_message
 읽는 때: `create_session`으로 새 세션을 만들거나 그 세션에 `send_message`를 보내기 전.
 
 - **F026** 세션 사이 파일 전달 길(비공개 Artifact publish)은 **처음 지시서에** 적는다 — 뒤에 시키면 거부당해 사용자가 직접 승인해야 했다. (실측, 2026-10-26·27)

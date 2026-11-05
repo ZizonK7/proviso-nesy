@@ -4,10 +4,11 @@
   python -m domains.agent_usage.record send <보낼 일 파일>
       기록을 덧붙인다: 상황 값·손 예측(파일) + 계산기 답(그 기록의 상황 값으로) + 보낼까 판단(decide) + 배치 머리(AGENT-LOG에 없으면).
       그리고 빗댄 기록 규칙(정해진 일이면)과 사용자에게 할 말을 보여 준다. 기록 id는 다음 빈 번호(파일에 id가 있으면 그것).
-  python -m domains.agent_usage.record finish <기록 id> <작업자 대화 기록> [--after 시각] [--report 경로] [--repo 경로]
+  python -m domains.agent_usage.record finish <기록 id> <작업자 대화 기록> [--after 시각] [--report 경로] [--repo 경로] [--feedback "F102,F103 | 없음: 이유"]
       실측(분·줄·토큰·시작·끝)과 턴 길이 표, 로그 숫자([dispatch.log], 2026-11-05), git 숫자([dispatch.git], 2026-11-05)를 그 기록에 채운다.
       이어 보낸 회차는 --after(`agent_usage.py --rounds`로 본 그 회차 시작). 이미 있는 턴 표·로그 숫자는 다시 쓰지 않는다.
       git: 보낼 때 찍은 기준(send)과 지금을 견준다 — 아무것도 쓰기 전에. 저장소는 기준의 이름으로 찾고(이 저장소, 그 옆 폴더), 못 찾으면 --repo.
+      --feedback: 이번 일에서 백서에 올린 피드백 번호(쉼표로) 또는 "없음: 이유" → review.feedback (2026-11-06부터 끝난 기록에 필수).
   python -m domains.agent_usage.record cloud <기록 id> <숫자.json> [--until 시각]
       클라우드 세션 일의 result 사건 숫자를 [dispatch.cloud]로(2026-11-05). JSON은 measure.CLOUD_* 칸(사건의 칸 이름 그대로, 합한 값)
       또는 MCP list_events(kinds=["result"]) 출력 그대로 — 그러면 여기서 합한다(--until: 그 시각까지 끝난 사건만). session 칸이 있으면 기록에도.
@@ -22,6 +23,8 @@
 (선택) [decide](why, left, main_ctx_k),
 (선택) repo = "<경로>" — 작업자가 일할 git 저장소(기본: 기록 파일이 든 저장소 = 이 저장소). 보낼 때 기준([dispatch.git])을 찍는다,
 session = "session_…" — 클라우드 세션으로 보낸 일(S_cloud_session = 예)의 세션 id. 2026-11-06부터 클라우드 일에 필수.
+[feedback] read = ["common", …] — 읽은 메인 피드백 파일 이름(feedback/main/). 2026-11-06부터 필수: `python -m feedback topics "<task>"`가
+고른 파일이 다 들어 있지 않으면 보내지 않는다(직접 할 일 파일도 같다). 기록에는 [dispatch.feedback]으로 남는다.
 model·effort는 보낼 모델과 effort(dispatches.MODELS·EFFORTS). S_other_model은 이 둘에서 계산해 상황에 넣는다(적으면 같아야 한다).
 files는 실제 지시서에서 센다(dispatches.py FILES_COUNTS 주석): 지시서가 수를 안 정하면 files = {}(모름).
 """
@@ -35,6 +38,7 @@ import sys
 import tomllib
 from pathlib import Path
 
+import feedback as fb
 from scripts import agent_usage as au
 
 from . import analog as an
@@ -87,6 +91,47 @@ def _size_and_main(job: dict, situation: dict, project: str, predicted: dict) ->
     return size, float(main_k)
 
 
+def _feedback_read(job: dict, rid: str, date, root: Path = dp.ROOT) -> list[str] | None:
+    """보낼 일 파일의 [feedback] read를 검사한다(2026-11-05 사용자 결정, feedback/CLAUDE.md "강제").
+    FEEDBACK_REQUIRED_FROM부터 없거나 `feedback.topics(task)`가 고른 파일이 빠지면 막는다. 칸이 있으면 날짜와 상관없이 모양을 본다."""
+    fbt = job.get("feedback")
+    read = fbt.get("read") if isinstance(fbt, dict) else None
+    need = fb.topics(str(job.get("task", "")), root / "feedback" / "main")
+    late = str(date) >= dp.FEEDBACK_REQUIRED_FROM and job.get("project") != "batman"
+    if read is None and fbt is None and not late:
+        return None
+    if isinstance(read, list):
+        missing = [s for s in need if s not in read]
+        if missing:
+            raise SystemExit("메인 피드백을 다 읽지 않음 — 빠진 파일: " + ", ".join(f"feedback/main/{s}.md" for s in missing)
+                             + " — 읽고 보낼 일 파일의 [feedback] read에 적어라 (`python -m feedback topics \"<task>\"`)")
+    elif read is None:
+        raise SystemExit("보낼 일 파일에 [feedback] read가 없음 — 이 일에 읽을 메인 피드백: "
+                         + ", ".join(f"feedback/main/{s}.md" for s in need) + " — 읽고 [feedback] read = [...]에 적어라")
+    bad = [e for e in dp.feedback_errors({"id": rid, "date": str(date), "project": job.get("project"), "task": job.get("task", ""),
+                                          "feedback": fbt, "actual": {"status": "unknown"}}, root) if "feedback.read" in e or "feedback은" in e]
+    if bad:
+        raise SystemExit("\n".join(bad))
+    return list(read)
+
+
+FEEDBACK_SHOW_MAX = 25  # 읽은 메인 피드백 줄이 이보다 많으면 번호와 제목만 찍는다
+
+
+def feedback_lines(read: list[str], root: Path = dp.ROOT) -> list[str]:
+    """보낸 뒤 출력: 읽은 메인 피드백 파일들의 F 줄 그대로(메인이 지시서에 붙인다). 줄이 많으면 번호와 제목만."""
+    main_dir = root / "feedback" / "main"
+    by = {m["stem"]: m for m in fb.mains(main_dir)}
+    rows = [(s, i, line) for s in read if s in by for i, line in by[s]["ids"]]
+    out = ["읽은 메인 피드백: " + ", ".join(f"feedback/main/{s}.md" for s in read) + " — 지시서에 이 경로를 적어 작업자도 읽게 한다"]
+    if len(rows) > FEEDBACK_SHOW_MAX:
+        titles = {e["id"]: e["title"] for e in fb.entries(root / "feedback" / "whitepaper.md")}
+        out += [f"  [{s}] {i} · {titles.get(i, '')}" for s, i, _ in rows]
+    else:
+        out += [f"  [{s}] {line}" for s, _, line in rows]
+    return out
+
+
 def send(job_path: Path, path: Path = dp.HERE / "dispatches.toml", log_path: Path = dp.AGENT_LOG) -> str:
     job = tomllib.loads(job_path.read_text(encoding="utf-8"))
     records = dp.load(path)
@@ -102,6 +147,7 @@ def send(job_path: Path, path: Path = dp.HERE / "dispatches.toml", log_path: Pat
     if "files" not in job and str(date) >= dp.FILES_REQUIRED_FROM:
         raise SystemExit("보낼 일 파일에 [files]가 없음 — 지시서에서 쓰는 파일 수를 센다: write = 새로 만들거나 통째로 다시 쓰는 파일, "
                          "edit = 일부 고치는 파일 (읽는 파일·절·항목은 안 센다). 지시서가 수를 안 정하면 files = {}")
+    read = _feedback_read(job, rid, date)
     situation, predicted, project = dict(job["situation"]), dict(job["predicted"]), job["project"]
     other = dp.other_model(job["model"], job["effort"])
     if situation.get("S_other_model", other) != other:
@@ -154,6 +200,8 @@ def send(job_path: Path, path: Path = dp.HERE / "dispatches.toml", log_path: Pat
     if calc_m:
         lines += ["[dispatch.calc]", f'told = "{pred.told()}"', f"minutes = [{round(calc_m[0][0], 2):g}, {round(calc_m[0][1], 2):g}]"]
     lines += de.decide_block(c, "dispatch", why, "보냄").rstrip("\n").split("\n")
+    if read is not None:
+        lines += ["[dispatch.feedback]", f"read = {_v(read)}"]
     lines += ["[dispatch.actual]", 'status = "unknown"  # 예측만 기록됨 (record finish가 채운다)']
     text = path.read_text(encoding="utf-8").rstrip("\n") + "\n" + "\n".join(lines) + "\n"
     path.write_text(text, encoding="utf-8")
@@ -171,6 +219,8 @@ def send(job_path: Path, path: Path = dp.HERE / "dispatches.toml", log_path: Pat
     if situation.get("S_specified") == "예":
         d = next(r for r in dp.load(path) if r["id"] == rid)
         out.append("빗댄 기록 규칙(시험 중, 참고): " + an.show(d, dp.load(path), an.load_rule()))
+    if read is not None:
+        out += feedback_lines(read)
     return "\n".join(out)
 
 
@@ -248,6 +298,7 @@ def direct(job_path: Path, path: Path = dp.DIRECT_TOML) -> str:
     nums = [int(e["id"][1:]) for e in entries if re.fullmatch(r"m\d+", e["id"])]
     rid = job.get("id") or f"m{max(nums, default=0) + 1:03d}"
     date = job.get("date") or dt.datetime.now(dt.timezone.utc).date()
+    read = _feedback_read(job, rid, date)
     situation, predicted = job.get("situation", {}), job.get("predicted", {})
     size, main_k = _size_and_main(job, situation, job["project"], predicted)
     c = de.costs(size[0], size[1], main_k, de.params(), job.get("decide", {}).get("left"))
@@ -262,10 +313,12 @@ def direct(job_path: Path, path: Path = dp.DIRECT_TOML) -> str:
         lines.append("[direct.situation]")
         lines += [f"{k} = {_v(v)}" for k, v in situation.items()]
     lines += de.decide_block(c, "direct", why, "직접").rstrip("\n").split("\n")
+    if read is not None:
+        lines += ["[direct.feedback]", f"read = {_v(read)}"]
     lines += ["[direct.actual]", 'status = "unknown"  # record finish가 메인 대화 기록으로 채운다']
     base = path.read_text(encoding="utf-8").rstrip("\n") if path.is_file() else ""
     path.write_text(base + "\n" + "\n".join(lines) + "\n", encoding="utf-8")
-    return f"직접 한 일 {rid}를 덧붙였다 ({path.name}).\n" + de.explain(c)
+    return "\n".join([f"직접 한 일 {rid}를 덧붙였다 ({path.name}).", de.explain(c)] + (feedback_lines(read) if read is not None else []))
 
 
 def _block(text: str, header: str, rid: str) -> tuple[int, int]:
@@ -284,8 +337,28 @@ def _replace_table(block: str, table: str, new_lines: list[str]) -> str:
     return block[:m.start()] + new + block[m.end():] if m else block.rstrip("\n") + "\n" + new
 
 
+def feedback_value(text: str):
+    """--feedback 값 → review.feedback: 'F102, F103'이면 번호 목록, 아니면 글 그대로('없음: 이유')."""
+    parts = [x.strip() for x in text.split(",")]
+    return parts if all(re.fullmatch(r"F\d+", x) for x in parts) else text.strip()
+
+
+def _put_review(block: str, header: str, key: str, value) -> str:
+    """묶음의 [header.review] 표에 key = value를 넣는다(있으면 바꾼다, 표가 없으면 끝에 만든다)."""
+    rev = re.search(rf"^\[{header}\.review\]$.*?(?=^\[|\Z)", block, flags=re.M | re.S)
+    line = f"{key} = {_v(value)}\n"
+    if not rev:
+        return block.rstrip("\n") + f"\n[{header}.review]\n" + line
+    body = rev.group(0)
+    if re.search(rf"^{key} = ", body, flags=re.M):
+        body = re.sub(rf"^{key} = .*\n?", line, body, count=1, flags=re.M)
+    else:
+        body = body.replace(f"[{header}.review]\n", f"[{header}.review]\n" + line, 1)
+    return block[:rev.start()] + body + block[rev.end():]
+
+
 def finish(rid: str, log: Path, after: str | None = None, until: str | None = None, report: str | None = None,
-           path: Path | None = None, repo: Path | None = None) -> str:
+           path: Path | None = None, repo: Path | None = None, feedback: str | None = None) -> str:
     is_direct = bool(re.fullmatch(r"m\d+", rid))
     path = path or (dp.DIRECT_TOML if is_direct else dp.HERE / "dispatches.toml")
     header = "direct" if is_direct else "dispatch"
@@ -313,6 +386,8 @@ def finish(rid: str, log: Path, after: str | None = None, until: str | None = No
             block = block[:rev.start()] + rev.group(0).replace("[dispatch.review]\n", f"[dispatch.review]\nreport = {_v(report)}\n", 1) + block[rev.end():]
         elif not rev:
             block = block.rstrip("\n") + f"\n[dispatch.review]\nreport = {_v(report)}\n"
+    if feedback:  # 이번 일에서 올린 피드백 (2026-11-05 사용자 결정, feedback/CLAUDE.md "강제")
+        block = _put_review(block, header, "feedback", feedback_value(feedback))
     if not is_direct and not re.search(r"^\[dispatch\.turns\]", block, flags=re.M):
         block = block.rstrip("\n") + "\n" + au.turn_toml(au.turn_rows(str(log), after)) + "\n"
     if not re.search(rf"^\[{header}\.log\]", block, flags=re.M):  # 로그 숫자(2026-11-05) — 실측과 같은 창, 턴 표 뒤
@@ -340,7 +415,11 @@ def finish(rid: str, log: Path, after: str | None = None, until: str | None = No
         other = dec["direct_m"] if not is_direct else dec["send_m"]
         out.append(f"  보낼까 판단: 고른 쪽 실제 {mine:.1f}M({'늘어난 맥락 × 남은 줄' if is_direct else '메인 몫'}은 추정) vs 다른 쪽 추정 {other:.1f}M → "
                    f"{'고른 쪽이 쌌다' if mine <= other else '다른 쪽이 쌌을 수 있다'}")
-    out.append("남은 일: review.reason(빗나가면 wrong·why), 배치 줄의 표 한 줄과 교훈, 검사·커밋")
+    left = "review.reason(빗나가면 wrong·why), 배치 줄의 표 한 줄과 교훈, 검사·커밋"
+    if "feedback" not in d.get("review", {}) and str(d.get("date", "")) >= dp.FEEDBACK_REQUIRED_FROM:
+        left = ("review.feedback(이번 일에서 백서에 올린 피드백 번호 목록 또는 \"없음: 이유\" — `--feedback`으로 다시 주거나 손으로), "
+                + left)
+    out.append("남은 일: " + left)
     return "\n".join(out)
 
 
@@ -406,7 +485,7 @@ def main(argv: list[str]) -> int:
     elif cmd == "finish" and len(argv) >= 3:
         repo = _arg(argv, "--repo")
         print(finish(argv[1], Path(argv[2]), _arg(argv, "--after"), _arg(argv, "--until"), _arg(argv, "--report"),
-                     repo=Path(repo) if repo else None))
+                     repo=Path(repo) if repo else None, feedback=_arg(argv, "--feedback")))
     elif cmd == "cloud" and len(argv) >= 3:
         print(cloud(argv[1], Path(argv[2]), until=_arg(argv, "--until")))
     else:

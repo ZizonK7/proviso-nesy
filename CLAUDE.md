@@ -93,7 +93,7 @@ Claude가 세션 시작 시 자동으로 읽는 작업 문서. 사람용 소개�
 4. 턴 길이: 같은 로그에 `--turns --toml` → 기록 끝에 `[dispatch.turns]`(잴 수 없으면 `skip = "이유"`). 검사(2026-11-03부터). 로그 숫자 `[dispatch.log]`와 git으로 잰 작업자 변경 `[dispatch.git]`도 `record finish`가 붙이고, 클라우드 세션은 `session` id를 보낼 때 적고 끝나면 result 사건 숫자를 `record cloud`로 `[dispatch.cloud]`에 — 검사(2026-11-06부터).
 5. 보고서: 작업자의 보고서를 확인하고 경로를 `review.report`에. 검사(2026-11-03부터).
 6. 돌아보기: `review.reason`, 구간이 빗나가면 `review.wrong`·`review.why`. 검사(빗나갔을 때 wrong·why).
-6′. **피드백 쓰기**: 이번 일에서 "다시 하면 다르게 할 것"이 있었나 — 있으면 [feedback/whitepaper.md](feedback/whitepaper.md)에 항목(거름망 통과한 것만)을 덧붙이고 `python -m feedback index --write`, 메인 기준에 맞으면 `main/<일>.md`에도. `review.feedback`에 번호 목록 또는 `"없음: 이유"`. 검사(2026-11-06부터).
+6′. **피드백 쓰기**: 이번 일에서 "다시 하면 다르게 할 것"이 있었나 — 있으면 [feedback/whitepaper.md](feedback/whitepaper.md)에 항목(거름망 통과한 것만)을 덧붙이고 `python -m feedback index --write`, 메인 기준에 맞으면 `main/<일>.md`에도. `review.feedback`에 번호 목록 또는 `"없음: 이유"`(`record finish … --feedback`). 검사(2026-11-06부터).
 7. 배치 줄: [docs/AGENT-LOG.md](docs/AGENT-LOG.md)에 `## 배치 N · 날짜 · 주제` 머리와 모델·effort·품질(1–5)·교훈. 검사(2026-11-04부터, batman 기록은 batman 쪽).
 8. 결과 검토 → 커밋·push(메인).
 

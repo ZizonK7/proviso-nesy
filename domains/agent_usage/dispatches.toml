@@ -70,6 +70,8 @@
 #                      지난 기록은 손으로 되짚지 않는다. 분이 빗나간 기록의 속도/양 갈래는 dispatches.py가 계산해 보여 준다
 #   review.user        까닭 모름을 넘겼을 때 사용자의 답(문장). 답이 오기 전까지 dispatches.py가 '사용자에게 넘길 것'으로 보여 준다
 #   review.report      작업 보고서 경로. 이 저장소면 "docs/worklog/...md"(파일이 있어야 함), 다른 저장소면 "저장소:경로"
+#   review.feedback    이번 일에서 백서(feedback/whitepaper.md)에 올린 피드백 번호 목록(["F102"], 백서에 있어야 함) 또는 "없음: 이유"(이유 5자 이상).
+#                      2026-11-05 사용자 결정, 2026-11-06부터 끝난 기록에 필수(batman 제외). `record finish … --feedback "F102 | 없음: 이유"`가 적는다
 #   turns              [dispatch.turns] 동작마다 { n 턴 수, sum_s 합한 턴 길이(초), 중앙값 turn_s 턴 길이·tool_s 도구 시간·out_chars 출력 글자·ctx_k 맥락(천) }.
 #                      scripts/agent_usage.py <로그> --turns --toml 출력을 기록 끝에 그대로 붙인다(이어 보낸 회차는 --after). 잴 수 없으면 skip = "이유" 한 줄
 #                      review.report와 turns는 2026-11-03부터 끝난 기록에 필수 — 없으면 dispatches.py가 오류(2026-11-02 사용자 결정)
@@ -107,6 +109,9 @@
 #                      models."이름" = { input_tokens, output_tokens, cache_read_tokens, cache_creation_tokens, thinking_tokens, web_search, cost_usd }.
 #                      modelUsage·total_cost_usd·duration_api_ms·spawned는 세션 안에서 누적이라 사건끼리 더하지 않는다(사건마다 값은 model_usage_since_last_result).
 #                      p168·p188·p200–p219는 2026-11-05에 사후에 채웠다(그 기록 창 안에 끝난 사건만 — p218의 3분 뒤 보완 회차는 담당 p215 몫이라 뺐다)
+#   feedback           [dispatch.feedback] read = 보내기 전에 읽은 메인 피드백 파일 이름(feedback/main/, 예 ["common", "brief"]). common과
+#                      `python -m feedback topics "<task>"`가 고른 파일이 다 있어야 한다. 2026-11-05 사용자 결정, 2026-11-06부터 보낸 기록에 필수(batman 제외).
+#                      보낼 일 파일의 [feedback] read를 record send가 [dispatch.decide] 뒤에 옮긴다(빠지면 보내지 않는다)
 
 [[dispatch]]
 id = "d01"
@@ -19635,5 +19640,69 @@ repo = "proviso-nesy"
 head = "daeb34be2a7b9d428aa820eed3f75ac3fae5c266"
 dirty = 19
 dirty_hashes = ["1a53b224:9469433d18c6", "1ddb028b:896ddb8b56c8", "2bdb829e:991a350c914f", "3c94ba0c:407269163cd9", "43b907d1:aa0592127305", "47ee8f57:c72720fe8caf", "66d8cbba:fece076b5d3d", "6ee61f77:85c198f1727e", "7212ef14:7df8c8ba6228", "8bb9447b:c2fef46c41f5", "8f988049:56321aa2d631", "90d5c6aa:de9ba5c8449c", "95effeb6:99bfef3b549c", "9ea846ce:39f9b753b810", "b416edda:6da1fdf08f6f", "bb562e17:6a881831828d", "cbbaed60:71f64b7063f8", "e1d9334b:404fb43b3c12", "ea328799:80ef0a9b5af2"]
+git_write = 4
+git_edit = 7
+git_delete = 0
+git_lines_added = 745
+git_lines_removed = 15
+git_commits = 1
+named_files = 1
+named_lines = 33
+named_bytes = 1349
+named_dirs = 0
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 8.4  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 81
+tokens_m = 15.04  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-05T15:54:16Z"
+end = "2026-11-05T16:02:39Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-05-feedback-enforce.md"
+reason = "말한 구간 '다른 일'(15–30분) 틀림 — 8.4분 '잠깐'. 턴 81(예측 90–160 아래), 토큰 15.0M(20–45 아래), 분당 9.6턴. 양을 높게 잡았다: 지시서가 함수 이름·검사 날짜·테스트 목록까지 적은 구현이라 F071(×0.4–0.6)을 써야 했는데, 그 항목을 지시서에 인용하면서도 예측은 빗댄 p239의 ×1.0–1.3으로 잡았다(읽었는데 안 씀 — F071 재발). 계산기(13.9–27.7)도 같은 쪽으로 틀림. 보낼까 판단은 맞았다(고른 쪽 실제 20.0M vs 직접 추정 92.5M). 품질 5: 지시서 전부 + 지시서 밖 test_decide 고침(내일부터 깨질 것을 미리 잡음), 키워드 넓음을 숫자로 찾아 옴"
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"  # '지시서가 위치·모양·시험판까지 적힘'이 빗댄 기록 규칙의 조건에 없다 — F071을 조건(S_specified = 예 + 시험판 있음)으로 세울 후보
+feedback = ["F102"]
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 35, sum_s = 231.6, turn_s = 1.5, out_chars = 0, ctx_k = 196 }
+"Bash:sed" = { n = 12, sum_s = 39.5, turn_s = 2.1, tool_s = 0.2, out_chars = 204.0, ctx_k = 165.0 }
+"Bash:python3" = { n = 9, sum_s = 42.9, turn_s = 4.7, tool_s = 0.2, out_chars = 1295, ctx_k = 214 }
+"Bash:python" = { n = 7, sum_s = 133.8, turn_s = 3.3, tool_s = 1.2, out_chars = 300, ctx_k = 205 }
+"Bash:grep" = { n = 5, sum_s = 28.1, turn_s = 2.1, tool_s = 0.4, out_chars = 218, ctx_k = 181 }
+"Write" = { n = 4, sum_s = 4.4, turn_s = 1.1, tool_s = 0.0, out_chars = 7682.0, ctx_k = 197.5 }
+"Bash:cat" = { n = 3, sum_s = 10.7, turn_s = 3.1, tool_s = 0.7, out_chars = 106, ctx_k = 139 }
+"Bash:git" = { n = 2, sum_s = 4.2, turn_s = 2.1, tool_s = 0.3, out_chars = 142.5, ctx_k = 149.5 }
+"Read" = { n = 1, sum_s = 1.2, turn_s = 1.2, tool_s = 0.0, out_chars = 122, ctx_k = 69 }
+"Bash:wc" = { n = 1, sum_s = 2.0, turn_s = 2.0, tool_s = 0.1, out_chars = 251, ctx_k = 90 }
+"Bash:mkdir" = { n = 1, sum_s = 3.1, turn_s = 3.1, tool_s = 0.6, out_chars = 1246, ctx_k = 221 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 632, ctx_k = 236 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 44
+blocks = 81
+write = 4
+edit = 0
+scratch_files = 0
+write_chars = 27715
+edit_chars = 0
+write_lines = 535
+read_calls = 1
+read_files = 1
+read_chars = 5878
+images = 0
+bash_calls = 40
+bash_out_chars = 121002
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 1
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 69
+ctx_max_k = 236
+ctx_end_k = 236
+thinking_blocks = 33
+thinking_s = 81.6
+brief_chars = 546
+brief_lines = 1
