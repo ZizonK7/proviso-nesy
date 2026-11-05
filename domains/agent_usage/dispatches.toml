@@ -16367,3 +16367,64 @@ reason = "말한 구간 '잠깐' 맞음. 6개 반영 + 그림 t 값 변경·재�
 "Read" = { n = 3, sum_s = 27.6, turn_s = 10.4, tool_s = 1.7, out_chars = 100, ctx_k = 550 }
 "Bash:python3" = { n = 2, sum_s = 16.7, turn_s = 8.3, tool_s = 0.6, out_chars = 415.5, ctx_k = 541.5 }
 "SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 863, ctx_k = 554 }
+
+[[dispatch]]
+id = "p209"
+project = "exam_grader"
+batch = 58
+date = 2026-11-05
+task = "구현(세션 안 Opus 5.5 high, 작성 에이전트 이어서 24회차): 28번 풀이지 28.html(교점 s, k·t를 s로, dt = s·dk 넓이 변화율, 부분적분, 6ln2 − 33/16) + SVG 1 + 렌더·png 확인, teacher.md 수업 논리 1줄, session.md 28번·18번 넘김"
+model = "Opus 5.5"
+effort = "high"
+agent = "꿀모 S2 2회 풀이지 작성"
+round = 24
+size = { reads = 3 }
+files = { write = 1, edit = 2 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "예"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [2, 4]
+turns = [14, 24]
+tokens_m = [8, 14]
+tokens_class = ["T2"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p204"
+reason = "빗댄 p204(27번, 그림 하나, 2.7분·26턴·13.4M)·p202(2.1분·14턴). 28번은 그림 하나 + 계산이 길어 → 14–24턴, 2–4분 '잠깐'. 토큰은 24회차 맥락(~50만)이라 8–14M"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [10.89, 21.77]
+[dispatch.decide]
+main_ctx_k = 400
+left = 60
+direct_m = 141.0
+send_m = 15.2
+added_k = 1035
+chose = "보냄"
+why = ["대화 계속", "대화 맥락"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
