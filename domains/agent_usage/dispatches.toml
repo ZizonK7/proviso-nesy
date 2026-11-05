@@ -16722,4 +16722,27 @@ added_k = 245
 chose = "보냄"
 why = ["대화 계속"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 15.5  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 63
+tokens_m = 14.25  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-05T09:11:13Z"
+end = "2026-11-05T09:26:41Z"
+[dispatch.review]
+report = "Professor_King:대회 공방 (은하 별 생성률 예측)/2-3_수업정리.md (작업 보고는 메인에게 돌려준 최종 답)"
+reason = "말한 구간 '다른 일' 맞음(15.5분 안팎, 손 15–35 아래 끝, 계산기 45.6–91.2 아래, 빗댄 규칙 p196 7.5–14.9 바로 위). 새 회차 490줄 + 커리큘럼·수업방향 한 줄씩. 실제 데이터(팀 레포 CSV)로 표 숫자를 직접 계산했고, scikit-learn이 없고 PyPI가 막혀 모델 실험은 못 함을 밝힘. 품질 4: 블록 5+2, 문제 1단계 5·2단계 2·확인 문제 9, 열 정의는 전부 [불확실]로 정직하게 남김. 지시서의 '§9' 대신 이 과목 구조(§2.4·§3.4)를 따른 판단과 그 이유를 적음. 파일 수는 write 1·edit 1로 셌는데 실제 edit 2(수업방향 포함) — 결과 뒤라 고치지 않음"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Bash:cd" = { n = 25, sum_s = 309.1, turn_s = 5.7, tool_s = 0.5, out_chars = 279, ctx_k = 232 }
+"글" = { n = 24, sum_s = 515.9, turn_s = 1.6, out_chars = 0.0, ctx_k = 234.5 }
+"Write" = { n = 3, sum_s = 32.2, turn_s = 4.8, tool_s = 0.0, out_chars = 6592, ctx_k = 226 }
+"Bash:date" = { n = 1, sum_s = 3.2, turn_s = 3.2, tool_s = 1.2, out_chars = 201, ctx_k = 105 }
+"Read" = { n = 1, sum_s = 2.3, turn_s = 2.3, tool_s = 0.1, out_chars = 114, ctx_k = 134 }
+"Bash:ls" = { n = 1, sum_s = 4.4, turn_s = 4.4, tool_s = 0.3, out_chars = 196, ctx_k = 191 }
+"Bash:grep" = { n = 1, sum_s = 2.2, turn_s = 2.2, tool_s = 0.2, out_chars = 134, ctx_k = 194 }
+"Bash:cat" = { n = 1, sum_s = 2.5, turn_s = 2.5, tool_s = 0.4, out_chars = 108, ctx_k = 196 }
+"mcp__claude-code-remote__add_repo" = { n = 1, sum_s = 4.8, turn_s = 4.8, tool_s = 2.0, out_chars = 68, ctx_k = 204 }
+"Bash:git" = { n = 1, sum_s = 6.7, turn_s = 6.7, tool_s = 4.5, out_chars = 280, ctx_k = 206 }
+"mcp__claude-code-remote__register_repo_root" = { n = 1, sum_s = 1.5, turn_s = 1.5, out_chars = 96, ctx_k = 206 }
+"Bash:python3" = { n = 1, sum_s = 3.8, turn_s = 3.8, tool_s = 0.3, out_chars = 214, ctx_k = 217 }
+"Bash:sed" = { n = 1, sum_s = 36.6, turn_s = 36.6, tool_s = 0.6, out_chars = 171, ctx_k = 244 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 2984, ctx_k = 321 }
