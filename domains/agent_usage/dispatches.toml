@@ -19769,5 +19769,62 @@ repo = "proviso-nesy"
 head = "8138c4b347b6ea74ddf75714d307e99e4ffd5046"
 dirty = 2
 dirty_hashes = ["90d5c6aa:9f2562b89742", "ea328799:def8116b1af0"]
+git_write = 1
+git_edit = 1
+git_delete = 0
+git_lines_added = 74
+git_lines_removed = 41
+git_commits = 1
+named_files = 0
+named_lines = 0
+named_bytes = 0
+named_dirs = 0
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 4.7  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 15
+tokens_m = 1.29  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-05T16:16:43Z"
+end = "2026-11-05T16:21:23Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-05-readme-refresh.md"
+reason = "말한 구간 '잠깐' 맞음(4.7분, 3–8 안). 턴 15(예측 15–40 아래 끝), 토큰 1.29M(3–10 아래) — Opus low는 큰 cat·heredoc 몇 번으로 끝내 턴이 적고 맥락도 작았다(첫 low 기록, 분당 3.2턴). 피드백 고리: 작업자가 지시서의 메인 피드백 셋을 cat으로 읽고 보고서 '읽은 피드백' 절에 따른 항목(F080·F077)을 적었다 — 결과물에도 보임(비공개 내용 없음, 경위 안 쌓음). 빗나간 것은 예측이 아니라 지시서: '명령을 돌려 확인'이 실험 스크립트까지 돌렸다(F103). 품질 4: README 내용 좋음, 실험 6회 호출이 흠"
+feedback = ["F103", "F104"]
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 5, sum_s = 24.4, turn_s = 1.0, out_chars = 0, ctx_k = 88 }
+"Bash:cat" = { n = 4, sum_s = 20.6, turn_s = 4.2, tool_s = 0.2, out_chars = 975.5, ctx_k = 80.0 }
+"Bash:git" = { n = 2, sum_s = 9.4, turn_s = 4.7, tool_s = 3.6, out_chars = 203.0, ctx_k = 88.5 }
+"Bash:sed" = { n = 1, sum_s = 122.5, turn_s = 122.5, tool_s = 121.3, out_chars = 647, ctx_k = 85 }
+"ToolSearch" = { n = 1, sum_s = 1.4, turn_s = 1.4, tool_s = 0.0, out_chars = 46, ctx_k = 87 }
+"Bash:python" = { n = 1, sum_s = 101.0, turn_s = 101.0, tool_s = 99.7, out_chars = 344, ctx_k = 87 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 616, ctx_k = 93 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 9
+blocks = 15
+write = 0
+edit = 0
+scratch_files = 0
+write_chars = 0
+edit_chars = 0
+write_lines = 0
+read_calls = 0
+read_files = 0
+read_chars = 0
+images = 0
+bash_calls = 8
+bash_out_chars = 20382
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 2
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 68
+ctx_max_k = 93
+ctx_end_k = 93
+thinking_blocks = 4
+thinking_s = 1.4
+brief_chars = 318
+brief_lines = 1
