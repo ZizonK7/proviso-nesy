@@ -19706,3 +19706,68 @@ thinking_blocks = 33
 thinking_s = 81.6
 brief_chars = 546
 brief_lines = 1
+
+[[dispatch]]
+id = "p241"
+project = "proviso"
+batch = 73
+date = 2026-11-05
+task = "문서 갱신(메인 세션 안 Opus 5.5 low, 새 에이전트, 하위 에이전트 불허 — 피드백 고리 첫 시험): README.md(사람용)를 지금 구조에 맞게 — 목적 변경, feedback/ 폴더, 분야 표 7개, 명령 목록. 루트 CLAUDE.md·docs/CLAUDE.md와 어긋나지 않게(문서 규칙). 보고서 하나"
+model = "Opus 5.5"
+effort = "low"
+agent = "README 갱신"
+round = 1
+size = { outputs = 1, edits = 1, checks = 2 }
+files = { write = 1, edit = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [3, 8]
+turns = [15, 40]
+tokens_m = [3, 10]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v3"]
+analog = "p189"
+reason = "코드 없는 문서 한 장 고치기 + 보고서. 빗댄 p189(규칙 문서 12개 고침, Opus high 6.8분·33턴·11.2M)보다 파일이 적고(edit 1·write 1), 읽을 문서는 루트·docs·domains CLAUDE.md 아홉 개라 턴 15–40. Opus low는 기준값이 없어(계산기 '모름' 예상) high 띠 그대로 둔다 — 첫 low 기록. 가운데 √(3×8)=4.9분 → '잠깐'"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 531
+left = 12
+direct_m = 24.9
+send_m = 10.9
+added_k = 327
+chose = "보냄"
+why = ["새 눈"]
+[dispatch.feedback]
+read = ["brief", "common", "docs"]
+[dispatch.git]
+repo = "proviso-nesy"
+head = "8138c4b347b6ea74ddf75714d307e99e4ffd5046"
+dirty = 2
+dirty_hashes = ["90d5c6aa:9f2562b89742", "ea328799:def8116b1af0"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
