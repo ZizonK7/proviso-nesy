@@ -16387,8 +16387,34 @@ added_k = 176
 chose = "보냄"
 why = ["대화 계속", "결과를 가림"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
-
+status = "done"
+minutes = 17.0  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 107
+tokens_m = 19.14  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-05T07:32:41Z"
+end = "2026-11-05T07:49:43Z"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-05-study-partner.md"
+reason = "말한 구간 '다른 일' 맞음(손 15–35, 계산기 8.7–17.4). 팀원 4개(p210–p213, 2.2–3.2분) + 담당 검색 대조 + 보고서 + 팀원 기록. 같은 시각 다른 담당(p203)과 같은 체크아웃·같은 파일을 썼는데 겹침 없이 들어갔다(p203 쪽 커밋에 함께 실림). 도중에 메인이 보낸 추가 정보(같은 수업 3과목)는 팀원 세션이 '다른 세션 메시지'라 거절해 담당이 직접 채웠다 — 도중 정보는 팀원에게 보내지 말고 담당이 반영한다. 품질 4: Harkin 2016 메타분석·Fiorella & Mayer·Carrell 2013 등 수치를 원출처로 대조, 'ASTD 95%' 원출처 없음과 Ariely 마감 연구 재현 실패를 밝힘. 후기는 Reddit·한국 커뮤니티가 막혀 얇다"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 35, sum_s = 216.3, turn_s = 1.0, out_chars = 0, ctx_k = 158 }
+"Bash:cd" = { n = 19, sum_s = 411.1, turn_s = 6.1, tool_s = 0.7, out_chars = 299, ctx_k = 253 }
+"WebSearch" = { n = 18, sum_s = 122.4, turn_s = 0.8, tool_s = 6.2, out_chars = 130.5, ctx_k = 144.5 }
+"mcp__claude-code-remote__list_events" = { n = 7, sum_s = 27.0, turn_s = 1.2, tool_s = 0.2, out_chars = 85, ctx_k = 161 }
+"mcp__claude-code-remote__create_session" = { n = 4, sum_s = 48.5, turn_s = 13.2, tool_s = 2.6, out_chars = 1516.5, ctx_k = 120.0 }
+"Bash:sleep" = { n = 4, sum_s = 14.6, turn_s = 3.5, tool_s = 0.1, out_chars = 86.0, ctx_k = 155.0 }
+"mcp__claude-code-remote__get_session" = { n = 4, sum_s = 4.3, turn_s = 0.6, tool_s = 0.1, out_chars = 50.0, ctx_k = 144.0 }
+"Bash:date" = { n = 2, sum_s = 38.6, turn_s = 19.3, tool_s = 0.3, out_chars = 185.0, ctx_k = 185.0 }
+"mcp__claude-code-remote__send_message" = { n = 2, sum_s = 11.5, turn_s = 5.8, tool_s = 2.8, out_chars = 425.0, ctx_k = 127.0 }
+"ToolSearch" = { n = 2, sum_s = 7.3, turn_s = 3.6, tool_s = 0.0, out_chars = 50.5, ctx_k = 143.0 }
+"WebFetch" = { n = 2, sum_s = 5.6, turn_s = 2.8, tool_s = 0.2, out_chars = 226.5, ctx_k = 139.0 }
+"Bash:cat" = { n = 2, sum_s = 8.1, turn_s = 4.0, tool_s = 0.8, out_chars = 149.0, ctx_k = 157.0 }
+"Bash:until" = { n = 1, sum_s = 74.2, turn_s = 74.2, tool_s = 71.0, out_chars = 260, ctx_k = 175 }
+"Bash:ls" = { n = 1, sum_s = 4.2, turn_s = 4.2, tool_s = 0.2, out_chars = 202, ctx_k = 216 }
+"Write" = { n = 1, sum_s = 4.8, turn_s = 4.8, tool_s = 0.0, out_chars = 17859, ctx_k = 219 }
+"Bash:mkdir" = { n = 1, sum_s = 4.7, turn_s = 4.7, tool_s = 0.3, out_chars = 4519, ctx_k = 246 }
+"Bash:pvcopy;" = { n = 1, sum_s = 13.6, turn_s = 13.6, tool_s = 10.5, out_chars = 417, ctx_k = 261 }
+"SubagentHandback" = { n = 1, sum_s = 0.3, turn_s = 0.3, tool_s = 0.3, out_chars = 4034, ctx_k = 265 }
 [[dispatch]]
 id = "p210"
 project = "gemmin"
