@@ -16802,3 +16802,251 @@ chose = "보냄"
 why = ["대화 계속", "결과를 가림"]
 [dispatch.actual]
 status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p216"
+project = "gemmin"
+batch = 67
+date = 2026-11-05
+task = "창의 연결 팀원 A(담당 p215가 보냄): 공부 파트너 구조 창의 연결 — 무작위 조각 3개(H_egg_hatching_02·H_tower_climbing_01·H_cloud_session_rounds_v2, seed 20261105)를 연결 실험 v0 절차(다시 말하기·네 각도·새 설계 또는 포기)로 공부 파트너 문제에 잇기. 결과는 최종 답에만, 파일·웹·하위 없음. 담당 세션에 Agent 도구가 없어 이 세션 서브 에이전트 대신 같은 환경의 클라우드 새 세션(create_session, model claude-opus-5-5)으로 보냄 — effort는 지정 못 함(세션 기본값), 칸은 지시대로 medium"
+model = "Opus 5.5"
+effort = "medium"
+agent = "study-creative-a"
+round = 1
+size = { find_cap = "조각 3개·네 각도·되돌리기 최대 1바퀴" }
+files = {  }
+[dispatch.situation]
+S_specified = "아니오"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [3, 10]
+turns = [1, 8]
+tokens_m = [0.05, 0.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p210"
+reason = "손 예측(보내기 전): 빗댄 p210–p213(같은 날 클라우드 새 세션, 2.2–3.0분, 0.8–2.5M)과 같은 방식이지만 도구를 거의 안 쓰는 추론·글쓰기(조각 3개 × 네 각도, 출력 6–12천 토큰)라 턴이 1–8개, 토큰은 시스템 맥락 × 턴 수라 0.05–0.5M. Opus 글쓰기가 Haiku 조사보다 느려 3–10분. 되돌리기가 붙으면 그 회차는 따로 잰다"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 75
+left = 25
+direct_m = 0.2
+send_m = 1.2
+added_k = 0
+chose = "보냄"
+why = ["결과를 가림", "새 눈"]
+[dispatch.actual]
+status = "done"
+minutes = 1.6  # get_session created_at → 최종 답(result) (UTC)
+start = "2026-11-05T10:22:06Z"
+end = "2026-11-05T10:23:40Z"
+tokens_m = 0.08  # 세션 usage(result modelUsage): 캐시 읽기 5.2만 + 캐시 쓰기 1.8만 + 입력 0 + 출력 0.90만(생각 0.37만). 비용 0.33달러. 턴 1, 도구 0
+[dispatch.turns]
+skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)이 없다"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-05-study-partner-creative.md"
+reason = "말한 구간 '잠깐' 맞음(1.6분). 손 3–10분은 아래로 빗나감, 토큰 0.08M은 손 0.05–0.5M 안. 계산기 모름. 품질 4: 세 조각 모두 네 각도를 다 시도했고 설계 셋(질문 알 72시간·다음 고리 먼저·보내기 문턱)이 모두 확인 방법까지 구체적. 다음 고리 먼저(전환 순간 = 주가 바뀌는 때, 둘이 같은 주에 동시에 쉬지 않기)가 뼈대에 없는 장치. 보내기 문턱의 부딪히기 각도는 실제 충돌 상황을 찾기보다 '안 부딪힌다'로 끝나 약함 — 되돌리기는 안 함. 분이 손 아래로 빗나간 까닭: 도구 없는 한 턴(약 90초 스트리밍)으로 끝났다 — 클라우드 새 세션의 Opus 글쓰기는 출력 9천 토큰이 1.5분이고 세션 띄우는 시간은 몇 초. 담당 세션에 Agent 도구가 없어 클라우드 새 세션으로 보냈고 effort는 지정 못 함(get_session에 effort_level 없음)"
+
+[[dispatch]]
+id = "p217"
+project = "gemmin"
+batch = 67
+date = 2026-11-05
+task = "창의 연결 팀원 B(담당 p215가 보냄): 공부 파트너 구조 창의 연결 — 무작위 조각 3개(H_food2_20_05·H_hospice_care_07·R_S1, seed 20261105)를 연결 실험 v0 절차(다시 말하기·네 각도·새 설계 또는 포기)로 공부 파트너 문제에 잇기. 결과는 최종 답에만, 파일·웹·하위 없음. 담당 세션에 Agent 도구가 없어 이 세션 서브 에이전트 대신 같은 환경의 클라우드 새 세션(create_session, model claude-opus-5-5)으로 보냄 — effort는 지정 못 함(세션 기본값), 칸은 지시대로 medium"
+model = "Opus 5.5"
+effort = "medium"
+agent = "study-creative-b"
+round = 1
+size = { find_cap = "조각 3개·네 각도·되돌리기 최대 1바퀴" }
+files = {  }
+[dispatch.situation]
+S_specified = "아니오"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [3, 10]
+turns = [1, 8]
+tokens_m = [0.05, 0.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p210"
+reason = "손 예측(보내기 전): 빗댄 p210–p213(같은 날 클라우드 새 세션, 2.2–3.0분, 0.8–2.5M)과 같은 방식이지만 도구를 거의 안 쓰는 추론·글쓰기(조각 3개 × 네 각도, 출력 6–12천 토큰)라 턴이 1–8개, 토큰은 시스템 맥락 × 턴 수라 0.05–0.5M. Opus 글쓰기가 Haiku 조사보다 느려 3–10분. 되돌리기가 붙으면 그 회차는 따로 잰다"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 75
+left = 25
+direct_m = 0.2
+send_m = 1.2
+added_k = 0
+chose = "보냄"
+why = ["결과를 가림", "새 눈"]
+[dispatch.actual]
+status = "done"
+minutes = 1.8  # get_session created_at → 최종 답(result) (UTC)
+start = "2026-11-05T10:23:37Z"
+end = "2026-11-05T10:25:24Z"
+tokens_m = 0.08  # 세션 usage(result modelUsage): 캐시 읽기 5.5만 + 캐시 쓰기 1.5만 + 입력 0 + 출력 0.94만(생각 0.34만). 비용 0.31달러. 턴 1, 도구 0
+[dispatch.turns]
+skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)이 없다"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-05-study-partner-creative.md"
+reason = "말한 구간 '잠깐' 맞음(1.8분). 손 3–10분은 아래로 빗나감, 토큰 0.08M 손 안. 계산기 모름. 품질 4: 설계 셋(첫 바퀴 블록·오려면 지금 신호·모드 태그) 모두 네 각도·확인 방법·부딪히는 곳을 갖춤. 오려면 지금 신호(목요일 기록으로 기계적 신호 → 금요일까지 친구 시간을 범위로 부름, 신호 주엔 벌금 대신 구조 블록)와 모드 태그(말없이 바뀌는 것을 막는 상태 표시)가 뼈대에 없는 장치. 되돌리기 안 함. 분이 손 아래로 빗나간 까닭은 p216과 같음(도구 없는 한 턴)"
+
+[[dispatch]]
+id = "p218"
+project = "gemmin"
+batch = 67
+date = 2026-11-05
+task = "창의 연결 팀원 C(담당 p215가 보냄): 공부 파트너 구조 창의 연결 — 무작위 조각 3개(H_wildlife_filming_07·H_river2_19_12·H_review1_minutes_per_block, seed 20261105)를 연결 실험 v0 절차(다시 말하기·네 각도·새 설계 또는 포기)로 공부 파트너 문제에 잇기. 결과는 최종 답에만, 파일·웹·하위 없음. 담당 세션에 Agent 도구가 없어 이 세션 서브 에이전트 대신 같은 환경의 클라우드 새 세션(create_session, model claude-opus-5-5)으로 보냄 — effort는 지정 못 함(세션 기본값), 칸은 지시대로 medium"
+model = "Opus 5.5"
+effort = "medium"
+agent = "study-creative-c"
+round = 1
+size = { find_cap = "조각 3개·네 각도·되돌리기 최대 1바퀴" }
+files = {  }
+[dispatch.situation]
+S_specified = "아니오"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [3, 10]
+turns = [1, 8]
+tokens_m = [0.05, 0.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p210"
+reason = "손 예측(보내기 전): 빗댄 p210–p213(같은 날 클라우드 새 세션, 2.2–3.0분, 0.8–2.5M)과 같은 방식이지만 도구를 거의 안 쓰는 추론·글쓰기(조각 3개 × 네 각도, 출력 6–12천 토큰)라 턴이 1–8개, 토큰은 시스템 맥락 × 턴 수라 0.05–0.5M. Opus 글쓰기가 Haiku 조사보다 느려 3–10분. 되돌리기가 붙으면 그 회차는 따로 잰다"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 75
+left = 25
+direct_m = 0.2
+send_m = 1.2
+added_k = 0
+chose = "보냄"
+why = ["결과를 가림", "새 눈"]
+[dispatch.actual]
+status = "done"
+minutes = 1.8  # 1회차: get_session created_at 10:23:38 → 최종 답(result) 10:25:24 (UTC). 2회차는 review.reason
+start = "2026-11-05T10:23:38Z"
+end = "2026-11-05T10:25:24Z"
+tokens_m = 0.08  # 1회차 세션 usage: 캐시 읽기 5.5만 + 캐시 쓰기 1.5만 + 입력 0 + 출력 0.92만(생각 0.40만). 비용 0.31달러. 턴 1, 도구 0
+[dispatch.turns]
+skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)이 없다"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-05-study-partner-creative.md"
+reason = "말한 구간 '잠깐' 맞음(1회차 1.8분). 손 3–10분은 아래로 빗나감, 토큰 0.08M 손 안. 계산기 모름. 1회차 품질 3 → 되돌리기 1바퀴 뒤 4. 1회차: 수위 표시줄 + 공회전 방지(모이는 시각은 지키고, 둘 다 블록 제목 목록을 냈을 때만 토론·아니면 말 없는 각자 정리)는 통과. 0블록 사면 규칙(벌칙은 보고 안 함에만, 0블록 보고엔 정해진 답 하나)은 '보고만 하고 공부 안 하기' 구멍을 '방법 없음'으로 남겼고, 측정값 조각의 25분 회상 짝은 뼈대(같은 시간 각자 복습)를 칸 크기로 다시 말한 것이라 되돌림. 2회차(담당 send_message 10:27:33 → 최종 답 10:28:53, 1.3분, 이 회차 토큰 0.17M = 캐시 읽기 14.8만 + 쓰기 1.1만 + 출력 0.69만; 세션 누계 0.25M, 0.57달러): 주간 '한 단계 물러나기'(주 최소에 못 미치면 벌 대신 상대가 다음 주 같이 할 블록 둘을 제안, 노쇼만 벌칙)로 구멍을 막았고, 측정값 조각은 '어긋남 주문서'(블록별 랩, 기준보다 오래 걸린 블록은 상대가 설명할 것·너무 빠른 블록은 확인받을 것, 기준선은 2주 뒤 개인 가운데값으로)로 바꿔 날짜 어긋남도 다룸. 지시서에 '되돌리기는 미리 정한 단계, 담당 세션 id'를 넣어 두니 클라우드 세션이 다른 세션 메시지를 따랐다(배치 65에서는 거절). 분이 손 아래로 빗나간 까닭은 p216과 같음"
+
+[[dispatch]]
+id = "p219"
+project = "gemmin"
+batch = 67
+date = 2026-11-05
+task = "창의 연결 팀원 D(담당 p215가 보냄): 공부 파트너 구조 창의 연결 — 무작위 조각 3개(H_rite2_23_12·H_tailoring_08·H_alternate, seed 20261105)를 연결 실험 v0 절차(다시 말하기·네 각도·새 설계 또는 포기)로 공부 파트너 문제에 잇기. 결과는 최종 답에만, 파일·웹·하위 없음. 담당 세션에 Agent 도구가 없어 이 세션 서브 에이전트 대신 같은 환경의 클라우드 새 세션(create_session, model claude-opus-5-5)으로 보냄 — effort는 지정 못 함(세션 기본값), 칸은 지시대로 medium"
+model = "Opus 5.5"
+effort = "medium"
+agent = "study-creative-d"
+round = 1
+size = { find_cap = "조각 3개·네 각도·되돌리기 최대 1바퀴" }
+files = {  }
+[dispatch.situation]
+S_specified = "아니오"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [3, 10]
+turns = [1, 8]
+tokens_m = [0.05, 0.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p210"
+reason = "손 예측(보내기 전): 빗댄 p210–p213(같은 날 클라우드 새 세션, 2.2–3.0분, 0.8–2.5M)과 같은 방식이지만 도구를 거의 안 쓰는 추론·글쓰기(조각 3개 × 네 각도, 출력 6–12천 토큰)라 턴이 1–8개, 토큰은 시스템 맥락 × 턴 수라 0.05–0.5M. Opus 글쓰기가 Haiku 조사보다 느려 3–10분. 되돌리기가 붙으면 그 회차는 따로 잰다"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 75
+left = 25
+direct_m = 0.2
+send_m = 1.2
+added_k = 0
+chose = "보냄"
+why = ["결과를 가림", "새 눈"]
+[dispatch.actual]
+status = "done"
+minutes = 1.5  # get_session created_at → 최종 답(result) (UTC)
+start = "2026-11-05T10:23:38Z"
+end = "2026-11-05T10:25:08Z"
+tokens_m = 0.08  # 세션 usage(result modelUsage): 캐시 읽기 5.5만 + 캐시 쓰기 1.4만 + 입력 0 + 출력 0.78만(생각 0.26만). 비용 0.28달러. 턴 1, 도구 0
+[dispatch.turns]
+skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)이 없다"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-05-study-partner-creative.md"
+reason = "말한 구간 '잠깐' 맞음(1.5분). 손 3–10분은 아래로 빗나감, 토큰 0.08M 손 안. 계산기 모름. 품질 4: 설계 셋(한 솥 문제·어깨부터 가봉·한 칸 제목). 어깨부터 가봉(위 칸이 비면 아래 칸은 채워져도 무효, 2주째엔 가장 위에서 무너진 칸 하나만 고침)이 가장 단단하고, 한 솥 문제는 베끼기와 정면으로 부딪힘을 스스로 밝힘. 한 칸 제목은 억지 3으로 정직하게 낮춤. 한 솥 문제는 2차 복습 문제가 이미 복습 파일에 미리 쓰여 있다는 사실을 지시서가 안 알려 준 탓에 '같이 생성'을 전제로 함(담당이 종합에서 바로잡음). 되돌리기 안 함. 분이 손 아래로 빗나간 까닭은 p216과 같음"
