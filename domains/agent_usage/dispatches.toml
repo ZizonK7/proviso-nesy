@@ -19195,3 +19195,64 @@ thinking_blocks = 26
 thinking_s = 147.9
 brief_chars = 7501
 brief_lines = 38
+
+[[dispatch]]
+id = "p239"
+project = "proviso"
+batch = 71
+date = 2026-11-05
+task = "구현(메인 세션 안 Opus 5.5 high, 새 에이전트, 하위 에이전트 불허): 남은 숫자 모으기 — ① 저장소 안 일은 git으로 작업자가 바꾼 파일·줄 수([dispatch.git], 보낼 때 기준 찍기 → 끝날 때 비교), 지시서에 적힌 파일의 보낼 때 크기 ② 클라우드 세션은 보낼 때 세션 id, 끝나면 result 사건의 숫자를 record cloud로 [dispatch.cloud](11-03 뒤 기록은 MCP로 되살리기, 되면) ③ 검사(2026-11-06부터)·테스트·문서"
+model = "Opus 5.5"
+effort = "high"
+agent = "남은 숫자 모으기"
+round = 1
+size = { outputs = 2, edits = 7, checks = 2 }
+files = { write = 2, edit = 8 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [15, 35]
+turns = [90, 180]
+tokens_m = [20, 55]
+tokens_class = ["T2"]
+rules = ["R_turns_analogy_v2", "R_tok_long_v5", "R_say_numbers_v3"]
+analog = "p238"
+reason = "빗댄 p238(같은 도구 확장, 칸 이름까지 적힌 지시서, high 13.1분·85줄·14.7M). 이번은 갈래가 셋(git 기준 찍기·비교, 클라우드 숫자 명령, 지시서 파일 크기)이고 되살리기에서 MCP 사건 읽기(사건마다 결과 글이 길다)가 더해진다 → 줄 ×1.1–2.1(90–180), 분 15–35. 토큰: 사건 읽기로 맥락이 커져 줄 × 22–30만 → 20–55M. 가운데 23분 → '다른 일'."
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [13.86, 27.71]
+[dispatch.decide]
+main_ctx_k = 389
+left = 15
+direct_m = 87.0
+send_m = 37.2
+added_k = 401
+chose = "보냄"
+why = ["비용"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
