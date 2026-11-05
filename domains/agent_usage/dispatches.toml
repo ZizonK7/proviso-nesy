@@ -15915,6 +15915,7 @@ start = "2026-11-05T08:33:52Z"
 end = "2026-11-05T08:36:01Z"
 [dispatch.review]
 report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
+reason = "말한 구간 '잠깐' 맞음(2.1분). 턴 14는 11–20 안, 토큰 6.9M은 2.5–5 위(이어 보낸 20회차라 맥락이 ~50만으로 커짐 — R_resume_ctx_v2 방향 맞음). 표 셋, 배율 축소 없음"
 [dispatch.turns]  # scripts/agent_usage.py --turns --toml
 "Read" = { n = 4, sum_s = 24.0, turn_s = 4.6, tool_s = 0.2, out_chars = 100.0, ctx_k = 499.5 }
 "Bash:cd" = { n = 3, sum_s = 13.0, turn_s = 5.0, tool_s = 1.8, out_chars = 327, ctx_k = 500 }
@@ -15983,8 +15984,22 @@ added_k = 84
 chose = "보냄"
 why = ["새 눈"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
-
+status = "done"
+minutes = 1.6  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 15
+tokens_m = 1.27  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-05T08:36:57Z"
+end = "2026-11-05T08:38:34Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
+reason = "말한 구간 '잠깐' 맞음. 지적 8개(수학 통과: 경우 빠짐없음을 무차별 대입으로도 확인) — 메인 전부 수용. 핵심: 메인이 또 '절차 요약' 상자를 지시함(12번과 같은 실수) + 상자의 '처음 항'이 틀림. 메인 교훈: 핵심 상자는 선생님 말에 판단이 있을 때만"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 5, sum_s = 8.1, turn_s = 1.4, out_chars = 0, ctx_k = 92 }
+"Read" = { n = 5, sum_s = 57.9, turn_s = 2.6, tool_s = 0.0, out_chars = 89, ctx_k = 59 }
+"Bash:cd" = { n = 2, sum_s = 7.0, turn_s = 3.5, tool_s = 1.2, out_chars = 396.0, ctx_k = 93.0 }
+"Bash:ls" = { n = 1, sum_s = 2.1, turn_s = 2.1, tool_s = 0.5, out_chars = 330, ctx_k = 88 }
+"Bash:python3" = { n = 1, sum_s = 19.0, turn_s = 19.0, tool_s = 0.3, out_chars = 526, ctx_k = 100 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 1994, ctx_k = 101 }
 [[dispatch]]
 id = "p204"
 project = "exam_grader"
@@ -16041,6 +16056,67 @@ left = 60
 direct_m = 51.4
 send_m = 8.1
 added_k = 357
+chose = "보냄"
+why = ["대화 계속", "대화 맥락"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p205"
+project = "exam_grader"
+batch = 58
+date = 2026-11-05
+task = "수정(같은 작성 에이전트 21회차, 이어서): 22번 검토 지적 8개 반영(핵심 상자 삭제, 손글씨 둘 일반 논리로, 표 손질) + 재렌더·png 확인"
+model = "Opus 5.5"
+effort = "high"
+agent = "꿀모 S2 2회 풀이지 작성"
+round = 21
+size = { reads = 3 }
+files = { write = 0, edit = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "예"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [1, 2.5]
+turns = [8, 14]
+tokens_m = [3, 7]
+tokens_class = ["T1"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p201"
+reason = "빗댄 p201(15번 수정 10개, 1.6분·12턴·5.7M). 8개, 표 손질 → 8–14턴, 1–2.5분 '잠깐', 3–7M"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [7.48, 14.96]
+[dispatch.decide]
+main_ctx_k = 400
+left = 60
+direct_m = 97.7
+send_m = 9.2
+added_k = 746
 chose = "보냄"
 why = ["대화 계속", "대화 맥락"]
 [dispatch.actual]
