@@ -16435,6 +16435,7 @@ start = "2026-11-05T09:21:26Z"
 end = "2026-11-05T09:23:59Z"
 [dispatch.review]
 report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
+reason = "말한 구간 '잠깐' 맞음(2.5분). 턴 19는 14–24 안, 토큰 10.8M은 8–14 안(T2 — 맥락 50만 기준으로 잡으니 맞음). 재렌더 3회"
 [dispatch.turns]  # scripts/agent_usage.py --turns --toml
 "글" = { n = 7, sum_s = 56.2, turn_s = 3.6, out_chars = 0, ctx_k = 568 }
 "Bash:cd" = { n = 5, sum_s = 14.5, turn_s = 1.2, tool_s = 2.0, out_chars = 768, ctx_k = 570 }
@@ -16501,5 +16502,79 @@ send_m = 6.4
 added_k = 84
 chose = "보냄"
 why = ["새 눈"]
+[dispatch.actual]
+status = "done"
+minutes = 2.4  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 13
+tokens_m = 1.13  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-05T09:24:38Z"
+end = "2026-11-05T09:27:00Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
+reason = "말한 구간 '잠깐' 맞음. 지적 10개(수학 통과, 수치 검산) — 메인 전부 수용. 메인이 못 본 것: 핵심 상자가 본문 되풀이, 손글씨 '섞이면 → 부분적분'이 늘 맞는 말이 아님, 오른쪽 여백 넘침 2곳"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 5, sum_s = 23.8, turn_s = 1.1, out_chars = 0, ctx_k = 94 }
+"Read" = { n = 4, sum_s = 84.9, turn_s = 1.9, tool_s = 0.1, out_chars = 88.5, ctx_k = 59.0 }
+"Bash:cd" = { n = 3, sum_s = 24.1, turn_s = 3.7, tool_s = 0.7, out_chars = 262, ctx_k = 104 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 1948, ctx_k = 106 }
+
+[[dispatch]]
+id = "p211"
+project = "exam_grader"
+batch = 58
+date = 2026-11-05
+task = "수정(같은 작성 에이전트 25회차, 이어서): 28번 검토 지적 10개 반영(핵심 상자 한 문장, 손글씨 삭제, 표현·여백·그림 라벨·구간 표기) + 재렌더·png 확인"
+model = "Opus 5.5"
+effort = "high"
+agent = "꿀모 S2 2회 풀이지 작성"
+round = 25
+size = { reads = 3 }
+files = { write = 0, edit = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "예"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [1.5, 3]
+turns = [10, 18]
+tokens_m = [6, 12]
+tokens_class = ["T2"]
+rules = ["R_turns_analogy_v2", "R_third_pass", "R_time_turns_v2", "R_say_numbers_v3"]
+analog = "p208"
+reason = "빗댄 p208(27번 수정 6개 + 그림, 1.8분·17턴·9.3M). 10개 → 10–18턴, 1.5–3분 '잠깐', 6–12M(맥락 50만)"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [7.48, 14.96]
+[dispatch.decide]
+main_ctx_k = 400
+left = 60
+direct_m = 150.4
+send_m = 13.1
+added_k = 1145
+chose = "보냄"
+why = ["대화 계속", "대화 맥락"]
 [dispatch.actual]
 status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
