@@ -19010,4 +19010,30 @@ added_k = 422
 chose = "보냄"
 why = ["비용"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 21.8  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 163
+tokens_m = 52.06  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-05T11:49:04Z"
+end = "2026-11-05T12:10:50Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-05-calculator-explainer.md"
+reason = "말한 구간 '다른 일' 맞음(21.8분). 손 예측 분 25–50의 아래 끝 밑(×0.87), 줄 163은 130–220 안, 토큰 52.1M은 30–70M 안. 계산기 16.1–32.2분이 분을 담았다. 빗댄 p179(xhigh 18.0분·129줄)보다 줄 ×1.26 — 글이 길고(17쪽) 숫자 다시 뽑기·렌더 확인 바퀴가 더해진 몫은 맞게 봤고, high라 분당 줄이 p179(7.2)보다 빠를 것(7.5)도 맞았다. 분을 25로 높게 잡은 것은 렌더 바퀴를 따로 더한 탓 — 실제로는 렌더·쪽 확인이 줄 안에 들어갔다(R_verify_laps처럼 바퀴를 더하지 않아도 됐다). 품질: 쪽 17장을 메인이 그림으로 확인, 빗댄 기록 규칙 v2 실패(22/32 vs AI 31/32)를 메인이 analog로 다시 돌려 확인. 문서·코드 어긋남 9곳을 스스로 찾아 부록 A에 적음."
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 58, sum_s = 610.8, turn_s = 1.5, out_chars = 0.0, ctx_k = 304.0 }
+"Read" = { n = 40, sum_s = 103.5, turn_s = 0.8, tool_s = 0.0, out_chars = 125.0, ctx_k = 420.5 }
+"Bash:cat" = { n = 13, sum_s = 219.7, turn_s = 4.2, tool_s = 0.4, out_chars = 978, ctx_k = 306 }
+"Bash:sed" = { n = 12, sum_s = 33.5, turn_s = 2.8, tool_s = 0.6, out_chars = 99.5, ctx_k = 249.0 }
+"Bash:cd" = { n = 11, sum_s = 63.6, turn_s = 7.3, tool_s = 2.5, out_chars = 842, ctx_k = 419 }
+"Bash:grep" = { n = 5, sum_s = 14.9, turn_s = 2.6, tool_s = 0.4, out_chars = 164, ctx_k = 228 }
+"Bash:git" = { n = 4, sum_s = 30.2, turn_s = 3.1, tool_s = 0.7, out_chars = 180.5, ctx_k = 129.5 }
+"Bash:out;" = { n = 4, sum_s = 64.6, turn_s = 5.8, tool_s = 0.3, out_chars = 219.5, ctx_k = 236.0 }
+"Write" = { n = 3, sum_s = 9.5, turn_s = 3.3, tool_s = 0.0, out_chars = 7657, ctx_k = 349 }
+"Bash:explainer;" = { n = 3, sum_s = 26.9, turn_s = 5.8, tool_s = 3.2, out_chars = 254, ctx_k = 404 }
+"Bash:awk" = { n = 2, sum_s = 4.9, turn_s = 2.5, tool_s = 0.5, out_chars = 182.5, ctx_k = 171.5 }
+"Bash:PYTHONPATH=." = { n = 2, sum_s = 5.7, turn_s = 2.9, tool_s = 0.5, out_chars = 483.0, ctx_k = 172.5 }
+"Bash:mkdir" = { n = 2, sum_s = 99.6, turn_s = 49.8, tool_s = 1.9, out_chars = 680.5, ctx_k = 258.0 }
+"Bash:scratchpad;" = { n = 1, sum_s = 5.2, turn_s = 5.2, tool_s = 2.4, out_chars = 311, ctx_k = 213 }
+"Bash:export" = { n = 1, sum_s = 7.9, turn_s = 7.9, tool_s = 0.7, out_chars = 242, ctx_k = 295 }
+"Edit" = { n = 1, sum_s = 3.3, turn_s = 3.3, tool_s = 0.0, out_chars = 403, ctx_k = 446 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 5505, ctx_k = 452 }
