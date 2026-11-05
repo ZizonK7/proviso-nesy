@@ -19571,3 +19571,69 @@ thinking_blocks = 45
 thinking_s = 256.2
 brief_chars = 8650
 brief_lines = 37
+
+[[dispatch]]
+id = "p240"
+project = "proviso"
+batch = 72
+date = 2026-11-05
+task = "구현(메인 세션 안 Opus 5.5 high, 새 에이전트, 하위 에이전트 불허): feedback 모듈(check·index·topics·find)과 피드백 읽기·쓰기 강제 — record send에 [feedback] read 필수(topics가 고른 메인 파일), 끝난 기록에 review.feedback 필수(2026-11-06부터), dispatches 검사·테스트·문서, 백서 색인 표 생성"
+model = "Opus 5.5"
+effort = "high"
+agent = "피드백 강제"
+round = 1
+size = { outputs = 3, edits = 5, checks = 4 }
+files = { write = 4, edit = 5 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [15, 30]
+turns = [90, 160]
+tokens_m = [20, 45]
+tokens_class = ["T2"]
+rules = ["R_turns_analogy_v2", "R_time_turns_v2", "R_tok_short_v5", "R_say_numbers_v3"]
+analog = "p239"
+reason = "빗댄 p239(남은 숫자 모으기, 같은 저장소·같은 모양의 구현, 16.0분·125턴·33.9M)와 p238(13.1분·85턴·14.7M). 이번은 새 모듈(파서·CLI) + 두 모듈 고침 + 검사 + 테스트 + 문서 셋이라 p239보다 조금 크다 — 턴 ×1.0–1.3, 분당 5–7턴(구현, F070). 지시서에 칸 이름·검사 날짜·테스트 목록까지 적었으니(F071) 위쪽으로 안 벌린다. 가운데 √(15×30)=21분 → '다른 일'"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [13.86, 27.71]
+[dispatch.decide]
+main_ctx_k = 486
+left = 15
+direct_m = 92.5
+send_m = 35.0
+added_k = 380
+chose = "보냄"
+why = ["비용"]
+[dispatch.git]
+repo = "proviso-nesy"
+head = "daeb34be2a7b9d428aa820eed3f75ac3fae5c266"
+dirty = 19
+dirty_hashes = ["1a53b224:9469433d18c6", "1ddb028b:896ddb8b56c8", "2bdb829e:991a350c914f", "3c94ba0c:407269163cd9", "43b907d1:aa0592127305", "47ee8f57:c72720fe8caf", "66d8cbba:fece076b5d3d", "6ee61f77:85c198f1727e", "7212ef14:7df8c8ba6228", "8bb9447b:c2fef46c41f5", "8f988049:56321aa2d631", "90d5c6aa:de9ba5c8449c", "95effeb6:99bfef3b549c", "9ea846ce:39f9b753b810", "b416edda:6da1fdf08f6f", "bb562e17:6a881831828d", "cbbaed60:71f64b7063f8", "e1d9334b:404fb43b3c12", "ea328799:80ef0a9b5af2"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)

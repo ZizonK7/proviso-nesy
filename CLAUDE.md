@@ -4,7 +4,7 @@ Claude가 세션 시작 시 자동으로 읽는 작업 문서. 사람용 소개�
 **이 파일은 지도와 공통 규칙만 둔다.** 분야·작업의 자세한 것은 그 폴더 `CLAUDE.md`(그 폴더 파일을 열면 같이 읽힌다), 지난 경위는 [docs/history.md](docs/history.md).
 
 ## 프로젝트
-SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: [docs/sela-paper-draft.md](docs/sela-paper-draft.md) — 출발점이자 철학의 기준. 원문은 고치지 않고, 바뀐 결정은 이 파일과 docs/에 기록.
+**목적(2026-11-05 사용자 결정): 이전의 실수들을 통해 발전해 나간다.** 실수 = "그때로 돌아가면 그렇게 하지 않을 것"(피드백). 에이전트는 일하기 전에 그 일의 메인 피드백을 읽고 들어가고, 끝나면 새 피드백을 남긴다 — [feedback/CLAUDE.md](feedback/CLAUDE.md). 원안 SELA(자기 진화형 신경-기호 논리 아키텍처)의 '추론 논리를 모아 비용을 아낀다'는 접었다([docs/purpose-2026-11-05.md](docs/purpose-2026-11-05.md)). 원안 논문: [docs/sela-paper-draft.md](docs/sela-paper-draft.md) — 출발점이자 철학의 기준. 원문은 고치지 않고, 바뀐 결정은 이 파일과 docs/에 기록.
 
 ## 문서 규칙
 - 새 폴더에는 `CLAUDE.md`를 같이 만든다: 역할, 설계 결정과 이유, 지킬 규칙, 다른 폴더와의 관계.
@@ -18,6 +18,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 ## 현재 구조 (2026-11-02)
 | 폴더 | 역할 |
 |---|---|
+| `feedback/` | **이 저장소의 본체**: 하는 일별 메인 피드백 `main/<일>.md`(≤10개, 꼭 읽음) + 백서 `whitepaper.md`(피드백 전부, 색인). `python -m feedback check|index|topics|find`. 읽기·쓰기는 `record send`·`dispatches` 검사가 막는다(2026-11-06부터) |
 | `proviso/` | 코어(분야 모름): 지식 파일 읽기·검사(`schema`), 성적표(`score`), 점검(`audit`), 그래프(`graph`), 조회(`query`), MCP 서버(`mcp_server`, 읽기 전용) |
 | `domains/<id>/` | 분야 플러그인: `knowledge.toml`(크면 옆에 나눈 파일 `knowledge-*.toml`, 코어가 같이 읽음) + 가설 검사(`checks.py`) + 분야 전용 코드(agent_usage: 계산기 `predict`·맞추기 `fit`·홀드아웃 `holdout`). 폴더마다 `CLAUDE.md`(지금 상태), 필요하면 `history.md`(경위). 현재 `flowlog`, `music_player`, `agent_usage`, `language_learning`, `movie_game`, `far_fields`, `study_time` |
 | `experiments/` | 본체 실험 (논리집 유무에 따른 Claude 답 비교) |
@@ -29,6 +30,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 
 ## 확정된 설계 결정 (원안 대비 변경 포함)
 상세와 경위: [docs/knowledge-format-v0.md](docs/knowledge-format-v0.md)
+- **목적은 피드백** (2026-11-05 사용자 결정): 피드백 한 건 = 그때 / 다시 하면(행동 문장) / 왜 / 출처(사용자 > 실측 > AI) / 자리. **거름망: 그때 알 수 있었던 것으로 다르게 할 수 있었나** — 아니면 피드백이 아니다. 메인은 파일마다 ≤10이고 검사로 막히면 메인에서 내린다(졸업). 나아짐은 재발로 잰다. [feedback/CLAUDE.md](feedback/CLAUDE.md)
 - **지식 층위**: 목표 / 상태 / 사실(확인 날짜) / 관찰(사용자가 겪은 일) / 가설(주장; 규칙 = 방법이 붙은 가설, 아래). "선호" 층은 폐지 — 사용자 바람은 목표이거나 근거 붙은 방법.
 - **규칙 칸**: 목표 · 조건 · 방법 · 이유 · 근거 · 반대 근거 · 결과·부작용 · 예외 · 상태(가설/이전 버전) · 버전 · 검사. 원안 W(Warrant)를 방법과 이유로 분리.
 - **규칙·가설은 "성적 붙은 가설" 하나** (2026-10-19 사용자 결정): 규칙은 방법이 붙은 가설이고 '검증됨' 상태는 없다. 모든 가설은 자동 검사와 출처 붙은 판정을 합친 성적표를 받는다(`check`). 이유는 Lean 방향 — 모든 주장에 시험 기록이 붙고, 틀리면 어느 조각이 틀렸는지 짚는다. 논리는 잘 안 틀리고 조건을 흐리게 잡아서 틀리므로, **틀리면 조건을 더해 쪼갠다**(조건 없이 숫자만 넓힌 개정은 audit 경고). 목표·상태·사실·관찰은 가설이 아니다.
@@ -64,6 +66,7 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 - **다른 저장소 일의 기준 문서**: Flowlog 출시 준비는 Flowlog 저장소 `docs/RELEASE_CHECKLIST.md`(사용자가 콘솔에서 할 일은 맨 위). 지난 경위는 [docs/history.md](docs/history.md).
 
 ## 다음 할 일
+0. **피드백 구조 자리 잡기** (2026-11-05): 보낼 때마다 메인 피드백 읽기·끝나면 쓰기를 돌리며 재발을 센다. AGENT-LOG 배치 줄의 교훈은 백서로 옮길 것만 번호를 붙인다. 조각 층(1)·far_fields(3의 첫 묶음)는 새 목적의 줄기 밖이라 보류 후보 — 사용자 결정 전.
 1. **조각 층을 스키마에 넣기**: 조각 노드(근거 포함), 규칙의 "이루는 조각" 칸, 상황별 대 보기. 같은 조각이 여러 분야에 걸리고 분야별 성적이 따로 보이게. agent_usage의 계산 조각(효과 칸)이 첫 형태. 그 위에서 **처음 보는 질문으로 예측 시험**(사후 설명이 아닌지 확인).
 2. 정리: 가설 검사 결과를 지식에 저장(본체 실험에서 도구가 "지지됨"을 못 보여줌 → 2026-10-19부터 MCP `scorecard`가 성적표를 보여 준다. 결과를 파일에 저장하는 것은 아직), knowledge-format을 확정 양식 문서로 + 원안 대비 변경점 문서. (적용 범위 칸은 조각 층으로 대체)
 3. **일반 지식 넣기**(사용자 제안, 첫 묶음 = `far_fields` 2026-11-03: 먼 분야 경험칙. 웹 문헌 출처 등급은 아직 스키마에 없어 가설 `source` 글에 적었다): 통념 · 사용자 생각 · 연구·실험 근거를 조각으로. 출처 종류·근거 강도, 출처 실재 확인 필수, 필요한 것만, 충돌 시 개인 경험 > 일반 원리. 사용자 생각 출처: 각 저장소 DECISIONS.md(뮤직 플레이어에서 효과 확인 — 있었으면 질문 1을 안 틀렸음).
@@ -80,7 +83,8 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 
 보내기 전
 0. 보낼까: 도구를 대여섯 번 넘게 쓸 일이면 `python -m domains.agent_usage.decide`로 직접 할 때와 보낼 때의 토큰을 견준다(감으로 두면 안 보내는 쪽으로 기운다). 직접 하면 `record direct`로 `direct.toml`에([agent_usage "보낼까 판단"](domains/agent_usage/CLAUDE.md)). 검사: 2026-11-04부터 보낸 기록의 `decide` 칸.
-1. 지시서: 목표, 범위(건드릴 폴더·파일), 하지 말 것과 승인이 필요한 일, 완료 조건과 확인 방법, **보고서 경로**(양식 [docs/worklog/CLAUDE.md](docs/worklog/CLAUDE.md)), 하위의 하위 허용 여부, 이 저장소 규칙(일상어, 공개 저장소, 사실은 코드로).
+1. **피드백 읽기**: `python -m feedback topics "<할 일>"`이 고른 `feedback/main/*.md`(늘 `common`)를 읽고 보낼 일 파일 `[feedback] read`에 적는다. 지시서에도 그 파일 경로를 적어 작업자가 읽게. 검사: 2026-11-06부터 `record send`·`dispatches`가 막는다.
+1′. 지시서: 목표, 범위(건드릴 폴더·파일), 하지 말 것과 승인이 필요한 일, 완료 조건과 확인 방법, **보고서 경로**(양식 [docs/worklog/CLAUDE.md](docs/worklog/CLAUDE.md)), 읽을 피드백 파일, 하위의 하위 허용 여부, 이 저장소 규칙(일상어, 공개 저장소, 사실은 코드로).
 2. 예측(묶음 명령 `python -m domains.agent_usage.record send <보낼 일 파일>`이 아래를 한 번에): `domains/agent_usage/dispatches.toml`에 기록을 먼저 덧붙인다(상황 값은 가장 비슷한 지난 기록에서 복사해 바꾸고, `agent`·`round`와 보낸 `model`·`effort`도 — '기본 설정인가'는 이 둘에서 계산. **쓰는 파일 수 `files`**(새로·통째로 쓰는 write, 일부 고치는 edit)는 실제 지시서에서 센다 — 검사: 2026-11-04부터, [agent_usage "파일 수 비율 조각"](domains/agent_usage/CLAUDE.md)) → 계산기 `predict <id> --calc`(앞 기록의 calc를 베끼지 않는다) → 정해진 일이면 빗댄 기록 규칙 `analog <id>`(시험 중, 참고) → 손 예측 → 사용자에게 구간(걸치면 가운데 값의 구간)·숫자·이유. 보내기 전 점검 넷, 도중 지시, 끝난 뒤 validate·audit·테스트 같은 자세한 단계는 [agent_usage "고리"](domains/agent_usage/CLAUDE.md). 검사: 2026-11-04부터 model·effort(없거나 '기본 설정인가'와 어긋나면 막음). 나머지는 칸 모양만 본다(빠져도 안 막음).
 
 끝나면 — 사용자에게 결과를 말하기 전에 기록부터(컨테이너가 회수되면 대화 기록이 사라진다)
@@ -89,10 +93,12 @@ SELA(자기 진화형 신경-기호 논리 아키텍처) 구현. 원안 논문: 
 4. 턴 길이: 같은 로그에 `--turns --toml` → 기록 끝에 `[dispatch.turns]`(잴 수 없으면 `skip = "이유"`). 검사(2026-11-03부터). 로그 숫자 `[dispatch.log]`와 git으로 잰 작업자 변경 `[dispatch.git]`도 `record finish`가 붙이고, 클라우드 세션은 `session` id를 보낼 때 적고 끝나면 result 사건 숫자를 `record cloud`로 `[dispatch.cloud]`에 — 검사(2026-11-06부터).
 5. 보고서: 작업자의 보고서를 확인하고 경로를 `review.report`에. 검사(2026-11-03부터).
 6. 돌아보기: `review.reason`, 구간이 빗나가면 `review.wrong`·`review.why`. 검사(빗나갔을 때 wrong·why).
+6′. **피드백 쓰기**: 이번 일에서 "다시 하면 다르게 할 것"이 있었나 — 있으면 [feedback/whitepaper.md](feedback/whitepaper.md)에 항목(거름망 통과한 것만)을 덧붙이고 `python -m feedback index --write`, 메인 기준에 맞으면 `main/<일>.md`에도. `review.feedback`에 번호 목록 또는 `"없음: 이유"`. 검사(2026-11-06부터).
 7. 배치 줄: [docs/AGENT-LOG.md](docs/AGENT-LOG.md)에 `## 배치 N · 날짜 · 주제` 머리와 모델·effort·품질(1–5)·교훈. 검사(2026-11-04부터, batman 기록은 batman 쪽).
 8. 결과 검토 → 커밋·push(메인).
 
 ## 다른 저장소 다루기
+- **시작할 때 [feedback/main/common.md](feedback/main/common.md)와 자기 일의 메인 파일**(풀이지 `exam_grader.md`, 수업정리 `professor_king.md`, 게임 `movie_game.md`, 조사 `research.md` …)을 읽는다. 하위 에이전트를 보내면 위 체크리스트 그대로.
 - 사용자 앱(music_player, Flowlog 등)의 **동작은 코드에서 확인**하고 사용자에게는 의도·판단만 묻는다.
 - 고칠 때: 이 PC에 클론이 없으면 임시 폴더에 받아 작업 → 그 저장소 관례(DECISIONS.md 등)대로 기록 → main에 push(사용자 방식). 비공개 저장소 코드는 여기에 옮겨 적지 않는다.
 - **다른 저장소에서 일하는 세션이 이 레포에 기록할 때** (2026-11-03, 사용자가 다른 저장소에서 "논리집 레포 읽어 봐"라고만 하는 일이 많다): 하위 에이전트를 보내면 기록은 이 레포에 남긴다 — `domains/agent_usage/dispatches.toml`(`project = "<그 저장소>"`), `docs/AGENT-LOG.md`의 배치 줄, 보고서는 그 저장소에 두고 `review.report = "저장소:경로"`(또는 이 레포 `docs/worklog/`). 이 레포를 그 세션에 붙여(PC는 `../proviso-nesy`, 클라우드는 저장소 붙이기) 그 세션의 작업 브랜치에 커밋·push한다. 기록 id는 이 레포 기본 브랜치의 마지막 번호 다음부터 — 여러 세션이 동시에 적으면 번호가 겹치니, 합칠 때 뒤 묶음을 다시 매기고 머리 주석에 원래 번호를 남긴다([docs/worklog/2026-11-02-branch-merge.md](docs/worklog/2026-11-02-branch-merge.md)). 이 레포를 붙일 수 없으면 그 저장소에 기록 초안과 "proviso sync pending: 배치 N"을 남기고 나중에 이 레포 세션이 옮긴다(batman 방식).
