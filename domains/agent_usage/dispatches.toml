@@ -16577,4 +16577,17 @@ added_k = 1145
 chose = "보냄"
 why = ["대화 계속", "대화 맥락"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 1.0  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 8
+tokens_m = 4.64  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-05T09:27:37Z"
+end = "2026-11-05T09:28:34Z"
+[dispatch.review]
+report = "docs/worklog/2026-11-02-exam-grader-kkulmo-s2-02.md"
+reason = "말한 구간 '잠깐' 맞음. 10개 반영 + 재렌더 2회. 28번 한 바퀴: 2.5 + 2.4 + 수정"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Read" = { n = 3, sum_s = 20.8, turn_s = 7.0, tool_s = 1.1, out_chars = 98, ctx_k = 582 }
+"글" = { n = 2, sum_s = 21.9, turn_s = 10.9, out_chars = 0.0, ctx_k = 579.0 }
+"Bash:cd" = { n = 2, sum_s = 6.7, turn_s = 3.4, tool_s = 2.4, out_chars = 2244.5, ctx_k = 579.0 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 1133, ctx_k = 585 }
