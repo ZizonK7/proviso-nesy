@@ -15746,3 +15746,162 @@ reason = "말한 구간 '신경 끄기'(손 30–70의 가운데 값) 빗나감 
 "Bash:spec;" = { n = 1, sum_s = 4.9, turn_s = 4.9, tool_s = 0.2, out_chars = 673, ctx_k = 325 }
 "Write" = { n = 1, sum_s = 21.2, turn_s = 21.2, tool_s = 0.0, out_chars = 6373, ctx_k = 365 }
 "SubagentHandback" = { n = 1, sum_s = 0.3, turn_s = 0.3, tool_s = 0.3, out_chars = 2772, ctx_k = 377 }
+
+[[dispatch]]
+id = "p200"
+project = "gemmin"
+batch = 62
+date = 2026-11-05
+task = "조사(클라우드 'searching', Haiku 5.5, 새 세션, 팀 3갈래 중 A): 전문연구요원 제도(박사 전문연 요건·복무·정원 추이·국외 출국 제한, 해외 박사 진학과 병역). 전송 조건: 공식·원문 6건 이상 열람, 결과는 최종 답에. effort는 세션 기본값(지정 못 함)"
+model = "Haiku 5.5"
+effort = "medium"
+agent = "phd-plan-A"
+round = 1
+size = { find_cap = "질문 4개·원문 6건" }
+files = {  }
+[dispatch.situation]
+S_specified = "아니오"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_read_originals = "예"
+S_web_blocked = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [3, 7]
+turns = [25, 60]
+tokens_m = [1, 4]
+tokens_class = ["T1"]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v3"]
+analog = "p188"
+reason = "손 예측(보내기 전): 빗댄 p188(searching Haiku 원문 8건 조사, 예측 2–4분)과 11-03 같은 모양 세션(1–3분). 이번엔 제도·통계처럼 공식 자료를 찾아야 하고 질문이 4개라 조금 위로 3–7분, 1–4M(세션 사용량 단위). 세 세션은 동시에 돌아 벽시계는 가장 긴 쪽"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 420
+left = 30
+direct_m = 16.3
+send_m = 6.5
+added_k = 0
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p201"
+project = "gemmin"
+batch = 62
+date = 2026-11-05
+task = "조사(클라우드 'searching', Haiku 5.5, 새 세션, 팀 3갈래 중 B): 국내 박사 vs 해외 박사 진로(AI/ML·통계: 교수 임용·빅테크/연구소 채용·포닥 경로). 전송 조건: 공식·원문 6건 이상 열람, 결과는 최종 답에. effort는 세션 기본값(지정 못 함)"
+model = "Haiku 5.5"
+effort = "medium"
+agent = "phd-plan-B"
+round = 1
+size = { find_cap = "질문 4개·원문 6건" }
+files = {  }
+[dispatch.situation]
+S_specified = "아니오"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_read_originals = "예"
+S_web_blocked = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [3, 7]
+turns = [25, 60]
+tokens_m = [1, 4]
+tokens_class = ["T1"]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v3"]
+analog = "p188"
+reason = "손 예측(보내기 전): 빗댄 p188(searching Haiku 원문 8건 조사, 예측 2–4분)과 11-03 같은 모양 세션(1–3분). 이번엔 제도·통계처럼 공식 자료를 찾아야 하고 질문이 4개라 조금 위로 3–7분, 1–4M(세션 사용량 단위). 세 세션은 동시에 돌아 벽시계는 가장 긴 쪽"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 420
+left = 30
+direct_m = 16.3
+send_m = 6.5
+added_k = 0
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p202"
+project = "gemmin"
+batch = 62
+date = 2026-11-05
+task = "조사(클라우드 'searching', Haiku 5.5, 새 세션, 팀 3갈래 중 C): 국내 상위 AI·통계 대학원 입시(학점 수준·평가 요소·통계 복수전공 필요성·선수 과목). 전송 조건: 공식·원문 6건 이상 열람, 결과는 최종 답에. effort는 세션 기본값(지정 못 함)"
+model = "Haiku 5.5"
+effort = "medium"
+agent = "phd-plan-C"
+round = 1
+size = { find_cap = "질문 4개·원문 6건" }
+files = {  }
+[dispatch.situation]
+S_specified = "아니오"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_read_originals = "예"
+S_web_blocked = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [3, 7]
+turns = [25, 60]
+tokens_m = [1, 4]
+tokens_class = ["T1"]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v3"]
+analog = "p188"
+reason = "손 예측(보내기 전): 빗댄 p188(searching Haiku 원문 8건 조사, 예측 2–4분)과 11-03 같은 모양 세션(1–3분). 이번엔 제도·통계처럼 공식 자료를 찾아야 하고 질문이 4개라 조금 위로 3–7분, 1–4M(세션 사용량 단위). 세 세션은 동시에 돌아 벽시계는 가장 긴 쪽"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 420
+left = 30
+direct_m = 16.3
+send_m = 6.5
+added_k = 0
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
