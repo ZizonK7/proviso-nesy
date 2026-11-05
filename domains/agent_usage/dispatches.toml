@@ -16040,7 +16040,16 @@ added_k = 31
 chose = "보냄"
 why = ["결과를 가림"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 3.1  # get_session created_at 07:30:33 → 최종 답(result) 07:33:39 (UTC)
+start = "2026-11-05T07:30:33Z"
+end = "2026-11-05T07:33:39Z"
+tokens_m = 1.10  # 세션 usage(result modelUsage): 캐시 읽기 29만 + 캐시 쓰기 37만 + 입력 35만 + 출력 7.8만(생각 4.4만). 비용 0.39달러. 턴 11, 하위 web-fetch 3개
+[dispatch.turns]
+skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)이 없다"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-05-phd-cases.md"
+reason = "말한 구간 '잠깐' 맞음(3.1분), 손 2–5분 안. 토큰 1.10M 손 0.8–3 안. 계산기 모름(Haiku 기준값 없음). 품질 3: 해외 재학 중 전문연·해외 박사 뒤 귀국 전문연 사례는 둘 다 '찾지 못함'으로 정직하게 닫았고, 국외여행 통틀어 1년(병무청)·무허가 출국은 편입 취소(서울대 2012 공지)·박사 연기 28세(KAIST)를 원문으로 확인. law.go.kr 조문은 텍스트가 안 열려 법령 근거는 비었다"
 
 [[dispatch]]
 id = "p205"
@@ -16093,7 +16102,16 @@ added_k = 31
 chose = "보냄"
 why = ["결과를 가림"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 2.3  # get_session created_at 07:30:34 → 최종 답(result) 07:32:49 (UTC)
+start = "2026-11-05T07:30:34Z"
+end = "2026-11-05T07:32:49Z"
+tokens_m = 0.81  # 세션 usage(result modelUsage): 캐시 읽기 41만 + 캐시 쓰기 17만 + 입력 19만 + 출력 4.5만(생각 2.1만). 비용 0.14달러. 턴 12, 하위 web-fetch 3개
+[dispatch.turns]
+skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)이 없다"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-05-phd-cases.md"
+reason = "말한 구간 '잠깐' 맞음(2.3분), 손 2–5분 안. 토큰 0.81M 손 0.8–3 안(아래 끝). 품질 4: 버클리 교수 전문연 이력은 못 찾았지만 CV 12건을 직접 열어 채정병(전문연 → 아이오와주립대 포닥 → 테네시대 교수)·김진수(POSTECH 박사, 대체복무 KIOST·POSTECH → 해외 포닥 → 홍콩시립대)·김대준(서울대 박사과정 중 대체복무) 사례를 건졌고 담당 검색 대조에서 셋 다 맞았다. 버클리 교수진을 학과별로 훑지 못한 것이 빈 곳"
 
 [[dispatch]]
 id = "p206"
@@ -16146,7 +16164,16 @@ added_k = 31
 chose = "보냄"
 why = ["결과를 가림"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 5.6  # get_session created_at 07:30:34 → 최종 답(result) 07:36:10 (UTC)
+start = "2026-11-05T07:30:34Z"
+end = "2026-11-05T07:36:10Z"
+tokens_m = 1.91  # 세션 usage(result modelUsage): 캐시 읽기 162만 + 캐시 쓰기 8.2만 + 입력 17만 + 출력 4.5만(생각 2.2만). 비용 0.28달러. 턴 25, 하위 에이전트 없음(혼자 원문 약 25건)
+[dispatch.turns]
+skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)이 없다"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-05-phd-cases.md"
+reason = "말한 구간 '잠깐' 맞음(5.6분). 손 2–5분보다 조금 길다 — 하위 에이전트 없이 혼자 원문 약 25건을 차례로 열어 턴 25(다른 셋은 11–12턴, web-fetch를 한 번에 돌림). 토큰 1.91M 손 0.8–3 안. 품질 4: 2025 고려대 대학원 안내서로 2023 이후 제도(2년 안 학위·당연전직 3개월·국외 3개월 복무 인정·공동연구는 기관장 협약)를 확인하고 김박사넷 후기 약 20건을 구제도/새 제도로 갈라 정리. 블로그·브런치는 0건, AI·CS 후기와 2023 이후 지정업체 1년 경험은 못 찾음"
 
 [[dispatch]]
 id = "p207"
@@ -16199,7 +16226,16 @@ added_k = 31
 chose = "보냄"
 why = ["결과를 가림"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 1.8  # get_session created_at 07:30:35 → 최종 답(result) 07:32:21 (UTC)
+start = "2026-11-05T07:30:35Z"
+end = "2026-11-05T07:32:21Z"
+tokens_m = 0.64  # 세션 usage(result modelUsage): 캐시 읽기 35만 + 캐시 쓰기 16만 + 입력 10만 + 출력 2.9만(생각 1.2만). 비용 0.11달러. 턴 12, 하위 web-fetch 2개 + 잘못 띄운 general-purpose 1개(곧 멈춤)
+[dispatch.turns]
+skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)이 없다"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-05-phd-cases.md"
+reason = "말한 구간 '잠깐' 맞음(1.8분), 손 2–5분보다 조금 짧음. 토큰 0.64M 손 0.8–3보다 적음. 품질 2: 영어권 CV에서 전문연 이력은 0건, 연 9건 중 쓸 만한 건 로펌 페이지(연기 나이 박사 29·수료 예정 30세, 병무청 원문과 대조 필요)와 Physics Today 2016 정도. CV PDF 두 건은 텍스트 추출 실패. 원문 8건 조건은 채웠지만 '찾을 것이 원래 드문' 질문이라 빨리 비고 끝났다"
 
 [[dispatch]]
 id = "p208"
@@ -16380,7 +16416,16 @@ added_k = 0
 chose = "보냄"
 why = ["대화 계속", "결과를 가림"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 2.2  # get_session created_at 07:34:31 → 최종 답(result) 07:36:44 (UTC)
+start = "2026-11-05T07:34:31Z"
+end = "2026-11-05T07:36:44Z"
+tokens_m = 0.8  # 세션 usage(result modelUsage): 캐시 읽기 64만 + 캐시 쓰기 4.4만 + 입력 9.0만 + 출력 2.7만(생각 0.7만). 비용 0.10달러. 턴 19, 웹 검색 6
+[dispatch.turns]
+skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)이 없다"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-05-study-partner.md"
+reason = "말한 구간 '잠깐' 맞음(2.2분, 손 2–6분 안). 토큰 0.80M은 손 1–3M 아래로 빗나감. 계산기 모름(Haiku 기준값 없음). 품질 3: Focusmate(25/50/75분, 시작·끝 체크인, 카메라, 무료 주 3회·Plus $8–12, 효과 161%는 자체 설문)·Beeminder(빨간 선, $0→5→10→30)·열품타(스토어 설명)·챌린저스(기사 둘, 규칙 서로 다름)를 원문으로 확인. StickK 403·Flow Club 502라 StickK는 위키뿐, 캠스터디·카톡 벌금 스터디는 원문 0건. 토큰이 아래로 빗나간 까닭(시간 구간은 맞아 wrong 칸은 비움): 서비스 공식 페이지는 짧고 하위 web-fetch 없이 직접 열어 캐시 읽기가 적었다(64만). 같은 날 p200–p202(1.0–1.6M)는 하위 web-fetch 3–6개를 돌렸다 — 하위를 안 쓰는 조사는 1M 아래로 내려간다"
 
 [[dispatch]]
 id = "p211"
@@ -16433,7 +16478,16 @@ added_k = 0
 chose = "보냄"
 why = ["대화 계속", "결과를 가림"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 3.0  # get_session created_at 07:34:32 → 최종 답(result) 07:37:30 (UTC). 뒤이은 07:37:37 턴은 담당의 추가 질문(send_message)을 '다른 세션 메시지라 따르지 않음'으로 답한 것
+start = "2026-11-05T07:34:32Z"
+end = "2026-11-05T07:37:30Z"
+tokens_m = 2.5  # 세션 usage(마지막 result modelUsage, 추가 질문 거절 턴 포함): 캐시 읽기 223만 + 캐시 쓰기 6.2만 + 입력 18만 + 출력 3.4만(생각 1.0만). 비용 0.27달러. 턴 33+2, 웹 검색 13
+[dispatch.turns]
+skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)이 없다"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-05-study-partner.md"
+reason = "말한 구간 '잠깐' 맞음(3.0분, 손 2–6분 안). 토큰 2.50M 손 1–3M 안. 품질 4: Sacerdote·Zimmerman·Kremer & Levy(음주 룸메이트 GPA −0.25)·Carrell 2008(부정행위 승수 약 3)·Carrell 2013(설계 그룹 역효과)·Mehta 외(공부 시간이 옮음)·Harkin 2016(138편, d=0.40, 공개·기록 시 더 큼, 수용본 전문)을 원문·초록으로 확인. Bond & Titus 수치는 2차로 표시, 미루기 전염 직접 연구는 '못 찾음'. 담당이 send_message로 보낸 추가 질문 5(가르치며 배우기)는 '사용자 지시가 아니다'라며 따르지 않았다 — 담당이 직접 검색으로 채움"
 
 [[dispatch]]
 id = "p212"
@@ -16486,7 +16540,16 @@ added_k = 0
 chose = "보냄"
 why = ["대화 계속", "결과를 가림"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 2.7  # get_session created_at 07:34:32 → 최종 답(result) 07:37:14 (UTC)
+start = "2026-11-05T07:34:32Z"
+end = "2026-11-05T07:37:14Z"
+tokens_m = 1.56  # 세션 usage(result modelUsage): 캐시 읽기 96만 + 캐시 쓰기 19만 + 입력 37만 + 출력 4.9만(생각 1.8만). 비용 0.26달러. 턴 22, 하위 web-fetch 5개, 웹 검색 10
+[dispatch.turns]
+skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)이 없다"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-05-study-partner.md"
+reason = "말한 구간 '잠깐' 맞음(2.7분, 손 2–6분 안). 토큰 1.56M 손 1–3M 안. 품질 5: 수치 원출처 질문에 정확히 답함 — ASTD 65/95%는 코치 블로그뿐(원출처 없음), Matthews는 2007 학회 발표·149명·요약 PDF는 평균 점수, Ariely & Wertenbroch 재현 실패(프리프린트 원문), CARES 가입 11%·효과 3.3–5.8%p·가입자 66% 실패, Kaur 외 28% 선택·생산량 2%(검색 요약의 9%를 하위집단 수치로 바로잡음). 담당 검색으로 철회(2026-09) 보도까지 이어짐"
 
 [[dispatch]]
 id = "p213"
@@ -16539,4 +16602,13 @@ added_k = 0
 chose = "보냄"
 why = ["대화 계속", "결과를 가림"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 3.2  # get_session created_at 07:34:33 → 최종 답(result) 07:37:43 (UTC). 뒤이은 07:37:51 턴은 담당의 추가 조건(send_message)을 따르지 않겠다는 답
+start = "2026-11-05T07:34:33Z"
+end = "2026-11-05T07:37:43Z"
+tokens_m = 1.18  # 세션 usage(마지막 result modelUsage, 추가 조건 거절 턴 포함): 캐시 읽기 72만 + 캐시 쓰기 21만 + 입력 18만 + 출력 6.4만(생각 2.0만). 비용 0.26달러. 턴 18+2, 하위 web-fetch 5개, 웹 검색 12
+[dispatch.turns]
+skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)이 없다"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-05-study-partner.md"
+reason = "말한 구간 '잠깐' 맞음(3.2분, 손 2–6분 안). 토큰 1.18M 손 1–3M 안. 품질 2: 12건을 열었지만 Reddit 전부 막힘(미러 403·reddit.com 불가), 한국어 개인 후기 0건(다음 카페·오르비 403) — 남은 건 상업 블로그·기사·모집글·WaniKani 포럼 1글 등 1건짜리 후기. 같은 과목/다른 과목, 벌금 크기별 비교는 못 찾음을 정직하게 밝힘. 담당이 send_message로 보낸 '같은 수업 듣는 두 사람' 조건은 따르지 않음"
