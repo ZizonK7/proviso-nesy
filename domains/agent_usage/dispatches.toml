@@ -16746,3 +16746,59 @@ reason = "말한 구간 '다른 일' 맞음(15.5분 안팎, 손 15–35 아래 �
 "Bash:python3" = { n = 1, sum_s = 3.8, turn_s = 3.8, tool_s = 0.3, out_chars = 214, ctx_k = 217 }
 "Bash:sed" = { n = 1, sum_s = 36.6, turn_s = 36.6, tool_s = 0.6, out_chars = 171, ctx_k = 244 }
 "SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 2984, ctx_k = 321 }
+
+[[dispatch]]
+id = "p215"
+project = "gemmin"
+batch = 67
+date = 2026-11-05
+task = "새(gemmin 세션 안 Opus 5.5 high, 담당 에이전트 — 팀 꾸리기): 친구끼리 서로 공부 원동력이 되는 구조(gemmin docs/research/2026-11-05-study-partner.md)에 논리집 여러 분야(far_fields 중심 + 다른 분야)에서 무작위로 뽑은 조각을 강제로 이어 붙여 새 설계 찾기 — 연결 실험 v0 절차(뽑기·다시 말하기·네 각도·새 설계 또는 포기). 팀원 서브 에이전트 3–4개(Opus 5.5 medium)에 조각 묶음을 나눠 주고, 담당이 검토해 기준 미달이면 되돌려 보냄(back). 보고서 gemmin docs/research/2026-11-05-study-partner-creative.md, 팀원 기록도 담당이 논리집에"
+model = "Opus 5.5"
+effort = "high"
+agent = "study-creative-lead"
+round = 1
+size = { find_cap = "조각 12개·팀원 3–4·되돌리기 최대 1바퀴" }
+files = { write = 1, edit = 2 }
+[dispatch.situation]
+S_specified = "아니오"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [20, 45]
+turns = [80, 220]
+tokens_m = [15, 45]
+tokens_class = ["T1", "T2"]
+rules = ["R_say_numbers_v3"]
+analog = "p209"
+reason = "손 예측(보내기 전): 빗댄 p209(담당 + 팀원 4, 17.0분)과 같은 모양이지만 팀원이 웹 조사 Haiku 세션이 아니라 이 세션의 Opus medium 서브 에이전트(추론·글쓰기라 한 명에 5–10분)이고, 담당이 검토 뒤 되돌려 보내는 바퀴가 한 번 붙을 수 있다. 20–45분, 토큰 기록 단위 15–45M"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [10.05, 20.09]
+[dispatch.decide]
+main_ctx_k = 600
+left = 25
+direct_m = 111.2
+send_m = 32.2
+added_k = 272
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
