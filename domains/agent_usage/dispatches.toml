@@ -16662,3 +16662,64 @@ skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)�
 [dispatch.review]
 report = "gemmin:docs/research/2026-11-05-study-partner.md"
 reason = "말한 구간 '잠깐' 맞음(3.2분, 손 2–6분 안). 토큰 1.18M 손 1–3M 안. 품질 2: 12건을 열었지만 Reddit 전부 막힘(미러 403·reddit.com 불가), 한국어 개인 후기 0건(다음 카페·오르비 403) — 남은 건 상업 블로그·기사·모집글·WaniKani 포럼 1글 등 1건짜리 후기. 같은 과목/다른 과목, 벌금 크기별 비교는 못 찾음을 정직하게 밝힘. 담당이 send_message로 보낸 '같은 수업 듣는 두 사람' 조건은 따르지 않음"
+
+[[dispatch]]
+id = "p214"
+project = "gemmin"
+batch = 66
+date = 2026-11-05
+task = "새(gemmin 세션 안 Opus 5.5 high, 새 에이전트): Professor_King 대회 공방(은하)에 물리 보강 회차 하나 새로 — 1단계 블록 4–5개(헤일로-별 질량 관계, 형성 이력 열 main_prog 읽기, 환경·위성 꺼짐, 시뮬레이션의 한계, AI 피처 제안 검토 절차) + 2단계 짧게 + §9 문제, 13개 열·실측 숫자에 붙여. 커리큘럼.md 회차 표 고침. Professor_King main push"
+model = "Opus 5.5"
+effort = "high"
+agent = "galaxy-physics-boost"
+round = 1
+size = { reads = 6, outputs = 1, checks = 3 }
+files = { write = 1, edit = 1 }
+[dispatch.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_template_given = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_specified = "예"
+S_resumed = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [15, 35]
+turns = [60, 150]
+tokens_m = [10, 30]
+tokens_class = ["T1", "T2"]
+rules = ["R_turns_analogy_v2", "R_say_numbers_v3"]
+analog = "p193"
+reason = "손 예측(보내기 전): 빗댄 p193(심수기 수업정리 재작성, 실측 26.2분, 12파일)보다 파일은 적지만 새 회차 하나를 처음부터 쓰고 데이터 숫자를 직접 돌려 확인해야 한다(13개 열 통계). 템플릿은 같은 폴더 3-1. 15–35분, 토큰 기록 단위 10–30M"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.62, 91.23]
+[dispatch.decide]
+main_ctx_k = 560
+left = 25
+direct_m = 77.0
+send_m = 23.2
+added_k = 245
+chose = "보냄"
+why = ["대화 계속"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
