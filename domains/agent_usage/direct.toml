@@ -6,6 +6,9 @@
 #   project, date, task, situation(선택 — 계산기에 쓴 상황 값)
 #   decide           보낼까 판단(decide.py 출력의 [direct.decide]): main_ctx_k 그때 메인 맥락(천), left 남은 응답 어림,
 #                    direct_m·send_m 두 추정(백만, 기록 단위), chose = "직접", why(비용 / 새 눈 / 대화 계속 / 대화 맥락 / 결과를 가림)
+#   predicted        손 예측(2026-11-06 사용자 결정 — 직접 하는 작업도 예측해 둔다, 2026-11-07부터 필수): written_before = true,
+#                    minutes·turns(줄)·tokens_m = [하한, 상한] — 실측과 같은 단위, (선택) ctx_start_k 시작할 때 메인 맥락(천 토큰).
+#                    직접 할 일 파일의 [predicted]를 record direct가 옮긴다. record finish가 실측과 견준다
 #   actual           끝나면: 메인 대화 기록에서 `scripts/agent_usage.py <메인 기록> --rounds`로 그 요청의 시작·끝을 보고
 #                    `--actual --after <시작> --until <끝>` → status·minutes·turns(줄)·tokens_m·start·end
 #   review.reason    고른 쪽이 맞았나(다른 쪽 추정과 견줘)

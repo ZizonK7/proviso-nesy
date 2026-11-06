@@ -287,7 +287,8 @@ class GroundTruth(unittest.TestCase):
         errors = dp.validate_direct([d])
         for word in ("전부", "searched", "hit", "review.missed"):
             self.assertTrue(any(word in e for e in errors), (word, errors))
-        ok = {**d, "feedback": GOOD, "review": {"feedback": "없음: 메인이 한 작은 고침", "missed": "없음: 놓친 항목이 없다"}}
+        ok = {**d, "feedback": GOOD, "review": {"feedback": "없음: 메인이 한 작은 고침", "missed": "없음: 놓친 항목이 없다"},
+              "predicted": {"minutes": [0.5, 2], "turns": [1, 4], "tokens_m": [0.05, 0.2]}}
         self.assertEqual(dp.validate_direct([ok]), [])
 
 
@@ -358,7 +359,7 @@ class GroundTruthRecord(RecordFiles, unittest.TestCase):
 
     def test_direct_from_nov_7(self):
         (self.tmp / "direct.toml").write_text("# 직접 한 일\n", encoding="utf-8")
-        head = (f'project = "proviso"\ndate = "{dp.FEEDBACK_ALL_FROM}"\ntask = "문서 두 곳 고치기"\n[predicted]\nturns = [4, 8]\n'
+        head = (f'project = "proviso"\ndate = "{dp.FEEDBACK_ALL_FROM}"\ntask = "문서 두 곳 고치기"\n[predicted]\nminutes = [1, 3]\nturns = [4, 8]\n'
                 'tokens_m = [0.3, 0.6]\n[decide]\nmain_ctx_k = 800\n')
         (self.tmp / "bad.toml").write_text(head + self.fb({"read": ALL, "searched": ["문서"]}), encoding="utf-8")
         with self.assertRaises(SystemExit) as cm:
@@ -494,7 +495,7 @@ class Brief(RecordFiles, unittest.TestCase):
         (self.tmp / "direct.toml").write_text("# 직접 한 일\n", encoding="utf-8")
         (self.tmp / "ok.toml").write_text(
             f'project = "proviso"\ndate = "{dp.FEEDBACK_ALL_FROM}"\ntask = "문서 두 곳 고치기"\nbrief = "{self.PTR}"\n[predicted]\n'
-            'turns = [4, 8]\ntokens_m = [0.3, 0.6]\n[decide]\nmain_ctx_k = 800\n' + self.fb(), encoding="utf-8")
+            'minutes = [1, 3]\nturns = [4, 8]\ntokens_m = [0.3, 0.6]\n[decide]\nmain_ctx_k = 800\n' + self.fb(), encoding="utf-8")
         rc.direct(self.tmp / "ok.toml", self.tmp / "direct.toml")
         self.assertEqual(dp.load_direct(self.tmp / "direct.toml")[-1]["brief"], self.PTR)
 

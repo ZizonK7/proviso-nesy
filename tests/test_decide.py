@@ -154,6 +154,30 @@ read = ["common", "exam_grader", "images", "parallel", "professor_king"]
         self.assertEqual(dp.validate_direct(dp.load_direct(self.tmp / "direct.toml")), [])
 
 
+    def test_direct_hand_prediction_is_kept_and_compared(self):
+        # 2026-11-06 사용자 결정: 직접 하는 작업도 손 예측을 남기고, 끝나면 실측과 견준다. 11-07부터 필수.
+        (self.tmp / "direct.toml").write_text("# 직접 한 일\n", encoding="utf-8")
+        head = 'project = "proviso"\ndate = "2026-11-07"\ntask = "문서 두 곳 고치기"\n'
+        tail = '[decide]\nmain_ctx_k = 800\nwhy = ["대화 맥락"]\n[feedback]\nread = ' + repr(sorted(p.stem for p in (dp.ROOT / "feedback" / "main").glob("*.md"))).replace("'", '"') + \
+               '\nsearched = ["문서"]\nhit = []\nhit_none = "시험용 가짜 기록"\n'
+        (self.tmp / "no.toml").write_text(head + '[predicted]\nturns = [4, 8]\ntokens_m = [0.3, 0.6]\n' + tail, encoding="utf-8")
+        with self.assertRaises(SystemExit) as cm:
+            rc.direct(self.tmp / "no.toml", self.tmp / "direct.toml")
+        self.assertIn("predicted.minutes", str(cm.exception))
+        (self.tmp / "ok.toml").write_text(head + '[predicted]\nminutes = [0.5, 2]\nturns = [1, 2]\ntokens_m = [0.3, 0.6]\nctx_start_k = 800\n' + tail,
+                                          encoding="utf-8")
+        rc.direct(self.tmp / "ok.toml", self.tmp / "direct.toml")
+        e = dp.load_direct(self.tmp / "direct.toml")[0]
+        self.assertEqual((e["predicted"]["minutes"], e["predicted"]["ctx_start_k"], e["predicted"]["written_before"]), ([0.5, 2], 800, True))
+        write_log(self.tmp / "main.jsonl", [("2026-11-07T02:00:00Z", "user", 0), ("2026-11-07T02:00:10Z", "assistant", 800000),
+                                             ("2026-11-07T02:00:11Z", "tool", 0), ("2026-11-07T02:01:00Z", "assistant", 812000)])
+        out = rc.finish("m001", self.tmp / "main.jsonl", "2026-11-07T02:00:00Z", "2026-11-07T02:01:00Z", path=self.tmp / "direct.toml",
+                        feedback="없음: 시험용 가짜 기록", missed="없음: 시험용 가짜 기록")
+        self.assertIn("손 예측 vs 실측: 분 1.0 (예측 0.5–2, 안) · 줄 2 (예측 1–2, 안)", out)
+        self.assertEqual(dp.direct_predicted_errors({"id": "m9", "date": "2026-11-07"})[0][:4], "m9: ")
+        self.assertEqual(dp.direct_predicted_errors({"id": "m9", "date": "2026-11-06"}), [])
+
+
 class Check(unittest.TestCase):
     def test_rule_is_tested_by_decide_cost(self):
         kn = pr.load_kn()

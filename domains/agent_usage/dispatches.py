@@ -246,6 +246,36 @@ def decide_errors(did: str, dec, chose: str) -> list[str]:
     return errors
 
 
+# 직접 한 일의 손 예측 (2026-11-06 사용자 결정: 보낸 일뿐 아니라 메인이 직접 하는 작업도 예측해 둔다 — 대화 말고 작업마다).
+# 이 날짜부터 direct.toml 기록에 [direct.predicted] minutes·turns·tokens_m 범위(실측과 같은 단위: 분 · 줄 · 백만 토큰)가 필수.
+# 선택: ctx_start_k(시작할 때 메인 맥락, 천 토큰). record direct가 직접 할 일 파일의 [predicted]를 옮긴다.
+DIRECT_PREDICT_FROM = "2026-11-07"
+DIRECT_PREDICT_KEYS = ("minutes", "turns", "tokens_m")
+
+
+def direct_predicted_errors(d: dict) -> list[str]:
+    """[direct.predicted]의 모양. DIRECT_PREDICT_FROM부터는 있어야 한다."""
+    did, p = d.get("id", "?"), d.get("predicted")
+    if p is None:
+        if on_or_after(d, DIRECT_PREDICT_FROM) and d.get("written_before", True):
+            return [f"{did}: 직접 한 일의 손 예측 [direct.predicted] minutes·turns·tokens_m 범위가 없음 "
+                    f"({DIRECT_PREDICT_FROM}부터 필수 — 직접 할 일 파일의 [predicted]에 적고 `record direct`)"]
+        return []
+    if not isinstance(p, dict):
+        return [f"{did}: predicted는 표여야 함"]
+    errors, need = [], on_or_after(d, DIRECT_PREDICT_FROM)
+    for k in DIRECT_PREDICT_KEYS:
+        v = p.get(k)
+        if v is None and not need:  # 그 전 기록은 있는 칸만 본다
+            continue
+        if not (isinstance(v, list) and len(v) == 2 and all(isinstance(x, (int, float)) and not isinstance(x, bool) for x in v)
+                and 0 <= v[0] <= v[1]):
+            errors.append(f"{did}: predicted.{k}는 [하한, 상한] (0 이상, 하한 ≤ 상한)")
+    if "ctx_start_k" in p and (isinstance(p["ctx_start_k"], bool) or not isinstance(p["ctx_start_k"], (int, float)) or p["ctx_start_k"] < 0):
+        errors.append(f"{did}: predicted.ctx_start_k는 0 이상의 수(천 토큰)")
+    return errors
+
+
 def load_direct(path: Path = DIRECT_TOML) -> list[dict]:
     """메인이 직접 한 일(보낼까 판단에서 '직접'을 고른 일)."""
     return tomllib.loads(path.read_text(encoding="utf-8")).get("direct", []) if path.is_file() else []
@@ -277,6 +307,7 @@ def validate_direct(entries: list[dict]) -> list[str]:
         errors.extend(log_errors(d, required=False))
         errors.extend(feedback_errors(d, prefix="direct"))
         errors.extend(brief_errors(d))
+        errors.extend(direct_predicted_errors(d))
     return errors
 
 

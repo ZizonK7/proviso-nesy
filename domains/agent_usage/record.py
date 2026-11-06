@@ -347,6 +347,12 @@ def direct(job_path: Path, path: Path = dp.DIRECT_TOML) -> str:
     date = job.get("date") or dt.datetime.now(dt.timezone.utc).date()
     ftab = _feedback_table(job, rid, date)
     situation, predicted = job.get("situation", {}), job.get("predicted", {})
+    ptab = {k: predicted[k] for k in dp.DIRECT_PREDICT_KEYS + ("ctx_start_k",) if k in predicted}
+    if ptab:
+        ptab = {"written_before": True, **ptab}
+    bad = dp.direct_predicted_errors({"id": rid, "date": str(date), "predicted": ptab or None})
+    if bad:
+        raise SystemExit("\n".join(bad))
     size, main_k = _size_and_main(job, situation, job["project"], predicted)
     c = de.costs(size[0], size[1], main_k, de.params(), job.get("decide", {}).get("left"))
     why = job.get("decide", {}).get("why")
@@ -361,6 +367,8 @@ def direct(job_path: Path, path: Path = dp.DIRECT_TOML) -> str:
         lines.append("[direct.situation]")
         lines += [f"{k} = {_v(v)}" for k, v in situation.items()]
     lines += de.decide_block(c, "direct", why, "직접").rstrip("\n").split("\n")
+    if ptab:  # 손 예측(2026-11-06 사용자 결정 — 직접 하는 작업도 예측해 둔다)
+        lines += ["[direct.predicted]"] + [f"{k} = {_v(v)}" for k, v in ptab.items()]
     if ftab is not None:
         lines += ["[direct.feedback]"] + [f"{k} = {_v(v)}" for k, v in ftab.items()]
     lines += ["[direct.actual]", 'status = "unknown"  # record finish가 메인 대화 기록으로 채운다']
@@ -463,6 +471,15 @@ def finish(rid: str, log: Path, after: str | None = None, until: str | None = No
         out.append("  git: " + (f"건너뜀 — {git['skip']}" if "skip" in git else
                                  f"새 {git['git_write']} · 고침 {git['git_edit']} · 지움 {git['git_delete']} 파일, +{git['git_lines_added']}/−{git['git_lines_removed']}줄, "
                                  f"커밋 {git['git_commits']} · 지시서에 적힌 파일 {git['named_files']}개 {git['named_lines']}줄"))
+    if is_direct and d.get("predicted"):  # 직접 한 일: 손 예측 범위와 실측 (2026-11-06)
+        p, got = d["predicted"], {"minutes": s["duration_min"], "turns": s["turns"], "tokens_m": round(au.total(s) / 1e6, 2)}
+        marks = []
+        for k, name in (("minutes", "분"), ("turns", "줄"), ("tokens_m", "M")):
+            lo, hi = p.get(k, [None, None])
+            if lo is not None:
+                where = "안" if lo <= got[k] <= hi else ("아래" if got[k] < lo else "위")
+                marks.append(f"{name} {got[k]} (예측 {lo:g}–{hi:g}, {where})")
+        out.append("  손 예측 vs 실측: " + " · ".join(marks))
     if not is_direct:
         told, zone = d.get("predicted", {}).get("told"), dp.zone(s["duration_min"])
         out.append(f"  말한 구간 '{told}' → 실제 '{zone}'" + ("" if told == zone else " — 빗나감: review.wrong·why를 적는다"))
