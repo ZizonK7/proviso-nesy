@@ -21204,3 +21204,144 @@ thinking_blocks = 67
 thinking_s = 702.0
 brief_chars = 3342
 brief_lines = 17
+
+[[dispatch]]
+id = "p254"
+project = "movie_game"
+batch = 83
+date = 2026-11-06
+task = "구현 2회차(같은 작업자 이어서, Opus 5.5 high): 메인 사진 검토 반영 — 컷씬 초점 비추기의 각진 사각 마스크를 B의 부드러운 원형 마스크로 통일, 살펴보기 당김 때 머리가 잘리지 않게 시선점을 대상 쪽으로 섞기, 두 장면 재촬영·빌드·좌표 검사"
+model = "Opus 5.5"
+effort = "high"
+agent = "presentation"
+round = 2
+brief = "movie_game:docs/briefs/2026-11-06-presentation-brief.md"
+files = { write = 0, edit = 3 }
+[dispatch.situation]
+S_specified = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "예"
+S_fix_existing = "예"
+S_build_tools = "예"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_small_codebase = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [12, 30]
+turns = [60, 140]
+tokens_m = [15, 45]
+tokens_class = ["T1", "T2"]
+rules = ["R_say_numbers_v3"]
+analog = "p253"
+reason = "손 예측: 같은 작업자가 맥락을 갖고 이어 가는 고침 둘. 바퀴는 둘 — 마스크·시선점 수정 + 빌드(1~2분) + 두 대본 재촬영(각 1분) + 좌표 검사(1분). p253(45분, 묶음 셋·바퀴 7~9)의 1/4~1/2. 이어 보낸 회차라 맥락이 커서(400K 근처) 턴당 토큰은 크다."
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [7.48, 14.96]
+[dispatch.decide]
+main_ctx_k = 442
+left = 50
+direct_m = 105.6
+send_m = 30.9
+added_k = 447
+chose = "보냄"
+why = ["대화 맥락", "결과를 가림"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["이어보내기", "검토", "그림"]
+hit = ["F041", "F040", "F064", "F073"]
+[dispatch.git]
+repo = "movie_game"
+head = "f4097532f7f35e4ab95309ae447c097877f93c2e"
+dirty = 57
+dirty_hashes = ["021fc660:83dec83ee1a2", "034fc675:175537327cf1", "049892ba:52d8526f897e", "0a105566:64d6af394356", "0fb32dee:aef0a557044d", "138baa74:f331f56ddda5", "16b73e6f:0f6f3cd21c79", "1796669a:5f153d1d9b66", "19f966ac:5bfec17bdc24", "1a8d3572:993128a44940", "2b09e1e5:e3ddf5388a06", "2f6e4ee0:e16bfa6342a3", "2faacbc5:49c783e48bf3", "35285eff:c9d413f698bf", "3b4d310f:5cbe20f15259", "3e4250b5:6bbbfbc07dfa", "4816034d:a1024406379c", "4d647310:8f9cdd12a95e", "515ba49e:b48025431cb9", "5a42884b:24ec42b276a6", "5f9da5e5:5efdb45de8df", "62a03f22:db4ec9168556", "660b56f3:fd1f9f178a01", "68fd1f43:f4d15e9bc5d3", "6ee5986d:0d98594fe82d", "71150a5e:f7403e2ed1ce", "7701d06f:f99f3fa44c7a", "79795ae3:63092aa65549", "7f3360aa:5ec6f99430f8", "80d534da:789fb78b0a33", "812c43f3:b451b63c1278", "874adbf1:c0ca2cad77bb", "8ccd2e09:5f092a9c636d", "90f66bc1:10f73beeab20", "91058b31:d42769f9b5b3", "9324ecb8:0025d20c65f5", "973575e5:4c3fe6d20a4d", "9f18cadb:5e8cd66ed5c0", "a14a7085:929037905d76", "b8af40fe:2ac264e97fd2", "bc26e193:aae9916bc3a8", "c10a4577:9b9a3605e070", "c4bc189b:89b537fa6bd7", "c7731f66:7cbb2afba0f4", "ca7ac191:d086d844dfd3", "cb0bfccd:19336e54ff1b", "cb3440f0:eb6a8930b0e6", "ce8d4beb:963dac1ef2b8", "d065fa10:53517cb6007a", "d0c8341f:5f153d1d9b66", "d3316925:7f3de602c613", "d6a93856:4da47db54853", "dc320a41:2a831048fec2", "de4483ba:c9d5718531c0", "e299ad3b:156028fcb6e7", "e9d40e90:7c620e1f6f63", "f0cb2af1:40ed454664d9"]
+git_write = 2
+git_edit = 23
+git_delete = 0
+git_lines_added = 199
+git_lines_removed = 40
+git_commits = 1
+named_files = 0
+named_lines = 0
+named_bytes = 0
+named_dirs = 0
+[dispatch.actual]
+status = "done"
+minutes = 16.0  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 69
+tokens_m = 29.66  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T15:59:08Z"
+end = "2026-11-06T16:15:06Z"
+[dispatch.review]
+reason = "실측 16.0분 — 손 예측 12–30분 안, 구간 '다른 일' 적중. 고침 둘 + 도중에 더한 제목 카드 요청(세 줄 위계·시간 cvar)까지 한 회차에 묶였고, 빌드 2회·촬영 대본 3개·좌표 검사·전체 경로(4분)까지 돌려 바퀴가 예상(둘)보다 많았는데도 범위 안 — 같은 작업자가 맥락을 갖고 이어 가서 탐색이 없었다(F041 방향)."
+missed = "없음: 걸린 기존 항목은 hit에 있다"
+feedback = "없음: 이어 보낸 고침이 지시대로 끝났다"
+report = "movie_game:docs/worklog/2026-11-06-presentation.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 33, sum_s = 517.2, turn_s = 1.2, tool_s = 26.5, out_chars = 34, ctx_k = 435 }
+"Bash:python" = { n = 7, sum_s = 35.3, turn_s = 4.0, tool_s = 1.2, out_chars = 459, ctx_k = 427 }
+"Read" = { n = 4, sum_s = 25.3, turn_s = 3.8, tool_s = 0.0, out_chars = 138.5, ctx_k = 426.5 }
+"Edit" = { n = 4, sum_s = 13.6, turn_s = 3.6, tool_s = 1.8, out_chars = 1158.5, ctx_k = 433.0 }
+"Bash:grep" = { n = 3, sum_s = 16.3, turn_s = 6.5, tool_s = 1.1, out_chars = 281, ctx_k = 415 }
+"PowerShell" = { n = 3, sum_s = 33.4, turn_s = 5.8, tool_s = 12.0, out_chars = 1377, ctx_k = 418 }
+"Write" = { n = 2, sum_s = 4.7, turn_s = 2.3, tool_s = 0.8, out_chars = 6019.0, ctx_k = 419.0 }
+"Monitor" = { n = 2, sum_s = 5.4, turn_s = 2.7, tool_s = 1.6, out_chars = 282.5, ctx_k = 428.5 }
+"Bash:ls" = { n = 2, sum_s = 8.7, turn_s = 4.3, tool_s = 2.5, out_chars = 432.5, ctx_k = 445.5 }
+"Bash:bash" = { n = 1, sum_s = 184.3, turn_s = 184.3, tool_s = 181.3, out_chars = 430, ctx_k = 420 }
+"Bash:cat" = { n = 1, sum_s = 4.7, turn_s = 4.7, tool_s = 1.5, out_chars = 199, ctx_k = 421 }
+"ToolSearch" = { n = 1, sum_s = 1.9, turn_s = 1.9, tool_s = 0.0, out_chars = 46, ctx_k = 423 }
+"TaskStop" = { n = 1, sum_s = 4.8, turn_s = 4.8, tool_s = 0.0, out_chars = 24, ctx_k = 423 }
+"Bash:sed" = { n = 1, sum_s = 3.4, turn_s = 3.4, tool_s = 0.6, out_chars = 159, ctx_k = 436 }
+"Bash:printf" = { n = 1, sum_s = 8.5, turn_s = 8.5, tool_s = 0.6, out_chars = 413, ctx_k = 437 }
+"Bash:echo" = { n = 1, sum_s = 1.8, turn_s = 1.8, tool_s = 0.8, out_chars = 68, ctx_k = 443 }
+"Bash:tail" = { n = 1, sum_s = 35.2, turn_s = 35.2, tool_s = 0.2, out_chars = 143, ctx_k = 446 }
+"SubagentHandback" = { n = 1, sum_s = 0.3, turn_s = 0.3, tool_s = 0.3, out_chars = 3136, ctx_k = 452 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 36
+blocks = 69
+write = 0
+edit = 3
+scratch_files = 2
+write_chars = 0
+edit_chars = 6154
+write_lines = 0
+read_calls = 4
+read_files = 4
+read_chars = 7988
+images = 2
+bash_calls = 18
+bash_out_chars = 12339
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 8
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 399
+ctx_max_k = 452
+ctx_end_k = 452
+thinking_blocks = 19
+thinking_s = 100.9
+brief_chars = 0
+brief_lines = 0
