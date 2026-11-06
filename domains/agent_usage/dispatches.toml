@@ -20029,3 +20029,65 @@ subagents_spawned = 0
 stop_reason = "end_turn"
 subtype = "success"
 models."claude-haiku-5-5" = { input_tokens = 56886, output_tokens = 18990, cache_read_tokens = 1631437, cache_creation_tokens = 57230, thinking_tokens = 7268, web_search = 4, cost_usd = 0.158798 }
+
+[[dispatch]]
+id = "p245"
+project = "gemmin"
+batch = 76
+date = 2026-11-06
+task = "읽기(이 세션 백그라운드 서브 에이전트 1개, Haiku 5.5): 날짜 제목 잼민이 세션 14개(10-22~11-05)의 이벤트를 list_events로 처음부터 끝까지 넘겨 읽기만 함(kinds user·assistant, 100개씩). 결과는 에이전트 대화 기록에 남고, 메인이 reextract.py로 턴별 시간·토큰을 뽑아 conversations/에 --backfill-turns로 채운다. 파일 쓰기 없음"
+model = "Haiku 5.5"
+effort = "medium"
+agent = "turns-backfill-reader"
+round = 1
+size = { find_cap = "세션 14개 · 페이지 끝까지" }
+files = { write = 0, edit = 0 }
+[dispatch.situation]
+S_specified = "예"
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [15, 45]
+turns = [150, 450]
+tokens_m = [4, 15]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+reason = "손 예측(보내기 전): 11-02 같은 읽기 일(날짜 세션 11개, Haiku 에이전트 10개 동시)은 에이전트마다 1–8.5분, 합계 약 2.1M. 이번엔 쓰기 없이 읽기만 하지만 에이전트 하나가 14개를 차례로 넘겨서 시간은 합(15–45분). 페이지 140–300쪽 안팎 × 호출 1–2번이라 턴 150–450. 결과가 크면 하네스가 파일로 빼서 맥락은 천천히 늘지만 호출마다 맥락을 다시 읽어 4–15M"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [6.04, 12.08]
+[dispatch.decide]
+main_ctx_k = 330
+left = 60
+direct_m = 85.7
+send_m = 11.6
+added_k = 0
+chose = "보냄"
+why = ["결과를 가림", "대화 계속"]
+[dispatch.feedback]
+read = ["common", "research", "predict", "record"]
+[dispatch.git]
+repo = "proviso-nesy"
+head = "d1cb6eb4afd79ea6e859b74964b6ed1d998eb6b0"
+dirty = 2
+dirty_hashes = ["90d5c6aa:2c82f1cbefd1", "ea328799:2f8080d7dee4"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
