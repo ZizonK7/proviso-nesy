@@ -19883,4 +19883,28 @@ why = ["대화 계속", "결과를 가림"]
 [dispatch.feedback]
 read = ["common", "research", "cloud"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 2.0  # get_session created_at → result 사건 (UTC)
+start = "2026-11-06T00:32:37Z"
+end = "2026-11-06T00:34:36Z"
+tokens_m = 1.76  # 세션 usage(result modelUsage): 캐시 읽기 163만 + 캐시 쓰기 5.7만 + 입력 5.7만 + 출력 1.9만(생각 0.73만). 비용 0.16달러. 턴 20
+[dispatch.turns]
+skip = "클라우드 세션이라 이 세션에 작업자 대화 기록(jsonl)이 없다"
+[dispatch.log]
+skip = "클라우드 세션이라 로컬 대화 기록이 없다 — 숫자는 [dispatch.cloud]"
+[dispatch.review]
+report = "gemmin:docs/research/2026-11-06-colab-ai-plan.md"
+reason = "말한 구간 '잠깐' 맞음(2.0분, 손 2–5분 아래 끝). 토큰 1.76M 손 0.8–2.5M 안. 턴 20 손 20–50 아래 끝. 계산기 모름. 빗댄 p168(2.1분·1.53M)과 거의 같음 — 같은 모양(요금제 조사, 질문 3개, 원문 n건 조건)이면 2분·1.5M 근처로 모인다. 품질 4: 공식 구글 원문 8건을 열고 9-22 발표(Google AI 플랜에 Colab 편입, Pro 200·Ultra 2,000 단위)를 근거→결론으로 정리, 2차 보도끼리 충돌(Plus 혜택)을 공식 기준으로 판정. 빠진 것: 한국 적용 여부·Pro 원화 가격(정적 HTML에 없음), Colab 요금 페이지 403"
+feedback = "없음: 지시서의 전송 조건·공식 원문 수·send_message 순서가 그대로 지켜져 다르게 할 것이 없었다"
+[dispatch.cloud]  # record cloud — 클라우드 세션 result 사건의 숫자 합 (숫자만, 실측)
+results = 1
+duration_ms = 117406
+duration_api_ms = 124084
+num_turns = 20
+total_cost_usd = 0.158798
+web_search_requests = 0
+web_fetch_requests = 0
+subagents_spawned = 0
+stop_reason = "end_turn"
+subtype = "success"
+models."claude-haiku-5-5" = { input_tokens = 56886, output_tokens = 18990, cache_read_tokens = 1631437, cache_creation_tokens = 57230, thinking_tokens = 7268, web_search = 4, cost_usd = 0.158798 }
