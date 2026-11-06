@@ -20650,3 +20650,75 @@ thinking_blocks = 15
 thinking_s = 118.2
 brief_chars = 1711
 brief_lines = 27
+
+[[dispatch]]
+id = "p250"
+project = "gemmin"
+batch = 80
+date = "2026-11-06"
+task = "조사(이 세션 백그라운드 서브 에이전트, Opus 5.5 high): 경진대회(은하 SFR) 최종 제출 11-13까지 남은 일과 자분실 기말 프로젝트 분석 파트를 대회 보고서로 대체하는 조건 — 대회 팀 레포·수업 레포·비서 노트·템플릿 노트북·강의계획서를 읽고 사실/추정/모름을 나눠 보고서 하나. 레포 수정·노트북 실행 없음"
+model = "Opus 5.5"
+effort = "high"
+agent = "competition-explorer"
+round = 1
+brief = "gemmin:docs/briefs/p250.md"
+files = { write = 1, edit = 0 }
+[dispatch.situation]
+S_specified = "아니오"
+S_full_brief = "예"
+S_fixed_input = "일부"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "아니오"
+S_research = "예"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_read_originals = "예"
+S_web_blocked = "아니오"
+S_small_codebase = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [10, 25]
+turns = [100, 200]
+tokens_m = [15, 35]
+tokens_class = ["T1", "T2"]
+rules = ["R_say_numbers_v3", "R_turns_analogy_v2"]
+analog = "p40"
+reason = "손 예측(메인 피드백 전부 읽고 백서 '보고서·조사' find 뒤): 빗댄 p40(Opus high, 다른 저장소를 읽고 기준별로 평가한 보고서 하나, 12.1분·161턴·24M)과 같은 모양. 이번엔 레포 둘 + 노트 셋 + 노트북 둘(셀 구조 뽑기) + PDF 하나 + 필사 정리 몇 개로 읽을 종류가 더 많고 질문이 둘이라 위로 조금 넓힘. 웹은 한 번 시도뿐. 위험: 노트북 출력 셀을 통째로 읽으면 토큰이 위로"
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [16.08, 32.15]
+[dispatch.decide]
+main_ctx_k = 302
+left = 50
+direct_m = 77.5
+send_m = 26.4
+added_k = 204
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["보고서", "조사"]
+hit = ["F002", "F009", "F010", "F014", "F015", "F022", "F033"]
+[dispatch.git]
+repo = "proviso-nesy"
+head = "89a72dbfcc325d067d70c22ec1308a49a2fe7d43"
+dirty = 2
+dirty_hashes = ["90d5c6aa:5e7ef82610f3", "ea328799:2f1813932ad1"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
