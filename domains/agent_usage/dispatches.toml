@@ -21551,5 +21551,68 @@ repo = "movie_game"
 head = "1d1e71ac69daa702380ca039cb55dfb75be9852c"
 dirty = 2
 dirty_hashes = ["0e128dd3:d7eadc24f33e", "c82c36ae:15f823e9d86c"]
+git_write = 0
+git_edit = 13
+git_delete = 0
+git_lines_added = 112
+git_lines_removed = 34
+git_commits = 1
+named_files = 0
+named_lines = 0
+named_bytes = 0
+named_dirs = 0
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 9.5  # 로그 응답 구간 합 9.8분 — 백그라운드 UE 대기 제외. 4회차 시작(16:35:11Z)~보고 벽시계
+turns = 25
+tokens_m = 12.37  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T16:35:11Z"
+end = "2026-11-06T16:45:00Z"
+[dispatch.review]
+reason = "벽시계 9.5분(로그 합 9.8분) — 손 예측 10–25분 안, 구간 '잠깐'. 기본값 뒤집기 + 컷씬 초점 소리 연결 + 빌드 1 + 대본 3 + 전체 경로(4분)까지 한 회차. 전체 경로를 끝에 넣은 것이 벽시계를 늘렸다."
+wrong = ["R_say_numbers_v3"]
+why = "조건 흐림"
+missed = "없음: 걸린 기존 항목은 hit에 있다"
+feedback = "없음: 사용자 판정을 그대로 옮긴 고침"
+report = "movie_game:docs/worklog/2026-11-06-presentation.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 14, sum_s = 488.4, turn_s = 9.7, tool_s = 42.3, out_chars = 41.0, ctx_k = 497.0 }
+"Bash:grep" = { n = 2, sum_s = 7.6, turn_s = 3.8, tool_s = 1.1, out_chars = 629.0, ctx_k = 490.5 }
+"Bash:python" = { n = 2, sum_s = 37.4, turn_s = 18.7, tool_s = 2.1, out_chars = 474.5, ctx_k = 495.0 }
+"Read" = { n = 1, sum_s = 6.3, turn_s = 6.3, tool_s = 0.1, out_chars = 141, ctx_k = 485 }
+"Write" = { n = 1, sum_s = 2.9, turn_s = 2.9, tool_s = 0.8, out_chars = 8471, ctx_k = 488 }
+"PowerShell" = { n = 1, sum_s = 4.9, turn_s = 4.9, tool_s = 1.5, out_chars = 1939, ctx_k = 494 }
+"Monitor" = { n = 1, sum_s = 2.1, turn_s = 2.1, tool_s = 1.0, out_chars = 383, ctx_k = 496 }
+"Edit" = { n = 1, sum_s = 0.8, turn_s = 0.8, out_chars = 4142, ctx_k = 502 }
+"Bash:ls" = { n = 1, sum_s = 23.0, turn_s = 23.0, tool_s = 2.7, out_chars = 202, ctx_k = 502 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 2809, ctx_k = 506 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 16
+blocks = 25
+write = 0
+edit = 1
+scratch_files = 1
+write_chars = 0
+edit_chars = 3718
+write_lines = 0
+read_calls = 1
+read_files = 1
+read_chars = 4735
+images = 0
+bash_calls = 5
+bash_out_chars = 6580
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 3
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 482
+ctx_max_k = 506
+ctx_end_k = 506
+thinking_blocks = 5
+thinking_s = 25.3
+brief_chars = 0
+brief_lines = 0
