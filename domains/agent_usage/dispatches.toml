@@ -20794,3 +20794,127 @@ thinking_blocks = 31
 thinking_s = 106.9
 brief_chars = 494
 brief_lines = 1
+
+[[dispatch]]
+id = "p251"
+project = "movie_game"
+batch = 81
+date = 2026-11-06
+task = "조사(이 세션 백그라운드 서브 에이전트 web-fetch): 게임 빗소리를 바꿀 실제 빗소리 녹음(실내 창가·거리, CC0/CC-BY, 로그인 없이 받는 것) 후보를 Wikimedia Commons 등에서 찾아 URL·라이선스·길이를 보고. 사후 기록 — 보내기 전 기록 없이 보냈다(F107)"
+model = "Haiku 5.5"
+effort = "medium"
+agent = "rain-sound-search"
+round = 1
+files = { write = 0, edit = 0 }
+[dispatch.situation]
+S_specified = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_read_originals = "아니오"
+S_web_blocked = "일부"
+S_small_codebase = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [1, 4]
+turns = [15, 40]
+tokens_m = [0.5, 3]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+reason = "사후 손 예측(보내기 전에 적지 않았다, F107): 웹 페이지 10~20장을 읽고 표로 정리하는 짧은 조사. 페이지마다 WebFetch 한 번, 맥락이 작아 토큰은 몇 M 이하. 404·403이 섞일 것(F029)."
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [8.68, 17.37]
+[dispatch.decide]
+main_ctx_k = 293
+left = 50
+direct_m = 7.2
+send_m = 4.7
+added_k = 0
+chose = "보냄"
+why = ["대화 맥락", "대화 계속"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["기록", "예측", "메인"]
+hit = ["F045", "F051", "F052"]
+[dispatch.git]
+repo = "proviso-wt-movie"
+head = "8c84df30a6b0e219f6797cb1bcb8e7857b675ea9"
+dirty = 2
+dirty_hashes = ["90d5c6aa:b1a043e9b31b", "ea328799:22737313332a"]
+git_write = 0
+git_edit = 3
+git_delete = 0
+git_lines_added = 16
+git_lines_removed = 7
+git_commits = 0
+named_files = 0
+named_lines = 0
+named_bytes = 0
+named_dirs = 0
+[dispatch.actual]
+status = "done"
+minutes = 1.0  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 22
+tokens_m = 1.00  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T14:38:58Z"
+end = "2026-11-06T14:39:59Z"
+[dispatch.review]
+reason = "실측 1.0분·22줄·1.0M — 사후 손 예측(1–4분·15–40줄·0.5–3M) 안. WebFetch 15번이 페이지마다 1턴, 맥락 14K로 작아 토큰이 작았다. 보내기 전 기록이 없었던 것이 이 기록의 핵심(F107) — 예측 적중은 사후라 성적에 넣지 않는다(written_before = false)."
+missed = "없음: 걸린 기존 항목 F045·F051·F052는 hit에 있다"
+feedback = ["F107"]
+report = "movie_game:(보고서 없음 — 결과는 이 세션 대화 안, 후보 4건)"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"WebFetch" = { n = 15, sum_s = 40.3, turn_s = 0.5, tool_s = 1.2, out_chars = 324, ctx_k = 14 }
+"글" = { n = 6, sum_s = 18.2, turn_s = 0.7, tool_s = 0.0, out_chars = 0.0, ctx_k = 76.0 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 5054, ctx_k = 101 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 6
+blocks = 22
+write = 0
+edit = 0
+scratch_files = 0
+write_chars = 0
+edit_chars = 0
+write_lines = 0
+read_calls = 0
+read_files = 0
+read_chars = 0
+images = 0
+bash_calls = 0
+bash_out_chars = 0
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 15
+agent_calls = 0
+other_tool_calls = 1
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 4
+ctx_max_k = 101
+ctx_end_k = 101
+thinking_blocks = 5
+thinking_s = 21.3
+brief_chars = 1104
+brief_lines = 7
