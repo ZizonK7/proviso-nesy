@@ -19828,3 +19828,123 @@ thinking_blocks = 4
 thinking_s = 1.4
 brief_chars = 318
 brief_lines = 1
+
+[[dispatch]]
+id = "p242"
+project = "proviso"
+batch = 74
+date = 2026-11-06
+task = "EDA 보고서 담당: 규칙별 사용 횟수와 review.wrong 집계의 의미와 해석 한계를 기존 보고서에 추가하고, 이후 대화에서 확인한 내용을 같은 담당에게 이어서 보낸다. 논문이 아니라 계산기에 쓸 분류 확인이 목적."
+model = "GPT-6.1 Sol"
+effort = "medium"
+agent = "eda_reporter_sol61"
+round = 1
+files = { write = 1, edit = 2 }
+[dispatch.situation]
+S_specified = "예"
+S_resumed = "아니오"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_cloud_session = "아니오"
+S_template_given = "예"
+S_render = "아니오"
+S_no_code = "예"
+S_fix_existing = "예"
+S_research = "아니오"
+S_spec_fixed = "예"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [1, 5]
+turns = [8, 30]
+tokens_m = [0.2, 1.5]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+reason = "기존 EDA 보고서에 짧은 설명과 작업 기록을 추가한다. GPT-6.1 Sol medium의 같은 설정 실측이 없어 시간과 토큰은 손 추정이다. 주어진 내용을 기록하고 새 분석은 하지 않는다."
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 55
+left = 10
+direct_m = 0.9
+send_m = 1.2
+added_k = 0
+chose = "보냄"
+why = ["대화 계속"]
+[dispatch.feedback]
+read = ["common", "brief", "record", "parallel", "docs", "logic", "predict", "research"]
+[dispatch.git]
+repo = "PROVISO-Nesy"
+head = "b1f9b8fae56bccad4b5f986556dbf6b381a44069"
+dirty = 10
+dirty_hashes = ["0a0f94b2:2810f27f82cb", "12a0a4e2:8697110a5a3c", "2071859c:355619a1c66e", "5f090f00:9907ec8e6f84", "6a66cb34:35f06d82a3ab", "7daa4719:c3da3c9fa0db", "90d5c6aa:15d9cedca5f2", "93b698cf:130f3bc55ff6", "ba1db8b2:c4c6b7a0002c", "ea328799:2dc0c49040e0"]
+[dispatch.actual]
+status = "unknown"  # 보고서 작업 완료. Codex native 로그의 정량 실측은 Claude 파서로 추정하지 않음.
+[dispatch.turns]
+skip = "Codex native 로그는 Claude 도구별 블록 파서와 형식이 달라 이번 회차에서 같은 단위로 측정하지 않음"
+[dispatch.log]
+skip = "Codex native 로그를 Claude 전용 파서에 넣어 토큰·턴 수를 추정하지 않음"
+[dispatch.review]
+report = "docs/worklog/2026-11-06-eda-report-writer.md"
+reason = "사용자가 지정한 GPT-6.1 Sol medium 담당에게 보고서 작성을 맡겼다. 메인은 질문에 답하고, 마지막에는 종료 결론과 원격 main 반영을 검토했다. 보고서 완료는 파일로 확인했으나 정량 실측은 미상으로 남겨 예측 성적에서 제외한다."
+feedback = "없음: 기존 관찰·해석 한계와 사용자 종료 결정을 문서화했으며 새 일반 피드백은 없음"
+
+[[dispatch]]
+id = "p243"
+project = "proviso"
+batch = 74
+date = 2026-11-06
+task = "EDA 보고서 담당: 규칙별 사용 횟수와 review.wrong 집계의 의미와 해석 한계를 기존 보고서에 추가하고, 이후 대화에서 확인한 내용을 같은 담당에게 이어서 보낸다. 논문이 아니라 계산기에 쓸 분류 확인이 목적."
+model = "GPT-6.1 Sol"
+effort = "medium"
+agent = "eda_reporter_sol61"
+round = 2
+files = { write = 0, edit = 3 }
+[dispatch.situation]
+S_specified = "예"
+S_resumed = "예"
+S_web = "아니오"
+S_fixed_input = "아니오"
+S_cloud_session = "아니오"
+S_template_given = "예"
+S_render = "아니오"
+S_no_code = "예"
+S_fix_existing = "예"
+S_research = "아니오"
+S_spec_fixed = "예"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [1, 3]
+turns = [5, 20]
+tokens_m = [0.1, 1]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+reason = "같은 담당에게 이미 읽은 EDA 보고서의 마무리 결론만 추가한다. 앞 회차의 정량 실측은 없어 그 숫자를 빌리지 않고 짧은 문서 수정으로 손 추정한다."
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 55
+left = 10
+direct_m = 0.6
+send_m = 1.0
+added_k = 0
+chose = "보냄"
+why = ["대화 계속"]
+[dispatch.feedback]
+read = ["common", "brief", "record", "parallel", "docs", "logic", "predict", "research"]
+[dispatch.git]
+repo = "PROVISO-Nesy"
+head = "b1f9b8fae56bccad4b5f986556dbf6b381a44069"
+dirty = 11
+dirty_hashes = ["0a0f94b2:96a7e6b48de3", "12a0a4e2:8697110a5a3c", "2071859c:355619a1c66e", "5f090f00:9907ec8e6f84", "69d2f47d:8e6ee88e760e", "6a66cb34:35f06d82a3ab", "7daa4719:c3da3c9fa0db", "90d5c6aa:505860fcadae", "93b698cf:130f3bc55ff6", "ba1db8b2:c262f057bf12", "ea328799:dc8a85278a60"]
+[dispatch.actual]
+status = "unknown"  # 보고서 작업 완료. Codex native 로그의 정량 실측은 Claude 파서로 추정하지 않음.
+[dispatch.turns]
+skip = "Codex native 로그는 Claude 도구별 블록 파서와 형식이 달라 이번 회차에서 같은 단위로 측정하지 않음"
+[dispatch.log]
+skip = "Codex native 로그를 Claude 전용 파서에 넣어 토큰·턴 수를 추정하지 않음"
+[dispatch.review]
+report = "docs/worklog/2026-11-06-eda-report-writer.md"
+reason = "사용자가 지정한 GPT-6.1 Sol medium 담당에게 보고서 작성을 맡겼다. 메인은 질문에 답하고, 마지막에는 종료 결론과 원격 main 반영을 검토했다. 보고서 완료는 파일로 확인했으나 정량 실측은 미상으로 남겨 예측 성적에서 제외한다."
+feedback = "없음: 기존 관찰·해석 한계와 사용자 종료 결정을 문서화했으며 새 일반 피드백은 없음"
