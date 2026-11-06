@@ -21687,7 +21687,8 @@ hit = ["F010", "F012", "F014", "F015", "F019", "F020", "F027", "F028", "F037", "
 status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
 
 [[dispatch]]
-id = "p258"  # 원래 p257 — 같은 날 다른 세션(배치 84)이 p257을 먼저 올려 다시 매김(F056)
+# 원래 p257 — 같은 날 다른 세션(배치 84)이 p257을 먼저 올려 다시 매김(F056)
+id = "p258"
 project = "movie_game"
 batch = 83
 date = 2026-11-06
@@ -21755,5 +21756,59 @@ repo = "movie_game"
 head = "105720196bca1ea6415c8ed02d43f1d6c469d83c"
 dirty = 0
 dirty_hashes = []
+git_write = 0
+git_edit = 0
+git_delete = 0
+git_lines_added = 0
+git_lines_removed = 0
+git_commits = 2
+named_files = 0
+named_lines = 0
+named_bytes = 0
+named_dirs = 0
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 3.5  # 로그 합 0.5분(3줄) — 백그라운드 UE 대기 제외. 5회차 시작(16:47:31Z)~보고(16:51Z) 벽시계
+turns = 3
+tokens_m = 1.54  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T16:49:00Z"
+end = "2026-11-06T16:49:32Z"
+[dispatch.review]
+reason = "벽시계 3.5분(로그 합 0.5분) — 손 예측 5–12분 아래, 구간 '잠깐' 적중. 기본값 한 줄 + 줄당 한 번 + 빌드 + 대본 둘. 같은 작업자가 맥락을 갖고 바로 고쳐 예측 하한보다 짧았다(F041)."
+missed = "없음: 걸린 기존 항목은 hit에"
+feedback = ["F109"]
+report = "movie_game:docs/worklog/2026-11-06-presentation.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Bash:grep" = { n = 1, sum_s = 14.5, turn_s = 14.5, tool_s = 2.3, out_chars = 466, ctx_k = 512 }
+"Edit" = { n = 1, sum_s = 10.7, turn_s = 10.7, out_chars = 1814, ctx_k = 513 }
+"SubagentHandback" = { n = 1, sum_s = 2.8, turn_s = 2.8, tool_s = 2.7, out_chars = 1668, ctx_k = 513 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 2
+blocks = 3
+write = 0
+edit = 1
+scratch_files = 0
+write_chars = 0
+edit_chars = 1528
+write_lines = 0
+read_calls = 0
+read_files = 0
+read_chars = 0
+images = 0
+bash_calls = 1
+bash_out_chars = 6
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 1
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 512
+ctx_max_k = 513
+ctx_end_k = 513
+thinking_blocks = 0
+thinking_s = 0.0
+brief_chars = 0
+brief_lines = 0
