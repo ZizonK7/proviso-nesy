@@ -114,3 +114,24 @@ status = "unknown"  # 작업은 완료. Claude 전용 집계기로 Codex 사용�
 [direct.review]
 reason = "기존 start.ipynb 분석 셀을 재사용해 Colab용 노트북과 데이터 ZIP을 만들었다. 로컬에서 글꼴 설치 셀을 제외한 코드 셀 19개와 업로드 재실행을 확인했고 기존 EDA 테스트 6개가 통과했다. decide 숫자는 구현 뒤의 추정이므로 사전 예측 성적으로 쓰지 않는다. Codex 로그의 토큰을 Claude 전용 집계기로 해석하지 않았다."
 feedback = "없음: 초기 저장소 착오는 기존 F008의 원격 코드 확인 원칙을 적용할 사례이며 새 일반 규칙을 추가하지 않음"
+
+[[direct]]
+id = "m004"
+project = "gemmin"
+date = 2026-11-06
+task = "구현(메인 직접): 기록에 지시서 경로 칸 brief(\"저장소:경로\") — record send가 옮기고 dispatches가 모양을 보며, feedback labels가 --brief-root 이름=폴더로 본문을 합친다. 지시서 본문은 비공개 gemmin docs/briefs/에(공개 저장소라 본문은 안 올림). 테스트·문서"
+[direct.decide]
+main_ctx_k = 420
+left = 55
+direct_m = 263.8
+send_m = 102.0
+added_k = 521
+chose = "직접"
+why = ["대화 계속"]
+[direct.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+[direct.actual]
+status = "stopped"  # 시작 전 멈춤: 보낼까 판단이 직접 263.8M vs 보냄 102.0M(메인 맥락 42만)이라 보냄으로 바꿔 p247로 보냄
+[direct.review]
+reason = "record direct의 보낼까 판단이 '보냄'을 가리켰다(메인 맥락이 커서 직접 하면 매 호출이 비쌈). 같은 일을 p247(Opus 5.5 medium 하위 에이전트)로 보냈다. 직접 한 일은 없음"
+feedback = "없음: 판단 숫자를 보고 바로 바꿨고 다르게 할 것을 못 찾음"

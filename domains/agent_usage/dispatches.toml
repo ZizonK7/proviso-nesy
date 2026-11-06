@@ -20220,3 +20220,65 @@ thinking_blocks = 27
 thinking_s = 123.7
 brief_chars = 5356
 brief_lines = 30
+
+[[dispatch]]
+id = "p247"
+project = "gemmin"
+batch = 78
+date = 2026-11-06
+task = "구현(메인 세션 안 Opus 5.5 medium, 새 에이전트, 하위 에이전트 불허): 기록에 지시서 경로 칸 brief(\"저장소:경로\") — record send·direct가 옮기고 dispatches가 모양을 보며, feedback labels가 brief를 싣고 --brief-root 이름=폴더로 본문을 합친다. 공개 저장소라 본문은 안 올림. 테스트·문서·worklog 덧붙임"
+model = "Opus 5.5"
+effort = "medium"
+agent = "brief-pointer-builder"
+round = 1
+size = { find_cap = "칸 하나 + labels 옵션 + 테스트·문서" }
+files = { write = 0, edit = 7 }
+[dispatch.situation]
+S_specified = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [4, 10]
+turns = [30, 80]
+tokens_m = [3, 8]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p246"
+reason = "손 예측(메인 피드백 전부·백서 find 기록·시험·문서를 읽은 뒤): 빗댄 p246(같은 파일들, 칸 셋 + labels, Opus high, 10.2분·11.2M)보다 칸 하나·옵션 하나로 작고 effort medium이라 절반 아래 4–10분, 3–8M. F071(위치·모양·시험까지 적은 지시서 ×0.4–0.6)"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 430
+left = 55
+direct_m = 31.8
+send_m = 9.7
+added_k = 80
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["기록", "시험", "문서", "공개저장소"]
+hit = ["F051", "F071", "F078", "F080", "F103", "F104"]
+[dispatch.git]
+repo = "proviso-nesy"
+head = "42441ceb587fd4026ebb6101a23eb7c67c1fef3e"
+dirty = 3
+dirty_hashes = ["7daa4719:63290d9bbd72", "90d5c6aa:c54b0df0388b", "ea328799:023f46c20e9b"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
