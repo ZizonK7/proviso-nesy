@@ -85,6 +85,9 @@ FEEDBACK_NONE_MIN = 5  # '없음: ' 뒤 이유의 최소 글자 수
 #   - 끝나면 review.missed = [F 번호] — 보낼 때 이미 있었는데 hit에 없던, 알고 보니 걸린 항목(hit와 겹치면 안 됨), 또는 "없음: 이유"
 #   hit + missed가 일마다의 정답(labels)이다 — `python -m feedback labels`가 JSON Lines로 뽑는다
 FEEDBACK_ALL_FROM = "2026-11-07"
+# 지시서 경로 (2026-11-06 사용자 결정): brief = "<저장소>:<상대 경로>.md" — 작업자에게 준 지시서 글이 있는 곳(예: "gemmin:docs/briefs/p246.md").
+#   이 저장소는 공개라 지시서 글은 여기 두지 않고 비공개 저장소에, 기록에는 가리키는 경로만. labels가 정답 행에 싣고, 임베딩 시험은
+#   `python -m feedback labels --brief-root gemmin=<폴더>`로 글을 붙여 읽는다. 아직 필수 아님(날짜 경계 없음) — 칸이 있으면 모양만 본다
 ROOT = HERE.parent.parent
 # 다른 저장소의 보고서는 "저장소:경로"로 적는다 (예: "movie_game:docs/worklog/2026-11-03-x.md")
 OTHER_REPO = re.compile(r"^[\w.-]+:(?!/)")
@@ -273,6 +276,7 @@ def validate_direct(entries: list[dict]) -> list[str]:
                     errors.append(f"{did}: 끝난 일인데 actual.{k}(UTC ISO)가 없음")
         errors.extend(log_errors(d, required=False))
         errors.extend(feedback_errors(d, prefix="direct"))
+        errors.extend(brief_errors(d))
     return errors
 
 
@@ -461,6 +465,14 @@ def git_errors(d: dict) -> list[str]:
     elif git_required(d) and "skip" not in g:
         errors.append(f"{did}: git에 끝날 때 숫자가 없음 — `record finish <id> <로그>`가 채운다(기준 저장소를 못 찾으면 --repo)")
     return errors
+
+
+def brief_errors(d: dict) -> list[str]:
+    """brief 칸(지시서 경로)이 있으면 모양 검사 — 모양은 feedback.brief_error. 없어도 된다(아직 필수 아님)."""
+    if "brief" not in d:
+        return []
+    bad = fb.brief_error(d["brief"])
+    return [f"{d.get('id', '?')}: {bad}"] if bad else []
 
 
 def cloud_record_errors(d: dict) -> list[str]:
@@ -792,6 +804,7 @@ def validate(records: list[dict], kn: schema.Knowledge) -> list[str]:
         errors.extend(cloud_record_errors(d))
         errors.extend(files_errors(d))
         errors.extend(feedback_errors(d))
+        errors.extend(brief_errors(d))
     return errors
 
 

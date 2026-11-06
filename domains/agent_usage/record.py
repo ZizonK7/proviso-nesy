@@ -26,6 +26,8 @@
 (선택) [decide](why, left, main_ctx_k),
 (선택) repo = "<경로>" — 작업자가 일할 git 저장소(기본: 기록 파일이 든 저장소 = 이 저장소). 보낼 때 기준([dispatch.git])을 찍는다,
 session = "session_…" — 클라우드 세션으로 보낸 일(S_cloud_session = 예)의 세션 id. 2026-11-06부터 클라우드 일에 필수.
+(선택) brief = "<저장소>:<상대 경로>.md" — 작업자에게 준 지시서 글이 있는 곳(예: "gemmin:docs/briefs/p246.md", 직접 할 일 파일도 같다).
+  기록에 그대로 옮긴다. 이 저장소는 공개라 지시서 글은 여기 저장하지 않는다 — 비공개 저장소에 두고 경로만(feedback labels --brief-root가 붙여 읽는다).
 [feedback] — 피드백 읽기(feedback/CLAUDE.md "강제", 직접 할 일 파일도 같다). 기록에는 [dispatch.feedback]으로 남는다.
   read = ["common", …] — 읽은 메인 피드백 파일 이름(feedback/main/). 2026-11-06부터 필수. 2026-11-07부터는 메인 파일 **전부**가
     들어 있지 않으면 보내지 않는다(그 전 날짜는 `python -m feedback topics "<task>"`가 고른 파일 — 지금은 참고로만 찍는다).
@@ -215,6 +217,7 @@ def send(job_path: Path, path: Path = dp.HERE / "dispatches.toml", log_path: Pat
     elif cloud and str(date) >= dp.CLOUD_REQUIRED_FROM:
         raise SystemExit("클라우드 세션으로 보내는 일(S_cloud_session = 예)은 보낼 일 파일에 session = \"session_…\"(만든 세션 id)를 적는다 "
                          "— 끝나면 그 세션의 result 사건 숫자를 `record cloud`로 옮긴다")
+    lines += _brief_line(job)
     if job.get("size"):
         lines.append(f"size = {_v(job['size'])}")
     if "files" in job:
@@ -323,6 +326,16 @@ def _put_git(block: str, g: dict) -> str:
     return block[:i] + _git_table(g) + block[i:] if i >= 0 else block.rstrip("\n") + "\n" + _git_table(g)
 
 
+def _brief_line(job: dict) -> list[str]:
+    """보낼(직접 할) 일 파일의 brief(지시서 경로)를 기록 줄로. 모양이 틀리면 아무것도 쓰기 전에 막는다."""
+    if "brief" not in job:
+        return []
+    bad = fb.brief_error(job["brief"])
+    if bad:
+        raise SystemExit(bad)
+    return [f"brief = {_v(job['brief'])}"]
+
+
 def direct(job_path: Path, path: Path = dp.DIRECT_TOML) -> str:
     job = tomllib.loads(job_path.read_text(encoding="utf-8"))
     for k in ("project", "task"):
@@ -343,6 +356,7 @@ def direct(job_path: Path, path: Path = dp.DIRECT_TOML) -> str:
                              f"다른 까닭(대화 맥락 등)을 적고, 아니면 보낸다(`record send`)")
         why = ["비용"]
     lines = ["", "[[direct]]", f'id = "{rid}"', f"project = {_v(job['project'])}", f"date = {_v(date)}", f"task = {_v(job['task'])}"]
+    lines += _brief_line(job)
     if situation:
         lines.append("[direct.situation]")
         lines += [f"{k} = {_v(v)}" for k, v in situation.items()]

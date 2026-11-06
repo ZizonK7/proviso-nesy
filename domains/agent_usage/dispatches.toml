@@ -94,6 +94,10 @@
 #                      brief_chars·brief_lines 이 회차를 시작한 지시의 글자·줄 수 (보내기 전에 알 수 있는 값을 로그에서 읽은 것)
 #   session            클라우드 세션으로 보낸 일(S_cloud_session = 예)의 세션 id(session_…, 사람 식별자가 아니다). 보낼 일 파일에 적으면 record send가 옮긴다.
 #                      2026-11-06부터 클라우드 일에 필수. p168·p188·p200–p219는 2026-11-05에 세션 목록에서 제목·만든 시각(±3분)으로 찾아 사후에 채웠다(p239)
+#   brief              (선택) 작업자에게 준 지시서 글이 있는 곳 "저장소:상대경로.md"(예: "gemmin:docs/briefs/p246.md", 2026-11-06 사용자 결정).
+#                      **지시서 글은 이 공개 저장소에 저장하지 않는다** — 비공개 저장소에 두고 여기는 경로만. 보낼 일 파일에 적으면 record send가 옮긴다.
+#                      검사는 모양만(저장소 이름 [A-Za-z0-9_.-], 콜론, '/'로 시작 안 하고 '..' 없는 .md 경로). `python -m feedback labels`가 정답 행에
+#                      brief로 싣고, --brief-root gemmin=<폴더>를 주면 그 글을 brief_text로 붙인다(출력은 out/, git 제외) — 일 글(task + 지시서) 임베딩 시험의 재료
 #   git                [dispatch.git] git으로 잰 작업자 변경 (2026-11-05 사용자 결정, 2026-11-06부터 끝난 로컬 기록에 필수 — 저장소 밖 일이면 skip = "저장소 밖 일").
 #                      로그의 write·edit는 Write·Edit 도구만 세서 Bash로 바꾼 파일을 놓친다(p238: 11개를 고쳤는데 로그 1). domains/agent_usage/measure.py.
 #                      보낼 때(record send가 기록 파일·배치 머리를 쓴 뒤 — 메인의 보내기 전 기록도 기준에 든다): repo 저장소 폴더 이름만 · head 커밋 ·
@@ -20046,6 +20050,7 @@ agent = "turns-backfill-reader"
 round = 1
 size = { find_cap = "세션 14개 · 페이지 끝까지" }
 files = { write = 0, edit = 0 }
+brief = "gemmin:docs/briefs/p245.md"
 [dispatch.situation]
 S_specified = "예"
 S_full_brief = "예"
@@ -20108,6 +20113,7 @@ agent = "feedback-labels-builder"
 round = 1
 size = { find_cap = "칸 셋(searched·hit·missed) + labels 명령 + 검사·테스트·문서" }
 files = { write = 1, edit = 10 }
+brief = "gemmin:docs/briefs/p246.md"
 [dispatch.situation]
 S_specified = "예"
 S_full_brief = "예"
@@ -20233,6 +20239,7 @@ agent = "brief-pointer-builder"
 round = 1
 size = { find_cap = "칸 하나 + labels 옵션 + 테스트·문서" }
 files = { write = 0, edit = 7 }
+brief = "gemmin:docs/briefs/p247.md"
 [dispatch.situation]
 S_specified = "예"
 S_full_brief = "예"
@@ -20280,5 +20287,64 @@ repo = "proviso-nesy"
 head = "42441ceb587fd4026ebb6101a23eb7c67c1fef3e"
 dirty = 3
 dirty_hashes = ["7daa4719:63290d9bbd72", "90d5c6aa:c54b0df0388b", "ea328799:023f46c20e9b"]
+git_write = 0
+git_edit = 13
+git_delete = 0
+git_lines_added = 223
+git_lines_removed = 13
+git_commits = 1
+named_files = 8
+named_lines = 21412
+named_bytes = 1108281
+named_dirs = 1
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 8.0  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 42
+tokens_m = 5.38  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T03:13:09Z"
+end = "2026-11-06T03:21:06Z"
+[dispatch.review]
+missed = "없음: 걸린 항목은 보낼 때 hit에 다 있었음"
+feedback = "없음: 지시서대로 끝났고 다르게 할 것을 못 찾음"
+reason = "말한 구간 '잠깐' 맞음(8.0분, 손 4–10분 안). 토큰 5.38M 손 3–8M 안. 계산기 모름. 빗댄 p246(10.2분·11.2M)의 0.8배·0.5배 — 칸 하나짜리라도 같은 파일 묶음(문서 7곳)을 다 고치니 시간은 크게 안 준다. 품질 4: brief 칸(send·direct 옮김·모양 검사)·labels brief·--brief-root·테스트 5개·문서, 공개 저장소에 본문을 안 올린다는 점을 문서마다 적음. 경로 칸 없는 기록도 못 찾은 수에 넣는 건 작은 흠. 지시서 원문은 메인이 gemmin docs/briefs/에 넣고 p245–p247에 경로를 붙임"
+report = "docs/worklog/2026-11-06-feedback-labels.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 16, sum_s = 74.9, turn_s = 1.1, out_chars = 0.0, ctx_k = 130.0 }
+"Bash:grep" = { n = 6, sum_s = 24.9, turn_s = 1.8, tool_s = 0.2, out_chars = 201.5, ctx_k = 125.5 }
+"Bash:sed" = { n = 6, sum_s = 158.6, turn_s = 2.3, tool_s = 0.6, out_chars = 214.0, ctx_k = 116.0 }
+"Bash:python3" = { n = 6, sum_s = 58.2, turn_s = 2.3, tool_s = 0.2, out_chars = 2732.5, ctx_k = 134.0 }
+"Bash:cat" = { n = 3, sum_s = 10.9, turn_s = 1.9, tool_s = 0.4, out_chars = 135, ctx_k = 93 }
+"Bash:git" = { n = 2, sum_s = 2.9, turn_s = 1.4, tool_s = 0.5, out_chars = 195.0, ctx_k = 109.5 }
+"Bash:python" = { n = 2, sum_s = 145.6, turn_s = 72.8, tool_s = 71.8, out_chars = 129.5, ctx_k = 146.0 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 1159, ctx_k = 158 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 25
+blocks = 42
+write = 0
+edit = 0
+scratch_files = 0
+write_chars = 0
+edit_chars = 0
+write_lines = 0
+read_calls = 0
+read_files = 0
+read_chars = 0
+images = 0
+bash_calls = 25
+bash_out_chars = 86757
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 1
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 81
+ctx_max_k = 158
+ctx_end_k = 158
+thinking_blocks = 13
+thinking_s = 10.2
+brief_chars = 3116
+brief_lines = 20

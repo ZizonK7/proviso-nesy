@@ -8,7 +8,8 @@
 - index()      색인 표 마크다운, index_write()가 백서의 표지 사이를 바꿔 쓴다
 - topics(글)   일 설명에 키워드가 들어 있는 메인 파일 이름(늘 common 포함, 정렬)
 - find(낱말)   색인 낱말이 겹치는 백서 항목
-- labels()     보낸 기록·직접 한 일마다 읽은 것·찾은 낱말·hit·missed (피드백 찾기의 정답, 2026-11-06 사용자 결정)
+- labels()     보낸 기록·직접 한 일마다 읽은 것·찾은 낱말·hit·missed·지시서 경로 (피드백 찾기의 정답, 2026-11-06 사용자 결정)
+- brief_error(값)  지시서 경로 칸(brief = "저장소:경로.md")의 모양 검사 — 지시서 글은 이 공개 저장소에 두지 않는다
 """
 from __future__ import annotations
 
@@ -24,6 +25,9 @@ WHITEPAPER = HERE / "whitepaper.md"
 MAIN_DIR = HERE / "main"
 AGENT_USAGE = HERE.parent / "domains" / "agent_usage"
 LABELS_OUT = HERE.parent / "out" / "feedback" / "labels.jsonl"  # out/은 git 제외
+# 지시서 경로 (2026-11-06 사용자 결정): 기록의 brief = "<저장소>:<상대 경로>.md" (예: "gemmin:docs/briefs/p246.md").
+#   지시서 글은 이 공개 저장소에 두지 않는다 — 비공개 저장소에 두고 기록에는 가리키는 경로만. labels --brief-root로 붙여 읽는다
+BRIEF = re.compile(r"^(?P<repo>[A-Za-z0-9_.-]+):(?P<path>(?!/)[^:\\]+\.md)$")
 
 FIELDS = ("색인", "그때", "다시 하면", "왜", "출처", "자리")
 MAIN_MAX = 10               # 메인 파일마다 최대 항목 수 (CLAUDE.md "메인에 올리는 기준")
@@ -226,10 +230,25 @@ def _plain(x):
     return x.isoformat() if isinstance(x, (dt.date, dt.datetime)) else x
 
 
-def labels(dispatch_path: Path = AGENT_USAGE / "dispatches.toml", direct_path: Path = AGENT_USAGE / "direct.toml") -> list[dict]:
+def brief_error(value) -> str | None:
+    """brief 칸의 모양이 틀렸으면 까닭, 맞으면 None. 저장소 이름([A-Za-z0-9_.-]) : 상대 경로(.md로 끝남, '/'로 시작 안 함, '..' 없음 — 'a..b'도 막는다)."""
+    if not isinstance(value, str):
+        return "brief는 \"저장소:경로.md\" 글이어야 함"
+    m = BRIEF.match(value)
+    if not m:
+        return f"brief '{value}'의 모양이 틀림 — \"저장소:상대경로.md\" (예: \"gemmin:docs/briefs/p246.md\")"
+    if ".." in m["path"]:
+        return f"brief '{value}'의 경로에 '..'이 있음 — 저장소 안 상대 경로만"
+    return None
+
+
+def labels(dispatch_path: Path = AGENT_USAGE / "dispatches.toml", direct_path: Path = AGENT_USAGE / "direct.toml",
+           brief_roots: dict[str, Path] | None = None, missing: list[str] | None = None) -> list[dict]:
     """피드백 찾기의 정답 (2026-11-06 사용자 결정): feedback.hit 칸이 있는 기록마다 한 행.
-    {id, kind(dispatch|direct), project, date, task, read, searched, hit, missed}.
+    {id, kind(dispatch|direct), project, date, task, read, searched, hit, missed, brief}.
     missed는 F 번호 목록 — review.missed가 '없음: 이유'면 [], 아직 안 적었으면(안 끝난 기록) None.
+    brief는 지시서 경로("저장소:경로", 없으면 None). brief_roots {저장소 이름: 폴더}를 주면 행마다 brief_text도 붙인다 —
+    그 폴더/경로 파일의 글, 없거나 경로가 없으면 None(그 기록 id를 missing에 담는다). 지시서 글은 출력 파일(out/, git 제외)에만 실린다.
     기록 파일은 tomllib로 바로 읽는다(domains.agent_usage를 불러오면 서로 불러오는 고리가 생긴다)."""
     out = []
     for kind, path in (("dispatch", dispatch_path), ("direct", direct_path)):
@@ -242,12 +261,26 @@ def labels(dispatch_path: Path = AGENT_USAGE / "dispatches.toml", direct_path: P
             missed = d.get("review", {}).get("missed") if isinstance(d.get("review"), dict) else None
             out.append({"id": d.get("id"), "kind": kind, "project": d.get("project"), "date": _plain(d.get("date")),
                         "task": d.get("task"), "read": f.get("read", []), "searched": f.get("searched", []), "hit": f["hit"],
-                        "missed": missed if isinstance(missed, list) else ([] if isinstance(missed, str) else None)})
+                        "missed": missed if isinstance(missed, list) else ([] if isinstance(missed, str) else None),
+                        "brief": d.get("brief")})
+            if brief_roots is not None:
+                out[-1]["brief_text"] = _brief_text(d.get("brief"), brief_roots)
+                if out[-1]["brief_text"] is None and missing is not None:
+                    missing.append(str(d.get("id")))
     return out
 
 
+def _brief_text(pointer, roots: dict[str, Path]) -> str | None:
+    """지시서 경로가 가리키는 파일의 글. 저장소 이름이 roots에 없거나 파일이 없거나 모양이 틀리면 None."""
+    if brief_error(pointer):
+        return None
+    repo, rel = pointer.split(":", 1)
+    f = roots[repo] / rel if repo in roots else None
+    return f.read_text(encoding="utf-8") if f is not None and f.is_file() else None
+
+
 def labels_write(out: Path = LABELS_OUT, **paths) -> int:
-    """labels()를 JSON Lines로 쓴다(한 줄 = 한 기록). 쓴 줄 수."""
+    """labels()를 JSON Lines로 쓴다(한 줄 = 한 기록). 쓴 줄 수. paths에 brief_roots·missing도 넘길 수 있다."""
     rows = labels(**paths)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows), encoding="utf-8")

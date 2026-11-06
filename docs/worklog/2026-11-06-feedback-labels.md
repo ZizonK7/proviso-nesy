@@ -56,3 +56,28 @@
   ```
   끝나면 `record finish <id> <로그> --feedback "…" --missed "F014"`(또는 `--missed "없음: 이유"`).
 - 정답 뽑기: `python -m feedback labels` → `out/feedback/labels.jsonl`.
+
+## 덧붙임: 지시서 경로(brief)
+
+에이전트: 구현 작업자 (Opus 5.5). 하위 에이전트 없음. 커밋·push 안 함. 위 '메인이 정할 것' 2(지시서 글이 기록에 없다)의 사용자 결정(2026-11-06): **지시서 글은 이 공개 저장소에 두지 않고** 비공개 저장소(gemmin `docs/briefs/p###.md`)에, 기록에는 경로만.
+
+읽은 피드백: `feedback/main/` 15개 전부, 특히 F051(검사에 넣기 — 모양 검사로 넣음, 필수 날짜는 지시서대로 두지 않음)·F078(낱말 grep으로 문서 고침)·F103(실험·API·진짜 기록 파일에 record 명령 안 돌림).
+
+### 한 일
+- `feedback/__init__.py`: `BRIEF` 정규식과 `brief_error(값)` — `"저장소:상대경로.md"`, 저장소 이름 `[A-Za-z0-9_.-]+`, `/`로 시작 안 함, `..` 없음(`a..b`도 막음), `:`·`\` 없음. `labels()`의 행에 `"brief"`(없으면 null). 새 인자 `brief_roots={이름: 폴더}`를 주면 행마다 `"brief_text"`(파일 글 또는 null), 못 찾은 id는 `missing` 목록에.
+- `feedback/__main__.py`: `labels --brief-root 이름=폴더`(여러 번). 꼴이 틀리면 종료 코드 2. 못 찾은 건 수와 id를 오류 출력에 한 줄(경로 칸이 없는 기록도 여기 든다).
+- `domains/agent_usage/dispatches.py`: `brief_errors(d)` — 칸이 있으면 모양만(`fb.brief_error`), `validate`·`validate_direct` 둘 다에. 날짜 경계 없음(선택 칸).
+- `domains/agent_usage/record.py`: `_brief_line(job)` — `send`(session 줄 뒤)와 `direct`(task 줄 뒤)가 맨 위 칸 `brief`를 옮긴다. 모양이 틀리면 아무것도 쓰기 전에 막는다. 사용법 글에 한 줄.
+- 테스트 `tests/test_feedback.py` `Brief` 5개: 모양(맞는 셋·틀린 열하나), validate·validate_direct가 잡음, send가 옮기고 틀린 꼴은 막히며 파일이 그대로·칸 없으면 기록에도 없음, direct가 옮김, labels 경로 칸·`brief_roots`(찾음/파일 없음/경로 없음)·CLI(`--brief-root gemmin` 꼴 오류 2, 정상 0, 모든 행에 brief·brief_text). 기존 `Labels`의 행 비교에 `"brief": None` 더함.
+- 문서(기록은 안 건드리고 주석만): `dispatches.toml` 머리 주석(session 다음에 brief 칸), `direct.toml` 머리 주석, 루트 `CLAUDE.md` 체크리스트 1, `feedback/CLAUDE.md`(labels 명령, 정답 모으기 절), `domains/agent_usage/CLAUDE.md`(묶음 명령의 선택 칸, 놓친 피드백 줄), `docs/dispatch.md`(지시서 글 보관), `README.md`.
+
+### 확인한 것
+- `python -m unittest tests.test_feedback tests.test_agent_usage_domain tests.test_decide` → 66개 통과.
+- `python -m domains.agent_usage.dispatches` → "기록 문제 없음 (372건)".
+- `python -m feedback check` → "문제 없음 (백서 항목 104개, 메인 파일 15개)".
+- `python -m feedback labels --out <scratchpad>/labels.jsonl --brief-root gemmin=/home/user/gemmin` → 2줄(p246·p247), 둘 다 경로 칸이 아직 없어 "못 찾은 기록 2건".
+- `python -m unittest discover -s tests -t .` → 196개 중 실패 1: 알려진 `tests.test_computable.Devices.test_audit_has_no_errors_now`. 그 밖 통과(130.5초).
+
+### 메인이 정할 것
+- p246·p247 등에 `brief` 경로를 붙이는 것은 메인 몫(지시서대로 기록은 안 건드림). gemmin 쪽 `docs/briefs/` 폴더와 그 저장소 문서는 이 작업이 만들지 않았다.
+- 필수로 만들려면 `dispatches.brief_errors`에 날짜 경계 한 줄과 `record send`의 막기를 더하면 된다(F051).

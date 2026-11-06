@@ -4,7 +4,10 @@
   python -m feedback index [--write]       색인 표를 보여 준다 / 백서의 표지 사이에 다시 쓴다
   python -m feedback topics "<일 설명>"     키워드가 고른 메인 파일 (참고 — 2026-11-07부터 [feedback] read에는 메인 파일 전부)
   python -m feedback find <낱말>...         색인 낱말로 백서 항목 찾기 (보낼 일 파일의 [feedback] searched 줄도 찍는다)
-  python -m feedback labels [--out 경로]    보낸 기록·직접 한 일의 read·searched·hit·missed를 JSON Lines로 (기본 out/feedback/labels.jsonl)
+  python -m feedback labels [--out 경로] [--brief-root 저장소=폴더 ...]
+                                           보낸 기록·직접 한 일의 read·searched·hit·missed·brief(지시서 경로)를 JSON Lines로
+                                           (기본 out/feedback/labels.jsonl). --brief-root(여러 번 가능)를 주면 그 저장소 경로의
+                                           지시서 글을 brief_text로 붙인다(없으면 null). 지시서 글은 이 공개 저장소에 저장하지 않는다
 """
 from __future__ import annotations
 
@@ -60,8 +63,20 @@ def main(argv: list[str]) -> int:
         return 0
     if cmd == "labels":
         out = Path(rest[rest.index("--out") + 1]) if "--out" in rest and rest.index("--out") + 1 < len(rest) else LABELS_OUT
-        n = labels_write(out)
+        roots = {}
+        for i, a in enumerate(rest):
+            if a == "--brief-root":
+                val = rest[i + 1] if i + 1 < len(rest) else ""
+                name, sep, folder = val.partition("=")
+                if not (sep and name and folder):
+                    print("--brief-root는 저장소=폴더 꼴 (예: --brief-root gemmin=../gemmin)", file=sys.stderr)
+                    return 2
+                roots[name] = Path(folder)
+        missing: list[str] = []
+        n = labels_write(out, brief_roots=roots or None, missing=missing)
         print(f"피드백 정답 {n}줄을 썼다: {out}")
+        if missing:
+            print(f"지시서 글을 못 찾은 기록 {len(missing)}건(brief 경로가 없거나 파일이 없음, brief_text = null): {', '.join(missing)}", file=sys.stderr)
         return 0
     print(__doc__)
     return 2

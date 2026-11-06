@@ -428,7 +428,7 @@ missed = "없음: 놓친 항목이 없다"
         rows = fb.labels(self.tmp / "d.toml", self.tmp / "m.toml")
         self.assertEqual([r["id"] for r in rows], ["p901", "p902", "m901"])  # hit 칸이 없는 p903은 빠진다
         self.assertEqual(rows[0], {"id": "p901", "kind": "dispatch", "project": "proviso", "date": "2026-11-07", "task": "구현: 하나",
-                                   "read": ["common"], "searched": ["기록"], "hit": ["F052"], "missed": ["F014"]})
+                                   "read": ["common"], "searched": ["기록"], "hit": ["F052"], "missed": ["F014"], "brief": None})
         self.assertEqual((rows[1]["hit"], rows[1]["missed"]), ([], None))   # 빈 hit도 정답(걸릴 것 없음), 안 끝났으면 missed None
         self.assertEqual((rows[2]["kind"], rows[2]["missed"]), ("direct", []))  # '없음: 이유'는 빈 목록
         out = self.tmp / "out" / "labels.jsonl"
@@ -447,6 +447,109 @@ missed = "없음: 놓친 항목이 없다"
         self.assertIn(str(out), buf.getvalue())
         self.assertEqual(len(out.read_text(encoding="utf-8").splitlines()), len(fb.labels()))
         self.assertTrue(str(fb.LABELS_OUT).replace("\\", "/").endswith("out/feedback/labels.jsonl"))  # 기본은 git 제외 폴더
+
+
+class Brief(RecordFiles, unittest.TestCase):
+    """지시서 경로 brief = "저장소:경로.md" (2026-11-06 사용자 결정): 지시서 글은 이 공개 저장소에 두지 않고 경로만 (임시 파일로만)."""
+    PTR = "gemmin:docs/briefs/p901.md"
+
+    def fb(self) -> str:
+        return "[feedback]\n" + "".join(f"{k} = {rc._v(v)}\n" for k, v in GOOD.items())
+
+    def brief_job(self, name: str, brief) -> Path:
+        p = self.job(name, self.fb(), date=dp.FEEDBACK_ALL_FROM)
+        p.write_text(p.read_text(encoding="utf-8").replace("round = 1\n", f"round = 1\nbrief = {rc._v(brief)}\n"), encoding="utf-8")
+        return p
+
+    def test_shape(self):
+        for ok in (self.PTR, "movie_game:a.md", "x.y-z_1:docs/b c/가.md"):
+            self.assertIsNone(fb.brief_error(ok), ok)
+        for bad in ("docs/briefs/p901.md", "gemmin:/abs.md", "gemmin:../up.md", "gemmin:a/../b.md", "gemmin:a..b.md",
+                    "gemmin:x.txt", "gem min:x.md", ":x.md", "gemmin:", 3, ["gemmin:x.md"]):
+            self.assertIsNotNone(fb.brief_error(bad), bad)
+        self.assertEqual(dp.brief_errors({"id": "p1"}), [])  # 없어도 된다 (아직 필수 아님)
+        self.assertEqual(dp.brief_errors({"id": "p1", "brief": self.PTR}), [])
+        self.assertTrue(dp.brief_errors({"id": "p1", "brief": "gemmin:/abs.md"})[0].startswith("p1: brief"))
+
+    def test_checker_rejects_bad_shape_in_records(self):
+        d = dp.load(self.tmp / "d.toml")[-1]
+        self.assertTrue(any("brief" in e for e in dp.validate([{**d, "brief": "../x.md"}], schema.load(HERE / "knowledge.toml"))))
+        self.assertTrue(any("brief" in e for e in dp.validate_direct([{"id": "m901", "project": "p", "date": "2026-11-05", "task": "t",
+                                                                       "brief": "gemmin:x.txt"}])))
+
+    def test_send_copies_and_refuses_bad_shape(self):
+        n = len(dp.load(self.tmp / "d.toml"))
+        with self.assertRaises(SystemExit) as cm:
+            self.send(self.brief_job("bad.toml", "gemmin:../x.md"))
+        self.assertIn("..", str(cm.exception))
+        self.assertEqual(len(dp.load(self.tmp / "d.toml")), n)  # 막히면 아무것도 안 덧붙는다
+        self.send(self.brief_job("ok.toml", self.PTR))
+        d = dp.load(self.tmp / "d.toml")[-1]
+        self.assertEqual(d["brief"], self.PTR)
+        self.assertEqual(dp.brief_errors(d), [])
+        self.send(self.job("plain.toml", self.fb(), date=dp.FEEDBACK_ALL_FROM))
+        self.assertNotIn("brief", dp.load(self.tmp / "d.toml")[-1])  # 없으면 칸도 없다
+
+    def test_direct_copies(self):
+        (self.tmp / "direct.toml").write_text("# 직접 한 일\n", encoding="utf-8")
+        (self.tmp / "ok.toml").write_text(
+            f'project = "proviso"\ndate = "{dp.FEEDBACK_ALL_FROM}"\ntask = "문서 두 곳 고치기"\nbrief = "{self.PTR}"\n[predicted]\n'
+            'turns = [4, 8]\ntokens_m = [0.3, 0.6]\n[decide]\nmain_ctx_k = 800\n' + self.fb(), encoding="utf-8")
+        rc.direct(self.tmp / "ok.toml", self.tmp / "direct.toml")
+        self.assertEqual(dp.load_direct(self.tmp / "direct.toml")[-1]["brief"], self.PTR)
+
+    def test_labels_pointer_and_brief_root(self):
+        import contextlib
+        import io
+        import json
+        from feedback.__main__ import main
+        (self.tmp / "l.toml").write_text(f"""
+[[dispatch]]
+id = "p901"
+project = "proviso"
+date = 2026-11-07
+task = "하나"
+brief = "{self.PTR}"
+[dispatch.feedback]
+hit = ["F052"]
+
+[[dispatch]]
+id = "p902"
+project = "proviso"
+date = 2026-11-07
+task = "둘 (지시서 파일이 없다)"
+brief = "gemmin:docs/briefs/p902.md"
+[dispatch.feedback]
+hit = []
+
+[[dispatch]]
+id = "p903"
+project = "proviso"
+date = 2026-11-07
+task = "셋 (경로 칸 없음)"
+[dispatch.feedback]
+hit = []
+""", encoding="utf-8")
+        paths = {"dispatch_path": self.tmp / "l.toml", "direct_path": self.tmp / "none.toml"}
+        rows = fb.labels(**paths)
+        self.assertEqual([r["brief"] for r in rows], [self.PTR, "gemmin:docs/briefs/p902.md", None])
+        self.assertTrue(all("brief_text" not in r for r in rows))  # --brief-root 없으면 글 칸도 없다
+        repo = self.tmp / "gemmin"
+        (repo / "docs" / "briefs").mkdir(parents=True)
+        (repo / "docs" / "briefs" / "p901.md").write_text("# 지시서\n할 일 하나", encoding="utf-8")
+        missing = []
+        rows = fb.labels(**paths, brief_roots={"gemmin": repo}, missing=missing)
+        self.assertEqual([r["brief_text"] for r in rows], ["# 지시서\n할 일 하나", None, None])
+        self.assertEqual(missing, ["p902", "p903"])
+        # CLI: 기본 기록 파일로 돌고(--brief-root 꼴 검사), 잘못된 꼴은 2
+        out = self.tmp / "o.jsonl"
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            self.assertEqual(main(["labels", "--out", str(out), "--brief-root", "gemmin"]), 2)
+            self.assertEqual(main(["labels", "--out", str(out), "--brief-root", f"gemmin={repo}"]), 0)
+        for line in out.read_text(encoding="utf-8").splitlines():
+            row = json.loads(line)
+            self.assertIn("brief", row)
+            self.assertIn("brief_text", row)
 
 
 if __name__ == "__main__":

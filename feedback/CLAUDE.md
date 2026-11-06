@@ -46,7 +46,7 @@ API, PDF, git, 검토, 게임, 고증, 공개저장소, 그림, 글꼴, 기록, 
 - `python -m feedback index --write` — 백서의 색인 표(낱말 → 항목)를 다시 만든다. 항목을 더하면 돌린다. `--write` 없이는 표를 보여 주기만 한다.
 - `python -m feedback topics "<일 설명>"` — 키워드가 글에 들어 있는 메인 파일 목록(대소문자 무시 부분 문자열, `common`은 늘) — **참고용**. 보낼 일 파일에 붙일 `[feedback] read` 줄은 메인 파일 전부로 찍는다(2026-11-07부터 그게 규칙).
 - `python -m feedback find <낱말>...` — 색인 낱말로 백서 항목 찾기(에이전트의 "주의할 점이 있었나?"). 보낼 일 파일에 붙일 `searched = [...]` 줄도 찍는다.
-- `python -m feedback labels [--out 경로]` — 피드백 찾기의 정답: `feedback.hit` 칸이 있는 보낸 기록·직접 한 일마다 한 줄 JSON `{id, kind(dispatch|direct), project, date, task, read, searched, hit, missed}`(missed는 '없음: 이유'면 `[]`, 아직 안 적었으면 `null`). 기본 `out/feedback/labels.jsonl`(git 제외). 나중에 일 글을 임베딩해 이 정답을 찾아 오는지 볼 재료다(그 시험은 아직).
+- `python -m feedback labels [--out 경로] [--brief-root 저장소=폴더 ...]` — 피드백 찾기의 정답: `feedback.hit` 칸이 있는 보낸 기록·직접 한 일마다 한 줄 JSON `{id, kind(dispatch|direct), project, date, task, read, searched, hit, missed, brief}`(missed는 '없음: 이유'면 `[]`, 아직 안 적었으면 `null`; brief는 지시서 경로, 없으면 `null`). 기본 `out/feedback/labels.jsonl`(git 제외). 나중에 일 글(task + 지시서)을 임베딩해 이 정답을 찾아 오는지 볼 재료다(그 시험은 아직). `--brief-root gemmin=<그 저장소 폴더>`(여러 번 가능)를 주면 행마다 `brief_text`(지시서 글)를 붙인다 — 저장소 이름이 맞고 파일이 있으면 그 글, 없으면 `null`이고 몇 건인지 오류 출력에 한 줄. 옵션이 없으면 `brief_text` 칸 자체가 없다.
 
 ## 강제 (2026-11-06부터, `python -m domains.agent_usage.dispatches`와 테스트가 막는다 — batman 기록 제외, 코드는 `dispatches.feedback_send_errors`·`feedback_review_errors`)
 - **읽기**: 보낼 일 파일에 `[feedback] read = ["common", "brief", …]`(읽은 메인 파일 이름). **2026-11-07부터는 메인 파일 전부**가 들어 있지 않으면 `record send`가 보내지 못한다(모두 합쳐 76항목·19KB쯤이라 싸다; 그 전 날짜 기록은 `topics(task)`가 고른 파일이 기준이었다). 기록에는 `[dispatch.feedback] read = […]`로 남고, 보낸 뒤 출력에 그 파일들의 경로와 F 줄(많으면 번호와 제목)이 찍힌다 — 지시서에 붙여 작업자도 읽게 한다.
@@ -55,6 +55,7 @@ API, PDF, git, 검토, 게임, 고증, 공개저장소, 그림, 글꼴, 기록, 
   - `[feedback] hit = ["F014", …]` — 읽은 메인과 찾은 백서 항목 중 **이번 일에 걸린다고 본 것**(백서에 있는 번호). 걸릴 게 없으면 `hit = []`와 `hit_none = "이유"`(5자 이상).
   - 끝나면 `review.missed` — 보낼 때 이미 있었는데 hit에 없던, **알고 보니 걸린** 기존 항목(예: 이번에 새로 올린 피드백을 막았을 기존 항목) 번호 목록 또는 `"없음: <이유>"`. `record finish … --missed "F014,F051"`. hit와 겹치거나 이번에 새로 올린 번호(review.feedback)면 막는다.
   - hit + missed = 그 일의 정답. `python -m feedback labels`가 뽑는다.
+  - (선택, 아직 필수 아님) `brief = "<저장소>:<상대경로>.md"` — 보낼 일 파일·직접 할 일 파일의 맨 위 칸(`session`처럼). 작업자에게 준 지시서 글이 있는 곳(예: `"gemmin:docs/briefs/p246.md"`). **이 저장소는 공개라 지시서 글은 여기 저장하지 않는다** — 비공개 저장소(gemmin `docs/briefs/p###.md`)에 두고 기록에는 경로만. `record send`/`record direct`가 옮기고, 검사는 모양만 본다(저장소 이름 `[A-Za-z0-9_.-]`, 콜론, `/`로 시작하지 않고 `..`이 없는 `.md` 경로 — `feedback.brief_error`). 임베딩 시험은 `labels --brief-root`로 글을 붙여 `out/`(git 제외)에서만 읽는다.
 - **쓰기**: 끝난 기록의 `review.feedback` — 이번 일에서 새로 올린 피드백 번호 목록(`["F102"]`, 백서에 있어야 함) 또는 `"없음: <이유>"`(한 줄, 이유 5자 이상). 비우면 검사가 막는다. `record finish … --feedback "F102,F103"`(또는 `--feedback "없음: 이유"`)가 적고, 안 주면 출력의 '남은 일'에 뜬다. 새 항목은 백서에 적고 `index --write`, 메인에 올리면 그 파일에도.
 - 직접 한 일(`direct.toml`)도 같은 칸(`feedback.read`·`searched`·`hit`, `review.feedback`·`missed`).
 - 다른 저장소 세션은 시작할 때 `main/common.md`와 자기 일의 메인 파일을 읽는다(루트 CLAUDE.md "다른 저장소 다루기").
