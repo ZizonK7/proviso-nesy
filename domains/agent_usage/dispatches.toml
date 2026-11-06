@@ -20720,5 +20720,77 @@ repo = "proviso-nesy"
 head = "89a72dbfcc325d067d70c22ec1308a49a2fe7d43"
 dirty = 2
 dirty_hashes = ["90d5c6aa:5e7ef82610f3", "ea328799:2f1813932ad1"]
+git_write = 0
+git_edit = 0
+git_delete = 0
+git_lines_added = 0
+git_lines_removed = 0
+git_commits = 1
+named_files = 0
+named_lines = 0
+named_bytes = 0
+named_dirs = 0
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 5.6  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 80
+tokens_m = 14.41  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T11:13:42Z"
+end = "2026-11-06T11:19:21Z"
+[dispatch.review]
+missed = ["F065", "F070"]
+feedback = "없음: 빗나간 까닭이 이미 F065·F070에 있다(놓친 것으로 적음)"
+reason = "실측 5.6분·80줄·14.4M — 손 예측(10–25분·100–200줄·15–35M)과 계산기(16–32분) 둘 다 아래로 빗나가고, 빗댄 기록 규칙(p81 4.9분 → 3.7–7.4분 '잠깐')이 맞았다. 손 예측은 p40(12.1분·161턴)에서 출발해 '읽을 종류(레포 둘·노트 셋·노트북 둘·PDF·필사)가 더 많다'고 위로 넓혔는데, 작업자는 grep·python3로 여러 파일을 한 턴에 묶어 읽었고(분당 14줄, 읽기·명령 섞임) 노트북은 셀 구조만 뽑아 맥락이 20만 안팎에 머물렀다. 지시서가 읽을 곳·순서·노트북 읽는 법까지 적어 찾는 몫이 작았다. 품질: 원문과 노트의 어긋남 둘('모델 비교 필수'의 조건, '5쪽'은 중간 프로젝트)을 잡아 왔다"
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+report = "gemmin:docs/research/2026-11-06-competition-next.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 31, sum_s = 37.8, turn_s = 1.0, out_chars = 0, ctx_k = 200 }
+"Bash:python3" = { n = 10, sum_s = 32.2, turn_s = 2.8, tool_s = 0.3, out_chars = 320.0, ctx_k = 163.0 }
+"Bash:grep" = { n = 10, sum_s = 48.0, turn_s = 2.9, tool_s = 0.6, out_chars = 224.5, ctx_k = 207.0 }
+"Bash:sed" = { n = 8, sum_s = 70.4, turn_s = 3.0, tool_s = 0.9, out_chars = 137.5, ctx_k = 196.5 }
+"Bash:ls" = { n = 4, sum_s = 105.4, turn_s = 2.4, tool_s = 0.4, out_chars = 113.5, ctx_k = 205.5 }
+"Bash:git" = { n = 3, sum_s = 6.9, turn_s = 2.3, tool_s = 0.7, out_chars = 196, ctx_k = 110 }
+"Bash:cat" = { n = 2, sum_s = 4.6, turn_s = 2.3, tool_s = 1.0, out_chars = 160.0, ctx_k = 96.0 }
+"Read" = { n = 1, sum_s = 2.5, turn_s = 2.5, tool_s = 0.0, out_chars = 54, ctx_k = 82 }
+"Bash:mkdir" = { n = 1, sum_s = 0.5, turn_s = 0.5, out_chars = 366, ctx_k = 87 }
+"Bash:for" = { n = 1, sum_s = 2.4, turn_s = 2.4, tool_s = 0.9, out_chars = 175, ctx_k = 134 }
+"Bash:head" = { n = 1, sum_s = 2.5, turn_s = 2.5, tool_s = 0.7, out_chars = 179, ctx_k = 157 }
+"Bash:file" = { n = 1, sum_s = 2.2, turn_s = 2.2, tool_s = 0.7, out_chars = 366, ctx_k = 201 }
+"Bash:pdftotext" = { n = 1, sum_s = 2.2, turn_s = 2.2, tool_s = 0.4, out_chars = 451, ctx_k = 203 }
+"Bash:curl" = { n = 1, sum_s = 2.7, turn_s = 2.7, tool_s = 0.5, out_chars = 474, ctx_k = 210 }
+"ToolSearch" = { n = 1, sum_s = 1.8, turn_s = 1.8, tool_s = 0.0, out_chars = 63, ctx_k = 229 }
+"mcp__github__list_commits" = { n = 1, sum_s = 4.8, turn_s = 4.8, tool_s = 0.9, out_chars = 127, ctx_k = 234 }
+"Write" = { n = 1, sum_s = 1.6, turn_s = 1.6, tool_s = 0.0, out_chars = 12589, ctx_k = 239 }
+"Bash:wc" = { n = 1, sum_s = 8.4, turn_s = 8.4, tool_s = 1.0, out_chars = 134, ctx_k = 250 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 902, ctx_k = 250 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 48
+blocks = 80
+write = 1
+edit = 0
+scratch_files = 0
+write_chars = 12265
+edit_chars = 0
+write_lines = 126
+read_calls = 1
+read_files = 1
+read_chars = 3585
+images = 0
+bash_calls = 44
+bash_out_chars = 158487
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 3
+tool_errors = 1
+repeat_cmds = 0
+ctx_start_k = 82
+ctx_max_k = 250
+ctx_end_k = 250
+thinking_blocks = 31
+thinking_s = 106.9
+brief_chars = 494
+brief_lines = 1
