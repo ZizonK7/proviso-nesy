@@ -88,3 +88,73 @@ skip = "Codex native JSONL은 Claude 전용 로그 숫자 파서와 형식이 �
 reason = "대화에서 정한 인과 질문·측정 단위·사전 피처 선택을 유지하려고 직접 분석했다. 회귀 주 분석은 Opus high·양쪽 조건이 있는 3개 프로젝트 92건(예74/아니오18), log(turns), 프로젝트·이어 보내기·코드 없는 일·웹·날짜 보정. 단순 0.66배가 보정 후 0.96배(95% 0.51–1.81, p0.894). 인과효과를 확정하지 않고 작업량 누락·약한 겹침을 명시. OLS 잔차화 계수와 군집 공분산을 독립 계산해 일치 확인. Codex 실측 토큰은 input에 캐시가 포함돼 재합산하지 않았다. 다른 쪽 실행 비용은 측정하지 않아 실제 선택의 우열은 모른다. 분석 산출물·입력 스냅숏·계획·재실행 스크립트는 out/spec_fixed_regression_2026-11-06/에 보존."
 report = "docs/worklog/2026-11-06-spec-fixed-regression.md"
 feedback = "없음: 기존 가설의 탐색 회귀를 수행했으며 새 일반 행동 피드백으로 올릴 별도 사례는 없었다"
+
+[[direct]]
+id = "m003"
+project = "proviso"
+date = 2026-11-06
+task = "이어 보내기(C_turns_resumed_v2: 이어 보냄·합치는 일 아님)와 하위 에이전트 턴 수: 기존 기록의 회귀 분석, 분석 계획 사전 고정, 보정·민감도 분석, 보고서. 원본·기계 출력은 out에만"
+[direct.situation]
+S_fixed_input = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_no_code = "아니오"
+S_fix_existing = "아니오"
+S_specified = "예"
+S_spec_fixed = "예"
+S_external_check = "예"
+S_similar_past = "예"
+[direct.decide]
+main_ctx_k = 170
+left = 20
+direct_m = 52.1
+send_m = 26.4
+added_k = 457
+chose = "직접"
+why = ["대화 맥락"]
+[direct.feedback]
+read = ["brief", "common", "logic", "predict", "record"]
+[direct.actual]
+status = "done"
+minutes = 3.3  # record finish (메인 대화 기록)
+turns = 30
+tokens_m = 5.37  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T01:17:00Z"
+end = "2026-11-06T01:20:15Z"
+added_k = 34  # 메인 맥락이 실제로 늘어난 양(천 토큰) — 그 뒤 모든 응답에서 다시 읽힌다
+[direct.review]
+reason = "대화 맥락(바로 앞 회귀 보고서와 그 한계를 메인이 읽은 상태)으로 직접 했다. 손 예측 15–30분·60–120줄에 실제 3.3분·30줄(이 요청 창) — 둘 다 크게 짧았다: 지난 회귀 스크립트 구조를 그대로 써서 분석 한 번에 끝났고 고칠 일이 없었다. 토큰 5.4M으로 보냈을 때 추정 26.4M보다 쌌다. 주 분석 187건 ×0.456(95% 0.33–0.64), 방향 지지·크기 겨우 겹침"
+report = "docs/worklog/2026-11-06-resumed-regression.md"
+feedback = ["F105"]
+[direct.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 15
+blocks = 30
+write = 3
+edit = 1
+scratch_files = 0
+write_chars = 16673
+edit_chars = 519
+write_lines = 349
+read_calls = 0
+read_files = 0
+read_chars = 0
+images = 0
+bash_calls = 12
+bash_out_chars = 19612
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 0
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 161
+ctx_max_k = 195
+ctx_end_k = 195
+thinking_blocks = 11
+thinking_s = 39.9
+brief_chars = 24
+brief_lines = 1
