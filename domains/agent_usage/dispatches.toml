@@ -20472,9 +20472,63 @@ repo = "proviso-nesy"
 head = "1645d1576e63485c2f915c052d30ee3ed900c562"
 dirty = 2
 dirty_hashes = ["90d5c6aa:a633d716ac79", "ea328799:18549cdbf6e5"]
+git_write = 0
+git_edit = 0
+git_delete = 0
+git_lines_added = 0
+git_lines_removed = 0
+git_commits = 1
+named_files = 0
+named_lines = 0
+named_bytes = 0
+named_dirs = 0
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
-
+status = "done"
+minutes = 7.4  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 171
+tokens_m = 66.81  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T03:31:32Z"
+end = "2026-11-06T03:38:58Z"
+[dispatch.review]
+missed = "없음: 걸린 항목은 hit에 있었음"
+feedback = "없음: F105·F106대로 나눠 result만 읽게 해서 다르게 할 것을 못 찾음"
+reason = "말한 구간 '잠깐' 맞음(7.4분, 손 2–8분 안). 토큰 66.8M은 손 0.3–2M의 30배 위로 빗나감: result만 읽어도 사건이 100개 중 몇 개씩만 걸러져 세션마다 8–25쪽을 넘겼고(호출 107), 작은 쪽은 맥락에 그대로 들어와 쌓였다. 품질 4: 7개 세션 모두 가장 오래된 쪽까지, result 사건 404개. 메인이 results.py로 턴 비용을 채움"
+report = "gemmin:docs/agent-log.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"mcp__claude-code-remote__list_events" = { n = 102, sum_s = 392.8, turn_s = 2.9, tool_s = 0.3, out_chars = 138.0, ctx_k = 334.5 }
+"글" = { n = 64, sum_s = 40.2, turn_s = 0.6, out_chars = 0.0, ctx_k = 341.0 }
+"Bash:grep" = { n = 4, sum_s = 10.5, turn_s = 2.5, tool_s = 0.9, out_chars = 402.0, ctx_k = 167.5 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 1431, ctx_k = 436 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 107
+blocks = 171
+write = 0
+edit = 0
+scratch_files = 0
+write_chars = 0
+edit_chars = 0
+write_lines = 0
+read_calls = 0
+read_files = 0
+read_chars = 0
+images = 0
+bash_calls = 4
+bash_out_chars = 1001
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 103
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 81
+ctx_max_k = 894
+ctx_end_k = 436
+thinking_blocks = 64
+thinking_s = 102.2
+brief_chars = 1711
+brief_lines = 27
 [[dispatch]]
 id = "p249"
 project = "gemmin"
@@ -20538,5 +20592,61 @@ repo = "proviso-nesy"
 head = "1645d1576e63485c2f915c052d30ee3ed900c562"
 dirty = 2
 dirty_hashes = ["90d5c6aa:a633d716ac79", "ea328799:df7a11fea175"]
+git_write = 0
+git_edit = 1
+git_delete = 0
+git_lines_added = 55
+git_lines_removed = 2
+git_commits = 1
+named_files = 0
+named_lines = 0
+named_bytes = 0
+named_dirs = 0
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 4.6  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 96
+tokens_m = 42.82  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T03:31:32Z"
+end = "2026-11-06T03:36:07Z"
+[dispatch.review]
+missed = "없음: 걸린 항목은 hit에 있었음"
+feedback = "없음: F105·F106대로 나눠 result만 읽게 해서 다르게 할 것을 못 찾음"
+reason = "말한 구간 '잠깐' 맞음(4.6분, 손 2–8분 안). 토큰 42.8M은 손 0.3–2M의 20배 위(p248과 같은 까닭: 걸러진 쪽 수가 많고 작은 쪽이 맥락에 쌓임). 품질 3: 7개 세션을 다 읽었지만(호출 77, result 사건 238개) 마지막 보고는 다른 작업자의 진행을 말하는 엉뚱한 글이었다 — 메인이 대화 기록에서 세션별 호출 수를 세어 확인"
+report = "gemmin:docs/agent-log.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"mcp__claude-code-remote__list_events" = { n = 77, sum_s = 256.3, turn_s = 0.6, tool_s = 0.3, out_chars = 138, ctx_k = 446 }
+"글" = { n = 16, sum_s = 12.8, turn_s = 0.7, tool_s = 0.0, out_chars = 0.0, ctx_k = 369.0 }
+"Bash:python3" = { n = 1, sum_s = 0.6, turn_s = 0.6, out_chars = 401, ctx_k = 333 }
+"Bash:tail" = { n = 1, sum_s = 2.1, turn_s = 2.1, tool_s = 0.7, out_chars = 230, ctx_k = 83 }
+"SubagentHandback" = { n = 1, sum_s = 0.9, turn_s = 0.9, tool_s = 0.9, out_chars = 837, ctx_k = 86 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 15
+blocks = 96
+write = 0
+edit = 0
+scratch_files = 0
+write_chars = 0
+edit_chars = 0
+write_lines = 0
+read_calls = 0
+read_files = 0
+read_chars = 0
+images = 0
+bash_calls = 2
+bash_out_chars = 4002
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 78
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 81
+ctx_max_k = 872
+ctx_end_k = 86
+thinking_blocks = 15
+thinking_s = 118.2
+brief_chars = 1711
+brief_lines = 27
