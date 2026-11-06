@@ -139,3 +139,184 @@ status = "stopped"  # 시작 전 멈춤: 보낼까 판단이 직접 263.8M vs �
 [direct.review]
 reason = "record direct의 보낼까 판단이 '보냄'을 가리켰다(메인 맥락이 커서 직접 하면 매 호출이 비쌈). 같은 일을 p247(Opus 5.5 medium 하위 에이전트)로 보냈다. 직접 한 일은 없음"
 feedback = "없음: 판단 숫자를 보고 바로 바꿨고 다르게 할 것을 못 찾음"
+
+[[direct]]
+id = "m005"
+project = "movie_game"
+date = 2026-11-06
+task = "구현(메인 직접, 사후 기록): Claude Code 전역 hook 둘 — Agent 호출 문지기(agent_gate.py: record send 없는 호출 거부, 예측 구간 표시) + 디스코드 Stop hook에 '예측 다른 일 이상 기록이 실측까지 끝나면 10분 규칙과 무관하게 알림'·전송 로그. 드라이런 시험 8회"
+[direct.situation]
+S_full_brief = "아니오"
+S_fixed_input = "아니오"
+S_similar_past = "아니오"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "예"
+S_spec_fixed = "아니오"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "아니오"
+S_integration = "예"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_small_codebase = "예"
+[direct.decide]
+main_ctx_k = 300
+left = 60
+direct_m = 149.4
+send_m = 28.1
+added_k = 949
+chose = "직접"
+why = ["대화 맥락", "대화 계속"]
+[direct.predicted]
+written_before = true
+minutes = [20, 45]
+turns = [30, 70]
+tokens_m = [15, 40]
+ctx_start_k = 300
+[direct.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["기록", "메인", "시험"]
+hit = ["F051", "F052", "F107"]
+[direct.actual]
+status = "done"
+minutes = 8.8  # record finish (메인 대화 기록)
+turns = 49
+tokens_m = 19.12  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T15:07:49Z"
+end = "2026-11-06T15:16:39Z"
+added_k = 44  # 메인 맥락이 실제로 늘어난 양(천 토큰) — 그 뒤 모든 응답에서 다시 읽힌다
+[direct.review]
+reason = "사후 기록이라 성적에는 안 넣는다(written_before = false). 창 9분(15:07–15:16Z)에는 hook 수정의 뒷부분만 들어 있고, 앞부분(문지기 작성·settings 병합·디스코드 규칙 추가, 14:43–14:55Z 회차 15 안에서 p251 기록과 섞임)은 분리할 수 없어 뺐다 — 실제 벽시계는 30분쯤. 직접 한 것이 맞았다: 전역 설정·권한이 걸린 일이라 보낼 수 없다."
+missed = "없음: 걸린 항목은 hit에"
+feedback = ["F107", "F108"]
+[direct.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 18
+blocks = 49
+write = 0
+edit = 0
+scratch_files = 2
+write_chars = 0
+edit_chars = 0
+write_lines = 0
+read_calls = 2
+read_files = 1
+read_chars = 537
+images = 0
+bash_calls = 19
+bash_out_chars = 23102
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 1
+other_tool_calls = 2
+tool_errors = 1
+repeat_cmds = 0
+ctx_start_k = 366
+ctx_max_k = 409
+ctx_end_k = 409
+thinking_blocks = 18
+thinking_s = 123.3
+brief_chars = 51
+brief_lines = 1
+[[direct]]
+id = "m006"
+project = "movie_game"
+date = 2026-11-06
+task = "구현(메인 직접, 사후 기록): 실내 빗소리 두 번 조정 — (1) 창가 녹음 → 거리 녹음 저역 통과판(사용자 청취: 폭풍 느낌), (2) 차단 1.5→4 kHz·−8→−5 dB(사용자 플레이: 안 바뀐 것 같다). make_rain_loops.py 수정·루프 재생성·맵 재가져오기 커맨드릿 2회·미리듣기 페이지 갱신"
+[direct.situation]
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_other_model = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "예"
+S_build_tools = "예"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_small_codebase = "예"
+[direct.decide]
+main_ctx_k = 380
+left = 50
+direct_m = 134.9
+send_m = 14.7
+added_k = 1195
+chose = "직접"
+why = ["대화 맥락", "대화 계속"]
+[direct.predicted]
+written_before = true
+minutes = [8, 20]
+turns = [10, 25]
+tokens_m = [6, 18]
+ctx_start_k = 380
+[direct.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["게임", "환경"]
+hit = ["F040", "F045", "F008"]
+[direct.actual]
+status = "done"
+minutes = 12.6  # record finish (메인 대화 기록)
+turns = 25
+tokens_m = 10.75  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T15:46:45Z"
+end = "2026-11-06T15:59:19Z"
+added_k = 25  # 메인 맥락이 실제로 늘어난 양(천 토큰) — 그 뒤 모든 응답에서 다시 읽힌다
+[direct.review]
+reason = "사후 기록. 창 13분(15:46–15:59Z)은 1차 조정(창가 → 거리 저역 통과) + p252 finish·커밋이 섞인 구간이고, 2차 조정(4 kHz·−5 dB, 16:33–16:35Z 2.3분 + 커맨드릿 백그라운드 2분)은 따로다 — 둘 합쳐 벽시계 20분쯤, 예측 8–20 안. 직접 한 것이 맞았다: 상수 두 줄과 커맨드릿 한 번이라 지시서가 더 길다."
+missed = "없음: 걸린 항목은 hit에"
+feedback = "없음: 사용자 청취 결과를 그대로 반영한 조정"
+[direct.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 6
+blocks = 25
+write = 0
+edit = 0
+scratch_files = 1
+write_chars = 0
+edit_chars = 0
+write_lines = 0
+read_calls = 5
+read_files = 5
+read_chars = 0
+images = 5
+bash_calls = 10
+bash_out_chars = 9055
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 3
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 417
+ctx_max_k = 442
+ctx_end_k = 442
+thinking_blocks = 5
+thinking_s = 53.4
+brief_chars = 842
+brief_lines = 10
