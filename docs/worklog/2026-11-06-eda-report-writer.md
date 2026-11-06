@@ -54,3 +54,12 @@
 ### 다음 인계
 
 - 메인은 종료 판단과 문서 내용을 검토하고 허용된 main 반영·push를 진행한다. 작업자는 세 파일만 수정했으며 커밋·push하지 않았다.
+
+## 메인 통합 검토
+
+- 사용자의 이번 EDA 종료·main push 지시를 기준으로 보고서의 종료 결론과 미실행 후속 항목을 검토했다. 계산기의 분류·수식·가설은 변경하지 않았다.
+- 최신 원격 main `87ab8dc`의 회귀 분석 문서와 기록을 보존했다. 같은 날 추가된 직접 작업 번호가 겹쳐 EDA 기록만 원래 `m002`에서 `m003`으로 재번호했다.
+- 전체 검사: `python -m unittest discover -s tests -t .` → 180개 실행, 실패 1건·오류 5건. 실패는 기존 `C_turns_files_scale` 방향 주장, 오류는 Windows의 Git 임시 파일 정리 권한과 `sed` 명령 관련이다.
+- 원격 main `87ab8dc`의 독립 임시 스냅샷에서 `python -m unittest tests.test_computable.Devices.test_audit_has_no_errors_now tests.test_measure.GitNumbers` → 같은 실패 1건·오류 5건을 재현했다. 이번 EDA에서 생긴 문제로 보지 않으며 수정 범위를 넓히지 않았다.
+- `python -m feedback check`, 작업 기록 검증, `python -m proviso validate agent_usage`, `git diff --check`는 통과했다. 정량 실측이 없는 보고서 담당 기록은 `unknown`으로 보존했다.
+- 통합 후 관련 검사: `python -m unittest tests.test_agent_usage_domain tests.test_feedback tests.test_eda tests.test_decide` → 56개 모두 통과.
