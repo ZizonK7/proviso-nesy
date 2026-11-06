@@ -20918,3 +20918,145 @@ thinking_blocks = 5
 thinking_s = 21.3
 brief_chars = 1104
 brief_lines = 7
+
+[[dispatch]]
+id = "p252"
+project = "movie_game"
+batch = 82
+date = 2026-11-06
+task = "구현(이 세션 서브 에이전트, Opus 5.5 high): 게임 빗소리를 수식 잡음에서 실제 녹음(Commons 공개 도메인)으로 교체 — 다운로드·루프 가공(soundfile+numpy)·실내/거리 두 겹 AmbientSound(build_level.py)·맵 갱신 스크립트·미리듣기 WAV 셋·자동 실행 확인·보고서"
+model = "Opus 5.5"
+effort = "high"
+agent = "rain-audio"
+round = 1
+brief = "movie_game:docs/briefs/2026-11-06-rain-audio-brief.md"
+files = { write = 5, edit = 3 }
+[dispatch.situation]
+S_specified = "예"
+S_full_brief = "예"
+S_fixed_input = "일부"
+S_similar_past = "일부"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "예"
+S_fix_existing = "예"
+S_build_tools = "예"
+S_integration = "예"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_small_codebase = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [20, 45]
+turns = [120, 260]
+tokens_m = [20, 60]
+tokens_class = ["T2", "T3"]
+rules = ["R_say_numbers_v3"]
+reason = "손 예측: 지시서가 재료 URL·파일 이름·구조까지 정해 준 구현. 바퀴는 넷 — 다운로드·soundfile 설치(짧음), 루프 가공(numpy 필터 직접 짜기, 시행착오 한두 번), build_level.py 수정 + 맵 갱신 커맨드릿(한 번에 2분, 실패하면 한 바퀴 더), 자동 실행 확인(게임 띄우기 1분+로그). UE 커맨드릿·게임이 도는 동안 도구 시간이 길어 턴당 시간이 길다(F040·F070). 맥락은 build_level.py(1000줄)와 로그를 읽어 중간쯤."
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [16.94, 33.87]
+[dispatch.decide]
+main_ctx_k = 313
+left = 50
+direct_m = 106.5
+send_m = 38.3
+added_k = 272
+chose = "보냄"
+why = ["대화 맥락", "결과를 가림"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["게임", "환경", "파일"]
+hit = ["F005", "F008", "F040", "F064", "F107"]
+[dispatch.git]
+repo = "movie_game"
+head = "fc457bd61ac36d01ccd16882009e98303a98fd7e"
+dirty = 1
+dirty_hashes = ["92b71412:af12f8249458"]
+git_write = 11
+git_edit = 4
+git_delete = 0
+git_lines_added = 562
+git_lines_removed = 16
+git_commits = 1
+named_files = 7
+named_lines = 1461
+named_bytes = 78509
+named_dirs = 3
+[dispatch.actual]
+status = "done"
+minutes = 15.5  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 111
+tokens_m = 13.63  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T14:51:52Z"
+end = "2026-11-06T15:07:24Z"
+[dispatch.review]
+reason = "실측 15.5분·111줄·13.6M — 말한 구간 '다른 일' 적중, 분은 손 예측 20–45의 아래(0.78배), 줄도 120–260 아래, 토큰 20–60M 아래. 지시서가 재료 URL·파일 이름·구조·확인 방법까지 정해 줘서 작업자가 탐색 없이 갔고(F071 방향), 맵 전체 재생성 대신 갱신 스크립트 한 번으로 끝내 UE 바퀴가 둘(갱신·게임)뿐이었다. PowerShell 7턴이 223초로 시간의 1/4 — UE 실행이 도구 시간이다. 흔들림 폭(×1.3) 안이라 wrong은 적지 않는다."
+missed = "없음: 걸린 기존 항목은 hit(F005·F008·F040·F064·F107)에 있다"
+feedback = "없음: 지시서대로 끝났고 다시 하면 다르게 할 것이 보이지 않는다(실측 뒤 돌아보기에서 다시 본다)"
+report = "movie_game:docs/worklog/2026-11-06-rain-audio.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 44, sum_s = 278.8, turn_s = 2.5, out_chars = 0.0, ctx_k = 122.0 }
+"Bash:cat" = { n = 15, sum_s = 96.6, turn_s = 3.2, tool_s = 0.8, out_chars = 1153, ctx_k = 95 }
+"Bash:grep" = { n = 14, sum_s = 113.8, turn_s = 5.7, tool_s = 0.5, out_chars = 351.0, ctx_k = 145.0 }
+"Bash:sed" = { n = 7, sum_s = 64.3, turn_s = 3.7, tool_s = 0.7, out_chars = 357, ctx_k = 130 }
+"Bash:python" = { n = 7, sum_s = 87.5, turn_s = 10.3, tool_s = 3.3, out_chars = 2277, ctx_k = 108 }
+"PowerShell" = { n = 7, sum_s = 223.0, turn_s = 41.4, tool_s = 18.0, out_chars = 223, ctx_k = 152 }
+"Bash:for" = { n = 2, sum_s = 16.9, turn_s = 8.4, tool_s = 1.1, out_chars = 354.5, ctx_k = 119.0 }
+"Write" = { n = 2, sum_s = 4.8, turn_s = 2.4, tool_s = 0.9, out_chars = 7335.0, ctx_k = 138.5 }
+"WebFetch" = { n = 2, sum_s = 8.7, turn_s = 4.3, tool_s = 6.0, out_chars = 237.0, ctx_k = 176.0 }
+"Read" = { n = 1, sum_s = 2.3, turn_s = 2.3, tool_s = 0.0, out_chars = 100, ctx_k = 39 }
+"Bash:find" = { n = 1, sum_s = 3.5, turn_s = 3.5, tool_s = 1.5, out_chars = 356, ctx_k = 71 }
+"Bash:pip" = { n = 1, sum_s = 4.6, turn_s = 4.6, tool_s = 3.7, out_chars = 215, ctx_k = 73 }
+"Bash:mkdir" = { n = 1, sum_s = 7.4, turn_s = 7.4, tool_s = 5.4, out_chars = 2380, ctx_k = 74 }
+"Bash:printf" = { n = 1, sum_s = 2.6, turn_s = 2.6, tool_s = 1.1, out_chars = 1855, ctx_k = 75 }
+"Grep" = { n = 1, sum_s = 4.3, turn_s = 4.3, tool_s = 0.4, out_chars = 221, ctx_k = 121 }
+"Bash:git" = { n = 1, sum_s = 3.4, turn_s = 3.4, tool_s = 0.7, out_chars = 2148, ctx_k = 138 }
+"Bash:wc" = { n = 1, sum_s = 3.3, turn_s = 3.3, tool_s = 0.5, out_chars = 350, ctx_k = 140 }
+"ToolSearch" = { n = 1, sum_s = 2.3, turn_s = 2.3, tool_s = 0.0, out_chars = 46, ctx_k = 175 }
+"Bash:echo" = { n = 1, sum_s = 1.7, turn_s = 1.7, tool_s = 0.8, out_chars = 588, ctx_k = 178 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 4376, ctx_k = 186 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 63
+blocks = 111
+write = 2
+edit = 0
+scratch_files = 0
+write_chars = 14162
+edit_chars = 0
+write_lines = 254
+read_calls = 1
+read_files = 1
+read_chars = 3095
+images = 0
+bash_calls = 52
+bash_out_chars = 119676
+grep_calls = 1
+glob_calls = 0
+web_search = 0
+web_fetch = 2
+agent_calls = 0
+other_tool_calls = 9
+tool_errors = 1
+repeat_cmds = 0
+ctx_start_k = 39
+ctx_max_k = 186
+ctx_end_k = 186
+thinking_blocks = 41
+thinking_s = 262.6
+brief_chars = 2351
+brief_lines = 15
