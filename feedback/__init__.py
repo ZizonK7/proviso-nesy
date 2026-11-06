@@ -8,16 +8,22 @@
 - index()      색인 표 마크다운, index_write()가 백서의 표지 사이를 바꿔 쓴다
 - topics(글)   일 설명에 키워드가 들어 있는 메인 파일 이름(늘 common 포함, 정렬)
 - find(낱말)   색인 낱말이 겹치는 백서 항목
+- labels()     보낸 기록·직접 한 일마다 읽은 것·찾은 낱말·hit·missed (피드백 찾기의 정답, 2026-11-06 사용자 결정)
 """
 from __future__ import annotations
 
+import datetime as dt
+import json
 import re
+import tomllib
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 GUIDE = HERE / "CLAUDE.md"
 WHITEPAPER = HERE / "whitepaper.md"
 MAIN_DIR = HERE / "main"
+AGENT_USAGE = HERE.parent / "domains" / "agent_usage"
+LABELS_OUT = HERE.parent / "out" / "feedback" / "labels.jsonl"  # out/은 git 제외
 
 FIELDS = ("색인", "그때", "다시 하면", "왜", "출처", "자리")
 MAIN_MAX = 10               # 메인 파일마다 최대 항목 수 (CLAUDE.md "메인에 올리는 기준")
@@ -213,3 +219,36 @@ def find(words, path: Path = WHITEPAPER) -> list[dict]:
 def main_files(main_dir: Path = MAIN_DIR) -> list[str]:
     """메인 파일 이름(stem) 목록."""
     return sorted(p.stem for p in main_dir.glob("*.md"))
+
+
+def _plain(x):
+    """TOML 값 → JSON에 쓸 값 (날짜는 ISO 글)."""
+    return x.isoformat() if isinstance(x, (dt.date, dt.datetime)) else x
+
+
+def labels(dispatch_path: Path = AGENT_USAGE / "dispatches.toml", direct_path: Path = AGENT_USAGE / "direct.toml") -> list[dict]:
+    """피드백 찾기의 정답 (2026-11-06 사용자 결정): feedback.hit 칸이 있는 기록마다 한 행.
+    {id, kind(dispatch|direct), project, date, task, read, searched, hit, missed}.
+    missed는 F 번호 목록 — review.missed가 '없음: 이유'면 [], 아직 안 적었으면(안 끝난 기록) None.
+    기록 파일은 tomllib로 바로 읽는다(domains.agent_usage를 불러오면 서로 불러오는 고리가 생긴다)."""
+    out = []
+    for kind, path in (("dispatch", dispatch_path), ("direct", direct_path)):
+        if not path.is_file():
+            continue
+        for d in tomllib.loads(path.read_text(encoding="utf-8")).get(kind, []):
+            f = d.get("feedback")
+            if not (isinstance(f, dict) and "hit" in f):
+                continue
+            missed = d.get("review", {}).get("missed") if isinstance(d.get("review"), dict) else None
+            out.append({"id": d.get("id"), "kind": kind, "project": d.get("project"), "date": _plain(d.get("date")),
+                        "task": d.get("task"), "read": f.get("read", []), "searched": f.get("searched", []), "hit": f["hit"],
+                        "missed": missed if isinstance(missed, list) else ([] if isinstance(missed, str) else None)})
+    return out
+
+
+def labels_write(out: Path = LABELS_OUT, **paths) -> int:
+    """labels()를 JSON Lines로 쓴다(한 줄 = 한 기록). 쓴 줄 수."""
+    rows = labels(**paths)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows), encoding="utf-8")
+    return len(rows)

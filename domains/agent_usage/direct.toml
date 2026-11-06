@@ -9,8 +9,11 @@
 #   actual           끝나면: 메인 대화 기록에서 `scripts/agent_usage.py <메인 기록> --rounds`로 그 요청의 시작·끝을 보고
 #                    `--actual --after <시작> --until <끝>` → status·minutes·turns(줄)·tokens_m·start·end
 #   review.reason    고른 쪽이 맞았나(다른 쪽 추정과 견줘)
-#   feedback         [direct.feedback] read = [읽은 메인 피드백 파일 이름] (2026-11-05 사용자 결정, 2026-11-06부터 필수 — dispatches.toml과 같다)
+#   feedback         [direct.feedback] read = [읽은 메인 피드백 파일 이름] (2026-11-05 사용자 결정, 2026-11-06부터 필수 — dispatches.toml과 같다).
+#                    2026-11-07부터 read는 메인 파일 전부, searched = [백서 색인 낱말], hit = [걸린다고 본 F 번호](빈 목록이면 hit_none = "이유")도 필수
+#                    (2026-11-06 사용자 결정 — 피드백 찾기의 정답 모으기, feedback/CLAUDE.md "강제")
 #   review.feedback  이번 일에서 올린 피드백 번호 목록 또는 "없음: 이유" (2026-11-06부터 끝난 일에 필수)
+#   review.missed    보낼 때 이미 있었는데 hit에 없던, 알고 보니 걸린 피드백 번호 목록 또는 "없음: 이유" (2026-11-07부터 끝난 일에 필수)
 
 [[direct]]
 id = "m001"

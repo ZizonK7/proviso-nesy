@@ -48,8 +48,10 @@ class Bundle(unittest.TestCase):
         self.tmp = Path(tempfile.mkdtemp())
         shutil.copy(HERE / "dispatches.toml", self.tmp / "d.toml")
         shutil.copy(ROOT / "docs" / "AGENT-LOG.md", self.tmp / "log.md")
+        # 날짜를 박아 둔다: 날짜를 안 적으면 오늘 날짜로 보내서, 날짜로 켜지는 새 검사(예: 2026-11-07부터 피드백 정답 칸)에 내일 깨진다
         (self.tmp / "job.toml").write_text("""project = "exam_grader"
 batch = 999
+date = "2026-11-06"
 task = "구현(같은 작성 에이전트 14회차, 이어서): 풀이지 한 장 새로 쓰기 + 렌더 확인"
 model = "Opus 5.5"
 effort = "high"
@@ -104,11 +106,11 @@ read = ["common", "exam_grader", "images", "parallel", "professor_king"]
         # 2026-11-04 사용자 결정: 쓰는 파일 수(files)는 실제 지시서에서 세어 보낼 때 적는다 — 2026-11-04부터 없으면 막는다
         job = (self.tmp / "job.toml").read_text(encoding="utf-8")
         no_files = job.replace("[files]\nwrite = 1\n", "")
-        (self.tmp / "late.toml").write_text(no_files.replace("batch = 999", f'batch = 999\ndate = "{dp.FILES_REQUIRED_FROM}"'), encoding="utf-8")
+        (self.tmp / "late.toml").write_text(no_files.replace('date = "2026-11-06"', f'date = "{dp.FILES_REQUIRED_FROM}"'), encoding="utf-8")
         with self.assertRaises(SystemExit) as cm:
             rc.send(self.tmp / "late.toml", self.tmp / "d.toml", self.tmp / "log.md")
         self.assertIn("[files]", str(cm.exception))
-        (self.tmp / "early.toml").write_text(no_files.replace("batch = 999", 'batch = 999\ndate = "2026-11-03"'), encoding="utf-8")
+        (self.tmp / "early.toml").write_text(no_files.replace('date = "2026-11-06"', 'date = "2026-11-03"'), encoding="utf-8")
         rc.send(self.tmp / "early.toml", self.tmp / "d.toml", self.tmp / "log.md")  # 그 전 날짜는 없어도 된다
         # 정해진 입력(출력 하나)인데 파일이 여럿이면 보낼 때 막는다
         (self.tmp / "clash_files.toml").write_text(job.replace("write = 1", "write = 3").replace('S_resumed = "예"', 'S_resumed = "예"\nS_fixed_input = "예"'),
@@ -137,7 +139,7 @@ read = ["common", "exam_grader", "images", "parallel", "professor_king"]
 
     def test_direct_work_is_logged_and_measured_from_the_main_log(self):
         (self.tmp / "direct.toml").write_text("# 직접 한 일\n", encoding="utf-8")
-        (self.tmp / "dj.toml").write_text('project = "proviso"\ntask = "문서 두 곳 고치기"\n[predicted]\nturns = [4, 8]\ntokens_m = [0.3, 0.6]\n'
+        (self.tmp / "dj.toml").write_text('project = "proviso"\ndate = "2026-11-06"\ntask = "문서 두 곳 고치기"\n[predicted]\nturns = [4, 8]\ntokens_m = [0.3, 0.6]\n'
                                           '[decide]\nmain_ctx_k = 800\n[feedback]\nread = ["common", "docs"]\n', encoding="utf-8")
         rc.direct(self.tmp / "dj.toml", self.tmp / "direct.toml")
         write_log(self.tmp / "main.jsonl", [("2026-11-04T02:00:00Z", "user", 0), ("2026-11-04T02:00:10Z", "assistant", 800000),

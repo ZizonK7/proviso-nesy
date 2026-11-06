@@ -125,7 +125,8 @@ class Enforce(unittest.TestCase):
         self.assertEqual(dp.validate_direct([{**d, "feedback": {"read": ["common"]}, "review": {"feedback": "없음: 메인이 한 작은 고침"}}]), [])
 
 
-class Record(unittest.TestCase):
+class RecordFiles:
+    """임시 기록 파일로 record send·finish를 돌리는 준비 (테스트 묶음 둘이 같이 쓴다)."""
     JOB = """project = "proviso"
 batch = 999
 date = "{date}"
@@ -164,6 +165,8 @@ why = ["대화 계속"]
     def send(self, p: Path) -> str:
         return rc.send(p, self.tmp / "d.toml", self.tmp / "log.md")
 
+
+class Record(RecordFiles, unittest.TestCase):
     def test_send_needs_read_from_nov_6_and_writes_the_table(self):
         n = len(dp.load(self.tmp / "d.toml"))
         with self.assertRaises(SystemExit) as cm:
@@ -213,6 +216,237 @@ why = ["대화 계속"]
         d = dp.load(self.tmp / "d.toml")[-1]
         self.assertEqual((d["review"]["feedback"], d["review"]["report"]), (["F001", "F002"], "docs/worklog/CLAUDE.md"))
         self.assertEqual(dp.feedback_errors(d), [])
+
+
+# 피드백 정답 모으기 (2026-11-06 사용자 결정): 2026-11-07부터 메인 파일 전부 읽기 + searched(색인 낱말) + hit(걸린다고 본 항목),
+# 끝나면 review.missed(hit에 없던, 알고 보니 걸린 기존 항목). hit + missed = 일마다의 정답(`python -m feedback labels`).
+ALL = fb.main_files()
+GOOD = {"read": ALL, "searched": ["기록"], "hit": ["F052"]}
+
+
+class GroundTruth(unittest.TestCase):
+    base = {"id": "zg1", "project": "proviso", "batch": 99, "date": dp.FEEDBACK_ALL_FROM, "task": "구현: 기록 검사 하나 더하기",
+            "predicted": {"minutes": [5, 9], "told": "잠깐"}, "actual": {"minutes": 6, "turns": 10},
+            "review": {"feedback": "없음: 새로 알게 된 실수가 없다", "missed": "없음: 놓친 항목이 없다"}}
+
+    def errs(self, **kw):
+        return dp.feedback_errors({**self.base, **kw})
+
+    def test_read_all_main_files_from_nov_7(self):
+        self.assertEqual(self.errs(feedback=GOOD), [])
+        picked = fb.topics(self.base["task"])
+        self.assertLess(len(picked), len(ALL))  # 키워드가 고른 것만으로는
+        e = self.errs(feedback={**GOOD, "read": picked})
+        self.assertTrue(any("빠짐" in x and "전부" in x for x in e), e)
+        # 그 전 날짜는 지금 규칙 그대로: topics가 고른 파일이면 되고 searched·hit·missed도 없어도 된다
+        self.assertEqual(self.errs(date="2026-11-06", feedback={"read": picked}, review={"feedback": "없음: 새로 알게 된 실수가 없다"}), [])
+        self.assertEqual(self.errs(project="batman", feedback=None, review={}), [])  # batman 기록은 batman 쪽
+        # validate()에 끼워져 있다
+        bare = {k: v for k, v in self.base.items() if k != "review"}
+        self.assertTrue(any(x.startswith("zg1:") and "searched" in x
+                            for x in dp.validate(dp.load() + [{**bare, "feedback": {"read": ALL}}], schema.load(HERE / "knowledge.toml"))))
+
+    def test_searched_words_come_from_the_index(self):
+        self.assertTrue(any("feedback.searched가 없음" in x for x in self.errs(feedback={"read": ALL, "hit": ["F052"]})))
+        self.assertTrue(any("searched" in x for x in self.errs(feedback={**GOOD, "searched": []})))
+        bad = self.errs(feedback={**GOOD, "searched": ["기록", "없는낱말"]})
+        self.assertTrue(any("없는낱말" in x and "색인 낱말이 아님" in x for x in bad), bad)
+        # 칸이 있으면 날짜와 상관없이 모양을 본다
+        self.assertTrue(self.errs(date="2026-11-06", feedback={"read": ALL, "searched": ["없는낱말"]}))
+
+    def test_hit_ids_exist_or_hit_none_gives_a_reason(self):
+        self.assertTrue(any("feedback.hit가 없음" in x for x in self.errs(feedback={"read": ALL, "searched": ["기록"]})))
+        self.assertTrue(any("F999" in x for x in self.errs(feedback={**GOOD, "hit": ["F052", "F999"]})))
+        self.assertTrue(any("두 번" in x for x in self.errs(feedback={**GOOD, "hit": ["F052", "F052"]})))
+        self.assertTrue(any("hit_none" in x for x in self.errs(feedback={**GOOD, "hit": []})))
+        self.assertTrue(self.errs(feedback={**GOOD, "hit": [], "hit_none": "짧"}))
+        self.assertEqual(self.errs(feedback={**GOOD, "hit": [], "hit_none": "걸리는 지난 실수가 없는 새 종류의 일"}), [])
+        self.assertTrue(any("hit_none" in x for x in self.errs(feedback={**GOOD, "hit_none": "걸리는 지난 실수가 없다"})))  # hit가 있는데
+        self.assertTrue(self.errs(feedback={"read": ALL, "searched": ["기록"], "hit_none": "걸리는 지난 실수가 없다"}))  # hit 없이
+
+    def test_missed_format_and_overlap_with_hit(self):
+        rev = {"feedback": "없음: 새로 알게 된 실수가 없다"}
+        self.assertTrue(any("review.missed" in x and "없음" in x for x in self.errs(feedback=GOOD, review=rev)))
+        self.assertEqual(self.errs(feedback=GOOD, review=rev, actual={"status": "unknown"}), [])  # 안 끝난 기록은 아직
+        self.assertEqual(self.errs(feedback=GOOD, review={**rev, "missed": ["F001"]}), [])
+        self.assertTrue(self.errs(feedback=GOOD, review={**rev, "missed": "없음: 짧"}))
+        self.assertTrue(self.errs(feedback=GOOD, review={**rev, "missed": []}))
+        self.assertTrue(any("F999" in x for x in self.errs(feedback=GOOD, review={**rev, "missed": ["F999"]})))
+        both = self.errs(feedback=GOOD, review={**rev, "missed": ["F001", "F052"]})
+        self.assertTrue(any("F052" in x and "hit에도" in x for x in both), both)
+        fresh = self.errs(feedback=GOOD, review={"feedback": ["F001"], "missed": ["F001"]})  # 이번에 새로 올린 항목은 missed가 아니다
+        self.assertTrue(any("새로 올린" in x for x in fresh), fresh)
+        self.assertEqual(self.errs(date="2026-11-06", feedback={"read": ALL}, review=rev), [])  # 그 전 날짜는 없어도
+
+    def test_direct_entries_follow_the_same_rules(self):
+        d = {"id": "m998", "project": "proviso", "date": dp.FEEDBACK_ALL_FROM, "task": "t",
+             "decide": {"main_ctx_k": 800, "left": 50, "direct_m": 1.0, "send_m": 2.0, "chose": "직접", "why": ["비용"]},
+             "actual": {"status": "done", "minutes": 1.0, "turns": 2, "tokens_m": 0.1,
+                        "start": "2026-11-07T00:00:00Z", "end": "2026-11-07T00:01:00Z"},
+             "log": {"skip": "시험"}, "feedback": {"read": ["common"]}, "review": {"feedback": "없음: 메인이 한 작은 고침"}}
+        errors = dp.validate_direct([d])
+        for word in ("전부", "searched", "hit", "review.missed"):
+            self.assertTrue(any(word in e for e in errors), (word, errors))
+        ok = {**d, "feedback": GOOD, "review": {"feedback": "없음: 메인이 한 작은 고침", "missed": "없음: 놓친 항목이 없다"}}
+        self.assertEqual(dp.validate_direct([ok]), [])
+
+
+class GroundTruthRecord(RecordFiles, unittest.TestCase):
+    """record send·direct·finish가 새 칸을 검사하고 옮긴다 (임시 기록 파일로만)."""
+    def fb(self, table: dict) -> str:
+        return "[feedback]\n" + "".join(f"{k} = {rc._v(v)}\n" for k, v in table.items())
+
+    def test_send_from_nov_7_needs_all_files_searched_and_hit(self):
+        n = len(dp.load(self.tmp / "d.toml"))
+        late = dp.FEEDBACK_ALL_FROM
+        with self.assertRaises(SystemExit) as cm:  # 키워드가 고른 파일만이면 막힌다
+            self.send(self.job("pick.toml", self.fb({**GOOD, "read": fb.topics("구현: 기록 검사 하나 더하기")}), date=late))
+        self.assertIn("전부", str(cm.exception))
+        with self.assertRaises(SystemExit) as cm:
+            self.send(self.job("nosearch.toml", self.fb({"read": ALL, "hit": ["F052"]}), date=late))
+        self.assertIn("searched", str(cm.exception))
+        with self.assertRaises(SystemExit) as cm:
+            self.send(self.job("nohit.toml", self.fb({"read": ALL, "searched": ["기록"]}), date=late))
+        self.assertIn("hit", str(cm.exception))
+        self.assertEqual(len(dp.load(self.tmp / "d.toml")), n)  # 막힌 세 번은 아무것도 덧붙이지 않았다
+        out = self.send(self.job("ok.toml", self.fb(GOOD), date=late))
+        d = dp.load(self.tmp / "d.toml")[-1]
+        self.assertEqual(d["feedback"], GOOD)
+        self.assertEqual(dp.feedback_errors(d), [])
+        self.assertIn("백서에서 찾은 항목 (낱말: 기록)", out)
+        for e in fb.find(["기록"]):  # 찾은 항목이 번호 · 제목 · 자리로 메인 맥락을 지나간다
+            self.assertIn(f"{e['id']} · {e['title']} — 자리 {e['자리']}", out)
+        self.assertIn("키워드가 고른 메인 파일(참고)", out)
+        self.assertIn("이번 일에 걸린다고 본 항목(hit): F052", out)
+        none = {**GOOD, "hit": [], "hit_none": "걸리는 지난 실수가 없는 새 종류의 일"}
+        self.send(self.job("none.toml", self.fb(none), date=late))
+        self.assertEqual(dp.load(self.tmp / "d.toml")[-1]["feedback"], none)
+
+    def test_finish_writes_missed_and_refuses_overlap_with_hit(self):
+        from tests.test_decide import write_log
+        self.send(self.job("ok.toml", self.fb(GOOD), date=dp.FEEDBACK_ALL_FROM))
+        rid = dp.load(self.tmp / "d.toml")[-1]["id"]
+        write_log(self.tmp / "a.jsonl", [("2026-11-07T01:00:00Z", "user", 0), ("2026-11-07T01:00:20Z", "assistant", 60000),
+                                          ("2026-11-07T01:00:21Z", "tool", 0), ("2026-11-07T01:02:00Z", "assistant", 70000)])
+        before = (self.tmp / "d.toml").read_text(encoding="utf-8")
+        with self.assertRaises(SystemExit) as cm:
+            rc.finish(rid, self.tmp / "a.jsonl", path=self.tmp / "d.toml", feedback="없음: 새 실수 없음", missed="F001, F052")
+        self.assertIn("hit에도", str(cm.exception))
+        self.assertEqual((self.tmp / "d.toml").read_text(encoding="utf-8"), before)  # 막히면 아무것도 안 쓴다
+        out = rc.finish(rid, self.tmp / "a.jsonl", report="docs/worklog/CLAUDE.md", path=self.tmp / "d.toml", feedback="없음: 새 실수 없음")
+        self.assertIn("review.missed", out)  # 안 주면 남은 일에 뜬다
+        self.assertTrue(any("review.missed이 없음" in e for e in dp.feedback_errors(dp.load(self.tmp / "d.toml")[-1])))
+        text = (self.tmp / "d.toml").read_text(encoding="utf-8")
+        a, b = rc._block(text, "dispatch", rid)
+        (self.tmp / "d.toml").write_text(text[:a] + rc._put_review(text[a:b], "dispatch", "missed", rc.feedback_value("F001, F014")) + text[b:],
+                                         encoding="utf-8")
+        d = dp.load(self.tmp / "d.toml")[-1]
+        self.assertEqual(d["review"]["missed"], ["F001", "F014"])
+        self.assertEqual(dp.feedback_errors(d), [])
+
+    def test_finish_with_missed_flag(self):
+        from tests.test_decide import write_log
+        self.send(self.job("ok.toml", self.fb(GOOD), date=dp.FEEDBACK_ALL_FROM))
+        rid = dp.load(self.tmp / "d.toml")[-1]["id"]
+        write_log(self.tmp / "a.jsonl", [("2026-11-07T01:00:00Z", "user", 0), ("2026-11-07T01:00:20Z", "assistant", 60000)])
+        out = rc.finish(rid, self.tmp / "a.jsonl", report="docs/worklog/CLAUDE.md", path=self.tmp / "d.toml",
+                        feedback="없음: 새 실수 없음", missed="없음: 놓친 항목이 없다")
+        self.assertNotIn("review.missed", out)
+        d = dp.load(self.tmp / "d.toml")[-1]
+        self.assertEqual(d["review"]["missed"], "없음: 놓친 항목이 없다")
+        self.assertEqual(dp.feedback_errors(d), [])
+
+    def test_direct_from_nov_7(self):
+        (self.tmp / "direct.toml").write_text("# 직접 한 일\n", encoding="utf-8")
+        head = (f'project = "proviso"\ndate = "{dp.FEEDBACK_ALL_FROM}"\ntask = "문서 두 곳 고치기"\n[predicted]\nturns = [4, 8]\n'
+                'tokens_m = [0.3, 0.6]\n[decide]\nmain_ctx_k = 800\n')
+        (self.tmp / "bad.toml").write_text(head + self.fb({"read": ALL, "searched": ["문서"]}), encoding="utf-8")
+        with self.assertRaises(SystemExit) as cm:
+            rc.direct(self.tmp / "bad.toml", self.tmp / "direct.toml")
+        self.assertIn("hit", str(cm.exception))
+        table = {"read": ALL, "searched": ["문서"], "hit": ["F078"]}
+        (self.tmp / "ok.toml").write_text(head + self.fb(table), encoding="utf-8")
+        out = rc.direct(self.tmp / "ok.toml", self.tmp / "direct.toml")
+        self.assertIn("백서에서 찾은 항목 (낱말: 문서)", out)
+        self.assertEqual(dp.load_direct(self.tmp / "direct.toml")[-1]["feedback"], table)
+
+
+class Labels(unittest.TestCase):
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        (self.tmp / "d.toml").write_text("""
+[[dispatch]]
+id = "p901"
+project = "proviso"
+date = 2026-11-07
+task = "구현: 하나"
+[dispatch.feedback]
+read = ["common"]
+searched = ["기록"]
+hit = ["F052"]
+[dispatch.review]
+missed = ["F014"]
+
+[[dispatch]]
+id = "p902"
+project = "exam_grader"
+date = 2026-11-07
+task = "풀이지 한 장"
+[dispatch.feedback]
+read = ["common"]
+searched = ["풀이지"]
+hit = []
+hit_none = "걸리는 지난 실수가 없다"
+
+[[dispatch]]
+id = "p903"
+project = "proviso"
+date = 2026-11-06
+task = "옛 기록 (hit 없음)"
+[dispatch.feedback]
+read = ["common"]
+""", encoding="utf-8")
+        (self.tmp / "m.toml").write_text("""
+[[direct]]
+id = "m901"
+project = "proviso"
+date = 2026-11-07
+task = "문서 고치기"
+[direct.feedback]
+read = ["common", "docs"]
+searched = ["문서"]
+hit = ["F078"]
+[direct.review]
+missed = "없음: 놓친 항목이 없다"
+""", encoding="utf-8")
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp)
+
+    def test_one_line_per_record_with_hit(self):
+        import json
+        rows = fb.labels(self.tmp / "d.toml", self.tmp / "m.toml")
+        self.assertEqual([r["id"] for r in rows], ["p901", "p902", "m901"])  # hit 칸이 없는 p903은 빠진다
+        self.assertEqual(rows[0], {"id": "p901", "kind": "dispatch", "project": "proviso", "date": "2026-11-07", "task": "구현: 하나",
+                                   "read": ["common"], "searched": ["기록"], "hit": ["F052"], "missed": ["F014"]})
+        self.assertEqual((rows[1]["hit"], rows[1]["missed"]), ([], None))   # 빈 hit도 정답(걸릴 것 없음), 안 끝났으면 missed None
+        self.assertEqual((rows[2]["kind"], rows[2]["missed"]), ("direct", []))  # '없음: 이유'는 빈 목록
+        out = self.tmp / "out" / "labels.jsonl"
+        self.assertEqual(fb.labels_write(out, dispatch_path=self.tmp / "d.toml", direct_path=self.tmp / "m.toml"), 3)
+        lines = out.read_text(encoding="utf-8").splitlines()
+        self.assertEqual([json.loads(x) for x in lines], rows)
+        self.assertIn("구현: 하나", lines[0])  # 한글을 그대로 (ensure_ascii=False)
+
+    def test_cli_and_real_records(self):
+        from feedback.__main__ import main
+        import contextlib
+        import io
+        out = self.tmp / "real.jsonl"
+        with contextlib.redirect_stdout(io.StringIO()) as buf:
+            self.assertEqual(main(["labels", "--out", str(out)]), 0)
+        self.assertIn(str(out), buf.getvalue())
+        self.assertEqual(len(out.read_text(encoding="utf-8").splitlines()), len(fb.labels()))
+        self.assertTrue(str(fb.LABELS_OUT).replace("\\", "/").endswith("out/feedback/labels.jsonl"))  # 기본은 git 제외 폴더
 
 
 if __name__ == "__main__":

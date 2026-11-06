@@ -72,6 +72,8 @@
 #   review.report      작업 보고서 경로. 이 저장소면 "docs/worklog/...md"(파일이 있어야 함), 다른 저장소면 "저장소:경로"
 #   review.feedback    이번 일에서 백서(feedback/whitepaper.md)에 올린 피드백 번호 목록(["F102"], 백서에 있어야 함) 또는 "없음: 이유"(이유 5자 이상).
 #                      2026-11-05 사용자 결정, 2026-11-06부터 끝난 기록에 필수(batman 제외). `record finish … --feedback "F102 | 없음: 이유"`가 적는다
+#   review.missed      이번 일에 걸렸는데 보낼 때 hit에 없던 기존 피드백 번호 목록(["F052"]) 또는 "없음: 이유" — 놓친 정답. hit·review.feedback과 겹치면 오류.
+#                      2026-11-06 사용자 결정, 2026-11-07부터(보낸 날) 끝난 기록에 필수. `record finish … --missed "F052,F058 | 없음: 이유"`가 적는다
 #   turns              [dispatch.turns] 동작마다 { n 턴 수, sum_s 합한 턴 길이(초), 중앙값 turn_s 턴 길이·tool_s 도구 시간·out_chars 출력 글자·ctx_k 맥락(천) }.
 #                      scripts/agent_usage.py <로그> --turns --toml 출력을 기록 끝에 그대로 붙인다(이어 보낸 회차는 --after). 잴 수 없으면 skip = "이유" 한 줄
 #                      review.report와 turns는 2026-11-03부터 끝난 기록에 필수 — 없으면 dispatches.py가 오류(2026-11-02 사용자 결정)
@@ -109,9 +111,11 @@
 #                      models."이름" = { input_tokens, output_tokens, cache_read_tokens, cache_creation_tokens, thinking_tokens, web_search, cost_usd }.
 #                      modelUsage·total_cost_usd·duration_api_ms·spawned는 세션 안에서 누적이라 사건끼리 더하지 않는다(사건마다 값은 model_usage_since_last_result).
 #                      p168·p188·p200–p219는 2026-11-05에 사후에 채웠다(그 기록 창 안에 끝난 사건만 — p218의 3분 뒤 보완 회차는 담당 p215 몫이라 뺐다)
-#   feedback           [dispatch.feedback] read = 보내기 전에 읽은 메인 피드백 파일 이름(feedback/main/, 예 ["common", "brief"]). common과
-#                      `python -m feedback topics "<task>"`가 고른 파일이 다 있어야 한다. 2026-11-05 사용자 결정, 2026-11-06부터 보낸 기록에 필수(batman 제외).
-#                      보낼 일 파일의 [feedback] read를 record send가 [dispatch.decide] 뒤에 옮긴다(빠지면 보내지 않는다)
+#   feedback           [dispatch.feedback] read = 보내기 전에 읽은 메인 피드백 파일 이름(feedback/main/). 2026-11-05 사용자 결정, 2026-11-06부터 보낸 기록에 필수(batman 제외).
+#                      2026-11-06까지: common과 `python -m feedback topics "<task>"`가 고른 파일이 다 있어야 한다.
+#                      2026-11-07부터(2026-11-06 사용자 결정): 메인 파일 전부 + searched(백서 색인 낱말, 1개 이상 — record send가 find 결과를 찍는다)
+#                      + hit(이번 일에 걸린다고 본 피드백 번호, 백서에 있어야 함; 비우려면 hit_none = "이유"). hit·review.missed가 `python -m feedback labels`의 정답 자료.
+#                      보낼 일 파일의 [feedback]을 record send가 [dispatch.decide] 뒤에 옮긴다(빠지면 보내지 않는다)
 
 [[dispatch]]
 id = "d01"
@@ -20147,10 +20151,72 @@ chose = "보냄"
 why = ["대화 계속", "결과를 가림"]
 [dispatch.feedback]
 read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["기록", "시험", "문서"]
+hit = ["F010", "F014", "F015", "F039", "F051", "F056", "F067", "F071", "F078", "F102", "F103", "F104"]
 [dispatch.git]
 repo = "proviso-nesy"
 head = "4e1693dad29803e7db769dfa16ab62e1499dbbde"
 dirty = 2
 dirty_hashes = ["90d5c6aa:d5cb9231e01a", "ea328799:dd83d06cc665"]
+git_write = 1
+git_edit = 12
+git_delete = 0
+git_lines_added = 585
+git_lines_removed = 82
+git_commits = 1
+named_files = 9
+named_lines = 22121
+named_bytes = 1172255
+named_dirs = 1
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 10.2  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 65
+tokens_m = 11.22  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T02:55:56Z"
+end = "2026-11-06T03:06:07Z"
+[dispatch.review]
+missed = ["F052", "F058"]
+reason = "말한 구간 '다른 일' 맞음(10.2분, 손 10–25분 아래 끝). 토큰 11.22M은 손 12–35M 바로 아래, 빗댄 p240(8.4분·15.0M)과 거의 같음 — 같은 모듈·같은 파일 모양이면 고칠 문서 수가 늘어도 시간·토큰이 크게 안 는다. 계산기 45.6–91.2분(신경 끄기)은 4–9배 위로 빗나감(구현 일을 길게 보는 쪽). 품질 4: 지시한 칸 셋·labels·검사·테스트 11개·문서 grep 갱신을 다 했고 전체 테스트는 알려진 1개만 실패. 지시서 밖으로 missed∩review.feedback 오류와 test_decide 날짜 고정을 더함(둘 다 타당). 남은 것: dispatches.toml 머리 주석 옛 규칙(메인이 고침), 지시서 본문이 기록에 없어 labels에 task만 들어감(사용자님 결정), 날짜 경계가 UTC. hit·searched는 이 기록이 새 칸 이전이라 메인이 finish 뒤 손으로 넣음(첫 정답 자료)"
+feedback = "없음: 지시서대로 끝났고 다르게 할 것을 못 찾음"
+report = "docs/worklog/2026-11-06-feedback-labels.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 28, sum_s = 246.4, turn_s = 1.9, out_chars = 0.0, ctx_k = 186.5 }
+"Bash:python" = { n = 13, sum_s = 215.4, turn_s = 3.4, tool_s = 0.3, out_chars = 3096, ctx_k = 194 }
+"Bash:sed" = { n = 9, sum_s = 116.9, turn_s = 3.6, tool_s = 0.6, out_chars = 209, ctx_k = 145 }
+"Bash:grep" = { n = 7, sum_s = 14.9, turn_s = 2.2, tool_s = 0.5, out_chars = 384, ctx_k = 148 }
+"Bash:cat" = { n = 3, sum_s = 5.2, turn_s = 1.8, tool_s = 0.4, out_chars = 167, ctx_k = 103 }
+"Bash:git" = { n = 2, sum_s = 8.1, turn_s = 4.0, tool_s = 0.5, out_chars = 223.0, ctx_k = 150.5 }
+"Bash:for" = { n = 1, sum_s = 1.7, turn_s = 1.7, tool_s = 0.4, out_chars = 153, ctx_k = 88 }
+"Write" = { n = 1, sum_s = 1.3, turn_s = 1.3, tool_s = 0.0, out_chars = 6487, ctx_k = 220 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 1469, ctx_k = 239 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 36
+blocks = 65
+write = 1
+edit = 0
+scratch_files = 0
+write_chars = 6273
+edit_chars = 0
+write_lines = 58
+read_calls = 0
+read_files = 0
+read_chars = 0
+images = 0
+bash_calls = 35
+bash_out_chars = 148284
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 1
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 82
+ctx_max_k = 239
+ctx_end_k = 239
+thinking_blocks = 27
+thinking_s = 123.7
+brief_chars = 5356
+brief_lines = 30

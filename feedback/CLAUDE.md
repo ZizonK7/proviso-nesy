@@ -39,22 +39,28 @@
 ## 색인 낱말 (여기서만 고른다 — 같은 뜻은 같은 낱말)
 API, PDF, git, 검토, 게임, 고증, 공개저장소, 그림, 글꼴, 기록, 네트워크, 논리집, 데이터, 렌더, 맥락, 멈춤, 메인, 모델, 문서, 배치, 번호, 병렬, 보고서, 봉인, 브랜치, 사용자의도, 손글씨, 수업정리, 스토리, 시험, 앱, 예측, 웹차단, 이어보내기, 전송조건, 조사, 지시서, 클라우드세션, 토큰, 팀, 파일, 풀이지, 환경
 - 새 낱말이 필요하면 이 목록에 더한다(검사가 목록 밖 낱말을 막는다). 분야·앱 이름은 색인 낱말로 쓰지 않는다 — 같은 교훈이 다른 분야에서도 걸리게(게임·풀이지·수업정리는 '하는 일'로 둔다).
-- 메인 파일의 `키워드:` 줄은 색인과 별개로, 일의 설명(지시서·task 문장)에서 그 파일을 찾아 주는 낱말이다(`python -m feedback topics "<일 설명>"`).
+- 메인 파일의 `키워드:` 줄은 색인과 별개로, 일의 설명(지시서·task 문장)에서 그 파일을 찾아 주는 낱말이다(`python -m feedback topics "<일 설명>"`). 2026-11-07부터 메인은 전부 읽으므로 키워드는 참고로만 쓴다(고르기가 거칠다, F102).
 
 ## 명령 (저장소 루트)
 - `python -m feedback check` — 백서·메인 모양 검사: 칸 여섯, 색인 낱말, 번호 중복·순서, 메인 ≤10·`키워드:`·`읽는 때:` 줄·`common.md`, 메인 줄의 번호가 백서에 있고 `자리`가 맞는가(거꾸로도), 색인 표가 최신인가. 문제가 있으면 종료 코드 1. **테스트가 같이 돈다**(`tests/test_feedback.py`).
 - `python -m feedback index --write` — 백서의 색인 표(낱말 → 항목)를 다시 만든다. 항목을 더하면 돌린다. `--write` 없이는 표를 보여 주기만 한다.
-- `python -m feedback topics "<일 설명>"` — 그 일에 읽을 메인 파일 목록(키워드가 글에 들어 있으면 — 대소문자 무시 부분 문자열, `common`은 늘). 보낼 일 파일에 붙일 `[feedback] read` 줄도 찍는다.
-- `python -m feedback find <낱말>...` — 색인 낱말로 백서 항목 찾기(에이전트의 "주의할 점이 있었나?").
+- `python -m feedback topics "<일 설명>"` — 키워드가 글에 들어 있는 메인 파일 목록(대소문자 무시 부분 문자열, `common`은 늘) — **참고용**. 보낼 일 파일에 붙일 `[feedback] read` 줄은 메인 파일 전부로 찍는다(2026-11-07부터 그게 규칙).
+- `python -m feedback find <낱말>...` — 색인 낱말로 백서 항목 찾기(에이전트의 "주의할 점이 있었나?"). 보낼 일 파일에 붙일 `searched = [...]` 줄도 찍는다.
+- `python -m feedback labels [--out 경로]` — 피드백 찾기의 정답: `feedback.hit` 칸이 있는 보낸 기록·직접 한 일마다 한 줄 JSON `{id, kind(dispatch|direct), project, date, task, read, searched, hit, missed}`(missed는 '없음: 이유'면 `[]`, 아직 안 적었으면 `null`). 기본 `out/feedback/labels.jsonl`(git 제외). 나중에 일 글을 임베딩해 이 정답을 찾아 오는지 볼 재료다(그 시험은 아직).
 
-## 강제 (2026-11-06부터, `python -m domains.agent_usage.dispatches`와 테스트가 막는다 — batman 기록 제외, 코드는 `dispatches.feedback_errors`)
-- **읽기**: 보낼 일 파일에 `[feedback] read = ["common", "brief", …]`(읽은 메인 파일 이름). `record send`가 `topics(task)`로 고른 파일이 다 들어 있지 않으면 보내지 못한다. 기록에는 `[dispatch.feedback] read = […]`로 남고, 보낸 뒤 출력에 그 파일들의 경로와 F 줄이 찍힌다 — 지시서에 붙여 작업자도 읽게 한다.
+## 강제 (2026-11-06부터, `python -m domains.agent_usage.dispatches`와 테스트가 막는다 — batman 기록 제외, 코드는 `dispatches.feedback_send_errors`·`feedback_review_errors`)
+- **읽기**: 보낼 일 파일에 `[feedback] read = ["common", "brief", …]`(읽은 메인 파일 이름). **2026-11-07부터는 메인 파일 전부**가 들어 있지 않으면 `record send`가 보내지 못한다(모두 합쳐 76항목·19KB쯤이라 싸다; 그 전 날짜 기록은 `topics(task)`가 고른 파일이 기준이었다). 기록에는 `[dispatch.feedback] read = […]`로 남고, 보낸 뒤 출력에 그 파일들의 경로와 F 줄(많으면 번호와 제목)이 찍힌다 — 지시서에 붙여 작업자도 읽게 한다.
+- **정답 모으기** (2026-11-06 사용자 결정, 2026-11-07부터 필수): 나중에 피드백 찾기 모델(일 글을 임베딩해 걸릴 항목을 찾아 오기)을 시험할 정답을 쌓는다.
+  - `[feedback] searched = ["낱말", …]` — 메인 모델이 이 일에 맞는 백서 색인 낱말을 **스스로 골라** `python -m feedback find`를 돌린 낱말(한 개 이상, 위 '색인 낱말' 목록 안). `record send`가 다시 찾아 항목(번호 · 제목 · 자리)을 찍는다 — 메인 모델의 맥락을 한 번 지나가게.
+  - `[feedback] hit = ["F014", …]` — 읽은 메인과 찾은 백서 항목 중 **이번 일에 걸린다고 본 것**(백서에 있는 번호). 걸릴 게 없으면 `hit = []`와 `hit_none = "이유"`(5자 이상).
+  - 끝나면 `review.missed` — 보낼 때 이미 있었는데 hit에 없던, **알고 보니 걸린** 기존 항목(예: 이번에 새로 올린 피드백을 막았을 기존 항목) 번호 목록 또는 `"없음: <이유>"`. `record finish … --missed "F014,F051"`. hit와 겹치거나 이번에 새로 올린 번호(review.feedback)면 막는다.
+  - hit + missed = 그 일의 정답. `python -m feedback labels`가 뽑는다.
 - **쓰기**: 끝난 기록의 `review.feedback` — 이번 일에서 새로 올린 피드백 번호 목록(`["F102"]`, 백서에 있어야 함) 또는 `"없음: <이유>"`(한 줄, 이유 5자 이상). 비우면 검사가 막는다. `record finish … --feedback "F102,F103"`(또는 `--feedback "없음: 이유"`)가 적고, 안 주면 출력의 '남은 일'에 뜬다. 새 항목은 백서에 적고 `index --write`, 메인에 올리면 그 파일에도.
-- 직접 한 일(`direct.toml`)도 같은 두 칸(`feedback.read`, `review.feedback`).
+- 직접 한 일(`direct.toml`)도 같은 칸(`feedback.read`·`searched`·`hit`, `review.feedback`·`missed`).
 - 다른 저장소 세션은 시작할 때 `main/common.md`와 자기 일의 메인 파일을 읽는다(루트 CLAUDE.md "다른 저장소 다루기").
 
 ## 다른 폴더와의 관계
-- 루트 `CLAUDE.md`: 목적과 체크리스트(보내기 전 1.5 피드백 읽기, 끝나면 6.5 피드백 쓰기).
+- 루트 `CLAUDE.md`: 목적과 체크리스트(보내기 전 1 피드백 읽기, 끝나면 6′ 피드백 쓰기·놓친 피드백).
 - `domains/agent_usage/`: `record.py`·`dispatches.py`가 위 강제를 한다. 빗나감 기록은 거기, 일반 교훈만 여기.
 - `docs/AGENT-LOG.md`의 배치 줄 '교훈'은 그대로 둔다(기록). 백서로 올릴 것은 번호를 붙여 옮긴다 — 배치 줄에 "→ F0xx"를 적어 두면 두 번 올리지 않는다.
 - `docs/history.md`·분야 `history.md`: 경위. 백서는 경위가 아니라 "다시 하면"이다.

@@ -18,7 +18,7 @@ Claude가 세션 시작 시 자동으로 읽는 작업 문서. 사람용 소개�
 ## 현재 구조 (2026-11-02)
 | 폴더 | 역할 |
 |---|---|
-| `feedback/` | **이 저장소의 본체**: 하는 일별 메인 피드백 `main/<일>.md`(≤10개, 꼭 읽음) + 백서 `whitepaper.md`(피드백 전부, 색인). `python -m feedback check|index|topics|find`. 읽기·쓰기는 `record send`·`dispatches` 검사가 막는다(2026-11-06부터) |
+| `feedback/` | **이 저장소의 본체**: 하는 일별 메인 피드백 `main/<일>.md`(≤10개, 꼭 읽음) + 백서 `whitepaper.md`(피드백 전부, 색인). `python -m feedback check|index|topics|find|labels`. 읽기·쓰기는 `record send`·`dispatches` 검사가 막는다(2026-11-06부터). 일마다 걸린 피드백(hit·missed)은 피드백 찾기 모델의 정답으로 쌓는다(2026-11-07부터) |
 | `proviso/` | 코어(분야 모름): 지식 파일 읽기·검사(`schema`), 성적표(`score`), 점검(`audit`), 그래프(`graph`), 조회(`query`), MCP 서버(`mcp_server`, 읽기 전용) |
 | `domains/<id>/` | 분야 플러그인: `knowledge.toml`(크면 옆에 나눈 파일 `knowledge-*.toml`, 코어가 같이 읽음) + 가설 검사(`checks.py`) + 분야 전용 코드(agent_usage: 계산기 `predict`·맞추기 `fit`·홀드아웃 `holdout`). 폴더마다 `CLAUDE.md`(지금 상태), 필요하면 `history.md`(경위). 현재 `flowlog`, `music_player`, `agent_usage`, `language_learning`, `movie_game`, `far_fields`, `study_time` |
 | `experiments/` | 본체 실험 (논리집 유무에 따른 Claude 답 비교) |
@@ -84,7 +84,7 @@ Claude가 세션 시작 시 자동으로 읽는 작업 문서. 사람용 소개�
 
 보내기 전
 0. 보낼까: 도구를 대여섯 번 넘게 쓸 일이면 `python -m domains.agent_usage.decide`로 직접 할 때와 보낼 때의 토큰을 견준다(감으로 두면 안 보내는 쪽으로 기운다). 직접 하면 `record direct`로 `direct.toml`에([agent_usage "보낼까 판단"](domains/agent_usage/CLAUDE.md)). 검사: 2026-11-04부터 보낸 기록의 `decide` 칸.
-1. **피드백 읽기**: `python -m feedback topics "<할 일>"`이 고른 `feedback/main/*.md`(늘 `common`)를 읽고 보낼 일 파일 `[feedback] read`에 적는다. 지시서에도 그 파일 경로를 적어 작업자가 읽게. 검사: 2026-11-06부터 `record send`·`dispatches`가 막는다.
+1. **피드백 읽기** (2026-11-07부터, 2026-11-06 사용자 결정 — 피드백 찾기의 정답 모으기): `feedback/main/*.md`를 **전부** 읽고 보낼 일 파일 `[feedback] read`에 적는다(`topics`가 고른 것은 참고). 백서는 이 일에 맞는 색인 낱말을 스스로 골라 `python -m feedback find <낱말>...`을 돌려 걸리는 항목을 읽고, 그 낱말을 `searched`에, 이번 일에 걸린다고 본 번호(메인·백서)를 `hit`에(없으면 `hit = []`와 `hit_none = "이유"`). 지시서에 메인 파일 경로와 hit 번호를 적어 작업자도 읽게. 검사: `record send`·`dispatches`가 막는다(read는 2026-11-06부터, 전부·searched·hit는 2026-11-07부터).
 1′. 지시서: 목표, 범위(건드릴 폴더·파일), 하지 말 것과 승인이 필요한 일, 완료 조건과 확인 방법, **보고서 경로**(양식 [docs/worklog/CLAUDE.md](docs/worklog/CLAUDE.md)), 읽을 피드백 파일, 하위의 하위 허용 여부, 이 저장소 규칙(일상어, 공개 저장소, 사실은 코드로).
 2. 예측(묶음 명령 `python -m domains.agent_usage.record send <보낼 일 파일>`이 아래를 한 번에): `domains/agent_usage/dispatches.toml`에 기록을 먼저 덧붙인다(상황 값은 가장 비슷한 지난 기록에서 복사해 바꾸고, `agent`·`round`와 보낸 `model`·`effort`도 — '기본 설정인가'는 이 둘에서 계산. **쓰는 파일 수 `files`**(새로·통째로 쓰는 write, 일부 고치는 edit)는 실제 지시서에서 센다 — 검사: 2026-11-04부터, [agent_usage "파일 수 비율 조각"](domains/agent_usage/CLAUDE.md)) → 계산기 `predict <id> --calc`(앞 기록의 calc를 베끼지 않는다) → 정해진 일이면 빗댄 기록 규칙 `analog <id>`(시험 중, 참고) → 손 예측 → 사용자에게 구간(걸치면 가운데 값의 구간)·숫자·이유. 보내기 전 점검 넷, 도중 지시, 끝난 뒤 validate·audit·테스트 같은 자세한 단계는 [agent_usage "고리"](domains/agent_usage/CLAUDE.md). 검사: 2026-11-04부터 model·effort(없거나 '기본 설정인가'와 어긋나면 막음). 나머지는 칸 모양만 본다(빠져도 안 막음).
 
@@ -94,7 +94,7 @@ Claude가 세션 시작 시 자동으로 읽는 작업 문서. 사람용 소개�
 4. 턴 길이: 같은 로그에 `--turns --toml` → 기록 끝에 `[dispatch.turns]`(잴 수 없으면 `skip = "이유"`). 검사(2026-11-03부터). 로그 숫자 `[dispatch.log]`와 git으로 잰 작업자 변경 `[dispatch.git]`도 `record finish`가 붙이고, 클라우드 세션은 `session` id를 보낼 때 적고 끝나면 result 사건 숫자를 `record cloud`로 `[dispatch.cloud]`에 — 검사(2026-11-06부터).
 5. 보고서: 작업자의 보고서를 확인하고 경로를 `review.report`에. 검사(2026-11-03부터).
 6. 돌아보기: `review.reason`, 구간이 빗나가면 `review.wrong`·`review.why`. 검사(빗나갔을 때 wrong·why).
-6′. **피드백 쓰기**: 이번 일에서 "다시 하면 다르게 할 것"이 있었나 — 있으면 [feedback/whitepaper.md](feedback/whitepaper.md)에 항목(거름망 통과한 것만)을 덧붙이고 `python -m feedback index --write`, 메인 기준에 맞으면 `main/<일>.md`에도. `review.feedback`에 번호 목록 또는 `"없음: 이유"`(`record finish … --feedback`). 검사(2026-11-06부터).
+6′. **피드백 쓰기**: 이번 일에서 "다시 하면 다르게 할 것"이 있었나 — 있으면 [feedback/whitepaper.md](feedback/whitepaper.md)에 항목(거름망 통과한 것만)을 덧붙이고 `python -m feedback index --write`, 메인 기준에 맞으면 `main/<일>.md`에도. `review.feedback`에 번호 목록 또는 `"없음: 이유"`(`record finish … --feedback`). 검사(2026-11-06부터). 그리고 **놓친 피드백**: 보낼 때 이미 있었는데 hit에 없던, 알고 보니 걸린 항목(예: 새로 올린 항목을 막았을 기존 항목)을 `review.missed`에 번호 목록 또는 `"없음: 이유"`로(`--missed`, hit와 겹치면 막는다). 검사(2026-11-07부터). hit + missed가 일마다의 정답 — `python -m feedback labels`.
 7. 배치 줄: [docs/AGENT-LOG.md](docs/AGENT-LOG.md)에 `## 배치 N · 날짜 · 주제` 머리와 모델·effort·품질(1–5)·교훈. 검사(2026-11-04부터, batman 기록은 batman 쪽).
 8. 결과 검토 → 커밋·push(메인).
 

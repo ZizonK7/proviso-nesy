@@ -48,8 +48,9 @@ Python 3.11 이상, 추가 패키지 없음. 저장소 루트에서 실행합니
 
 ```powershell
 python -m feedback check                   # 피드백 모양 검사
-python -m feedback topics "<일 설명>"       # 그 일에 읽을 메인 피드백
+python -m feedback topics "<일 설명>"       # 키워드가 고른 메인 피드백 (참고 — 보낼 때는 메인 전부를 읽는다)
 python -m feedback find <낱말>             # 색인 낱말로 백서 찾기
+python -m feedback labels                  # 일마다 걸린 피드백(hit·missed) 정답을 out/feedback/labels.jsonl로
 python -m proviso validate flowlog         # 지식 파일 검사
 python -m proviso graph flowlog            # out/flowlog-graph.html 생성 (브라우저로 열기)
 python -m proviso check flowlog            # 성적표: 가설마다 확인과 판정을 출처별로
