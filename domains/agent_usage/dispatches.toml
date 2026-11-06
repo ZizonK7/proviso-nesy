@@ -21345,3 +21345,139 @@ thinking_blocks = 19
 thinking_s = 100.9
 brief_chars = 0
 brief_lines = 0
+
+[[dispatch]]
+id = "p255"
+project = "movie_game"
+batch = 83
+date = 2026-11-06
+task = "구현 3회차(같은 작업자, Opus 5.5 high): 사용자가 고른 겨눔 소리 적용 — 효과음을 젤다풍 다섯 음 아르페지오(cue_a2_jingle5)로 교체, 홈즈 소리는 \"Hm.\" 하나만, 기본 모드 \"둘 다\"(효과음 뒤 0.2초 Hm.). 소리 자산 재가져오기·빌드·겨눔 대본 재확인"
+model = "Opus 5.5"
+effort = "high"
+agent = "presentation"
+round = 3
+brief = "movie_game:docs/briefs/2026-11-06-presentation-brief.md"
+files = { write = 0, edit = 3 }
+[dispatch.situation]
+S_specified = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "예"
+S_fix_existing = "예"
+S_build_tools = "예"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_small_codebase = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [8, 20]
+turns = [40, 100]
+tokens_m = [10, 35]
+tokens_class = ["T1", "T2"]
+rules = ["R_say_numbers_v3"]
+analog = "p254"
+reason = "손 예측: 2회차(16분)보다 작은 고침 — 자산 교체(커맨드릿 1회) + 기본값 두 줄 + 빌드 1회 + 겨눔 대본 1회. 바퀴 둘, UE 도구 시간 4~6분."
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [7.48, 14.96]
+[dispatch.decide]
+main_ctx_k = 483
+left = 50
+direct_m = 92.6
+send_m = 24.0
+added_k = 472
+chose = "보냄"
+why = ["대화 맥락", "결과를 가림"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["이어보내기", "검토", "그림"]
+hit = ["F041", "F040", "F064", "F073"]
+[dispatch.git]
+repo = "movie_game"
+head = "7e197e270fbcae0d9e9fd483bbe1b41969885ad7"
+dirty = 0
+dirty_hashes = []
+git_write = 0
+git_edit = 15
+git_delete = 0
+git_lines_added = 137
+git_lines_removed = 39
+git_commits = 0
+named_files = 0
+named_lines = 0
+named_bytes = 0
+named_dirs = 0
+[dispatch.actual]
+status = "done"
+minutes = 5.2  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 34
+tokens_m = 15.91  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T16:20:34Z"
+end = "2026-11-06T16:25:46Z"
+[dispatch.review]
+reason = "실측 5.2분 — 손 예측 8–20분 안, 구간 '다른 일' 적중. 자산 교체 커맨드릿 + 빌드 + 겨눔·좌표 대본 두 개 = 바퀴 둘, 2회차의 절반쯤. 작업자가 합성 스크립트를 사양만으로 다시 짜느라(원본 스크립트를 안 넘김) 한 바퀴가 더 들었다 — 다음엔 재료 파일을 지시에 같이 준다."
+missed = "없음: 걸린 기존 항목은 hit에 있다"
+feedback = "없음: 고른 소리를 그대로 넣는 고침, 다르게 할 것이 안 보인다"
+report = "movie_game:docs/worklog/2026-11-06-presentation.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 19, sum_s = 206.3, turn_s = 1.6, tool_s = 7.7, out_chars = 42, ctx_k = 468 }
+"Bash:python" = { n = 3, sum_s = 8.2, turn_s = 2.7, tool_s = 1.1, out_chars = 387, ctx_k = 468 }
+"Monitor" = { n = 2, sum_s = 4.8, turn_s = 2.4, tool_s = 1.5, out_chars = 368.0, ctx_k = 469.5 }
+"Bash:ls" = { n = 1, sum_s = 15.1, turn_s = 15.1, tool_s = 1.0, out_chars = 353, ctx_k = 455 }
+"Read" = { n = 1, sum_s = 7.1, turn_s = 7.1, tool_s = 0.1, out_chars = 94, ctx_k = 456 }
+"Write" = { n = 1, sum_s = 6.5, turn_s = 6.5, tool_s = 0.9, out_chars = 7459, ctx_k = 461 }
+"Bash:cp" = { n = 1, sum_s = 7.0, turn_s = 7.0, tool_s = 2.4, out_chars = 1070, ctx_k = 466 }
+"PowerShell" = { n = 1, sum_s = 2.8, turn_s = 2.8, out_chars = 1434, ctx_k = 468 }
+"TaskStop" = { n = 1, sum_s = 2.3, turn_s = 2.3, tool_s = 0.0, out_chars = 24, ctx_k = 471 }
+"Bash:grep" = { n = 1, sum_s = 4.4, turn_s = 4.4, tool_s = 2.5, out_chars = 417, ctx_k = 474 }
+"Bash:tail" = { n = 1, sum_s = 25.1, turn_s = 25.1, tool_s = 1.6, out_chars = 157, ctx_k = 476 }
+"Edit" = { n = 1, sum_s = 16.9, turn_s = 16.9, tool_s = 0.9, out_chars = 3701, ctx_k = 476 }
+"SubagentHandback" = { n = 1, sum_s = 0.2, turn_s = 0.2, tool_s = 0.2, out_chars = 2421, ctx_k = 479 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 18
+blocks = 34
+write = 1
+edit = 1
+scratch_files = 0
+write_chars = 7140
+edit_chars = 3309
+write_lines = 176
+read_calls = 1
+read_files = 1
+read_chars = 5135
+images = 0
+bash_calls = 7
+bash_out_chars = 2953
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 5
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 455
+ctx_max_k = 479
+ctx_end_k = 479
+thinking_blocks = 9
+thinking_s = 25.7
+brief_chars = 0
+brief_lines = 0
