@@ -20091,3 +20091,66 @@ dirty = 2
 dirty_hashes = ["90d5c6aa:2c82f1cbefd1", "ea328799:2f8080d7dee4"]
 [dispatch.actual]
 status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p246"
+project = "gemmin"
+batch = 77
+date = 2026-11-06
+task = "구현(메인 세션 안 Opus 5.5 high, 새 에이전트, 하위 에이전트 불허): 피드백 정답 모으기 — record send가 메인 피드백 전부 읽기를 요구하고, [feedback] searched(백서 색인 낱말)로 find를 돌려 찍고, [feedback] hit(이번 일에 걸린 항목)를 받으며, 끝날 때 review.missed(놓친 항목)를 받고, python -m feedback labels로 정답 자료를 내보내기. 2026-11-07부터 검사, 테스트·문서·worklog"
+model = "Opus 5.5"
+effort = "high"
+agent = "feedback-labels-builder"
+round = 1
+size = { find_cap = "칸 셋(searched·hit·missed) + labels 명령 + 검사·테스트·문서" }
+files = { write = 1, edit = 10 }
+[dispatch.situation]
+S_specified = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [10, 25]
+turns = [60, 160]
+tokens_m = [12, 35]
+tokens_class = ["T1", "T2"]
+rules = ["R_say_numbers_v3"]
+analog = "p240"
+reason = "손 예측(메인 피드백 15개 전부와 백서 find 기록·시험·문서 26항목을 읽은 뒤): 빗댄 p240(feedback 모듈과 읽기·쓰기 강제, Opus high, write 4·edit 5, 8.4분·15.0M)과 같은 모양·같은 파일들. 이번엔 칸 셋과 labels 명령, 고칠 문서가 더 많아(edit 10) 위로 10–25분, 12–35M. p239(16분·33.9M)가 위 끝. 걸린 피드백: F051 F078 F014 F103 F102 F104 F056 F039 F067 F071 F010 F015"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.62, 91.23]
+[dispatch.decide]
+main_ctx_k = 380
+left = 58
+direct_m = 86.5
+send_m = 24.9
+added_k = 298
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+[dispatch.git]
+repo = "proviso-nesy"
+head = "4e1693dad29803e7db769dfa16ab62e1499dbbde"
+dirty = 2
+dirty_hashes = ["90d5c6aa:d5cb9231e01a", "ea328799:dd83d06cc665"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
