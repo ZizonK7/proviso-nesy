@@ -20408,3 +20408,135 @@ thinking_blocks = 13
 thinking_s = 10.2
 brief_chars = 3116
 brief_lines = 20
+
+[[dispatch]]
+id = "p248"
+project = "gemmin"
+batch = 79
+date = 2026-11-06
+task = "읽기(이 세션 백그라운드 서브 에이전트, Haiku 5.5, 2개 동시 중 A): 날짜 제목 잼민이 세션 7개의 result 사건만 list_events로 처음부터 끝까지 넘겨 읽기(kinds result, 100개씩). 메인이 tools/session-transcripts/results.py로 턴 시간·토큰을 뽑아 대화 원문에 채운다. 파일 쓰기 없음(p245 다시 하기, F105·F106)"
+model = "Haiku 5.5"
+effort = "medium"
+agent = "turns-results-reader-A"
+round = 1
+brief = "gemmin:docs/briefs/p248.md"
+size = { find_cap = "세션 7개 · result 페이지 끝까지" }
+files = { write = 0, edit = 0 }
+[dispatch.situation]
+S_specified = "예"
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [2, 8]
+turns = [15, 50]
+tokens_m = [0.3, 2]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p245"
+reason = "손 예측(메인 피드백 전부·백서 find 기록·클라우드세션·토큰·맥락을 읽은 뒤): p245는 user·assistant 사건을 한 에이전트가 14개 세션 읽어 41.8분·448M(맥락 누적). 이번엔 result만(턴마다 한 사건, 세션당 수십 개 → 1–2쪽)이고 세션 7개씩 둘로 나눠, 페이지 7–15쪽 × 호출 1–2번. 큰 응답은 파일로 빠져 맥락이 거의 안 는다 → 2–8분, 0.3–2M. 위험: 작은 마지막 쪽이 맥락에 그대로 들어오면 위로"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [6.04, 12.08]
+[dispatch.decide]
+main_ctx_k = 500
+left = 50
+direct_m = 13.7
+send_m = 6.3
+added_k = 0
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["기록", "클라우드세션", "토큰", "맥락"]
+hit = ["F015", "F042", "F062", "F105", "F106"]
+[dispatch.git]
+repo = "proviso-nesy"
+head = "1645d1576e63485c2f915c052d30ee3ed900c562"
+dirty = 2
+dirty_hashes = ["90d5c6aa:a633d716ac79", "ea328799:18549cdbf6e5"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+
+[[dispatch]]
+id = "p249"
+project = "gemmin"
+batch = 79
+date = 2026-11-06
+task = "읽기(이 세션 백그라운드 서브 에이전트, Haiku 5.5, 2개 동시 중 B): 날짜 제목 잼민이 세션 7개의 result 사건만 list_events로 처음부터 끝까지 넘겨 읽기(kinds result, 100개씩). 메인이 tools/session-transcripts/results.py로 턴 시간·토큰을 뽑아 대화 원문에 채운다. 파일 쓰기 없음(p245 다시 하기, F105·F106)"
+model = "Haiku 5.5"
+effort = "medium"
+agent = "turns-results-reader-B"
+round = 1
+brief = "gemmin:docs/briefs/p249.md"
+size = { find_cap = "세션 7개 · result 페이지 끝까지" }
+files = { write = 0, edit = 0 }
+[dispatch.situation]
+S_specified = "예"
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [2, 8]
+turns = [15, 50]
+tokens_m = [0.3, 2]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p245"
+reason = "손 예측(메인 피드백 전부·백서 find 기록·클라우드세션·토큰·맥락을 읽은 뒤): p245는 user·assistant 사건을 한 에이전트가 14개 세션 읽어 41.8분·448M(맥락 누적). 이번엔 result만(턴마다 한 사건, 세션당 수십 개 → 1–2쪽)이고 세션 7개씩 둘로 나눠, 페이지 7–15쪽 × 호출 1–2번. 큰 응답은 파일로 빠져 맥락이 거의 안 는다 → 2–8분, 0.3–2M. 위험: 작은 마지막 쪽이 맥락에 그대로 들어오면 위로"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [6.04, 12.08]
+[dispatch.decide]
+main_ctx_k = 500
+left = 50
+direct_m = 13.7
+send_m = 6.3
+added_k = 0
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["기록", "클라우드세션", "토큰", "맥락"]
+hit = ["F015", "F042", "F062", "F105", "F106"]
+[dispatch.git]
+repo = "proviso-nesy"
+head = "1645d1576e63485c2f915c052d30ee3ed900c562"
+dirty = 2
+dirty_hashes = ["90d5c6aa:a633d716ac79", "ea328799:df7a11fea175"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
