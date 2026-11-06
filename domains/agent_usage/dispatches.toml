@@ -19828,3 +19828,59 @@ thinking_blocks = 4
 thinking_s = 1.4
 brief_chars = 318
 brief_lines = 1
+
+[[dispatch]]
+id = "p242"
+project = "gemmin"
+batch = 74
+date = 2026-11-06
+task = "조사(클라우드 'searching', Haiku 5.5, 새 세션): 구글 코랩(Colab) AI 요금제(Colab Pro·Pro+·종량제·Colab AI/Gemini 기능)에 최근 새로 추가된 것 — 무엇이 언제 추가됐나, 요금·한도·대상(학생 혜택 포함), 기존과 무엇이 달라졌나. 전송 조건: 공식·원문 5건 이상 열람, 결과는 최종 답에. effort는 세션 기본값(지정 못 함)"
+model = "Haiku 5.5"
+effort = "medium"
+agent = "colab-plan-research"
+round = 1
+session = "session_01VdPEuqXNoS7qrZ7JHogJ6y"
+size = { find_cap = "질문 3개·원문 5건" }
+files = {  }
+[dispatch.situation]
+S_specified = "아니오"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "예"
+S_web = "예"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_cloud_session = "예"
+S_send_gate = "예"
+S_read_originals = "예"
+S_web_blocked = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [2, 5]
+turns = [20, 50]
+tokens_m = [0.8, 2.5]
+tokens_class = ["T1"]
+rules = ["R_research", "R_turns_analogy_v2", "R_say_numbers_v3"]
+analog = "p168"
+reason = "손 예측(보내기 전): 빗댄 p168(요금제 바꿀 때 조사, searching Haiku, 2.1분·1.53M)과 같은 모양. 질문 3개·원문 5건이라 비슷하게 2–5분, 0.8–2.5M. 최근 발표라 공식 블로그·요금 페이지를 찾는 데 몇 턴 더 들 수 있음"
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 180
+left = 63
+direct_m = 5.7
+send_m = 3.8
+added_k = 0
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.feedback]
+read = ["common", "research", "cloud"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
