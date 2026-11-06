@@ -21481,3 +21481,75 @@ thinking_blocks = 9
 thinking_s = 25.7
 brief_chars = 0
 brief_lines = 0
+
+[[dispatch]]
+id = "p256"
+project = "movie_game"
+batch = 83
+date = 2026-11-06
+task = "구현 4회차(같은 작업자, Opus 5.5 high): 사용자 첫 플레이 피드백 — 플레이어 살펴보기에서는 당김·국소 조명·소리를 모두 끄고 윤곽선만(이전대로), 징글+Hm.과 국소 조명·카메라는 홈즈가 스스로 찾는 컷씬 초점에서만. 빌드·겨눔·컷씬 대본·좌표 검사"
+model = "Opus 5.5"
+effort = "high"
+agent = "presentation"
+round = 4
+brief = "movie_game:docs/briefs/2026-11-06-presentation-brief.md"
+files = { write = 0, edit = 3 }
+[dispatch.situation]
+S_specified = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "예"
+S_fix_existing = "예"
+S_build_tools = "예"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_small_codebase = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [10, 25]
+turns = [50, 120]
+tokens_m = [12, 40]
+tokens_class = ["T1", "T2"]
+rules = ["R_say_numbers_v3"]
+analog = "p255"
+reason = "손 예측: 기본값 뒤집기 + 컷씬 초점에 소리 연결(감독 C++ 두 곳) + 빌드 + 대본 셋(겨눔·컷씬 시험·좌표). 3회차(벽시계 25분)와 비슷한 바퀴 둘~셋. 재료는 다 있고 새 합성 없음."
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [7.48, 14.96]
+[dispatch.decide]
+main_ctx_k = 512
+left = 50
+direct_m = 101.5
+send_m = 27.5
+added_k = 446
+chose = "보냄"
+why = ["대화 맥락", "결과를 가림"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["이어보내기", "검토", "그림"]
+hit = ["F041", "F040", "F064", "F073"]
+[dispatch.git]
+repo = "movie_game"
+head = "1d1e71ac69daa702380ca039cb55dfb75be9852c"
+dirty = 2
+dirty_hashes = ["0e128dd3:d7eadc24f33e", "c82c36ae:15f823e9d86c"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
