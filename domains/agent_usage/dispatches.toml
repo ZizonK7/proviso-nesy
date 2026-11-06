@@ -21820,3 +21820,130 @@ thinking_blocks = 1
 thinking_s = 2.7
 brief_chars = 293
 brief_lines = 1
+
+[[dispatch]]
+# 원래 p257 → p258 → p259: 같은 날 다른 세션(배치 84)이 p257·p258을 먼저 올려 두 번 다시 매김(F056)
+id = "p259"
+project = "movie_game"
+batch = 83
+date = 2026-11-06
+task = "구현 5회차(같은 작업자, Opus 5.5 high): 컷씬 소리 정리 — 홈즈가 말하는 중 \"Hm.\"이 겹치므로 기본을 징글만(mg.CsCue 1)으로, 한 줄에 징글 한 번(2샷 줄 겹침 제거). 빌드·컷씬 시험·좌표 검사"
+model = "Opus 5.5"
+effort = "high"
+agent = "presentation"
+round = 5
+brief = "movie_game:docs/briefs/2026-11-06-presentation-brief.md"
+files = { write = 0, edit = 2 }
+[dispatch.situation]
+S_specified = "예"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "예"
+S_external_check = "예"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "예"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "예"
+S_long_lap = "예"
+S_fix_existing = "예"
+S_build_tools = "예"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_small_codebase = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [5, 12]
+turns = [15, 45]
+tokens_m = [5, 18]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+analog = "p256"
+reason = "손 예측: 기본값 한 줄 + 줄당 한 번 조건 + 빌드 1 + 대본 둘(컷씬 시험 39초·좌표 84초). 4회차(벽시계 9.5분)에서 전체 경로(4분)를 뺀 만큼. 구간 잠깐."
+hypotheses = []
+[dispatch.calc]
+told = "다른 일"
+minutes = [7.48, 14.96]
+[dispatch.decide]
+main_ctx_k = 542
+left = 50
+direct_m = 83.0
+send_m = 15.4
+added_k = 610
+chose = "보냄"
+why = ["대화 맥락", "결과를 가림"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["이어보내기", "검토", "그림"]
+hit = ["F041", "F040", "F064", "F073"]
+[dispatch.git]
+repo = "movie_game"
+head = "105720196bca1ea6415c8ed02d43f1d6c469d83c"
+dirty = 0
+dirty_hashes = []
+git_write = 0
+git_edit = 0
+git_delete = 0
+git_lines_added = 0
+git_lines_removed = 0
+git_commits = 2
+named_files = 0
+named_lines = 0
+named_bytes = 0
+named_dirs = 0
+[dispatch.actual]
+status = "done"
+minutes = 3.5  # 로그 합 0.5분(3줄) — 백그라운드 UE 대기 제외. 5회차 시작(16:47:31Z)~보고(16:51Z) 벽시계
+turns = 3
+tokens_m = 1.54  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T16:49:00Z"
+end = "2026-11-06T16:49:32Z"
+[dispatch.review]
+reason = "벽시계 3.5분(로그 합 0.5분) — 손 예측 5–12분 아래, 구간 '잠깐' 적중. 기본값 한 줄 + 줄당 한 번 + 빌드 + 대본 둘. 같은 작업자가 맥락을 갖고 바로 고쳐 예측 하한보다 짧았다(F041)."
+missed = "없음: 걸린 기존 항목은 hit에"
+feedback = ["F109"]
+report = "movie_game:docs/worklog/2026-11-06-presentation.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"Bash:grep" = { n = 1, sum_s = 14.5, turn_s = 14.5, tool_s = 2.3, out_chars = 466, ctx_k = 512 }
+"Edit" = { n = 1, sum_s = 10.7, turn_s = 10.7, out_chars = 1814, ctx_k = 513 }
+"SubagentHandback" = { n = 1, sum_s = 2.8, turn_s = 2.8, tool_s = 2.7, out_chars = 1668, ctx_k = 513 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 2
+blocks = 3
+write = 0
+edit = 1
+scratch_files = 0
+write_chars = 0
+edit_chars = 1528
+write_lines = 0
+read_calls = 0
+read_files = 0
+read_chars = 0
+images = 0
+bash_calls = 1
+bash_out_chars = 6
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 1
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 512
+ctx_max_k = 513
+ctx_end_k = 513
+thinking_blocks = 0
+thinking_s = 0.0
+brief_chars = 0
+brief_lines = 0
