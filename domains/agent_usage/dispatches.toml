@@ -21684,4 +21684,139 @@ read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "log
 searched = ["팀", "클라우드세션", "지시서"]
 hit = ["F010", "F012", "F014", "F015", "F019", "F020", "F027", "F028", "F037", "F038", "F044", "F047", "F068"]
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
+status = "done"
+minutes = 16.5  # 세션 만든 시각 16:48:06Z → 담당 보고 send_message 17:04:33Z (get_session·알림 시각)
+turns = 0  # 클라우드 세션: 줄 수 못 잼(아래 turns skip)
+tokens_m = 26.78  # get_session usage 합: 캐시 읽기 25.53M + 캐시 쓰기 1.08M + 출력 0.17M + 입력(담당 세션, 팀원 서브 에이전트 몫 포함으로 봄 — 확인 안 함)
+start = "2026-11-06T16:48:06Z"
+end = "2026-11-06T17:04:33Z"
+[dispatch.review]
+reason = "실측 16.5분·26.8M(비용 $14.36) — 손 예측 25–50분·40–110M, 계산기 46–91분 둘 다 위로 빗나감. 팀원 넷이 동시에 3.4–6.3분(도구 17–25번, 각 16–22만 토큰)에 끝났고 검토자 5.3분·도구 45번, 담당 합치기·R 4.3.3 apt 설치·실행·push까지 합쳐 16.5분. 손 예측은 빗댄 p237(21.8분)에 '팀원이 큰 자료를 읽고 긴 md를 쓴다·R 설치'를 위로 더했는데, 팀원은 지시서의 공통 틀과 읽을 곳 목록대로 동시에 돌아 가장 느린 하나(6.3분)가 벽시계를 정했다 — 팀 일은 팀원 수가 아니라 가장 느린 팀원 + 담당 직렬 몫(시작·합치기·검토·push)으로 잡아야 했다. 품질: 정리집 2457줄·예시코드 .R 1180줄(parse 통과), 색인 할 일 135·함수 149, 링크 337개 확인, R로 Lab5 파싱·Lab6·Lab8 일부 실제 실행, 나머지는 HTML 출력. Lab6은 Rmd 없이 필사 재구성(lowbwt→MASS::birthwt 대체)이라 확신 낮음. 팀원 실측(담당 보고): Lab5 6분18초·도구 25·215,742 / Lab6 3분40초·20·176,083 / Lab7 3분24초·17·163,899 / Lab8 5분13초·22·180,400 / 검토 5분18초·45·279,893"
+wrong = ["R_turns_analogy_v2"]
+why = "조건 흐림"
+feedback = "없음: 놓친 것(F065·F107·F108)이 이미 백서에 있음 — 재발로 셈. read는 11-06 20:15에 연 메인 15개였고 그 뒤 common에 올라온 F107·F108은 보내기 전에 다시 열지 않았다"
+missed = ["F065", "F107", "F108"]
+report = "professor_king:자료분석 및 실습/문제/퀴즈2_정리집.md"
+[dispatch.turns]
+skip = "클라우드 세션 — 작업자 대화 기록이 이 세션에 없음"
+[dispatch.log]
+skip = "클라우드 세션 — 작업자 대화 기록이 이 세션에 없음"
+[dispatch.cloud]
+skip = "result 사건이 수백 개 사건 사이에 흩어져 있어(100개씩 두 쪽에 1건) 끝까지 넘기면 메인 맥락이 커진다(F105) — get_session usage 합과 담당 보고로 실측을 채움"
+
+[[dispatch]]
+id = "p258"
+project = "gemmin"
+batch = 84
+date = "2026-11-07"
+task = "확인(이 세션 서브 에이전트, Haiku 5.5, 사후 기록 — F107 위반): 이 세션의 서브 에이전트에 Agent 도구와 create_session이 있는지 도구 목록만 보고 한 줄로 답하기. 팀(p257)의 담당을 어디 둘지 정하려고. 파일 쓰기 없음"
+model = "Haiku 5.5"
+effort = "medium"
+agent = "agent-tool-check"
+round = 1
+files = { write = 0, edit = 0 }
+[dispatch.situation]
+S_specified = "예"
+S_full_brief = "예"
+S_fixed_input = "예"
+S_similar_past = "아니오"
+S_external_check = "아니오"
+S_check_loop = "아니오"
+S_short = "예"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "예"
+S_cloud_session = "아니오"
+S_send_gate = "아니오"
+S_read_originals = "아니오"
+S_web_blocked = "아니오"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [0.1, 1]
+turns = [1, 4]
+tokens_m = [0.05, 0.3]
+tokens_class = ["T1"]
+rules = ["R_say_numbers_v3"]
+reason = "사후 기록: 보내기 전에 기록·예측을 하지 않았다(F107). 도구 목록만 보는 일이라 1분 안쪽으로 봤다(말하지 않음)"
+hypotheses = []
+[dispatch.calc]
+told = "잠깐"
+minutes = [6.04, 12.08]
+[dispatch.decide]
+main_ctx_k = 447
+left = 50
+direct_m = 1.1
+send_m = 5.1
+added_k = 2
+chose = "보냄"
+why = ["결과를 가림"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["기록", "메인"]
+hit = []
+hit_none = "사후 기록 — 보낼 때 피드백을 대 보지 않았다(F107·F045를 missed로)"
+[dispatch.git]
+repo = "proviso-nesy"
+head = "240fbf2508a97789d204bb78ca3c1c2809c19e23"
+dirty = 1
+dirty_hashes = ["ea328799:360840bc7ac9"]
+git_write = 0
+git_edit = 1
+git_delete = 0
+git_lines_added = 2
+git_lines_removed = 1
+git_commits = 0
+named_files = 0
+named_lines = 0
+named_bytes = 0
+named_dirs = 0
+[dispatch.actual]
+status = "done"
+minutes = 0.1  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 2
+tokens_m = 0.23  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T16:46:32Z"
+end = "2026-11-06T16:46:38Z"
+[dispatch.review]
+reason = "도구 목록만 보는 확인이라 메인이 직접 할 수 없었던 일(서브 에이전트의 도구는 띄워 봐야 안다)이지만, F107대로 기록을 먼저 했어야 했다. 결과 Agent 없음·create_session 있음 → p257 담당을 클라우드 세션에 둠. 0.1분이지만 시작 맥락 11.6만 토큰(서브 에이전트 기본 맥락)이라 '작은 확인'도 싸지 않다"
+report = "gemmin:docs/briefs/p257.md"  # 보고서 없음 — 답 한 줄(Agent: no, create_session: yes)을 p257 지시서 머리에 적음
+missed = ["F045", "F107"]
+feedback = "없음: 같은 실수가 이미 F107로 있음(재발로 셈)"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"글" = { n = 1, sum_s = 0.1, turn_s = 0.1, out_chars = 0, ctx_k = 116 }
+"SubagentHandback" = { n = 1, sum_s = 1.5, turn_s = 1.5, tool_s = 1.5, out_chars = 45, ctx_k = 116 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 1
+blocks = 2
+write = 0
+edit = 0
+scratch_files = 0
+write_chars = 0
+edit_chars = 0
+write_lines = 0
+read_calls = 0
+read_files = 0
+read_chars = 0
+images = 0
+bash_calls = 0
+bash_out_chars = 0
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 1
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 116
+ctx_max_k = 116
+ctx_end_k = 116
+thinking_blocks = 1
+thinking_s = 2.7
+brief_chars = 293
+brief_lines = 1
