@@ -21616,3 +21616,72 @@ thinking_blocks = 5
 thinking_s = 25.3
 brief_chars = 0
 brief_lines = 0
+
+[[dispatch]]
+id = "p257"
+project = "gemmin"
+batch = 84
+date = "2026-11-07"
+task = "팀(클라우드 새 세션 담당, Opus 5.5 effort 지정 불가, 팀원 서브 에이전트 4 + 새 눈 검토 1): 자분실 퀴즈2(Lab5~8) 정리집 — 설명 짧게·예시 위주·문제로 나올 유형 예시·할 일/함수 색인, 예시코드 .R 하나. Professor_King 작업 브랜치에 push, main 합치기는 메인"
+model = "Opus 5.5"
+effort = "high"
+agent = "quiz2-notes-lead"
+round = 1
+session = "session_01VdPEus2RK9y368LL5i5qCD"
+brief = "gemmin:docs/briefs/p257.md"
+files = { write = 2, edit = 0 }
+[dispatch.situation]
+S_specified = "일부"
+S_full_brief = "예"
+S_fixed_input = "아니오"
+S_similar_past = "일부"
+S_external_check = "아니오"
+S_check_loop = "예"
+S_short = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_resumed = "아니오"
+S_mid_notes = "아니오"
+S_spec_fixed = "예"
+S_render = "아니오"
+S_long_lap = "아니오"
+S_fix_existing = "아니오"
+S_build_tools = "아니오"
+S_integration = "아니오"
+S_many_turn_model = "아니오"
+S_no_code = "아니오"
+S_cloud_session = "예"
+S_send_gate = "아니오"
+S_read_originals = "예"
+S_web_blocked = "아니오"
+S_template_given = "예"
+S_small_codebase = "아니오"
+S_other_model = "아니오"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [25, 50]
+turns = [150, 400]
+tokens_m = [40, 110]
+tokens_class = ["T2", "T3"]
+rules = ["R_say_numbers_v3", "R_turns_analogy_v2"]
+analog = "p237"
+reason = "손 예측(메인 피드백 전부 읽고 백서 '팀·클라우드세션·지시서' find 뒤): 빗댄 p237(담당 Opus high + 팀원, 21.8분·163턴·52M)보다 크다 — 클라우드 세션 시작·클론(저장소 248MB) 2–4분, 팀원 넷 동시(Lab마다 Rmd 20–37KB + 수업정리 70–160KB + 퀴즈대비 30KB 읽고 긴 md 하나 쓰기, 각 10–20분), 합치기·색인 5–10분, 새 눈 검토 5분, R 설치 시도 몇 분. 토큰은 클라우드 result에 팀원 몫까지 들어가 큼. 위험: R 설치·실행이 길어지거나 팀원 하나(Lab8, 소스 최대)가 늦으면 위로"
+hypotheses = []
+[dispatch.calc]
+told = "신경 끄기"
+minutes = [45.62, 91.23]
+[dispatch.decide]
+main_ctx_k = 415
+left = 50
+direct_m = 195.5
+send_m = 71.0
+added_k = 422
+chose = "보냄"
+why = ["대화 계속", "결과를 가림"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["팀", "클라우드세션", "지시서"]
+hit = ["F010", "F012", "F014", "F015", "F019", "F020", "F027", "F028", "F037", "F038", "F044", "F047", "F068"]
+[dispatch.actual]
+status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
