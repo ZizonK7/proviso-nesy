@@ -88,3 +88,26 @@ skip = "Codex native JSONL은 Claude 전용 로그 숫자 파서와 형식이 �
 reason = "대화에서 정한 인과 질문·측정 단위·사전 피처 선택을 유지하려고 직접 분석했다. 회귀 주 분석은 Opus high·양쪽 조건이 있는 3개 프로젝트 92건(예74/아니오18), log(turns), 프로젝트·이어 보내기·코드 없는 일·웹·날짜 보정. 단순 0.66배가 보정 후 0.96배(95% 0.51–1.81, p0.894). 인과효과를 확정하지 않고 작업량 누락·약한 겹침을 명시. OLS 잔차화 계수와 군집 공분산을 독립 계산해 일치 확인. Codex 실측 토큰은 input에 캐시가 포함돼 재합산하지 않았다. 다른 쪽 실행 비용은 측정하지 않아 실제 선택의 우열은 모른다. 분석 산출물·입력 스냅숏·계획·재실행 스크립트는 out/spec_fixed_regression_2026-11-06/에 보존."
 report = "docs/worklog/2026-11-06-spec-fixed-regression.md"
 feedback = "없음: 기존 가설의 탐색 회귀를 수행했으며 새 일반 행동 피드백으로 올릴 별도 사례는 없었다"
+
+[[direct]]
+# 원래 m002. origin/main의 같은 날 회귀 분석 m002를 보존하기 위해 m003으로 재번호.
+id = "m003"
+project = "proviso"
+date = 2026-11-06
+task = "EDA Colab 노트북 환경 설정 및 실행 검증. 구현 뒤 적은 사후 절차 기록이며 사전 예측이 아님"
+written_before = false
+[direct.decide]
+main_ctx_k = 40
+left = 3
+direct_m = 0.7
+send_m = 0.9
+added_k = 0
+chose = "직접"
+why = ["대화 계속"]
+[direct.feedback]
+read = ["common", "record", "docs", "predict"]
+[direct.actual]
+status = "unknown"  # 작업은 완료. Claude 전용 집계기로 Codex 사용량을 재지 않아 실측만 미상.
+[direct.review]
+reason = "기존 start.ipynb 분석 셀을 재사용해 Colab용 노트북과 데이터 ZIP을 만들었다. 로컬에서 글꼴 설치 셀을 제외한 코드 셀 19개와 업로드 재실행을 확인했고 기존 EDA 테스트 6개가 통과했다. decide 숫자는 구현 뒤의 추정이므로 사전 예측 성적으로 쓰지 않는다. Codex 로그의 토큰을 Claude 전용 집계기로 해석하지 않았다."
+feedback = "없음: 초기 저장소 착오는 기존 F008의 원격 코드 확인 원칙을 적용할 사례이며 새 일반 규칙을 추가하지 않음"
