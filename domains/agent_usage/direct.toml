@@ -88,3 +88,21 @@ skip = "Codex native JSONL은 Claude 전용 로그 숫자 파서와 형식이 �
 reason = "대화에서 정한 인과 질문·측정 단위·사전 피처 선택을 유지하려고 직접 분석했다. 회귀 주 분석은 Opus high·양쪽 조건이 있는 3개 프로젝트 92건(예74/아니오18), log(turns), 프로젝트·이어 보내기·코드 없는 일·웹·날짜 보정. 단순 0.66배가 보정 후 0.96배(95% 0.51–1.81, p0.894). 인과효과를 확정하지 않고 작업량 누락·약한 겹침을 명시. OLS 잔차화 계수와 군집 공분산을 독립 계산해 일치 확인. Codex 실측 토큰은 input에 캐시가 포함돼 재합산하지 않았다. 다른 쪽 실행 비용은 측정하지 않아 실제 선택의 우열은 모른다. 분석 산출물·입력 스냅숏·계획·재실행 스크립트는 out/spec_fixed_regression_2026-11-06/에 보존."
 report = "docs/worklog/2026-11-06-spec-fixed-regression.md"
 feedback = "없음: 기존 가설의 탐색 회귀를 수행했으며 새 일반 행동 피드백으로 올릴 별도 사례는 없었다"
+
+[[direct]]
+id = "m003"
+project = "proviso"
+date = 2026-11-06
+task = "결론 하나(B)에서 거꾸로: 가장 중요한 가설 하나를 골라 그 가설이 서려면 참이어야 할 전제 A1, A2…를 먼저 적고, 논리집(지식 파일·백서·먼 분야 조각)에서 각 전제를 받치거나 반대하는 노드를 찾아 내려가 A1,A2…→B 구조로 정리(모르겠다 허용). 첫 시험"
+[direct.decide]
+main_ctx_k = 176
+left = 50
+direct_m = 25.0
+send_m = 9.2
+added_k = 111
+chose = "직접"
+why = ["대화 맥락"]
+[direct.feedback]
+read = ["common", "logic"]
+[direct.actual]
+status = "unknown"  # record finish가 메인 대화 기록으로 채운다
