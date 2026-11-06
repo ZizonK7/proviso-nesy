@@ -20098,9 +20098,69 @@ repo = "proviso-nesy"
 head = "d1cb6eb4afd79ea6e859b74964b6ed1d998eb6b0"
 dirty = 2
 dirty_hashes = ["90d5c6aa:2c82f1cbefd1", "ea328799:2f8080d7dee4"]
+git_write = 0
+git_edit = 0
+git_delete = 0
+git_lines_added = 0
+git_lines_removed = 0
+git_commits = 5
+named_files = 2
+named_lines = 22
+named_bytes = 3413
+named_dirs = 0
 [dispatch.actual]
-status = "unknown"  # 예측만 기록됨 (record finish가 채운다)
-
+status = "done"
+minutes = 41.8  # record finish (알림의 실행 시간이 있으면 그것으로 고친다)
+turns = 897
+tokens_m = 448.05  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T02:40:53Z"
+end = "2026-11-06T03:22:39Z"
+[dispatch.review]
+feedback = ["F105", "F106"]
+reason = "멈춤에 가까운 부분 완료: 14개 세션 중 4개(10-22~10-25)만 끝까지, 5번째는 중간, 6–14번째는 시작도 못 함. 41.8분·448M(손 15–45분·4–15M, 계산기 6–12분). 말한 '다른 일'이 '신경 끄기'로 빗나갔고 토큰은 30배 위. 품질 2: 읽은 4개 세션 결과도 쓰지 못함 — 원격 assistant 사건의 usage.output_tokens는 스트림 시작 값(호출당 평균 약 110)이라 턴 출력 토큰이 크게 작게 잡힌다. 메인이 4개 세션을 채웠다가 되돌림. 다음엔 kinds=[\"result\"]만 읽는다(턴마다 한 사건, 걸린 시간·정확한 토큰이 들어 있고 훨씬 작다), 세션마다 새 에이전트"
+wrong = ["R_say_numbers_v3"]
+why = "조건 흐림"  # 한 에이전트가 세션 14개를 차례로 넘기면 큰 페이지가 맥락에 쌓여 턴당 맥락·토큰이 폭발한다(11-02는 세션마다 새 에이전트). '한 작업자가 읽는 페이지 수·페이지 크기'가 조건에 없었다
+report = "gemmin:docs/agent-log.md"
+[dispatch.turns]  # scripts/agent_usage.py --turns --toml
+"mcp__claude-code-remote__list_events" = { n = 659, sum_s = 2188.6, turn_s = 2.7, tool_s = 0.1, out_chars = 147, ctx_k = 535 }
+"글" = { n = 203, sum_s = 152.7, turn_s = 0.7, out_chars = 0, ctx_k = 436 }
+"Bash:python3" = { n = 27, sum_s = 122.3, turn_s = 3.9, tool_s = 1.4, out_chars = 423, ctx_k = 486 }
+"Bash:cat" = { n = 3, sum_s = 22.5, turn_s = 7.6, tool_s = 1.7, out_chars = 157, ctx_k = 262 }
+"ToolSearch" = { n = 1, sum_s = 2.0, turn_s = 2.0, tool_s = 0.0, out_chars = 74, ctx_k = 81 }
+"Bash:mkdir" = { n = 1, sum_s = 4.6, turn_s = 4.6, tool_s = 0.2, out_chars = 2550, ctx_k = 257 }
+"Bash:sed" = { n = 1, sum_s = 5.6, turn_s = 5.6, tool_s = 1.3, out_chars = 928, ctx_k = 261 }
+"Bash:cd" = { n = 1, sum_s = 3.9, turn_s = 3.9, tool_s = 0.8, out_chars = 598, ctx_k = 669 }
+"SubagentHandback" = { n = 1, sum_s = 0.1, turn_s = 0.1, tool_s = 0.1, out_chars = 2552, ctx_k = 892 }
+[dispatch.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 693
+blocks = 897
+write = 0
+edit = 0
+scratch_files = 0
+write_chars = 0
+edit_chars = 0
+write_lines = 0
+read_calls = 0
+read_files = 0
+read_chars = 0
+images = 0
+bash_calls = 33
+bash_out_chars = 83259
+grep_calls = 0
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 661
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 81
+ctx_max_k = 906
+ctx_end_k = 892
+thinking_blocks = 201
+thinking_s = 220.3
+brief_chars = 2851
+brief_lines = 40
 [[dispatch]]
 id = "p246"
 project = "gemmin"
