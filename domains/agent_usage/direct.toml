@@ -659,3 +659,45 @@ feedback = ["F118"]
 missed = "없음: 기존 F068 F113 F114를 이미 hit에 두었다. 새로운 잘림 사례는 F118으로 구체화했고 메인의 지시서 확인 지연은 보고서에 기록했다."
 [direct.log]
 skip = "Native unique response IDs/input+output once, cached input not added twice. Native responses differ from Claude blocks. exam_grader:tmp/kkulmo-ppt-sol/usage.json."
+
+[[direct]]
+id = "m014"
+project = "exam_grader"
+date = 2026-11-07
+task = "사용자 표지 이미지와 해설17쪽 결합·본문 보존 검수·최종 PDF"
+brief = "exam_grader:tmp/pdfs/kkulmo-cover-final/brief.md"
+[direct.decide]
+main_ctx_k = 197
+left = 8
+direct_m = 5.3
+send_m = 3.8
+added_k = 38
+chose = "직접"
+why = ["대화 맥락"]
+[direct.predicted]
+written_before = true
+minutes = [3, 6]
+turns = [16, 30]
+tokens_m = [1, 3]
+ctx_start_k = 196.667
+[direct.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["PDF", "그림", "검토"]
+hit = ["F001", "F052", "F068", "F108", "F112", "F113", "F116", "F118"]
+[direct.actual]
+status = "done"
+minutes = 1.933
+turns = 4
+tokens_m = 0.814178
+start = "2026-11-07T07:32:21Z"
+end = "2026-11-07T07:34:17Z"
+measurement_note = "Native response IDs and input+output counted once; not Claude blocks. Window begins after instruction reading/pre-record preparation and ends at PDF visual verification, excluding final ledger/commit/push/final answer."
+[direct.review]
+reason = "Combined user-approved cover with17 unchanged solution pages into18-page A4 PDF. Verified17/17 page sizes,text,and raster pixels identical; visually inspected cover/first/last and Poppler cover. Short fixed composition chosen direct despite calculated token preference for delegation. Actual audit excludes preparation and final bookkeeping; no full-task speed claim."
+wrong = []
+why = "까닭 모름"
+report = "exam_grader:lessons/2026-11-07_kkulmo-s2-02/revision/cover-report.md"
+feedback = "없음: 기존 표지·본문 분리 및 원문 보존 검증을 적용했고 새 일반화할 실패는 없었다."
+missed = "없음: 본문 보존과 표지 전체 표시 관련 기존 피드백을 사전에 선정해 적용했다."
+[direct.log]
+skip = "Native Codex log counts unique responses and input+output, cached input once; different from Claude block logs. exam_grader:tmp/pdfs/kkulmo-cover-final/usage.json."
