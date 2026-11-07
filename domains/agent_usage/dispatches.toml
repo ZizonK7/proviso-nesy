@@ -22520,3 +22520,146 @@ missed = "없음: 출처 확인 관련 F022와 F024는 이미 조사 hit에 있�
 skip = "Native Codex schema: counted unique response IDs and input+output once. Audit data: exam_grader:tmp/pdfs/kkulmo-tone-q15/native-usage-final.json. Claude block counts are not fabricated."
 [dispatch.turns]
 skip = "Native response count differs from Claude content blocks; no fabricated turn table."
+
+[[dispatch]]
+id = "p266"
+project = "exam_grader"
+batch = 90
+date = 2026-11-07
+task = "수능 저장소에서 일요일 PDF와 수학 문제 편집 원본 찾기"
+model = "GPT-6 Luna"
+effort = "high"
+agent = "sunday_search_luna"
+round = 1
+brief = "exam_grader:tmp/sunday-suneong-search/brief.md"
+files = { write = 1, edit = 0 }
+[dispatch.situation]
+S_render = "아니오"
+S_fix_existing = "아니오"
+S_template_given = "예"
+S_specified = "예"
+S_fixed_input = "아니오"
+S_resumed = "아니오"
+S_cloud_session = "아니오"
+S_research = "예"
+S_web = "아니오"
+S_full_brief = "예"
+S_check_loop = "예"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [3, 6]
+turns = [16, 36]
+tokens_m = [0.4, 1.5]
+tokens_class = ["T1"]
+reason = "사용자 지정 Luna. 로컬 Git 원본 검색, native8–18응답 추정. 직전 Luna25응답2.775M을 참고하되 새 짧은 맥락과 웹 없는 검색을 반영. 사전 준비는 이 예측 밖."
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 104
+left = 15
+direct_m = 2.5
+send_m = 2.0
+added_k = 0
+chose = "보냄"
+why = ["비용", "대화 계속"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["조사", "git", "파일"]
+hit = ["F001", "F008", "F010", "F014", "F015", "F022", "F024", "F052", "F107", "F108", "F112", "F117"]
+[dispatch.git]
+repo = "exam_grader"
+head = "6529cd28d01fb878abae3cc90a6e813c9615977c"
+dirty = 45
+dirty_hashes = ["0517b058:99f13de9fdb0", "05d279c7:5646be139dfc", "060f2c57:3c583d30618a", "0bd0c892:ce7638244ebf", "108fb87a:a83a7df75c94", "15d30b9c:12268e9fc63a", "171add84:51bb8565a1c0", "190102a7:14ee1b97a2e4", "1a1b674b:bb9c47db4a65", "1c814140:120ad809b974", "2207c67a:aba210601045", "2445cd96:24f363e1b560", "365ad867:58869094edc1", "37510cd7:63bc2c2b5f81", "45d55749:2df8b810c269", "47e6bec1:1f30f547fd68", "4ef21351:f186f121e04f", "6182d997:318af0cf26ea", "63169881:3e13129a70ca", "65baea7f:5c28b450a4a1", "6aeb508b:659c8099344c", "6de1cebd:559c8d74eed7", "78cdad6c:0a574a5fde0e", "825836a7:865910059d3f", "85d5697d:20993e77df5c", "8605b1d5:64e7eb6a7b31", "866191f8:106e3e3e380f", "89c875ca:f1f7ab663081", "8c800aa0:a94cdae925d3", "97d528f5:051be50312cf", "9d75edbc:4186dd82b2ce", "a047865c:0cde0950df12", "a36ca11f:c74d6712e603", "accd9eac:8bd1474a0e3c", "b2ec59f2:94e6b2dce249", "cda234af:684d3602f24f", "d8bfbf8c:4b385765a4db", "da27bc94:5d768acdad4c", "e93e6c22:b3cb41206dc8", "f085862e:da4afc700243", "f2a363f9:4b35475b8a52", "f33dff0f:b52d378d438a", "f7aa8132:de37dcb0a853", "f92c39af:eb4f2967b3ef", "fa4637f2:ecb4aeb803c5"]
+skip = "Read-only search in Suneong; only new report in exam_grader tmp, copied by main to durable report. Tracked diff is not a worker modification count."
+[dispatch.actual]
+status = "done"
+minutes = 4.529
+turns = 23
+tokens_m = 1.37195
+start = "2026-11-07T07:14:41Z"
+end = "2026-11-07T07:19:13Z"
+measurement_note = "Native response IDs and input+output; cached input counted once. Main elapsed window includes waiting and intervening PPT clarification/setup, not pure search labor. Excludes pre-launch preparation and later bookkeeping."
+[dispatch.review]
+reason = "Exact 182843-byte PDF hash found at 0c11baf on origin/ccr-729178ed-b00osb. Located math JSON D036/D037 and generator. Main corrected initially misattributed branch by independently checking branch-tip blob. 4.53 minutes/1.372M within hand time/token ranges; native23 responses exceeded 8-18 estimate."
+wrong = []
+why = "까닭 모름"
+report = "exam_grader:lessons/weekly/2026-11-02/sunday-source.md"
+feedback = "없음: 기존 F008의 커밋 근거 확인과 F014의 전제 검증을 이번 브랜치 오판에 적용했다. 새 규칙 대신 구체 실수와 개선 행동은 보고서에 남겼다."
+missed = "없음: 관련 F008 F014 F022 F024는 이미 hit에 있었다. 중간 브랜치 추정을 검증 사실과 혼동한 점을 보고서에 기록했다."
+[dispatch.log]
+skip = "Codex native records differ from Claude blocks; unique response IDs, input+output once. exam_grader:tmp/sunday-suneong-search/usage.json."
+[dispatch.turns]
+skip = "Native response counts are not Claude content blocks."
+[[dispatch]]
+id = "p267"
+project = "exam_grader"
+batch = 91
+date = 2026-11-07
+task = "기존 사용자 PPT 지시서에 따른 꿀모2-2 시험지 30장 제작"
+model = "GPT-6.1 Sol"
+effort = "medium"
+agent = "kkulmo_ppt_sol"
+round = 1
+brief = "exam_grader:tmp/kkulmo-ppt-sol/brief.md"
+files = { write = 3, edit = 0 }
+[dispatch.situation]
+S_render = "예"
+S_fix_existing = "아니오"
+S_template_given = "예"
+S_specified = "예"
+S_fixed_input = "아니오"
+S_resumed = "아니오"
+S_cloud_session = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_full_brief = "예"
+S_check_loop = "예"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [10, 20]
+turns = [30, 60]
+tokens_m = [1, 3]
+tokens_class = ["T1"]
+reason = "기존 문항 crop 및 PPT 도구 재사용. 30문항 전수검수, native15–30응답,1–3M 추정. 전사 필요시 시간이 늘 수 있음. 사용자 명시 Sol medium."
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 104
+left = 15
+direct_m = 4.4
+send_m = 2.9
+added_k = 0
+chose = "보냄"
+why = ["비용", "대화 계속"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["조사", "git", "파일"]
+hit = ["F001", "F010", "F014", "F015", "F052", "F068", "F072", "F107", "F108", "F112", "F113", "F114", "F116"]
+[dispatch.git]
+repo = "exam_grader"
+head = "6529cd28d01fb878abae3cc90a6e813c9615977c"
+dirty = 45
+dirty_hashes = ["0517b058:99f13de9fdb0", "05d279c7:5646be139dfc", "060f2c57:3c583d30618a", "0bd0c892:ce7638244ebf", "108fb87a:a83a7df75c94", "15d30b9c:12268e9fc63a", "171add84:51bb8565a1c0", "190102a7:14ee1b97a2e4", "1a1b674b:bb9c47db4a65", "1c814140:120ad809b974", "2207c67a:aba210601045", "2445cd96:24f363e1b560", "365ad867:58869094edc1", "37510cd7:63bc2c2b5f81", "45d55749:2df8b810c269", "47e6bec1:1f30f547fd68", "4ef21351:f186f121e04f", "6182d997:318af0cf26ea", "63169881:3e13129a70ca", "65baea7f:5c28b450a4a1", "6aeb508b:659c8099344c", "6de1cebd:559c8d74eed7", "78cdad6c:0a574a5fde0e", "825836a7:865910059d3f", "85d5697d:20993e77df5c", "8605b1d5:64e7eb6a7b31", "866191f8:106e3e3e380f", "89c875ca:f1f7ab663081", "8c800aa0:a94cdae925d3", "97d528f5:051be50312cf", "9d75edbc:4186dd82b2ce", "a047865c:0cde0950df12", "a36ca11f:c74d6712e603", "accd9eac:8bd1474a0e3c", "b2ec59f2:94e6b2dce249", "cda234af:684d3602f24f", "d8bfbf8c:4b385765a4db", "da27bc94:5d768acdad4c", "e93e6c22:b3cb41206dc8", "f085862e:da4afc700243", "f2a363f9:4b35475b8a52", "f33dff0f:b52d378d438a", "f7aa8132:de37dcb0a853", "f92c39af:eb4f2967b3ef", "fa4637f2:ecb4aeb803c5"]
+skip = "PPTX and original exam assets are intentionally Git-ignored per user policy; tracked layout and main-copied report enumerate output, so tracked diff is not total work size."
+[dispatch.actual]
+status = "done"
+minutes = 8.53
+turns = 52
+tokens_m = 5.00068
+start = "2026-11-07T07:16:46Z"
+end = "2026-11-07T07:25:18Z"
+measurement_note = "Native responses/input+output counted once; not Claude block units. Main window starts after m012 audit cutoff; excludes earlier PPT setup already counted in m012 and subsequent bookkeeping/commit/final response. Includes wait time."
+[dispatch.review]
+reason = "Created30-slide PPT using user existing pipeline. Retyped11/12 for clarity, restored clipped Q25 numerator, removed header artifacts after main review, exported30 actual PowerPoint slides and passed bounds. Time8.53min below10-20, tokens5.001M above1-3 and native52 above15-30; repeated crop/render and sandbox COM recovery contributed but no fitted causal rate claimed."
+wrong = []
+why = "까닭 모름"
+report = "exam_grader:lessons/2026-11-07_kkulmo-s2-02/ppt-report.md"
+feedback = ["F118"]
+missed = "없음: 기존 F068 F113 F114를 이미 hit에 두었다. 새로운 잘림 사례는 F118으로 구체화했고 메인의 지시서 확인 지연은 보고서에 기록했다."
+[dispatch.log]
+skip = "Native unique response IDs/input+output once, cached input not added twice. Native responses differ from Claude blocks. exam_grader:tmp/kkulmo-ppt-sol/usage.json."
+[dispatch.turns]
+skip = "Native response count is not Claude content-block count."

@@ -576,3 +576,86 @@ feedback = ["F116", "F117"]
 missed = "없음: 이번 정정 작업에서 추가로 확인한 기존 피드백 누락은 없다. 이전 작업의 문체 변경은 F116으로 남겼다."
 [direct.log]
 skip = "Native Codex schema: counted unique response IDs and input+output once. Audit data: exam_grader:tmp/pdfs/kkulmo-tone-q15/native-usage-final.json. Claude block counts are not fabricated."
+
+[[direct]]
+id = "m012"
+project = "exam_grader"
+date = 2026-11-07
+task = "수능 원본 검색 위임·결과 대조·실측 기록"
+brief = "exam_grader:tmp/sunday-suneong-search/brief.md"
+[direct.decide]
+main_ctx_k = 104
+left = 10
+direct_m = 1.8
+send_m = 1.8
+added_k = 0
+chose = "직접"
+why = ["대화 맥락"]
+[direct.predicted]
+written_before = true
+minutes = [2, 3]
+turns = [12, 24]
+tokens_m = [0.4, 1.2]
+ctx_start_k = 103.968
+[direct.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["PDF", "글꼴", "렌더", "예측"]
+hit = ["F001", "F020", "F021", "F047", "F052", "F068", "F101", "F107", "F108", "F112", "F113", "F114"]
+[direct.actual]
+status = "done"
+minutes = 5.102
+turns = 30
+tokens_m = 3.94441
+start = "2026-11-07T07:14:41Z"
+end = "2026-11-07T07:19:47Z"
+measurement_note = "Native response IDs and input+output; cached input counted once. Main elapsed window includes waiting and intervening PPT clarification/setup, not pure search labor. Excludes pre-launch preparation and later bookkeeping."
+[direct.review]
+reason = "Verified exact Git blob SHA256 and math JSON. Measurement window also contains user-added PPT clarification, dispatch setup and source preparation, so original 2-3 minute/0.4-1.2M search estimate is not a comparable pure search duration. Previous hit list was copied too broadly; relevant missed entries recorded and report documents mistake."
+wrong = []
+why = "까닭 모름"
+report = "exam_grader:lessons/weekly/2026-11-02/sunday-source.md"
+feedback = "없음: 기존 F008의 커밋 근거 확인과 F014의 전제 검증을 이번 브랜치 오판에 적용했다. 새 규칙 대신 구체 실수와 개선 행동은 보고서에 남겼다."
+missed = ["F008", "F014", "F015", "F022", "F024"]
+[direct.log]
+skip = "Codex native records differ from Claude blocks; unique response IDs, input+output once. exam_grader:tmp/sunday-suneong-search/usage.json."
+[[direct]]
+id = "m013"
+project = "exam_grader"
+date = 2026-11-07
+task = "꿀모2-2 PPT 제작 통합·30장 시각검수·기록"
+brief = "exam_grader:tmp/kkulmo-ppt-sol/brief.md"
+[direct.decide]
+main_ctx_k = 104
+left = 10
+direct_m = 4.4
+send_m = 3.6
+added_k = 21
+chose = "직접"
+why = ["대화 맥락"]
+[direct.predicted]
+written_before = true
+minutes = [8, 15]
+turns = [24, 50]
+tokens_m = [1.5, 4]
+ctx_start_k = 103.968
+[direct.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["PDF", "글꼴", "렌더", "예측"]
+hit = ["F001", "F020", "F021", "F047", "F052", "F068", "F101", "F107", "F108", "F112", "F113", "F114"]
+[direct.actual]
+status = "done"
+minutes = 6.409
+turns = 19
+tokens_m = 3.06453
+start = "2026-11-07T07:19:47Z"
+end = "2026-11-07T07:26:11Z"
+measurement_note = "Native responses/input+output counted once; not Claude block units. Main window starts after m012 audit cutoff; excludes earlier PPT setup already counted in m012 and subsequent bookkeeping/commit/final response. Includes wait time."
+[direct.review]
+reason = "Main viewed30 real PowerPoint slides, enlarged11/12/20 and rechecked corrected3/14/18/21/22. Validated final hash. Should have consulted existing PPT instruction before assuming explanatory deck. Native6.41min/3.065M audit window excludes earlier PPT setup counted in m012 and final bookkeeping; includes wait and search ledger closure."
+wrong = []
+why = "까닭 모름"
+report = "exam_grader:lessons/2026-11-07_kkulmo-s2-02/ppt-report.md"
+feedback = ["F118"]
+missed = "없음: 기존 F068 F113 F114를 이미 hit에 두었다. 새로운 잘림 사례는 F118으로 구체화했고 메인의 지시서 확인 지연은 보고서에 기록했다."
+[direct.log]
+skip = "Native unique response IDs/input+output once, cached input not added twice. Native responses differ from Claude blocks. exam_grader:tmp/kkulmo-ppt-sol/usage.json."
