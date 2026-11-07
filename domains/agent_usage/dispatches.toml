@@ -22305,3 +22305,146 @@ missed = "없음: 작업 중 새로 확인한 기존 항목은 없었으며 읽�
 skip = "Codex native JSONL has a different schema from the Claude log parser. Native response count and input+output totals were measured without double-counting cache; see exam_grader:tmp/pdfs/kkulmo-s2-02-redesign/native-usage-final.json."
 [dispatch.turns]
 skip = "Codex native responses differ from Claude content blocks; no fabricated block timing table."
+
+[[dispatch]]
+id = "p263"
+project = "exam_grader"
+batch = 88
+date = 2026-11-07
+task = "17문항 필연적인 사고 선배치·손글씨 부가 설명·본문 재설계"
+model = "GPT-6 Astra"
+effort = "high"
+agent = "content_revision"
+round = 1
+brief = "exam_grader:tmp/pdfs/kkulmo-s2-02-content/brief.md"
+files = { write = 1, edit = 17 }
+[dispatch.situation]
+S_render = "예"
+S_fix_existing = "예"
+S_template_given = "예"
+S_specified = "예"
+S_fixed_input = "아니오"
+S_resumed = "아니오"
+S_cloud_session = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_full_brief = "예"
+S_check_loop = "예"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [15, 25]
+turns = [50, 90]
+tokens_m = [1.5, 3.5]
+tokens_class = ["T1"]
+reason = "기존 17 HTML의 내용 재선정과 근거 확인. 15–25분, native 응답25–45회 추정; turns는 비교용 블록50–90. p262의 디자인 작업과 달리 수학적 선정 검토가 필요하다."
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 74
+left = 25
+direct_m = 4.9
+send_m = 3.3
+added_k = 0
+chose = "보냄"
+why = ["비용", "대화 계속"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["풀이지", "손글씨", "PDF", "사용자의도"]
+hit = ["F001", "F010", "F014", "F015", "F020", "F021", "F047", "F052", "F068", "F101", "F107", "F108", "F112", "F113", "F114"]
+[dispatch.git]
+repo = "exam_grader"
+head = "5eec8a48daaa1fedf6aedeeab58453a8ac50167a"
+dirty = 45
+dirty_hashes = ["0517b058:99f13de9fdb0", "05d279c7:5646be139dfc", "060f2c57:3c583d30618a", "0bd0c892:ce7638244ebf", "108fb87a:a83a7df75c94", "15d30b9c:12268e9fc63a", "171add84:51bb8565a1c0", "190102a7:14ee1b97a2e4", "1a1b674b:bb9c47db4a65", "1c814140:120ad809b974", "2207c67a:aba210601045", "2445cd96:24f363e1b560", "365ad867:58869094edc1", "37510cd7:63bc2c2b5f81", "45d55749:2df8b810c269", "47e6bec1:1f30f547fd68", "4ef21351:f186f121e04f", "6182d997:318af0cf26ea", "63169881:3e13129a70ca", "65baea7f:5c28b450a4a1", "6aeb508b:659c8099344c", "6de1cebd:559c8d74eed7", "78cdad6c:0a574a5fde0e", "825836a7:865910059d3f", "85d5697d:20993e77df5c", "8605b1d5:64e7eb6a7b31", "866191f8:106e3e3e380f", "89c875ca:f1f7ab663081", "8c800aa0:a94cdae925d3", "97d528f5:051be50312cf", "9d75edbc:4186dd82b2ce", "a047865c:0cde0950df12", "a36ca11f:c74d6712e603", "accd9eac:8bd1474a0e3c", "b2ec59f2:94e6b2dce249", "cda234af:684d3602f24f", "d8bfbf8c:4b385765a4db", "da27bc94:5d768acdad4c", "e93e6c22:b3cb41206dc8", "f085862e:da4afc700243", "f2a363f9:4b35475b8a52", "f33dff0f:b52d378d438a", "f7aa8132:de37dcb0a853", "f92c39af:eb4f2967b3ef", "fa4637f2:ecb4aeb803c5"]
+skip = "New revision source and report files were untracked at send time; tracked git diff does not isolate this worker. Scoped files, protected-content checks and reports enumerate the result."
+[dispatch.actual]
+status = "done"
+minutes = 6.556
+turns = 17
+tokens_m = 2.29677
+start = "2026-11-07T06:30:44Z"
+end = "2026-11-07T06:37:17Z"
+measurement_note = "Native model responses; input includes cached input. Counts differ from Claude content-block estimates. Snapshot excludes later record writing and final answer."
+[dispatch.review]
+reason = "17 HTML edited; 13 reasoning boxes and 19 supplementary notes, all protected content and SVG preserved. Independent review found three notation/expression issues; main applied all and rechecked PDF. Actual time and native responses were below hand estimate; existing source and batch processing likely helped, but one sample does not establish a causal rate."
+wrong = []
+why = "까닭 모름"
+report = "exam_grader:lessons/2026-11-07_kkulmo-s2-02/revision/content-report.md"
+feedback = ["F115"]
+missed = "없음: 이번 검토에서 새로 드러난 기존 피드백 누락은 없었다. 큰 출력과 인코딩 재실행은 자체 보고서에 개선점으로 남겼다."
+[dispatch.log]
+skip = "Codex native schema differs from Claude block logs. Measured native responses and input+output, with cached input counted once; exam_grader:tmp/pdfs/kkulmo-s2-02-content/native-usage-final.json."
+[dispatch.turns]
+skip = "Native response counts are not Claude content blocks; no fabricated block timing table."
+[[dispatch]]
+id = "p264"
+project = "exam_grader"
+batch = 88
+date = 2026-11-07
+task = "17문항 개편본의 독립 수학·수업 의도 검토"
+model = "GPT-6 Astra"
+effort = "xhigh"
+agent = "content_review"
+round = 1
+brief = "exam_grader:tmp/pdfs/kkulmo-s2-02-content/review-brief.md"
+files = { write = 1, edit = 0 }
+[dispatch.situation]
+S_render = "예"
+S_fix_existing = "예"
+S_template_given = "예"
+S_specified = "예"
+S_fixed_input = "아니오"
+S_resumed = "아니오"
+S_cloud_session = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_full_brief = "예"
+S_check_loop = "예"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [10, 20]
+turns = [40, 70]
+tokens_m = [1, 3]
+tokens_class = ["T1"]
+reason = "17문항의 수학·근거·역할 검토. native 응답20–35회 추정이며 비교 블록40–70과 구별. 동일 모델 검토의 한계를 인정하고 근거 대조로 판단한다."
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 74
+left = 25
+direct_m = 3.9
+send_m = 2.7
+added_k = 0
+chose = "보냄"
+why = ["새 눈"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["풀이지", "손글씨", "PDF", "사용자의도"]
+hit = ["F001", "F010", "F014", "F015", "F020", "F021", "F047", "F052", "F068", "F101", "F107", "F108", "F112", "F113", "F114"]
+[dispatch.git]
+repo = "exam_grader"
+head = "5eec8a48daaa1fedf6aedeeab58453a8ac50167a"
+dirty = 68
+dirty_hashes = ["0517b058:99f13de9fdb0", "05d279c7:5646be139dfc", "060f2c57:3c583d30618a", "094b7e78:14db5a06332d", "0bd0c892:ce7638244ebf", "108fb87a:a83a7df75c94", "12b15768:3fd2889bae61", "1325fbeb:3fb2042d251c", "15d30b9c:12268e9fc63a", "171add84:51bb8565a1c0", "190102a7:14ee1b97a2e4", "1a1b674b:bb9c47db4a65", "1c814140:120ad809b974", "1d293996:7f24e3fd89f7", "2207c67a:aba210601045", "2445cd96:24f363e1b560", "2d3fe342:a218f8ba13bd", "365ad867:58869094edc1", "37510cd7:63bc2c2b5f81", "414ef1e8:7cd738251608", "42dc5c08:f40dafd2de56", "45d55749:2df8b810c269", "47e6bec1:1f30f547fd68", "4c3c9b39:550b757d7f06", "4ef21351:f186f121e04f", "4fe19daa:07c5daf69434", "590ff550:9182a4b3d8fa", "6182d997:318af0cf26ea", "63169881:3e13129a70ca", "65baea7f:5c28b450a4a1", "6aeb508b:659c8099344c", "6de1cebd:559c8d74eed7", "775b0a05:2d72cbbbfe1e", "78cdad6c:0a574a5fde0e", "825836a7:865910059d3f", "85d5697d:20993e77df5c", "8605b1d5:64e7eb6a7b31", "866191f8:106e3e3e380f", "89c875ca:f1f7ab663081", "8c800aa0:a94cdae925d3", "91420935:f9aa748c8cec", "934b75a4:d5ac131edc6a", "9486a322:7dcfdf4b5c71", "97d528f5:051be50312cf", "9d75edbc:4186dd82b2ce", "a047865c:0cde0950df12", "a11f0003:8b0e4e09743b", "a36ca11f:c74d6712e603", "a7a6b6b6:012426627b81", "abd8747b:8d254ee4f59c", "accd9eac:8bd1474a0e3c", "af256f43:716847867177", "b2ec59f2:94e6b2dce249", "bbb617f4:8aa34417958d", "cc595bbe:d816590aa2dd", "cda234af:684d3602f24f", "d8bfbf8c:4b385765a4db", "da27bc94:5d768acdad4c", "e116fafa:8b3f5803100d", "e39a0a18:a07ff128e5f5", "e93e6c22:b3cb41206dc8", "f085862e:da4afc700243", "f1f1e5a0:c9e9a3c78991", "f2a363f9:4b35475b8a52", "f33dff0f:b52d378d438a", "f7aa8132:de37dcb0a853", "f92c39af:eb4f2967b3ef", "fa4637f2:ecb4aeb803c5"]
+skip = "New revision source and report files were untracked at send time; tracked git diff does not isolate this worker. Scoped files, protected-content checks and reports enumerate the result."
+[dispatch.actual]
+status = "done"
+minutes = 5.62
+turns = 19
+tokens_m = 1.40797
+start = "2026-11-07T06:37:13Z"
+end = "2026-11-07T06:42:50Z"
+measurement_note = "Native model responses; input includes cached input. Counts differ from Claude content-block estimates. Snapshot excludes later record writing and final answer."
+[dispatch.review]
+reason = "Independent review of all 17 questions found no answer-changing errors and identified R01-R03. Main applied all findings and checked affected final pages. Time below 10-20 minute hand range; finite fixed input and existing derivations likely reduced work, but no fitted rate is claimed."
+wrong = []
+why = "까닭 모름"
+report = "exam_grader:lessons/2026-11-07_kkulmo-s2-02/revision/review-report.md"
+feedback = "없음: 검토에서 찾은 표기 문제는 작성·통합 피드백 F115로 기록했고 별도의 새 검토 실패는 없었다."
+missed = "없음: 이번 검토에서 새로 드러난 기존 피드백 누락은 없었다. 큰 출력과 인코딩 재실행은 자체 보고서에 개선점으로 남겼다."
+[dispatch.log]
+skip = "Codex native schema differs from Claude block logs. Measured native responses and input+output, with cached input counted once; exam_grader:tmp/pdfs/kkulmo-s2-02-content/native-usage-final.json."
+[dispatch.turns]
+skip = "Native response counts are not Claude content blocks; no fabricated block timing table."

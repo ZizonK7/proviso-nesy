@@ -492,3 +492,45 @@ feedback = ["F112", "F113"]
 missed = ["F007", "F052"]
 [direct.log]
 skip = "Codex native JSONL has a different schema from the Claude log parser. Native response count and input+output totals were measured without double-counting cache; see exam_grader:tmp/pdfs/kkulmo-s2-02-redesign/native-usage-final.json."
+
+[[direct]]
+id = "m010"
+project = "exam_grader"
+date = 2026-11-07
+task = "해설 내용 개편 통합·렌더 파이프라인·문제 정답 대조·전체 시각 검수·피드백"
+brief = "exam_grader:tmp/pdfs/kkulmo-s2-02-content/brief.md"
+[direct.decide]
+main_ctx_k = 74
+left = 10
+direct_m = 7.0
+send_m = 5.1
+added_k = 0
+chose = "직접"
+why = ["대화 맥락"]
+[direct.predicted]
+written_before = true
+minutes = [30, 50]
+turns = [70, 130]
+tokens_m = [3, 6]
+ctx_start_k = 73.682
+[direct.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["PDF", "글꼴", "렌더", "예측"]
+hit = ["F001", "F020", "F021", "F047", "F052", "F068", "F101", "F107", "F108", "F112", "F113", "F114"]
+[direct.actual]
+status = "done"
+minutes = 15.314
+turns = 46
+tokens_m = 6.08481
+start = "2026-11-07T06:30:44Z"
+end = "2026-11-07T06:46:03Z"
+measurement_note = "Native model responses; input includes cached input. Counts differ from Claude content-block estimates. Snapshot excludes later record writing and final answer."
+[direct.review]
+reason = "Main prepared records before authoring, maintained separate source snapshot, integrated worker changes, performed independent review routing, fixed R01-R03, and viewed all 17 final PDF pages plus four changed pages again. Parsing errors zero did not prove prime notation correct, recorded as F115. Preflight reading before worker start and later bookkeeping/commit are outside this audit window. Time was below the 30-50 minute estimate; cumulative native tokens are reported rather than Claude block estimates. Long output truncation and cp949 retries could have been avoided."
+wrong = []
+why = "까닭 모름"
+report = "exam_grader:lessons/2026-11-07_kkulmo-s2-02/revision/work-report.md"
+feedback = ["F115"]
+missed = "없음: 이번 검토에서 새로 드러난 기존 피드백 누락은 없었다. 큰 출력과 인코딩 재실행은 자체 보고서에 개선점으로 남겼다."
+[direct.log]
+skip = "Codex native schema differs from Claude block logs. Measured native responses and input+output, with cached input counted once; exam_grader:tmp/pdfs/kkulmo-s2-02-content/native-usage-final.json."
