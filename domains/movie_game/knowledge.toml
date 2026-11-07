@@ -974,3 +974,61 @@ text = "사용자(2026-11-07, 첫 플레이, 보드 사진): 1단계 단서 넷�
 checked = 2026-11-07
 source = "PC 세션 대화 + 사용자 스크린샷 + MGDirector.cpp 789·824행"
 note = "H_two_stage_observation·H_observe_cost_and_question의 첫 실플레이 판정 재료: 두 단계 규칙 자체가 아니라 '두 번째 단계가 있다'는 신호가 약했다. 보드가 빈칸만 보여 주고 '더 봐야 한다'를 말하지 않는 것도 같은 문제(H_no_fillable_dead_end의 조건)"
+
+# ---------- 2026-11-07: 첫 플레이 이어서 — 거리·그레이프스 뒷방 (PC 세션) ----------
+
+[[observation]]
+id = "O_user_play1_outline_leaks"
+text = "사용자(2026-11-07): '밖에 나와서도 에이다 단서들 윤곽선이 보여.' 찾은 단서의 윤곽 강조(커스텀 스텐실 후처리)가 벽·거리 너머로도 그려진다"
+checked = 2026-11-07
+source = "PC 세션 대화"
+note = "구현 결함. 찾은 것의 표시는 그 장소·그 시야 안에서만"
+
+[[observation]]
+id = "O_user_q_unneeded_in_fixed_exam"
+text = "사용자(2026-11-07): '에이다처럼 강제로 고정된 상황에서는 Q가 필요 없어 보여. 그레이프스처럼 자유롭게 다니다가 조사할 때는 필요하겠지만.'"
+checked = 2026-11-07
+source = "PC 세션 대화"
+note = "H_two_stage_observation·H_observe_cost_and_question의 조건 후보: 두 단계와 그 대가(Q)는 '돌아다니며 조사하는 장소'에서 뜻이 있고, 인물 하나를 고정해 살피는 화면(DECISIONS 27)에서는 1단계가 끝나면 2단계가 저절로 열려도 된다. 규칙 변경이라 사용자 결정 필요(제안 DECISIONS 37)"
+
+[[observation]]
+id = "O_user_drawer_hotspot_invisible"
+text = "사용자(2026-11-07, 사진): 뒷방 수납장(서랍, 놋쇠 손잡이)에 '아무것도 안 보이는데 조사가 되네.' 단서 J(전당표)가 서랍 안이라 보이는 것이 없다"
+checked = 2026-11-07
+source = "PC 세션 대화 + 사진"
+note = "H_clue_one_reading: 단서는 보이는 것이어야 한다 — 서랍을 살짝 열어 종이 끝이 보이게 하거나, '서랍을 연다'는 동작으로 바꾼다"
+
+[[observation]]
+id = "O_user_clothes_look_like_clay"
+text = "사용자(2026-11-07): '옷들이 다들 찰흙 느낌이네. 에이다가 제일 낫긴 한데 몸이 다들 좀 이상하고.' 천 질감(노멀·거칠기) 없는 단색 재질과 코드로 만든 옷의 몸 굴곡"
+checked = 2026-11-07
+source = "PC 세션 대화"
+note = "G_design(사실풍·고품질)에 대한 사용자 판정. docs/reference/의 목표 이미지와의 간극 그대로. 미술 작업(천 질감·옷 재단)은 별도 묶음"
+
+[[observation]]
+id = "O_user_steam_is_a_rectangle"
+text = "사용자(2026-11-07, 사진): 찻잔 위 김이 반투명 세로 직사각형으로 보여 '연기 나는 거야?'라고 물었다"
+checked = 2026-11-07
+source = "PC 세션 대화 + 사진"
+note = "단서 K(김 나는 찻잔)의 표현 결함. 부드러운 빌보드/파티클로"
+
+[[observation]]
+id = "O_user_observe_end_vs_step_back_confusing"
+text = "사용자(2026-11-07): '관찰 끝이랑 물러서기가 다른 게 뭐야?' 그리고 L을 겨눠 물었는데 바닥 자리 둘이 조사되고, 물러섰다 돌아오니 그제야 L 이야기를 해 줘서 '내가 실수한 건가' 했다"
+checked = 2026-11-07
+source = "PC 세션 대화"
+note = "두 키(관찰 끝 = 2단계 닫기, 물러서기 = 살펴보기 끝)가 사용자에게 구분되지 않는다. 반응이 묶여서 나중에 오는 것(H_local_reaction_batch_confirm)이 '실수'로 느껴졌다 — 반응 시점 규칙의 반대 근거 후보"
+
+[[observation]]
+id = "O_user_hud_panels_block_scene"
+text = "사용자(2026-11-07): '수사 기록이나 주머니 때문에 현장이 가려지는데 더 줄이거나 아예 대시보드에서 보이게 하는 게 좋을 것 같아.'"
+checked = 2026-11-07
+source = "PC 세션 대화"
+note = "O_user_hud_hint_dialog_ppt에서 '괜찮다'던 두 패널도 크기는 문제. 접어 두고 필요할 때 펼치는 쪽"
+
+[[observation]]
+id = "O_user_board2_missing_card"
+text = "사용자(2026-11-07, 보드 사진): 추리 2 보드에서 카드 넷으로 '여기서 더 나아갈 수 있나.' 필요한 조각 하나가 아직 주머니에 없었고, 그것은 같은 방의 2단계 단서다"
+checked = 2026-11-07
+source = "PC 세션 대화 + 사진 + scene01.json deductions"
+note = "O_user_play1_stage2_not_found와 같은 뿌리. 보드 안내 줄(p260 C)이 이 경우에도 떠야 한다 — 확인 필요"
