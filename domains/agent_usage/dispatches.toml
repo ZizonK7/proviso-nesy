@@ -22448,3 +22448,75 @@ missed = "없음: 이번 검토에서 새로 드러난 기존 피드백 누락�
 skip = "Codex native schema differs from Claude block logs. Measured native responses and input+output, with cached input counted once; exam_grader:tmp/pdfs/kkulmo-s2-02-content/native-usage-final.json."
 [dispatch.turns]
 skip = "Native response counts are not Claude content blocks; no fabricated block timing table."
+
+[[dispatch]]
+id = "p265"
+project = "exam_grader"
+batch = 89
+date = 2026-11-07
+task = "15번 높이 함수와 교점 개수 사고의 평가원·기존 수업 근거 조사"
+model = "GPT-6 Luna"
+effort = "high"
+agent = "q15_research_luna"
+round = 1
+brief = "exam_grader:tmp/pdfs/kkulmo-tone-q15/brief.md"
+files = { write = 1, edit = 0 }
+[dispatch.situation]
+S_render = "아니오"
+S_fix_existing = "아니오"
+S_template_given = "예"
+S_specified = "예"
+S_fixed_input = "아니오"
+S_resumed = "아니오"
+S_cloud_session = "아니오"
+S_research = "예"
+S_web = "예"
+S_full_brief = "예"
+S_check_loop = "예"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "잠깐"
+minutes = [5, 12]
+turns = [30, 60]
+tokens_m = [0.4, 1.2]
+tokens_class = ["T1"]
+reason = "사용자가 지정한 Luna 조사. 과거 수업과 기출 원문 최대5사례를 대조한다. native15–30응답, 누적0.4–1.2M 추정. 같은 모델 실측은 없다."
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 201
+left = 25
+direct_m = 8.5
+send_m = 3.0
+added_k = 0
+chose = "보냄"
+why = ["비용", "대화 계속"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["조사", "풀이지", "손글씨"]
+hit = ["F001", "F010", "F014", "F015", "F020", "F021", "F022", "F023", "F024", "F101", "F108", "F112"]
+[dispatch.git]
+repo = "exam_grader"
+head = "b344f7df3216549b202bffb9b47b15770220726c"
+dirty = 45
+dirty_hashes = ["0517b058:99f13de9fdb0", "05d279c7:5646be139dfc", "060f2c57:3c583d30618a", "0bd0c892:ce7638244ebf", "108fb87a:a83a7df75c94", "15d30b9c:12268e9fc63a", "171add84:51bb8565a1c0", "190102a7:14ee1b97a2e4", "1a1b674b:bb9c47db4a65", "1c814140:120ad809b974", "2207c67a:aba210601045", "2445cd96:24f363e1b560", "365ad867:58869094edc1", "37510cd7:63bc2c2b5f81", "45d55749:2df8b810c269", "47e6bec1:1f30f547fd68", "4ef21351:f186f121e04f", "6182d997:318af0cf26ea", "63169881:3e13129a70ca", "65baea7f:5c28b450a4a1", "6aeb508b:659c8099344c", "6de1cebd:559c8d74eed7", "78cdad6c:0a574a5fde0e", "825836a7:865910059d3f", "85d5697d:20993e77df5c", "8605b1d5:64e7eb6a7b31", "866191f8:106e3e3e380f", "89c875ca:f1f7ab663081", "8c800aa0:a94cdae925d3", "97d528f5:051be50312cf", "9d75edbc:4186dd82b2ce", "a047865c:0cde0950df12", "a36ca11f:c74d6712e603", "accd9eac:8bd1474a0e3c", "b2ec59f2:94e6b2dce249", "cda234af:684d3602f24f", "d8bfbf8c:4b385765a4db", "da27bc94:5d768acdad4c", "e93e6c22:b3cb41206dc8", "f085862e:da4afc700243", "f2a363f9:4b35475b8a52", "f33dff0f:b52d378d438a", "f7aa8132:de37dcb0a853", "f92c39af:eb4f2967b3ef", "fa4637f2:ecb4aeb803c5"]
+skip = "Worker wrote one new untracked evidence report; main corrected source attribution. Shared tracked diff does not isolate worker output."
+[dispatch.actual]
+status = "done"
+minutes = 5.071
+turns = 25
+tokens_m = 2.775
+start = "2026-11-07T06:56:08Z"
+end = "2026-11-07T07:01:12Z"
+measurement_note = "Native responses, not Claude content blocks; cached input counted once. Main window starts at Luna launch, includes later Q28 steering, excludes earlier preparation and subsequent bookkeeping, commit and final response."
+[dispatch.review]
+reason = "Read-only research plus one report. Found two verified KICE originals and a prior lesson, distinguishing exact and structural matches. Main corrected private explanation falsely called official. Time within 5-12 minute estimate; 2.775M native tokens exceeded 0.4-1.2M. One sample does not establish model cost rate."
+wrong = []
+why = "까닭 모름"
+report = "exam_grader:lessons/2026-11-07_kkulmo-s2-02/revision/q15-evidence.md"
+feedback = ["F117"]
+missed = "없음: 출처 확인 관련 F022와 F024는 이미 조사 hit에 있었다. 읽기와 별개로 해설 작성자 분류를 실행하지 못한 사례를 F117로 구체화했다."
+[dispatch.log]
+skip = "Native Codex schema: counted unique response IDs and input+output once. Audit data: exam_grader:tmp/pdfs/kkulmo-tone-q15/native-usage-final.json. Claude block counts are not fabricated."
+[dispatch.turns]
+skip = "Native response count differs from Claude content blocks; no fabricated turn table."

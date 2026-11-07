@@ -534,3 +534,45 @@ feedback = ["F115"]
 missed = "없음: 이번 검토에서 새로 드러난 기존 피드백 누락은 없었다. 큰 출력과 인코딩 재실행은 자체 보고서에 개선점으로 남겼다."
 [direct.log]
 skip = "Codex native schema differs from Claude block logs. Measured native responses and input+output, with cached input counted once; exam_grader:tmp/pdfs/kkulmo-s2-02-content/native-usage-final.json."
+
+[[direct]]
+id = "m011"
+project = "exam_grader"
+date = 2026-11-07
+task = "손글씨 말투 복원·재렌더와 15번 근거 조사 통합·피드백"
+brief = "exam_grader:tmp/pdfs/kkulmo-tone-q15/brief.md"
+[direct.decide]
+main_ctx_k = 201
+left = 10
+direct_m = 16.9
+send_m = 8.8
+added_k = 134
+chose = "직접"
+why = ["대화 맥락"]
+[direct.predicted]
+written_before = true
+minutes = [10, 20]
+turns = [40, 70]
+tokens_m = [5, 9]
+ctx_start_k = 201.187
+[direct.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["PDF", "글꼴", "렌더", "예측"]
+hit = ["F001", "F020", "F021", "F047", "F052", "F068", "F101", "F107", "F108", "F112", "F113", "F114"]
+[direct.actual]
+status = "done"
+minutes = 7.229
+turns = 19
+tokens_m = 2.88729
+start = "2026-11-07T06:56:08Z"
+end = "2026-11-07T07:03:22Z"
+measurement_note = "Native responses, not Claude content blocks; cached input counted once. Main window starts at Luna launch, includes later Q28 steering, excludes earlier preparation and subsequent bookkeeping, commit and final response."
+[direct.review]
+reason = "Restored 19 handwritten notes and integrated later user request to rewrite Q28 with dt=s dk. Algebra verified and all 17 PDF pages visually checked. Reviewed research and corrected attribution. Actual window excludes preparation and final bookkeeping, so below-estimate duration is not a full-task speed comparison. Large truncated reads should have been scoped."
+wrong = []
+why = "까닭 모름"
+report = "exam_grader:lessons/2026-11-07_kkulmo-s2-02/revision/user-revisions.md"
+feedback = ["F116", "F117"]
+missed = "없음: 이번 정정 작업에서 추가로 확인한 기존 피드백 누락은 없다. 이전 작업의 문체 변경은 F116으로 남겼다."
+[direct.log]
+skip = "Native Codex schema: counted unique response IDs and input+output once. Audit data: exam_grader:tmp/pdfs/kkulmo-tone-q15/native-usage-final.json. Claude block counts are not fabricated."
