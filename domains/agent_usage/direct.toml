@@ -391,3 +391,62 @@ thinking_blocks = 11
 thinking_s = 39.9
 brief_chars = 24
 brief_lines = 1
+
+[[direct]]
+# 원래 m003 (브랜치 claude/nice-pasteur) — main의 m003과 겹쳐 m008로 다시 매김(F056)
+id = "m008"
+project = "proviso"
+date = 2026-11-06
+task = "결론 하나(B)에서 거꾸로: 가장 중요한 가설 하나를 골라 그 가설이 서려면 참이어야 할 전제 A1, A2…를 먼저 적고, 논리집(지식 파일·백서·먼 분야 조각)에서 각 전제를 받치거나 반대하는 노드를 찾아 내려가 A1,A2…→B 구조로 정리(모르겠다 허용). 첫 시험"
+[direct.decide]
+main_ctx_k = 176
+left = 50
+direct_m = 25.0
+send_m = 9.2
+added_k = 111
+chose = "직접"
+why = ["대화 맥락"]
+[direct.feedback]
+read = ["common", "logic"]
+[direct.actual]
+status = "done"
+minutes = 9.9  # record finish (메인 대화 기록)
+turns = 71
+tokens_m = 14.12  # 캐시 생성 + 캐시 읽기 + 입력 + 출력(추정)
+start = "2026-11-06T01:49:17Z"
+end = "2026-11-06T01:59:12Z"
+added_k = 167  # 메인 맥락이 실제로 늘어난 양(천 토큰) — 그 뒤 모든 응답에서 다시 읽힌다
+[direct.review]
+reason = "직접 고른 까닭은 대화 맥락(사용자가 그린 B→A 구조와 '모르겠다 허용'을 메인이 방금 들었다). 손 예측 40–90줄·4–12M에 실제 71줄·14.1M — 줄은 안, 토큰은 위(메인 맥락이 10만에서 27만으로 커지며 줄마다 다시 읽힘). 토큰으로는 보내는 쪽(9.2M 추정)이 쌌다(O_undersend 방향). 돌아보면 B와 전제를 사전 고정하는 것은 대화 맥락이 필요했지만, 찾기는 B를 모르는 작업자에게 보내는 게 '새 눈'으로도 비용으로도 나았을 수 있다(사례 문서 7절 4)."
+report = "docs/experiments/2026-11-06-backward-feedback-read.md"
+feedback = ["F111"]
+[direct.log]  # scripts/agent_usage.py --log --toml (숫자만, 실측 — 예측 입력 아님)
+responses = 32
+blocks = 71
+write = 2
+edit = 1
+scratch_files = 0
+write_chars = 4463
+edit_chars = 268
+write_lines = 74
+read_calls = 0
+read_files = 0
+read_chars = 0
+images = 0
+bash_calls = 33
+bash_out_chars = 86471
+grep_calls = 1
+glob_calls = 0
+web_search = 0
+web_fetch = 0
+agent_calls = 0
+other_tool_calls = 0
+tool_errors = 0
+repeat_cmds = 0
+ctx_start_k = 104
+ctx_max_k = 271
+ctx_end_k = 271
+thinking_blocks = 31
+thinking_s = 379.2
+brief_chars = 306
+brief_lines = 2
