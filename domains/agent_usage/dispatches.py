@@ -314,7 +314,7 @@ def validate_direct(entries: list[dict]) -> list[str]:
 # 모델·effort (2026-11-03 사용자 결정): 기록에 보낸 모델과 effort를 칸으로 적고, '기본 설정이 아닌가'(S_other_model)는 이 두 칸에서
 # 계산한다(기본 설정 = Opus 5.5 high, knowledge.toml F_setup). 전에는 S_other_model 하나라 Sonnet max·Haiku·Fable xhigh·Opus xhigh가
 # 한 덩어리였다. 지난 기록은 작업 설명에 적힌 것과 S_other_model = 아니오로만 채웠다(dispatches.toml 머리 주석). 이 날짜부터 필수.
-MODELS = ("Opus 5.5", "Sonnet 5.5", "Haiku 5.5", "Fable 5.1", "GPT-6.1 Sol")  # 새 모델을 쓰면 여기에 더한다
+MODELS = ("Opus 5.5", "Sonnet 5.5", "Haiku 5.5", "Fable 5.1", "GPT-6.1 Sol", "GPT-6 Astra")  # 새 모델을 쓰면 여기에 더한다
 EFFORTS = ("low", "medium", "high", "xhigh", "max")
 DEFAULT_SETUP = ("Opus 5.5", "high")
 MODEL_REQUIRED_FROM = "2026-11-04"

@@ -450,3 +450,45 @@ thinking_blocks = 31
 thinking_s = 379.2
 brief_chars = 306
 brief_lines = 2
+
+[[direct]]
+id = "m009"
+project = "exam_grader"
+date = 2026-11-07
+task = "해설 PDF 디자인 수정의 사전 기록·위임·원본 대조·최종 시각 검수 및 자기 피드백"
+brief = "exam_grader:tmp/pdfs/kkulmo-s2-02-redesign/brief.md"
+[direct.decide]
+main_ctx_k = 115
+left = 10
+direct_m = 7.1
+send_m = 5.0
+added_k = 55
+chose = "직접"
+why = ["대화 맥락"]
+[direct.predicted]
+written_before = true
+minutes = [20, 35]
+turns = [30, 60]
+tokens_m = [2.5, 5.5]
+ctx_start_k = 115
+[direct.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["PDF", "글꼴", "렌더", "예측"]
+hit = ["F001", "F020", "F021", "F057", "F063", "F068", "F069", "F072", "F073", "F075", "F100", "F101"]
+[direct.actual]
+status = "done"
+minutes = 13.091
+turns = 40
+tokens_m = 6.50758
+start = "2026-11-07T05:45:34Z"
+end = "2026-11-07T05:58:40Z"
+measurement_note = "Codex native model responses; not Claude content blocks. Input already includes cached input. Measured through the pre-final audit, excluding later bookkeeping and the final reply."
+[direct.review]
+reason = "Main preserved user preferences, prepared AGENTS and pre-dispatch records, delegated production and independently inspected all 17 pages. The initial missing decision step and thumbnail misinterpretation were corrected and recorded. Native totals cover this request through the audit; planning was recorded after some preparatory work, so those earlier steps are not retrospectively called predicted. Prediction comparison: Elapsed time below the 20–35 minute estimate; main token use exceeded the 2.5–5.5M hand estimate. Native response counts and Claude block estimates are not interchangeable. Possible explanation (not confirmed): Worker completed batched rendering faster than expected. Main repeatedly loaded long tool outputs and full-page images into an already large context, increasing cumulative input. Next time consolidate metadata summaries and use detailed page reads in one planned review pass."
+wrong = []
+why = "까닭 모름"
+report = "exam_grader:tmp/pdfs/kkulmo-s2-02-redesign/main-report.md"
+feedback = ["F112", "F113"]
+missed = ["F007", "F052"]
+[direct.log]
+skip = "Codex native JSONL has a different schema from the Claude log parser. Native response count and input+output totals were measured without double-counting cache; see exam_grader:tmp/pdfs/kkulmo-s2-02-redesign/native-usage-final.json."

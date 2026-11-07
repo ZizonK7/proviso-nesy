@@ -22233,3 +22233,75 @@ thinking_blocks = 74
 thinking_s = 689.9
 brief_chars = 2466
 brief_lines = 15
+
+[[dispatch]]
+id = "p262"
+project = "exam_grader"
+batch = 87
+date = 2026-11-07
+task = "17쪽 수학 해설 PDF의 손글씨 글꼴·본문 가독성·페이지 배치 개선과 전체 렌더 검수"
+model = "GPT-6 Astra"
+effort = "high"
+agent = "pdf_redesign"
+round = 1
+brief = "exam_grader:tmp/pdfs/kkulmo-s2-02-redesign/brief.md"
+files = {  }
+[dispatch.situation]
+S_render = "예"
+S_fix_existing = "예"
+S_template_given = "예"
+S_specified = "예"
+S_fixed_input = "아니오"
+S_resumed = "아니오"
+S_cloud_session = "아니오"
+S_research = "아니오"
+S_web = "아니오"
+S_full_brief = "예"
+S_check_loop = "예"
+S_other_model = "예"
+[dispatch.predicted]
+written_before = true
+told = "다른 일"
+minutes = [15, 25]
+turns = [70, 120]
+tokens_m = [1.5, 3.5]
+tokens_class = ["T1"]
+reason = "기존 17개 HTML·CSS·로컬 폰트가 있으며 스타일 조정과 전체 PDF 렌더 확인 2~3바퀴. 같은 Codex 모델의 비교 가능한 실측은 없어 손 예측. turns는 비교 계산용 블록 추정이며 native 응답 수 35~60회와 구분한다."
+hypotheses = []
+[dispatch.decide]
+main_ctx_k = 115
+left = 20
+direct_m = 10.5
+send_m = 3.6
+added_k = 0
+chose = "보냄"
+why = ["비용", "대화 계속"]
+[dispatch.feedback]
+read = ["api", "brief", "cloud", "common", "docs", "exam_grader", "images", "logic", "movie_game", "parallel", "predict", "professor_king", "record", "research", "review"]
+searched = ["PDF", "글꼴", "렌더", "예측"]
+hit = ["F001", "F020", "F021", "F057", "F063", "F068", "F069", "F072", "F073", "F075", "F100", "F101"]
+[dispatch.git]
+repo = "exam_grader"
+head = "5da99a191704d388f47e76f3aa8456216b097eee"
+dirty = 47
+dirty_hashes = ["0517b058:99f13de9fdb0", "05d279c7:5646be139dfc", "060f2c57:3c583d30618a", "0bd0c892:ce7638244ebf", "108fb87a:a83a7df75c94", "15d30b9c:12268e9fc63a", "171add84:51bb8565a1c0", "190102a7:14ee1b97a2e4", "1a1b674b:bb9c47db4a65", "1c814140:120ad809b974", "2207c67a:aba210601045", "2445cd96:24f363e1b560", "2d5d10cf:a0f8bf030ea4", "365ad867:58869094edc1", "37510cd7:63bc2c2b5f81", "37dd6836:27ff0213f064", "45d55749:2df8b810c269", "47e6bec1:1f30f547fd68", "4ef21351:f186f121e04f", "6182d997:318af0cf26ea", "63169881:3e13129a70ca", "65baea7f:5c28b450a4a1", "6aeb508b:659c8099344c", "6de1cebd:559c8d74eed7", "78cdad6c:0a574a5fde0e", "825836a7:865910059d3f", "85d5697d:20993e77df5c", "8605b1d5:64e7eb6a7b31", "866191f8:106e3e3e380f", "89c875ca:f1f7ab663081", "8c800aa0:a94cdae925d3", "97d528f5:051be50312cf", "9d75edbc:4186dd82b2ce", "a047865c:0cde0950df12", "a36ca11f:c74d6712e603", "accd9eac:8bd1474a0e3c", "b2ec59f2:94e6b2dce249", "cda234af:684d3602f24f", "d8bfbf8c:4b385765a4db", "da27bc94:5d768acdad4c", "e93e6c22:b3cb41206dc8", "f085862e:da4afc700243", "f2a363f9:4b35475b8a52", "f33dff0f:b52d378d438a", "f7aa8132:de37dcb0a853", "f92c39af:eb4f2967b3ef", "fa4637f2:ecb4aeb803c5"]
+skip = "Worker generated only ignored PDF/source/QA artifacts in isolated tmp and output folders; tracked diff counts do not measure these edits. The worker report and validation manifest enumerate outputs."
+[dispatch.actual]
+status = "done"
+minutes = 8.876
+turns = 33
+tokens_m = 3.217
+start = "2026-11-07T05:47:28Z"
+end = "2026-11-07T05:56:20Z"
+measurement_note = "Codex native model responses; not Claude content blocks. Input already includes cached input. Measured through the pre-final audit, excluding later bookkeeping and the final reply."
+[dispatch.review]
+reason = "17-page PDF completed with local Noto/Nanum font embedding, larger readable text and safe formula wrapping. Main independently inspected every final page. Source text/math and SVG preservation 17/17; resource, KaTeX and overflow errors zero. User preference validation remains pending. Prediction comparison: Elapsed time below the 15–25 minute prediction. Native response count is reported separately from the 70–120 Claude-block estimate. Possible explanation (not confirmed): Shared CSS and an existing complete source let all pages render in batches; the hand estimate overcounted per-page work. Six HTML render passes and three PDF render passes were still completed."
+wrong = []
+why = "까닭 모름"
+report = "exam_grader:tmp/pdfs/kkulmo-s2-02-redesign/worker-report.md"
+feedback = ["F114"]
+missed = "없음: 작업 중 새로 확인한 기존 항목은 없었으며 읽은 F075를 실제 폰트 검증에 적용했다."
+[dispatch.log]
+skip = "Codex native JSONL has a different schema from the Claude log parser. Native response count and input+output totals were measured without double-counting cache; see exam_grader:tmp/pdfs/kkulmo-s2-02-redesign/native-usage-final.json."
+[dispatch.turns]
+skip = "Codex native responses differ from Claude content blocks; no fabricated block timing table."
