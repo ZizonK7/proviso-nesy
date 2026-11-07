@@ -953,3 +953,24 @@ text = "사용자(2026-11-07, 첫 플레이): '내가 단서 발견할 때는 �
 checked = 2026-11-07
 source = "PC 세션 대화"
 note = "O_user_focus_highlight_too_plain의 뜻을 바로잡음: 강조·소리·당김은 플레이어의 관찰이 아니라 홈즈의 앞선 추리(컷씬, DECISIONS 18)에 붙는 연출이다. 플레이어 관찰(H_two_stage_observation)은 방해 없이 조용해야 한다 — 관찰 규칙 쪽 가설의 조건으로 쓸 수 있다"
+
+[[observation]]
+id = "O_user_play1_glove_looks_like_book"
+text = "사용자(2026-11-07, 첫 플레이 중, 사진): 탁자 위 물체를 책으로 보고 클릭했더니 '오른쪽 장갑만' 단서가 잡혔다 — '장갑이 선택되는 건 부자연스럽다… 아 책이 아니었어? 너무 책처럼 생겼는데.' 왼손 장갑을 왜 벗어 뒀는지 모르겠고, 여기서 어떻게 진행할지 모르겠다고 했다. 단서 C(GloveLeft)는 가죽 재질의 16×9×2.5 cm 상자 메시라 책으로 읽힌다"
+checked = 2026-11-07
+source = "PC 세션 대화 + 사용자 스크린샷 2장 + movie_game ue/tools/case01_level.py 162행"
+note = "H_clue_one_reading(단서는 한 가지로 읽혀야 한다)의 반대 근거: 소품 모양이 다른 물건으로 읽히면 단서 자체가 틀리게 읽힌다. 진행 막힘은 보드(B) 안내가 눈에 안 띈 것 — UI 쪽 관찰"
+
+[[observation]]
+id = "O_user_play1_rain_still_bad"
+text = "사용자(2026-11-07, 4 kHz·−5 dB로 올린 뒤에도): '빗소리가 아직 기분이 나쁘네. 줄이거나 A로 바꾸거나.' 거실에서는 벽난로 소리(FireSound, 합성 갈색 잡음+탁탁, 배율 0.90)가 실내 빗소리(0.14)보다 훨씬 크다 — 사용자가 듣는 '비 소리'가 사실은 벽난로 합성음일 가능성이 높다(확인 전)"
+checked = 2026-11-07
+source = "PC 세션 대화 + ue/tools/gen_textures.py 228–233행, build_level.py 993행"
+note = "O_user_play1_rain_unchanged의 다음 단계. 두 번 바꿔도 같다는 것은 바꾼 소리가 아닌 다른 소리를 듣고 있다는 신호"
+
+[[observation]]
+id = "O_user_play1_stage2_not_found"
+text = "사용자(2026-11-07, 첫 플레이, 보드 사진): 1단계 단서 넷을 모은 뒤 보드를 열었는데 빈칸(장소·얼마나)에 맞는 카드가 없어 '단서 3개 이후로 증거를 못 찾겠다'고 했다. 2단계 단서(E·F)는 Q 관찰(열린 질문을 들고 가까이 보기)로만 열리는데, 키 안내에 'Q 관찰 ◆'이 떠 있었어도 그 단계가 있다는 것을 알아채지 못했다"
+checked = 2026-11-07
+source = "PC 세션 대화 + 사용자 스크린샷 + MGDirector.cpp 789·824행"
+note = "H_two_stage_observation·H_observe_cost_and_question의 첫 실플레이 판정 재료: 두 단계 규칙 자체가 아니라 '두 번째 단계가 있다'는 신호가 약했다. 보드가 빈칸만 보여 주고 '더 봐야 한다'를 말하지 않는 것도 같은 문제(H_no_fillable_dead_end의 조건)"
